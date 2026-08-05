@@ -1,3 +1,4 @@
+import ParticleCanvas from "@/components/ParticleCanvas";
 import { 
   ArrowRight, 
   CreditCard, 
@@ -11,6 +12,9 @@ import {
 export default function Home() {
   return (
     <div className="relative min-h-screen overflow-x-hidden selection:bg-indigo-500 selection:text-white">
+      {/* Interactive Glowing Swarm Canvas Background */}
+      <ParticleCanvas />
+
       {/* Background Ambient Lighting */}
       <div className="absolute top-[-10%] left-[20%] w-[500px] h-[500px] bg-indigo-600/20 blur-[120px] pointer-events-none rounded-full"></div>
       <div className="absolute top-[40%] right-[10%] w-[600px] h-[600px] bg-purple-600/15 blur-[140px] pointer-events-none rounded-full"></div>
