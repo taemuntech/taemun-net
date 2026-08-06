@@ -243,11 +243,11 @@ export default function Home() {
             </p>
 
             <div className="pt-4 lg:pt-6 flex flex-col lg:flex-row items-center justify-center gap-3 lg:gap-4">
-              <a href="tel:010-5460-9005" className="w-full lg:w-auto flex items-center justify-center gap-3 px-5 py-3.5 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 hover:border-indigo-400 transition-all">
+              <a href="tel:010-8672-6463" className="w-full lg:w-auto flex items-center justify-center gap-3 px-5 py-3.5 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 hover:border-indigo-400 transition-all">
                 <PhoneCall className="w-5 h-5 text-indigo-400" />
                 <div className="text-left">
                   <div className="text-[10px] text-indigo-300 uppercase font-bold">총괄 아키텍트 직통</div>
-                  <div className="text-base lg:text-lg font-bold text-white">010-5460-9005</div>
+                  <div className="text-base lg:text-lg font-bold text-white">010-8672-6463</div>
                 </div>
               </a>
 
