@@ -39,6 +39,15 @@ export default function Home() {
             <a href="#services" className="hover:text-white transition-colors">개발 서비스</a>
             <a href="#portfolio" className="hover:text-white transition-colors">포트폴리오 & 사례</a>
             <a href="#contact" className="hover:text-white transition-colors">외주/개발 문의</a>
+            <a 
+              href="https://taemun.co.kr" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="px-3 py-1.5 rounded-full bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold hover:border-indigo-400 hover:text-white transition-all flex items-center gap-1 backdrop-blur-md shadow-sm shadow-indigo-500/20"
+            >
+              <span>태문브릿지 라이브</span>
+              <span className="text-[10px]">↗</span>
+            </a>
           </nav>
 
           <a href="#contact" className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-bold border border-white/15 backdrop-blur-md transition-all flex items-center gap-2">
