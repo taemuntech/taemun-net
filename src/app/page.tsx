@@ -159,7 +159,7 @@ export default function Home() {
             <h2 className="text-3xl md:text-5xl font-extrabold text-white">주요 개발 구축 사례</h2>
           </div>
           <p className="text-gray-400 text-sm md:text-base max-w-md mt-4 md:mt-0">
-            복잡한 대형 프로젝트도 단 한 사람이 설계하고 완성할 수 있는 높은 수준의 기술력을 보여줍니다.
+            기획자·개발자 간의 소통 오류 제로. 풀스택 총괄 아키텍트가 직접 1:1로 밀착 구축합니다.
           </p>
         </div>
 
