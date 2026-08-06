@@ -45,7 +45,7 @@ export default function Home() {
               href="/inquiry" 
               className="px-4.5 py-2 rounded-full bg-gradient-to-r from-indigo-600/30 via-purple-600/30 to-pink-600/30 border border-indigo-500/50 text-white font-bold text-xs hover:border-indigo-400 hover:scale-105 transition-all flex items-center justify-center backdrop-blur-md shadow-lg shadow-indigo-500/25"
             >
-              <span>외주/개발 문의 (3초 스마트 견적)</span>
+              <span>외주/개발 문의</span>
             </Link>
             <a 
               href="https://taemun.co.kr" 
