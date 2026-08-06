@@ -38,15 +38,21 @@ export default function Home() {
             </span>
           </div>
 
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-400">
             <a href="#services" className="hover:text-white transition-colors">개발 서비스</a>
             <a href="#portfolio" className="hover:text-white transition-colors">포트폴리오 & 사례</a>
-            <Link href="/inquiry" className="hover:text-white transition-colors">외주/개발 문의</Link>
+            <Link 
+              href="/inquiry" 
+              className="px-4 py-2 rounded-full bg-gradient-to-r from-indigo-600/30 via-purple-600/30 to-pink-600/30 border border-indigo-500/50 text-white font-bold text-xs hover:border-indigo-400 hover:scale-105 transition-all flex items-center gap-1.5 backdrop-blur-md shadow-lg shadow-indigo-500/25"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-indigo-300 animate-pulse" />
+              <span>외주/개발 문의 (3초 스마트 견적)</span>
+            </Link>
             <a 
               href="https://taemun.co.kr" 
               target="_blank" 
               rel="noreferrer" 
-              className="px-3 py-1.5 rounded-full bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold hover:border-indigo-400 hover:text-white transition-all flex items-center gap-1 backdrop-blur-md shadow-sm shadow-indigo-500/20"
+              className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-xs font-semibold hover:border-white/20 hover:text-white transition-all flex items-center gap-1 backdrop-blur-md"
             >
               <span>태문브릿지 라이브</span>
               <span className="text-[10px]">↗</span>
@@ -54,11 +60,7 @@ export default function Home() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <Link href="/inquiry" className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-95 text-white text-sm font-bold shadow-lg shadow-indigo-500/25 transition-all flex items-center gap-2">
-              <Sparkles className="w-4 h-4" />
-              <span>3초 스마트 견적</span>
-            </Link>
-            <a href="tel:1588-2622" className="hidden sm:flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold border border-white/15 backdrop-blur-md transition-all">
+            <a href="tel:1588-2622" className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold border border-white/15 backdrop-blur-md transition-all">
               <PhoneCall className="w-3.5 h-3.5 text-indigo-400" />
               <span>1588-2622</span>
             </a>
@@ -255,17 +257,6 @@ export default function Home() {
                   <div className="text-lg font-bold text-white">contact@taemun.co.kr</div>
                 </div>
               </div>
-            </div>
-
-            <div className="pt-8">
-              <Link
-                href="/inquiry"
-                className="px-10 py-5 rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-extrabold text-lg shadow-2xl shadow-indigo-500/40 hover:scale-105 transition-all inline-flex items-center gap-3 group"
-              >
-                <Sparkles className="w-6 h-6 animate-pulse" />
-                <span>3초 대화형 스마트 견적서 신청하기</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
             </div>
           </div>
         </div>
