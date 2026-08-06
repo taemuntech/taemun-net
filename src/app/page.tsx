@@ -51,7 +51,7 @@ export default function Home() {
               href="https://taemun.co.kr" 
               target="_blank" 
               rel="noreferrer" 
-              className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-xs font-semibold hover:border-white/20 hover:text-white transition-all flex items-center gap-1 backdrop-blur-md"
+              className="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-cyan-500/15 via-indigo-500/15 to-purple-500/15 border border-cyan-500/40 text-cyan-300 text-xs font-semibold hover:border-cyan-300 hover:text-white transition-all flex items-center gap-1 backdrop-blur-md shadow-sm shadow-cyan-500/20"
             >
               <span>태문브릿지 라이브</span>
               <span className="text-[10px]">↗</span>
