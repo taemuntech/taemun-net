@@ -32,7 +32,7 @@ export default function FloatingChatWidget() {
           <div className="space-y-3">
             {/* KakaoTalk Direct Chat */}
             <a
-              href="https://pf.kakao.com/_Cyljx/chat"
+              href="https://pf.kakao.com/_PfmBX/chat"
               target="_blank"
               rel="noreferrer"
               className="w-full p-4 rounded-2xl bg-[#FEE500] hover:bg-[#FADA00] text-[#191919] font-bold text-sm flex items-center justify-between transition-all shadow-lg shadow-yellow-500/10 group"
