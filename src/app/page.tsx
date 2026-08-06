@@ -22,11 +22,15 @@ export default function Home() {
       {/* Header / Navigation */}
       <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-gray-950/70 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-black text-white text-xl shadow-lg shadow-indigo-500/25">
-              TM
+          <div className="flex items-center gap-1">
+            <div className="w-12 h-12 flex items-center justify-center select-none">
+              <img
+                src="/images/logo/icon-192-transparent.png"
+                alt="태문 로고"
+                className="w-12 h-12 object-contain scale-110"
+              />
             </div>
-            <span className="text-xl font-bold tracking-tight text-white">
+            <span className="text-xl font-bold tracking-tight text-white flex items-center -ml-1">
               태문 <span className="text-indigo-400 text-sm font-semibold tracking-normal ml-1">DEV STUDIO</span>
             </span>
           </div>
