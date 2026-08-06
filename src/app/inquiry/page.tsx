@@ -37,12 +37,13 @@ export default function InquiryPage() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const serviceOptions = [
-    { id: "custom-web-app", label: "맞춤형 웹·앱 제작", desc: "고성능 반응형 사이트 및 서비스" },
-    { id: "tdocs-saas", label: "전자서식 SaaS (T-DOCS)", desc: "모바일 캔버스 서식 & 카톡 서명 모듈" },
-    { id: "pg-billing", label: "PG 결제 & 정기구독 연동", desc: "단건 결제, 빌링키 정기 결제 시스템" },
-    { id: "platform-build", label: "대형 매칭·커머스 플랫폼", desc: "풀스택 B2B/B2C 매칭·유통 시스템" },
-    { id: "ai-automation", label: "AI 자동화 & 고도화", desc: "업무 자동화, AI 에이전트 연동" },
-    { id: "undecided", label: "아직 미정", desc: "상담을 통해 맞춤형 기능 추천" },
+    { id: "company-homepage", label: "기업/회사 홍보 홈페이지", desc: "브랜드 대표 반응형 사이트 & 랜딩페이지" },
+    { id: "shopping-mall", label: "쇼핑몰 · 예약 · 커머스", desc: "제품 판매, 예약 시스템, PG 결제 연동" },
+    { id: "custom-web-app", label: "맞춤형 웹 · 앱 개발", desc: "회원/관리자 시스템, 대형 플랫폼, 특수 웹앱" },
+    { id: "tdocs-saas", label: "모바일 전자서식 (T-DOCS)", desc: "카톡 3초 전자서명 & 23종 캔버스 서식 모듈" },
+    { id: "pg-billing", label: "PG 결제 & 정기구독 빌링", desc: "포트원·토스페이먼츠 정기자동결제 모듈" },
+    { id: "renewal-maintenance", label: "웹사이트 리뉴얼 & 고도화", desc: "디자인 리뉴얼 및 기능 고도화 유지보수" },
+    { id: "undecided", label: "아직 미정", desc: "상담을 통해 맞춤형 서비스 추천" },
   ];
 
   const budgetOptions = [
