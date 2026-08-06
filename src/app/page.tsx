@@ -1,3 +1,4 @@
+import FloatingChatWidget from "@/components/FloatingChatWidget";
 import ParticleCanvas from "@/components/ParticleCanvas";
 import { 
   ArrowRight, 
@@ -262,6 +263,9 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Floating Interactive 1:1 Chat Widget */}
+      <FloatingChatWidget />
     </div>
   );
 }
