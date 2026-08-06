@@ -242,22 +242,30 @@ export default function Home() {
               아이디어 단계부터 개발 외주, 기존 서비스 리팩토링까지 친절하게 안내해 드립니다.
             </p>
 
-            <div className="pt-4 lg:pt-6 flex flex-col lg:flex-row items-center justify-center gap-4 lg:gap-6">
-              <div className="w-full lg:w-auto flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-white/5 border border-white/10">
+            <div className="pt-4 lg:pt-6 flex flex-col lg:flex-row items-center justify-center gap-3 lg:gap-4">
+              <a href="tel:010-5460-9005" className="w-full lg:w-auto flex items-center justify-center gap-3 px-5 py-3.5 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 hover:border-indigo-400 transition-all">
                 <PhoneCall className="w-5 h-5 text-indigo-400" />
+                <div className="text-left">
+                  <div className="text-[10px] text-indigo-300 uppercase font-bold">총괄 아키텍트 직통</div>
+                  <div className="text-base lg:text-lg font-bold text-white">010-5460-9005</div>
+                </div>
+              </a>
+
+              <a href="tel:1588-2622" className="w-full lg:w-auto flex items-center justify-center gap-3 px-5 py-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all">
+                <PhoneCall className="w-5 h-5 text-gray-400" />
                 <div className="text-left">
                   <div className="text-[10px] text-gray-400 uppercase font-bold">대표 전화</div>
                   <div className="text-base lg:text-lg font-bold text-white">1588-2622</div>
                 </div>
-              </div>
+              </a>
 
-              <div className="w-full lg:w-auto flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-white/5 border border-white/10">
-                <Mail className="w-5 h-5 text-indigo-400" />
+              <a href="mailto:contact@taemun.co.kr" className="w-full lg:w-auto flex items-center justify-center gap-3 px-5 py-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all">
+                <Mail className="w-5 h-5 text-gray-400" />
                 <div className="text-left">
                   <div className="text-[10px] text-gray-400 uppercase font-bold">이메일 문의</div>
                   <div className="text-base lg:text-lg font-bold text-white">contact@taemun.co.kr</div>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
         </div>
