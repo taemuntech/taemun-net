@@ -163,66 +163,114 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Portfolio Showcase */}
+      {/* Featured Portfolio Showcase (Dual Killer Portfolio Cards) */}
       <section id="portfolio" className="py-16 lg:py-24 px-4 lg:px-6 max-w-7xl mx-auto relative z-10">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-10 lg:mb-12">
           <div>
-            <div className="text-indigo-400 text-xs font-bold uppercase tracking-widest mb-2">FEATURED PROJECT</div>
+            <div className="text-indigo-400 text-xs font-bold uppercase tracking-widest mb-2">FEATURED PROJECTS</div>
             <h2 className="text-2xl lg:text-5xl font-extrabold text-white">주요 개발 구축 사례</h2>
           </div>
           <p className="text-gray-400 text-xs lg:text-base max-w-md mt-3 lg:mt-0">
-            기획자·개발자 간의 소통 오류 제로. 풀스택 총괄 아키텍트가 직접 1:1로 밀착 구축합니다.
+            기획자·개발자 간의 소통 오류 제로. 풀스택 총괄 아키텍트가 직접 1:1로 밀착 구축한 실제 운영 서비스입니다.
           </p>
         </div>
 
-        <div className="bg-gray-900/60 backdrop-blur-md p-6 lg:p-12 rounded-3xl border border-white/10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold">
-                <span>태문브릿지 B2B2C 플랫폼</span> • <span>Next.js 16</span> • <span>Supabase</span>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Card 1: 태문브릿지 */}
+          <div className="bg-gray-900/60 backdrop-blur-md p-6 lg:p-8 rounded-3xl border border-white/10 hover:border-indigo-500/40 transition-all flex flex-col justify-between space-y-6">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold">
+                  <span>태문브릿지</span> • <span>B2B2C 플랫폼</span>
+                </div>
+                <span className="text-[11px] font-bold text-emerald-400 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                  실제 운영 중
+                </span>
               </div>
 
-              <h3 className="text-xl lg:text-4xl font-bold text-white leading-snug">
+              <h3 className="text-xl lg:text-3xl font-bold text-white leading-snug">
                 매칭·계약·결제·교육·자재유통을 아우르는 풀스택 플랫폼
               </h3>
 
               <p className="text-xs lg:text-sm text-gray-300 leading-relaxed">
-                7단계 견적 라이프사이클과 23종 모바일 캔버스 서식, PG 빌링키 정기결제, RLS 암호화 보안까지 일관된 아키텍처로 직영 구축한 대형 서비스입니다.
+                7단계 견적 라이프사이클과 23종 모바일 캔버스 서식, PortOne 빌링키 정기결제, PASS/KGI 본인인증, RLS 암호화 보안까지 일관된 아키텍처로 직영 구축한 대형 서비스입니다.
               </p>
 
-              <div className="pt-2 flex items-center gap-4">
-                <a href="https://taemun.co.kr" target="_blank" rel="noreferrer" className="px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-xs lg:text-sm flex items-center gap-2 shadow-lg shadow-indigo-500/20 hover:opacity-90">
-                  <span>데모 서비스 열기</span>
-                  <ArrowRight className="w-4 h-4" />
-                </a>
+              <div className="p-4 rounded-2xl bg-gray-950 border border-white/10 space-y-2 text-xs">
+                <div className="flex justify-between text-gray-300">
+                  <span>견적 & 전문가 매칭 엔진</span>
+                  <span className="text-indigo-400 font-semibold">7단계 라이프사이클</span>
+                </div>
+                <div className="flex justify-between text-gray-300">
+                  <span>본인인증 & 빌링키 정기결제</span>
+                  <span className="text-indigo-400 font-semibold">PortOne V2 & PASS</span>
+                </div>
+                <div className="flex justify-between text-gray-300">
+                  <span>알림톡 & 결제 수단 관리</span>
+                  <span className="text-indigo-400 font-semibold">SOLAPI Kakao Alert</span>
+                </div>
               </div>
             </div>
 
-            <div className="lg:col-span-5">
-              <div className="p-5 lg:p-6 rounded-2xl bg-gray-950 border border-white/10 space-y-4">
-                <div className="flex items-center justify-between text-xs text-gray-400 pb-2 border-b border-white/10">
-                  <span>핵심 시스템 모듈</span>
-                  <span className="text-indigo-400 font-bold">100% 직영 개발</span>
+            <div className="pt-2">
+              <a 
+                href="https://taemun.co.kr" 
+                target="_blank" 
+                rel="noreferrer" 
+                className="w-full px-6 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-xs lg:text-sm flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20 hover:opacity-90 transition-all"
+              >
+                <span>태문브릿지 라이브 데모 열기</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+
+          {/* Card 2: T-DOCS */}
+          <div className="bg-gray-900/60 backdrop-blur-md p-6 lg:p-8 rounded-3xl border border-white/10 hover:border-purple-500/40 transition-all flex flex-col justify-between space-y-6">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-semibold">
+                  <span>T-DOCS (티독스)</span> • <span>스마트 전자서식 SaaS</span>
                 </div>
-                <div className="space-y-2.5 text-xs">
-                  <div className="flex justify-between text-gray-300">
-                    <span>견적 및 서비스 매칭 엔진</span>
-                    <span className="text-gray-400">7단계 라이프사이클</span>
-                  </div>
-                  <div className="flex justify-between text-gray-300">
-                    <span>모바일 서식 & PDF 생성기</span>
-                    <span className="text-gray-400">T-DOCS Engine</span>
-                  </div>
-                  <div className="flex justify-between text-gray-300">
-                    <span>결제 & 자동갱신 시스템</span>
-                    <span className="text-gray-400">PortOne & Toss Payments</span>
-                  </div>
-                  <div className="flex justify-between text-gray-300">
-                    <span>데이터 보안 & RLS 권한</span>
-                    <span className="text-gray-400">PostgreSQL</span>
-                  </div>
+                <span className="text-[11px] font-bold text-cyan-400 px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">
+                  SaaS 서비스
+                </span>
+              </div>
+
+              <h3 className="text-xl lg:text-3xl font-bold text-white leading-snug">
+                100% 법적 효력 카카오 모바일 전자서명 & AI 오피스 비서
+              </h3>
+
+              <p className="text-xs lg:text-sm text-gray-300 leading-relaxed">
+                견적서·계약서 23종 캔버스 모바일 작성, 카카오톡 3초 본인확인 모바일 전자서명, Gemini AI 비서 아라, 고성능 PDF 변환/출력 엔진을 탑재한 B2B SaaS 솔루션입니다.
+              </p>
+
+              <div className="p-4 rounded-2xl bg-gray-950 border border-white/10 space-y-2 text-xs">
+                <div className="flex justify-between text-gray-300">
+                  <span>카카오 모바일 전자서명</span>
+                  <span className="text-purple-400 font-semibold">100% 법적 효력 서명</span>
+                </div>
+                <div className="flex justify-between text-gray-300">
+                  <span>AI 서식 작성 비서 아라</span>
+                  <span className="text-purple-400 font-semibold">Google Gemini AI</span>
+                </div>
+                <div className="flex justify-between text-gray-300">
+                  <span>고성능 PDF & 이미지 스냅샷</span>
+                  <span className="text-purple-400 font-semibold">Vector PDF Engine</span>
                 </div>
               </div>
+            </div>
+
+            <div className="pt-2">
+              <a 
+                href="https://tdocs.taemun.co.kr" 
+                target="_blank" 
+                rel="noreferrer" 
+                className="w-full px-6 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-xs lg:text-sm flex items-center justify-center gap-2 shadow-lg shadow-purple-500/20 hover:opacity-90 transition-all"
+              >
+                <span>T-DOCS 라이브 데모 열기</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
             </div>
           </div>
         </div>
