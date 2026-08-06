@@ -203,7 +203,7 @@ export default function Home() {
                   </div>
                   <div className="flex justify-between text-gray-300">
                     <span>결제 & 자동갱신 시스템</span>
-                    <span className="text-gray-400">PortOne V2</span>
+                    <span className="text-gray-400">PortOne & Toss Payments</span>
                   </div>
                   <div className="flex justify-between text-gray-300">
                     <span>데이터 보안 & RLS 권한</span>
