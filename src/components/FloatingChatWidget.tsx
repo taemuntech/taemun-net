@@ -1,6 +1,7 @@
 "use client";
 
 import { MessageCircle, Phone, Send, Sparkles, X } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function FloatingChatWidget() {
@@ -63,14 +64,14 @@ export default function FloatingChatWidget() {
             </a>
 
             {/* Web Quote Form Anchor */}
-            <a
-              href="#contact"
+            <Link
+              href="/inquiry"
               onClick={() => setIsOpen(false)}
               className="w-full p-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 font-medium text-xs flex items-center justify-center gap-2 hover:bg-indigo-500/20 transition-all text-center"
             >
               <Send className="w-3.5 h-3.5" />
-              <span>3초 간편 견적 신청 폼으로 이동</span>
-            </a>
+              <span>3초 대화형 스마트 견적 페이지로 이동</span>
+            </Link>
           </div>
 
           <div className="mt-5 pt-3 border-t border-white/5 text-[11px] text-center text-gray-500 flex items-center justify-center gap-1">

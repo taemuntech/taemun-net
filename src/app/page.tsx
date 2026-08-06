@@ -256,6 +256,17 @@ export default function Home() {
                 </div>
               </div>
             </div>
+
+            <div className="pt-8">
+              <Link
+                href="/inquiry"
+                className="px-10 py-5 rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-extrabold text-lg shadow-2xl shadow-indigo-500/40 hover:scale-105 transition-all inline-flex items-center gap-3 group"
+              >
+                <Sparkles className="w-6 h-6 animate-pulse" />
+                <span>3초 대화형 스마트 견적서 신청하기</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
