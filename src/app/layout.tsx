@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   description: "0에서 1까지, 맞춤형 모듈 서비스부터 초대형 플랫폼까지 프로덕션급 기술력으로 직접 구축합니다.",
   keywords: ["태문", "웹개발외주", "앱개발외주", "Next.js", "풀스택개발", "전자서식개발", "PG결제연동"],
   verification: {
+    google: 'googlef6d4a13fe73ddf52',
     other: {
       'naver-site-verification': '0c25d962d5be87c42ab7e467839070ad0050eaf3',
     },
