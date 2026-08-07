@@ -73,18 +73,18 @@ export default function Home() {
       <section className="pt-32 lg:pt-40 pb-16 lg:pb-20 px-4 lg:px-6 max-w-7xl mx-auto text-center relative z-10">
         <div className="inline-flex items-center gap-2 px-3.5 lg:px-4 py-2 rounded-full bg-indigo-950/80 border border-indigo-500/30 text-indigo-300 text-xs font-semibold mb-6 lg:mb-8 backdrop-blur-md">
           <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
-          <span>아이디어 스케치부터 프로덕션급 서비스까지 빠른 0→1 구축</span>
+          <span>아이디어 스케치부터 프로덕션급 홈페이지 제작 & 웹·앱 서비스 구축까지</span>
         </div>
 
         <h1 className="text-3xl lg:text-7xl font-extrabold tracking-tight mb-6 lg:mb-8 leading-snug lg:leading-tight">
           비즈니스의 성장을 이끄는<br />
           <span className="bg-gradient-to-r from-white via-indigo-200 to-purple-300 bg-clip-text text-transparent">
-            고성능 웹·앱 솔루션
+            맞춤형 홈페이지 제작 & 웹·앱 솔루션
           </span>을 만듭니다.
         </h1>
 
         <p className="text-gray-400 text-sm lg:text-xl max-w-3xl mx-auto mb-10 lg:mb-12 font-normal leading-relaxed">
-          맞춤형 홍보 랜딩페이지부터 전자서식 SaaS, PG 결제 연동, 대형 플랫폼까지.<br className="hidden lg:block" />
+          고성능 홈페이지 제작부터 맞춤형 웹·앱 개발 외주, 전자서식 SaaS, PG 결제 연동까지.<br className="hidden lg:block" />
           타 개발사 대비 압도적인 개발 속도와 완성도로 비즈니스를 현실로 만듭니다.
         </p>
 
@@ -127,7 +127,7 @@ export default function Home() {
         <div className="text-center max-w-2xl mx-auto mb-12 lg:mb-16">
           <div className="text-indigo-400 text-xs font-bold uppercase tracking-widest mb-2">WHAT WE BUILD</div>
           <h2 className="text-2xl lg:text-5xl font-extrabold text-white">태문 개발팀 제공 분야</h2>
-          <p className="text-gray-400 text-xs lg:text-base mt-3">필요한 기능만 쏙 빼서 빠르게 만드는 모듈형 개발부터 풀스택 플랫폼까지 지원합니다.</p>
+          <p className="text-gray-400 text-xs lg:text-base mt-3">홈페이지 제작부터 모듈형 개발, 풀스택 앱 플랫폼까지 맞춤 지원합니다.</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -135,9 +135,9 @@ export default function Home() {
             <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
               <Layout className="w-6 h-6" />
             </div>
-            <h3 className="text-lg lg:text-xl font-bold text-white">맞춤형 웹·앱 서비스</h3>
+            <h3 className="text-lg lg:text-xl font-bold text-white">맞춤형 홈페이지 제작 & 웹·앱 구축</h3>
             <p className="text-xs lg:text-sm text-gray-400 leading-relaxed">
-              고객 유입을 위한 고성능 랜딩페이지부터 매칭·커머스·예약 시스템 등 비즈니스 목적에 맞춘 플랫폼 구축.
+              고객 유입을 위한 고성능 홈페이지 제작 및 랜딩페이지부터 매칭·커머스·예약 시스템 등 비즈니스 목적에 맞춘 플랫폼 구축 외주.
             </p>
           </div>
 
