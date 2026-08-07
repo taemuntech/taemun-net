@@ -48,6 +48,15 @@ export const metadata: Metadata = {
       "naver-site-verification": "0c25d962d5be87c42ab7e467839070ad0050eaf3",
     },
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon.png", type: "image/png" },
+      { url: "/images/logo/icon-192-transparent.png", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/images/logo/icon-192-transparent.png",
+  },
 };
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
