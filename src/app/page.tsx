@@ -52,9 +52,18 @@ export default function Home() {
               href="https://taemun.co.kr" 
               target="_blank" 
               rel="noreferrer" 
-              className="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-cyan-500/15 via-indigo-500/15 to-purple-500/15 border border-cyan-500/40 text-cyan-300 text-xs font-semibold hover:border-cyan-300 hover:text-white transition-all flex items-center gap-1 backdrop-blur-md shadow-sm shadow-cyan-500/20"
+              className="px-3 py-1.5 rounded-full bg-gradient-to-r from-cyan-500/15 via-indigo-500/15 to-purple-500/15 border border-cyan-500/40 text-cyan-300 text-xs font-semibold hover:border-cyan-300 hover:text-white transition-all flex items-center gap-1 backdrop-blur-md shadow-sm shadow-cyan-500/20"
             >
               <span>태문브릿지 라이브</span>
+              <span className="text-[10px]">↗</span>
+            </a>
+            <a 
+              href="https://tdocs.taemun.co.kr" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="px-3 py-1.5 rounded-full bg-gradient-to-r from-purple-500/15 via-pink-500/15 to-rose-500/15 border border-purple-500/40 text-purple-300 text-xs font-semibold hover:border-purple-300 hover:text-white transition-all flex items-center gap-1 backdrop-blur-md shadow-sm shadow-purple-500/20"
+            >
+              <span>T-DOCS 라이브</span>
               <span className="text-[10px]">↗</span>
             </a>
           </nav>
