@@ -227,13 +227,24 @@ export default function InquiryPage() {
               </div>
             </div>
 
-            <div className="p-5 lg:p-6 rounded-2xl bg-gradient-to-br from-indigo-950/60 to-purple-950/60 border border-indigo-500/30 backdrop-blur-md text-xs space-y-1.5">
+            <div className="p-5 lg:p-6 rounded-2xl bg-gradient-to-br from-indigo-950/60 to-purple-950/60 border border-indigo-500/30 backdrop-blur-md text-xs space-y-3">
               <div className="flex items-center gap-2 font-bold text-indigo-300">
                 <PhoneCall className="w-4 h-4" />
                 <span>유선 전화 상담도 언제든 가능합니다</span>
               </div>
-              <p className="text-gray-300">대표전화: 1588-2622 (24시간 접수)</p>
-              <p className="text-gray-400">이메일: contact@taemun.co.kr</p>
+              <div className="grid grid-cols-1 gap-2 pt-1">
+                <a href="tel:010-8672-6463" className="flex items-center gap-3 p-3 rounded-xl bg-indigo-600/20 border border-indigo-500/40 hover:border-indigo-400 transition-all text-white font-bold">
+                  <PhoneCall className="w-4.5 h-4.5 text-indigo-400 shrink-0" />
+                  <div className="text-left">
+                    <div className="text-[10px] text-indigo-300 uppercase font-bold">총괄 아키텍트 직통</div>
+                    <div className="text-sm lg:text-base text-white">010-8672-6463</div>
+                  </div>
+                </a>
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between text-gray-300 gap-1 px-1 pt-1">
+                  <span>대표전화: 1588-2622</span>
+                  <span className="text-gray-400">이메일: contact@taemun.co.kr</span>
+                </div>
+              </div>
             </div>
           </div>
 
