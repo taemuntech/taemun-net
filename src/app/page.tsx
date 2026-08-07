@@ -188,6 +188,16 @@ export default function Home() {
                 </span>
               </div>
 
+              {/* 3D Device Mockup Showcase Visual */}
+              <div className="relative overflow-hidden rounded-2xl border border-white/10 aspect-video group">
+                <img 
+                  src="/images/mockup_taemun_bridge.jpg" 
+                  alt="태문브릿지 3D 디바이스 목업" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-950/80 via-transparent to-transparent"></div>
+              </div>
+
               <h3 className="text-xl lg:text-3xl font-bold text-white leading-snug">
                 매칭·계약·결제·교육·자재유통을 아우르는 풀스택 플랫폼
               </h3>
@@ -235,6 +245,16 @@ export default function Home() {
                 <span className="text-[11px] font-bold text-cyan-400 px-2.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">
                   SaaS 서비스
                 </span>
+              </div>
+
+              {/* 3D Device Mockup Showcase Visual */}
+              <div className="relative overflow-hidden rounded-2xl border border-white/10 aspect-video group">
+                <img 
+                  src="/images/mockup_tdocs.jpg" 
+                  alt="T-DOCS 3D 디바이스 목업" 
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-950/80 via-transparent to-transparent"></div>
               </div>
 
               <h3 className="text-xl lg:text-3xl font-bold text-white leading-snug">
