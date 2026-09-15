@@ -1,0 +1,57 @@
+'use client';
+
+import React from 'react';
+import { PROCESS_STEPS } from './data/projects';
+import { Clock } from 'lucide-react';
+
+export const Process: React.FC = () => {
+  return (
+    <section className="py-24 bg-[#f4f3f1] border-b border-[#c8c7bf]/20" id="process">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span className="text-xs uppercase tracking-[0.2em] font-semibold text-[#904b35] block mb-2 font-sans">
+            Our Execution Process
+          </span>
+          <h2 className="text-3xl lg:text-5xl font-serif font-normal text-[#161714] leading-tight tracking-[-0.015em]">
+            체계적인 인테리어 완성 프로세스 4단계
+          </h2>
+          <p className="text-sm lg:text-base text-[#474741] mt-3 font-light leading-relaxed font-sans">
+            초기 상담부터 2년 사후 보증까지 투명하고 정교한 단계별 로드맵으로 불안감을 해소합니다.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {PROCESS_STEPS.map((step) => (
+            <div
+              key={step.step}
+              className="bg-[#faf9f7] p-6 rounded border border-[#c8c7bf]/30 flex flex-col justify-between hover:border-[#161714] transition-colors duration-300 relative shadow-xs"
+            >
+              <div>
+                <div className="w-9 h-9 rounded bg-[#efeeec] border border-[#c8c7bf]/40 flex items-center justify-center text-xs font-bold text-[#161714] mb-5 font-serif">
+                  {step.step}
+                </div>
+
+                <h4 className="text-xl font-serif text-[#161714] mb-1">
+                  {step.titleKr}
+                </h4>
+
+                <p className="text-[11px] uppercase tracking-wider text-[#904b35] font-medium mb-3 font-sans">
+                  {step.titleEn}
+                </p>
+
+                <p className="text-xs lg:text-sm text-[#474741] leading-relaxed font-sans font-light">
+                  {step.desc}
+                </p>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-[#c8c7bf]/20 text-xs text-[#474741]/80 font-sans flex items-center gap-1.5">
+                <Clock size={12} className="text-[#904b35]" />
+                <span>{step.duration}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
