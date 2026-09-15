@@ -63,21 +63,18 @@ export default function Header() {
         </Link>
 
         {/* Desktop Navigation (lg:flex) */}
-        <nav className="hidden lg:flex items-center gap-7 text-sm font-medium text-gray-300">
+        <nav className="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-300">
           <a href="/#services" className="hover:text-white transition-colors">
-            개발 서비스
-          </a>
-          <a href="/#portfolio" className="hover:text-white transition-colors">
-            포트폴리오
+            서비스 분야
           </a>
 
-          {/* Live Solutions Dropdown */}
+          {/* Unified Portfolio & Solutions Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setPortfolioDropdownOpen(!portfolioDropdownOpen)}
               className="flex items-center gap-1.5 py-2 hover:text-white transition-colors font-medium text-gray-300 focus:outline-none"
             >
-              <span>운영 솔루션 & 데모</span>
+              <span>포트폴리오 & 솔루션</span>
               <ChevronDown className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${portfolioDropdownOpen ? "rotate-180 text-indigo-400" : ""}`} />
             </button>
 
@@ -85,6 +82,21 @@ export default function Header() {
             {portfolioDropdownOpen && (
               <div className="absolute top-full left-0 mt-2 w-72 p-2 rounded-2xl bg-gray-900/95 border border-white/10 backdrop-blur-xl shadow-2xl shadow-indigo-950/50 z-50 animate-in fade-in zoom-in-95 duration-150">
                 
+                {/* Scroll to Portfolio Section */}
+                <a
+                  href="/#portfolio"
+                  onClick={() => setPortfolioDropdownOpen(false)}
+                  className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all text-gray-300 hover:text-white border-b border-white/5 mb-1"
+                >
+                  <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 shrink-0">
+                    <Sparkles className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-white">전체 구축 사례 보기</div>
+                    <p className="text-[11px] text-gray-400 mt-0.5">상세 구축 스펙 및 소개</p>
+                  </div>
+                </a>
+
                 {/* Lithium Demo */}
                 <Link
                   href="/demo/lithium-foil"
@@ -197,14 +209,14 @@ export default function Header() {
                 onClick={() => setMobileMenuOpen(false)}
                 className="block text-lg font-bold text-white hover:text-indigo-300 transition-colors py-1"
               >
-                개발 서비스 안내
+                서비스 분야
               </a>
               <a
                 href="/#portfolio"
                 onClick={() => setMobileMenuOpen(false)}
                 className="block text-lg font-bold text-white hover:text-indigo-300 transition-colors py-1"
               >
-                주요 포트폴리오
+                포트폴리오 (구축 사례)
               </a>
             </div>
 
