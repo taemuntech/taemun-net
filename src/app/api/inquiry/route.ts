@@ -44,8 +44,9 @@ export async function POST(request: Request) {
       );
     }
 
-    // 2. Send SMS to Oppa's phone (010-5460-9005)
-    const adminPhone = process.env.SOLAPI_ADMIN_RECEIVER_PHONE || "01054609005";
+    // 2. 견적 접수 알림 — 형 확인 번호 010-8672-6463 (사이트에 적힌 총괄 아키텍트 직통과 같다)
+    //    Vercel 에 SOLAPI_ADMIN_RECEIVER_PHONE 이 따로 있으면 그 값이 우선한다
+    const adminPhone = process.env.SOLAPI_ADMIN_RECEIVER_PHONE || "01086726463";
     const adminSmsText = `[태문 DEV STUDIO 신규 견적 접수]
 ■ 고객명: ${clientName}
 ■ 연락처: ${phone}
