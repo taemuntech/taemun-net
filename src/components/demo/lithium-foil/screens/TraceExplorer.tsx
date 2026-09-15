@@ -19,10 +19,11 @@ import {
   Truck,
   X,
 } from "lucide-react";
-import { useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
 import {
   completionByFilmReuse,
   elementChart,
+  recipeLabel,
   rollThicknessSdUm,
   rollThicknessUm,
   thicknessSdChart,
@@ -54,6 +55,9 @@ import {
   Callout,
   Card,
   CardHeader,
+  GLOSSARY,
+  SCROLL_MARGIN,
+  STICKY_TOP_LG,
   StatTile,
   TableWrap,
   TONE,
@@ -266,7 +270,7 @@ function buildSuspects(
       return {
         id: r.id,
         target: rollTarget(r.id),
-        text: `${r.recipeId} ${r.passCount}패스 · 파단 ${r.tearCount}회${v !== null ? ` · 두께 SD ${fmtNum(v, 2)}µm` : ""}${overlap ? ` · 필름 재사용 ${r.filmReuseCount}회와 겹침` : ""}`,
+        text: `${recipeLabel(r.recipeId)} ${r.passCount}패스 · 파단 ${r.tearCount}회${v !== null ? ` · 두께 SD ${fmtNum(v, 2)}µm` : ""}${overlap ? ` · 필름 재사용 ${r.filmReuseCount}회와 겹침` : ""}`,
       };
     });
 
@@ -294,14 +298,14 @@ function buildSuspects(
       key: "dew",
       tone: "rose" as Tone,
       title: "노점 −45℃ 초과 작업",
-      detail: "노점(이슬점) — 작업 공간의 수분 지표. 높을수록 습해 리튬 표면이 변색될 수 있습니다.",
+      detail: `${GLOSSARY.dewPoint}.`,
       items: dew,
     },
     {
       key: "sd",
       tone: "rose" as Tone,
       title: "두께 산포가 관리한계 밖",
-      detail: `롤 안 두께 3점의 표준편차가 관리도(정상 범위를 벗어나면 알리는 그래프) 상한 ${fmtNum(sdChart.ucl, 2)}µm 를 넘었습니다. 한계는 앞 ${sdChart.baselineN}롤 기준.`,
+      detail: `롤 안 두께 3점의 표준편차가 관리도(정상 범위를 벗어나면 알리는 그래프) 상한 ${fmtNum(sdChart.ucl, 2)}µm 를 넘었습니다. 한계는 ${sdChart.baselineLabel} 기준.`,
       items: sd,
     },
     {
@@ -310,8 +314,8 @@ function buildSuspects(
       title: "이형 필름 5회 이상 재사용",
       detail:
         reuseLow.rolls && reuseHigh.rolls
-          ? `이형 필름 — 리튬이 롤에 붙지 않게 끼우는 필름. 전체 데이터에서 무파단율 ${reuseLow.label} ${fmtPct(reuseLow.tearFreeRate)} (롤 ${reuseLow.rolls}개) → ${reuseHigh.label} ${fmtPct(reuseHigh.tearFreeRate)} (롤 ${reuseHigh.rolls}개).`
-          : "이형 필름 — 리튬이 롤에 붙지 않게 끼우는 필름. 재사용이 늘면 파단이 늘 수 있습니다.",
+          ? `${GLOSSARY.releaseFilm}. 전체 데이터에서 무파단율 ${reuseLow.label} ${fmtPct(reuseLow.tearFreeRate)} (롤 ${reuseLow.rolls}개) → ${reuseHigh.label} ${fmtPct(reuseHigh.tearFreeRate)} (롤 ${reuseHigh.rolls}개).`
+          : `${GLOSSARY.releaseFilm}. 재사용이 늘면 파단이 늘 수 있습니다.`,
       items: film,
     },
     {
@@ -390,11 +394,25 @@ export default function TraceExplorer({ target, onTargetChange }: TraceExplorerP
     [dataset],
   );
 
+  const resultRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  /** 칩·검색으로 대상을 바꾸면 결과로 포커스를 옮긴다 — 누른 칩이 사라져 포커스가 문서 맨 앞으로 떨어지지 않게 */
+  const pendingFocus = useRef(false);
+
   const go = (next: TraceTarget | null) => {
+    const nextKey = next ? `${next.type}:${next.id}` : "";
+    if (nextKey !== targetKey) pendingFocus.current = true;
     onTargetChange(next);
     const el = rootRef.current;
     if (el && el.getBoundingClientRect().top < 0) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+  useEffect(() => {
+    if (!pendingFocus.current) return;
+    pendingFocus.current = false;
+    if (targetKey) resultRef.current?.focus({ preventScroll: true });
+    else searchInputRef.current?.focus({ preventScroll: true });
+  }, [targetKey]);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -425,7 +443,7 @@ export default function TraceExplorer({ target, onTargetChange }: TraceExplorerP
   }, [dataset, userRolls]);
 
   return (
-    <div ref={rootRef} className="space-y-4 lg:space-y-6 scroll-mt-40 [word-break:keep-all]">
+    <div ref={rootRef} className={`space-y-4 lg:space-y-6 ${SCROLL_MARGIN} [word-break:keep-all]`}>
       <Card>
         <CardHeader
           eyebrow="로트 계보 추적"
@@ -452,6 +470,7 @@ export default function TraceExplorer({ target, onTargetChange }: TraceExplorerP
           <div className="relative flex-1 min-w-0">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" aria-hidden />
             <input
+              ref={searchInputRef}
               id="trace-id-input"
               value={query}
               onChange={(e) => {
@@ -531,17 +550,25 @@ export default function TraceExplorer({ target, onTargetChange }: TraceExplorerP
         )}
       </Card>
 
-      {!target && <EmptyState />}
+      <div
+        ref={resultRef}
+        tabIndex={-1}
+        role="region"
+        aria-label={target ? `${TYPE_LABEL[target.type]} ${target.id} 조회 결과` : "조회 안내"}
+        className="space-y-4 lg:space-y-6 focus:outline-none"
+      >
+        {!target && <EmptyState />}
 
-      {target && (
-        <TraceResult
-          dataset={dataset}
-          target={target}
-          sdChart={sdChart}
-          elementCharts={elementCharts}
-          onSelect={go}
-        />
-      )}
+        {target && (
+          <TraceResult
+            dataset={dataset}
+            target={target}
+            sdChart={sdChart}
+            elementCharts={elementCharts}
+            onSelect={go}
+          />
+        )}
+      </div>
     </div>
   );
 }
@@ -569,7 +596,7 @@ function EmptyState() {
       <CardHeader
         eyebrow="무엇을 할 수 있나요"
         title="위의 빠른 시작 칩 하나를 눌러 보세요"
-        description="종이 일지와 엑셀로는 반나절 걸리는 「이 클레임, 어느 원료·어느 작업에서 왔나?」를 여기선 몇 초에 답합니다."
+        description="여러 장부를 뒤져야 하던 「이 클레임, 어느 원료·어느 작업에서 왔나?」를 아이디 하나로 답합니다."
       />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
         {items.map((it) => (
@@ -1041,7 +1068,7 @@ function MotherNode({ roll, ctx, ncs }: { roll: Roll; ctx: NodeCtx; ncs: NonConf
         <IdChip id={roll.id} target={{ type: "roll", id: roll.id }} ctx={ctx} />
         <Badge tone={st.tone}>{st.label}</Badge>
         <Badge tone={isTrial ? "amber" : "purple"}>
-          {roll.recipeId}
+          {recipeLabel(roll.recipeId)}
           {recipe ? ` · ${recipe.name}` : ""}
         </Badge>
         {roll.entryMode === "user" && <Badge tone="emerald">방금 입력</Badge>}
@@ -1165,8 +1192,8 @@ function IngotNode({ ingot, ctx, ncs }: { ingot: Ingot; ctx: NodeCtx; ncs: NonCo
               </tbody>
             </table>
           </TableWrap>
-          <p className="mt-1.5 text-[11px] text-gray-500 leading-relaxed">
-            관리한계 — 새 도가니로 작업한 앞 잉곳들로 잡은 평소 범위. 「&lt;」 는 검출한계 미만이라 통계에 넣지 않습니다.
+          <p className="mt-1.5 text-[11px] text-gray-400 leading-relaxed">
+            관리한계 — 새 도가니로 작업한 앞 잉곳들로 잡은 평소 범위(검출된 값이 모자란 원소는 판정하지 않음). 「&lt;」 는 검출한계 미만이라 통계에 넣지 않습니다.
           </p>
         </div>
       )}
@@ -1229,7 +1256,7 @@ function MaterialNode({ lot, ctx, compact = false }: { lot: MaterialLot; ctx: No
 
 function SuspectPanel({ suspects, unknowns, ctx }: { suspects: Suspect[]; unknowns: UnknownNote[]; ctx: NodeCtx }) {
   return (
-    <Card className="min-w-0 lg:sticky lg:top-40 lg:max-h-[calc(100vh-11rem)] lg:overflow-y-auto">
+    <Card className={`min-w-0 lg:sticky ${STICKY_TOP_LG} lg:max-h-[calc(100vh_-_var(--demo-sticky-offset)_-_1rem)] lg:overflow-y-auto`}>
       <CardHeader
         eyebrow="의심 지점"
         title={suspects.length ? `원인 후보 ${suspects.length}가지` : "규칙에 걸린 후보 없음"}

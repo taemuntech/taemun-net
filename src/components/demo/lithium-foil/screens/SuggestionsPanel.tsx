@@ -76,7 +76,7 @@ function recipeEffect(ds: Dataset): Effect | null {
   if (diff <= 0) return null;
   return {
     headline: `C 롤 한 개당 손실 약 ${fmtNum(diff, 1)}m 차이`,
-    detail: `필름 재사용 4회 이하 롤끼리: RCP-C 롤당 ${fmtNum(c.avgLostM, 1)}m (롤 ${c.rolls}개) vs RCP-B ${fmtNum(b.avgLostM, 1)}m (롤 ${b.rolls}개).`,
+    detail: `필름 재사용 4회 이하 롤끼리: 레시피 C 롤당 ${fmtNum(c.avgLostM, 1)}m (롤 ${c.rolls}개) vs 레시피 B ${fmtNum(b.avgLostM, 1)}m (롤 ${b.rolls}개).`,
     assumption: `가정 — C 대신 B 로 돌렸다면 B 평균을 따라간다. C 표본이 ${c.rolls}개뿐이라 이 숫자의 크기는 믿지 말고 방향만 본다.`,
   };
 }
@@ -199,17 +199,17 @@ function SuggestionCard({ s, effect, evidence }: { s: Suggestion; effect: Effect
           </div>
           <p className="text-sm font-semibold text-white leading-snug">{effect.headline}</p>
           <p className="text-xs text-gray-300 leading-relaxed mt-1">{effect.detail}</p>
-          <p className="text-[11px] text-gray-500 leading-relaxed mt-1.5">{effect.assumption}</p>
+          <p className="text-[11px] text-gray-400 leading-relaxed mt-1.5">{effect.assumption}</p>
         </div>
       )}
 
-      <p className="text-[11px] text-gray-500 leading-relaxed">
-        <span className="font-semibold text-gray-400">방법</span> · {s.method}
+      <p className="text-[11px] text-gray-400 leading-relaxed">
+        <span className="font-semibold text-gray-300">방법</span> · {s.method}
       </p>
 
       <div className="mt-auto flex flex-col gap-3 pt-1">
         <SufficiencyBar now={s.dataNow} needed={s.dataNeeded} unit={SAMPLE_UNIT[s.id] ?? "건"} />
-        <p className="text-[11px] text-gray-500 leading-snug">{conf.hint}</p>
+        <p className="text-[11px] text-gray-400 leading-snug">{s.confidenceNote ?? conf.hint}</p>
         <button
           type="button"
           onClick={evidence.go}
@@ -255,10 +255,9 @@ export default function SuggestionsPanel({ onTrace, onNavigate }: SuggestionsPan
     const targets: Record<string, TraceTarget | null> = {};
     const feIngot = findFeOverIngotId(dataset);
     const surf = findClaimShipmentId(dataset, "SURF-DISC");
-    const thk = findClaimShipmentId(dataset, "THK-DEV");
     targets["fe-crucible"] = feIngot ? { type: "ingot", id: feIngot } : null;
     targets["dew-point"] = surf ? { type: "shipment", id: surf } : null;
-    targets["tear-recipe"] = thk ? { type: "shipment", id: thk } : null;
+    // 파단 비교(tear-recipe)의 근거는 클레임 계보가 아니라 KPI 보드의 무파단율 표다 — 두께 클레임으로 보내지 않는다
     return {
       suggestions,
       effects,
@@ -276,7 +275,14 @@ export default function SuggestionsPanel({ onTrace, onNavigate }: SuggestionsPan
       const kind = target.type === "ingot" ? "잉곳" : target.type === "shipment" ? "출하" : target.type === "roll" ? "롤" : "원료";
       return { label: `${kind} ${target.id} 계보`, go: () => onTrace(target) };
     }
-    return { label: "KPI 보드", go: () => onNavigate("kpi") };
+    const kpiCard: Record<string, string> = {
+      yield: "수율 카드",
+      "tear-film": "무파단율 카드",
+      "tear-recipe": "무파단율 카드",
+      thickness: "두께 관리도",
+      otd: "납기 카드",
+    };
+    return { label: `KPI 보드 ${kpiCard[s.id] ?? ""}`.trim(), go: () => onNavigate("kpi") };
   };
 
   return (
@@ -317,7 +323,7 @@ export default function SuggestionsPanel({ onTrace, onNavigate }: SuggestionsPan
         </Callout>
 
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mt-4 text-[11px] text-gray-400">
-          <span className="font-semibold text-gray-500">신뢰도 읽는 법</span>
+          <span className="font-semibold text-gray-300">신뢰도 읽는 법</span>
           {(["low", "medium", "high"] as const).map((k) => (
             <span key={k} className="inline-flex items-center gap-1.5">
               <Badge tone={CONFIDENCE[k].tone}>{CONFIDENCE[k].label}</Badge>

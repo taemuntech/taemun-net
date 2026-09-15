@@ -3,7 +3,7 @@
 // 롤 일지 입력 화면 — 현장 태블릿용. 「롤 1개 = 화면 1장, 10칸 이내, 자유 텍스트 없이 선택·숫자」.
 // 저장하면 DemoDataContext 에 모 롤이 하나 늘어, KPI·관리도·계보가 같은 데이터로 즉시 다시 계산된다.
 
-import { useEffect, useId, useMemo, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useId, useMemo, useRef, useState, type FormEvent, type KeyboardEvent, type ReactNode } from "react";
 import {
   BarChart3,
   CircleCheck,
@@ -21,14 +21,29 @@ import {
 import {
   arealToThicknessUm,
   completionByFilmReuse,
+  ingotRemainingKg,
   motherRolls,
   rollThicknessSdUm,
   rollThicknessUm,
   thicknessSdChart,
 } from "@/lib/demo/lithium-foil/metrics";
+import { estimateBilletG } from "@/lib/demo/lithium-foil/seed";
 import type { Dataset, Roll, RollLogInput, SurfaceGrade } from "@/lib/demo/lithium-foil/types";
 import { useDemoData } from "../DemoDataContext";
-import { Badge, Callout, Card, CardHeader, TONE, fmtNum, fmtPct, fmtShortDate } from "../ui";
+import {
+  Badge,
+  Callout,
+  Card,
+  CardHeader,
+  GLOSSARY,
+  SCROLL_MARGIN,
+  STICKY_TOP_LG,
+  TONE,
+  fmtNum,
+  fmtPct,
+  fmtShortDate,
+  radioKeyNav,
+} from "../ui";
 import type { RollLogFormProps } from "./types";
 
 // ---- 상수 ----
@@ -43,7 +58,7 @@ const DEFAULT_WIDTH_MM = "300";
 const AREAL_LABELS = ["좌", "중", "우"] as const;
 
 const INPUT_CLASS =
-  "w-full min-h-10 bg-gray-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder:text-gray-600 focus:border-indigo-500 outline-none disabled:opacity-40 disabled:cursor-not-allowed";
+  "w-full min-h-10 bg-gray-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder:text-gray-500 focus:border-indigo-500 outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/60 aria-[invalid=true]:border-rose-500/60 disabled:opacity-40 disabled:cursor-not-allowed";
 
 // ---- 폼 상태 ----
 
@@ -80,22 +95,40 @@ const EMPTY_FORM: FormState = {
   operator: "",
 };
 
-type FieldKey = "ingot" | "recipe" | "film" | "dew" | "lost" | "good" | "width" | "areal" | "operator";
+type FieldKey = "ingot" | "stock" | "recipe" | "film" | "dew" | "lost" | "good" | "width" | "areal" | "operator";
 type FieldErrors = Partial<Record<FieldKey, string>>;
 
-type NumParse = { state: "empty" } | { state: "invalid" } | { state: "ok"; value: number };
+/** 저장 실패 시 포커스를 옮길 순서 — 화면 위에서 아래 */
+const FIELD_ORDER: FieldKey[] = ["ingot", "stock", "recipe", "film", "dew", "lost", "good", "width", "areal", "operator"];
 
-function parseNum(raw: string): NumParse {
-  const s = raw.trim().replace(",", ".");
+type NumParse = { state: "empty" } | { state: "invalid"; comma?: boolean } | { state: "ok"; value: number };
+
+/**
+ * 숫자 입력 해석.
+ * - length(길이·폭): 천 단위 쉼표(1,200)만 천 단위로 읽고, 그 밖의 쉼표는 오류 — 「1,200」을 1.2 로 조용히 읽지 않는다
+ * - decimal(면밀도·노점): 소수점 쉼표 하나(5,34)는 소수점으로 읽는다
+ */
+function parseNum(raw: string, mode: "length" | "decimal" = "decimal"): NumParse {
+  let s = raw.trim();
   if (s === "") return { state: "empty" };
+  if (mode === "length") {
+    if (/^\d{1,3}(,\d{3})+(\.\d+)?$/.test(s)) s = s.replace(/,/g, "");
+    else if (s.includes(",")) return { state: "invalid", comma: true };
+  } else if (/^\d+,\d+$/.test(s)) {
+    s = s.replace(",", ".");
+  }
   if (!/^\d+(\.\d+)?$/.test(s) && !/^\d+\.$/.test(s)) return { state: "invalid" };
   const value = Number(s);
   return Number.isFinite(value) ? { state: "ok", value } : { state: "invalid" };
 }
 
+function invalidMessage(p: NumParse, example: string): string {
+  return p.state === "invalid" && p.comma ? `쉼표 없이 숫자만 입력하세요. 예: ${example}` : `숫자만 입력하세요. 예: ${example}`;
+}
+
 /** 노점 입력 — 앞에 − 를 붙여 적어도 받아 준다 */
 function parseDew(raw: string): NumParse {
-  return parseNum(raw.trim().replace(/^[-−]/, ""));
+  return parseNum(raw.trim().replace(/^[-−]/, ""), "decimal");
 }
 
 function sampleSd(values: number[]): number {
@@ -128,7 +161,12 @@ type Validation = {
   dewPointC: number | null;
 };
 
-function validate(form: FormState): Validation {
+type ValidateContext = {
+  /** 잉곳별 남은 리튬(kg) */
+  remainingKg: Map<string, number>;
+};
+
+function validate(form: FormState, ctx: ValidateContext): Validation {
   const errors: FieldErrors = {};
   let missingRequired = 0;
 
@@ -161,48 +199,48 @@ function validate(form: FormState): Validation {
   // 파단 손실 — 파단 0 이면 0
   let lostLengthM = 0;
   if (form.tearCount > 0) {
-    const lost = parseNum(form.lostLengthM);
+    const lost = parseNum(form.lostLengthM, "length");
     if (lost.state === "empty") {
       errors.lost = "파단이 있으면 손실 길이를 입력하세요.";
       missingRequired += 1;
     } else if (lost.state === "invalid") {
-      errors.lost = "숫자만 입력하세요.";
+      errors.lost = invalidMessage(lost, "12");
       missingRequired += 1;
-    } else if (lost.value <= 0 || lost.value > 500) {
+    } else if (lost.value < 1 || lost.value > 500) {
       errors.lost = "1 ~ 500m 사이로 입력하세요.";
       missingRequired += 1;
     } else lostLengthM = round2(lost.value);
   }
 
   let goodLengthM = 0;
-  const good = parseNum(form.goodLengthM);
+  const good = parseNum(form.goodLengthM, "length");
   if (good.state === "empty") {
     errors.good = "양품 길이를 입력하세요.";
     missingRequired += 1;
   } else if (good.state === "invalid") {
-    errors.good = "숫자만 입력하세요.";
+    errors.good = invalidMessage(good, "195");
     missingRequired += 1;
-  } else if (good.value <= 0 || good.value > 2000) {
-    errors.good = "1 ~ 2,000m 사이로 입력하세요.";
+  } else if (good.value < 1 || good.value > 2000) {
+    errors.good = "1 ~ 2000m 사이로 입력하세요.";
     missingRequired += 1;
   } else goodLengthM = round2(good.value);
 
   let widthMm = 0;
-  const width = parseNum(form.widthMm);
+  const width = parseNum(form.widthMm, "length");
   if (width.state === "empty") {
     errors.width = "폭을 입력하세요.";
     missingRequired += 1;
   } else if (width.state === "invalid") {
-    errors.width = "숫자만 입력하세요.";
+    errors.width = invalidMessage(width, "300");
     missingRequired += 1;
   } else if (width.value < 50 || width.value > 1000) {
-    errors.width = "50 ~ 1,000mm 사이로 입력하세요.";
+    errors.width = "50 ~ 1000mm 사이로 입력하세요.";
     missingRequired += 1;
   } else widthMm = round2(width.value);
 
   // 면밀도 3점 — 셋 다 비우거나 셋 다 채운다
   let arealValues: [number, number, number] | null = null;
-  const parsedAreal = form.areal.map(parseNum);
+  const parsedAreal = form.areal.map((a) => parseNum(a, "decimal"));
   const filled = parsedAreal.filter((p) => p.state !== "empty").length;
   if (parsedAreal.some((p) => p.state === "invalid")) errors.areal = "숫자만 입력하세요. 예: 5.34";
   else if (filled > 0 && filled < 3) errors.areal = `세 점을 모두 입력하거나 모두 비워 두세요. (${filled}/3 입력됨)`;
@@ -210,6 +248,15 @@ function validate(form: FormState): Validation {
     const vals = parsedAreal.map((p) => (p.state === "ok" ? p.value : 0));
     if (vals.some((v) => v < 1 || v > 20)) errors.areal = "1 ~ 20 g/m² 사이로 입력하세요. 두께 10µm 는 약 5.34 g/m² 입니다.";
     else arealValues = [round2(vals[0]), round2(vals[1]), round2(vals[2])];
+  }
+
+  // 잉곳 잔량 — 길이·폭·면밀도가 다 맞게 들어왔을 때만 추정 투입량과 비교한다
+  if (form.ingotId && !errors.lost && !errors.good && !errors.width && !errors.areal && goodLengthM > 0 && widthMm > 0) {
+    const remaining = ctx.remainingKg.get(form.ingotId);
+    const needKg = estimateBilletG({ widthMm, goodLengthM, lostLengthM, arealDensityGm2: arealValues }) / 1000;
+    if (remaining !== undefined && needKg > remaining) {
+      errors.stock = `잔량 부족 — 이 잉곳에 남은 리튬은 ${fmtNum(Math.max(0, remaining), 2)}kg 인데, 이 롤을 만들려면 약 ${fmtNum(needKg, 2)}kg 이 필요합니다. 잔량이 넉넉한 잉곳을 고르세요.`;
+    }
   }
 
   const ok = Object.keys(errors).length === 0;
@@ -269,6 +316,7 @@ function Field({
   htmlFor,
   hint,
   error,
+  errorId,
   right,
   children,
   step,
@@ -277,6 +325,8 @@ function Field({
   htmlFor?: string;
   hint?: ReactNode;
   error?: string;
+  /** 입력의 aria-describedby 가 가리킬 id */
+  errorId?: string;
   right?: ReactNode;
   children: ReactNode;
   step: number;
@@ -295,7 +345,7 @@ function Field({
       {children}
       {hint && <div className="mt-1.5 text-xs text-gray-500 leading-relaxed [word-break:keep-all]">{hint}</div>}
       {error && (
-        <p role="alert" className="mt-1.5 text-xs font-medium text-rose-400 [word-break:keep-all]">
+        <p id={errorId} className="mt-1.5 text-xs font-medium text-rose-400 [word-break:keep-all]">
           {error}
         </p>
       )}
@@ -353,19 +403,34 @@ function Stepper({
 }
 
 function ChoiceGroup<T extends string>({
+  id,
   value,
   options,
   onChange,
   ariaLabel,
+  invalid = false,
+  describedBy,
 }: {
+  id?: string;
   value: T;
   options: Array<{ value: T; label: string; sub?: string }>;
   onChange: (value: T) => void;
   ariaLabel: string;
+  invalid?: boolean;
+  describedBy?: string;
 }) {
+  const values = options.map((o) => o.value);
+  const hasActive = values.includes(value);
   return (
-    <div role="radiogroup" aria-label={ariaLabel} className="flex flex-wrap gap-2">
-      {options.map((o) => {
+    <div
+      id={id}
+      role="radiogroup"
+      aria-label={ariaLabel}
+      aria-invalid={invalid || undefined}
+      aria-describedby={describedBy}
+      className="flex flex-wrap gap-2"
+    >
+      {options.map((o, i) => {
         const active = o.value === value;
         return (
           <button
@@ -373,8 +438,10 @@ function ChoiceGroup<T extends string>({
             type="button"
             role="radio"
             aria-checked={active}
+            tabIndex={active || (!hasActive && i === 0) ? 0 : -1}
             onClick={() => onChange(o.value)}
-            className={`min-h-10 rounded-xl border px-3 py-2 text-left transition-colors ${
+            onKeyDown={(e: KeyboardEvent<HTMLButtonElement>) => radioKeyNav(e, values, value, onChange)}
+            className={`min-h-10 rounded-xl border px-3 py-2 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 ${
               active
                 ? "border-indigo-500 bg-indigo-600/90 text-white"
                 : "border-white/10 bg-gray-950 text-gray-300 hover:border-white/20 hover:text-white"
@@ -442,6 +509,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
     [dataset.materialLots],
   );
   const sdChart = useMemo(() => thicknessSdChart(dataset), [dataset]);
+  const remainingKg = useMemo(() => ingotRemainingKg(dataset), [dataset]);
   const reuseStats = useMemo(() => completionByFilmReuse(dataset), [dataset]);
   const reuseLow = reuseStats.find((s) => s.key === "1-2");
   const reuseHigh = reuseStats.find((s) => s.key === "5+");
@@ -455,7 +523,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
   const selectedRecipe = rollingRecipes.find((r) => r.id === form.recipeId) ?? null;
   const recPass = selectedRecipe ? recommendedPass(selectedRecipe.name) : null;
 
-  const validation = validate(form);
+  const validation = validate(form, { remainingKg });
   const { errors, missingRequired, arealValues, dewPointC } = validation;
   const visibleErrors: FieldErrors = showErrors
     ? errors
@@ -464,16 +532,25 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
         dew: errors.dew,
         // 면밀도 일부만 입력 — 저장이 막히는 이유라 바로 보여 준다
         areal: errors.areal,
+        // 잉곳 잔량 부족 — 값이 다 들어온 뒤에만 생기는 오류라 바로 보여 준다
+        stock: errors.stock,
         lost: form.lostLengthM.trim() !== "" ? errors.lost : undefined,
         good: form.goodLengthM.trim() !== "" ? errors.good : undefined,
         width: form.widthMm.trim() !== "" ? errors.width : undefined,
       };
-  /** 필수 칸이 아닌데 잘못 적힌 칸(노점·면밀도) */
-  const otherErrorCount = (errors.dew ? 1 : 0) + (errors.areal ? 1 : 0);
+  /** 필수 칸이 아닌데 잘못 적힌 칸(노점·면밀도·잉곳 잔량) */
+  const otherErrorCount = (errors.dew ? 1 : 0) + (errors.areal ? 1 : 0) + (errors.stock ? 1 : 0);
+  /** 입력에 붙일 접근성 속성 — 오류가 보일 때만 오류 문장과 잇는다 */
+  const errId = (key: FieldKey) => fid(`${key}-error`);
+  const a11y = (key: FieldKey, alsoKey?: FieldKey) => {
+    const shown = visibleErrors[key] ?? (alsoKey ? visibleErrors[alsoKey] : undefined);
+    const idKey = visibleErrors[key] ? key : alsoKey ?? key;
+    return { "aria-invalid": shown ? true : undefined, "aria-describedby": shown ? errId(idKey) : undefined } as const;
+  };
 
   // 면밀도 → 환산 두께
   const arealThickness = form.areal.map((a) => {
-    const p = parseNum(a);
+    const p = parseNum(a, "decimal");
     return p.state === "ok" ? arealToThicknessUm(p.value) : null;
   });
   const sdUm = arealValues ? sampleSd(arealValues.map(arealToThicknessUm)) : null;
@@ -505,7 +582,11 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
     });
 
   const fillExample = (kind: "normal" | "problem") => {
-    const ingot = ingots.find((i) => !holdIngotIds.has(i.id)) ?? ingots[0];
+    // 예시 롤 한 개는 리튬 약 0.37kg 을 쓴다 — 잔량이 넉넉한 최신 잉곳부터
+    const ingot =
+      ingots.find((i) => !holdIngotIds.has(i.id) && (remainingKg.get(i.id) ?? 0) >= 0.45) ??
+      ingots.find((i) => !holdIngotIds.has(i.id)) ??
+      ingots[0];
     const film = filmLots[0];
     const recipeId = kind === "normal" ? "RCP-B" : "RCP-C";
     const recipe = rollingRecipes.find((r) => r.id === recipeId);
@@ -552,6 +633,17 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
     const { input } = validation;
     if (!input) {
       setShowErrors(true);
+      // 첫 오류 칸으로 — 모바일에서 오류가 버튼보다 한참 위에 있어도 찾아가게 한다
+      const first = FIELD_ORDER.find((k) => errors[k]);
+      if (first) {
+        const targetId =
+          first === "stock" ? fid("ingot") : first === "areal" ? fid(`areal-${Math.max(0, form.areal.findIndex((a) => parseNum(a, "decimal").state !== "ok"))}`) : fid(first);
+        const el = document.getElementById(targetId);
+        const focusable = el?.getAttribute("role") === "radiogroup" ? el.querySelector<HTMLElement>('[role="radio"]') : el;
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        el?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+        focusable?.focus({ preventScroll: true });
+      }
       return;
     }
     const warnings = collectWarnings(
@@ -599,12 +691,12 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
     <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_20rem] gap-4 lg:gap-6 items-start">
       <div className="min-w-0 space-y-4">
         {saved && (
-          <div ref={successRef} className="scroll-mt-24">
+          <div ref={successRef} className={SCROLL_MARGIN}>
             <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 backdrop-blur-md p-4 lg:p-6">
               <div className="flex items-start gap-3">
                 <CircleCheck size={22} className="mt-0.5 shrink-0 text-emerald-400" />
                 <div className="min-w-0 flex-1">
-                  <div className="text-sm font-bold text-emerald-300">저장했습니다 — 대시보드가 이 롤을 포함해 다시 계산됐어요</div>
+                  <div className="text-sm font-bold text-emerald-300">저장했습니다 — KPI 보드가 이 롤을 포함해 다시 계산됐습니다</div>
                   <div className="mt-1 font-mono text-base lg:text-lg font-bold text-white break-all">{saved.roll.id}</div>
                   <dl className="mt-3 grid grid-cols-2 lg:grid-cols-4 gap-2">
                     <SummaryItem label="평균 두께" value={savedThickness ? `${fmtNum((savedThickness[0] + savedThickness[1] + savedThickness[2]) / 3, 2)}µm` : "미측정"} />
@@ -681,15 +773,22 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
               step={1}
               label="잉곳"
               htmlFor={fid("ingot")}
-              error={visibleErrors.ingot}
+              error={visibleErrors.ingot ?? visibleErrors.stock}
+              errorId={errId(visibleErrors.ingot ? "ingot" : "stock")}
               right={selectedIngotHold ? <Badge tone="amber">출하 보류</Badge> : undefined}
-              hint="최신 주조순. 「출하 보류」는 불순물 규격 초과로 판정 대기 중인 잉곳입니다."
+              hint="최신 주조순, 괄호는 남은 리튬. 롤 1개(폭 300mm·약 200m)에 리튬 약 0.37kg 이 듭니다. 「출하 보류」는 불순물 규격 초과로 판정 대기 중인 잉곳입니다."
             >
-              <select id={fid("ingot")} value={form.ingotId} onChange={(e) => set("ingotId", e.target.value)} className={INPUT_CLASS}>
+              <select
+                id={fid("ingot")}
+                value={form.ingotId}
+                onChange={(e) => set("ingotId", e.target.value)}
+                className={INPUT_CLASS}
+                {...a11y("ingot", "stock")}
+              >
                 <option value="">잉곳 선택</option>
                 {ingots.map((i) => (
                   <option key={i.id} value={i.id}>
-                    {`${i.id} · 주조 ${fmtShortDate(i.castAt)}${holdIngotIds.has(i.id) ? " · 출하 보류" : ""}`}
+                    {`${i.id} · 주조 ${fmtShortDate(i.castAt)} (잔량 ${fmtNum(Math.max(0, remainingKg.get(i.id) ?? 0), 2)}kg)${holdIngotIds.has(i.id) ? " · 출하 보류" : ""}`}
                   </option>
                 ))}
               </select>
@@ -710,9 +809,13 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
               step={2}
               label="압연 레시피 · 패스 수"
               error={visibleErrors.recipe}
+              errorId={errId("recipe")}
               hint="레시피는 id 만 기록합니다. 압하력·장력 같은 조건 원값은 별도 보안 표에 둡니다."
             >
               <ChoiceGroup
+                id={fid("recipe")}
+                invalid={Boolean(visibleErrors.recipe)}
+                describedBy={visibleErrors.recipe ? errId("recipe") : undefined}
                 ariaLabel="압연 레시피"
                 value={form.recipeId}
                 onChange={chooseRecipe}
@@ -738,11 +841,11 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
             </Field>
 
             {/* 3. 이형 필름 */}
-            <Field step={3} label="이형 필름 로트 · 재사용 횟수" error={visibleErrors.film} hint="이형 필름 — 리튬이 롤러에 달라붙지 않게 사이에 넣는 필름. 1회 = 새 필름.">
+            <Field step={3} label="이형 필름 로트 · 재사용 횟수" error={visibleErrors.film} errorId={errId("film")} hint={`${GLOSSARY.releaseFilm}. 1회 = 새 필름.`}>
               <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_auto] gap-3 lg:items-end">
                 <div className="min-w-0">
                   <SubLabel htmlFor={fid("film")}>필름 로트</SubLabel>
-                  <select id={fid("film")} value={form.filmLotId} onChange={(e) => set("filmLotId", e.target.value)} className={INPUT_CLASS}>
+                  <select id={fid("film")} value={form.filmLotId} onChange={(e) => set("filmLotId", e.target.value)} className={INPUT_CLASS} {...a11y("film")}>
                     <option value="">필름 로트 선택</option>
                     {filmLots.map((m) => (
                       <option key={m.id} value={m.id}>
@@ -771,7 +874,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
                       재사용 {FILM_REUSE_WARN}회 이상 구간입니다. 지금까지 데이터에서{" "}
                       {reuseHigh && reuseLow && reuseHigh.rolls > 0 && reuseLow.rolls > 0 ? (
                         <>
-                          파단 없이 끝난 비율이 <b className="text-amber-200">5회 이상 {fmtPct(reuseHigh.tearFreeRate)}</b>({reuseHigh.rolls}롤) vs{" "}
+                          무파단율이 <b className="text-amber-200">5회 이상 {fmtPct(reuseHigh.tearFreeRate)}</b>({reuseHigh.rolls}롤) vs{" "}
                           <b className="text-emerald-300">1~2회 {fmtPct(reuseLow.tearFreeRate)}</b>({reuseLow.rolls}롤). 표본이 적어 확정은 아니지만 필름 교체를 검토하세요.
                         </>
                       ) : (
@@ -789,9 +892,10 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
               label="교대 시작 노점"
               htmlFor={fid("dew")}
               error={visibleErrors.dew}
+              errorId={errId("dew")}
               hint={
                 dewParsed.state === "empty" ? (
-                  <span className="text-gray-400">비워 두면 「결측」으로 기록됩니다. 노점 — 공기 중 수분이 이슬로 맺히는 온도, 낮을수록 건조합니다.</span>
+                  <span className="text-gray-400">비워 두면 「결측」으로 기록됩니다. {GLOSSARY.dewPoint}.</span>
                 ) : (
                   "영하 값이라 숫자만 입력합니다. 예: 55 → −55℃"
                 )
@@ -809,6 +913,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
                     value={form.dewAbs}
                     onChange={(e) => set("dewAbs", e.target.value)}
                     className={`${INPUT_CLASS} pl-7 pr-9 ${dewOver ? "border-rose-500/60" : ""}`}
+                    {...a11y("dew")}
                   />
                   <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">℃</span>
                 </div>
@@ -817,7 +922,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
                 <div className="mt-2">
                   <Callout tone="rose" icon={<OctagonAlert size={15} />}>
                     <span className="[word-break:keep-all]">
-                      <b className="text-rose-200">작업 중단 기준</b> — 노점 {fmtNum(dewPointC ?? 0, 1)}℃ 는 −45℃ 보다 습합니다. 수분이 리튬 표면을 변색시킬 수 있어요.
+                      <b className="text-rose-200">작업 중단 기준</b> — 노점 {fmtNum(dewPointC ?? 0, 1)}℃ 는 −45℃ 보다 습합니다. 수분이 리튬 표면을 변색시킬 수 있습니다.
                       {dewClaim ? ` 같은 조건의 작업분이 표면 변색 클레임(${dewClaim.targetId})으로 돌아온 적이 있습니다.` : ""}
                     </span>
                   </Callout>
@@ -826,7 +931,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
             </Field>
 
             {/* 5. 파단 */}
-            <Field step={5} label="파단 횟수 · 손실 길이" error={visibleErrors.lost} hint="파단 — 압연 중 호일이 끊어진 것. 끊긴 앞뒤 구간은 버립니다.">
+            <Field step={5} label="파단 횟수 · 손실 길이" error={visibleErrors.lost} errorId={errId("lost")} hint="파단 — 압연 중 호일이 끊어진 것. 끊긴 앞뒤 구간은 버립니다.">
               <div className="grid grid-cols-1 lg:grid-cols-[auto_minmax(0,1fr)] gap-3 lg:items-end">
                 <div>
                   <SubLabel htmlFor={fid("tear")}>파단 횟수</SubLabel>
@@ -844,13 +949,14 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
                     value={form.tearCount === 0 ? "" : form.lostLengthM}
                     onChange={(e) => set("lostLengthM", e.target.value)}
                     className={INPUT_CLASS}
+                    {...a11y("lost")}
                   />
                 </div>
               </div>
             </Field>
 
             {/* 6. 길이·폭 */}
-            <Field step={6} label="양품 길이 · 폭" error={visibleErrors.good ?? visibleErrors.width}>
+            <Field step={6} label="양품 길이 · 폭" error={visibleErrors.good ?? visibleErrors.width} errorId={errId(visibleErrors.good ? "good" : "width")}>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                 <div className="min-w-0">
                   <SubLabel htmlFor={fid("good")}>양품 길이 (m)</SubLabel>
@@ -863,6 +969,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
                     value={form.goodLengthM}
                     onChange={(e) => set("goodLengthM", e.target.value)}
                     className={INPUT_CLASS}
+                    {...a11y("good")}
                   />
                 </div>
                 <div className="min-w-0">
@@ -875,11 +982,12 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
                     value={form.widthMm}
                     onChange={(e) => set("widthMm", e.target.value)}
                     className={INPUT_CLASS}
+                    {...a11y("width")}
                   />
                 </div>
               </div>
               {visibleErrors.good && visibleErrors.width && (
-                <p role="alert" className="mt-1 text-xs font-medium text-rose-400">
+                <p id={errId("width")} className="mt-1 text-xs font-medium text-rose-400">
                   {visibleErrors.width}
                 </p>
               )}
@@ -890,7 +998,8 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
               step={7}
               label="면밀도 3점 (g/m²)"
               error={visibleErrors.areal}
-              hint="면밀도 — 정해진 넓이의 무게. 얇은 리튬은 두께를 직접 재기 어려워 이 값이 두께의 정본입니다. 셋 다 비우면 「미측정」."
+              errorId={errId("areal")}
+              hint={`${GLOSSARY.arealDensity}. 셋 다 비우면 「미측정」.`}
             >
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
                 {AREAL_LABELS.map((pos, idx) => {
@@ -907,6 +1016,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
                         value={form.areal[idx]}
                         onChange={(e) => setAreal(idx as 0 | 1 | 2, e.target.value)}
                         className={INPUT_CLASS}
+                        {...a11y("areal")}
                       />
                       <div className="mt-1 text-xs text-gray-500 tabular-nums">{t !== null ? `≈ ${fmtNum(t, 2)}µm` : "두께 —"}</div>
                     </div>
@@ -956,8 +1066,14 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
             </Field>
 
             {/* 9. 작업자 */}
-            <Field step={9} label="작업자" htmlFor={fid("operator")} error={visibleErrors.operator}>
-              <select id={fid("operator")} value={form.operator} onChange={(e) => set("operator", e.target.value)} className={`${INPUT_CLASS} lg:max-w-60`}>
+            <Field step={9} label="작업자" htmlFor={fid("operator")} error={visibleErrors.operator} errorId={errId("operator")}>
+              <select
+                id={fid("operator")}
+                value={form.operator}
+                onChange={(e) => set("operator", e.target.value)}
+                className={`${INPUT_CLASS} lg:max-w-60`}
+                {...a11y("operator")}
+              >
                 <option value="">작업자 선택</option>
                 {OPERATOR_OPTIONS.map((o) => (
                   <option key={o} value={o}>
@@ -997,22 +1113,22 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
                   {missingRequired > 0 && otherErrorCount > 0 && <span className="ml-2 text-rose-400">· 고칠 칸 {otherErrorCount}개</span>}
                 </div>
               </div>
-              {showErrors && Object.keys(errors).length > 0 && (
-                <p role="alert" className="mt-2 text-xs text-rose-400 [word-break:keep-all]">
-                  빨간 글씨가 있는 칸을 확인해 주세요.
-                </p>
-              )}
+              <p aria-live="polite" className="mt-2 text-xs text-rose-400 [word-break:keep-all]">
+                {showErrors && Object.keys(errors).length > 0
+                  ? `저장하지 못했습니다 — 빨간 글씨가 있는 칸 ${Object.keys(errors).length}곳을 확인해 주세요. 첫 칸으로 이동했습니다.`
+                  : ""}
+              </p>
             </div>
           </form>
         </Card>
       </div>
 
       {/* 오른쪽(lg) / 아래(모바일) */}
-      <aside className="min-w-0 space-y-4 lg:sticky lg:top-24">
+      <aside className={`min-w-0 space-y-4 lg:sticky ${STICKY_TOP_LG}`}>
         <Card>
           <CardHeader
             title="이번 방문에 입력한 롤"
-            description="이 브라우저 안에만 있습니다. 새로고침하면 사라져요."
+            description="이 브라우저 안에만 있습니다. 새로고침하면 사라집니다."
             right={<Badge tone={userRolls.length ? "indigo" : "gray"}>{userRolls.length}개</Badge>}
           />
           {userRolls.length === 0 ? (

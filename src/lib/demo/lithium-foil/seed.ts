@@ -108,6 +108,36 @@ function at(dateStr: string, hour: number, minute = 0): string {
   return `${dateStr}T${pad2(hour)}:${pad2(minute)}:00+09:00`;
 }
 
+/** 자정부터 센 분 → ISO datetime (같은 날 안에서만 쓴다) */
+function atMinutes(dateStr: string, totalMinutes: number): string {
+  const m = Math.max(0, Math.min(23 * 60 + 55, Math.round(totalMinutes / 5) * 5));
+  return at(dateStr, Math.floor(m / 60), m % 60);
+}
+
+const ROLL_START_MIN = 9 * 60;
+
+/**
+ * 모 롤 압연 작업 시간(분). 난수를 새로 뽑지 않고(뒤 시드 값이 바뀌지 않게) 이미 뽑힌 tare 편차로 흩뿌린다.
+ * 기본 3.5h + 설비 편차(0~2.5h) + 파단 1회당 25분 재작업.
+ */
+function rollWorkMinutes(tareG: number, tearCount: number): number {
+  const spread = Math.max(0, Math.min(150, (tareG - 2050) * 1.5));
+  return 210 + spread + tearCount * 25;
+}
+
+/** 롤 일지 입력으로 압연 투입 리튬(g) 추정 — 에지 트림 20mm·헤드/테일 20m 가정 */
+export function estimateBilletG(input: {
+  widthMm: number;
+  goodLengthM: number;
+  lostLengthM: number;
+  arealDensityGm2: [number, number, number] | null;
+}): number {
+  const arealMean = input.arealDensityGm2
+    ? (input.arealDensityGm2[0] + input.arealDensityGm2[1] + input.arealDensityGm2[2]) / 3
+    : 10 * LI_DENSITY_G_CM3;
+  return round(((input.widthMm + 20) / 1000) * (input.goodLengthM + input.lostLengthM + 20) * arealMean, 0);
+}
+
 function round(v: number, digits: number): number {
   const f = 10 ** digits;
   return Math.round(v * f) / f;
@@ -229,10 +259,12 @@ export function createDemoDataset(seed = 20260911): Dataset {
     }
     const drawKg = plans.reduce((a, p) => a + p.billetG, 0) / 1000;
 
-    // 정제 배치 — 잉곳 잔량(재고)이 투입분의 5~12% 남도록 투입량을 정한다
+    // 정제 배치 — 잉곳 잔량(재고)이 투입분의 5~12% 남도록 투입량을 정한다.
+    // 마지막 2주 잉곳은 다음 주 압연분 1.5kg 을 더 남겨 둔다 — 롤 일지 화면에서 새 롤을 기록할 잔량
     const drossKg = 0.05;
     const refineYield = rng.normal(0.925, 0.012);
-    const ingotTargetKg = drawKg * (1.05 + rng.next() * 0.07);
+    const carryOverKg = w >= WEEKS - 2 ? 1.5 : 0;
+    const ingotTargetKg = drawKg * (1.05 + rng.next() * 0.07) + carryOverKg;
     const inputKg = round((ingotTargetKg + drossKg) / 0.925 / 0.05, 0) * 0.05 + (useScrap ? 0.2 : 0);
     const outputKg = round(inputKg * refineYield, 2);
 
@@ -327,6 +359,7 @@ export function createDemoDataset(seed = 20260911): Dataset {
       const arealMean = areal ? (areal[0] + areal[1] + areal[2]) / 3 : targetAreal;
       const liMassG = (widthMm / 1000) * goodLengthM * arealMean;
       const tareG = 2100 + rng.int(-50, 50);
+      const motherEndMin = ROLL_START_MIN + rollWorkMinutes(tareG, tearCount);
 
       const motherId = `R-${ingotId}-M-${pad2(m + 1)}`;
       const mother: Roll = {
@@ -347,8 +380,8 @@ export function createDemoDataset(seed = 20260911): Dataset {
         grossG: round(tareG + liMassG, 0),
         tareG,
         dewPointC,
-        startedAt: at(day, 9),
-        endedAt: at(day, 13 + tearCount),
+        startedAt: atMinutes(day, ROLL_START_MIN),
+        endedAt: atMinutes(day, motherEndMin),
         arealDensityGm2: areal,
         surfaceGrade: rng.next() < 0.03 ? null : surfaceGrade,
         operator: OPERATORS[(w + m) % OPERATORS.length],
@@ -384,8 +417,8 @@ export function createDemoDataset(seed = 20260911): Dataset {
           grossG: round(slitTare + 0.15 * slitGood * slitMean, 0),
           tareG: slitTare,
           dewPointC,
-          startedAt: at(day, 14 + tearCount),
-          endedAt: at(day, 15 + tearCount),
+          startedAt: atMinutes(day, motherEndMin + 60),
+          endedAt: atMinutes(day, motherEndMin + 120),
           arealDensityGm2: slitAreal,
           surfaceGrade: mother.surfaceGrade,
           operator: mother.operator,
@@ -440,7 +473,7 @@ export function createDemoDataset(seed = 20260911): Dataset {
     });
   };
   attachClaim(claimDewRollId, "SURF-DISC", "표면 변색(검은 반점) — 작업 당일 노점 이탈 기록과 일치, 수분 노출 의심");
-  attachClaim(claimThicknessRollId, "THK-DEV", "두께 편차 규격 초과 — RCP-C 시험 롤, 면밀도 3점 산포 큼");
+  attachClaim(claimThicknessRollId, "THK-DEV", "두께 편차 규격 초과 — 레시피 C 시험 롤, 면밀도 3점 산포 큼");
 
   nonconformances.push({
     id: nextNcId(),
@@ -474,8 +507,8 @@ export function rollFromInput(dataset: Dataset, input: RollLogInput): Roll {
     : 10 * LI_DENSITY_G_CM3;
   const tareG = 2100;
   const liMassG = (input.widthMm / 1000) * input.goodLengthM * arealMean;
-  // 투입 리튬 추정 — 에지 트림 20mm·헤드/테일 20m 가정
-  const billetG = round(((input.widthMm + 20) / 1000) * (input.goodLengthM + input.lostLengthM + 20) * arealMean, 0);
+  // 투입 리튬 추정 — 에지 트림 20mm·헤드/테일 20m 가정 (잔량 검사는 폼이 같은 함수로 먼저 한다)
+  const billetG = estimateBilletG(input);
   const day = dataset.asOf;
   // 불순물 부적합이 열려 있는 잉곳에서 나온 롤은 판정 전까지 출하 보류 — 화면 안내와 상태를 맞춘다
   const ingotOnHold = dataset.nonconformances.some(
@@ -499,8 +532,9 @@ export function rollFromInput(dataset: Dataset, input: RollLogInput): Roll {
     grossG: round(tareG + liMassG, 0),
     tareG,
     dewPointC: input.dewPointC,
-    startedAt: at(day, 9),
-    endedAt: at(day, 13),
+    startedAt: atMinutes(day, ROLL_START_MIN),
+    // 시드와 같은 규칙 — 파단이 있으면 재작업 시간만큼 길어진다
+    endedAt: atMinutes(day, ROLL_START_MIN + rollWorkMinutes(tareG, input.tearCount)),
     arealDensityGm2: input.arealDensityGm2,
     surfaceGrade: input.surfaceGrade,
     operator: input.operator,

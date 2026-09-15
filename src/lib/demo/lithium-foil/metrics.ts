@@ -1,5 +1,6 @@
-// 파생 지표 — 수율 워터폴·완주율·I-MR 관리도·원소 관리도·납기·결측률·로트 계보·개선 제안
+// 파생 지표 — 수율 워터폴·무파단율·개별값 관리도·원소 관리도·납기·결측률·로트 계보·개선 제안
 // 전부 순수 함수. 통계는 데이터 양에 맞는 것만 쓴다(관리도·파레토·교차표). 회귀·DOE 는 제안 문구에서만 언급.
+// 문구 규칙: 제목·결론은 데이터 비교 결과로 고른다(고정 문장 금지). 표본이 적으면 적다고 쓴다.
 
 import { addDays, diffDays } from "./seed";
 import {
@@ -38,6 +39,20 @@ export function round(v: number, digits = 1): number {
   return Math.round(v * f) / f;
 }
 
+/** "2026-08-09" → "08/09" (ui.tsx fmtShortDate 와 같은 표기 — lib 은 UI 를 import 하지 않는다) */
+function shortDate(date: string): string {
+  return date.slice(5, 10).replace("-", "/");
+}
+
+function pct(ratio: number): string {
+  return `${round(ratio * 100, 0)}%`;
+}
+
+/** 화면 표기용 레시피 이름 — "RCP-B" → "레시피 B" */
+export function recipeLabel(recipeId: string): string {
+  return recipeId.replace(/^RCP-/, "레시피 ");
+}
+
 export function motherRolls(ds: Dataset): Roll[] {
   return ds.rolls.filter((r) => r.stage === "mother");
 }
@@ -52,6 +67,16 @@ export function rollThicknessUm(roll: Roll): [number, number, number] | null {
 export function rollThicknessSdUm(roll: Roll): number | null {
   const t = rollThicknessUm(roll);
   return t ? sampleSd(t) : null;
+}
+
+/** 잉곳별 남은 리튬(kg) = 잉곳 질량 − 그 잉곳에서 압연에 투입한 리튬 합 */
+export function ingotRemainingKg(ds: Dataset): Map<string, number> {
+  const used = new Map<string, number>();
+  for (const r of ds.rolls) {
+    if (r.stage !== "mother") continue;
+    used.set(r.ingotId, (used.get(r.ingotId) ?? 0) + r.billetG / 1000);
+  }
+  return new Map(ds.ingots.map((i) => [i.id, round(i.massKg - (used.get(i.id) ?? 0), 3)]));
 }
 
 // ---- 1. 수율 워터폴 ----
@@ -73,9 +98,14 @@ export function yieldWaterfall(ds: Dataset): WaterfallStep[] {
   const refinedKg = ds.batches.reduce((a, b) => a + b.outputKg, 0);
   const ingotKg = ds.ingots.reduce((a, i) => a + i.massKg, 0);
   const mothers = ds.rolls.filter((r) => r.stage === "mother");
+  const slits = ds.rolls.filter((r) => r.stage === "slit");
   const billetKg = mothers.reduce((a, r) => a + r.billetG, 0) / 1000;
   const motherKg = mothers.reduce((a, r) => a + liMassKg(r), 0);
-  const slitKg = ds.rolls.filter((r) => r.stage === "slit").reduce((a, r) => a + liMassKg(r), 0);
+  // 슬리팅은 슬릿 롤이 나온 모 롤끼리만 비교한다 — 아직 안 자른 모 롤은 손실이 아니라 공정 중 재고
+  const slitParentIds = new Set(slits.map((r) => r.parentRollId).filter((id): id is string => Boolean(id)));
+  const unslitMothers = mothers.filter((r) => !slitParentIds.has(r.id));
+  const slitInputKg = mothers.filter((r) => slitParentIds.has(r.id)).reduce((a, r) => a + liMassKg(r), 0);
+  const slitKg = slits.reduce((a, r) => a + liMassKg(r), 0);
   const shippedIds = new Set(ds.shipments.filter((s) => s.shippedAt).flatMap((s) => s.rollIds));
   const shippedKg = ds.rolls.filter((r) => shippedIds.has(r.id)).reduce((a, r) => a + liMassKg(r), 0);
 
@@ -85,17 +115,33 @@ export function yieldWaterfall(ds: Dataset): WaterfallStep[] {
     { key: "ingot", label: "잉곳", valueKg: ingotKg, deltaKind: "loss", note: "주조 드로스 제거" },
     { key: "billet", label: "압연 투입", valueKg: billetKg, deltaKind: "inventory", note: "잉곳 잔량 — 손실이 아니라 재고" },
     { key: "mother", label: "모 롤", valueKg: motherKg, deltaKind: "loss", note: "파단 손실·에지 트림·헤드/테일" },
+  ];
+  if (unslitMothers.length > 0) {
+    steps.push({
+      key: "slitInput",
+      label: "슬리팅 투입",
+      valueKg: slitInputKg,
+      deltaKind: "inventory",
+      note: `아직 슬릿하지 않은 모 롤 ${unslitMothers.length}개 — 공정 중 재고, 손실 아님`,
+    });
+  }
+  steps.push(
     { key: "slit", label: "슬릿 롤", valueKg: slitKg, deltaKind: "loss", note: "슬리팅 트림" },
     { key: "shipped", label: "출하", valueKg: shippedKg, deltaKind: "inventory", note: "출하 보류(홀드)·출하 대기 — 재고" },
-  ];
-  return steps.map((s, i) => ({
-    ...s,
-    valueKg: round(s.valueKg, 2),
-    deltaKg: i === 0 ? 0 : round(steps[i - 1].valueKg - s.valueKg, 2),
-  }));
+  );
+  return steps.map((s, i) => {
+    const deltaKg = i === 0 ? 0 : round(steps[i - 1].valueKg - s.valueKg, 2);
+    const mismatch = s.deltaKind === "inventory" && deltaKg < 0;
+    return {
+      ...s,
+      valueKg: round(s.valueKg, 2),
+      deltaKg,
+      note: mismatch ? `${s.note} · 앞 단계보다 많음 — 기록 수지 불일치 확인` : s.note,
+    };
+  });
 }
 
-// ---- 2. 완주율(파단) ----
+// ---- 2. 무파단율(파단) ----
 
 export type CompletionStat = {
   key: string;
@@ -143,7 +189,7 @@ export function completionByFilmReuse(ds: Dataset): CompletionStat[] {
   );
 }
 
-// ---- 3·4. I-MR 관리도 ----
+// ---- 3·4. 개별값(I-MR) 관리도 ----
 
 export type ImrPoint = {
   id: string;
@@ -166,71 +212,127 @@ export type ImrChart = {
   n: number;
   /** 관리한계를 계산한 기준 구간 표본 수 (앞에서부터) */
   baselineN: number;
+  /** 기준 구간 표본이 모자라면 false — 관리한계를 그리지 않고, 이탈 판정도 하지 않는다 */
+  limitsValid: boolean;
+  /** 기준 구간 설명 (예: "새 도가니 1~5회째 잉곳 5개") */
+  baselineLabel: string;
+  /** 차트에서 뺀 표본 수 (검출한계 미만·미측정) */
+  excludedCount: number;
 };
 
 /**
  * 개별값 I-MR 관리도. 관리한계 = 기준 구간 평균 ± 2.66 × 기준 구간 이동범위 평균.
  * 이상점을 포함해 한계를 계산하면 한계가 넓어져 이상을 못 잡으므로, 정상 운전 구간을 기준으로 삼는다.
+ * 기준 구간 표본이 minBaseline 보다 적으면 한계를 믿을 수 없어 limitsValid=false 로 둔다.
  */
 export function imrChart(
   series: Array<{ id: string; date: string; value: number; label: string; overSpec?: boolean }>,
   baselineCount?: number,
+  options: { minBaseline?: number; baselineLabel?: string; excludedCount?: number } = {},
 ): ImrChart {
+  const minBaseline = options.minBaseline ?? 2;
   const values = series.map((s) => s.value);
-  const baseN = Math.min(values.length, Math.max(2, baselineCount ?? values.length));
+  const baseN = Math.max(0, Math.min(values.length, baselineCount ?? values.length));
+  const limitsValid = baseN >= Math.max(2, minBaseline);
   const base = values.slice(0, baseN);
-  const m = mean(base);
+  const m = limitsValid ? mean(base) : mean(values);
   const mrs: number[] = [];
   for (let i = 1; i < values.length; i += 1) mrs.push(Math.abs(values[i] - values[i - 1]));
-  const mrBar = mean(mrs.slice(0, baseN - 1));
-  const ucl = m + 2.66 * mrBar;
-  const lcl = Math.max(0, m - 2.66 * mrBar);
+  const mrBar = limitsValid ? mean(mrs.slice(0, baseN - 1)) : 0;
+  const ucl = limitsValid ? m + 2.66 * mrBar : m;
+  const lcl = limitsValid ? Math.max(0, m - 2.66 * mrBar) : m;
   const points: ImrPoint[] = series.map((s, i) => ({
     id: s.id,
     index: i,
     date: s.date,
     value: round(s.value, 3),
     movingRange: i === 0 ? null : round(mrs[i - 1], 3),
-    outOfControl: s.value > ucl || s.value < lcl,
+    outOfControl: limitsValid && (s.value > ucl || s.value < lcl),
     overSpec: Boolean(s.overSpec),
     label: s.label,
   }));
-  return { points, mean: round(m, 3), ucl: round(ucl, 3), lcl: round(lcl, 3), mrBar: round(mrBar, 3), n: values.length, baselineN: baseN };
+  return {
+    points,
+    mean: round(m, 3),
+    ucl: round(ucl, 3),
+    lcl: round(lcl, 3),
+    mrBar: round(mrBar, 3),
+    n: values.length,
+    baselineN: baseN,
+    limitsValid,
+    baselineLabel: options.baselineLabel ?? `앞 ${baseN}개`,
+    excludedCount: options.excludedCount ?? 0,
+  };
 }
+
+const THICKNESS_BASELINE_ROLLS = 20;
 
 /** 모 롤별 두께 3점 표준편차(µm) 관리도 — 면밀도 결측 롤은 제외. 기준 구간 = 앞 20롤 */
 export function thicknessSdChart(ds: Dataset): ImrChart {
-  const series = motherRolls(ds)
+  const mothers = motherRolls(ds)
     .slice()
-    .sort((a, b) => (a.startedAt < b.startedAt ? -1 : 1))
-    .flatMap((r) => {
-      const sd = rollThicknessSdUm(r);
-      return sd === null ? [] : [{ id: r.id, date: r.startedAt.slice(0, 10), value: sd, label: `${r.recipeId} · 패스 ${r.passCount}` }];
-    });
-  return imrChart(series, 20);
+    .sort((a, b) => (a.startedAt < b.startedAt ? -1 : 1));
+  const series = mothers.flatMap((r) => {
+    const sd = rollThicknessSdUm(r);
+    return sd === null ? [] : [{ id: r.id, date: r.startedAt.slice(0, 10), value: sd, label: `${recipeLabel(r.recipeId)} · 패스 ${r.passCount}` }];
+  });
+  const baseN = Math.min(series.length, THICKNESS_BASELINE_ROLLS);
+  return imrChart(series, THICKNESS_BASELINE_ROLLS, {
+    minBaseline: 8,
+    baselineLabel: `앞 ${baseN}롤`,
+    excludedCount: mothers.length - series.length,
+  });
 }
 
-/** 잉곳별 원소 농도(ppm) 관리도 — 검출한계 미만('<') 은 제외. 기준 구간 = 앞 5잉곳(새 도가니 1~5회째) */
+/** 원소 관리도 기준 구간 — 주조 순 앞 5잉곳(새 도가니 1~5회째) */
+const ELEMENT_BASELINE_INGOTS = 5;
+/** 기준 구간에서 검출된 값이 이보다 적으면 관리한계를 그리지 않는다 */
+const ELEMENT_MIN_BASELINE = 3;
+
+/**
+ * 잉곳별 원소 농도(ppm) 관리도 — 검출한계 미만('<') 은 숫자로 넣지 않는다.
+ * 기준 구간은 「점 앞 5개」가 아니라 「주조 순 앞 5잉곳」이다. '<' 가 많아 기준 구간에 남은 점이 3개 미만이면
+ * 뒤쪽(드리프트 구간) 점으로 한계를 잡는 일이 없도록 한계를 그리지 않는다.
+ */
 export function elementChart(ds: Dataset, element: IcpElement): ImrChart & { specPpm: number } {
   const spec = SPEC_LIMIT_PPM[element];
-  const series = ds.ingots
-    .slice()
-    .sort((a, b) => (a.castAt < b.castAt ? -1 : 1))
-    .flatMap((ingot) => {
-      const r = ingot.icp.find((x) => x.element === element);
-      if (!r || r.qualifier === "<") return [];
-      const batch = ds.batches.find((b) => b.id === ingot.batchId);
-      return [
-        {
-          id: ingot.id,
-          date: ingot.castAt,
-          value: r.valuePpm,
-          label: `도가니 ${batch?.crucibleUseCount ?? "?"}회째`,
-          overSpec: r.valuePpm > spec,
-        },
-      ];
-    });
-  return { ...imrChart(series, 5), specPpm: spec };
+  const sorted = ds.ingots.slice().sort((a, b) => (a.castAt < b.castAt ? -1 : 1));
+  const baselineIngots = sorted.slice(0, ELEMENT_BASELINE_INGOTS);
+  const useCountOf = (ingot: Ingot) => ds.batches.find((b) => b.id === ingot.batchId)?.crucibleUseCount ?? null;
+  let excluded = 0;
+  let baselineDetected = 0;
+  const series = sorted.flatMap((ingot, idx) => {
+    const r = ingot.icp.find((x) => x.element === element);
+    if (!r || r.qualifier === "<") {
+      excluded += 1;
+      return [];
+    }
+    if (idx < ELEMENT_BASELINE_INGOTS) baselineDetected += 1;
+    const use = useCountOf(ingot);
+    return [
+      {
+        id: ingot.id,
+        date: ingot.castAt,
+        value: r.valuePpm,
+        label: `도가니 ${use ?? "?"}회째`,
+        overSpec: r.valuePpm > spec,
+      },
+    ];
+  });
+  const uses = baselineIngots.map(useCountOf).filter((v): v is number => v !== null);
+  const useRange = uses.length ? `${Math.min(...uses)}~${Math.max(...uses)}회째` : "";
+  const baselineLabel =
+    baselineDetected >= ELEMENT_MIN_BASELINE
+      ? `도가니 ${useRange} 잉곳 ${baselineDetected}개`
+      : `도가니 ${useRange} 잉곳 중 검출된 값 ${baselineDetected}개 — 기준 구간 부족`;
+  return {
+    ...imrChart(series, baselineDetected, {
+      minBaseline: ELEMENT_MIN_BASELINE,
+      baselineLabel,
+      excludedCount: excluded,
+    }),
+    specPpm: spec,
+  };
 }
 
 /** 필름 재사용 효과를 걷어내고 레시피끼리 비교 — 재사용 maxReuse 회 이하 롤만 */
@@ -242,53 +344,195 @@ export function completionByRecipeStratified(ds: Dataset, maxReuse = 4): Complet
     .filter((s) => s.rolls > 0);
 }
 
+/** 레시피 롤 중 필름을 maxReuse 회 넘게 재사용한 롤 수 */
+export function highReuseShare(ds: Dataset, recipeId: string, maxReuse = 4): { total: number; high: number; rate: number } {
+  const list = motherRolls(ds).filter((r) => r.recipeId === recipeId && r.filmReuseCount !== null);
+  const high = list.filter((r) => (r.filmReuseCount ?? 0) > maxReuse).length;
+  return { total: list.length, high, rate: list.length ? high / list.length : 0 };
+}
+
+/** 노출 비율이 이만큼(15%p) 넘게 차이 나야 「재사용 필름에 더 많이 걸렸다」고 말한다 */
+const EXPOSURE_GAP = 0.15;
+/** 무파단율이 이만큼(10%p) 넘게 차이 나야 「차이가 남는다」고 말한다 */
+const RATE_GAP = 0.1;
+
+export type RecipeConfound = {
+  aAll: CompletionStat | undefined;
+  bAll: CompletionStat | undefined;
+  aStrat: CompletionStat | undefined;
+  bStrat: CompletionStat | undefined;
+  aShare: { total: number; high: number; rate: number };
+  bShare: { total: number; high: number; rate: number };
+  /** B 롤의 고재사용 비율이 A 보다 의미 있게 높다 — 걸러내지 않은 비교가 B 에 불리하다 */
+  bMoreExposed: boolean;
+  /** 재사용을 걸러낸 뒤에도 B 무파단율이 A 보다 의미 있게 낮다 */
+  gapRemains: boolean;
+  /** 화면 제목 — 판정 결과로 고른다 */
+  headline: string;
+  /** 판정 문장 (숫자 포함) */
+  sentence: string;
+};
+
+/** 레시피 A·B 무파단율 비교에서 필름 재사용이 섞였는지 판정 */
+export function recipeReuseConfound(ds: Dataset, maxReuse = 4): RecipeConfound {
+  const all = completionByRecipe(ds);
+  const strat = completionByRecipeStratified(ds, maxReuse);
+  const aAll = all.find((s) => s.key === "RCP-A");
+  const bAll = all.find((s) => s.key === "RCP-B");
+  const aStrat = strat.find((s) => s.key === "RCP-A");
+  const bStrat = strat.find((s) => s.key === "RCP-B");
+  const aShare = highReuseShare(ds, "RCP-A", maxReuse);
+  const bShare = highReuseShare(ds, "RCP-B", maxReuse);
+  const bMoreExposed = aShare.total > 0 && bShare.total > 0 && bShare.rate - aShare.rate >= EXPOSURE_GAP;
+  const gapRemains = Boolean(aStrat && bStrat && aStrat.tearFreeRate - bStrat.tearFreeRate >= RATE_GAP);
+  const sampleNote = aStrat && bStrat ? `(표본 B ${bStrat.rolls}·A ${aStrat.rolls}개)` : "";
+  const exposure = `5회 이상 재사용 필름으로 작업한 롤 비율은 B ${pct(bShare.rate)}(${bShare.high}/${bShare.total})·A ${pct(aShare.rate)}(${aShare.high}/${aShare.total})`;
+
+  let headline: string;
+  let sentence: string;
+  if (!aStrat || !bStrat) {
+    headline = "레시피 A·B 를 필름 재사용으로 나눠 비교할 표본이 아직 없다";
+    sentence = `${exposure}입니다.`;
+  } else if (bMoreExposed) {
+    headline = "걸러내지 않으면 레시피 B 가 나빠 보이는 이유";
+    sentence = `${exposure}로 B 가 재사용 필름에 더 많이 걸렸습니다. 재사용 ${maxReuse}회 이하 롤끼리 보면 B ${pct(bStrat.tearFreeRate)}·A ${pct(aStrat.tearFreeRate)}${sampleNote}입니다.`;
+  } else if (gapRemains) {
+    headline = "필름 재사용을 걸러도 레시피 B 무파단율이 A 보다 낮다";
+    sentence = `${exposure}로 비슷해, 필름 재사용으로는 차이가 설명되지 않습니다. 재사용 ${maxReuse}회 이하 롤끼리도 B ${pct(bStrat.tearFreeRate)}·A ${pct(aStrat.tearFreeRate)}${sampleNote}로 차이가 남습니다 — 표본이 적어 우연일 수 있습니다.`;
+  } else {
+    headline = "필름 재사용을 걸러내면 레시피 A·B 의 무파단율 차이는 뚜렷하지 않다";
+    sentence = `${exposure}입니다. 재사용 ${maxReuse}회 이하 롤끼리 보면 B ${pct(bStrat.tearFreeRate)}·A ${pct(aStrat.tearFreeRate)}${sampleNote}입니다.`;
+  }
+  return { aAll, bAll, aStrat, bStrat, aShare, bShare, bMoreExposed, gapRemains, headline, sentence };
+}
+
+// ---- 4-1. 관리도 조기 경보 — 외주 분석 회신일 기준 ----
+
+export type EarlyWarning = {
+  element: IcpElement;
+  firstOoc: ImrPoint | null;
+  firstOver: ImrPoint | null;
+  /** 첫 관리한계 이탈 결과가 회신된 날 */
+  oocReportedAt: string | null;
+  /** 규격 초과 잉곳의 정제 배치 착수일 */
+  overBatchStartedAt: string | null;
+  /** 첫 이탈 뒤 회신 전에 이미 주조된 잉곳 수 — 경보를 받을 수 없던 잉곳 */
+  castBeforeReport: number;
+  /** 회신 뒤에 착수해 규격 초과까지 간 배치 수(규격 초과 배치 포함) — 경보로 멈출 수 있었던 배치 */
+  batchesAfterReport: number;
+  /** 규격 초과 잉곳에서 나온 홀드 롤 수 */
+  holdRolls: number;
+};
+
+/**
+ * 관리도가 규격 초과보다 얼마나 먼저 알렸나. 주조 순서만 세면 외주 ICP 회신 지연(12일)을 무시하게 되므로,
+ * 첫 이탈 결과가 회신된 날 이후에 착수한 배치만 「경보로 막을 수 있었던 배치」로 센다.
+ */
+export function earlyWarning(ds: Dataset, element: IcpElement = "Fe"): EarlyWarning {
+  const chart = elementChart(ds, element);
+  const firstOoc = chart.points.find((p) => p.outOfControl) ?? null;
+  const firstOver = chart.points.find((p) => p.overSpec) ?? null;
+  const ingotById = new Map(ds.ingots.map((i) => [i.id, i]));
+  const batchById = new Map(ds.batches.map((b) => [b.id, b]));
+  const oocIngot = firstOoc ? ingotById.get(firstOoc.id) : undefined;
+  const oocReportedAt = oocIngot?.icp.find((r) => r.element === element)?.reportedAt ?? null;
+  const overIngot = firstOver ? ingotById.get(firstOver.id) : undefined;
+  const overBatch = overIngot ? batchById.get(overIngot.batchId) : undefined;
+  const overBatchStartedAt = overBatch ? overBatch.startedAt.slice(0, 10) : null;
+
+  let castBeforeReport = 0;
+  let batchesAfterReport = 0;
+  if (oocIngot && oocReportedAt && overIngot && overIngot.castAt > oocIngot.castAt) {
+    for (const ingot of ds.ingots) {
+      if (ingot.castAt <= oocIngot.castAt || ingot.castAt > overIngot.castAt) continue;
+      const started = batchById.get(ingot.batchId)?.startedAt.slice(0, 10) ?? ingot.castAt;
+      if (started > oocReportedAt) batchesAfterReport += 1;
+      else castBeforeReport += 1;
+    }
+  }
+  const holdRolls = overIngot ? ds.rolls.filter((r) => r.ingotId === overIngot.id && r.status === "hold").length : 0;
+  return { element, firstOoc, firstOver, oocReportedAt, overBatchStartedAt, castBeforeReport, batchesAfterReport, holdRolls };
+}
+
 // ---- 5. 납기 ----
 
 export type OtdPoint = {
   week: string; // 주 시작일
   label: string;
+  /** 판정 대상 = 출하된 건 + 약속일이 지났는데 못 나간 건 */
   shipments: number;
   onTime: number;
+  /** 약속일이 지났는데 아직 출하 안 된 건 (지연으로 센다) */
+  overdue: number;
   rate: number | null;
   avgLeadDays: number | null;
 };
 
+function mondayOf(date: string): string {
+  const [y, m, d] = date.split("-").map(Number);
+  const dow = new Date(Date.UTC(y, m - 1, d)).getUTCDay();
+  return addDays(date, -((dow + 6) % 7));
+}
+
+/** 약속일이 기준일보다 앞인데 아직 출하되지 않은 건 */
+export function isOverdueUnshipped(ds: Dataset, s: Shipment): boolean {
+  return !s.shippedAt && diffDays(ds.asOf, s.promisedDate) > 0;
+}
+
+/** 납기 판정 대상 — 출하된 건 + 약속일이 지난 미출하 건. 약속일이 남은 진행 중 출하만 뺀다 */
+export function otdEvaluated(ds: Dataset): Shipment[] {
+  return ds.shipments.filter((s) => s.shippedAt || isOverdueUnshipped(ds, s));
+}
+
+function isOnTime(s: Shipment): boolean {
+  return Boolean(s.shippedAt) && diffDays(s.shippedAt!, s.promisedDate) <= 0;
+}
+
 export function otdByWeek(ds: Dataset): OtdPoint[] {
-  const shipped = ds.shipments.filter((s) => s.shippedAt);
   const byWeek = new Map<string, Shipment[]>();
-  shipped.forEach((s) => {
-    const d = s.shippedAt!;
-    const [y, m, day] = d.split("-").map(Number);
-    const dow = new Date(Date.UTC(y, m - 1, day)).getUTCDay();
-    const monday = addDays(d, -((dow + 6) % 7));
+  otdEvaluated(ds).forEach((s) => {
+    // 출하된 건은 출하 주, 못 나간 건은 약속일이 지난 주에 센다
+    const monday = mondayOf(s.shippedAt ?? s.promisedDate);
     byWeek.set(monday, [...(byWeek.get(monday) ?? []), s]);
   });
   return Array.from(byWeek.entries())
     .sort(([a], [b]) => (a < b ? -1 : 1))
     .map(([week, list]) => {
-      const onTime = list.filter((s) => diffDays(s.shippedAt!, s.promisedDate) <= 0).length;
+      const shipped = list.filter((s) => s.shippedAt);
+      const onTime = list.filter(isOnTime).length;
       return {
         week,
-        label: week.slice(5).replace("-", "/"),
+        label: shortDate(week),
         shipments: list.length,
         onTime,
+        overdue: list.length - shipped.length,
         rate: list.length ? onTime / list.length : null,
-        avgLeadDays: round(mean(list.map((s) => diffDays(s.shippedAt!, s.orderDate))), 1),
+        avgLeadDays: shipped.length ? round(mean(shipped.map((s) => diffDays(s.shippedAt!, s.orderDate))), 1) : null,
       };
     });
 }
 
-export type CustomerOtd = { customer: string; shipments: number; onTime: number; rate: number; claims: number };
+export type CustomerOtd = {
+  customer: string;
+  /** 판정 대상 = 출하 + 약속일 지난 미출하 */
+  shipments: number;
+  onTime: number;
+  overdue: number;
+  rate: number;
+  claims: number;
+};
 
 export function otdByCustomer(ds: Dataset): CustomerOtd[] {
   const customers = Array.from(new Set(ds.shipments.map((s) => s.customer)));
+  const evaluated = otdEvaluated(ds);
   return customers.map((customer) => {
-    const list = ds.shipments.filter((s) => s.customer === customer && s.shippedAt);
-    const onTime = list.filter((s) => diffDays(s.shippedAt!, s.promisedDate) <= 0).length;
+    const list = evaluated.filter((s) => s.customer === customer);
+    const onTime = list.filter(isOnTime).length;
     return {
       customer,
       shipments: list.length,
       onTime,
+      overdue: list.filter((s) => !s.shippedAt).length,
       rate: list.length ? onTime / list.length : 0,
       claims: ds.shipments.filter((s) => s.customer === customer && s.verdict === "claim").length,
     };
@@ -439,9 +683,33 @@ export type Suggestion = {
   /** 지금 있는 표본 수 · 이 판단에 필요한 표본 수 */
   dataNow: number;
   dataNeeded: number;
+  /** 충분도(dataNow/dataNeeded)와 모순되지 않게 buildSuggestions 끝에서 한 번 더 맞춘다 */
   confidence: "low" | "medium" | "high";
+  /** 일반 신뢰도 설명 대신 보여 줄 이유 (예: 표본은 찼지만 차이가 뚜렷하지 않다) */
+  confidenceNote?: string;
   tone: "indigo" | "purple" | "emerald" | "amber" | "rose";
 };
+
+/**
+ * 신뢰도는 충분도 막대와 한 방향으로 말해야 한다.
+ * - 필요한 표본에 못 미치면 「근거 충분(high)」 금지
+ * - 표본이 찼는데 high 가 아니면, 왜 아닌지(신호가 약함)를 confidenceNote 로 반드시 밝힌다
+ */
+function settleConfidence(s: Suggestion): Suggestion {
+  const enough = s.dataNow >= s.dataNeeded;
+  if (!enough && s.confidence === "high") {
+    return {
+      ...s,
+      confidence: "medium",
+      confidenceNote:
+        s.confidenceNote ?? `신호는 분명하지만 필요한 표본(${s.dataNeeded})에 못 미칩니다 — 조치는 시작하되 확정 전에 더 모읍니다`,
+    };
+  }
+  if (enough && s.confidence !== "high" && !s.confidenceNote) {
+    return { ...s, confidence: "medium", confidenceNote: "표본 수는 찼지만 비교 결과의 차이가 작아, 확정 전에 더 지켜봅니다" };
+  }
+  return s;
+}
 
 export function buildSuggestions(ds: Dataset): Suggestion[] {
   const mothers = motherRolls(ds);
@@ -458,7 +726,7 @@ export function buildSuggestions(ds: Dataset): Suggestion[] {
     title: `손실이 가장 큰 단계는 「${worst.label}」`,
     finding: `${worst.label} 단계에서 리튬 ${worst.deltaKg}kg 손실 — 전체 공정 손실 ${round(totalLoss, 2)}kg 의 ${round((worst.deltaKg / Math.max(totalLoss, 0.01)) * 100, 0)}%. (${worst.note})`,
     action: "해당 단계 손실을 원인 코드별로 나눠 기록 시작 → 상위 2개 원인부터 조치",
-    method: "단계별 순중량 워터폴 + 원인 파레토",
+    method: "단계별 순중량 워터폴 + 원인 파레토(큰 원인부터 줄 세우기)",
     dataNow: ds.batches.length,
     dataNeeded: 20,
     confidence: ds.batches.length >= 20 ? "high" : "medium",
@@ -470,33 +738,56 @@ export function buildSuggestions(ds: Dataset): Suggestion[] {
   const low = byReuse[0];
   const high = byReuse[byReuse.length - 1];
   if (low.rolls > 0 && high.rolls > 0) {
+    const drop = low.tearFreeRate - high.tearFreeRate;
+    const title =
+      drop >= 0.3
+        ? "이형 필름 5회 이상 재사용에서 파단 급증"
+        : drop >= 0.15
+          ? "이형 필름 5회 이상 재사용에서 파단이 늘었다"
+          : drop > 0
+            ? "필름 재사용 5회 이상에서 파단이 조금 많지만 차이는 작다"
+            : "필름 재사용 횟수와 파단의 관계가 아직 보이지 않는다";
+    const reuseRolls = mothers.filter((r) => r.filmReuseCount !== null).length;
     out.push({
       id: "tear-film",
-      kpi: "완주율",
-      title: "이형 필름 5회 이상 재사용에서 파단 급증",
-      finding: `무파단율 ${low.label} ${round(low.tearFreeRate * 100, 0)}% → ${high.label} ${round(high.tearFreeRate * 100, 0)}%. 롤당 손실 길이 ${low.avgLostM}m → ${high.avgLostM}m`,
-      action: "필름 재사용 상한 4회를 4주간 시범 적용하고 완주율 변화를 같은 표로 비교",
-      method: "재사용 횟수 구간 × 파단 여부 교차표 (롤 100개 이후 로지스틱 회귀)",
-      dataNow: mothers.filter((r) => r.filmReuseCount !== null).length,
+      kpi: "무파단율",
+      title,
+      finding: `무파단율 ${low.label} ${pct(low.tearFreeRate)} (롤 ${low.rolls}개) → ${high.label} ${pct(high.tearFreeRate)} (롤 ${high.rolls}개). 롤당 손실 길이 ${low.avgLostM}m → ${high.avgLostM}m`,
+      action:
+        drop >= 0.15
+          ? "필름 재사용 상한 4회를 4주간 시범 적용하고 무파단율 변화를 같은 표로 비교"
+          : "재사용 횟수 기록을 계속하고, 구간별 롤이 각 10개를 넘으면 다시 비교",
+      method: "재사용 횟수 구간 × 파단 여부 교차표 (롤 100개가 쌓이면 파단 확률 모델)",
+      dataNow: reuseRolls,
       dataNeeded: 100,
-      confidence: high.rolls >= 8 ? "medium" : "low",
+      confidence: drop >= 0.15 && high.rolls >= 8 ? "medium" : "low",
       tone: "amber",
     });
   }
 
   // 3. 파단 — 레시피 C (필름 재사용 효과와 겹치지 않게 재사용 4회 이하 롤끼리만 비교)
-  const byRecipeRaw = completionByRecipe(ds);
   const byRecipe = completionByRecipeStratified(ds, 4);
   const c = byRecipe.find((s) => s.key === "RCP-C");
   const b = byRecipe.find((s) => s.key === "RCP-B");
-  const bRaw = byRecipeRaw.find((s) => s.key === "RCP-B");
   if (c && b && c.rolls > 0) {
+    const confound = recipeReuseConfound(ds, 4);
+    const cWorse = c.tearFreeRate + 0.15 < b.tearFreeRate;
+    let abNote = "";
+    if (confound.bAll && confound.bStrat && confound.aStrat) {
+      abNote = confound.bMoreExposed
+        ? ` 참고로 걸러내지 않으면 레시피 B 가 ${pct(confound.bAll.tearFreeRate)} 로 더 낮게 보이는데, B 롤이 재사용 필름에 더 많이 걸렸기 때문이다(5회 이상 비율 B ${pct(confound.bShare.rate)}·A ${pct(confound.aShare.rate)}).`
+        : confound.gapRemains
+          ? ` 참고로 레시피 B 는 재사용 효과를 걸러도 A 와 차이가 남는다(무파단율 B ${pct(confound.bStrat.tearFreeRate)}·A ${pct(confound.aStrat.tearFreeRate)}, 표본 B ${confound.bStrat.rolls}·A ${confound.aStrat.rolls}개). 5회 이상 재사용 비율은 B ${pct(confound.bShare.rate)}·A ${pct(confound.aShare.rate)}로 비슷해 필름으로는 설명되지 않는다.`
+          : "";
+    }
     out.push({
       id: "tear-recipe",
-      kpi: "완주율",
-      title: c.tearFreeRate + 0.15 < b.tearFreeRate ? "시험 레시피 C 는 파단이 많다" : "레시피 C 와 B 의 파단 차이는 아직 뚜렷하지 않다",
-      finding: `필름 재사용 4회 이하 롤끼리 비교: RCP-C 무파단율 ${round(c.tearFreeRate * 100, 0)}% (롤 ${c.rolls}개) vs RCP-B ${round(b.tearFreeRate * 100, 0)}% (롤 ${b.rolls}개).${bRaw ? ` 걸러내지 않으면 B 가 ${round(bRaw.tearFreeRate * 100, 0)}% 로 나빠 보인다 — B 가 재사용 필름에 많이 걸렸기 때문` : ""}`,
-      action: "C 시험을 중단하거나 압하율을 낮춘 C′ 로 재설계. 시험 롤은 표기 후 출하 판단",
+      kpi: "무파단율",
+      title: cWorse ? "시험 레시피 C 는 파단이 많다" : "레시피 C 와 B 의 파단 차이는 아직 뚜렷하지 않다",
+      finding: `필름 재사용 4회 이하 롤끼리 비교: 레시피 C 무파단율 ${pct(c.tearFreeRate)} (롤 ${c.rolls}개) vs 레시피 B ${pct(b.tearFreeRate)} (롤 ${b.rolls}개).${abNote}`,
+      action: cWorse
+        ? "C 시험을 중단하거나 압하율을 낮춘 C′ 로 재설계. 시험 롤은 표기 후 출하 판단"
+        : "C 시험을 이어 가되 롤마다 파단 위치를 함께 기록해 비교 표본을 늘린다",
       method: `층별 교차표(재사용 구간 × 레시피) — 표본 ${c.rolls}개는 방향만 보여 준다`,
       dataNow: c.rolls,
       dataNeeded: 16,
@@ -510,77 +801,138 @@ export function buildSuggestions(ds: Dataset): Suggestion[] {
   const sdB = mothers.filter((r) => r.recipeId === "RCP-B").map(rollThicknessSdUm).filter((v): v is number => v !== null);
   const tChart = thicknessSdChart(ds);
   if (sdA.length && sdB.length) {
+    const mA = mean(sdA);
+    const mB = mean(sdB);
+    const bBetter = mB <= mA * 0.8;
+    const bWorse = mB >= mA * 1.25;
+    const enough = tChart.n >= 30;
     out.push({
       id: "thickness",
       kpi: "두께 균일도",
-      title: "레시피 B 가 두께 산포를 줄인다",
-      finding: `롤 내 두께 SD 평균 RCP-A ${round(mean(sdA), 2)}µm → RCP-B ${round(mean(sdB), 2)}µm. 관리한계 이탈 ${tChart.points.filter((p) => p.outOfControl).length}건 (UCL ${tChart.ucl}µm)`,
-      action: "B 를 표준으로 전환하되, 먼저 두께 측정 반복성(GR&R) 을 통과해야 Cpk 를 말할 수 있다",
-      method: "롤별 I-MR 관리도 → 100롤 이후 분할 요인 DOE",
+      title: bBetter
+        ? "레시피 B 가 두께 산포를 줄인다"
+        : bWorse
+          ? "레시피 B 의 두께 산포가 A 보다 크다"
+          : "레시피 A·B 의 두께 산포 차이가 뚜렷하지 않다",
+      finding: `롤 안 두께 3점의 표준편차 평균 레시피 A ${round(mA, 2)}µm (롤 ${sdA.length}개) → 레시피 B ${round(mB, 2)}µm (롤 ${sdB.length}개). 관리상한 ${tChart.ucl}µm 를 넘은 롤 ${tChart.points.filter((p) => p.outOfControl).length}개`,
+      action: bBetter
+        ? "B 를 표준으로 전환하되, 먼저 같은 롤을 여러 번 재서 측정값이 일정한지(측정 반복성) 확인해야 공정 능력 지수(규격 안에 드는 여유)를 말할 수 있다"
+        : bWorse
+          ? "B 전환을 멈추고 A 를 표준으로 유지. B 롤의 장력 조건을 다시 확인한다"
+          : "전환을 서두르지 않고 A·B 를 병행해 롤을 더 모은다. 측정 반복성부터 확인한다",
+      method: "롤별 개별값 관리도 → 롤 100개 이후 조건을 나눠 바꿔 보는 실험(DOE)",
       dataNow: tChart.n,
       dataNeeded: 30,
-      confidence: tChart.n >= 30 ? "medium" : "low",
+      confidence: enough ? ((bBetter || bWorse) ? "high" : "medium") : "low",
+      confidenceNote: enough && !(bBetter || bWorse) ? "표본 수는 찼지만 A·B 차이가 작아, 방향을 정하기엔 이릅니다" : undefined,
       tone: "purple",
     });
   }
 
-  // 5. 불순물 — Fe vs 도가니 (관리한계는 새 도가니 1~5회째 구간으로 계산)
+  // 5. 불순물 — Fe vs 도가니 (관리한계는 새 도가니 1~5회째 구간으로 계산, 경보 시점은 외주 회신일 기준)
   const fe = elementChart(ds, "Fe");
   const feOver = fe.points.filter((p) => p.overSpec);
-  const firstOoc = fe.points.find((p) => p.outOfControl);
-  const firstOver = feOver[0];
-  const batchesBefore = firstOoc && firstOver ? firstOver.index - firstOoc.index : 0;
-  const holdCount = ds.rolls.filter((r) => r.status === "hold").length;
+  const ew = earlyWarning(ds, "Fe");
+  let feTitle: string;
+  if (ew.firstOoc && ew.firstOver && ew.batchesAfterReport > 0) {
+    feTitle = `관리도 경보는 Fe 규격 초과보다 먼저 왔다 — 회신 기준 ${ew.batchesAfterReport}배치 전`;
+  } else if (ew.firstOoc && ew.firstOver) {
+    feTitle = "관리도는 Fe 이탈을 잡았지만, 외주 분석 회신이 늦어 규격 초과 전에 막지 못했다";
+  } else if (feOver.length) {
+    feTitle = "Fe 규격 초과 — 관리도 기준선을 먼저 세워야 한다";
+  } else if (ew.firstOoc) {
+    feTitle = "Fe 관리한계 이탈 — 규격 안이지만 도가니를 점검할 때";
+  } else {
+    feTitle = "Fe 는 관리한계 안에서 안정적이다";
+  }
+  const feBase = fe.limitsValid
+    ? `기준(${fe.baselineLabel}) 평균 ${round(fe.mean, 1)}ppm, 관리상한 ${round(fe.ucl, 1)}ppm.`
+    : `기준 구간(${fe.baselineLabel})이라 관리한계를 잡지 못했다.`;
+  let feStory = "";
+  if (ew.firstOoc) {
+    feStory = ` ${ew.firstOoc.label} 잉곳(${ew.firstOoc.value}ppm)이 처음 관리상한을 넘었고, 이 결과는 ${ew.oocReportedAt ? `${shortDate(ew.oocReportedAt)}에` : "나중에"} 회신됐다.`;
+    if (ew.firstOver && ew.firstOver.index > ew.firstOoc.index) {
+      feStory += ` 회신 전에 잉곳 ${ew.castBeforeReport}개가 이미 주조됐고, ${ew.overBatchStartedAt ? `${shortDate(ew.overBatchStartedAt)} 착수한 ` : ""}${ew.firstOver.label} 잉곳(${ew.firstOver.value}ppm)이 규격 50ppm 을 넘어 롤 ${ew.holdRolls}개가 홀드됐다.`;
+    }
+  } else if (ew.firstOver) {
+    feStory = ` ${ew.firstOver.label} 잉곳(${ew.firstOver.value}ppm)이 규격 50ppm 을 넘어 롤 ${ew.holdRolls}개가 홀드됐다.`;
+  }
   out.push({
     id: "fe-crucible",
     kpi: "불순물",
-    title: firstOoc && batchesBefore > 0
-      ? `관리도는 Fe 규격 초과 ${batchesBefore}배치 전에 알렸다`
-      : "Fe 규격 초과 — 관리도 기준선을 먼저 세워야 한다",
-    finding: `기준(${fe.baselineN}잉곳) 평균 ${round(fe.mean, 1)}ppm, 관리상한 ${round(fe.ucl, 1)}ppm. ${firstOoc ? `${firstOoc.label}(${firstOoc.value}ppm)에 처음 관리한계 이탈` : "이탈 없음"}${firstOver ? ` → ${firstOver.label}(${firstOver.value}ppm)에 규격 50ppm 초과` : ""}. 외주 ICP 회신 12일 사이에 롤 ${holdCount}개가 이미 만들어져 전부 홀드`,
-    action: "도가니 교체 주기를 5회로 앞당기고, 관리한계 이탈 배치는 「분석 결과 전 압연 금지」",
-    method: "원소별 I-MR 관리도에 소모품 사용 횟수를 주석으로",
+    title: feTitle,
+    finding: `${feBase}${feStory} 외주 분석 회신까지 12일이 걸린다.`,
+    action: feOver.length
+      ? "도가니 교체 주기를 5회로 앞당기고, 관리한계 이탈 배치는 「분석 결과 전 압연 금지」"
+      : "도가니 사용 횟수를 계속 함께 기록하고, 관리한계 이탈이 나오면 다음 배치 착수 전에 확인",
+    method: "원소별 개별값 관리도에 도가니 사용 횟수를 함께 표시",
     dataNow: fe.n,
     dataNeeded: 25,
     confidence: feOver.length ? "high" : "medium",
+    confidenceNote: feOver.length
+      ? "규격 초과는 분명하지만 도가니 한 주기만 본 결과라, 교체 주기를 확정하려면 다음 도가니에서도 같은 시점에 오르는지 봐야 합니다"
+      : undefined,
     tone: "rose",
   });
 
-  // 6. 납기
-  const byCustomer = otdByCustomer(ds);
-  const worstCustomer = byCustomer.reduce((a, b) => (b.rate < a.rate ? b : a), byCustomer[0]);
-  const overall = otdByWeek(ds);
-  const overallRate = overall.reduce((a, p) => a + p.onTime, 0) / Math.max(1, overall.reduce((a, p) => a + p.shipments, 0));
-  out.push({
-    id: "otd",
-    kpi: "납기",
-    title: `납기 준수율 ${round(overallRate * 100, 0)}% — 「${worstCustomer.customer}」 이 가장 낮다`,
-    finding: `${worstCustomer.customer} 준수율 ${round(worstCustomer.rate * 100, 0)}% (${worstCustomer.onTime}/${worstCustomer.shipments}). 수주→출하 평균 ${round(mean(overall.map((p) => p.avgLeadDays ?? 0)), 1)}일 vs 약속 14일`,
-    action: "수주·약속·출하 세 날짜만으로 매주 갱신. 잉곳 재고 일수와 함께 보면 착수 지연인지 압연 지연인지 갈린다",
-    method: "리드타임 런차트 + 고객별 표 (모델 불필요)",
-    dataNow: ds.shipments.filter((s) => s.shippedAt).length,
-    dataNeeded: 20,
-    confidence: "high",
-    tone: "emerald",
-  });
+  // 6. 납기 — 약속일이 지난 미출하 건은 지연으로 센다
+  const byCustomer = otdByCustomer(ds).filter((cst) => cst.shipments > 0);
+  const evaluated = otdEvaluated(ds);
+  if (byCustomer.length) {
+    const worstCustomer = byCustomer.reduce((a, x) => (x.rate < a.rate ? x : a), byCustomer[0]);
+    const onTimeAll = evaluated.filter(isOnTime).length;
+    const overallRate = evaluated.length ? onTimeAll / evaluated.length : 0;
+    const shipped = evaluated.filter((s) => s.shippedAt);
+    const avgLead = shipped.length ? round(mean(shipped.map((s) => diffDays(s.shippedAt!, s.orderDate))), 1) : null;
+    const overdueAll = evaluated.length - shipped.length;
+    out.push({
+      id: "otd",
+      kpi: "납기",
+      title: `납기 준수율 ${pct(overallRate)} — 가장 낮은 곳은 ${worstCustomer.customer}`,
+      finding: `${worstCustomer.customer} 준수율 ${pct(worstCustomer.rate)} (${worstCustomer.onTime}/${worstCustomer.shipments}${worstCustomer.overdue ? `, 약속일 지난 미출하 ${worstCustomer.overdue}건 포함` : ""}). ${avgLead !== null ? `출하된 건의 수주→출하 평균 ${avgLead}일 vs 약속 14일.` : ""}${overdueAll ? ` 홀드 등으로 약속일을 넘기고도 못 나간 ${overdueAll}건은 지연으로 셌다.` : ""}`,
+      action: "수주·약속·출하 세 날짜만으로 매주 갱신. 잉곳 재고 일수와 함께 보면 착수 지연인지 압연 지연인지 갈린다",
+      method: "리드타임 런차트 + 고객별 표 (모델 불필요)",
+      dataNow: evaluated.length,
+      dataNeeded: 20,
+      confidence: evaluated.length >= 20 ? "high" : "medium",
+      tone: "emerald",
+    });
+  }
 
-  // 7. 환경 — 노점 이탈과 클레임
+  // 7. 환경 — 노점 이탈과 클레임 (클레임 출하에 실제로 들어간 이탈 롤만 연결로 센다)
   const excursions = mothers.filter((r) => r.dewPointC !== null && r.dewPointC > -45);
-  const claimNc = ds.nonconformances.filter((n) => n.type === "claim" && n.reasonCode === "SURF-DISC");
+  const claimShipmentIds = new Set(
+    ds.nonconformances.filter((n) => n.type === "claim" && n.reasonCode === "SURF-DISC" && n.targetType === "shipment").map((n) => n.targetId),
+  );
+  const rollById = new Map(ds.rolls.map((r) => [r.id, r]));
+  const claimMotherIds = new Set(
+    ds.shipments
+      .filter((s) => claimShipmentIds.has(s.id))
+      .flatMap((s) => s.rollIds)
+      .map((id) => rollById.get(id)?.parentRollId)
+      .filter((v): v is string => Boolean(v)),
+  );
+  const linked = excursions.filter((r) => claimMotherIds.has(r.id)).length;
+  const dewMissing = mothers.filter((r) => r.dewPointC === null).length;
   out.push({
     id: "dew-point",
     kpi: "환경",
-    title: "노점 −45℃ 초과 작업분에서 표면 변색 클레임",
-    finding: `노점 이탈 기록 롤 ${excursions.length}개 중 클레임 연결 ${claimNc.length}건. 노점 결측 롤 ${mothers.filter((r) => r.dewPointC === null).length}개는 판단 불가`,
+    title:
+      linked > 0
+        ? "노점 −45℃ 초과 작업분에서 표면 변색 클레임이 나왔다"
+        : excursions.length > 0
+          ? "노점 −45℃ 초과 작업이 있었지만 클레임 연결은 아직 없다"
+          : "노점 기준(−45℃) 이탈 작업은 없었다",
+    finding: `노점 이탈 기록 롤 ${excursions.length}개 중 표면 변색 클레임 출하에 들어간 롤 ${linked}개. 노점 결측 롤 ${dewMissing}개는 판단 불가`,
     action: "노점 −45℃ 초과 시 작업 중단 규칙 + 노점 결측 0 을 첫 목표로",
-    method: "노점 × 노출 시간 산점도에 클레임 로트 표시 (로트 200개 이후 로지스틱)",
+    method: "노점 × 작업 시간 산점도에 클레임 로트 표시 (로트 200개 이후 변색 확률 모델)",
     dataNow: mothers.filter((r) => r.dewPointC !== null).length,
     dataNeeded: 200,
-    confidence: claimNc.length ? "medium" : "low",
+    confidence: linked ? "medium" : "low",
     tone: "amber",
   });
 
-  return out;
+  return out.map(settleConfidence);
 }
 
 // ---- 9. 상단 요약 ----
@@ -591,6 +943,8 @@ export type HeadlineStats = {
   tearFreeRate: number;
   avgThicknessSdUm: number | null;
   otdRate: number | null;
+  /** 납기 판정 대상 수 (출하 + 약속일 지난 미출하) */
+  otdEvaluated: number;
   openNc: number;
   holdRolls: number;
   weeks: number;
@@ -599,15 +953,15 @@ export type HeadlineStats = {
 export function headlineStats(ds: Dataset): HeadlineStats {
   const mothers = motherRolls(ds);
   const sds = mothers.map(rollThicknessSdUm).filter((v): v is number => v !== null);
-  const otd = otdByWeek(ds);
-  const shipped = otd.reduce((a, p) => a + p.shipments, 0);
-  const onTime = otd.reduce((a, p) => a + p.onTime, 0);
+  const evaluated = otdEvaluated(ds);
+  const onTime = evaluated.filter(isOnTime).length;
   return {
     motherRolls: mothers.length,
     slitRolls: ds.rolls.filter((r) => r.stage === "slit").length,
     tearFreeRate: mothers.length ? mothers.filter((r) => r.tearCount === 0).length / mothers.length : 0,
     avgThicknessSdUm: sds.length ? round(mean(sds), 2) : null,
-    otdRate: shipped ? onTime / shipped : null,
+    otdRate: evaluated.length ? onTime / evaluated.length : null,
+    otdEvaluated: evaluated.length,
     openNc: ds.nonconformances.filter((n) => !n.closedAt).length,
     holdRolls: ds.rolls.filter((r) => r.status === "hold").length,
     weeks: 12,

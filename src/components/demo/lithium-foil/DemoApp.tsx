@@ -27,15 +27,22 @@ import SchemaView from "./screens/SchemaView";
 import type { DemoTab, TraceTarget } from "./screens/types";
 import { fmtNum } from "./ui";
 
-type TabDef = { key: DemoTab; label: string; icon: LucideIcon };
+type TabDef = { key: DemoTab; label: string; short: string; icon: LucideIcon };
 
 const TABS: TabDef[] = [
-  { key: "kpi", label: "KPI 보드", icon: LayoutDashboard },
-  { key: "log", label: "롤 일지 입력", icon: NotebookPen },
-  { key: "trace", label: "계보 추적", icon: GitBranch },
-  { key: "suggest", label: "개선 제안", icon: Lightbulb },
-  { key: "schema", label: "데이터 구조", icon: Database },
+  { key: "kpi", label: "KPI 보드", short: "KPI 보드", icon: LayoutDashboard },
+  { key: "log", label: "롤 일지 입력", short: "롤 일지", icon: NotebookPen },
+  { key: "trace", label: "계보 추적", short: "계보 추적", icon: GitBranch },
+  { key: "suggest", label: "개선 제안", short: "개선 제안", icon: Lightbulb },
+  { key: "schema", label: "데이터 구조", short: "데이터 구조", icon: Database },
 ];
+
+/** 연락처 — 홈(src/app/page.tsx)·문의 페이지와 같은 직통 번호 */
+const CONTACT = {
+  phoneLabel: "총괄 아키텍트 직통",
+  phone: "010-8672-6463",
+  email: "contact@taemun.co.kr",
+} as const;
 
 const DEFAULT_TAB: DemoTab = "kpi";
 /** 고정 헤더 높이(h-20 = 80px) — 탭 바로 스크롤할 때 이만큼 비운다 */
@@ -102,16 +109,30 @@ function DemoShell() {
     list.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
   }, [tab]);
 
-  const scrollToTabs = useCallback(() => {
+  /**
+   * 탭 바가 헤더 밑에 붙는 위치로 스크롤한다. onlyIfBelow 면 이미 그보다 위(히어로가 보이는 곳)에 있을 때 건너뛴다 —
+   * 긴 화면 아래에서 탭을 바꿨을 때 새 화면 대신 CTA·푸터가 보이는 일을 막는다.
+   */
+  const scrollToTabs = useCallback((onlyIfBelow = false) => {
     const anchor = anchorRef.current;
     if (!anchor) return;
     const top = anchor.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET_PX;
+    if (onlyIfBelow && window.scrollY <= top + 1) return;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     window.scrollTo({ top: Math.max(0, top), behavior: reduceMotion ? "auto" : "smooth" });
   }, []);
 
+  /** 다른 화면에서 넘어왔을 때만 패널로 포커스를 옮긴다 (탭 버튼을 직접 누른 경우는 포커스가 탭에 남아야 한다) */
+  const focusPanelRef = useRef(false);
+  useEffect(() => {
+    if (!focusPanelRef.current) return;
+    focusPanelRef.current = false;
+    document.getElementById(PANEL_ID)?.focus({ preventScroll: true });
+  }, [tab, traceTarget]);
+
   const onNavigate = useCallback(
     (next: DemoTab) => {
+      focusPanelRef.current = true;
       setTab(next);
       scrollToTabs();
     },
@@ -120,12 +141,19 @@ function DemoShell() {
 
   const onTrace = useCallback(
     (target: TraceTarget) => {
+      focusPanelRef.current = true;
       setTraceTarget(target);
       setTab("trace");
       scrollToTabs();
     },
     [scrollToTabs],
   );
+
+  const selectTab = (next: DemoTab) => {
+    focusPanelRef.current = false;
+    setTab(next);
+    scrollToTabs(true);
+  };
 
   const onTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
     const index = TABS.findIndex((t) => t.key === tab);
@@ -137,12 +165,14 @@ function DemoShell() {
     else return;
     event.preventDefault();
     const next = TABS[nextIndex].key;
-    setTab(next);
-    tabButtonRefs.current[next]?.focus();
+    selectTab(next);
+    tabButtonRefs.current[next]?.focus({ preventScroll: true });
   };
 
   return (
-    <div className="relative min-h-screen bg-[#030712] text-white overflow-x-hidden selection:bg-indigo-500 selection:text-white [word-break:keep-all]">
+    // overflow-x-clip: hidden 은 이 div 를 스크롤 컨테이너로 만들어 안쪽 sticky(탭 바·aside·의심 지점)를 전부 무력화한다
+    // --demo-sticky-offset: 헤더 80px + sticky 탭 바(모바일 2줄 약 66px · lg 약 58px) + 여유
+    <div className="relative min-h-screen bg-[#030712] text-white overflow-x-clip [--demo-sticky-offset:10rem] lg:[--demo-sticky-offset:9.5rem] selection:bg-indigo-500 selection:text-white [word-break:keep-all]">
       {/* 은은한 배경 조명 */}
       <div
         aria-hidden
@@ -162,18 +192,19 @@ function DemoShell() {
       {/* 탭 바 */}
       <div className="sticky top-20 z-40 backdrop-blur-md bg-gray-950/80 border-y border-white/5">
         <div className="max-w-7xl mx-auto px-4 lg:px-6">
+          {/* 모바일은 5칸 격자(아이콘 위 짧은 라벨)로 한 줄에 다 보이게 — 가로 스크롤로 뒤 탭이 숨지 않는다 */}
           <div
             ref={tabListRef}
             role="tablist"
             aria-label="데모 화면"
-            className="relative flex gap-1 lg:gap-2 overflow-x-auto py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="relative grid grid-cols-5 gap-1 py-2 lg:flex lg:gap-2"
           >
             {TABS.map((t) => (
               <TabButton
                 key={t.key}
                 def={t}
                 active={t.key === tab}
-                onSelect={() => setTab(t.key)}
+                onSelect={() => selectTab(t.key)}
                 onKeyDown={onTabKeyDown}
                 buttonRef={(el) => {
                   tabButtonRefs.current[t.key] = el;
@@ -233,17 +264,18 @@ function TabButton({
       tabIndex={active ? 0 : -1}
       onClick={onSelect}
       onKeyDown={onKeyDown}
-      className={`shrink-0 inline-flex items-center gap-1.5 min-h-10 px-3.5 lg:px-4 rounded-xl text-xs lg:text-sm font-semibold whitespace-nowrap border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 ${
+      className={`relative min-w-0 flex flex-col lg:flex-row items-center justify-center gap-0.5 lg:gap-1.5 min-h-12 lg:min-h-10 px-1 lg:px-4 py-1.5 lg:py-0 rounded-xl text-[11px] lg:text-sm font-semibold whitespace-nowrap border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 ${
         active
           ? "bg-indigo-600/25 border-indigo-500/50 text-white shadow-lg shadow-indigo-500/10"
           : "border-transparent text-gray-400 hover:text-white hover:bg-white/5"
       }`}
     >
-      <Icon className={`w-4 h-4 ${active ? "text-indigo-300" : "text-gray-500"}`} aria-hidden />
-      <span>{def.label}</span>
+      <Icon className={`w-4 h-4 shrink-0 ${active ? "text-indigo-300" : "text-gray-500"}`} aria-hidden />
+      <span className="lg:hidden">{def.short}</span>
+      <span className="hidden lg:inline">{def.label}</span>
       {badgeCount > 0 && (
         <span
-          className="ml-0.5 inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[11px] font-bold"
+          className="absolute top-0.5 right-0.5 lg:static lg:ml-0.5 inline-flex items-center justify-center min-w-4 lg:min-w-5 h-4 lg:h-5 px-1 lg:px-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[10px] lg:text-[11px] font-bold"
           aria-label={`입력한 롤 ${badgeCount}개`}
         >
           {badgeCount}
@@ -346,7 +378,7 @@ function DemoCta() {
         <div className="max-w-3xl mx-auto space-y-5 lg:space-y-6">
           <div className="text-indigo-400 text-xs font-bold uppercase tracking-widest">FROM DEMO TO FACTORY</div>
           <p className="text-gray-300 text-sm lg:text-base leading-relaxed">
-            이 데모는 설계 문서의 첫 6개월 범위를 그대로 옮긴 것입니다.
+            롤 일지·KPI 보드·계보 추적은 첫 6개월에 만드는 범위이고, 개선 제안은 데이터가 쌓인 뒤의 모습입니다.
           </p>
           <h2 className="text-2xl lg:text-4xl font-extrabold text-white leading-snug">
             우리 공장 데이터로 만들면?
@@ -366,24 +398,24 @@ function DemoCta() {
             </Link>
 
             <a
-              href="tel:1588-2622"
+              href={`tel:${CONTACT.phone}`}
               className="w-full lg:w-auto flex items-center justify-center gap-3 px-5 py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all"
             >
               <PhoneCall className="w-5 h-5 text-indigo-400" aria-hidden />
               <span className="text-left">
-                <span className="block text-[10px] text-gray-400 font-bold">대표 전화</span>
-                <span className="block text-base font-bold text-white">1588-2622</span>
+                <span className="block text-[10px] text-gray-400 font-bold">{CONTACT.phoneLabel}</span>
+                <span className="block text-base font-bold text-white">{CONTACT.phone}</span>
               </span>
             </a>
 
             <a
-              href="mailto:contact@taemun.co.kr"
+              href={`mailto:${CONTACT.email}`}
               className="w-full lg:w-auto flex items-center justify-center gap-3 px-5 py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all"
             >
               <Mail className="w-5 h-5 text-gray-400" aria-hidden />
               <span className="text-left">
                 <span className="block text-[10px] text-gray-400 font-bold">이메일</span>
-                <span className="block text-base font-bold text-white">contact@taemun.co.kr</span>
+                <span className="block text-base font-bold text-white">{CONTACT.email}</span>
               </span>
             </a>
           </div>
@@ -399,7 +431,7 @@ function DemoFooter() {
       <div className="max-w-7xl mx-auto space-y-4">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-3 lg:gap-4">
           <div>
-            <span className="font-bold text-gray-400">태문 DEV STUDIO</span> • 대표전화: 1588-2622 • 이메일: contact@taemun.co.kr
+            <span className="font-bold text-gray-400">태문 DEV STUDIO</span> • 직통전화: {CONTACT.phone} • 이메일: {CONTACT.email}
           </div>
           <div>© 2026 TAEMUN DEV STUDIO. All rights reserved. (Domain: taemun.net)</div>
         </div>

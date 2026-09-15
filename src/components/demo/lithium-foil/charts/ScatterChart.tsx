@@ -3,7 +3,7 @@
 // 산점도 — 강조 점은 rose 큰 점 + 라벨, 세로 기준선(예: 노점 −45℃)은 점선 + 라벨.
 // 폭은 ResizeObserver 로 잰다. 첫 렌더는 고정 폭(640)으로 그려 서버·클라이언트 출력이 같다.
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import type { ScatterChartProps } from "./types";
 import { fmtNum } from "../ui";
 
@@ -88,6 +88,9 @@ function overlaps(a: Box, b: Box): boolean {
 export default function ScatterChart({ points, xLabel, yLabel, height = 240, xThreshold }: ScatterChartProps) {
   const { ref, width } = useChartWidth();
   const [active, setActive] = useState<number | null>(null);
+  /** 키보드 탭 정지 — 차트 하나에 하나 (roving tabindex). 방향키는 x 순서로 옮긴다 */
+  const [roving, setRoving] = useState<number | null>(null);
+  const hitRefs = useRef<Array<SVGCircleElement | null>>([]);
 
   if (points.length === 0) {
     return (
@@ -128,21 +131,27 @@ export default function ScatterChart({ points, xLabel, yLabel, height = 240, xTh
   const xAt = (v: number) => M.left + ((v - xScale.min) / (xScale.max - xScale.min)) * plotW;
   const yAt = (v: number) => bottom - ((v - yScale.min) / (yScale.max - yScale.min)) * plotH;
 
-  // 강조 점 라벨 — 오른쪽 우선, 끝에 걸리면 왼쪽, 겹치면 아래로 민다
+  // 강조 점 라벨 — 오른쪽 우선, 끝에 걸리면 왼쪽, 양쪽 다 넘치면 점 위(아래) 가운데로 두고 svg 안쪽으로 붙인다.
+  // 좁은 화면에서는 라벨의 첫 조각(「 · 」 앞, 보통 ID)만 쓰고 나머지는 툴팁으로 본다.
   const placedBoxes: Box[] = [];
   const labels = points.flatMap((p) => {
     if (!p.highlight) return [];
     const px = xAt(p.x);
     const py = yAt(p.y);
-    const w = textWidth(p.label, fs);
-    const right = px + 9 + w <= plotRight;
-    let box: Box = { x: right ? px + 9 : px - 9 - w, y: py - fs - 4, w, h: fs + 2 };
+    const text = compact ? (p.label.split(" · ")[0] ?? p.label) : p.label;
+    const w = textWidth(text, fs);
+    const fitsRight = px + 9 + w <= width - 2;
+    const fitsLeft = px - 9 - w >= 2;
+    let box: Box;
+    if (fitsRight) box = { x: px + 9, y: py - fs - 4, w, h: fs + 2 };
+    else if (fitsLeft) box = { x: px - 9 - w, y: py - fs - 4, w, h: fs + 2 };
+    else box = { x: Math.max(2, Math.min(width - 2 - w, px - w / 2)), y: py - fs - 12, w, h: fs + 2 };
     for (let tries = 0; tries < 4 && placedBoxes.some((b) => overlaps(b, box)); tries += 1) {
       box = { ...box, y: box.y + fs + 3 };
     }
-    if (box.y < M.top - 4) box = { ...box, y: py + 6 };
+    if (box.y < 2) box = { ...box, y: py + 10 };
     placedBoxes.push(box);
-    return [{ key: p.key, text: p.label, x: right ? box.x : box.x + w, y: box.y + fs, anchor: right ? "start" : "end" } as const];
+    return [{ key: p.key, text, x: box.x, y: box.y + fs, anchor: "start" } as const];
   });
 
   const thresholdText = hasThreshold ? `기준 ${fmtSigned(xThreshold, xd)}` : "";
@@ -150,7 +159,31 @@ export default function ScatterChart({ points, xLabel, yLabel, height = 240, xTh
   const thresholdRight = thresholdX + 5 + textWidth(thresholdText, fs) <= plotRight;
 
   const highlightCount = points.filter((p) => p.highlight).length;
-  const ariaLabel = `산점도 — 가로 ${xLabel}, 세로 ${yLabel}, 점 ${points.length}개${highlightCount > 0 ? `, 강조 ${highlightCount}개` : ""}${hasThreshold ? `, ${thresholdText}` : ""}`;
+  const ariaLabel = `산점도 — 가로 ${xLabel}, 세로 ${yLabel}, 점 ${points.length}개${highlightCount > 0 ? `, 강조 ${highlightCount}개` : ""}${hasThreshold ? `, ${thresholdText}` : ""}. 점 사이는 방향키로 이동`;
+
+  // 키보드 이동 순서 — 가로축(x) 값 순
+  const navOrder = points.map((_, i) => i).sort((a, b) => (points[a]?.x ?? 0) - (points[b]?.x ?? 0));
+  const firstHighlight = navOrder.find((i) => points[i]?.highlight);
+  const tabStop = roving !== null && roving < points.length ? roving : (firstHighlight ?? navOrder[0] ?? 0);
+  const moveBy = (from: number, delta: number | "home" | "end") => {
+    const pos = navOrder.indexOf(from);
+    const nextPos =
+      delta === "home" ? 0 : delta === "end" ? navOrder.length - 1 : Math.max(0, Math.min(navOrder.length - 1, pos + delta));
+    const next = navOrder[nextPos];
+    if (next === undefined) return;
+    setRoving(next);
+    setActive(next);
+    hitRefs.current[next]?.focus();
+  };
+  const onPointKey = (e: KeyboardEvent<SVGCircleElement>, i: number) => {
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") moveBy(i, 1);
+    else if (e.key === "ArrowLeft" || e.key === "ArrowUp") moveBy(i, -1);
+    else if (e.key === "Home") moveBy(i, "home");
+    else if (e.key === "End") moveBy(i, "end");
+    else if (e.key === "Escape") setActive(null);
+    else return;
+    e.preventDefault();
+  };
 
   const activePoint = active !== null ? points[active] : undefined;
   const ax = activePoint ? xAt(activePoint.x) : 0;
@@ -165,8 +198,7 @@ export default function ScatterChart({ points, xLabel, yLabel, height = 240, xTh
   return (
     <div ref={ref} className="w-full">
       <div className="relative">
-        <svg role="img" aria-label={ariaLabel} width="100%" height={height} viewBox={`0 0 ${width} ${height}`} className="block select-none">
-          <title>{ariaLabel}</title>
+        <svg role="group" aria-label={ariaLabel} width="100%" height={height} viewBox={`0 0 ${width} ${height}`} className="block select-none">
 
           <text x={M.left - 6} y={12} fontSize={fs} fill={C.axisLabel} fontWeight={600}>
             {yLabel}
@@ -258,6 +290,9 @@ export default function ScatterChart({ points, xLabel, yLabel, height = 240, xTh
             if (!p) return null;
             return (
               <circle
+                ref={(el) => {
+                  hitRefs.current[i] = el;
+                }}
                 key={`h-${p.key}`}
                 cx={xAt(p.x)}
                 cy={yAt(p.y)}
@@ -265,7 +300,7 @@ export default function ScatterChart({ points, xLabel, yLabel, height = 240, xTh
                 fill="transparent"
                 stroke="transparent"
                 strokeWidth={2}
-                tabIndex={0}
+                tabIndex={i === tabStop ? 0 : -1}
                 role="img"
                 aria-label={`${p.label} — ${xLabel} ${fmtSigned(p.x, xTip)}, ${yLabel} ${fmtSigned(p.y, yTip)}${p.highlight ? " (강조)" : ""}`}
                 className="outline-none focus-visible:stroke-white"
@@ -273,9 +308,13 @@ export default function ScatterChart({ points, xLabel, yLabel, height = 240, xTh
                 onPointerLeave={(e) => {
                   if (e.pointerType === "mouse") setActive((cur) => (cur === i ? null : cur));
                 }}
-                onFocus={() => setActive(i)}
+                onFocus={() => {
+                  setRoving(i);
+                  setActive(i);
+                }}
                 onBlur={() => setActive((cur) => (cur === i ? null : cur))}
                 onClick={() => setActive(i)}
+                onKeyDown={(e) => onPointKey(e, i)}
               />
             );
           })}

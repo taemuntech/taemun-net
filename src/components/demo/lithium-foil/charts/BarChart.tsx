@@ -22,7 +22,7 @@ const C = {
   track: "rgba(255,255,255,0.05)",
   tick: "#9ca3af",
   label: "#d1d5db",
-  hint: "#6b7280",
+  hint: "#9ca3af",
   value: "#e5e7eb",
 };
 
@@ -120,6 +120,8 @@ export default function BarChart({
 
   const compact = width < 480;
   const fs = compact ? 10 : 11;
+  /** hint 글자 — 모바일에서도 10px 아래로 내리지 않는다 */
+  const hfs = Math.max(10, fs - 1);
   const n = items.length;
   const dataMax = Math.max(...items.map((it) => it.value), 0);
   const fixedMax = typeof max === "number" && max > 0 ? max : null;
@@ -152,7 +154,7 @@ export default function BarChart({
       const barY = rowTop + (rowH - barH) / 2;
       const w = ratio(it.value) * plotW;
       const labelLine = wrapText(it.label, labelW, fs, 1)[0] ?? it.label;
-      const hintLine = it.hint ? (wrapText(it.hint, labelW, fs - 1, 1)[0] ?? it.hint) : null;
+      const hintLine = it.hint ? (wrapText(it.hint, labelW, hfs, 1)[0] ?? it.hint) : null;
       const color = colorOf(it.tone);
       return (
         <g key={it.key}>
@@ -161,7 +163,7 @@ export default function BarChart({
             {labelLine}
           </text>
           {hintLine && (
-            <text x={M.left - 8} y={rowTop + 30} fontSize={fs - 1} fill={C.hint} textAnchor="end">
+            <text x={M.left - 8} y={rowTop + 30} fontSize={hfs} fill={C.hint} textAnchor="end">
               {hintLine}
             </text>
           )}
@@ -179,10 +181,11 @@ export default function BarChart({
     const plotW0 = Math.max(40, width - left - 8);
     const slot = plotW0 / n;
     const labelLines = items.map((it) => wrapText(it.label, slot - 4, fs, 2));
-    const hintLines = items.map((it) => (it.hint ? (wrapText(it.hint, slot - 4, fs - 1, 1)[0] ?? null) : null));
+    // hint 는 좁은 칸에서 두 줄까지 — 한 줄 말줄임으로 n·손실 같은 핵심 값이 잘리지 않게
+    const hintLines = items.map((it) => (it.hint ? wrapText(it.hint, slot - 4, hfs, 2) : []));
     const maxLabelLines = Math.max(...labelLines.map((l) => l.length));
-    const anyHint = hintLines.some(Boolean);
-    const M = { top: 18, right: 8, bottom: 8 + maxLabelLines * (fs + 3) + (anyHint ? fs + 2 : 0), left };
+    const maxHintLines = Math.max(0, ...hintLines.map((l) => l.length));
+    const M = { top: 18, right: 8, bottom: 8 + maxLabelLines * (fs + 3) + maxHintLines * (hfs + 2), left };
     const plotH = Math.max(30, height - M.top - M.bottom);
     const bottom = M.top + plotH;
     const barW = Math.min(48, slot * 0.6);
@@ -203,7 +206,7 @@ export default function BarChart({
           const cx = M.left + slot * (i + 0.5);
           const y = yAt(it.value);
           const lines = labelLines[i] ?? [it.label];
-          const hint = hintLines[i];
+          const hint = hintLines[i] ?? [];
           return (
             <g key={it.key}>
               <title>{titleOf(it.label, it.value, it.hint)}</title>
@@ -224,11 +227,18 @@ export default function BarChart({
                   {line}
                 </text>
               ))}
-              {hint && (
-                <text x={cx} y={bottom + fs + 4 + maxLabelLines * (fs + 3)} fontSize={fs - 1} fill={C.hint} textAnchor="middle">
-                  {hint}
+              {hint.map((line, hi) => (
+                <text
+                  key={`h-${hi}`}
+                  x={cx}
+                  y={bottom + fs + 4 + maxLabelLines * (fs + 3) + hi * (hfs + 2)}
+                  fontSize={hfs}
+                  fill={C.hint}
+                  textAnchor="middle"
+                >
+                  {line}
                 </text>
-              )}
+              ))}
             </g>
           );
         })}

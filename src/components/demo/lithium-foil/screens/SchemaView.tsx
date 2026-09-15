@@ -197,7 +197,7 @@ export default function SchemaView({ onNavigate }: SchemaViewProps) {
             <span className="text-emerald-300">3개</span>로 시작합니다
           </h2>
           <p className="text-sm text-gray-400 mt-2 leading-relaxed">
-            화면 3개 = 롤 일지 입력 · KPI 보드 · 계보 조회. 지금 보고 계신 데모가 그 세 화면입니다.
+            화면 3개 = 롤 일지 입력 · KPI 보드 · 계보 조회. 데모의 앞 세 탭이 그 세 화면이고, 「개선 제안」 탭은 데이터가 쌓인 뒤의 모습입니다.
           </p>
 
           <div className="grid grid-cols-3 gap-2 lg:gap-4 mt-5">
@@ -399,7 +399,7 @@ export default function SchemaView({ onNavigate }: SchemaViewProps) {
                     <td
                       key={ci}
                       className={`align-top py-3 px-3 border-t border-white/10 leading-relaxed ${
-                        ci === 0 ? "bg-indigo-500/[0.07] text-gray-100" : ci === 3 ? "text-gray-500" : "text-gray-300"
+                        ci === 0 ? "bg-indigo-500/[0.07] text-gray-100" : ci === 3 ? "text-gray-400" : "text-gray-300"
                       }`}
                     >
                       {c}
@@ -650,7 +650,7 @@ const VARIABLES: Array<{ input: string; hint?: string; output: string; story?: s
   },
   {
     input: "레시피 ID · 패스 수",
-    output: "레시피별 완주율·두께 산포 비교",
+    output: "레시피별 무파단율·두께 산포 비교",
     story: "레시피 B 는 산포가 줄고, 시험 레시피 C 는 파단·편차가 크다",
   },
   {
@@ -671,7 +671,7 @@ const VARIABLES: Array<{ input: string; hint?: string; output: string; story?: s
   {
     input: "양품 길이 · 총중량 · tare + 파단 횟수 · 손실 m",
     hint: "tare — 코어·필름 무게, 빼야 리튬 무게",
-    output: "질량 수율 폭포, 완주율, 필름 재사용 횟수별 파단",
+    output: "질량 수율 폭포, 무파단율, 필름 재사용 횟수별 파단",
     story: "이형 필름 재사용 5회 이상에서 파단 급증",
   },
   {

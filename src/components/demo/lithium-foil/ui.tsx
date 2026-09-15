@@ -1,7 +1,43 @@
 // 데모 공용 UI 조각 — taemun.net 톤(다크 글래스 카드·indigo/purple 강조)에 맞춘다.
 // 서버/클라이언트 어디서 import 해도 되도록 훅을 쓰지 않는다.
 
-import type { ReactNode } from "react";
+import type { KeyboardEvent, ReactNode } from "react";
+
+/** 용어 풀이 — 화면마다 다르게 풀지 않도록 한 곳에서 쓴다 */
+export const GLOSSARY = {
+  releaseFilm: "이형 필름 — 압연할 때 리튬이 롤러에, 감을 때 호일끼리 달라붙지 않게 사이에 끼우는 필름",
+  dewPoint: "노점(이슬점) — 공기 중 수분이 이슬로 맺히는 온도. 낮을수록 건조하고, 리튬은 수분이 많으면 표면이 변색됩니다",
+  arealDensity: "면밀도 — 정해진 넓이의 무게. 얇은 리튬은 두께를 직접 재기 어려워 이 값이 두께의 정본입니다",
+  tearFreeRate: "무파단율 — 압연 중 한 번도 끊기지 않은 모 롤 비율",
+} as const;
+
+/**
+ * 헤더(80px) + sticky 탭 바 높이는 DemoApp 루트의 CSS 변수 --demo-sticky-offset 하나로 정한다.
+ * sticky top·scroll-margin 은 Tailwind 가 스캔할 수 있게 클래스 문자열 전체로 쓴다.
+ */
+export const STICKY_TOP_LG = "lg:top-[var(--demo-sticky-offset)]";
+export const SCROLL_MARGIN = "scroll-mt-[var(--demo-sticky-offset)]";
+
+/** 라디오 그룹 방향키 이동 — 선택과 포커스를 함께 옮긴다 (ARIA radio 패턴) */
+export function radioKeyNav<T extends string>(
+  event: KeyboardEvent<HTMLElement>,
+  values: T[],
+  current: T,
+  onChange: (value: T) => void,
+): void {
+  const idx = Math.max(0, values.indexOf(current));
+  let next = idx;
+  if (event.key === "ArrowRight" || event.key === "ArrowDown") next = (idx + 1) % values.length;
+  else if (event.key === "ArrowLeft" || event.key === "ArrowUp") next = (idx - 1 + values.length) % values.length;
+  else if (event.key === "Home") next = 0;
+  else if (event.key === "End") next = values.length - 1;
+  else return;
+  event.preventDefault();
+  onChange(values[next]);
+  const group = event.currentTarget.closest('[role="radiogroup"]');
+  const buttons = group ? Array.from(group.querySelectorAll<HTMLElement>('[role="radio"]')) : [];
+  buttons[next]?.focus();
+}
 
 export type Tone = "indigo" | "purple" | "emerald" | "amber" | "rose" | "cyan" | "gray";
 
@@ -71,7 +107,7 @@ export function StatTile({
     <div className="bg-gray-900/60 backdrop-blur-md p-4 lg:p-5 rounded-2xl border border-white/5">
       <div className="text-[11px] lg:text-xs text-gray-400 font-medium mb-1">{label}</div>
       <div className={`text-2xl lg:text-3xl font-extrabold ${TONE[tone].text}`}>{value}</div>
-      {sub && <div className="text-[11px] text-gray-500 mt-1 leading-snug">{sub}</div>}
+      {sub && <div className="text-[11px] text-gray-400 mt-1 leading-snug">{sub}</div>}
     </div>
   );
 }
@@ -88,9 +124,11 @@ export function Segmented<T extends string>({
   onChange: (value: T) => void;
   ariaLabel: string;
 }) {
+  const values = options.map((o) => o.value);
+  const hasActive = values.includes(value);
   return (
     <div role="radiogroup" aria-label={ariaLabel} className="inline-flex flex-wrap rounded-xl bg-gray-950 border border-white/10 p-1 gap-1">
-      {options.map((o) => {
+      {options.map((o, i) => {
         const active = o.value === value;
         return (
           <button
@@ -98,8 +136,10 @@ export function Segmented<T extends string>({
             type="button"
             role="radio"
             aria-checked={active}
+            tabIndex={active || (!hasActive && i === 0) ? 0 : -1}
             onClick={() => onChange(o.value)}
-            className={`inline-flex items-center justify-center min-h-10 px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors ${
+            onKeyDown={(e) => radioKeyNav(e, values, value, onChange)}
+            className={`inline-flex items-center justify-center min-h-10 px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 ${
               active ? "bg-indigo-600 text-white" : "text-gray-400 hover:text-white hover:bg-white/5"
             }`}
           >

@@ -3,7 +3,7 @@
 // 런 차트 — 시간순 선+점. 값이 없는(null) 구간은 선을 끊는다. 목표선은 점선.
 // 폭은 ResizeObserver 로 잰다. 첫 렌더는 고정 폭(640)으로 그려 서버·클라이언트 출력이 같다.
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import type { ChartTone, RunChartProps } from "./types";
 import { fmtNum } from "../ui";
 
@@ -88,6 +88,9 @@ export default function RunChart({
 }: RunChartProps) {
   const { ref, width } = useChartWidth();
   const [active, setActive] = useState<number | null>(null);
+  /** 키보드 탭 정지 — 차트 하나에 하나 (roving tabindex) */
+  const [roving, setRoving] = useState<number | null>(null);
+  const bandRefs = useRef<Array<SVGRectElement | null>>([]);
   const values = points.flatMap((p) => (p.value === null ? [] : [p.value]));
 
   if (points.length === 0 || values.length === 0) {
@@ -158,9 +161,26 @@ export default function RunChart({
   const bandW = n > 1 ? step : innerW;
   const missingCount = n - values.length;
 
+  const tabStop = roving !== null && roving < n ? roving : 0;
+  const moveTo = (i: number) => {
+    const next = Math.max(0, Math.min(n - 1, i));
+    setRoving(next);
+    setActive(next);
+    bandRefs.current[next]?.focus();
+  };
+  const onBandKey = (e: KeyboardEvent<SVGRectElement>, i: number) => {
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") moveTo(i + 1);
+    else if (e.key === "ArrowLeft" || e.key === "ArrowUp") moveTo(i - 1);
+    else if (e.key === "Home") moveTo(0);
+    else if (e.key === "End") moveTo(n - 1);
+    else if (e.key === "Escape") setActive(null);
+    else return;
+    e.preventDefault();
+  };
+
   const ariaLabel = `시간순 추이${unit ? `(단위 ${unit})` : ""} — ${points
     .map((p) => `${p.label} ${p.value === null ? "값 없음" : format(p.value)}`)
-    .join(", ")}${hasTarget ? `, ${targetText}` : ""}`;
+    .join(", ")}${hasTarget ? `, ${targetText}` : ""}. 주 사이는 왼쪽·오른쪽 방향키로 이동`;
 
   const activePoint = active !== null ? points[active] : undefined;
   const ax = active !== null ? xAt(active) : 0;
@@ -173,8 +193,7 @@ export default function RunChart({
     <div ref={ref} className="w-full">
       {unit && <div className="mb-1 text-right text-[11px] text-gray-500">단위: {unit}</div>}
       <div className="relative">
-        <svg role="img" aria-label={ariaLabel} width="100%" height={height} viewBox={`0 0 ${width} ${height}`} className="block select-none">
-          <title>{ariaLabel}</title>
+        <svg role="group" aria-label={ariaLabel} width="100%" height={height} viewBox={`0 0 ${width} ${height}`} className="block select-none">
 
           {ticks.map((t) => (
             <g key={`t-${t}`}>
@@ -241,6 +260,9 @@ export default function RunChart({
           {/* 세로 띠 전체가 hover·터치 대상 */}
           {points.map((p, i) => (
             <rect
+              ref={(el) => {
+                bandRefs.current[i] = el;
+              }}
               key={`h-${p.key}`}
               x={xAt(i) - bandW / 2}
               y={M.top}
@@ -249,17 +271,21 @@ export default function RunChart({
               fill="transparent"
               stroke="transparent"
               strokeWidth={1.5}
-              tabIndex={0}
+              tabIndex={i === tabStop ? 0 : -1}
               role="img"
-              aria-label={`${p.label} ${p.value === null ? "값 없음" : format(p.value)}${p.hint ? ` (${p.hint})` : ""}`}
+              aria-label={`${i + 1}/${n}번째 ${p.label} ${p.value === null ? "값 없음" : format(p.value)}${p.hint ? ` (${p.hint})` : ""}`}
               className="outline-none focus-visible:stroke-white"
               onPointerEnter={() => setActive(i)}
               onPointerLeave={(e) => {
                 if (e.pointerType === "mouse") setActive((cur) => (cur === i ? null : cur));
               }}
-              onFocus={() => setActive(i)}
+              onFocus={() => {
+                setRoving(i);
+                setActive(i);
+              }}
               onBlur={() => setActive((cur) => (cur === i ? null : cur))}
               onClick={() => setActive(i)}
+              onKeyDown={(e) => onBandKey(e, i)}
             />
           ))}
         </svg>
