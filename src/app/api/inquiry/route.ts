@@ -65,7 +65,7 @@ export async function POST(request: Request) {
       const clientSmsText = `[태문 DEV STUDIO]
 ${clientName} 대표님, 맞춤 견적 신청이 정상 접수되었습니다.
 담당 아키텍트가 1시간 이내로 연락해 드리겠습니다.
-■ 문의전화: 1588-2622`;
+■ 문의전화: 010-8672-6463`;
 
       const clientSmsResult = await sendSms(cleanClientPhone, clientSmsText);
       console.log("Client SMS auto-reply result:", clientSmsResult);

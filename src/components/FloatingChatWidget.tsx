@@ -50,17 +50,17 @@ export default function FloatingChatWidget() {
 
             {/* Direct Phone Call */}
             <a
-              href="tel:1588-2622"
-              className="w-full p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold text-sm flex items-center justify-between transition-all group"
+              href="tel:010-8672-6463"
+              className="w-full p-4 rounded-2xl bg-indigo-600/15 hover:bg-indigo-600/25 border border-indigo-500/30 text-white font-bold text-sm flex items-center justify-between transition-all group"
             >
               <div className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-indigo-400" />
                 <div className="text-left">
-                  <div className="text-sm font-bold">대표전화 직통 상담</div>
-                  <div className="text-[11px] text-gray-400">1588-2622 (24시간)</div>
+                  <div className="text-sm font-bold text-white">총괄 아키텍트 직통 상담</div>
+                  <div className="text-[11px] text-indigo-300">010-8672-6463 (24시간)</div>
                 </div>
               </div>
-              <span className="text-xs text-gray-400 group-hover:translate-x-1 transition-transform">→</span>
+              <span className="text-xs text-indigo-400 group-hover:translate-x-1 transition-transform">→</span>
             </a>
 
             {/* Web Quote Form Anchor */}

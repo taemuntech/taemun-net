@@ -1,15 +1,16 @@
 import FloatingChatWidget from "@/components/FloatingChatWidget";
 import ParticleCanvas from "@/components/ParticleCanvas";
 import Link from "next/link";
-import { 
-  ArrowRight, 
-  CreditCard, 
-  FileText, 
-  Layers, 
-  Layout, 
-  Mail, 
+import {
+  ArrowRight,
+  BarChart3,
+  CreditCard,
+  FileText,
+  Layers,
+  Layout,
+  Mail,
   PhoneCall,
-  Sparkles 
+  Sparkles
 } from "lucide-react";
 
 export default function Home() {
@@ -42,7 +43,8 @@ export default function Home() {
           <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-400">
             <a href="#services" className="hover:text-white transition-colors">개발 서비스</a>
             <a href="#portfolio" className="hover:text-white transition-colors">포트폴리오 & 사례</a>
-            <Link 
+            <Link href="/demo/lithium-foil" className="hover:text-white transition-colors">공정 데이터 데모</Link>
+            <Link
               href="/inquiry" 
               className="px-4.5 py-2 rounded-full bg-gradient-to-r from-indigo-600/30 via-purple-600/30 to-pink-600/30 border border-indigo-500/50 text-white font-bold text-xs hover:border-indigo-400 hover:scale-105 transition-all flex items-center justify-center backdrop-blur-md shadow-lg shadow-indigo-500/25"
             >
@@ -58,7 +60,7 @@ export default function Home() {
               <span className="text-[10px]">↗</span>
             </a>
             <a 
-              href="https://tdocs.taemun.co.kr" 
+              href="https://tdocs.kr" 
               target="_blank" 
               rel="noreferrer" 
               className="px-3 py-1.5 rounded-full bg-gradient-to-r from-purple-500/15 via-pink-500/15 to-rose-500/15 border border-purple-500/40 text-purple-300 text-xs font-semibold hover:border-purple-300 hover:text-white transition-all flex items-center gap-1 backdrop-blur-md shadow-sm shadow-purple-500/20"
@@ -70,9 +72,9 @@ export default function Home() {
 
           {/* Right CTAs */}
           <div className="flex items-center gap-2 lg:gap-3">
-            <a href="tel:1588-2622" className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold border border-white/15 backdrop-blur-md transition-all">
+            <a href="tel:010-8672-6463" className="flex items-center gap-1.5 px-3.5 lg:px-4 py-2 lg:py-2.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-white text-xs font-bold border border-indigo-500/40 backdrop-blur-md transition-all shadow-sm shadow-indigo-500/20">
               <PhoneCall className="w-3.5 h-3.5 text-indigo-400" />
-              <span>1588-2622</span>
+              <span>010-8672-6463 (총괄 직통)</span>
             </a>
           </div>
         </div>
@@ -303,6 +305,36 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        {/* Live Demo Banner: 제조 공정 데이터 플랫폼 */}
+        <Link
+          href="/demo/lithium-foil"
+          className="mt-8 group flex flex-col lg:flex-row lg:items-center justify-between gap-5 bg-gray-900/60 backdrop-blur-md p-6 lg:p-8 rounded-3xl border border-emerald-500/30 hover:border-emerald-400/60 transition-all"
+        >
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 shrink-0 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+              <BarChart3 className="w-6 h-6" />
+            </div>
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-[11px] font-bold text-emerald-400 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                  LIVE DEMO
+                </span>
+                <span className="text-xs text-gray-400">제조 · 소재 공정 데이터 플랫폼</span>
+              </div>
+              <h3 className="text-lg lg:text-2xl font-bold text-white leading-snug">
+                롤 일지 입력 → KPI·관리도·로트 계보가 즉시 바뀌는 공정 데이터 데모
+              </h3>
+              <p className="text-xs lg:text-sm text-gray-400 leading-relaxed">
+                리튬 호일 제조 12주치 가상 데이터로 수율 워터폴, 불순물 관리도, 클레임 역추적, 데이터 기반 개선 제안까지 직접 체험해 보세요.
+              </p>
+            </div>
+          </div>
+          <span className="w-full lg:w-auto shrink-0 px-6 py-3.5 rounded-xl bg-gradient-to-r from-emerald-600 to-cyan-600 text-white font-bold text-xs lg:text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 group-hover:opacity-90 transition-all">
+            <span>공정 데이터 데모 열기</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </span>
+        </Link>
       </section>
 
       {/* Contact CTA Section */}
@@ -320,23 +352,15 @@ export default function Home() {
             </p>
 
             <div className="pt-4 lg:pt-6 flex flex-col lg:flex-row items-center justify-center gap-3 lg:gap-4">
-              <a href="tel:010-8672-6463" className="w-full lg:w-auto flex items-center justify-center gap-3 px-5 py-3.5 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 hover:border-indigo-400 transition-all">
+              <a href="tel:010-8672-6463" className="w-full lg:w-auto flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-indigo-600/30 border border-indigo-500/50 hover:border-indigo-400 hover:bg-indigo-600/40 transition-all shadow-lg shadow-indigo-500/10">
                 <PhoneCall className="w-5 h-5 text-indigo-400" />
                 <div className="text-left">
-                  <div className="text-[10px] text-indigo-300 uppercase font-bold">총괄 아키텍트 직통</div>
+                  <div className="text-[10px] text-indigo-300 uppercase font-bold">총괄 아키텍트 직통 (24시간)</div>
                   <div className="text-base lg:text-lg font-bold text-white">010-8672-6463</div>
                 </div>
               </a>
 
-              <a href="tel:1588-2622" className="w-full lg:w-auto flex items-center justify-center gap-3 px-5 py-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all">
-                <PhoneCall className="w-5 h-5 text-gray-400" />
-                <div className="text-left">
-                  <div className="text-[10px] text-gray-400 uppercase font-bold">대표 전화</div>
-                  <div className="text-base lg:text-lg font-bold text-white">1588-2622</div>
-                </div>
-              </a>
-
-              <a href="mailto:contact@taemun.co.kr" className="w-full lg:w-auto flex items-center justify-center gap-3 px-5 py-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all">
+              <a href="mailto:contact@taemun.co.kr" className="w-full lg:w-auto flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all">
                 <Mail className="w-5 h-5 text-gray-400" />
                 <div className="text-left">
                   <div className="text-[10px] text-gray-400 uppercase font-bold">이메일 문의</div>
@@ -352,7 +376,7 @@ export default function Home() {
       <footer className="py-10 lg:py-12 px-4 lg:px-6 border-t border-white/5 relative z-10 text-center text-xs text-gray-500">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
           <div>
-            <span className="font-bold text-gray-400">태문 DEV STUDIO</span> • 대표전화: 1588-2622 • 이메일: contact@taemun.co.kr
+            <span className="font-bold text-gray-400">태문 DEV STUDIO</span> • 직통전화: 010-8672-6463 • 이메일: contact@taemun.co.kr
           </div>
           <div>
             © 2026 TAEMUN DEV STUDIO. All rights reserved. (Domain: taemun.net)

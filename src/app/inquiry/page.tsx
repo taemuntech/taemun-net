@@ -241,7 +241,7 @@ export default function InquiryPage() {
                   </div>
                 </a>
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between text-gray-300 gap-1 px-1 pt-1">
-                  <span>대표전화: 1588-2622</span>
+                  <span>직통전화: 010-8672-6463</span>
                   <span className="text-gray-400">이메일: contact@taemun.co.kr</span>
                 </div>
               </div>

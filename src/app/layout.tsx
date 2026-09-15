@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     template: "%s | 태문 DEV STUDIO",
   },
   description:
-    "맞춤형 홈페이지 제작부터 고성능 웹·앱 솔루션, 전자서식 SaaS, PG 결제 연동까지. 타사 대비 2배 빠른 0→1 프로덕션 구축! 개발 외주 문의 1588-2622",
+    "맞춤형 홈페이지 제작부터 고성능 웹·앱 솔루션, 전자서식 SaaS, PG 결제 연동까지. 타사 대비 2배 빠른 0→1 프로덕션 구축! 개발 외주 문의 010-8672-6463",
   keywords: [
     "홈페이지 제작",
     "홈페이지 제작 외주",
@@ -102,7 +102,7 @@ export default function RootLayout({
               url: "https://taemun.net",
               description:
                 "홈페이지 제작, 웹·앱 플랫폼 개발, 전자서식 SaaS 및 PG 결제 시스템 전문 외주 개발 스튜디오",
-              telephone: "+82-1588-2622",
+              telephone: "+82-10-8672-6463",
               email: "contact@taemun.co.kr",
               areaServed: "KR",
               availableLanguage: "Korean",
