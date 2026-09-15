@@ -11,7 +11,7 @@ export default function FloatingChatWidget() {
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
       {/* Expanded Modal Box */}
       {isOpen && (
-        <div className="mb-4 w-[340px] sm:w-[380px] bg-gray-950/90 border border-indigo-500/30 backdrop-blur-xl rounded-3xl p-6 shadow-2xl shadow-indigo-500/20 animate-in fade-in slide-in-from-bottom-5 duration-200">
+        <div className="mb-4 w-[340px] lg:w-[380px] bg-gray-950/90 border border-indigo-500/30 backdrop-blur-xl rounded-3xl p-6 shadow-2xl shadow-indigo-500/20 animate-in fade-in slide-in-from-bottom-5 duration-200">
           <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-5">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-black text-lg shadow-md shadow-indigo-500/20">

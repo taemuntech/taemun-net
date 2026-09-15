@@ -67,7 +67,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className="dark">
+    <html lang="ko">
       <head>
         {gaId && (
           <>
@@ -116,7 +116,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="antialiased bg-[#030712] text-gray-100 min-h-screen">
+      <body className="antialiased bg-white text-zinc-900 min-h-screen selection:bg-zinc-900 selection:text-white">
         {children}
       </body>
     </html>
