@@ -9,20 +9,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type MouseEvent, type PointerEvent } from "react";
 import type { ControlChartProps } from "./types";
 import { fmtNum, fmtShortDate } from "../ui";
-
-const C = {
-  point: "#818cf8",
-  line: "#818cf8",
-  mean: "#9ca3af",
-  limit: "#fbbf24",
-  spec: "#fb7185",
-  highlight: "#22d3ee",
-  grid: "rgba(255,255,255,0.07)",
-  axis: "rgba(255,255,255,0.18)",
-  band: "rgba(129,140,248,0.07)",
-  tick: "#9ca3af",
-  dim: "#9ca3af",
-};
+import { CHART, CHART_FONT } from "./palette";
 
 const INITIAL_WIDTH = 640;
 
@@ -109,7 +96,7 @@ export default function ControlChart({
     return (
       <div ref={ref} className="w-full">
         <div
-          className="flex items-center justify-center rounded-xl border border-dashed border-white/10 text-sm text-gray-400"
+          className="flex items-center justify-center rounded-xl border border-dashed border-slate-300 text-sm text-slate-500"
           style={{ height }}
         >
           데이터가 없습니다
@@ -119,7 +106,7 @@ export default function ControlChart({
   }
 
   const compact = width < 480;
-  const fs = compact ? 10 : 11;
+  const fs = compact ? CHART_FONT.compact : CHART_FONT.regular;
   const n = pts.length;
   const limitsValid = chart.limitsValid;
   const values = pts.map((p) => p.value);
@@ -135,12 +122,13 @@ export default function ControlChart({
   const showLcl = limitsValid && chart.lcl > scale.min;
   // specLabel 에 이미 숫자가 들어 있으면(예: "규격 50ppm") 값을 다시 붙이지 않는다
   const specText = hasSpec ? (/\d/.test(specLabel) ? specLabel : `${specLabel} ${fmtSigned(specLimit, vd)}`) : "";
-  const rightItems: Array<{ key: string; value: number; text: string; color: string }> = [
-    { key: "mean", value: chart.mean, text: `평균 ${fmtSigned(chart.mean, vd)}`, color: C.mean },
+  // 오른쪽 끝 라벨 글자는 선 색을 입지 않는다(label) — 어느 선인지는 바로 옆 선이 알려 준다
+  const rightItems: Array<{ key: string; value: number; text: string }> = [
+    { key: "mean", value: chart.mean, text: `평균 ${fmtSigned(chart.mean, vd)}` },
   ];
-  if (limitsValid) rightItems.push({ key: "ucl", value: chart.ucl, text: `관리상한 ${fmtSigned(chart.ucl, vd)}`, color: C.limit });
-  if (showLcl) rightItems.push({ key: "lcl", value: chart.lcl, text: `관리하한 ${fmtSigned(chart.lcl, vd)}`, color: C.limit });
-  if (hasSpec) rightItems.push({ key: "spec", value: specLimit, text: specText, color: C.spec });
+  if (limitsValid) rightItems.push({ key: "ucl", value: chart.ucl, text: `관리상한 ${fmtSigned(chart.ucl, vd)}` });
+  if (showLcl) rightItems.push({ key: "lcl", value: chart.lcl, text: `관리하한 ${fmtSigned(chart.lcl, vd)}` });
+  if (hasSpec) rightItems.push({ key: "spec", value: specLimit, text: specText });
 
   const tickLabelW = Math.max(...scale.ticks.map((t) => textWidth(fmtSigned(t, td), fs)));
   const rightLabelW = Math.max(...rightItems.map((r) => textWidth(r.text, fs)));
@@ -270,7 +258,7 @@ export default function ControlChart({
 
   return (
     <div ref={ref} className="w-full">
-      <div className="mb-1 text-right text-[11px] text-gray-400">단위: {unit}</div>
+      <div className="mb-1 text-right text-[11px] text-slate-500">단위: {unit}</div>
       <div className="relative">
         <svg
           ref={svgRef}
@@ -283,14 +271,14 @@ export default function ControlChart({
         >
           {showBand && (
             <g aria-hidden>
-              <rect x={bandX0} y={M.top} width={Math.max(0, bandX1 - bandX0)} height={plotH} fill={C.band} />
-              <text x={bandX0 + 4} y={M.top - 7} fontSize={fs} fill={C.dim}>
+              <rect x={bandX0} y={M.top} width={Math.max(0, bandX1 - bandX0)} height={plotH} fill={CHART.band} />
+              <text x={bandX0 + 4} y={M.top - 7} fontSize={fs} fill={CHART.tick}>
                 기준 구간 ({baseN}개)
               </text>
             </g>
           )}
           {!limitsValid && (
-            <text x={M.left + 4} y={M.top - 7} fontSize={fs} fill={C.limit} aria-hidden>
+            <text x={M.left + 4} y={M.top - 7} fontSize={fs} fill={CHART.label} aria-hidden>
               기준 구간 표본 부족 — 관리한계 없음
             </text>
           )}
@@ -298,32 +286,32 @@ export default function ControlChart({
           <g aria-hidden>
             {scale.ticks.map((t) => (
               <g key={`y-${t}`}>
-                <line x1={M.left} x2={plotRight} y1={yAt(t)} y2={yAt(t)} stroke={C.grid} />
-                <text x={M.left - 6} y={yAt(t) + fs * 0.35} fontSize={fs} fill={C.tick} textAnchor="end">
+                <line x1={M.left} x2={plotRight} y1={yAt(t)} y2={yAt(t)} stroke={CHART.grid} />
+                <text x={M.left - 6} y={yAt(t) + fs * 0.35} fontSize={fs} fill={CHART.tick} textAnchor="end">
                   {fmtSigned(t, td)}
                 </text>
               </g>
             ))}
-            <line x1={M.left} x2={plotRight} y1={plotBottom} y2={plotBottom} stroke={C.axis} />
+            <line x1={M.left} x2={plotRight} y1={plotBottom} y2={plotBottom} stroke={CHART.axis} />
 
             {pts.map((p, i) =>
               i % stride === 0 ? (
-                <text key={`x-${p.id}`} x={xAt(i)} y={plotBottom + fs + 5} fontSize={fs} fill={C.tick} textAnchor="middle">
+                <text key={`x-${p.id}`} x={xAt(i)} y={plotBottom + fs + 5} fontSize={fs} fill={CHART.tick} textAnchor="middle">
                   {fmtShortDate(p.date)}
                 </text>
               ) : null,
             )}
 
             {/* 중심선·관리한계·규격 */}
-            <line x1={M.left} x2={plotRight} y1={yAt(chart.mean)} y2={yAt(chart.mean)} stroke={C.mean} strokeWidth={1.2} />
+            <line x1={M.left} x2={plotRight} y1={yAt(chart.mean)} y2={yAt(chart.mean)} stroke={CHART.mean} strokeWidth={1.5} />
             {limitsValid && (
               <line
                 x1={M.left}
                 x2={plotRight}
                 y1={yAt(chart.ucl)}
                 y2={yAt(chart.ucl)}
-                stroke={C.limit}
-                strokeWidth={1.2}
+                stroke={CHART.limit}
+                strokeWidth={1.5}
                 strokeDasharray="5 4"
               />
             )}
@@ -333,8 +321,8 @@ export default function ControlChart({
                 x2={plotRight}
                 y1={yAt(chart.lcl)}
                 y2={yAt(chart.lcl)}
-                stroke={C.limit}
-                strokeWidth={1.2}
+                stroke={CHART.limit}
+                strokeWidth={1.5}
                 strokeDasharray="5 4"
               />
             )}
@@ -344,18 +332,18 @@ export default function ControlChart({
                 x2={plotRight}
                 y1={yAt(specLimit)}
                 y2={yAt(specLimit)}
-                stroke={C.spec}
-                strokeWidth={1.5}
+                stroke={CHART.spec}
+                strokeWidth={2}
                 strokeDasharray="2 3"
               />
             )}
             {placed.map((r) => (
-              <text key={r.key} x={plotRight + 6} y={r.y + fs * 0.35} fontSize={fs} fill={r.color} fontWeight={600}>
+              <text key={r.key} x={plotRight + 6} y={r.y + fs * 0.35} fontSize={fs} fill={CHART.label} fontWeight={600}>
                 {r.text}
               </text>
             ))}
 
-            <path d={linePath} fill="none" stroke={C.line} strokeOpacity={0.55} strokeWidth={1.5} strokeLinejoin="round" />
+            <path d={linePath} fill="none" stroke={CHART.primary} strokeOpacity={0.7} strokeWidth={2} strokeLinejoin="round" />
           </g>
 
           {/* 포인터 대상 — 플롯 전체 사각형 하나, x 로 가장 가까운 점 */}
@@ -387,15 +375,16 @@ export default function ControlChart({
             }`;
             return (
               <g key={`p-${p.id}`}>
-                {highlight.has(p.id) && <circle cx={x} cy={y} r={9} fill="none" stroke={C.highlight} strokeWidth={2} pointerEvents="none" />}
+                {highlight.has(p.id) && <circle cx={x} cy={y} r={10} fill="none" stroke={CHART.highlight} strokeWidth={2} pointerEvents="none" />}
+                {/* 이탈 점은 2px surface 링으로 선·이웃 점과 떼어 놓는다 (링 안쪽 채움 지름 8px 이상) */}
                 {p.overSpec ? (
-                  <circle cx={x} cy={y} r={compact ? 5 : 5.5} fill={C.spec} stroke="#030712" strokeWidth={1.5} pointerEvents="none" />
+                  <circle cx={x} cy={y} r={compact ? 5.5 : 6} fill={CHART.spec} stroke={CHART.surface} strokeWidth={2} pointerEvents="none" />
                 ) : p.outOfControl ? (
-                  <circle cx={x} cy={y} r={compact ? 4.5 : 5} fill={C.limit} stroke="#030712" strokeWidth={1.5} pointerEvents="none" />
+                  <circle cx={x} cy={y} r={compact ? 5 : 5.5} fill={CHART.limit} stroke={CHART.surface} strokeWidth={2} pointerEvents="none" />
                 ) : (
-                  <circle cx={x} cy={y} r={compact ? 2.5 : 3} fill={C.point} pointerEvents="none" />
+                  <circle cx={x} cy={y} r={4} fill={CHART.primary} pointerEvents="none" />
                 )}
-                {isActive && <circle cx={x} cy={y} r={7} fill="none" stroke="#ffffff" strokeOpacity={0.8} strokeWidth={1.5} pointerEvents="none" />}
+                {isActive && <circle cx={x} cy={y} r={8} fill="none" stroke={CHART.ink} strokeOpacity={0.7} strokeWidth={1.5} pointerEvents="none" />}
                 {/* 키보드 대상 — 보이지 않는 원, 탭 정지는 하나만 */}
                 <circle
                   ref={(el) => {
@@ -411,7 +400,7 @@ export default function ControlChart({
                   tabIndex={i === tabStop ? 0 : -1}
                   role={clickable ? "button" : "img"}
                   aria-label={clickable ? `${label} — Enter 로 계보 보기` : label}
-                  className="outline-none focus-visible:stroke-white"
+                  className="outline-none focus-visible:stroke-indigo-500"
                   onFocus={() => {
                     setRoving(i);
                     setActive(i);
@@ -427,82 +416,89 @@ export default function ControlChart({
 
         {activePoint && (
           <div
-            className={`absolute z-10 w-max max-w-[220px] rounded-lg border border-white/10 bg-gray-950/95 px-2.5 py-2 shadow-xl [word-break:keep-all] ${
+            className={`absolute z-10 w-max max-w-[220px] rounded-lg border px-2.5 py-2 [word-break:keep-all] ${
               showTouchAction ? "pointer-events-auto" : "pointer-events-none"
             }`}
-            style={{ left: `${(frac * 100).toFixed(2)}%`, top: ay, transform: `translate(${tx}, ${ty})` }}
+            style={{
+              left: `${(frac * 100).toFixed(2)}%`,
+              top: ay,
+              transform: `translate(${tx}, ${ty})`,
+              backgroundColor: CHART.tooltipBg,
+              borderColor: CHART.tooltipBorder,
+              boxShadow: CHART.tooltipShadow,
+            }}
           >
-            <div className="font-mono text-[11px] text-white">{activePoint.id}</div>
-            <div className="text-[11px] text-gray-400">
+            <div className="font-mono text-[11px] text-slate-900">{activePoint.id}</div>
+            <div className="text-[11px] text-slate-600">
               {fmtShortDate(activePoint.date)} · {activePoint.label}
             </div>
-            <div className="mt-0.5 text-sm font-bold text-white">
-              {fmtSigned(activePoint.value, vd)} <span className="text-xs font-medium text-gray-400">{unit}</span>
+            <div className="mt-0.5 text-sm font-bold text-slate-900">
+              {fmtSigned(activePoint.value, vd)} <span className="text-xs font-medium text-slate-500">{unit}</span>
             </div>
-            {activePoint.overSpec && <div className="text-[11px] font-semibold text-rose-300">{specName} 초과</div>}
+            {activePoint.overSpec && <div className="text-[11px] font-semibold text-rose-700">{specName} 초과</div>}
             {activePoint.outOfControl && !activePoint.overSpec && (
-              <div className="text-[11px] font-semibold text-amber-300">관리한계 이탈</div>
+              <div className="text-[11px] font-semibold text-amber-800">관리한계 이탈</div>
             )}
-            {highlight.has(activePoint.id) && <div className="text-[11px] font-semibold text-cyan-300">강조한 항목</div>}
+            {highlight.has(activePoint.id) && <div className="text-[11px] font-semibold text-cyan-700">강조한 항목</div>}
             {showTouchAction ? (
               <button
                 type="button"
                 onClick={() => onPointClick?.(activePoint.id)}
-                className="mt-1.5 inline-flex w-full min-h-10 items-center justify-center rounded-lg bg-indigo-600 px-3 text-xs font-semibold text-white hover:bg-indigo-500"
+                className="mt-1.5 inline-flex w-full min-h-10 items-center justify-center rounded-lg bg-indigo-600 px-3 text-xs font-semibold text-white hover:bg-indigo-700"
               >
                 계보 보기
               </button>
             ) : (
-              clickable && <div className="mt-0.5 text-[11px] text-indigo-300">눌러서 계보 보기</div>
+              clickable && <div className="mt-0.5 text-[11px] text-indigo-600">눌러서 계보 보기</div>
             )}
           </div>
         )}
       </div>
 
-      <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-[11px] text-gray-400 [word-break:keep-all]">
+      <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-[11px] text-slate-600 [word-break:keep-all]">
         <li className="flex items-center gap-1.5">
-          <span className="inline-block h-2 w-2 rounded-full bg-indigo-400" aria-hidden />
+          <span className="inline-block h-2 w-2 rounded-full bg-indigo-600" aria-hidden />
           측정값
         </li>
         <li className="flex items-center gap-1.5">
-          <span className="inline-block w-4 border-t border-gray-400" aria-hidden />
+          <span className="inline-block w-4 border-t-2 border-slate-500" aria-hidden />
           평균
         </li>
         {limitsValid ? (
           <li className="flex items-center gap-1.5">
-            <span className="inline-block w-4 border-t border-dashed border-amber-400" aria-hidden />
+            <span className="inline-block w-4 border-t-2 border-dashed border-amber-600" aria-hidden />
             관리한계(상한·하한)
           </li>
         ) : (
-          <li className="flex items-center gap-1.5 text-amber-300">기준 구간 표본 부족 — 관리한계를 그리지 않음</li>
+          <li className="flex items-center gap-1.5 text-amber-800">기준 구간 표본 부족 — 관리한계를 그리지 않음</li>
         )}
         {oocCount > 0 && (
           <li className="flex items-center gap-1.5">
-            <span className="inline-block h-2.5 w-2.5 rounded-full bg-amber-400" aria-hidden />
+            <span className="inline-block h-2.5 w-2.5 rounded-full bg-amber-600" aria-hidden />
             관리한계 이탈
           </li>
         )}
         {hasSpec && (
           <li className="flex items-center gap-1.5">
-            <span className="inline-block w-4 border-t border-dotted border-rose-400" aria-hidden />
+            <span className="inline-block w-4 border-t-2 border-dotted border-rose-600" aria-hidden />
             {specName}
           </li>
         )}
         {overCount > 0 && (
           <li className="flex items-center gap-1.5">
-            <span className="inline-block h-2.5 w-2.5 rounded-full bg-rose-400" aria-hidden />
+            <span className="inline-block h-2.5 w-2.5 rounded-full bg-rose-600" aria-hidden />
             {specName} 초과
           </li>
         )}
         {highlight.size > 0 && pts.some((p) => highlight.has(p.id)) && (
           <li className="flex items-center gap-1.5">
-            <span className="inline-block h-2.5 w-2.5 rounded-full border-2 border-cyan-400" aria-hidden />
+            <span className="inline-block h-2.5 w-2.5 rounded-full border-2 border-cyan-600" aria-hidden />
             강조
           </li>
         )}
         {showBand && (
           <li className="flex items-center gap-1.5">
-            <span className="inline-block h-2.5 w-4 rounded-sm bg-indigo-400/15" aria-hidden />
+            <span className="inline-block h-2.5 w-4 rounded-sm border border-slate-200 bg-slate-50" aria-hidden />
             기준 구간 — 관리한계를 계산한 정상 운전 구간
           </li>
         )}

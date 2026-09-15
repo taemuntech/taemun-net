@@ -36,6 +36,7 @@ import {
   Card,
   CardHeader,
   GLOSSARY,
+  LIGHT,
   SCROLL_MARGIN,
   STICKY_TOP_LG,
   TONE,
@@ -57,8 +58,8 @@ const DEW_STOP_C = -45;
 const DEFAULT_WIDTH_MM = "300";
 const AREAL_LABELS = ["좌", "중", "우"] as const;
 
-const INPUT_CLASS =
-  "w-full min-h-10 bg-gray-950 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder:text-gray-500 focus:border-indigo-500 outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/60 aria-[invalid=true]:border-rose-500/60 disabled:opacity-40 disabled:cursor-not-allowed";
+/** 라이트 공용 입력 모양(LIGHT.input) + 이 화면의 터치 높이·비활성 커서 */
+const INPUT_CLASS = `${LIGHT.input} min-h-10 disabled:cursor-not-allowed`;
 
 // ---- 폼 상태 ----
 
@@ -334,8 +335,8 @@ function Field({
   return (
     <div className="min-w-0">
       <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
-        <label htmlFor={htmlFor} className="flex items-center gap-2 text-sm font-semibold text-gray-200 [word-break:keep-all]">
-          <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-indigo-500/15 text-[11px] font-bold text-indigo-300">
+        <label htmlFor={htmlFor} className="flex items-center gap-2 text-sm font-semibold text-slate-900 [word-break:keep-all]">
+          <span className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-indigo-200 bg-indigo-50 text-[11px] font-bold text-indigo-700">
             {step}
           </span>
           {label}
@@ -343,9 +344,9 @@ function Field({
         {right}
       </div>
       {children}
-      {hint && <div className="mt-1.5 text-xs text-gray-500 leading-relaxed [word-break:keep-all]">{hint}</div>}
+      {hint && <div className="mt-1.5 text-xs text-slate-500 leading-relaxed [word-break:keep-all]">{hint}</div>}
       {error && (
-        <p id={errorId} className="mt-1.5 text-xs font-medium text-rose-400 [word-break:keep-all]">
+        <p id={errorId} className="mt-1.5 text-xs font-medium text-rose-700 [word-break:keep-all]">
           {error}
         </p>
       )}
@@ -355,7 +356,7 @@ function Field({
 
 function SubLabel({ htmlFor, children }: { htmlFor?: string; children: ReactNode }) {
   return (
-    <label htmlFor={htmlFor} className="block text-xs text-gray-400 mb-1 [word-break:keep-all]">
+    <label htmlFor={htmlFor} className="block text-xs text-slate-600 mb-1 [word-break:keep-all]">
       {children}
     </label>
   );
@@ -381,19 +382,19 @@ function Stepper({
   disabled?: boolean;
 }) {
   const btn =
-    "flex h-10 w-11 shrink-0 items-center justify-center rounded-lg text-gray-300 hover:bg-white/10 hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors";
+    "flex h-10 w-11 shrink-0 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 hover:text-slate-900 disabled:text-slate-300 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors";
   return (
     <div
-      className={`inline-flex items-center rounded-xl border border-white/10 bg-gray-950 p-0.5 ${disabled ? "opacity-50" : ""}`}
+      className={`inline-flex items-center rounded-xl border border-slate-300 bg-white p-0.5 ${disabled ? "opacity-50" : ""}`}
       role="group"
       aria-label={label}
     >
       <button type="button" className={btn} aria-label={`${label} 줄이기`} disabled={disabled || value <= min} onClick={() => onChange(Math.max(min, value - 1))}>
         <Minus size={16} />
       </button>
-      <output id={id} aria-live="polite" className="min-w-14 px-1 text-center text-base font-bold text-white tabular-nums">
+      <output id={id} aria-live="polite" className="min-w-14 px-1 text-center text-base font-bold text-slate-900 tabular-nums">
         {value}
-        <span className="ml-0.5 text-xs font-medium text-gray-500">{unit}</span>
+        <span className="ml-0.5 text-xs font-medium text-slate-500">{unit}</span>
       </output>
       <button type="button" className={btn} aria-label={`${label} 늘리기`} disabled={disabled || value >= max} onClick={() => onChange(Math.min(max, value + 1))}>
         <Plus size={16} />
@@ -441,14 +442,14 @@ function ChoiceGroup<T extends string>({
             tabIndex={active || (!hasActive && i === 0) ? 0 : -1}
             onClick={() => onChange(o.value)}
             onKeyDown={(e: KeyboardEvent<HTMLButtonElement>) => radioKeyNav(e, values, value, onChange)}
-            className={`min-h-10 rounded-xl border px-3 py-2 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 ${
+            className={`min-h-10 rounded-xl border px-3 py-2 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 ${
               active
-                ? "border-indigo-500 bg-indigo-600/90 text-white"
-                : "border-white/10 bg-gray-950 text-gray-300 hover:border-white/20 hover:text-white"
+                ? "border-indigo-600 bg-indigo-600 text-white shadow-sm"
+                : "border-slate-300 bg-white text-slate-700 hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900"
             }`}
           >
             <span className="block text-sm font-semibold leading-tight">{o.label}</span>
-            {o.sub && <span className={`block text-[11px] leading-tight mt-0.5 ${active ? "text-indigo-100" : "text-gray-500"}`}>{o.sub}</span>}
+            {o.sub && <span className={`block text-[11px] leading-tight mt-0.5 ${active ? "text-indigo-100" : "text-slate-500"}`}>{o.sub}</span>}
           </button>
         );
       })}
@@ -692,12 +693,12 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
       <div className="min-w-0 space-y-4">
         {saved && (
           <div ref={successRef} className={SCROLL_MARGIN}>
-            <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 backdrop-blur-md p-4 lg:p-6">
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 shadow-md p-4 lg:p-6">
               <div className="flex items-start gap-3">
-                <CircleCheck size={22} className="mt-0.5 shrink-0 text-emerald-400" />
+                <CircleCheck size={22} className="mt-0.5 shrink-0 text-emerald-600" />
                 <div className="min-w-0 flex-1">
-                  <div className="text-sm font-bold text-emerald-300">저장했습니다 — KPI 보드가 이 롤을 포함해 다시 계산됐습니다</div>
-                  <div className="mt-1 font-mono text-base lg:text-lg font-bold text-white break-all">{saved.roll.id}</div>
+                  <div className="text-sm font-bold text-emerald-700">저장했습니다 — KPI 보드가 이 롤을 포함해 다시 계산됐습니다</div>
+                  <div className="mt-1 font-mono text-base lg:text-lg font-bold text-slate-900 break-all">{saved.roll.id}</div>
                   <dl className="mt-3 grid grid-cols-2 lg:grid-cols-4 gap-2">
                     <SummaryItem label="평균 두께" value={savedThickness ? `${fmtNum((savedThickness[0] + savedThickness[1] + savedThickness[2]) / 3, 2)}µm` : "미측정"} />
                     <SummaryItem label="3점 편차(SD)" value={savedSd !== null ? `${fmtNum(savedSd, 2)}µm` : "—"} />
@@ -711,13 +712,13 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
                       ))}
                     </ul>
                   ) : (
-                    <p className="mt-3 text-xs text-emerald-200/80">경고 없음 — 기준 안에서 작업된 롤입니다.</p>
+                    <p className="mt-3 text-xs text-emerald-700">경고 없음 — 기준 안에서 작업된 롤입니다.</p>
                   )}
                   <div className="mt-4 flex flex-col lg:flex-row gap-2">
                     <button
                       type="button"
                       onClick={() => onNavigate("kpi")}
-                      className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-500 transition-colors"
+                      className={LIGHT.buttonPrimary}
                     >
                       <BarChart3 size={16} />
                       KPI 보드에서 보기
@@ -725,7 +726,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
                     <button
                       type="button"
                       onClick={() => onTrace({ type: "roll", id: saved.roll.id })}
-                      className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-gray-100 hover:bg-white/10 transition-colors"
+                      className={LIGHT.buttonSecondary}
                     >
                       <GitBranch size={16} />
                       계보 조회 — 이 롤이 어디서 왔나
@@ -752,7 +753,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
             <button
               type="button"
               onClick={() => fillExample("normal")}
-              className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-indigo-500/30 bg-indigo-500/10 px-3.5 py-2 text-sm font-semibold text-indigo-200 hover:bg-indigo-500/20 transition-colors"
+              className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-3.5 py-2 text-sm font-semibold text-indigo-700 hover:border-indigo-300 hover:bg-indigo-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
             >
               <Wand2 size={15} />
               예시로 채우기 — 정상 롤
@@ -760,7 +761,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
             <button
               type="button"
               onClick={() => fillExample("problem")}
-              className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-3.5 py-2 text-sm font-semibold text-amber-200 hover:bg-amber-500/20 transition-colors"
+              className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2 text-sm font-semibold text-amber-800 hover:border-amber-300 hover:bg-amber-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
             >
               <Wand2 size={15} />
               예시로 채우기 — 문제 롤
@@ -796,7 +797,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
                 <div className="mt-2">
                   <Callout tone="amber" icon={<TriangleAlert size={15} />}>
                     <span className="[word-break:keep-all]">
-                      이 잉곳은 <b className="text-amber-200">출하 보류</b> 중입니다.
+                      이 잉곳은 <b className="text-amber-800">출하 보류</b> 중입니다.
                       {holdReason ? ` ${holdReason.description}.` : ""} 기록은 할 수 있지만, 이 잉곳에서 나온 롤은 판정 전까지 출하할 수 없습니다.
                     </span>
                   </Callout>
@@ -827,14 +828,14 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
                     <SubLabel htmlFor={fid("pass")}>패스 수 — 압연기를 통과시킨 횟수</SubLabel>
                     <Stepper id={fid("pass")} label="패스 수" unit="회" value={form.passCount} min={1} max={10} onChange={(n) => set("passCount", n)} />
                   </div>
-                  <div className="text-xs text-gray-400 leading-relaxed [word-break:keep-all]">
+                  <div className="text-xs text-slate-600 leading-relaxed [word-break:keep-all]">
                     {recPass !== null && (
                       <div>
-                        권장 <b className="text-gray-200">{recPass}패스</b>
-                        {form.passCount !== recPass && <span className="ml-1 text-amber-300">· 권장과 다름</span>}
+                        권장 <b className="text-slate-900">{recPass}패스</b>
+                        {form.passCount !== recPass && <span className="ml-1 text-amber-800">· 권장과 다름</span>}
                       </div>
                     )}
-                    <div className="text-gray-500">{selectedRecipe.note}</div>
+                    <div className="text-slate-500">{selectedRecipe.note}</div>
                   </div>
                 </div>
               )}
@@ -874,8 +875,8 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
                       재사용 {FILM_REUSE_WARN}회 이상 구간입니다. 지금까지 데이터에서{" "}
                       {reuseHigh && reuseLow && reuseHigh.rolls > 0 && reuseLow.rolls > 0 ? (
                         <>
-                          무파단율이 <b className="text-amber-200">5회 이상 {fmtPct(reuseHigh.tearFreeRate)}</b>({reuseHigh.rolls}롤) vs{" "}
-                          <b className="text-emerald-300">1~2회 {fmtPct(reuseLow.tearFreeRate)}</b>({reuseLow.rolls}롤). 표본이 적어 확정은 아니지만 필름 교체를 검토하세요.
+                          무파단율이 <b className="text-amber-800">5회 이상 {fmtPct(reuseHigh.tearFreeRate)}</b>({reuseHigh.rolls}롤) vs{" "}
+                          <b className="text-emerald-700">1~2회 {fmtPct(reuseLow.tearFreeRate)}</b>({reuseLow.rolls}롤). 표본이 적어 확정은 아니지만 필름 교체를 검토하세요.
                         </>
                       ) : (
                         <>비교할 롤이 아직 부족합니다.</>
@@ -895,7 +896,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
               errorId={errId("dew")}
               hint={
                 dewParsed.state === "empty" ? (
-                  <span className="text-gray-400">비워 두면 「결측」으로 기록됩니다. {GLOSSARY.dewPoint}.</span>
+                  <span className="text-slate-600">비워 두면 「결측」으로 기록됩니다. {GLOSSARY.dewPoint}.</span>
                 ) : (
                   "영하 값이라 숫자만 입력합니다. 예: 55 → −55℃"
                 )
@@ -903,7 +904,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
             >
               <div className="flex items-center gap-2 max-w-full lg:max-w-60">
                 <div className="relative w-full">
-                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-bold text-gray-400">−</span>
+                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-bold text-slate-500">−</span>
                   <input
                     id={fid("dew")}
                     type="text"
@@ -912,17 +913,17 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
                     placeholder="55"
                     value={form.dewAbs}
                     onChange={(e) => set("dewAbs", e.target.value)}
-                    className={`${INPUT_CLASS} pl-7 pr-9 ${dewOver ? "border-rose-500/60" : ""}`}
+                    className={`${INPUT_CLASS} pl-7 pr-9 ${dewOver ? "border-rose-500!" : ""}`}
                     {...a11y("dew")}
                   />
-                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">℃</span>
+                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">℃</span>
                 </div>
               </div>
               {dewOver && (
                 <div className="mt-2">
                   <Callout tone="rose" icon={<OctagonAlert size={15} />}>
                     <span className="[word-break:keep-all]">
-                      <b className="text-rose-200">작업 중단 기준</b> — 노점 {fmtNum(dewPointC ?? 0, 1)}℃ 는 −45℃ 보다 습합니다. 수분이 리튬 표면을 변색시킬 수 있습니다.
+                      <b className="text-rose-700">작업 중단 기준</b> — 노점 {fmtNum(dewPointC ?? 0, 1)}℃ 는 −45℃ 보다 습합니다. 수분이 리튬 표면을 변색시킬 수 있습니다.
                       {dewClaim ? ` 같은 조건의 작업분이 표면 변색 클레임(${dewClaim.targetId})으로 돌아온 적이 있습니다.` : ""}
                     </span>
                   </Callout>
@@ -987,7 +988,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
                 </div>
               </div>
               {visibleErrors.good && visibleErrors.width && (
-                <p id={errId("width")} className="mt-1 text-xs font-medium text-rose-400">
+                <p id={errId("width")} className="mt-1 text-xs font-medium text-rose-700">
                   {visibleErrors.width}
                 </p>
               )}
@@ -1018,14 +1019,14 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
                         className={INPUT_CLASS}
                         {...a11y("areal")}
                       />
-                      <div className="mt-1 text-xs text-gray-500 tabular-nums">{t !== null ? `≈ ${fmtNum(t, 2)}µm` : "두께 —"}</div>
+                      <div className="mt-1 text-xs text-slate-500 tabular-nums">{t !== null ? `≈ ${fmtNum(t, 2)}µm` : "두께 —"}</div>
                     </div>
                   );
                 })}
               </div>
               <div
                 className={`mt-3 rounded-xl border px-3 py-2.5 text-xs lg:text-sm leading-relaxed [word-break:keep-all] ${
-                  sdUm === null ? "border-white/10 bg-white/5 text-gray-400" : sdOver ? `${TONE.amber.border} ${TONE.amber.bg} text-amber-200` : `${TONE.emerald.border} ${TONE.emerald.bg} text-emerald-200`
+                  sdUm === null ? "border-slate-200 bg-slate-50 text-slate-600" : sdOver ? `${TONE.amber.border} ${TONE.amber.bg} text-amber-800` : `${TONE.emerald.border} ${TONE.emerald.bg} text-emerald-700`
                 }`}
               >
                 {sdUm === null || meanUm === null ? (
@@ -1043,7 +1044,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
                         <TriangleAlert size={14} /> 관리한계({fmtNum(sdChart.ucl, 2)}µm) 초과
                       </span>
                     ) : (
-                      <span className="text-emerald-300/80">관리한계 {fmtNum(sdChart.ucl, 2)}µm 이내</span>
+                      <span className="text-emerald-700">관리한계 {fmtNum(sdChart.ucl, 2)}µm 이내</span>
                     )}
                   </span>
                 )}
@@ -1084,7 +1085,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
             </Field>
 
             {/* 저장 */}
-            <div className="border-t border-white/10 pt-4">
+            <div className="border-t border-slate-200 pt-4">
               {liveWarnings.length > 0 && (
                 <ul className="mb-3 space-y-1">
                   {liveWarnings.map((w) => (
@@ -1095,25 +1096,25 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
               <div className="flex flex-col lg:flex-row lg:items-center gap-3">
                 <button
                   type="submit"
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-indigo-900/30 hover:from-indigo-500 hover:to-purple-500 transition-colors"
+                  className={`${LIGHT.buttonPrimary} min-h-11 px-6`}
                 >
                   <Save size={16} />
                   롤 일지 저장
                 </button>
                 <div className="text-sm [word-break:keep-all]" aria-live="polite">
                   {missingRequired > 0 ? (
-                    <span className="text-gray-300">
-                      필수 <b className="text-white">{missingRequired}칸</b> 남음
+                    <span className="text-slate-600">
+                      필수 <b className="text-slate-900">{missingRequired}칸</b> 남음
                     </span>
                   ) : otherErrorCount > 0 ? (
-                    <span className="text-rose-400">고칠 칸 {otherErrorCount}개</span>
+                    <span className="text-rose-700">고칠 칸 {otherErrorCount}개</span>
                   ) : (
-                    <span className="text-emerald-400">저장할 수 있습니다</span>
+                    <span className="text-emerald-700">저장할 수 있습니다</span>
                   )}
-                  {missingRequired > 0 && otherErrorCount > 0 && <span className="ml-2 text-rose-400">· 고칠 칸 {otherErrorCount}개</span>}
+                  {missingRequired > 0 && otherErrorCount > 0 && <span className="ml-2 text-rose-700">· 고칠 칸 {otherErrorCount}개</span>}
                 </div>
               </div>
-              <p aria-live="polite" className="mt-2 text-xs text-rose-400 [word-break:keep-all]">
+              <p aria-live="polite" className="mt-2 text-xs text-rose-700 [word-break:keep-all]">
                 {showErrors && Object.keys(errors).length > 0
                   ? `저장하지 못했습니다 — 빨간 글씨가 있는 칸 ${Object.keys(errors).length}곳을 확인해 주세요. 첫 칸으로 이동했습니다.`
                   : ""}
@@ -1132,7 +1133,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
             right={<Badge tone={userRolls.length ? "indigo" : "gray"}>{userRolls.length}개</Badge>}
           />
           {userRolls.length === 0 ? (
-            <p className="text-sm text-gray-500 [word-break:keep-all]">아직 없습니다. 「예시로 채우기」로 한 개 저장해 보세요.</p>
+            <p className="text-sm text-slate-600 [word-break:keep-all]">아직 없습니다. 「예시로 채우기」로 한 개 저장해 보세요.</p>
           ) : (
             <ul className="space-y-2">
               {userRolls
@@ -1146,16 +1147,16 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
                       <button
                         type="button"
                         onClick={() => onTrace({ type: "roll", id: r.id })}
-                        className="w-full min-h-10 rounded-xl border border-white/10 bg-gray-950/60 px-3 py-2.5 text-left hover:border-indigo-500/40 hover:bg-indigo-500/5 transition-colors"
+                        className="w-full min-h-10 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-left hover:border-indigo-300 hover:bg-indigo-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
                       >
-                        <div className="font-mono text-xs font-semibold text-white break-all">{r.id}</div>
+                        <div className="font-mono text-xs font-semibold text-slate-900 break-all">{r.id}</div>
                         <div className="mt-1 flex flex-wrap gap-1">
                           <Badge tone="indigo">레시피 {recipeLetter(r.recipeId)}</Badge>
                           <Badge tone={r.tearCount > 0 ? "amber" : "gray"}>파단 {r.tearCount}</Badge>
                           <Badge tone={sd !== null && sd > sdChart.ucl ? "amber" : "gray"}>{sd !== null ? `SD ${fmtNum(sd, 2)}µm` : "면밀도 없음"}</Badge>
                           <Badge tone={dewBad ? "rose" : "gray"}>{r.dewPointC !== null ? `노점 ${fmtNum(r.dewPointC, 0)}℃` : "노점 결측"}</Badge>
                         </div>
-                        <div className="mt-1 text-[11px] text-gray-500">눌러서 계보 보기</div>
+                        <div className="mt-1 text-[11px] text-slate-500">눌러서 계보 보기</div>
                       </button>
                     </li>
                   );
@@ -1166,7 +1167,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
             type="button"
             onClick={onReset}
             disabled={userRolls.length === 0}
-            className="mt-4 inline-flex w-full min-h-10 items-center justify-center gap-2 rounded-xl border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm font-semibold text-rose-200 hover:bg-rose-500/20 disabled:opacity-40 disabled:cursor-not-allowed transition-colors [word-break:keep-all]"
+            className="mt-4 inline-flex w-full min-h-10 items-center justify-center gap-2 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700 hover:border-rose-300 hover:bg-rose-100 disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-500 disabled:hover:bg-slate-100 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 transition-colors [word-break:keep-all]"
           >
             <RotateCcw size={15} />
             {userRolls.length ? `입력 초기화 — 내가 넣은 롤 ${userRolls.length}개 바로 삭제` : "입력 초기화 — 지울 롤 없음"}
@@ -1175,18 +1176,18 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
 
         <Card>
           <div className="flex items-center gap-2 mb-3">
-            <Database size={16} className="text-purple-400" />
-            <h3 className="text-sm font-bold text-white">이 입력이 저장되는 표</h3>
+            <Database size={16} className="text-purple-600" />
+            <h3 className="text-sm font-bold text-slate-900">이 입력이 저장되는 표</h3>
           </div>
-          <ul className="space-y-2.5 text-xs text-gray-400 leading-relaxed [word-break:keep-all]">
+          <ul className="space-y-2.5 text-xs text-slate-600 leading-relaxed [word-break:keep-all]">
             <li>
-              <code className="font-mono text-indigo-300">roll</code> — 롤 ID·잉곳·폭·양품 길이·파단 횟수·손실 길이·외관 등급·상태
+              <code className="font-mono text-indigo-700">roll</code> — 롤 ID·잉곳·폭·양품 길이·파단 횟수·손실 길이·외관 등급·상태
             </li>
             <li>
-              <code className="font-mono text-indigo-300">process_run</code> — 레시피·패스 수·필름 로트·재사용 횟수·노점·작업자·시각
+              <code className="font-mono text-indigo-700">process_run</code> — 레시피·패스 수·필름 로트·재사용 횟수·노점·작업자·시각
             </li>
             <li>
-              <code className="font-mono text-indigo-300">measurement</code> — 면밀도 좌·중·우 3행(g/m²). 두께·편차는 저장하지 않고 계산합니다
+              <code className="font-mono text-indigo-700">measurement</code> — 면밀도 좌·중·우 3행(g/m²). 두께·편차는 저장하지 않고 계산합니다
             </li>
           </ul>
         </Card>
@@ -1197,9 +1198,9 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
 
 function SummaryItem({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-white/10 bg-gray-950/50 px-3 py-2 min-w-0">
-      <dt className="text-[11px] text-gray-400">{label}</dt>
-      <dd className="text-sm font-bold text-white tabular-nums [word-break:keep-all]">{value}</dd>
+    <div className="rounded-xl border border-emerald-200 bg-white px-3 py-2 min-w-0">
+      <dt className="text-[11px] text-slate-500">{label}</dt>
+      <dd className="text-sm font-bold text-slate-900 tabular-nums [word-break:keep-all]">{value}</dd>
     </div>
   );
 }

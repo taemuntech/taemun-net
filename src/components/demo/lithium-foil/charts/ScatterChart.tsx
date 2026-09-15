@@ -6,17 +6,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import type { ScatterChartProps } from "./types";
 import { fmtNum } from "../ui";
-
-const C = {
-  point: "#818cf8",
-  highlight: "#fb7185",
-  threshold: "#fbbf24",
-  grid: "rgba(255,255,255,0.07)",
-  axis: "rgba(255,255,255,0.18)",
-  tick: "#9ca3af",
-  axisLabel: "#9ca3af",
-  label: "#fecdd3",
-};
+import { CHART, CHART_FONT } from "./palette";
 
 const INITIAL_WIDTH = 640;
 
@@ -96,7 +86,7 @@ export default function ScatterChart({ points, xLabel, yLabel, height = 240, xTh
     return (
       <div ref={ref} className="w-full">
         <div
-          className="flex items-center justify-center rounded-xl border border-dashed border-white/10 text-sm text-gray-500"
+          className="flex items-center justify-center rounded-xl border border-dashed border-slate-300 text-sm text-slate-500"
           style={{ height }}
         >
           데이터가 없습니다
@@ -106,7 +96,7 @@ export default function ScatterChart({ points, xLabel, yLabel, height = 240, xTh
   }
 
   const compact = width < 480;
-  const fs = compact ? 10 : 11;
+  const fs = compact ? CHART_FONT.compact : CHART_FONT.regular;
   const hasThreshold = typeof xThreshold === "number" && Number.isFinite(xThreshold);
 
   const xs = points.map((p) => p.x);
@@ -200,29 +190,29 @@ export default function ScatterChart({ points, xLabel, yLabel, height = 240, xTh
       <div className="relative">
         <svg role="group" aria-label={ariaLabel} width="100%" height={height} viewBox={`0 0 ${width} ${height}`} className="block select-none">
 
-          <text x={M.left - 6} y={12} fontSize={fs} fill={C.axisLabel} fontWeight={600}>
+          <text x={M.left - 6} y={12} fontSize={fs} fill={CHART.label} fontWeight={600}>
             {yLabel}
           </text>
 
           {yScale.ticks.map((t) => (
             <g key={`y-${t}`}>
-              <line x1={M.left} x2={plotRight} y1={yAt(t)} y2={yAt(t)} stroke={C.grid} />
-              <text x={M.left - 6} y={yAt(t) + fs * 0.35} fontSize={fs} fill={C.tick} textAnchor="end">
+              <line x1={M.left} x2={plotRight} y1={yAt(t)} y2={yAt(t)} stroke={CHART.grid} />
+              <text x={M.left - 6} y={yAt(t) + fs * 0.35} fontSize={fs} fill={CHART.tick} textAnchor="end">
                 {fmtSigned(t, yd)}
               </text>
             </g>
           ))}
           {xScale.ticks.map((t) => (
             <g key={`x-${t}`}>
-              <line x1={xAt(t)} x2={xAt(t)} y1={M.top} y2={bottom} stroke={C.grid} />
-              <text x={xAt(t)} y={bottom + fs + 5} fontSize={fs} fill={C.tick} textAnchor="middle">
+              <line x1={xAt(t)} x2={xAt(t)} y1={M.top} y2={bottom} stroke={CHART.grid} />
+              <text x={xAt(t)} y={bottom + fs + 5} fontSize={fs} fill={CHART.tick} textAnchor="middle">
                 {fmtSigned(t, xd)}
               </text>
             </g>
           ))}
-          <line x1={M.left} x2={plotRight} y1={bottom} y2={bottom} stroke={C.axis} />
-          <line x1={M.left} x2={M.left} y1={M.top} y2={bottom} stroke={C.axis} />
-          <text x={M.left + plotW / 2} y={height - 6} fontSize={fs} fill={C.axisLabel} fontWeight={600} textAnchor="middle">
+          <line x1={M.left} x2={plotRight} y1={bottom} y2={bottom} stroke={CHART.axis} />
+          <line x1={M.left} x2={M.left} y1={M.top} y2={bottom} stroke={CHART.axis} />
+          <text x={M.left + plotW / 2} y={height - 6} fontSize={fs} fill={CHART.label} fontWeight={600} textAnchor="middle">
             {xLabel}
           </text>
 
@@ -233,15 +223,15 @@ export default function ScatterChart({ points, xLabel, yLabel, height = 240, xTh
                 x2={thresholdX}
                 y1={M.top}
                 y2={bottom}
-                stroke={C.threshold}
-                strokeWidth={1.5}
+                stroke={CHART.limit}
+                strokeWidth={2}
                 strokeDasharray="5 4"
               />
               <text
                 x={thresholdRight ? thresholdX + 5 : thresholdX - 5}
                 y={M.top - 6}
                 fontSize={fs}
-                fill={C.threshold}
+                fill={CHART.label}
                 fontWeight={600}
                 textAnchor={thresholdRight ? "start" : "end"}
               >
@@ -257,12 +247,13 @@ export default function ScatterChart({ points, xLabel, yLabel, height = 240, xTh
             const cy = yAt(p.y);
             return (
               <g key={`p-${p.key}`} pointerEvents="none">
+                {/* 겹친 점 사이는 2px surface 링으로 뗀다 — 링 안쪽 채움 지름 8px 이상 */}
                 {p.highlight ? (
-                  <circle cx={cx} cy={cy} r={compact ? 5.5 : 6} fill={C.highlight} stroke="#030712" strokeWidth={1.5} />
+                  <circle cx={cx} cy={cy} r={compact ? 6.5 : 7} fill={CHART.spec} stroke={CHART.surface} strokeWidth={2} />
                 ) : (
-                  <circle cx={cx} cy={cy} r={compact ? 3.5 : 4} fill={C.point} fillOpacity={0.7} />
+                  <circle cx={cx} cy={cy} r={5} fill={CHART.primary} fillOpacity={0.8} stroke={CHART.surface} strokeWidth={2} />
                 )}
-                {active === i && <circle cx={cx} cy={cy} r={9} fill="none" stroke="#ffffff" strokeOpacity={0.8} strokeWidth={1.5} />}
+                {active === i && <circle cx={cx} cy={cy} r={10} fill="none" stroke={CHART.ink} strokeOpacity={0.7} strokeWidth={1.5} />}
               </g>
             );
           })}
@@ -274,9 +265,9 @@ export default function ScatterChart({ points, xLabel, yLabel, height = 240, xTh
               y={l.y}
               fontSize={fs}
               fontWeight={600}
-              fill={C.label}
+              fill={CHART.ink}
               textAnchor={l.anchor}
-              stroke="#030712"
+              stroke={CHART.surface}
               strokeWidth={3}
               paintOrder="stroke"
               pointerEvents="none"
@@ -303,7 +294,7 @@ export default function ScatterChart({ points, xLabel, yLabel, height = 240, xTh
                 tabIndex={i === tabStop ? 0 : -1}
                 role="img"
                 aria-label={`${p.label} — ${xLabel} ${fmtSigned(p.x, xTip)}, ${yLabel} ${fmtSigned(p.y, yTip)}${p.highlight ? " (강조)" : ""}`}
-                className="outline-none focus-visible:stroke-white"
+                className="outline-none focus-visible:stroke-indigo-500"
                 onPointerEnter={() => setActive(i)}
                 onPointerLeave={(e) => {
                   if (e.pointerType === "mouse") setActive((cur) => (cur === i ? null : cur));
@@ -322,35 +313,43 @@ export default function ScatterChart({ points, xLabel, yLabel, height = 240, xTh
 
         {activePoint && (
           <div
-            className="pointer-events-none absolute z-10 w-max max-w-[220px] rounded-lg border border-white/10 bg-gray-950/95 px-2.5 py-2 shadow-xl [word-break:keep-all]"
-            style={{ left: `${(frac * 100).toFixed(2)}%`, top: ay, transform: `translate(${tx}, ${ty})` }}
+            className="pointer-events-none absolute z-10 w-max max-w-[220px] rounded-lg border px-2.5 py-2 [word-break:keep-all]"
+            style={{
+              left: `${(frac * 100).toFixed(2)}%`,
+              top: ay,
+              transform: `translate(${tx}, ${ty})`,
+              backgroundColor: CHART.tooltipBg,
+              borderColor: CHART.tooltipBorder,
+              boxShadow: CHART.tooltipShadow,
+            }}
           >
-            <div className={`text-[11px] font-semibold ${activePoint.highlight ? "text-rose-300" : "text-white"}`}>{activePoint.label}</div>
-            <div className="text-[11px] text-gray-300">
-              {xLabel} <span className="font-bold text-white">{fmtSigned(activePoint.x, xTip)}</span>
+            {/* 제목은 강조 여부와 무관하게 ink — 강조는 차트의 rose 점이 맡는다 */}
+            <div className="text-[11px] font-semibold text-slate-900">{activePoint.label}</div>
+            <div className="text-[11px] text-slate-600">
+              {xLabel} <span className="font-bold text-slate-900">{fmtSigned(activePoint.x, xTip)}</span>
             </div>
-            <div className="text-[11px] text-gray-300">
-              {yLabel} <span className="font-bold text-white">{fmtSigned(activePoint.y, yTip)}</span>
+            <div className="text-[11px] text-slate-600">
+              {yLabel} <span className="font-bold text-slate-900">{fmtSigned(activePoint.y, yTip)}</span>
             </div>
           </div>
         )}
       </div>
 
       {(highlightCount > 0 || hasThreshold) && (
-        <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-[11px] text-gray-400 [word-break:keep-all]">
+        <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-[11px] text-slate-600 [word-break:keep-all]">
           <li className="flex items-center gap-1.5">
-            <span className="inline-block h-2 w-2 rounded-full bg-indigo-400/70" aria-hidden />
+            <span className="inline-block h-2 w-2 rounded-full bg-indigo-600/80" aria-hidden />
             측정 {points.length - highlightCount}개
           </li>
           {highlightCount > 0 && (
             <li className="flex items-center gap-1.5">
-              <span className="inline-block h-2.5 w-2.5 rounded-full bg-rose-400" aria-hidden />
+              <span className="inline-block h-2.5 w-2.5 rounded-full bg-rose-600" aria-hidden />
               강조 {highlightCount}개
             </li>
           )}
           {hasThreshold && (
             <li className="flex items-center gap-1.5">
-              <span className="inline-block h-3 border-l border-dashed border-amber-400" aria-hidden />
+              <span className="inline-block h-3 border-l-2 border-dashed border-amber-600" aria-hidden />
               {thresholdText}
             </li>
           )}

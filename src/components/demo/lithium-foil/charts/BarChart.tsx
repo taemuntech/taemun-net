@@ -6,24 +6,18 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { BarChartProps, ChartTone } from "./types";
 import { fmtNum } from "../ui";
+import { CHART, CHART_FONT, TONE_HEX } from "./palette";
 
-const TONE_HEX: Record<ChartTone, string> = {
-  indigo: "#818cf8",
-  purple: "#c084fc",
-  emerald: "#34d399",
-  amber: "#fbbf24",
-  rose: "#fb7185",
-  cyan: "#22d3ee",
-};
-
+// 라이트 캔버스: 값 라벨은 항상 막대 밖 ink 글자(막대 색 무관), 막대는 불투명 tone 색.
 const C = {
-  grid: "rgba(255,255,255,0.07)",
-  axis: "rgba(255,255,255,0.18)",
-  track: "rgba(255,255,255,0.05)",
-  tick: "#9ca3af",
-  label: "#d1d5db",
-  hint: "#9ca3af",
-  value: "#e5e7eb",
+  grid: CHART.grid,
+  axis: CHART.axis,
+  /** 가로 막대 뒤 옅은 트랙 */
+  track: CHART.band,
+  tick: CHART.tick,
+  label: CHART.label,
+  hint: CHART.tick,
+  value: CHART.ink,
 };
 
 const INITIAL_WIDTH = 640;
@@ -109,7 +103,7 @@ export default function BarChart({
     return (
       <div ref={ref} className="w-full">
         <div
-          className="flex items-center justify-center rounded-xl border border-dashed border-white/10 text-sm text-gray-500"
+          className="flex items-center justify-center rounded-xl border border-dashed border-slate-300 text-sm text-slate-500"
           style={{ height }}
         >
           데이터가 없습니다
@@ -119,9 +113,9 @@ export default function BarChart({
   }
 
   const compact = width < 480;
-  const fs = compact ? 10 : 11;
+  const fs = compact ? CHART_FONT.compact : CHART_FONT.regular;
   /** hint 글자 — 모바일에서도 10px 아래로 내리지 않는다 */
-  const hfs = Math.max(10, fs - 1);
+  const hfs = Math.max(CHART_FONT.compact, fs - 1);
   const n = items.length;
   const dataMax = Math.max(...items.map((it) => it.value), 0);
   const fixedMax = typeof max === "number" && max > 0 ? max : null;
@@ -168,7 +162,7 @@ export default function BarChart({
             </text>
           )}
           <rect x={M.left} y={barY} width={plotW} height={barH} rx={3} fill={C.track} />
-          <rect x={M.left} y={barY} width={Math.max(w, it.value > 0 ? 2 : 0)} height={barH} rx={3} fill={color} fillOpacity={0.85} />
+          <rect x={M.left} y={barY} width={Math.max(w, it.value > 0 ? 2 : 0)} height={barH} rx={3} fill={color} fillOpacity={1} />
           <text x={M.left + w + 5} y={barY + barH / 2 + fs * 0.35} fontSize={fs} fontWeight={700} fill={C.value}>
             {format(it.value)}
           </text>
@@ -217,7 +211,7 @@ export default function BarChart({
                 height={Math.max(bottom - y, it.value > 0 ? 2 : 0)}
                 rx={3}
                 fill={colorOf(it.tone)}
-                fillOpacity={0.85}
+                fillOpacity={1}
               />
               <text x={cx} y={y - 5} fontSize={fs} fontWeight={700} fill={C.value} textAnchor="middle">
                 {format(it.value)}
@@ -248,7 +242,7 @@ export default function BarChart({
 
   return (
     <div ref={ref} className="w-full">
-      {unit && <div className="mb-1 text-right text-[11px] text-gray-500">단위: {unit}</div>}
+      {unit && <div className="mb-1 text-right text-[11px] text-slate-500">단위: {unit}</div>}
       <svg role="img" aria-label={ariaLabel} width="100%" height={svgHeight} viewBox={`0 0 ${width} ${svgHeight}`} className="block select-none">
         <title>{ariaLabel}</title>
         {body}

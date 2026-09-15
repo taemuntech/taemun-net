@@ -16,6 +16,7 @@ import {
   Segmented,
   TableWrap,
   Badge,
+  LIGHT,
   fmtNum,
   fmtPct,
   fmtShortDate,
@@ -71,7 +72,7 @@ function TraceButton({ label, onClick }: { label: string; onClick: () => void })
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex items-center gap-1.5 min-h-10 px-3 rounded-xl border border-white/10 bg-white/5 text-xs font-semibold text-gray-200 hover:bg-white/10 hover:text-white transition-colors"
+      className={LIGHT.buttonSecondary}
     >
       {label}
       <ArrowRight className="w-3.5 h-3.5" aria-hidden />
@@ -82,7 +83,7 @@ function TraceButton({ label, onClick }: { label: string; onClick: () => void })
 /** 막대 아래 표본 수 줄 — 차트가 좁은 화면에서 hint 를 줄여도 n·롤당 손실은 항상 글자로 남긴다 */
 function SampleLine({ stats }: { stats: CompletionStat[] }) {
   return (
-    <p className="mt-2 text-[11px] text-gray-400 leading-relaxed">
+    <p className="mt-2 text-[11px] text-slate-500 leading-relaxed">
       {stats.map((s, i) => (
         <span key={s.key}>
           {i > 0 && " · "}
@@ -152,7 +153,7 @@ export default function KpiBoard({ onTrace }: KpiBoardProps) {
   const firstOver = warn.firstOver;
 
   // ---- 파단 ----
-  const reuseTones: ChartTone[] = ["emerald", "amber", "rose"];
+  const reuseTones: ChartTone[] = ["indigo", "amber", "rose"];
   const reuseItems: BarItem[] = byReuse.map((s, i) => ({
     key: s.key,
     label: s.label.replace("필름 재사용 ", ""),
@@ -161,7 +162,7 @@ export default function KpiBoard({ onTrace }: KpiBoardProps) {
     tone: reuseTones[i] ?? "indigo",
   }));
   const recipeStats = recipeView === "all" ? byRecipeAll : byRecipeStrat;
-  const recipeTone: Record<string, ChartTone> = { "RCP-A": "indigo", "RCP-B": "purple", "RCP-C": "rose" };
+  const recipeTone: Record<string, ChartTone> = { "RCP-A": "indigo", "RCP-B": "cyan", "RCP-C": "rose" };
   const recipeItems: BarItem[] = recipeStats.map((s) => ({
     key: s.key,
     label: recipeShortLabel(s.key),
@@ -224,7 +225,8 @@ export default function KpiBoard({ onTrace }: KpiBoardProps) {
     label: m.label,
     value: m.rate,
     hint: `${m.missing}/${m.total}롤`,
-    tone: m.rate >= MISSING_RATE_GOAL ? "amber" : "emerald",
+    // 통과는 indigo(primary) — amber↔emerald 는 적록색약에서 가깝고 palette 검증에도 없는 조합
+    tone: m.rate >= MISSING_RATE_GOAL ? "amber" : "indigo",
   }));
   const failingFields = missing.filter((m) => m.rate >= MISSING_RATE_GOAL);
 
@@ -234,7 +236,7 @@ export default function KpiBoard({ onTrace }: KpiBoardProps) {
     <div className="space-y-4 lg:space-y-6 [word-break:keep-all]">
       {userRolls.length > 0 && (
         <Callout tone="cyan" icon={<UserPen className="w-4 h-4" aria-hidden />}>
-          <strong className="text-white">방금 입력한 롤 {userRolls.length}개가 반영됐습니다.</strong> 아래 모든 지표가 다시 계산됐습니다.
+          <strong className="text-slate-900">방금 입력한 롤 {userRolls.length}개가 반영됐습니다.</strong> 아래 모든 지표가 다시 계산됐습니다.
           {userRollsWithSd > 0 && <> 두께 관리도에는 입력한 롤 {userRollsWithSd}개가 청록 테두리로 강조됩니다.</>}
           {userRollsNoSd > 0 && <> 면밀도를 비워 둔 {userRollsNoSd}개는 두께를 알 수 없어 관리도에서 빠집니다.</>}
         </Callout>
@@ -298,23 +300,23 @@ export default function KpiBoard({ onTrace }: KpiBoardProps) {
             description={
               <>
                 리튬 질량(kg) 기준입니다. 이형 필름과 함께 감긴 롤은 롤 무게에서 심·필름 무게를 빼 리튬만 셉니다.
-                줄어든 양은 <span className="text-rose-300">공정 손실</span>과{" "}
-                <span className="text-amber-300">재고(잉곳 잔량·슬릿 전 롤·출하 대기)</span>로 나눠 봅니다 — 재고는 잃은 게 아닙니다.
+                줄어든 양은 <span className="text-rose-700">공정 손실</span>과{" "}
+                <span className="text-amber-800">재고(잉곳 잔량·슬릿 전 롤·출하 대기)</span>로 나눠 봅니다 — 재고는 잃은 게 아닙니다.
               </>
             }
             right={<Badge tone="gray">정제 배치 n={ds.batches.length}</Badge>}
           />
           <WaterfallChart steps={waterfall} unit="kg" />
           <div className="mt-3 grid grid-cols-1 lg:grid-cols-3 gap-2 text-xs">
-            <div className="rounded-xl bg-white/5 border border-white/10 px-3 py-2 text-gray-300">
-              공정 손실 <strong className="text-rose-300">{fmtNum(lossKg, 2)}kg</strong>
-              <span className="text-gray-500"> · 투입의 {fmtPct(inputKg ? lossKg / inputKg : 0, 1)}</span>
+            <div className="rounded-xl bg-slate-50 border border-slate-200 px-3 py-2 text-slate-600">
+              공정 손실 <strong className="text-rose-700">{fmtNum(lossKg, 2)}kg</strong>
+              <span className="text-slate-500"> · 투입의 {fmtPct(inputKg ? lossKg / inputKg : 0, 1)}</span>
             </div>
-            <div className="rounded-xl bg-white/5 border border-white/10 px-3 py-2 text-gray-300">
-              재고로 남음 <strong className="text-amber-300">{fmtNum(inventoryKg, 2)}kg</strong>
+            <div className="rounded-xl bg-slate-50 border border-slate-200 px-3 py-2 text-slate-600">
+              재고로 남음 <strong className="text-amber-800">{fmtNum(inventoryKg, 2)}kg</strong>
             </div>
-            <div className="rounded-xl bg-white/5 border border-white/10 px-3 py-2 text-gray-300">
-              투입 대비 출하 <strong className="text-emerald-300">{fmtPct(inputKg ? shippedKg / inputKg : 0, 1)}</strong>
+            <div className="rounded-xl bg-slate-50 border border-slate-200 px-3 py-2 text-slate-600">
+              투입 대비 출하 <strong className="text-slate-900">{fmtPct(inputKg ? shippedKg / inputKg : 0, 1)}</strong>
             </div>
           </div>
         </Card>
@@ -338,12 +340,12 @@ export default function KpiBoard({ onTrace }: KpiBoardProps) {
             highlightIds={userRollIds}
             onPointClick={(id: string) => onTrace({ type: "roll", id })}
           />
-          <div className="mt-3 space-y-2 text-xs lg:text-sm text-gray-300 leading-relaxed">
+          <div className="mt-3 space-y-2 text-xs lg:text-sm text-slate-600 leading-relaxed">
             <p>
               관리상한 {fmtNum(thk.ucl, 2)}µm 을 넘은 롤{" "}
-              <strong className={thkOoc.length ? "text-rose-300" : "text-emerald-300"}>{thkOoc.length}개</strong>
+              <strong className={thkOoc.length ? "text-rose-700" : "text-emerald-700"}>{thkOoc.length}개</strong>
               {thkOoc.length > 0 && thkOocRecipes.length > 0 && <> — 전부 {thkOocRecipes.map(recipeShortLabel).join("·")} 롤</>}
-              {thk.excludedCount > 0 && <span className="text-gray-400"> (면밀도 미기록 {thk.excludedCount}롤 제외)</span>}
+              {thk.excludedCount > 0 && <span className="text-slate-500"> (면밀도 미기록 {thk.excludedCount}롤 제외)</span>}
             </p>
             <div className="flex flex-wrap gap-1.5">
               {thkByRecipe.map((s) => (
@@ -352,7 +354,7 @@ export default function KpiBoard({ onTrace }: KpiBoardProps) {
                 </Badge>
               ))}
             </div>
-            <p className="text-gray-400 text-[11px]">
+            <p className="text-slate-500 text-[11px]">
               점을 누르면 그 롤의 계보(어느 잉곳·원료에서 왔는지)로 이동합니다(터치는 한 번 눌러 값 확인, 한 번 더 눌러 이동).
               같은 롤을 여러 번 재도 값이 일정한지(측정 반복성) 확인하기 전에는 공정 능력 지수(규격 안에 드는 여유)를 말하지 않습니다.
             </p>
@@ -382,30 +384,30 @@ export default function KpiBoard({ onTrace }: KpiBoardProps) {
             specLabel="규격"
             onPointClick={(id: string) => onTrace({ type: "ingot", id })}
           />
-          <div className="mt-3 space-y-2 text-xs lg:text-sm text-gray-300 leading-relaxed">
+          <div className="mt-3 space-y-2 text-xs lg:text-sm text-slate-600 leading-relaxed">
             <p>
               {elChart.limitsValid ? (
                 <>
-                  {element} 관리한계 이탈 <strong className={elOoc.length ? "text-amber-300" : "text-emerald-300"}>{elOoc.length}건</strong>
+                  {element} 관리한계 이탈 <strong className={elOoc.length ? "text-amber-800" : "text-emerald-700"}>{elOoc.length}건</strong>
                   {" · "}
                 </>
               ) : (
                 <>
-                  {element} 관리한계 <strong className="text-gray-100">계산 안 함</strong>
+                  {element} 관리한계 <strong className="text-slate-900">계산 안 함</strong>
                   {" · "}
                 </>
               )}
-              규격 {elChart.specPpm}ppm 초과 <strong className={elOver.length ? "text-rose-300" : "text-emerald-300"}>{elOver.length}건</strong>
-              {elExcluded > 0 && <span className="text-gray-400"> (검출한계 미만 {elExcluded}건은 숫자로 넣지 않고 제외)</span>}
+              규격 {elChart.specPpm}ppm 초과 <strong className={elOver.length ? "text-rose-700" : "text-emerald-700"}>{elOver.length}건</strong>
+              {elExcluded > 0 && <span className="text-slate-500"> (검출한계 미만 {elExcluded}건은 숫자로 넣지 않고 제외)</span>}
             </p>
             {!elChart.limitsValid && (
-              <p className="text-amber-300/90 text-[11px]">
+              <p className="text-amber-800 text-[11px]">
                 기준 구간(새 도가니 1~5회째)에서 검출된 값이 모자라 관리한계를 그리지 않았습니다. 뒤쪽 점으로 한계를 잡으면 오른
                 값이 「정상」으로 보이기 때문입니다. 차트의 점은 전부 기준 구간 밖 값입니다.
               </p>
             )}
             {elChart.limitsValid && elChart.n < 8 && (
-              <p className="text-amber-300/90 text-[11px]">
+              <p className="text-amber-800 text-[11px]">
                 표본이 {elChart.n}개뿐이라 관리한계가 불안정합니다. 추세만 참고하세요.
               </p>
             )}
@@ -429,7 +431,7 @@ export default function KpiBoard({ onTrace }: KpiBoardProps) {
               </Callout>
             )}
             {elOoc.length > 0 && elOver.length === 0 && (
-              <p className="text-gray-400 text-[11px]">
+              <p className="text-slate-500 text-[11px]">
                 관리한계는 벗어났지만 규격 안입니다 — 공정 조건(원료·도가니 등)이 달라졌다는 신호이지, 곧 불량이라는 뜻은 아닙니다.
               </p>
             )}
@@ -456,13 +458,13 @@ export default function KpiBoard({ onTrace }: KpiBoardProps) {
           />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="min-w-0">
-              <h4 className="text-sm font-semibold text-white mb-2">필름 재사용 횟수별 무파단율</h4>
+              <h4 className="text-sm font-semibold text-slate-900 mb-2">필름 재사용 횟수별 무파단율</h4>
               <BarChart items={reuseItems} max={1} format={(v: number) => fmtPct(v)} />
               <SampleLine stats={byReuse} />
             </div>
             <div className="min-w-0">
               <div className="flex flex-col items-start gap-2 mb-2">
-                <h4 className="text-sm font-semibold text-white">레시피별 무파단율</h4>
+                <h4 className="text-sm font-semibold text-slate-900">레시피별 무파단율</h4>
                 <Segmented<RecipeView>
                   ariaLabel="레시피 비교 범위"
                   value={recipeView}
@@ -474,7 +476,7 @@ export default function KpiBoard({ onTrace }: KpiBoardProps) {
                 />
               </div>
               <BarChart items={recipeItems} max={1} format={(v: number) => fmtPct(v)} />
-              <p className="mt-2 text-[11px] text-gray-400 leading-relaxed">
+              <p className="mt-2 text-[11px] text-slate-500 leading-relaxed">
                 {recipeStats.map((s, i) => (
                   <span key={s.key}>
                     {i > 0 && " · "}
@@ -488,7 +490,7 @@ export default function KpiBoard({ onTrace }: KpiBoardProps) {
           {confound.bAll && confound.bStrat && (
             <div className="mt-4">
               <Callout tone="purple" icon={<Info className="w-4 h-4" aria-hidden />}>
-                <strong className="text-white">{confound.headline}</strong>
+                <strong className="text-slate-900">{confound.headline}</strong>
                 <br />
                 전체 롤로는 B {fmtPct(confound.bAll.tearFreeRate)}
                 {confound.aAll && <>·A {fmtPct(confound.aAll.tearFreeRate)}</>}입니다. {confound.sentence} 걸러낸 표본이 적어 결론이 아니라
@@ -509,7 +511,7 @@ export default function KpiBoard({ onTrace }: KpiBoardProps) {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="min-w-0">
               <RunChart points={otdPoints} target={OTD_TARGET} min={0} max={1} format={(v: number) => fmtPct(v)} tone="emerald" />
-              <p className="mt-2 text-[11px] text-gray-400 leading-relaxed">
+              <p className="mt-2 text-[11px] text-slate-500 leading-relaxed">
                 한 주 판정 대상이 1~3건이라 한 건만 늦어도 50%까지 떨어집니다 — 주별 값보다 흐름을 보세요. 못 나간 건은 약속일이 지난
                 주에 셉니다.
                 {emptyWeeks > 0 && ` 판정 대상이 없던 ${emptyWeeks}주는 비워 뒀습니다.`}
@@ -519,30 +521,30 @@ export default function KpiBoard({ onTrace }: KpiBoardProps) {
               <TableWrap>
                 <table className="w-full min-w-[480px] text-xs lg:text-sm">
                   <thead>
-                    <tr className="text-left text-gray-500 border-b border-white/10">
-                      <th className="py-2 pr-3 font-medium">고객</th>
-                      <th className="py-2 px-2 font-medium text-right">판정</th>
-                      <th className="py-2 px-2 font-medium text-right">준수</th>
-                      <th className="py-2 px-2 font-medium text-right">미출하 지연</th>
-                      <th className="py-2 px-2 font-medium text-right">준수율</th>
-                      <th className="py-2 pl-2 font-medium text-right">클레임</th>
+                    <tr>
+                      <th className={LIGHT.thCompact}>고객</th>
+                      <th className={`${LIGHT.thCompact} text-right`}>판정</th>
+                      <th className={`${LIGHT.thCompact} text-right`}>준수</th>
+                      <th className={`${LIGHT.thCompact} text-right`}>미출하 지연</th>
+                      <th className={`${LIGHT.thCompact} text-right`}>준수율</th>
+                      <th className={`${LIGHT.thCompact} text-right`}>클레임</th>
                     </tr>
                   </thead>
                   <tbody>
                     {otdCustomers.map((c) => (
-                      <tr key={c.customer} className="border-b border-white/5">
-                        <td className="py-2.5 pr-3 text-gray-200">{c.customer}</td>
-                        <td className="py-2.5 px-2 text-right text-gray-300 tabular-nums">{c.shipments}</td>
-                        <td className="py-2.5 px-2 text-right text-gray-300 tabular-nums">{c.onTime}</td>
-                        <td className={`py-2.5 px-2 text-right tabular-nums ${c.overdue > 0 ? "text-rose-300" : "text-gray-400"}`}>{c.overdue}</td>
+                      <tr key={c.customer}>
+                        <td className={`${LIGHT.tdCompact} text-slate-900`}>{c.customer}</td>
+                        <td className={`${LIGHT.tdCompact} text-right text-slate-700 tabular-nums`}>{c.shipments}</td>
+                        <td className={`${LIGHT.tdCompact} text-right text-slate-700 tabular-nums`}>{c.onTime}</td>
+                        <td className={`${LIGHT.tdCompact} text-right tabular-nums ${c.overdue > 0 ? "text-rose-700" : "text-slate-500"}`}>{c.overdue}</td>
                         <td
-                          className={`py-2.5 px-2 text-right font-semibold tabular-nums ${
-                            c.shipments === 0 ? "text-gray-500" : c.rate < OTD_TARGET ? "text-rose-300" : "text-emerald-300"
+                          className={`${LIGHT.tdCompact} text-right font-semibold tabular-nums ${
+                            c.shipments === 0 ? "text-slate-500" : c.rate < OTD_TARGET ? "text-rose-700" : "text-emerald-700"
                           }`}
                         >
                           {c.shipments === 0 ? "—" : fmtPct(c.rate)}
                         </td>
-                        <td className={`py-2.5 pl-2 text-right tabular-nums ${c.claims > 0 ? "text-amber-300" : "text-gray-500"}`}>
+                        <td className={`${LIGHT.tdCompact} text-right tabular-nums ${c.claims > 0 ? "text-amber-800" : "text-slate-500"}`}>
                           {c.claims}
                         </td>
                       </tr>
@@ -550,7 +552,7 @@ export default function KpiBoard({ onTrace }: KpiBoardProps) {
                   </tbody>
                 </table>
               </TableWrap>
-              <p className="mt-2 text-[11px] text-gray-400 leading-relaxed">
+              <p className="mt-2 text-[11px] text-slate-500 leading-relaxed">
                 고객 이름은 가상입니다. 판정 = 출하된 건 + 약속일이 지났는데 못 나간 건.
                 {overdueUnshipped > 0 && ` 홀드 등으로 약속일을 넘긴 미출하 ${overdueUnshipped}건은 지연으로 셌습니다.`}
                 {pendingCount > 0 && ` 약속일이 아직 남은 진행 중 ${pendingCount}건만 뺐습니다.`}
@@ -573,17 +575,17 @@ export default function KpiBoard({ onTrace }: KpiBoardProps) {
             right={<Badge tone="gray">n={dewRolls.length}</Badge>}
           />
           <ScatterChart points={scatterPoints} xLabel="교대 시작 노점(℃)" yLabel="롤 작업 시간(h)" xThreshold={DEW_POINT_LIMIT_C} />
-          <div className="mt-3 space-y-2 text-xs lg:text-sm text-gray-300 leading-relaxed">
+          <div className="mt-3 space-y-2 text-xs lg:text-sm text-slate-600 leading-relaxed">
             <p>
-              노점 {DEW_POINT_LIMIT_C}℃ 초과 작업 <strong className="text-amber-300">{excursions.length}롤</strong>, 그중 클레임 연결{" "}
-              <strong className={excursionWithClaim ? "text-rose-300" : "text-gray-300"}>{excursionWithClaim}롤</strong>.{" "}
+              노점 {DEW_POINT_LIMIT_C}℃ 초과 작업 <strong className="text-amber-800">{excursions.length}롤</strong>, 그중 클레임 연결{" "}
+              <strong className={excursionWithClaim ? "text-rose-700" : "text-slate-600"}>{excursionWithClaim}롤</strong>.{" "}
               {dewMissing > 0 && (
                 <>
-                  노점 미기록 <strong className="text-gray-100">{dewMissing}롤은 판단 불가</strong>로 그래프에서 뺐습니다.
+                  노점 미기록 <strong className="text-slate-900">{dewMissing}롤은 판단 불가</strong>로 그래프에서 뺐습니다.
                 </>
               )}
             </p>
-            <p className="text-gray-400 text-[11px]">
+            <p className="text-slate-500 text-[11px]">
               이탈 기록이 {excursions.length}건뿐이라 「노점이 원인」이라고 단정할 수는 없습니다. 노점 결측부터 0 으로 만들어야 판단이
               가능해집니다.
             </p>

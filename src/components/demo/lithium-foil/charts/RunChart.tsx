@@ -4,25 +4,21 @@
 // 폭은 ResizeObserver 로 잰다. 첫 렌더는 고정 폭(640)으로 그려 서버·클라이언트 출력이 같다.
 
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import type { ChartTone, RunChartProps } from "./types";
+import type { RunChartProps } from "./types";
 import { fmtNum } from "../ui";
-
-const TONE_HEX: Record<ChartTone, string> = {
-  indigo: "#818cf8",
-  purple: "#c084fc",
-  emerald: "#34d399",
-  amber: "#fbbf24",
-  rose: "#fb7185",
-  cyan: "#22d3ee",
-};
+import { CHART, CHART_FONT, TONE_HEX } from "./palette";
 
 const C = {
-  grid: "rgba(255,255,255,0.07)",
-  axis: "rgba(255,255,255,0.18)",
-  target: "#d1d5db",
-  tick: "#9ca3af",
-  missing: "#6b7280",
-  hover: "rgba(255,255,255,0.05)",
+  grid: CHART.grid,
+  axis: CHART.axis,
+  /** 목표선 — 중립 기준선(평균선과 같은 역할 색) */
+  target: CHART.mean,
+  /** 목표 라벨 글자 */
+  targetLabel: CHART.label,
+  tick: CHART.tick,
+  missing: CHART.missing,
+  /** 활성 주 세로 띠 */
+  hover: CHART.band,
 };
 
 const INITIAL_WIDTH = 640;
@@ -97,7 +93,7 @@ export default function RunChart({
     return (
       <div ref={ref} className="w-full">
         <div
-          className="flex items-center justify-center rounded-xl border border-dashed border-white/10 text-sm text-gray-500"
+          className="flex items-center justify-center rounded-xl border border-dashed border-slate-300 text-sm text-slate-500"
           style={{ height }}
         >
           데이터가 없습니다
@@ -108,7 +104,7 @@ export default function RunChart({
 
   const color = TONE_HEX[tone];
   const compact = width < 480;
-  const fs = compact ? 10 : 11;
+  const fs = compact ? CHART_FONT.compact : CHART_FONT.regular;
   const n = points.length;
   const hasTarget = typeof target === "number" && Number.isFinite(target);
 
@@ -191,7 +187,7 @@ export default function RunChart({
 
   return (
     <div ref={ref} className="w-full">
-      {unit && <div className="mb-1 text-right text-[11px] text-gray-500">단위: {unit}</div>}
+      {unit && <div className="mb-1 text-right text-[11px] text-slate-500">단위: {unit}</div>}
       <div className="relative">
         <svg role="group" aria-label={ariaLabel} width="100%" height={height} viewBox={`0 0 ${width} ${height}`} className="block select-none">
 
@@ -217,11 +213,10 @@ export default function RunChart({
                 y1={yAt(target)}
                 y2={yAt(target)}
                 stroke={C.target}
-                strokeOpacity={0.7}
                 strokeWidth={1.2}
                 strokeDasharray="5 4"
               />
-              <text x={plotRight + 6} y={yAt(target) + fs * 0.35} fontSize={fs} fill={C.target} fontWeight={600}>
+              <text x={plotRight + 6} y={yAt(target) + fs * 0.35} fontSize={fs} fill={C.targetLabel} fontWeight={600}>
                 {targetText}
               </text>
             </g>
@@ -248,10 +243,10 @@ export default function RunChart({
                 key={`p-${p.key}`}
                 cx={xAt(i)}
                 cy={yAt(p.value)}
-                r={active === i ? 5 : compact ? 3 : 3.5}
+                r={active === i ? 6 : compact ? 4 : 4.5}
                 fill={color}
-                stroke="#030712"
-                strokeWidth={1.5}
+                stroke={CHART.surface}
+                strokeWidth={2}
                 pointerEvents="none"
               />
             ),
@@ -274,7 +269,7 @@ export default function RunChart({
               tabIndex={i === tabStop ? 0 : -1}
               role="img"
               aria-label={`${i + 1}/${n}번째 ${p.label} ${p.value === null ? "값 없음" : format(p.value)}${p.hint ? ` (${p.hint})` : ""}`}
-              className="outline-none focus-visible:stroke-white"
+              className="outline-none focus-visible:stroke-indigo-500"
               onPointerEnter={() => setActive(i)}
               onPointerLeave={(e) => {
                 if (e.pointerType === "mouse") setActive((cur) => (cur === i ? null : cur));
@@ -292,30 +287,43 @@ export default function RunChart({
 
         {activePoint && (
           <div
-            className="pointer-events-none absolute z-10 w-max max-w-[220px] rounded-lg border border-white/10 bg-gray-950/95 px-2.5 py-2 shadow-xl [word-break:keep-all]"
-            style={{ left: `${(frac * 100).toFixed(2)}%`, top: ay, transform: `translate(${tx}, ${ty})` }}
+            className="pointer-events-none absolute z-10 w-max max-w-[220px] rounded-lg border px-2.5 py-2 [word-break:keep-all]"
+            style={{
+              left: `${(frac * 100).toFixed(2)}%`,
+              top: ay,
+              transform: `translate(${tx}, ${ty})`,
+              backgroundColor: CHART.tooltipBg,
+              borderColor: CHART.tooltipBorder,
+              boxShadow: CHART.tooltipShadow,
+            }}
           >
-            <div className="text-[11px] text-gray-400">{activePoint.label}</div>
-            <div className="text-sm font-bold text-white">
+            {/* 툴팁 글자는 관리도·산점도와 같은 역할 클래스 — 보조 slate-600 · 값 slate-900 · 단위 slate-500 */}
+            <div className="text-[11px] text-slate-600">{activePoint.label}</div>
+            <div className="text-sm font-bold text-slate-900">
               {activePoint.value === null ? "값 없음" : format(activePoint.value)}
-              {unit && activePoint.value !== null && <span className="ml-1 text-xs font-medium text-gray-400">{unit}</span>}
+              {unit && activePoint.value !== null && (
+                <span className="ml-1 text-xs font-medium text-slate-500">
+                  {unit}
+                </span>
+              )}
             </div>
-            {activePoint.hint && <div className="text-[11px] text-gray-300">{activePoint.hint}</div>}
+            {activePoint.hint && <div className="text-[11px] text-slate-600">{activePoint.hint}</div>}
           </div>
         )}
       </div>
 
       {(hasTarget || missingCount > 0) && (
-        <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-[11px] text-gray-400 [word-break:keep-all]">
+        <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-[11px] text-slate-600 [word-break:keep-all]">
           {hasTarget && (
             <li className="flex items-center gap-1.5">
-              <span className="inline-block w-4 border-t border-dashed border-gray-300" aria-hidden />
+              <span className="inline-block w-4 border-t border-dashed" style={{ borderColor: C.target }} aria-hidden />
               {targetText}
             </li>
           )}
           {missingCount > 0 && (
             <li className="flex items-center gap-1.5">
-              <span className="text-gray-500" aria-hidden>
+              {/* 차트 안 × 마크와 같은 색 — 글자가 아니라 마크 스와치 */}
+              <span style={{ color: C.missing }} aria-hidden>
                 ×
               </span>
               값 없음 {missingCount}개 — 선을 끊어 표시

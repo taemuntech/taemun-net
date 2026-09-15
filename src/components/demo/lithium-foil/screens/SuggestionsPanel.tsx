@@ -6,7 +6,7 @@
 import { useMemo } from "react";
 import { ArrowRight, Ban, Calculator, Info, Lightbulb, NotebookPen, PencilLine } from "lucide-react";
 import { useDemoData } from "@/components/demo/lithium-foil/DemoDataContext";
-import { Badge, Callout, Card, CardHeader, StatTile, TONE, fmtNum, type Tone } from "@/components/demo/lithium-foil/ui";
+import { Badge, Callout, Card, CardHeader, LIGHT, StatTile, TONE, fmtNum, type Tone } from "@/components/demo/lithium-foil/ui";
 import {
   buildSuggestions,
   completionByFilmReuse,
@@ -140,15 +140,15 @@ function SufficiencyBar({ now, needed, unit }: { now: number; needed: number; un
   return (
     <div>
       <div className="flex items-center justify-between gap-2 text-[11px] mb-1">
-        <span className="text-gray-400">데이터 충분도</span>
-        <span className={enough ? "text-emerald-300 font-semibold" : "text-indigo-300 font-semibold"}>
+        <span className="text-slate-600">데이터 충분도</span>
+        <span className={enough ? "text-emerald-700 font-semibold" : "text-indigo-700 font-semibold"}>
           {fmtNum(now, 0)} / {fmtNum(needed, 0)}
           {unit}
           {enough ? " · 충분" : ` · ${fmtNum(needed - now, 0)}${unit} 더 필요`}
         </span>
       </div>
       <div
-        className="h-2 rounded-full bg-white/5 overflow-hidden"
+        className="h-2 rounded-full bg-slate-200 overflow-hidden"
         role="progressbar"
         aria-valuemin={0}
         aria-valuemax={needed}
@@ -156,7 +156,7 @@ function SufficiencyBar({ now, needed, unit }: { now: number; needed: number; un
         aria-label={`데이터 충분도 ${now}/${needed}${unit}`}
       >
         <div
-          className={`h-full rounded-full ${enough ? "bg-emerald-500" : "bg-indigo-500"}`}
+          className={`h-full rounded-full ${enough ? "bg-emerald-700" : "bg-indigo-600"}`}
           style={{ width: `${Math.max(2, ratio * 100)}%` }}
         />
       </div>
@@ -176,44 +176,44 @@ function SuggestionCard({ s, effect, evidence }: { s: Suggestion; effect: Effect
         </Badge>
       </div>
 
-      <h3 className="text-base lg:text-lg font-bold text-white leading-snug">{s.title}</h3>
+      <h3 className="text-base lg:text-lg font-bold text-slate-900 leading-snug">{s.title}</h3>
 
       <div>
-        <div className="text-[11px] font-bold text-gray-500 mb-0.5">발견</div>
-        <p className="text-sm text-gray-300 leading-relaxed">{s.finding}</p>
+        <div className="text-[11px] font-bold text-slate-500 mb-0.5">발견</div>
+        <p className="text-sm text-slate-600 leading-relaxed">{s.finding}</p>
       </div>
 
       <div className={`rounded-xl border px-3.5 py-3 ${t.bg} ${t.border}`}>
         <div className={`text-[11px] font-bold mb-0.5 ${t.text}`}>조치</div>
-        <p className="text-sm text-white leading-relaxed">{s.action}</p>
+        <p className="text-sm text-slate-900 leading-relaxed">{s.action}</p>
       </div>
 
       {effect && (
-        <div className="rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-3">
-          <div className="flex items-center gap-1.5 text-[11px] font-bold text-gray-400 mb-1">
+        <div className="rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-3">
+          <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-600 mb-1">
             <Calculator size={13} aria-hidden="true" />
             예상 효과
             <Badge tone="amber" className="ml-1">
               가정
             </Badge>
           </div>
-          <p className="text-sm font-semibold text-white leading-snug">{effect.headline}</p>
-          <p className="text-xs text-gray-300 leading-relaxed mt-1">{effect.detail}</p>
-          <p className="text-[11px] text-gray-400 leading-relaxed mt-1.5">{effect.assumption}</p>
+          <p className="text-sm font-semibold text-slate-900 leading-snug">{effect.headline}</p>
+          <p className="text-xs text-slate-600 leading-relaxed mt-1">{effect.detail}</p>
+          <p className="text-[11px] text-slate-500 leading-relaxed mt-1.5">{effect.assumption}</p>
         </div>
       )}
 
-      <p className="text-[11px] text-gray-400 leading-relaxed">
-        <span className="font-semibold text-gray-300">방법</span> · {s.method}
+      <p className="text-[11px] text-slate-500 leading-relaxed">
+        <span className="font-semibold text-slate-700">방법</span> · {s.method}
       </p>
 
       <div className="mt-auto flex flex-col gap-3 pt-1">
         <SufficiencyBar now={s.dataNow} needed={s.dataNeeded} unit={SAMPLE_UNIT[s.id] ?? "건"} />
-        <p className="text-[11px] text-gray-400 leading-snug">{s.confidenceNote ?? conf.hint}</p>
+        <p className="text-[11px] text-slate-500 leading-snug">{s.confidenceNote ?? conf.hint}</p>
         <button
           type="button"
           onClick={evidence.go}
-          className="inline-flex items-center justify-center gap-1.5 min-h-10 px-4 rounded-xl border border-white/10 bg-white/5 text-sm font-semibold text-gray-200 hover:bg-white/10 hover:text-white transition-colors"
+          className={LIGHT.buttonSecondary}
         >
           근거 보기 — {evidence.label}
           <ArrowRight size={15} aria-hidden="true" />
@@ -298,19 +298,19 @@ export default function SuggestionsPanel({ onTrace, onNavigate }: SuggestionsPan
               씁니다. 아래 제안은 지금 쌓인 데이터에서 매번 새로 계산됩니다.
             </>
           }
-          right={<Lightbulb className="text-indigo-400" size={28} aria-hidden="true" />}
+          right={<Lightbulb className="text-indigo-600" size={28} aria-hidden="true" />}
         />
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-3 mb-4">
-          <StatTile label="모 롤" value={fmtNum(view.mothers, 0)} sub="압연 1회 = 1개" tone="indigo" />
-          <StatTile label="잉곳" value={fmtNum(view.ingots, 0)} sub="ICP 성분 분석 단위" tone="purple" />
-          <StatTile label="정제 배치" value={fmtNum(view.batches, 0)} sub="도가니 투입 단위" tone="purple" />
-          <StatTile label="출하" value={fmtNum(view.shipments, 0)} sub="납기·클레임 단위" tone="emerald" />
+          <StatTile label="모 롤" value={fmtNum(view.mothers, 0)} sub="압연 1회 = 1개" tone="indigo" inset />
+          <StatTile label="잉곳" value={fmtNum(view.ingots, 0)} sub="ICP 성분 분석 단위" tone="purple" inset />
+          <StatTile label="정제 배치" value={fmtNum(view.batches, 0)} sub="도가니 투입 단위" tone="purple" inset />
+          <StatTile label="출하" value={fmtNum(view.shipments, 0)} sub="납기·클레임 단위" tone="emerald" inset />
         </div>
 
         <Callout tone="amber" icon={<Info size={16} aria-hidden="true" />}>
           <p>
-            <strong className="text-white">
+            <strong className="text-slate-900">
               롤 {MODEL_MIN_ROLLS}개·배치 {MODEL_MIN_BATCHES}건이 쌓이기 전에는 회귀 분석·실험계획(DOE — 조건을 체계적으로
               바꿔 보는 실험 설계)·베이지안 최적화를 하지 않습니다.
             </strong>{" "}
@@ -322,8 +322,8 @@ export default function SuggestionsPanel({ onTrace, onNavigate }: SuggestionsPan
           </div>
         </Callout>
 
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mt-4 text-[11px] text-gray-400">
-          <span className="font-semibold text-gray-300">신뢰도 읽는 법</span>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mt-4 text-[11px] text-slate-500">
+          <span className="font-semibold text-slate-700">신뢰도 읽는 법</span>
           {(["low", "medium", "high"] as const).map((k) => (
             <span key={k} className="inline-flex items-center gap-1.5">
               <Badge tone={CONFIDENCE[k].tone}>{CONFIDENCE[k].label}</Badge>
@@ -352,13 +352,13 @@ export default function SuggestionsPanel({ onTrace, onNavigate }: SuggestionsPan
           eyebrow="정직하게"
           title="데이터로 못 하는 것"
           description="데이터가 많아져도 이 판단들은 공정 기록만으로 내리지 않습니다."
-          right={<Ban className="text-rose-400" size={24} aria-hidden="true" />}
+          right={<Ban className="text-rose-600" size={24} aria-hidden="true" />}
         />
         <ul className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           {CANNOT_DO.map((item) => (
-            <li key={item.title} className="rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-3">
-              <div className="text-sm font-semibold text-white leading-snug">{item.title}</div>
-              <p className="text-xs text-gray-400 leading-relaxed mt-1">{item.reason}</p>
+            <li key={item.title} className="rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-3">
+              <div className="text-sm font-semibold text-slate-900 leading-snug">{item.title}</div>
+              <p className="text-xs text-slate-600 leading-relaxed mt-1">{item.reason}</p>
             </li>
           ))}
         </ul>
@@ -367,10 +367,10 @@ export default function SuggestionsPanel({ onTrace, onNavigate }: SuggestionsPan
       {/* 5. 입력 → 재계산 안내 */}
       <Card className="flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-6">
         <div className="flex gap-3 min-w-0">
-          <NotebookPen className="text-cyan-400 shrink-0 mt-0.5" size={22} aria-hidden="true" />
+          <NotebookPen className="text-cyan-600 shrink-0 mt-0.5" size={22} aria-hidden="true" />
           <div className="min-w-0">
-            <div className="text-sm lg:text-base font-bold text-white">사용자가 롤을 입력하면 제안이 다시 계산됩니다</div>
-            <p className="text-xs lg:text-sm text-gray-400 leading-relaxed mt-1">
+            <div className="text-sm lg:text-base font-bold text-slate-900">사용자가 롤을 입력하면 제안이 다시 계산됩니다</div>
+            <p className="text-xs lg:text-sm text-slate-600 leading-relaxed mt-1">
               롤 일지에서 필름 재사용 횟수·노점·파단을 바꿔 넣어 보세요. 충분도 막대와 신뢰도, 예상 효과가 함께 움직입니다.
               입력은 이 브라우저 안에서만 쓰이고 새로고침하면 사라집니다.
             </p>
@@ -379,7 +379,7 @@ export default function SuggestionsPanel({ onTrace, onNavigate }: SuggestionsPan
         <button
           type="button"
           onClick={() => onNavigate("log")}
-          className="inline-flex items-center justify-center gap-1.5 min-h-10 px-5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-sm font-semibold text-white transition-colors lg:ml-auto shrink-0"
+          className={`${LIGHT.buttonPrimary} lg:ml-auto shrink-0`}
         >
           롤 일지로 가기
           <ArrowRight size={15} aria-hidden="true" />

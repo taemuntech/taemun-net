@@ -1,5 +1,11 @@
-// 데모 공용 UI 조각 — taemun.net 톤(다크 글래스 카드·indigo/purple 강조)에 맞춘다.
+// 데모 공용 UI 조각 — 라이트 앱 캔버스용.
+// 사이트 틀(헤더·히어로·CTA·푸터)은 taemun.net 다크 톤 그대로, 데모 앱 영역(탭 바·패널)만 흰 바탕이다.
 // 서버/클라이언트 어디서 import 해도 되도록 훅을 쓰지 않는다.
+//
+// 라이트 캔버스 글자 규칙 (배경 white / slate-50 기준 WCAG AA):
+//   제목·값 text-slate-900 · 본문 text-slate-600 · 캡션·보조 text-slate-500 (최소 — slate-400 은 글자에 쓰지 않는다)
+//   강조 글자 text-{hue}-700 (bg-{hue}-50 위에서도 4.5:1 이상) — amber 만 800 (700 은 옅은 색 면 위 4.497:1, 실측) · 링크/eyebrow text-indigo-600
+//   카드 bg-white border-slate-200 shadow-sm · 구분선 border-slate-200 · 입력 bg-white border-slate-300
 
 import type { KeyboardEvent, ReactNode } from "react";
 
@@ -41,20 +47,56 @@ export function radioKeyNav<T extends string>(
 
 export type Tone = "indigo" | "purple" | "emerald" | "amber" | "rose" | "cyan" | "gray";
 
-/** 톤별 Tailwind 클래스 — 문자열 전체를 적어야 Tailwind 가 스캔한다 */
+/**
+ * 톤별 Tailwind 클래스 — 문자열 전체를 적어야 Tailwind 가 스캔한다.
+ * text 는 bg 위에서 4.5:1 이상. solid/stroke/fill 은 차트 팔레트(charts/palette.ts)와 같은 600 단계.
+ */
 export const TONE: Record<Tone, { text: string; bg: string; border: string; solid: string; stroke: string; fill: string }> = {
-  indigo: { text: "text-indigo-300", bg: "bg-indigo-500/10", border: "border-indigo-500/30", solid: "bg-indigo-500", stroke: "stroke-indigo-400", fill: "fill-indigo-400" },
-  purple: { text: "text-purple-300", bg: "bg-purple-500/10", border: "border-purple-500/30", solid: "bg-purple-500", stroke: "stroke-purple-400", fill: "fill-purple-400" },
-  emerald: { text: "text-emerald-300", bg: "bg-emerald-500/10", border: "border-emerald-500/30", solid: "bg-emerald-500", stroke: "stroke-emerald-400", fill: "fill-emerald-400" },
-  amber: { text: "text-amber-300", bg: "bg-amber-500/10", border: "border-amber-500/30", solid: "bg-amber-500", stroke: "stroke-amber-400", fill: "fill-amber-400" },
-  rose: { text: "text-rose-300", bg: "bg-rose-500/10", border: "border-rose-500/30", solid: "bg-rose-500", stroke: "stroke-rose-400", fill: "fill-rose-400" },
-  cyan: { text: "text-cyan-300", bg: "bg-cyan-500/10", border: "border-cyan-500/30", solid: "bg-cyan-500", stroke: "stroke-cyan-400", fill: "fill-cyan-400" },
-  gray: { text: "text-gray-300", bg: "bg-white/5", border: "border-white/10", solid: "bg-gray-500", stroke: "stroke-gray-400", fill: "fill-gray-400" },
+  indigo: { text: "text-indigo-700", bg: "bg-indigo-50", border: "border-indigo-200", solid: "bg-indigo-600", stroke: "stroke-indigo-600", fill: "fill-indigo-600" },
+  purple: { text: "text-purple-700", bg: "bg-purple-50", border: "border-purple-200", solid: "bg-purple-600", stroke: "stroke-purple-600", fill: "fill-purple-600" },
+  emerald: { text: "text-emerald-700", bg: "bg-emerald-50", border: "border-emerald-200", solid: "bg-emerald-600", stroke: "stroke-emerald-600", fill: "fill-emerald-600" },
+  amber: { text: "text-amber-800", bg: "bg-amber-50", border: "border-amber-200", solid: "bg-amber-600", stroke: "stroke-amber-600", fill: "fill-amber-600" },
+  rose: { text: "text-rose-700", bg: "bg-rose-50", border: "border-rose-200", solid: "bg-rose-600", stroke: "stroke-rose-600", fill: "fill-rose-600" },
+  cyan: { text: "text-cyan-700", bg: "bg-cyan-50", border: "border-cyan-200", solid: "bg-cyan-600", stroke: "stroke-cyan-600", fill: "fill-cyan-600" },
+  gray: { text: "text-slate-700", bg: "bg-slate-100", border: "border-slate-200", solid: "bg-slate-500", stroke: "stroke-slate-500", fill: "fill-slate-500" },
 };
+
+/**
+ * 라이트 캔버스 공용 클래스 — 화면들이 같은 모양을 쓰도록 문자열로 공유한다.
+ *
+ * ⚠️ 뒤에 클래스를 덧붙일 때: Tailwind 는 같은 속성의 유틸리티를 CSS 파일 안 순서로 가른다(뒤가 이김).
+ *   색은 대체로 이름순이라 `${LIGHT.input} border-rose-500` 은 border-slate-300 에 지고,
+ *   `${LIGHT.td} text-rose-700` 도 text-slate-700 에 진다. 크기는 숫자순이라 min-h-11·px-6·text-right 는 이긴다(px-3 은 px-4 에 진다).
+ *   상태 색을 얹어야 하면 색이 없는 문자열(thCompact·tdCompact)을 쓰거나 important(`border-rose-500!`)로 누른다.
+ */
+export const LIGHT = {
+  /** 입력칸·select */
+  input:
+    "w-full bg-white border border-slate-300 rounded-xl px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-500 outline-none transition-colors focus:border-indigo-500 focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:bg-slate-100 disabled:text-slate-500 aria-[invalid=true]:border-rose-500",
+  /** 모노스페이스 ID 칩 */
+  idChip: "font-mono text-[11px] lg:text-xs px-1.5 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-slate-700 break-all",
+  /** 누를 수 있는 모노스페이스 ID 칩 — idChip 과 같은 크기, 흰 바탕 테두리 */
+  idChipButton:
+    "font-mono text-[11px] lg:text-xs px-1.5 py-0.5 rounded-md bg-white border border-slate-300 text-slate-800 break-all hover:border-indigo-400 hover:bg-indigo-50 hover:text-indigo-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
+  /** 보조 버튼 (흰 바탕 테두리) */
+  buttonSecondary:
+    "inline-flex items-center justify-center gap-1.5 min-h-10 px-4 rounded-xl bg-white border border-slate-300 text-slate-700 text-sm font-semibold hover:bg-slate-50 hover:border-slate-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
+  /** 주 버튼 */
+  buttonPrimary:
+    "inline-flex items-center justify-center gap-1.5 min-h-10 px-4 rounded-xl bg-indigo-600 text-white text-sm font-semibold shadow-sm hover:bg-indigo-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:bg-slate-300 disabled:text-slate-600",
+  /** 표 머리·줄 */
+  // 표 머리는 slate-600 — 옅은 색 면(bg-rose-50 등) 안 표에서도 4.5:1 (slate-500 은 rose-50 위 4.34:1, 실측)
+  th: "text-left text-[11px] lg:text-xs font-semibold text-slate-600 border-b border-slate-200 px-3 py-2 whitespace-nowrap",
+  td: "px-3 py-2 border-b border-slate-100 text-slate-700",
+  /** 촘촘한 표(카드 안 표) 머리 — 좌우 안쪽 여백 없이 열 사이만 띄운다. 숫자 열은 뒤에 text-right */
+  thCompact: "text-left text-[11px] lg:text-xs font-semibold text-slate-600 border-b border-slate-200 py-2 pr-3 last:pr-0 whitespace-nowrap",
+  /** 촘촘한 표 칸 — 글자색 없음(칸마다 상태 색을 얹으므로 쓰는 쪽에서 정한다). 구분선은 옅은 색 면 위에서도 보이게 slate-200 */
+  tdCompact: "py-1.5 pr-3 last:pr-0 border-b border-slate-200",
+} as const;
 
 export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`bg-gray-900/60 backdrop-blur-md rounded-2xl border border-white/10 p-4 lg:p-6 ${className}`}>
+    <div className={`bg-white rounded-2xl border border-slate-200 shadow-sm p-4 lg:p-6 ${className}`}>
       {children}
     </div>
   );
@@ -74,9 +116,9 @@ export function CardHeader({
   return (
     <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-3 mb-4">
       <div className="min-w-0">
-        {eyebrow && <div className="text-indigo-400 text-[11px] font-bold uppercase tracking-widest mb-1">{eyebrow}</div>}
-        <h3 className="text-base lg:text-lg font-bold text-white leading-snug">{title}</h3>
-        {description && <p className="text-xs lg:text-sm text-gray-400 mt-1 leading-relaxed">{description}</p>}
+        {eyebrow && <div className="text-indigo-600 text-[11px] font-bold uppercase tracking-widest mb-1">{eyebrow}</div>}
+        <h3 className="text-base lg:text-lg font-bold text-slate-900 leading-snug">{title}</h3>
+        {description && <p className="text-xs lg:text-sm text-slate-600 mt-1 leading-relaxed">{description}</p>}
       </div>
       {right && <div className="shrink-0">{right}</div>}
     </div>
@@ -97,17 +139,26 @@ export function StatTile({
   value,
   sub,
   tone = "indigo",
+  inset = false,
 }: {
   label: string;
   value: ReactNode;
   sub?: ReactNode;
   tone?: Tone;
+  /** 흰 Card 안에 놓일 때 — 그림자 없는 옅은 면(카드 속 카드 방지) */
+  inset?: boolean;
 }) {
   return (
-    <div className="bg-gray-900/60 backdrop-blur-md p-4 lg:p-5 rounded-2xl border border-white/5">
-      <div className="text-[11px] lg:text-xs text-gray-400 font-medium mb-1">{label}</div>
+    <div
+      className={
+        inset
+          ? "bg-slate-50 p-3 lg:p-4 rounded-xl border border-slate-200"
+          : "bg-white p-4 lg:p-5 rounded-2xl border border-slate-200 shadow-sm"
+      }
+    >
+      <div className="text-[11px] lg:text-xs text-slate-600 font-medium mb-1">{label}</div>
       <div className={`text-2xl lg:text-3xl font-extrabold ${TONE[tone].text}`}>{value}</div>
-      {sub && <div className="text-[11px] text-gray-400 mt-1 leading-snug">{sub}</div>}
+      {sub && <div className="text-[11px] text-slate-500 mt-1 leading-snug">{sub}</div>}
     </div>
   );
 }
@@ -127,7 +178,7 @@ export function Segmented<T extends string>({
   const values = options.map((o) => o.value);
   const hasActive = values.includes(value);
   return (
-    <div role="radiogroup" aria-label={ariaLabel} className="inline-flex flex-wrap rounded-xl bg-gray-950 border border-white/10 p-1 gap-1">
+    <div role="radiogroup" aria-label={ariaLabel} className="inline-flex flex-wrap rounded-xl bg-slate-100 border border-slate-200 p-1 gap-1">
       {options.map((o, i) => {
         const active = o.value === value;
         return (
@@ -139,8 +190,8 @@ export function Segmented<T extends string>({
             tabIndex={active || (!hasActive && i === 0) ? 0 : -1}
             onClick={() => onChange(o.value)}
             onKeyDown={(e) => radioKeyNav(e, values, value, onChange)}
-            className={`inline-flex items-center justify-center min-h-10 px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 ${
-              active ? "bg-indigo-600 text-white" : "text-gray-400 hover:text-white hover:bg-white/5"
+            className={`inline-flex items-center justify-center min-h-10 px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+              active ? "bg-indigo-600 text-white shadow-sm" : "text-slate-600 hover:text-slate-900 hover:bg-white"
             }`}
           >
             {o.label}
@@ -159,7 +210,7 @@ export function TableWrap({ children }: { children: ReactNode }) {
 export function Callout({ tone = "indigo", icon, children }: { tone?: Tone; icon?: ReactNode; children: ReactNode }) {
   const t = TONE[tone];
   return (
-    <div className={`flex gap-2.5 rounded-xl border px-3.5 py-3 text-xs lg:text-sm leading-relaxed ${t.bg} ${t.border} text-gray-200`}>
+    <div className={`flex gap-2.5 rounded-xl border px-3.5 py-3 text-xs lg:text-sm leading-relaxed ${t.bg} ${t.border} text-slate-700`}>
       {icon && <span className={`shrink-0 mt-0.5 ${t.text}`}>{icon}</span>}
       <div className="min-w-0">{children}</div>
     </div>

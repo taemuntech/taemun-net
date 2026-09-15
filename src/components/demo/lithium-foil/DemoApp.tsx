@@ -189,8 +189,15 @@ function DemoShell() {
       {/* 탭 바 스크롤 기준점 */}
       <div ref={anchorRef} aria-hidden />
 
+      {/*
+        라이트 앱 캔버스 — 사이트 틀(다크) 안에 떠 있는 「제품 화면」.
+        overflow-clip 은 둥근 모서리만 자르고 스크롤 컨테이너를 만들지 않아 안쪽 sticky 가 살아 있다(hidden 금지).
+        [color-scheme:light] — select 목록·스크롤바 같은 브라우저 기본 컨트롤도 밝게.
+        selection:…! — 바깥 루트의 selection:bg-indigo-500 이 CSS 에서 뒤에 와 특이도가 같으면 이기므로 important 로 누른다.
+      */}
+      <div className="relative z-10 lg:mx-4 xl:mx-auto xl:max-w-[1360px] bg-slate-50 text-slate-900 [color-scheme:light] rounded-t-3xl lg:rounded-3xl overflow-clip ring-1 ring-white/10 shadow-2xl shadow-black/50 selection:bg-indigo-200! selection:text-slate-900!">
       {/* 탭 바 */}
-      <div className="sticky top-20 z-40 backdrop-blur-md bg-gray-950/80 border-y border-white/5">
+      <div className="sticky top-20 z-40 bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 lg:px-6">
           {/* 모바일은 5칸 격자(아이콘 위 짧은 라벨)로 한 줄에 다 보이게 — 가로 스크롤로 뒤 탭이 숨지 않는다 */}
           <div
@@ -221,7 +228,7 @@ function DemoShell() {
         role="tabpanel"
         aria-labelledby={tabId(tab)}
         tabIndex={-1}
-        className="relative z-10 max-w-7xl mx-auto px-4 lg:px-6 py-6 lg:py-10 min-h-[60vh] focus:outline-none"
+        className="relative max-w-7xl mx-auto px-4 lg:px-6 py-6 lg:py-10 min-h-[60vh] focus:outline-none"
       >
         {tab === "kpi" && <KpiBoard onTrace={onTrace} />}
         {tab === "log" && <RollLogForm onNavigate={onNavigate} onTrace={onTrace} />}
@@ -229,6 +236,7 @@ function DemoShell() {
         {tab === "suggest" && <SuggestionsPanel onTrace={onTrace} onNavigate={onNavigate} />}
         {tab === "schema" && <SchemaView onNavigate={onNavigate} />}
       </main>
+      </div>
 
       <DemoCta />
       <DemoFooter />
@@ -264,18 +272,18 @@ function TabButton({
       tabIndex={active ? 0 : -1}
       onClick={onSelect}
       onKeyDown={onKeyDown}
-      className={`relative min-w-0 flex flex-col lg:flex-row items-center justify-center gap-0.5 lg:gap-1.5 min-h-12 lg:min-h-10 px-1 lg:px-4 py-1.5 lg:py-0 rounded-xl text-[11px] lg:text-sm font-semibold whitespace-nowrap border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 ${
+      className={`relative min-w-0 flex flex-col lg:flex-row items-center justify-center gap-0.5 lg:gap-1.5 min-h-12 lg:min-h-10 px-1 lg:px-4 py-1.5 lg:py-0 rounded-xl text-[11px] lg:text-sm font-semibold whitespace-nowrap border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
         active
-          ? "bg-indigo-600/25 border-indigo-500/50 text-white shadow-lg shadow-indigo-500/10"
-          : "border-transparent text-gray-400 hover:text-white hover:bg-white/5"
+          ? "bg-indigo-50 border-indigo-200 text-indigo-700"
+          : "border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100"
       }`}
     >
-      <Icon className={`w-4 h-4 shrink-0 ${active ? "text-indigo-300" : "text-gray-500"}`} aria-hidden />
+      <Icon className={`w-4 h-4 shrink-0 ${active ? "text-indigo-600" : "text-slate-500"}`} aria-hidden />
       <span className="lg:hidden">{def.short}</span>
       <span className="hidden lg:inline">{def.label}</span>
       {badgeCount > 0 && (
         <span
-          className="absolute top-0.5 right-0.5 lg:static lg:ml-0.5 inline-flex items-center justify-center min-w-4 lg:min-w-5 h-4 lg:h-5 px-1 lg:px-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[10px] lg:text-[11px] font-bold"
+          className="absolute top-0.5 right-0.5 lg:static lg:ml-0.5 inline-flex items-center justify-center min-w-4 lg:min-w-5 h-4 lg:h-5 px-1 lg:px-1.5 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 text-[10px] lg:text-[11px] font-bold"
           aria-label={`입력한 롤 ${badgeCount}개`}
         >
           {badgeCount}
@@ -287,7 +295,7 @@ function TabButton({
 
 function DemoHeader() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-gray-950/80 border-b border-white/5">
+    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-gray-950/95 border-b border-white/5">
       <div className="max-w-7xl mx-auto px-4 lg:px-6 h-20 flex items-center justify-between gap-3">
         <Link href="/" className="flex items-center gap-2 min-w-0" aria-label="태문 DEV STUDIO 홈으로">
           <span className="w-10 lg:w-12 h-10 lg:h-12 flex items-center justify-center select-none shrink-0">
@@ -427,15 +435,15 @@ function DemoCta() {
 
 function DemoFooter() {
   return (
-    <footer className="relative z-10 py-10 lg:py-12 px-4 lg:px-6 border-t border-white/5 text-center text-xs text-gray-500">
+    <footer className="relative z-10 py-10 lg:py-12 px-4 lg:px-6 border-t border-white/5 text-center text-xs text-gray-400">
       <div className="max-w-7xl mx-auto space-y-4">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-3 lg:gap-4">
           <div>
-            <span className="font-bold text-gray-400">태문 DEV STUDIO</span> • 직통전화: {CONTACT.phone} • 이메일: {CONTACT.email}
+            <span className="font-bold text-gray-300">태문 DEV STUDIO</span> • 직통전화: {CONTACT.phone} • 이메일: {CONTACT.email}
           </div>
           <div>© 2026 TAEMUN DEV STUDIO. All rights reserved. (Domain: taemun.net)</div>
         </div>
-        <p className="text-gray-500 leading-relaxed">
+        <p className="text-gray-400 leading-relaxed">
           이 페이지의 모든 회사·고객·수치는 시연용 가상 데이터이며 실존 기업과 무관합니다.
         </p>
       </div>

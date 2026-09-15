@@ -56,6 +56,7 @@ import {
   Card,
   CardHeader,
   GLOSSARY,
+  LIGHT,
   SCROLL_MARGIN,
   STICKY_TOP_LG,
   StatTile,
@@ -454,7 +455,7 @@ export default function TraceExplorer({ target, onTargetChange }: TraceExplorerP
               <button
                 type="button"
                 onClick={() => go(null)}
-                className="inline-flex items-center gap-1.5 min-h-10 px-3 rounded-xl border border-white/10 bg-white/5 text-xs font-semibold text-gray-300 hover:text-white hover:bg-white/10 transition-colors"
+                className={`${LIGHT.buttonSecondary} text-xs`}
               >
                 <X className="w-3.5 h-3.5" aria-hidden />
                 조회 지우기
@@ -468,7 +469,7 @@ export default function TraceExplorer({ target, onTargetChange }: TraceExplorerP
             조회할 아이디
           </label>
           <div className="relative flex-1 min-w-0">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" aria-hidden />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" aria-hidden />
             <input
               ref={searchInputRef}
               id="trace-id-input"
@@ -483,12 +484,12 @@ export default function TraceExplorer({ target, onTargetChange }: TraceExplorerP
               spellCheck={false}
               aria-invalid={Boolean(searchError)}
               aria-describedby={searchError ? "trace-search-error" : "trace-search-hint"}
-              className="w-full h-11 pl-9 pr-3 rounded-xl bg-gray-950 border border-white/10 text-sm text-white font-mono placeholder:font-sans placeholder:text-gray-500 focus:outline-none focus:border-indigo-400/60 focus:ring-2 focus:ring-indigo-500/20"
+              className={`${LIGHT.input} h-11 pl-9 font-mono placeholder:font-sans`}
             />
           </div>
           <button
             type="submit"
-            className="shrink-0 h-11 px-4 lg:px-5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-sm font-bold text-white transition-colors"
+            className={`${LIGHT.buttonPrimary} shrink-0 h-11 lg:px-5`}
           >
             조회
           </button>
@@ -508,10 +509,10 @@ export default function TraceExplorer({ target, onTargetChange }: TraceExplorerP
                         setSearchError(null);
                         go(s.target);
                       }}
-                      className="inline-flex flex-col items-start min-h-10 px-2.5 py-1.5 rounded-lg border border-amber-500/30 bg-gray-950/60 hover:border-amber-400/60 text-left transition-colors"
+                      className="inline-flex flex-col items-start min-h-10 px-2.5 py-1.5 rounded-lg border border-amber-300 bg-white hover:border-amber-400 hover:bg-amber-50 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
                     >
-                      <span className="font-mono text-xs text-white break-all">{s.id}</span>
-                      <span className="text-[11px] text-gray-400">{s.hint}</span>
+                      <span className="font-mono text-xs text-slate-900 break-all">{s.id}</span>
+                      <span className="text-[11px] text-slate-600">{s.hint}</span>
                     </button>
                   ))}
                 </div>
@@ -519,14 +520,14 @@ export default function TraceExplorer({ target, onTargetChange }: TraceExplorerP
             </Callout>
           </div>
         ) : (
-          <p id="trace-search-hint" className="mt-2 text-[11px] lg:text-xs text-gray-500">
+          <p id="trace-search-hint" className="mt-2 text-[11px] lg:text-xs text-slate-500">
             출하 SH- · 롤 R- · 잉곳 ING- · 원료·자재 RM- — 대소문자·공백·하이픈은 신경 쓰지 않아도 됩니다.
           </p>
         )}
 
         {quickChips.length > 0 && (
           <div className="mt-4">
-            <div className="text-[11px] font-bold text-gray-400 mb-2">빠른 시작</div>
+            <div className="text-[11px] font-bold text-slate-500 mb-2">빠른 시작</div>
             <div className="flex flex-wrap gap-2">
               {quickChips.map((c) => {
                 const active = sameTarget(c.target, target);
@@ -536,12 +537,12 @@ export default function TraceExplorer({ target, onTargetChange }: TraceExplorerP
                     type="button"
                     aria-pressed={active}
                     onClick={() => go(c.target)}
-                    className={`inline-flex flex-col items-start min-h-10 px-3 py-1.5 rounded-xl border text-left transition-colors ${
-                      active ? "border-indigo-400/60 bg-indigo-500/15" : `${TONE[c.tone].border} bg-gray-950/60 hover:bg-white/5`
+                    className={`inline-flex flex-col items-start min-h-10 px-3 py-1.5 rounded-xl border text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+                      active ? "border-indigo-300 bg-indigo-50 shadow-sm" : `${TONE[c.tone].border} bg-white hover:bg-slate-50`
                     }`}
                   >
-                    <span className={`text-xs font-bold ${active ? "text-white" : TONE[c.tone].text}`}>{c.label}</span>
-                    <span className="font-mono text-[11px] text-gray-400 break-all">{c.target.id}</span>
+                    <span className={`text-xs font-bold ${active ? "text-indigo-700" : TONE[c.tone].text}`}>{c.label}</span>
+                    <span className="font-mono text-[11px] text-slate-600 break-all">{c.target.id}</span>
                   </button>
                 );
               })}
@@ -600,12 +601,12 @@ function EmptyState() {
       />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
         {items.map((it) => (
-          <div key={it.title} className="rounded-xl border border-white/10 bg-gray-950/50 p-4">
-            <div className="flex items-center gap-2 text-indigo-300 mb-1.5">
+          <div key={it.title} className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <div className="flex items-center gap-2 text-indigo-600 mb-1.5">
               {it.icon}
-              <span className="text-sm font-bold text-white">{it.title}</span>
+              <span className="text-sm font-bold text-slate-900">{it.title}</span>
             </div>
-            <p className="text-xs lg:text-sm text-gray-400 leading-relaxed">{it.body}</p>
+            <p className="text-xs lg:text-sm text-slate-600 leading-relaxed">{it.body}</p>
           </div>
         ))}
       </div>
@@ -873,11 +874,11 @@ function ChainSummary({ back, slits, mothers }: { back: Genealogy; slits: number
   if (back.batches.length) parts.push(`배치 ${back.batches.length}`);
   if (back.materialLots.length) parts.push(`원료·자재 ${back.materialLots.length}`);
   return (
-    <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[11px] lg:text-xs text-gray-400">
+    <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[11px] lg:text-xs text-slate-600">
       {parts.map((p, i) => (
         <span key={p} className="inline-flex items-center gap-1.5">
-          {i > 0 && <span className="text-gray-600" aria-hidden>←</span>}
-          <span className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-gray-300">{p}</span>
+          {i > 0 && <span className="text-slate-500" aria-hidden>←</span>}
+          <Badge tone="gray">{p}</Badge>
         </span>
       ))}
       {back.nonconformances.length > 0 && (
@@ -907,17 +908,17 @@ function Stage({
   return (
     <li className={`relative pl-11 lg:pl-14 ${last ? "" : "pb-5 lg:pb-6"}`}>
       {!last && (
-        <span aria-hidden className="absolute left-4 lg:left-5 top-10 bottom-1 w-px bg-indigo-500/25">
-          <ArrowDown className="absolute -left-[5.5px] -bottom-1 w-3 h-3 text-indigo-400/60" />
+        <span aria-hidden className="absolute left-4 lg:left-5 top-10 bottom-1 w-px bg-slate-300">
+          <ArrowDown className="absolute -left-[5.5px] -bottom-1 w-3 h-3 text-slate-500" />
         </span>
       )}
-      <span className="absolute left-0 top-0 flex h-8 w-8 lg:h-10 lg:w-10 items-center justify-center rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-300">
+      <span className="absolute left-0 top-0 flex h-8 w-8 lg:h-10 lg:w-10 items-center justify-center rounded-full border border-indigo-200 bg-indigo-50 text-indigo-600">
         {icon}
       </span>
       <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 min-h-8 lg:min-h-10 pt-1 lg:pt-2 mb-2">
-        <span className="text-sm font-bold text-white">{label}</span>
-        {count > 1 && <span className="text-xs text-gray-400">{count}개</span>}
-        {sub && <span className="text-[11px] text-gray-500">{sub}</span>}
+        <span className="text-sm font-bold text-slate-900">{label}</span>
+        {count > 1 && <span className="text-xs text-slate-600">{count}개</span>}
+        {sub && <span className="text-[11px] text-slate-500">{sub}</span>}
       </div>
       {children}
     </li>
@@ -926,11 +927,16 @@ function Stage({
 
 function IdChip({ id, target, ctx }: { id: string; target: TraceTarget | null; ctx: NodeCtx }) {
   const current = target !== null && sameTarget(target, ctx.target);
-  const base = "inline-flex items-center gap-1 max-w-full px-2 py-1 rounded-md border font-mono text-[11px] lg:text-xs break-all text-left";
+  const layout = "inline-flex items-center gap-1 max-w-full text-left";
   if (!target || current) {
     return (
       <span
-        className={`${base} ${current ? "border-indigo-400/60 bg-indigo-500/15 text-indigo-100" : "border-white/10 bg-white/5 text-gray-300"}`}
+        // 현재 칩은 인디고 면(NodeFrame) 위에 올라가므로 흰 바탕 — 크기는 LIGHT.idChip 과 같게 문자열 전체로 적는다
+        className={
+          current
+            ? `${layout} font-mono text-[11px] lg:text-xs px-1.5 py-0.5 rounded-md bg-white border border-indigo-300 text-indigo-700 break-all`
+            : `${layout} ${LIGHT.idChip}`
+        }
         aria-current={current ? "true" : undefined}
       >
         {id}
@@ -942,19 +948,30 @@ function IdChip({ id, target, ctx }: { id: string; target: TraceTarget | null; c
       type="button"
       onClick={() => ctx.onSelect(target)}
       title={`${TYPE_LABEL[target.type]} ${id} 기준으로 보기`}
-      className={`${base} relative border-white/15 bg-white/5 text-gray-100 hover:border-indigo-400/60 hover:bg-indigo-500/10 hover:text-white transition-colors before:absolute before:content-[''] before:-inset-y-1.5 before:inset-x-0`}
+      className={`${layout} ${LIGHT.idChipButton} relative before:absolute before:content-[''] before:-inset-y-2 before:inset-x-0`}
     >
       {id}
-      <ArrowUpRight className="w-3 h-3 shrink-0 text-indigo-300" aria-hidden />
+      <ArrowUpRight className="w-3 h-3 shrink-0 text-indigo-600" aria-hidden />
     </button>
   );
 }
 
-function NodeFrame({ id, danger, children }: { id: string; danger: boolean; children: ReactNode }) {
+/**
+ * current — 지금 조회 대상인 노드. 인디고 면으로 구분하고, 위험까지 겹치면 로즈 테두리에 인디고 링을 두른다.
+ * 흰 카드 위라 면은 불투명 50 단계 — 안쪽 상자(NcBadges·현재 칩)는 흰 바탕으로 한 단계 띄운다.
+ */
+function NodeFrame({ id, danger, current = false, children }: { id: string; danger: boolean; current?: boolean; children: ReactNode }) {
+  const frame = current
+    ? danger
+      ? "border-rose-300 bg-rose-50 ring-2 ring-indigo-300"
+      : "border-indigo-300 bg-indigo-50"
+    : danger
+      ? "border-rose-200 bg-rose-50"
+      : "border-slate-200 bg-white";
   return (
     <div
       data-node-id={id}
-      className={`rounded-xl border p-3 lg:p-4 min-w-0 ${danger ? "border-rose-500/30 bg-rose-500/[0.04]" : "border-white/10 bg-gray-950/50"}`}
+      className={`rounded-xl border p-3 lg:p-4 min-w-0 ${frame}`}
     >
       {children}
     </div>
@@ -969,18 +986,18 @@ function NcBadges({ ncs }: { ncs: NonConformance[] }) {
         const tone: Tone = n.closedAt ? "gray" : n.type === "safety" ? "amber" : "rose";
         const typeLabel = n.type === "claim" ? "고객 클레임" : n.type === "safety" ? "안전" : "내부 부적합";
         return (
-          <div key={n.id} className={`rounded-lg border px-2.5 py-2 ${TONE[tone].bg} ${TONE[tone].border}`}>
+          <div key={n.id} className={`rounded-lg border px-2.5 py-2 bg-white ${TONE[tone].border}`}>
             <div className="flex flex-wrap items-center gap-1.5">
               <Badge tone={tone}>
                 <AlertTriangle className="w-3 h-3" aria-hidden />
                 {typeLabel} {n.id}
               </Badge>
-              <span className="font-mono text-[11px] text-gray-400">{n.reasonCode}</span>
-              <span className="text-[11px] text-gray-500">
+              <span className="font-mono text-[11px] text-slate-600">{n.reasonCode}</span>
+              <span className="text-[11px] text-slate-600">
                 {fmtShortDate(n.openedAt)} 등록{n.closedAt ? ` · ${fmtShortDate(n.closedAt)} 종결` : " · 미결"}
               </span>
             </div>
-            <p className="mt-1 text-xs text-gray-300 leading-relaxed">{n.description}</p>
+            <p className="mt-1 text-xs text-slate-700 leading-relaxed">{n.description}</p>
           </div>
         );
       })}
@@ -991,8 +1008,8 @@ function NcBadges({ ncs }: { ncs: NonConformance[] }) {
 function Field({ label, children, tone }: { label: string; children: ReactNode; tone?: Tone }) {
   return (
     <div className="min-w-0">
-      <dt className="text-[11px] text-gray-500">{label}</dt>
-      <dd className={`text-xs lg:text-sm font-semibold break-words ${tone ? TONE[tone].text : "text-gray-200"}`}>{children}</dd>
+      <dt className="text-[11px] text-slate-600">{label}</dt>
+      <dd className={`text-xs lg:text-sm font-semibold break-words ${tone ? TONE[tone].text : "text-slate-900"}`}>{children}</dd>
     </div>
   );
 }
@@ -1008,7 +1025,7 @@ function ShipmentNode({ shipment, ctx, ncs }: { shipment: Shipment; ctx: NodeCtx
     due = d > 0 ? { text: `미출하 · 약속일 ${d}일 경과`, tone: "rose" } : { text: `출하 전 · 약속일까지 ${-d}일`, tone: "gray" };
   }
   return (
-    <NodeFrame id={shipment.id} danger={shipment.verdict === "claim"}>
+    <NodeFrame id={shipment.id} danger={shipment.verdict === "claim"} current={sameTarget({ type: "shipment", id: shipment.id }, ctx.target)}>
       <div className="flex flex-wrap items-center gap-2">
         <IdChip id={shipment.id} target={{ type: "shipment", id: shipment.id }} ctx={ctx} />
         <Badge tone={verdict.tone}>{verdict.label}</Badge>
@@ -1021,7 +1038,7 @@ function ShipmentNode({ shipment, ctx, ncs }: { shipment: Shipment; ctx: NodeCtx
         <Field label="출하일">{shipment.shippedAt ? fmtShortDate(shipment.shippedAt) : "—"}</Field>
       </dl>
       {shipment.claimReason && (
-        <p className="mt-3 text-xs lg:text-sm text-rose-300 leading-relaxed">클레임 사유: {shipment.claimReason}</p>
+        <p className="mt-3 text-xs lg:text-sm text-rose-700 leading-relaxed">클레임 사유: {shipment.claimReason}</p>
       )}
       <NcBadges ncs={ncs} />
     </NodeFrame>
@@ -1037,7 +1054,7 @@ function verdictBadge(s: Shipment): { label: string; tone: Tone } {
 function SlitNode({ roll, ctx, ncs }: { roll: Roll; ctx: NodeCtx; ncs: NonConformance[] }) {
   const st = ROLL_STATUS[roll.status];
   return (
-    <NodeFrame id={roll.id} danger={roll.status === "hold" || roll.status === "scrapped"}>
+    <NodeFrame id={roll.id} danger={roll.status === "hold" || roll.status === "scrapped"} current={sameTarget({ type: "roll", id: roll.id }, ctx.target)}>
       <div className="flex flex-wrap items-center gap-2">
         <IdChip id={roll.id} target={{ type: "roll", id: roll.id }} ctx={ctx} />
         <Badge tone={st.tone}>{st.label}</Badge>
@@ -1063,7 +1080,7 @@ function MotherNode({ roll, ctx, ncs }: { roll: Roll; ctx: NodeCtx; ncs: NonConf
   const gradeTone: Tone | undefined = roll.surfaceGrade === "C" ? "rose" : roll.surfaceGrade === "B" ? "amber" : roll.surfaceGrade === "A" ? "emerald" : undefined;
 
   return (
-    <NodeFrame id={roll.id} danger={dewOver || sdOver || roll.status === "hold"}>
+    <NodeFrame id={roll.id} danger={dewOver || sdOver || roll.status === "hold"} current={sameTarget({ type: "roll", id: roll.id }, ctx.target)}>
       <div className="flex flex-wrap items-center gap-2">
         <IdChip id={roll.id} target={{ type: "roll", id: roll.id }} ctx={ctx} />
         <Badge tone={st.tone}>{st.label}</Badge>
@@ -1082,30 +1099,30 @@ function MotherNode({ roll, ctx, ncs }: { roll: Roll; ctx: NodeCtx; ncs: NonConf
           {roll.tearCount}회{roll.lostLengthM ? ` · 손실 ${fmtNum(roll.lostLengthM, 0)}m` : ""}
         </Field>
         <div className="min-w-0 col-span-2 sm:col-span-3">
-          <dt className="text-[11px] text-gray-500">이형 필름 로트 · 재사용</dt>
+          <dt className="text-[11px] text-slate-600">이형 필름 로트 · 재사용</dt>
           <dd className="mt-0.5 flex flex-wrap items-center gap-2">
             {roll.filmLotId ? (
               <IdChip id={roll.filmLotId} target={{ type: "material", id: roll.filmLotId }} ctx={ctx} />
             ) : (
-              <span className="text-xs text-gray-400">결측</span>
+              <span className="text-xs text-slate-600">결측</span>
             )}
             {roll.filmReuseCount !== null && (
-              <span className={`text-xs lg:text-sm font-semibold ${reuseWarn ? TONE.amber.text : "text-gray-200"}`}>
+              <span className={`text-xs lg:text-sm font-semibold ${reuseWarn ? TONE.amber.text : "text-slate-900"}`}>
                 {roll.filmReuseCount === 1 ? "새 필름" : `${roll.filmReuseCount}회째 재사용`}
               </span>
             )}
           </dd>
         </div>
         <div className="min-w-0 col-span-2 sm:col-span-3">
-          <dt className="text-[11px] text-gray-500">면밀도 3점 (좌·중·우) → 두께 · 면밀도는 정해진 넓이의 무게로, 두께의 정본</dt>
-          <dd className="text-xs lg:text-sm font-semibold text-gray-200 break-words">
+          <dt className="text-[11px] text-slate-600">면밀도 3점 (좌·중·우) → 두께 · 면밀도는 정해진 넓이의 무게로, 두께의 정본</dt>
+          <dd className="text-xs lg:text-sm font-semibold text-slate-900 break-words">
             {roll.arealDensityGm2 && thickness ? (
               <>
                 <span className="font-mono">{roll.arealDensityGm2.map((v) => fmtNum(v, 2)).join(" · ")}</span> g/m² →{" "}
                 <span className="font-mono">{thickness.map((v) => fmtNum(v, 1)).join(" · ")}</span> µm
               </>
             ) : (
-              <span className="text-gray-400">결측 — 두께를 판단할 수 없음</span>
+              <span className="text-slate-600">결측 — 두께를 판단할 수 없음</span>
             )}
           </dd>
         </div>
@@ -1137,7 +1154,7 @@ function IngotNode({ ingot, ctx, ncs }: { ingot: Ingot; ctx: NodeCtx; ncs: NonCo
   const lab = rows[0]?.lab;
 
   return (
-    <NodeFrame id={ingot.id} danger={anyOver}>
+    <NodeFrame id={ingot.id} danger={anyOver} current={sameTarget({ type: "ingot", id: ingot.id }, ctx.target)}>
       <div className="flex flex-wrap items-center gap-2">
         <IdChip id={ingot.id} target={{ type: "ingot", id: ingot.id }} ctx={ctx} />
         {anyOver ? <Badge tone="rose">불순물 규격 초과</Badge> : rows.length ? <Badge tone="emerald">ICP 규격 이내</Badge> : <Badge>ICP 대기</Badge>}
@@ -1152,18 +1169,18 @@ function IngotNode({ ingot, ctx, ncs }: { ingot: Ingot; ctx: NodeCtx; ncs: NonCo
       </dl>
       {rows.length > 0 && (
         <div className="mt-3">
-          <div className="text-[11px] text-gray-500 mb-1.5">
+          <div className="text-[11px] text-slate-600 mb-1.5">
             ICP 불순물 분석 (ppm){lab ? ` · ${lab}` : ""}
             {reportedAt ? ` · ${fmtShortDate(reportedAt)} 회신` : ""}
           </div>
           <TableWrap>
             <table className="w-full min-w-[320px] text-xs lg:text-sm">
               <thead>
-                <tr className="text-left text-[11px] text-gray-500">
-                  <th className="py-1.5 pr-3 font-medium">원소</th>
-                  <th className="py-1.5 pr-3 font-medium text-right">값</th>
-                  <th className="py-1.5 pr-3 font-medium text-right">규격</th>
-                  <th className="py-1.5 font-medium">판정</th>
+                <tr>
+                  <th className={LIGHT.thCompact}>원소</th>
+                  <th className={`${LIGHT.thCompact} text-right`}>값</th>
+                  <th className={`${LIGHT.thCompact} text-right`}>규격</th>
+                  <th className={LIGHT.thCompact}>판정</th>
                 </tr>
               </thead>
               <tbody>
@@ -1176,14 +1193,14 @@ function IngotNode({ ingot, ctx, ncs }: { ingot: Ingot; ctx: NodeCtx; ncs: NonCo
                         ? { label: "검출한계 미만", tone: "gray" }
                         : { label: "적합", tone: "emerald" };
                   return (
-                    <tr key={r.element} className={`border-t border-white/5 ${j.over ? "bg-rose-500/[0.06]" : ""}`}>
-                      <td className="py-1.5 pr-3 font-semibold text-gray-200">{r.element}</td>
-                      <td className={`py-1.5 pr-3 text-right font-mono ${j.over ? "text-rose-300 font-bold" : j.ooc ? "text-amber-300" : "text-gray-200"}`}>
+                    <tr key={r.element} className={j.over ? "bg-rose-100/60" : ""}>
+                      <td className={`${LIGHT.tdCompact} font-semibold text-slate-900`}>{r.element}</td>
+                      <td className={`${LIGHT.tdCompact} text-right font-mono ${j.over ? "text-rose-700 font-bold" : j.ooc ? "text-amber-800" : "text-slate-900"}`}>
                         {r.qualifier === "<" ? "<" : ""}
                         {fmtNum(r.valuePpm, 1)}
                       </td>
-                      <td className="py-1.5 pr-3 text-right font-mono text-gray-400">≤{SPEC_LIMIT_PPM[r.element]}</td>
-                      <td className="py-1.5">
+                      <td className={`${LIGHT.tdCompact} text-right font-mono text-slate-600`}>≤{SPEC_LIMIT_PPM[r.element]}</td>
+                      <td className={LIGHT.tdCompact}>
                         <Badge tone={verdict.tone}>{verdict.label}</Badge>
                       </td>
                     </tr>
@@ -1192,7 +1209,7 @@ function IngotNode({ ingot, ctx, ncs }: { ingot: Ingot; ctx: NodeCtx; ncs: NonCo
               </tbody>
             </table>
           </TableWrap>
-          <p className="mt-1.5 text-[11px] text-gray-400 leading-relaxed">
+          <p className="mt-1.5 text-[11px] text-slate-600 leading-relaxed">
             관리한계 — 새 도가니로 작업한 앞 잉곳들로 잡은 평소 범위(검출된 값이 모자란 원소는 판정하지 않음). 「&lt;」 는 검출한계 미만이라 통계에 넣지 않습니다.
           </p>
         </div>
@@ -1234,7 +1251,7 @@ function BatchNode({ batch, ctx, ncs }: { batch: RefineBatch; ctx: NodeCtx; ncs:
 function MaterialNode({ lot, ctx, compact = false }: { lot: MaterialLot; ctx: NodeCtx; compact?: boolean }) {
   const scrap = lot.origin === "internal_scrap";
   return (
-    <NodeFrame id={lot.id} danger={false}>
+    <NodeFrame id={lot.id} danger={false} current={sameTarget({ type: "material", id: lot.id }, ctx.target)}>
       <div className="flex flex-wrap items-center gap-2">
         <IdChip id={lot.id} target={{ type: "material", id: lot.id }} ctx={ctx} />
         <Badge tone="indigo">{MATERIAL_TYPE_LABEL[lot.type]}</Badge>
@@ -1273,14 +1290,14 @@ function SuspectPanel({ suspects, unknowns, ctx }: { suspects: Suspect[]; unknow
               <AlertTriangle className={`w-4 h-4 mt-0.5 shrink-0 ${TONE[s.tone].text}`} aria-hidden />
               <div className="min-w-0">
                 <div className={`text-sm font-bold ${TONE[s.tone].text}`}>{s.title}</div>
-                <p className="mt-0.5 text-[11px] lg:text-xs text-gray-400 leading-relaxed">{s.detail}</p>
+                <p className="mt-0.5 text-[11px] lg:text-xs text-slate-700 leading-relaxed">{s.detail}</p>
               </div>
             </div>
             <ul className="mt-2 space-y-2">
               {s.items.map((it, i) => (
                 <li key={`${it.id}-${i}`} className="flex flex-col gap-1">
                   <IdChip id={it.id} target={it.target} ctx={ctx} />
-                  <span className="text-xs text-gray-200 leading-relaxed">{it.text}</span>
+                  <span className="text-xs text-slate-800 leading-relaxed">{it.text}</span>
                 </li>
               ))}
             </ul>
@@ -1289,11 +1306,11 @@ function SuspectPanel({ suspects, unknowns, ctx }: { suspects: Suspect[]; unknow
       </div>
 
       {unknowns.length > 0 && (
-        <div className="mt-3 rounded-xl border border-white/10 bg-white/5 p-3">
-          <div className="text-xs font-bold text-gray-300">판단할 수 없는 항목 (기록 결측)</div>
+        <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-3">
+          <div className="text-xs font-bold text-slate-700">판단할 수 없는 항목 (기록 결측)</div>
           <ul className="mt-1.5 space-y-2">
             {unknowns.map((u) => (
-              <li key={u.key} className="text-[11px] lg:text-xs text-gray-400 leading-relaxed">
+              <li key={u.key} className="text-[11px] lg:text-xs text-slate-600 leading-relaxed">
                 {u.text}
                 <span className="mt-1 flex flex-wrap gap-1.5">
                   {u.ids.map((x) => (
@@ -1306,7 +1323,7 @@ function SuspectPanel({ suspects, unknowns, ctx }: { suspects: Suspect[]; unknow
         </div>
       )}
 
-      <p className="mt-3 flex gap-1.5 text-[11px] text-gray-500 leading-relaxed">
+      <p className="mt-3 flex gap-1.5 text-[11px] text-slate-500 leading-relaxed">
         <Info className="w-3.5 h-3.5 shrink-0 mt-px" aria-hidden />
         규칙 기반 후보이며, 원인 확정은 엔지니어 판단입니다.
       </p>
@@ -1329,7 +1346,7 @@ function PathChips({
     <div className="space-y-2">
       {visible.map((g) => (
         <div key={g.label} className="flex flex-wrap items-center gap-1.5">
-          <span className="text-[11px] text-gray-500 w-full sm:w-auto sm:mr-1">{g.label}</span>
+          <span className="text-[11px] text-slate-500 w-full sm:w-auto sm:mr-1">{g.label}</span>
           {g.ids.map((id) => (
             <IdChip key={id} id={id} target={g.toTarget ? g.toTarget(id) : null} ctx={ctx} />
           ))}
@@ -1370,7 +1387,7 @@ function ForwardPanel({
       <CardHeader eyebrow={eyebrow} title={title} description="회수·통보 범위를 이 표로 바로 정합니다." />
       <div className={`grid ${colsClass} gap-2 lg:gap-3`}>
         {tiles.map((t) => (
-          <StatTile key={t.label} label={t.label} value={fmtNum(t.value, 0)} tone={t.tone} />
+          <StatTile key={t.label} label={t.label} value={fmtNum(t.value, 0)} tone={t.tone} inset />
         ))}
       </div>
 
@@ -1391,12 +1408,12 @@ function ForwardPanel({
             <TableWrap>
               <table className="w-full min-w-[560px] text-xs lg:text-sm">
                 <thead>
-                  <tr className="text-left text-[11px] text-gray-500">
-                    <th className="py-2 pr-3 font-medium">출하 ID</th>
-                    <th className="py-2 pr-3 font-medium">고객</th>
-                    <th className="py-2 pr-3 font-medium">출하일</th>
-                    <th className="py-2 pr-3 font-medium text-right">범위 안 롤</th>
-                    <th className="py-2 font-medium">판정</th>
+                  <tr>
+                    <th className={LIGHT.thCompact}>출하 ID</th>
+                    <th className={LIGHT.thCompact}>고객</th>
+                    <th className={LIGHT.thCompact}>출하일</th>
+                    <th className={`${LIGHT.thCompact} text-right`}>범위 안 롤</th>
+                    <th className={LIGHT.thCompact}>판정</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1408,29 +1425,29 @@ function ForwardPanel({
                       <tr
                         key={s.id}
                         onClick={go}
-                        className="border-t border-white/5 cursor-pointer hover:bg-white/5 transition-colors"
+                        className="cursor-pointer hover:bg-slate-50 transition-colors"
                       >
-                        <td className="py-1 pr-3">
+                        <td className={LIGHT.tdCompact}>
                           <button
                             type="button"
                             onClick={(e) => {
                               e.stopPropagation();
                               go();
                             }}
-                            className="inline-flex items-center gap-1 min-h-10 font-mono text-indigo-200 hover:text-white"
+                            className="inline-flex items-center gap-1 min-h-10 font-mono text-indigo-600 hover:text-indigo-800 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
                           >
                             {s.id}
                             <ArrowUpRight className="w-3 h-3" aria-hidden />
                           </button>
                         </td>
-                        <td className="py-1 pr-3 text-gray-200 whitespace-nowrap">{s.customer}</td>
-                        <td className="py-1 pr-3 text-gray-300 whitespace-nowrap">
-                          {s.shippedAt ? fmtShortDate(s.shippedAt) : <span className="text-amber-300">미출하</span>}
+                        <td className={`${LIGHT.tdCompact} text-slate-900 whitespace-nowrap`}>{s.customer}</td>
+                        <td className={`${LIGHT.tdCompact} text-slate-700 whitespace-nowrap`}>
+                          {s.shippedAt ? fmtShortDate(s.shippedAt) : <span className="text-amber-800">미출하</span>}
                         </td>
-                        <td className="py-1 pr-3 text-right font-mono text-gray-300">
+                        <td className={`${LIGHT.tdCompact} text-right font-mono text-slate-700`}>
                           {inScope}/{s.rollIds.length}
                         </td>
-                        <td className="py-1">
+                        <td className={LIGHT.tdCompact}>
                           <Badge tone={v.tone}>{v.label}</Badge>
                         </td>
                       </tr>
@@ -1442,7 +1459,7 @@ function ForwardPanel({
           </div>
         </>
       ) : (
-        <p className="mt-4 text-xs lg:text-sm text-gray-400">{emptyNote}</p>
+        <p className="mt-4 text-xs lg:text-sm text-slate-600">{emptyNote}</p>
       )}
     </Card>
   );

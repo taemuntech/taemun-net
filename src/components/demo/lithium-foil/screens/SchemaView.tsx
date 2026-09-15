@@ -28,7 +28,7 @@ import {
 import { ICP_ELEMENTS } from "@/lib/demo/lithium-foil/types";
 import { missingRates } from "@/lib/demo/lithium-foil/metrics";
 import { useDemoData } from "../DemoDataContext";
-import { Badge, Callout, Card, CardHeader, TONE, TableWrap, fmtNum, fmtPct, type Tone } from "../ui";
+import { Badge, Callout, Card, CardHeader, LIGHT, TONE, TableWrap, fmtNum, fmtPct, type Tone } from "../ui";
 import type { SchemaViewProps } from "./types";
 
 type TableSpec = {
@@ -188,15 +188,14 @@ export default function SchemaView({ onNavigate }: SchemaViewProps) {
   return (
     <div className={`space-y-4 lg:space-y-6 ${KEEP}`}>
       {/* 1. 핵심 메시지 */}
-      <Card className="relative overflow-hidden">
-        <div className="pointer-events-none absolute -top-24 -right-24 w-64 h-64 rounded-full bg-indigo-500/10 blur-3xl" aria-hidden />
+      <Card>
         <div className="relative">
-          <div className="text-indigo-400 text-[11px] font-bold uppercase tracking-widest mb-2">도입 설계 · 첫 6개월</div>
-          <h2 className="text-xl lg:text-3xl font-extrabold text-white leading-tight">
-            표 <span className="text-indigo-300">7개</span> · 수기 입력 변수 <span className="text-purple-300">10개</span> · 화면{" "}
-            <span className="text-emerald-300">3개</span>로 시작합니다
+          <div className="text-indigo-600 text-[11px] font-bold uppercase tracking-widest mb-2">도입 설계 · 첫 6개월</div>
+          <h2 className="text-xl lg:text-3xl font-extrabold text-slate-900 leading-tight">
+            표 <span className="text-indigo-700">7개</span> · 수기 입력 변수 <span className="text-purple-700">10개</span> · 화면{" "}
+            <span className="text-emerald-700">3개</span>로 시작합니다
           </h2>
-          <p className="text-sm text-gray-400 mt-2 leading-relaxed">
+          <p className="text-sm text-slate-600 mt-2 leading-relaxed">
             화면 3개 = 롤 일지 입력 · KPI 보드 · 계보 조회. 데모의 앞 세 탭이 그 세 화면이고, 「개선 제안」 탭은 데이터가 쌓인 뒤의 모습입니다.
           </p>
 
@@ -208,15 +207,15 @@ export default function SchemaView({ onNavigate }: SchemaViewProps) {
 
           <ul className="mt-5 space-y-2.5">
             <Reason n={1}>
-              <b className="text-white">작은 조직이 표 16개를 한 번에 받으면 첫 달에 버려집니다.</b> 입력할 사람은 그대로인데 칸만 늘어나기
+              <b className="text-slate-900">작은 조직이 표 16개를 한 번에 받으면 첫 달에 버려집니다.</b> 입력할 사람은 그대로인데 칸만 늘어나기
               때문입니다. 매일 꼭 쓰는 것부터 시작합니다.
             </Reason>
             <Reason n={2}>
-              <b className="text-white">나트륨 호일·합금 같은 새 품목은 같은 롤 표에 컬럼으로 얹힙니다.</b> 품목마다 표를 새로 만들지
+              <b className="text-slate-900">나트륨 호일·합금 같은 새 품목은 같은 롤 표에 컬럼으로 얹힙니다.</b> 품목마다 표를 새로 만들지
               않으니, 품목이 늘어도 화면과 집계가 그대로 돌아갑니다.
             </Reason>
             <Reason n={3}>
-              <b className="text-white">계측기 연동은 입력률 90% 이후입니다.</b> 사람이 적는 습관이 먼저 자리 잡아야, 자동으로 들어온
+              <b className="text-slate-900">계측기 연동은 입력률 90% 이후입니다.</b> 사람이 적는 습관이 먼저 자리 잡아야, 자동으로 들어온
               숫자를 어느 롤에 붙일지 정해집니다.
             </Reason>
           </ul>
@@ -240,11 +239,11 @@ export default function SchemaView({ onNavigate }: SchemaViewProps) {
               <TableCard spec={t} />
               {i < mainTables.length - 1 && (
                 <>
-                  <div className="flex lg:hidden justify-center py-1.5 text-gray-500" aria-hidden>
+                  <div className="flex lg:hidden justify-center py-1.5 text-slate-500" aria-hidden>
                     <ArrowDown className="w-5 h-5" />
                   </div>
                   <div
-                    className="hidden lg:flex absolute top-8 -right-6 w-6 justify-center text-gray-500 z-10"
+                    className="hidden lg:flex absolute top-8 -right-6 w-6 justify-center text-slate-500 z-10"
                     aria-hidden
                   >
                     <ArrowRight className="w-5 h-5" />
@@ -259,22 +258,23 @@ export default function SchemaView({ onNavigate }: SchemaViewProps) {
         <div className="hidden lg:block mt-2" aria-hidden>
           <svg viewBox="0 0 1000 56" preserveAspectRatio="none" className="w-full h-14">
             {[125, 375, 625, 875].map((x) => (
-              <line key={`t${x}`} x1={x} y1={0} x2={x} y2={28} className="stroke-white/20" strokeWidth={1.5} strokeDasharray="4 4" vectorEffect="non-scaling-stroke" />
+              <line key={`t${x}`} x1={x} y1={0} x2={x} y2={28} stroke="#64748b" strokeWidth={1.5} strokeDasharray="4 4" vectorEffect="non-scaling-stroke" />
             ))}
-            <line x1={125} y1={28} x2={875} y2={28} className="stroke-indigo-400/50" strokeWidth={1.5} vectorEffect="non-scaling-stroke" />
+            {/* 관계를 그림으로 전하는 선이라 흰 바탕 3:1 이상 — 가지선 slate-500(4.76), 버스 본선은 한 단계 진하게 slate-600 */}
+            <line x1={125} y1={28} x2={875} y2={28} stroke="#475569" strokeWidth={1.5} vectorEffect="non-scaling-stroke" />
             {[166, 500, 834].map((x) => (
-              <line key={`b${x}`} x1={x} y1={28} x2={x} y2={56} className="stroke-white/20" strokeWidth={1.5} strokeDasharray="4 4" vectorEffect="non-scaling-stroke" />
+              <line key={`b${x}`} x1={x} y1={28} x2={x} y2={56} stroke="#64748b" strokeWidth={1.5} strokeDasharray="4 4" vectorEffect="non-scaling-stroke" />
             ))}
           </svg>
         </div>
-        <div className="hidden lg:block text-center text-xs text-gray-500 mb-2">
+        <div className="hidden lg:block text-center text-xs text-slate-500 mb-2">
           옆 표 3개는 대상 ID(원료 로트·배치·롤·출하)만 적어서 붙는다
         </div>
 
-        <div className="flex lg:hidden items-center gap-2 mt-5 mb-2 text-xs text-gray-400">
-          <span className="h-px flex-1 bg-white/10" />
+        <div className="flex lg:hidden items-center gap-2 mt-5 mb-2 text-xs text-slate-500">
+          <span className="h-px flex-1 bg-slate-200" />
           옆에서 붙는 표 — 대상 ID 만 적는다
-          <span className="h-px flex-1 bg-white/10" />
+          <span className="h-px flex-1 bg-slate-200" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-6">
@@ -285,9 +285,9 @@ export default function SchemaView({ onNavigate }: SchemaViewProps) {
 
         {/* 공용 마스터 · 레시피 보안 스키마 */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-6 mt-5">
-          <div className="rounded-xl border border-dashed border-white/15 bg-white/[0.02] p-4">
-            <div className="flex items-center gap-2 text-sm font-bold text-white">
-              <Database className="w-4 h-4 text-gray-400" />
+          <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4">
+            <div className="flex items-center gap-2 text-sm font-bold text-slate-900">
+              <Database className="w-4 h-4 text-slate-500" />
               공용 마스터 — 한 번 등록하고 모든 표가 참조
             </div>
             <ul className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -299,35 +299,35 @@ export default function SchemaView({ onNavigate }: SchemaViewProps) {
             </ul>
           </div>
 
-          <div className="rounded-xl border border-amber-500/30 bg-amber-500/[0.06] p-4">
-            <div className="flex items-center gap-2 text-sm font-bold text-white">
-              <Lock className="w-4 h-4 text-amber-300" />
+          <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
+            <div className="flex items-center gap-2 text-sm font-bold text-slate-900">
+              <Lock className="w-4 h-4 text-amber-800" />
               레시피 보안 스키마 — 노하우는 따로 잠근다
             </div>
-            <p className="text-xs text-gray-400 mt-1.5 leading-relaxed">
-              운영 표에는 <code className="font-mono text-amber-200">recipe_id</code> 만 남습니다. 압하력·장력·전압·시간 같은 원값은 별도
+            <p className="text-xs text-slate-700 mt-1.5 leading-relaxed">
+              운영 표에는 <code className="font-mono text-amber-800">recipe_id</code> 만 남습니다. 압하력·장력·전압·시간 같은 원값은 별도
               스키마에 암호화해 두고, 열람 권한자만 보며 열람할 때마다 기록이 남습니다.
             </p>
             <TableWrap>
               <table className="w-full mt-3 text-xs min-w-[300px]">
                 <thead>
-                  <tr className="text-left text-gray-500">
-                    <th className="font-medium py-1.5 pr-3">운영 표에 보이는 것</th>
-                    <th className="font-medium py-1.5">보안 스키마에만</th>
+                  <tr>
+                    <th className={LIGHT.thCompact}>운영 표에 보이는 것</th>
+                    <th className={LIGHT.thCompact}>보안 스키마에만</th>
                   </tr>
                 </thead>
                 <tbody>
                   {dataset.recipes.map((r) => (
-                    <tr key={r.id} className="border-t border-white/5">
-                      <td className="py-1.5 pr-3 align-top">
-                        <span className="font-mono text-gray-200">{r.id}</span>
-                        <span className="text-gray-500"> · {r.name}</span>
+                    <tr key={r.id}>
+                      <td className={`${LIGHT.tdCompact} align-top`}>
+                        <span className="font-mono text-slate-900">{r.id}</span>
+                        <span className="text-slate-600"> · {r.name}</span>
                       </td>
-                      <td className="py-1.5 align-top">
-                        <span className="inline-flex items-center gap-1 text-amber-200/80">
+                      <td className={`${LIGHT.tdCompact} align-top`}>
+                        <span className="inline-flex items-center gap-1 text-amber-800">
                           <KeyRound className="w-3 h-3" />
                           <span className="font-mono tracking-widest">••••</span>
-                          <span className="text-gray-500">{r.kind === "refine" ? "전압·시간" : "압하력·장력·속도"}</span>
+                          <span className="text-slate-600">{r.kind === "refine" ? "전압·시간" : "압하력·장력·속도"}</span>
                         </span>
                       </td>
                     </tr>
@@ -346,23 +346,23 @@ export default function SchemaView({ onNavigate }: SchemaViewProps) {
           title="현장에서 적는 변수 10개 — 나머지는 전부 자동 계산"
           description="작업자가 적는 것은 이것뿐입니다. 오른쪽 지표는 입력 즉시 계산되어 KPI 보드에 올라갑니다."
         />
-        <ol className="divide-y divide-white/5">
+        <ol className="divide-y divide-slate-200">
           {VARIABLES.map((v, i) => (
             <li key={v.input} className="py-3 grid grid-cols-[2rem_1fr] lg:grid-cols-[2rem_minmax(0,5fr)_1.5rem_minmax(0,6fr)] gap-x-2 gap-y-1 items-start">
-              <span className="w-7 h-7 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-bold flex items-center justify-center">
+              <span className="w-7 h-7 rounded-lg bg-purple-50 border border-purple-200 text-purple-700 text-xs font-bold flex items-center justify-center">
                 {i + 1}
               </span>
               <div className="min-w-0">
-                <div className="text-sm font-semibold text-white leading-snug">{v.input}</div>
-                {v.hint && <div className="text-[11px] text-gray-500 mt-0.5">{v.hint}</div>}
+                <div className="text-sm font-semibold text-slate-900 leading-snug">{v.input}</div>
+                {v.hint && <div className="text-[11px] text-slate-500 mt-0.5">{v.hint}</div>}
               </div>
-              <ArrowRight className="hidden lg:block w-4 h-4 text-gray-600 mt-1" aria-hidden />
+              <ArrowRight className="hidden lg:block w-4 h-4 text-slate-500 mt-1" aria-hidden />
               <div className="col-start-2 lg:col-start-auto min-w-0">
-                <div className="text-sm text-emerald-300 leading-snug">
-                  <span className="lg:hidden text-gray-600 mr-1">→</span>
+                <div className="text-sm text-emerald-700 leading-snug">
+                  <span className="lg:hidden text-slate-500 mr-1">→</span>
                   {v.output}
                 </div>
-                {v.story && <div className="text-[11px] text-gray-500 mt-0.5">이 데모에서: {v.story}</div>}
+                {v.story && <div className="text-[11px] text-slate-500 mt-0.5">이 데모에서: {v.story}</div>}
               </div>
             </li>
           ))}
@@ -380,11 +380,12 @@ export default function SchemaView({ onNavigate }: SchemaViewProps) {
           <table className="w-full min-w-[760px] text-xs lg:text-sm border-separate border-spacing-0">
             <thead>
               <tr>
-                <th className="text-left font-medium text-gray-500 py-2 pr-3 w-[120px]">구분</th>
+                {/* 머리 글자는 LIGHT.thCompact 와 같은 단계 — 이 표는 본문 첫 줄 border-t 가 머리 구분선이라 border-b 는 뺀 문자열 */}
+                <th className="text-left text-[11px] lg:text-xs font-semibold text-slate-600 py-2 pr-3 w-[120px] whitespace-nowrap">구분</th>
                 {STAGES.map((s) => (
                   <th key={s.label} className="text-left py-2 px-3 align-bottom">
                     <div className={`text-[11px] font-bold ${TONE[s.tone].text}`}>{s.step}</div>
-                    <div className="text-white font-semibold">{s.label}</div>
+                    <div className="text-slate-900 font-semibold">{s.label}</div>
                   </th>
                 ))}
               </tr>
@@ -392,14 +393,14 @@ export default function SchemaView({ onNavigate }: SchemaViewProps) {
             <tbody>
               {MATRIX.map((row) => (
                 <tr key={row.area}>
-                  <th scope="row" className="text-left align-top font-semibold text-gray-200 py-3 pr-3 border-t border-white/10">
+                  <th scope="row" className="text-left align-top font-semibold text-slate-900 py-3 pr-3 border-t border-slate-200">
                     {row.area}
                   </th>
                   {row.cells.map((c, ci) => (
                     <td
                       key={ci}
-                      className={`align-top py-3 px-3 border-t border-white/10 leading-relaxed ${
-                        ci === 0 ? "bg-indigo-500/[0.07] text-gray-100" : ci === 3 ? "text-gray-400" : "text-gray-300"
+                      className={`align-top py-3 px-3 border-t border-slate-200 leading-relaxed ${
+                        ci === 0 ? "bg-indigo-50 text-slate-800" : ci === 3 ? "text-slate-500" : "text-slate-600"
                       }`}
                     >
                       {c}
@@ -421,24 +422,24 @@ export default function SchemaView({ onNavigate }: SchemaViewProps) {
           right={<Badge tone="indigo"><CalendarRange className="w-3 h-3" />26주</Badge>}
         />
         <div className="relative">
-        <div className="hidden lg:block absolute top-[14px] left-4 right-4 h-px bg-gradient-to-r from-indigo-500/60 via-purple-500/60 to-emerald-500/60" aria-hidden />
+        <div className="hidden lg:block absolute top-[14px] left-4 right-4 h-px bg-slate-200" aria-hidden />
         <ol className="relative grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-5">
           {ROADMAP.map((p, i) => (
             <li key={p.weeks} className="relative pl-9 lg:pl-0 lg:pt-10">
               {i < ROADMAP.length - 1 && (
-                <span className="lg:hidden absolute left-[13px] top-7 bottom-[-1rem] w-px bg-white/10" aria-hidden />
+                <span className="lg:hidden absolute left-[13px] top-7 bottom-[-1rem] w-px bg-slate-200" aria-hidden />
               )}
               <span
-                className={`absolute left-0 top-0 lg:left-0 w-7 h-7 rounded-full border-2 border-gray-950 ${TONE[p.tone].solid} text-white text-xs font-bold flex items-center justify-center`}
+                className={`absolute left-0 top-0 lg:left-0 w-7 h-7 rounded-full border-2 border-white shadow-sm ${ROADMAP_DOT[p.tone]} text-white text-xs font-bold flex items-center justify-center`}
               >
                 {i + 1}
               </span>
               <div className={`text-xs font-bold ${TONE[p.tone].text}`}>{p.weeks}</div>
-              <div className="text-sm font-bold text-white mt-0.5">{p.title}</div>
+              <div className="text-sm font-bold text-slate-900 mt-0.5">{p.title}</div>
               <ul className="mt-2 space-y-1">
                 {p.items.map((it) => (
-                  <li key={it} className="text-xs text-gray-400 leading-relaxed flex gap-1.5">
-                    <span className="text-gray-600">·</span>
+                  <li key={it} className="text-xs text-slate-600 leading-relaxed flex gap-1.5">
+                    <span className="text-slate-500">·</span>
                     <span>{it}</span>
                   </li>
                 ))}
@@ -484,7 +485,7 @@ export default function SchemaView({ onNavigate }: SchemaViewProps) {
         <button
           type="button"
           onClick={() => onNavigate("log")}
-          className="flex-1 min-h-[48px] inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold px-5 transition-colors"
+          className={`${LIGHT.buttonPrimary} flex-1 min-h-12 px-5`}
         >
           <Keyboard className="w-4 h-4" />
           롤 일지로 체험하기
@@ -493,7 +494,7 @@ export default function SchemaView({ onNavigate }: SchemaViewProps) {
         <button
           type="button"
           onClick={() => onNavigate("kpi")}
-          className="flex-1 min-h-[48px] inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 text-gray-100 text-sm font-bold px-5 transition-colors"
+          className={`${LIGHT.buttonSecondary} flex-1 min-h-12 px-5`}
         >
           <LayoutDashboard className="w-4 h-4" />
           KPI 보드 보기
@@ -514,15 +515,15 @@ function BigNumber({ value, label, tone, icon }: { value: string; label: string;
         {icon}
         <span className="truncate">{label}</span>
       </div>
-      <div className="text-3xl lg:text-5xl font-extrabold text-white mt-1">{value}</div>
+      <div className="text-3xl lg:text-5xl font-extrabold text-slate-900 mt-1">{value}</div>
     </div>
   );
 }
 
 function Reason({ n, children }: { n: number; children: ReactNode }) {
   return (
-    <li className="flex gap-2.5 text-sm text-gray-300 leading-relaxed">
-      <span className="shrink-0 w-5 h-5 mt-0.5 rounded-full bg-white/5 border border-white/10 text-[11px] text-gray-400 font-bold flex items-center justify-center">
+    <li className="flex gap-2.5 text-sm text-slate-600 leading-relaxed">
+      <span className="shrink-0 w-5 h-5 mt-0.5 rounded-full bg-slate-100 border border-slate-200 text-[11px] text-slate-600 font-bold flex items-center justify-center">
         {n}
       </span>
       <span className="min-w-0">{children}</span>
@@ -545,10 +546,10 @@ function FlowStrip() {
       {steps.map((s, i) => (
         <div key={s.label} className="flex items-center gap-1.5">
           <div className={`rounded-lg border px-2.5 py-1.5 ${TONE[s.tone].bg} ${TONE[s.tone].border}`}>
-            <div className="text-xs font-semibold text-white leading-tight">{s.label}</div>
+            <div className="text-xs font-semibold text-slate-900 leading-tight">{s.label}</div>
             <div className={`font-mono text-[10px] ${TONE[s.tone].text} leading-tight`}>{s.table}</div>
           </div>
-          {i < steps.length - 1 && <ArrowRight className="w-3.5 h-3.5 text-gray-600 shrink-0" aria-hidden />}
+          {i < steps.length - 1 && <ArrowRight className="w-3.5 h-3.5 text-slate-500 shrink-0" aria-hidden />}
         </div>
       ))}
     </div>
@@ -558,29 +559,29 @@ function FlowStrip() {
 function TableCard({ spec }: { spec: TableSpec }) {
   const t = TONE[spec.tone];
   return (
-    <div className={`h-full rounded-xl border ${t.border} bg-gray-950/60 p-3.5 flex flex-col`}>
+    <div className={`h-full rounded-xl border ${t.border} bg-white shadow-sm p-3.5 flex flex-col`}>
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
           <div className={`flex items-center gap-1.5 font-mono text-xs font-bold ${t.text} break-all`}>
             {spec.icon}
             {spec.name}
           </div>
-          <div className="text-sm font-bold text-white mt-1 leading-snug">{spec.label}</div>
+          <div className="text-sm font-bold text-slate-900 mt-1 leading-snug">{spec.label}</div>
         </div>
         <div className="text-right shrink-0">
-          <div className="text-lg font-extrabold text-white leading-none">
-            {spec.approx && <span className="text-[11px] font-semibold text-gray-500 mr-0.5">약</span>}
+          <div className="text-lg font-extrabold text-slate-900 leading-none">
+            {spec.approx && <span className="text-[11px] font-semibold text-slate-500 mr-0.5">약</span>}
             {fmtNum(spec.count, 0)}
           </div>
-          <div className="text-[10px] text-gray-500 mt-0.5">행</div>
+          <div className="text-[10px] text-slate-500 mt-0.5">행</div>
         </div>
       </div>
 
-      <p className="text-xs text-gray-400 mt-2 leading-relaxed">{spec.holds}</p>
+      <p className="text-xs text-slate-600 mt-2 leading-relaxed">{spec.holds}</p>
 
       <div className="mt-2.5 flex flex-wrap gap-1">
         {spec.columns.map((c) => (
-          <code key={c} className="font-mono text-[11px] text-gray-300 bg-white/5 border border-white/10 rounded px-1.5 py-0.5 break-all">
+          <code key={c} className={LIGHT.idChip}>
             {c}
           </code>
         ))}
@@ -597,11 +598,11 @@ function TableCard({ spec }: { spec: TableSpec }) {
           </div>
         )}
         {spec.attachesTo && (
-          <div className="text-[11px] text-gray-500">
-            붙는 곳: <span className="font-mono text-gray-400">{spec.attachesTo.join(" · ")}</span>
+          <div className="text-[11px] text-slate-500">
+            붙는 곳: <span className="font-mono text-slate-700">{spec.attachesTo.join(" · ")}</span>
           </div>
         )}
-        <div className="text-[11px] text-gray-500 leading-snug">
+        <div className="text-[11px] text-slate-500 leading-snug">
           {spec.approx ? "추정식: " : ""}
           {spec.countNote}
         </div>
@@ -612,22 +613,22 @@ function TableCard({ spec }: { spec: TableSpec }) {
 
 function MasterItem({ name, desc }: { name: string; desc: string }) {
   return (
-    <li className="rounded-lg bg-white/[0.03] border border-white/5 px-2.5 py-2">
-      <div className="font-mono text-xs text-gray-200 break-all">{name}</div>
-      <div className="text-[11px] text-gray-500 mt-0.5 leading-snug">{desc}</div>
+    <li className="rounded-lg bg-white border border-slate-200 px-2.5 py-2">
+      <div className="font-mono text-xs text-slate-900 break-all">{name}</div>
+      <div className="text-[11px] text-slate-500 mt-0.5 leading-snug">{desc}</div>
     </li>
   );
 }
 
 function SecurityItem({ icon, title, children }: { icon: ReactNode; title: string; children: ReactNode }) {
   return (
-    <div className="flex gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-3.5">
-      <span className="shrink-0 w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 flex items-center justify-center">
+    <div className="flex gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3.5">
+      <span className="shrink-0 w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center">
         {icon}
       </span>
       <div className="min-w-0">
-        <div className="text-sm font-bold text-white leading-snug">{title}</div>
-        <p className="text-xs text-gray-400 mt-1 leading-relaxed">{children}</p>
+        <div className="text-sm font-bold text-slate-900 leading-snug">{title}</div>
+        <p className="text-xs text-slate-600 mt-1 leading-relaxed">{children}</p>
       </div>
     </div>
   );
@@ -736,6 +737,20 @@ const MATRIX: Array<{ area: string; cells: [string, string, string, string] }> =
     ],
   },
 ];
+
+/**
+ * 로드맵 번호 점 — 흰 숫자가 올라가서 700 단계(TONE.solid 600 은 cyan 3.7:1·emerald 3.8:1 로 AA 미달).
+ * 클래스 문자열 전체를 적어야 Tailwind 가 스캔한다.
+ */
+const ROADMAP_DOT: Record<Tone, string> = {
+  indigo: "bg-indigo-700",
+  purple: "bg-purple-700",
+  emerald: "bg-emerald-700",
+  amber: "bg-amber-700",
+  rose: "bg-rose-700",
+  cyan: "bg-cyan-700",
+  gray: "bg-slate-600",
+};
 
 const ROADMAP: Array<{ weeks: string; title: string; items: string[]; tone: Tone }> = [
   {
