@@ -63,37 +63,41 @@ export default function Header() {
         </Link>
 
         {/* Desktop Navigation (lg:flex) */}
-        <nav className="hidden lg:flex items-center gap-7 text-sm font-medium text-gray-300">
-          <a href="/#services" className="hover:text-white transition-colors">
-            서비스 분야
-          </a>
-
+        <nav className="hidden lg:flex items-center gap-8 text-xs font-semibold uppercase tracking-wider text-gray-400">
           {/* Direct Link to Portfolio Archive */}
           <Link
             href="/portfolio"
             className="hover:text-white transition-colors flex items-center gap-1.5"
           >
-            <span>포트폴리오</span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-indigo-500/20 text-indigo-300 font-bold border border-indigo-500/30">
+            <span>Works (포트폴리오)</span>
+            <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30">
               NEW
             </span>
           </Link>
+
+          <a href="/#capabilities" className="hover:text-white transition-colors">
+            Capabilities (전문영역)
+          </a>
+
+          <a href="/#process" className="hover:text-white transition-colors">
+            Process (프로세스)
+          </a>
 
           {/* Unified Portfolio & Solutions Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setPortfolioDropdownOpen(!portfolioDropdownOpen)}
-              className="flex items-center gap-1.5 py-2 hover:text-white transition-colors font-medium text-gray-300 focus:outline-none"
+              className="flex items-center gap-1.5 py-2 hover:text-white transition-colors font-medium text-gray-400 focus:outline-none cursor-pointer"
             >
-              <span>솔루션 & 라이브 데모</span>
-              <ChevronDown className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${portfolioDropdownOpen ? "rotate-180 text-indigo-400" : ""}`} />
+              <span>Live Demos</span>
+              <ChevronDown className={`w-3.5 h-3.5 text-gray-500 transition-transform duration-200 ${portfolioDropdownOpen ? "rotate-180 text-amber-400" : ""}`} />
             </button>
 
             {/* Dropdown Menu */}
             {portfolioDropdownOpen && (
-              <div className="absolute top-full left-0 mt-2 w-80 p-2 rounded-2xl bg-gray-900/95 border border-white/10 backdrop-blur-xl shadow-2xl shadow-indigo-950/50 z-50 animate-in fade-in zoom-in-95 duration-150">
+              <div className="absolute top-full left-0 mt-2 w-80 p-2 rounded-2xl bg-gray-900/95 border border-white/10 backdrop-blur-xl shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-150">
                 
-                {/* Atelier Vaucluse Demo (NEW) */}
+                {/* Atelier Vaucluse Demo */}
                 <Link
                   href="/demo/atelier-vaucluse"
                   onClick={() => setPortfolioDropdownOpen(false)}
@@ -180,12 +184,12 @@ export default function Header() {
             )}
           </div>
 
-          {/* Quick Inquiry Link */}
+          {/* Direct Inquiry Link */}
           <Link
             href="/inquiry"
-            className="px-4 py-2 rounded-full bg-gradient-to-r from-indigo-600/30 via-purple-600/30 to-pink-600/30 border border-indigo-500/50 text-white font-bold text-xs hover:border-indigo-400 hover:scale-105 transition-all backdrop-blur-md shadow-md shadow-indigo-500/20"
+            className="px-4 py-2 rounded-lg bg-white/10 hover:bg-white text-white hover:text-gray-950 font-bold text-xs transition-all border border-white/20"
           >
-            <span>외주 / 견적 문의</span>
+            <span>프로젝트 의뢰</span>
           </Link>
         </nav>
 
@@ -195,11 +199,11 @@ export default function Header() {
           {/* Direct Phone Call Button */}
           <a
             href="tel:010-8672-6463"
-            className="flex items-center gap-1.5 px-3 lg:px-4 py-2 lg:py-2.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-white text-xs font-bold border border-indigo-500/40 backdrop-blur-md transition-all shadow-sm shadow-indigo-500/20"
+            className="flex items-center gap-1.5 px-3 lg:px-4 py-2 lg:py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white text-xs font-medium border border-white/10 transition-all"
           >
-            <PhoneCall className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
-            <span className="hidden sm:inline">010-8672-6463 (총괄 직통)</span>
-            <span className="sm:hidden">직통 전화</span>
+            <PhoneCall className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+            <span className="hidden lg:inline">010-8672-6463</span>
+            <span className="lg:hidden">직통 전화</span>
           </a>
 
           {/* Mobile Hamburger Button (lg:hidden) */}
