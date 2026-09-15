@@ -1,3 +1,4 @@
+import Header from "@/components/Header";
 import FloatingChatWidget from "@/components/FloatingChatWidget";
 import ParticleCanvas from "@/components/ParticleCanvas";
 import Link from "next/link";
@@ -23,62 +24,8 @@ export default function Home() {
       <div className="absolute top-[-10%] left-[20%] w-[500px] h-[500px] bg-indigo-600/20 blur-[120px] pointer-events-none rounded-full"></div>
       <div className="absolute top-[40%] right-[10%] w-[600px] h-[600px] bg-purple-600/15 blur-[140px] pointer-events-none rounded-full"></div>
 
-      {/* Header / Navigation */}
-      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-gray-950/80 border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-4 lg:px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-10 lg:w-12 h-10 lg:h-12 flex items-center justify-center select-none shrink-0">
-              <img
-                src="/images/logo/icon-192-transparent.png"
-                alt="태문 로고"
-                className="w-10 lg:w-12 h-10 lg:h-12 object-contain scale-110"
-              />
-            </div>
-            <span className="text-lg lg:text-xl font-bold tracking-tight text-white flex items-center -ml-1">
-              태문 <span className="text-indigo-400 text-xs lg:text-sm font-semibold tracking-normal ml-1">DEV STUDIO</span>
-            </span>
-          </div>
-
-          {/* Desktop Navigation (lg:flex) */}
-          <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-400">
-            <a href="#services" className="hover:text-white transition-colors">개발 서비스</a>
-            <a href="#portfolio" className="hover:text-white transition-colors">포트폴리오 & 사례</a>
-            <Link href="/demo/lithium-foil" className="hover:text-white transition-colors">공정 데이터 데모</Link>
-            <Link
-              href="/inquiry" 
-              className="px-4.5 py-2 rounded-full bg-gradient-to-r from-indigo-600/30 via-purple-600/30 to-pink-600/30 border border-indigo-500/50 text-white font-bold text-xs hover:border-indigo-400 hover:scale-105 transition-all flex items-center justify-center backdrop-blur-md shadow-lg shadow-indigo-500/25"
-            >
-              <span>외주/개발 문의</span>
-            </Link>
-            <a 
-              href="https://taemun.co.kr" 
-              target="_blank" 
-              rel="noreferrer" 
-              className="px-3 py-1.5 rounded-full bg-gradient-to-r from-cyan-500/15 via-indigo-500/15 to-purple-500/15 border border-cyan-500/40 text-cyan-300 text-xs font-semibold hover:border-cyan-300 hover:text-white transition-all flex items-center gap-1 backdrop-blur-md shadow-sm shadow-cyan-500/20"
-            >
-              <span>태문브릿지 라이브</span>
-              <span className="text-[10px]">↗</span>
-            </a>
-            <a 
-              href="https://tdocs.kr" 
-              target="_blank" 
-              rel="noreferrer" 
-              className="px-3 py-1.5 rounded-full bg-gradient-to-r from-purple-500/15 via-pink-500/15 to-rose-500/15 border border-purple-500/40 text-purple-300 text-xs font-semibold hover:border-purple-300 hover:text-white transition-all flex items-center gap-1 backdrop-blur-md shadow-sm shadow-purple-500/20"
-            >
-              <span>T-DOCS 라이브</span>
-              <span className="text-[10px]">↗</span>
-            </a>
-          </nav>
-
-          {/* Right CTAs */}
-          <div className="flex items-center gap-2 lg:gap-3">
-            <a href="tel:010-8672-6463" className="flex items-center gap-1.5 px-3.5 lg:px-4 py-2 lg:py-2.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-white text-xs font-bold border border-indigo-500/40 backdrop-blur-md transition-all shadow-sm shadow-indigo-500/20">
-              <PhoneCall className="w-3.5 h-3.5 text-indigo-400" />
-              <span>010-8672-6463 (총괄 직통)</span>
-            </a>
-          </div>
-        </div>
-      </header>
+      {/* Responsive Header / Navigation with Mobile Drawer */}
+      <Header />
 
       {/* Hero Section */}
       <section className="pt-32 lg:pt-40 pb-16 lg:pb-20 px-4 lg:px-6 max-w-7xl mx-auto text-center relative z-10">
