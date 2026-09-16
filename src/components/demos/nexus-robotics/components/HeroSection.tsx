@@ -1,3 +1,6 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import { ArrowRight, PlayCircle, Wind } from 'lucide-react';
 
 interface HeroSectionProps {
@@ -5,6 +8,49 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ onOpenVideoModal }: HeroSectionProps) {
+  const [telemetry, setTelemetry] = useState({
+    airVelocity: '0.45',
+    airTolerance: '±0.01',
+    particleCount: '0.00',
+    activeFleet: 148,
+    dockingTolerance: '±0.48',
+    coordX: '127.004',
+    coordY: '88.319',
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // 1. 에어 층류 속도: 0.44 ~ 0.46 m/s 미세 진동
+      const vOffset = (Math.random() * 0.02 - 0.01);
+      const vel = (0.45 + vOffset).toFixed(2);
+
+      // 2. 도킹 공차: ±0.46 ~ ±0.49 mm 실시간 비전 레이저 실측
+      const dock = (0.46 + Math.random() * 0.035).toFixed(2);
+
+      // 3. 우측 상단 관제 3D LiDAR 좌표 미세 트래킹
+      const x = (127.000 + Math.random() * 0.018).toFixed(3);
+      const y = (88.310 + Math.random() * 0.018).toFixed(3);
+
+      // 4. 활성 군집 수: 148대 기준 가끔 147 또는 149대 충전/도킹 상태 전환
+      const randFleet = Math.random();
+      const fleet = randFleet > 0.82 ? (randFleet > 0.91 ? 149 : 147) : 148;
+
+      // 5. 파티클 카운트: Class 1 규격상 기본 0.00, 아주 가끔 0.01 순간 감지 후 즉각 정화
+      const particle = Math.random() > 0.88 ? '0.01' : '0.00';
+
+      setTelemetry({
+        airVelocity: vel,
+        airTolerance: '±0.01',
+        particleCount: particle,
+        activeFleet: fleet,
+        dockingTolerance: `±${dock}`,
+        coordX: x,
+        coordY: y,
+      });
+    }, 1300);
+
+    return () => clearInterval(interval);
+  }, []);
  return (
  <section className="relative cleanroom-grid border-b border-slate-200 overflow-hidden bg-gradient-to-b from-white via-slate-50/50 to-slate-100/40">
  {/* Precision reticle marks in background */}
@@ -93,11 +139,15 @@ export function HeroSection({ onOpenVideoModal }: HeroSectionProps) {
  <div className="grid grid-cols-2 gap-3 text-xs font-mono">
  <div>
  <span className="text-slate-400 block text-[10px]">AIR VELOCITY</span>
- <span className="text-slate-800 font-semibold text-xs">0.45 m/s ±0.01</span>
+ <span className="text-slate-800 font-semibold text-xs tabular-nums">
+ {telemetry.airVelocity} m/s <span className="text-[10px] text-slate-500 font-normal">{telemetry.airTolerance}</span>
+ </span>
  </div>
  <div>
  <span className="text-slate-400 block text-[10px]">PARTICLE COUNT</span>
- <span className="text-emerald-600 font-semibold text-xs">0.00 / ft³</span>
+ <span className={`font-semibold text-xs tabular-nums transition-colors ${telemetry.particleCount !== '0.00' ? 'text-amber-500 font-bold' : 'text-emerald-600'}`}>
+ {telemetry.particleCount} / ft³
+ </span>
  </div>
  </div>
  </div>
@@ -108,19 +158,19 @@ export function HeroSection({ onOpenVideoModal }: HeroSectionProps) {
  <div className="flex items-center gap-1.5">
  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
  <span className="text-slate-600">
- ACTIVE FLEET: <strong className="text-slate-900">148 UNITS</strong>
+ ACTIVE FLEET: <strong className="text-slate-900 tabular-nums">{telemetry.activeFleet} UNITS</strong>
  </span>
  </div>
  <div className="h-3 w-px bg-slate-200" />
  <div className="text-slate-600">
- DOCKING TOLERANCE: <strong className="text-blue-600">±0.48 mm</strong>
+ DOCKING TOLERANCE: <strong className="text-blue-600 tabular-nums">{telemetry.dockingTolerance} mm</strong>
  </div>
  </div>
  </div>
 
  {/* Subtle Corner Alignment Markers */}
- <div className="absolute top-3 right-3 text-slate-400/70 text-[10px] font-mono">
- + [127.004 : 88.319]
+ <div className="absolute top-3 right-3 text-slate-400/70 text-[10px] font-mono tabular-nums">
+ + [{telemetry.coordX} : {telemetry.coordY}]
  </div>
  <div className="absolute bottom-3 left-3 text-slate-400/70 text-[10px] font-mono">
  CALIBRATION: ACTIVE_V4.2
