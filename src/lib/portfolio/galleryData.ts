@@ -87,6 +87,27 @@ export const GALLERY_CATEGORIES: GalleryCategoryMeta[] = [
 export const GALLERY_PROJECTS: GalleryProject[] = [
   // ─── 01. 제조 (Manufacturing) ─────────────────────────────────
   {
+    id: 'hysfa-semiconductor-scada',
+    title: '한양시스템 반도체 설비 & 4K SCADA 관제',
+    client: '삼성전자 세메스(SEMES) SSQ 인증 협력사',
+    category: 'manufacturing',
+    categoryName: '제조 · 반도체 장비',
+    summary: '매엽식 세정 설비, 가스 캐비닛 및 4K 초고화질 SCADA 모니터링 시스템',
+    description: '삼성전자 세메스 협력사 한양시스템㈜의 반도체 매엽식 세정 설비(Single Wafer Wet Cleaning), 특수가스 캐비닛(Gas Keeper)과 팹 전체를 4K 초고해상도로 모니터링하는 독자 개발 SCADA(PGMS/GDMS/LSS) 관제 플랫폼입니다.',
+    thumbnailUrl: '/hysfa/sub205_img01.jpg',
+    liveDemoUrl: '/demo/hysfa',
+    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', '4K SCADA Engine', 'Interlock Telemetry'],
+    period: '4주',
+    year: '2026',
+    badge: '4K SCADA 데모',
+    highlights: [
+      '실시간 가스 압력·유량·MFC 밸브 개폐 4K 관제 시뮬레이터',
+      '화재 및 독성 누출 시 0.05초 이내 자동 비상 차단 인터록',
+      '8인치/12인치 반도체 매엽식 세정 장비 및 CDS 약액 공급 스펙',
+      '삼성전자 세메스(SEMES) SSQ 품질인증 및 27년 연혁 인터랙티브 쇼케이스',
+    ],
+  },
+  {
     id: 'lithium-foil-spc',
     title: '리튬박 공정 데이터 모니터링 플랫폼',
     client: '2차전지 배터리 소재 제조사',

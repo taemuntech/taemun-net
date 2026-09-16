@@ -203,12 +203,30 @@ export default function Home() {
                   </Link>
                 )}
                 {category.id === "manufacturing" && (
+                  <div className="flex flex-wrap items-center gap-2 self-start lg:self-end">
+                    <Link
+                      href="/demo/hysfa"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-50 hover:bg-cyan-100 text-cyan-950 border border-cyan-300 text-xs font-bold transition-all shrink-0"
+                    >
+                      <Play className="w-3 h-3 fill-current text-cyan-600" />
+                      <span>한양시스템 4K SCADA 데모</span>
+                    </Link>
+                    <Link
+                      href="/demo/lithium-foil"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold transition-all shrink-0"
+                    >
+                      <Play className="w-3 h-3 fill-current" />
+                      <span>리튬박 공정 데모 실행</span>
+                    </Link>
+                  </div>
+                )}
+                {category.id === "corporate" && (
                   <Link
-                    href="/demo/lithium-foil"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold transition-all shrink-0 self-start lg:self-end"
+                    href="/demo/hysfa"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-50 hover:bg-cyan-100 text-cyan-950 border border-cyan-300 text-xs font-bold transition-all shrink-0 self-start lg:self-end"
                   >
-                    <Play className="w-3 h-3 fill-current" />
-                    <span>리튬박 공정 데모 실행</span>
+                    <Play className="w-3 h-3 fill-current text-cyan-600" />
+                    <span>한양시스템 하이테크 데모 체험</span>
                   </Link>
                 )}
                 {category.id === "saas" && (
