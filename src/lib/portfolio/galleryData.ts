@@ -916,6 +916,27 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       'VIP 에어포트 픽업, 헬리콥터 트랜스퍼 및 프라이빗 차터 컨시어지 게이트',
     ],
   },
+  {
+    id: 'transocean-global-scm',
+    title: '트랜스오션 글로벌 SCM (TRANSOCEAN) 스마트 항만 & AI 복합물류',
+    client: '글로벌 해운선사 & 자율운항 스마트 포트 엔터프라이즈',
+    category: 'corporate',
+    categoryName: '기업랜딩 · 스마트항만/해운물류',
+    summary: '부산신항-로테르담 실시간 AIS 선박 추적, -18℃ 초저온 콜드체인 IoT 관제 및 복합운임 시뮬레이터',
+    description: '머스크(Maersk) 스타일의 글로벌 스마트 항만 & AI 복합물류 플래그십 사이트입니다. B/L 선하증권 실시간 GPS 선박 및 컨테이너 텔레메트리 HUD, 해상·항공·철도 운송모드별 실시간 운임 및 Scope-3 탄소 감축 계산기, 부산·로테르담·싱가포르·LA 4대 거점 항만 혼잡도 레이더 모달, 글로벌 화주 전용 RFP 운송계약 접수 데스크를 완비했습니다.',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=800&q=80',
+    liveDemoUrl: '/demo/transocean-scm',
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'AIS Vessel HUD', 'Port Radar Modal', 'Multimodal Carbon Matrix'],
+    period: '2주',
+    year: '2026',
+    badge: '실물 라이브 데모',
+    highlights: [
+      'B/L 선하증권 실시간 항로, -18.2℃ 냉동 리퍼 온습도 & 충격 센서 텔레메트리 HUD',
+      '해상·항공·급행철도 리드타임 & Scope-3 CO2 탄소배출량 비교 시뮬레이터',
+      '부산신항·로테르담·LA 등 글로벌 4대 항만 실시간 혼잡도 및 선석 레이더',
+      '5G 자율주행 스트래들 캐리어, 그린 메탄올 에코 선대 4대 자동화 필러',
+    ],
+  },
 
   // ─── 03. 병의원 · 메디컬 · 치과 (Medical & Healthcare) ───────────────────
   {

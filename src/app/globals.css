@@ -150,6 +150,25 @@
   font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+@keyframes radarSweep {
+  0% { transform: translateY(0%); opacity: 0.8; }
+  50% { opacity: 0.2; }
+  100% { transform: translateY(100%); opacity: 0.8; }
+}
+
+.radar-beam {
+  animation: radarSweep 3.5s linear infinite;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
 
 
 

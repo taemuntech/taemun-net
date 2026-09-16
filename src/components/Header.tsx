@@ -23,6 +23,7 @@ import {
   Satellite,
   TrendingUp,
   Palmtree,
+  Ship,
 } from "lucide-react";
 
 export default function Header() {
@@ -263,6 +264,26 @@ export default function Header() {
                     </div>
                     <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
                       럭셔리 부티크 &amp; 프라이빗 빌라
+                    </p>
+                  </div>
+                </Link>
+
+                {/* Transocean SCM Demo */}
+                <Link
+                  href="/demo/transocean-scm"
+                  onClick={() => setPortfolioDropdownOpen(false)}
+                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-sky-50/60 transition-all group border border-transparent hover:border-sky-200"
+                >
+                  <div className="p-2 rounded-lg bg-sky-100 text-sky-800 border border-sky-200 shrink-0 group-hover:scale-105 transition-transform">
+                    <Ship className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
+                      <span>트랜스오션 SCM</span>
+                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-sky-100 text-sky-800 font-extrabold">NEW</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
+                      스마트 항만 &amp; AI 복합물류
                     </p>
                   </div>
                 </Link>
@@ -632,6 +653,24 @@ export default function Header() {
                         <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-stone-200 text-stone-800 font-bold">NEW</span>
                       </div>
                       <div className="text-xs text-zinc-500 mt-0.5">럭셔리 부티크 &amp; 프라이빗 빌라</div>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-zinc-400" />
+                </Link>
+
+                <Link
+                  href="/demo/transocean-scm"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-sky-400 text-left transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <Ship className="w-5 h-5 text-sky-700" />
+                    <div>
+                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
+                        <span>트랜스오션 SCM</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-sky-100 text-sky-800 font-bold">NEW</span>
+                      </div>
+                      <div className="text-xs text-zinc-500 mt-0.5">스마트 항만 &amp; AI 복합물류</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-400" />
