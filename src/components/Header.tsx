@@ -17,6 +17,7 @@ import {
   Cpu,
   Globe,
   Landmark,
+  Crown,
 } from "lucide-react";
 
 export default function Header() {
@@ -177,6 +178,26 @@ export default function Header() {
                     </div>
                     <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
                       전통 결구 &amp; 현대식 패시브 주거 한옥
+                    </p>
+                  </div>
+                </Link>
+
+                {/* Maison d'Antique Demo */}
+                <Link
+                  href="/demo/maison"
+                  onClick={() => setPortfolioDropdownOpen(false)}
+                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-rose-50/60 transition-all group border border-transparent hover:border-rose-200"
+                >
+                  <div className="p-2 rounded-lg bg-rose-100 text-rose-800 border border-rose-200 shrink-0 group-hover:scale-105 transition-transform">
+                    <Crown className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
+                      <span>메종 당티크 (Maison)</span>
+                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-rose-100 text-rose-800 font-extrabold">D2C 살롱</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
+                      유러피안 오리지널 앤틱 &amp; 프라이빗 살롱
                     </p>
                   </div>
                 </Link>
@@ -386,6 +407,24 @@ export default function Header() {
                         <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-stone-200 text-stone-800 font-bold">한옥 명가</span>
                       </div>
                       <div className="text-xs text-zinc-500 mt-0.5">전통 결구 &amp; 패시브 주거 한옥 데모</div>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-zinc-400" />
+                </Link>
+
+                <Link
+                  href="/demo/maison"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-rose-400 text-left transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <Crown className="w-5 h-5 text-rose-800" />
+                    <div>
+                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
+                        <span>메종 당티크 (Maison)</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-rose-100 text-rose-800 font-bold">D2C 살롱</span>
+                      </div>
+                      <div className="text-xs text-zinc-500 mt-0.5">유러피안 앤틱 가구 &amp; 프라이빗 살롱 데모</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-400" />

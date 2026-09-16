@@ -623,6 +623,27 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
 
   // ─── 05. 쇼핑몰 커머스 (Commerce) ─────────────────────────────────
   {
+    id: 'maison-d-antique',
+    title: "메종 당티크 (Maison d'Antique) 오리지널 유러피안 앤틱 살롱",
+    client: '1884 파리·런던 직영 앤틱 아카이브 살롱',
+    category: 'commerce',
+    categoryName: '커머스 · 하이엔드/D2C',
+    summary: '18~19세기 프랑스 루이 15세부터 조지안 시대 오리지널 앤틱 가구 & 공예품 큐레이션 D2C 살롱',
+    description: '파리, 런던, 피렌체 직영 옥션 및 귀족 가문 전승 오리지널 앤틱을 선별 소개하는 최고급 앤틱 큐레이션 살롱 웹사이트입니다. 카테고리별 아카이브 검색, 뮤지엄 그레이드 작품 상세 도록 모달, 소장 희망 서류함(CartFolio), 관심작 보관함(Wishlist) 및 한남동 살롱 프라이빗 뷰잉 예약 시스템을 탑재했습니다.',
+    thumbnailUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDG3U71UG2sag7nQaN1upmn1zWrQnzXY02ruI2hGXrq5TDNvU83YgjmO_yG9EDVJ7xhY2EkfmHOVVmonJNe_5iwO--N2OsB04DWSzfOthE8_wQz290_uVqWmBJu_rUTdObJKyPQtGO2qxMdySwi7bP0m0S6vfDbP8goS6g4nrqNwum0CCuMMRi4J9hWqNyNcUOn3DrGhT5828Av6L2H7ztIwtUaA2RS9Aq9EcgUgNhJkDse-o3NLHj5',
+    liveDemoUrl: '/demo/maison',
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Curator Dossier Modal', 'Acquisition Folio'],
+    period: '2주',
+    year: '2026',
+    badge: '실물 라이브 데모',
+    highlights: [
+      '18~19세기 프랑스 루이 15세 오리지널 코모드 등 희귀작 아카이브 도록',
+      '소장 희망 서류함(CartFolio) 및 관심작 위시리스트 드로어 인터랙션',
+      '전 품목 실시간 다각도 검색 모달 및 4대 카테고리 필터링',
+      '한남동 살롱 1:1 프라이빗 뷰잉 및 고가구 복원 컨설팅 예약 위저드',
+    ],
+  },
+  {
     id: 'organic-ceramic-living',
     title: '오가닉 세라믹 & 리빙 오브제 D2C 셀렉트숍',
     client: '도예 작가 공예 브랜드',
