@@ -85,28 +85,47 @@ export default function Home() {
       <Header />
 
       {/* ─────────────────────────────────────────────────────────────
-          1. EDITORIAL WHITE GALLERY HERO SECTION (2-COLUMN SPLIT)
+          1. FULL-WIDTH CINEMATIC VIDEO BACKGROUND HERO SECTION
           ───────────────────────────────────────────────────────────── */}
-      <section className="pt-32 lg:pt-40 pb-12 lg:pb-16 px-4 lg:px-8 max-w-7xl mx-auto relative z-10">
+      <section className="relative w-full overflow-hidden min-h-[680px] lg:min-h-[760px] flex flex-col justify-between pt-32 lg:pt-40 pb-8 lg:pb-12">
         
-        {/* 2-Column Grid: Left Text & CTAs, Right Studio Video Theater */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center mb-14 lg:mb-20">
-          
-          {/* Left Column: Editorial Studio Manifesto (lg:col-span-7) */}
-          <div className="lg:col-span-7 text-left space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 lg:px-4 py-1.5 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-800 text-xs font-semibold">
-              <span className="w-2 h-2 rounded-full bg-amber-600 animate-pulse" />
-              <span className="tracking-wider uppercase text-[11px] lg:text-xs font-mono">
+        {/* Fullscreen Video Background */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <video
+            src="/videos/taemun-hero-kling.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover scale-105"
+          />
+          {/* High-Contrast Luxury Cinematic Gradient Overlays */}
+          {/* 1. Base dark tint */}
+          <div className="absolute inset-0 bg-black/55 backdrop-blur-[0.5px]" />
+          {/* 2. Left-heavy gradient for razor-sharp typography */}
+          <div className="absolute inset-0 bg-gradient-to-r from-zinc-950/95 via-zinc-950/75 to-zinc-950/20" />
+          {/* 3. Top fade for fixed header */}
+          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/80 via-black/40 to-transparent" />
+          {/* 4. Bottom smooth fade into pure white gallery section */}
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white via-white/80 to-transparent" />
+        </div>
+
+        {/* Hero Content Container */}
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 relative z-10 w-full flex-1 flex flex-col justify-center my-6 lg:my-10">
+          <div className="max-w-2xl text-left space-y-6">
+            <div className="inline-flex items-center gap-2 px-3.5 lg:px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-semibold shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+              <span className="tracking-wider uppercase text-[11px] lg:text-xs font-mono text-zinc-100">
                 TAEMUN DEV STUDIO • BESPOKE DIGITAL GALLERY
               </span>
             </div>
 
-            <h1 className="text-3xl lg:text-[52px] font-light tracking-[-0.03em] text-zinc-950 leading-[1.2] lg:leading-[1.12]">
+            <h1 className="text-3xl lg:text-[54px] font-light tracking-[-0.03em] text-white leading-[1.2] lg:leading-[1.12] drop-shadow-md">
               산업의 본질을 세공하는<br />
-              <span className="font-serif italic text-zinc-800 font-normal">디지털 플래그십 아카이브</span>
+              <span className="font-serif italic text-amber-200 font-normal">디지털 플래그십 아카이브</span>
             </h1>
 
-            <p className="text-zinc-600 text-sm lg:text-base max-w-xl font-light leading-relaxed">
+            <p className="text-zinc-200 text-sm lg:text-base max-w-xl font-light leading-relaxed drop-shadow-sm">
               리튬박 공정 통계 모니터링부터 하이엔드 건축 인테리어, 전자서약 SaaS, B2B 커머스까지.<br className="hidden lg:inline" />
               기획서 속 그림이 아닌 브라우저에서 100% 작동하는 실물 프로덕션 레퍼런스를 둘러보세요.
             </p>
@@ -115,89 +134,42 @@ export default function Home() {
             <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 pt-2">
               <Link
                 href="/inquiry"
-                className="px-7 py-3.5 rounded-xl bg-zinc-950 hover:bg-black text-white font-bold text-xs lg:text-sm transition-all flex items-center justify-center gap-2 shadow-sm"
+                className="px-7 py-3.5 rounded-xl bg-white hover:bg-zinc-100 text-zinc-950 font-bold text-xs lg:text-sm transition-all flex items-center justify-center gap-2 shadow-xl hover:scale-[1.02] active:scale-[0.99]"
               >
                 <span>프로젝트 견적 문의하기</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <a
                 href="tel:010-8672-6463"
-                className="px-6 py-3.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 font-semibold text-xs lg:text-sm transition-all border border-zinc-200 flex items-center justify-center gap-2"
+                className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs lg:text-sm transition-all border border-white/25 backdrop-blur-md flex items-center justify-center gap-2"
               >
-                <PhoneCall className="w-3.5 h-3.5 text-zinc-700" />
+                <PhoneCall className="w-3.5 h-3.5 text-amber-300" />
                 <span>총괄 아키텍트 직통 상담</span>
               </a>
             </div>
 
             {/* Studio Trust Metrics / Badges */}
-            <div className="pt-6 border-t border-zinc-200/80 flex flex-wrap items-center gap-4 text-xs font-mono text-zinc-500">
+            <div className="pt-6 border-t border-white/15 flex flex-wrap items-center gap-4 text-xs font-mono text-zinc-300">
               <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                 <span>100% 직영 개발</span>
               </div>
-              <span className="text-zinc-300">•</span>
+              <span className="text-zinc-600">•</span>
               <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
                 <span>Next.js 16 최신 스택</span>
               </div>
-              <span className="text-zinc-300">•</span>
+              <span className="text-zinc-600">•</span>
               <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
                 <span>엔터프라이즈 레퍼런스</span>
               </div>
             </div>
           </div>
-
-          {/* Right Column: Studio Production Live Reel Video (lg:col-span-5) */}
-          <div className="lg:col-span-5 relative group">
-            {/* Ambient Backlight Glow */}
-            <div className="absolute -inset-2 bg-gradient-to-r from-amber-500/10 via-zinc-400/10 to-blue-500/10 rounded-3xl blur-xl opacity-70 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-            <div className="relative rounded-2xl lg:rounded-3xl overflow-hidden bg-zinc-950 border border-zinc-200/90 shadow-2xl transition-all duration-300">
-              {/* Top Video HUD Bar */}
-              <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-between px-4 py-3 bg-gradient-to-b from-black/80 via-black/40 to-transparent">
-                <div className="flex items-center gap-2">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
-                  </span>
-                  <span className="font-mono text-[10px] tracking-wider text-white font-bold uppercase">
-                    STUDIO LIVE REEL
-                  </span>
-                </div>
-                <span className="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-md font-mono text-[9px] text-white tracking-widest font-semibold border border-white/20">
-                  PRO-RES 4K
-                </span>
-              </div>
-
-              {/* Video Element */}
-              <div className="aspect-[4/3] lg:aspect-[16/11] relative overflow-hidden bg-black">
-                <video
-                  src="/videos/taemun-team.mp4"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-              </div>
-
-              {/* Bottom Caption Overlay */}
-              <div className="absolute bottom-0 inset-x-0 z-20 p-3.5 bg-gradient-to-t from-black/90 via-black/50 to-transparent text-left">
-                <div className="text-[11px] font-bold text-white flex items-center gap-1.5">
-                  <span>태문 DEV STUDIO 개발팀 실무 현장</span>
-                </div>
-                <p className="text-[10px] text-zinc-300 font-light mt-0.5 leading-tight">
-                  한국인 총괄 아키텍트 및 시니어 엔지니어링 실무 회의 &amp; 코딩
-                </p>
-              </div>
-            </div>
-          </div>
-
         </div>
 
-        {/* 🌟 Quick Category Navigation Pills (Full Width) */}
-        <div id="gallery" className="pt-8 border-t border-zinc-200/80">
+        {/* 🌟 Quick Category Navigation Pills (Full Width, Floating Over Transition) */}
+        <div id="gallery" className="max-w-7xl mx-auto px-4 lg:px-8 relative z-20 w-full pt-4">
           <div className="flex items-center justify-start lg:justify-center gap-2 overflow-x-auto pb-2 scrollbar-none">
             {GALLERY_CATEGORIES.map((cat) => {
               const count = GALLERY_PROJECTS.filter((p) => p.category === cat.id).length;
@@ -205,11 +177,11 @@ export default function Home() {
                 <a
                   key={cat.id}
                   href={`#category-${cat.id}`}
-                  className="px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-zinc-100/90 hover:bg-zinc-200 text-zinc-700 hover:text-zinc-950 border border-zinc-200 transition-all flex items-center gap-1.5 shrink-0"
+                  className="px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap bg-white/95 hover:bg-white text-zinc-800 hover:text-black border border-zinc-200/90 shadow-sm hover:shadow-md transition-all flex items-center gap-1.5 shrink-0"
                 >
                   <span className="font-mono text-[11px] text-zinc-400">{cat.number}</span>
                   <span>{cat.name.split(" · ")[0]}</span>
-                  <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-white text-zinc-600 font-mono border border-zinc-200">
+                  <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-zinc-100 text-zinc-700 font-mono border border-zinc-200">
                     {count}
                   </span>
                 </a>
