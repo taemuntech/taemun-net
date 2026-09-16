@@ -243,6 +243,17 @@ export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
     iconKey: "sparkles",
   },
   {
+    slug: "technova-gear",
+    label: "테크노바 기어",
+    mobileLabel: "테크노바 기어 (TECHNOVA GEAR)",
+    badge: "쇼핑몰 04",
+    // 설명에 실존 제조사·가격비교 사이트 이름을 적지 않는다(위 atelier-noir·luminous-lab 과 같은 이유).
+    description: "디지털 가전 & 하이테크 하드웨어 커머스",
+    mobileDescription: "디지털 가전 & 하이테크 하드웨어 데모",
+    tone: "cyan",
+    iconKey: "cpu",
+  },
+  {
     slug: "maison",
     label: "메종 당티크 (Maison)",
     badge: "D2C 살롱",
