@@ -19,6 +19,7 @@ import {
   Landmark,
   Crown,
   Dna,
+  Boxes,
 } from "lucide-react";
 
 export default function Header() {
@@ -179,6 +180,26 @@ export default function Header() {
                     </div>
                     <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
                       표적단백질분해(TPD) &amp; ADC 혁신신약
+                    </p>
+                  </div>
+                </Link>
+
+                {/* Nano Advanced Demo */}
+                <Link
+                  href="/demo/nano-advanced"
+                  onClick={() => setPortfolioDropdownOpen(false)}
+                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-sky-50/60 transition-all group border border-transparent hover:border-sky-200"
+                >
+                  <div className="p-2 rounded-lg bg-sky-100 text-sky-800 border border-sky-200 shrink-0 group-hover:scale-105 transition-transform">
+                    <Boxes className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
+                      <span>나노어드밴스드</span>
+                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-sky-100 text-sky-800 font-extrabold">NEW</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
+                      2.5D/3D 반도체 패키징 &amp; 글래스 기판
                     </p>
                   </div>
                 </Link>
@@ -476,6 +497,24 @@ export default function Header() {
                         <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-indigo-100 text-indigo-800 font-bold">NEW</span>
                       </div>
                       <div className="text-xs text-zinc-500 mt-0.5">표적단백질분해(TPD) &amp; ADC 혁신신약</div>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-zinc-400" />
+                </Link>
+
+                <Link
+                  href="/demo/nano-advanced"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-sky-400 text-left transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <Boxes className="w-5 h-5 text-sky-700" />
+                    <div>
+                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
+                        <span>나노어드밴스드</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-sky-100 text-sky-800 font-bold">NEW</span>
+                      </div>
+                      <div className="text-xs text-zinc-500 mt-0.5">2.5D/3D 반도체 패키징 &amp; 글래스 기판</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-400" />

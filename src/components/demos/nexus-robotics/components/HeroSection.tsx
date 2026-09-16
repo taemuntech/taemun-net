@@ -66,13 +66,16 @@ export function HeroSection({ onOpenVideoModal }: HeroSectionProps) {
  </div>
  </div>
 
- {/* Hero Image Display With Precision Cleanroom Telemetry HUD */}
- <div className="relative rounded-lg border border-slate-200 overflow-hidden bg-white shadow-sm group">
+ {/* Hero Video Stream With Precision Cleanroom Telemetry HUD */}
+ <div className="relative rounded-lg border border-slate-200 overflow-hidden bg-slate-950 shadow-sm group">
  <div className="relative aspect-[16/9] lg:aspect-[21/9] w-full overflow-hidden">
- <img
- alt="NEXUS Cleanroom Fleet Demonstration"
- className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.01]"
- src="https://lh3.googleusercontent.com/aida-public/AB6AXuCP0LMDqPo3TTPJeMeKFrsp9v6KD1_GZ7i-IEqGGvYOfAPKyEP3BduxA8tBVL4SpEEGcBuFuzsTugFEAYD9v1z-bkuded04fQo_0L1gl2jKhAapE3xJOZMOizin9QytSuIbnPmVt-xOBXQ6U8gH-q21B5gsTegSQ9z1KF9dTNufQwkMLm_RNBNtVQqlw4DhSIWETyLWP52RmrtauTdiRpqmYxhn5UqIKI2HMsPsfw7LOZxFP5ONPXKf"
+ <video
+ autoPlay
+ loop
+ muted
+ playsInline
+ className="w-full h-full object-cover"
+ src="/videos/nexus-cleanroom-fleet.mp4"
  />
  {/* Hairline Crosshairs & Measurement Overlay */}
  <div className="absolute inset-0 pointer-events-none">

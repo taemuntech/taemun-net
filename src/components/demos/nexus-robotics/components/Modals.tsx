@@ -1,4 +1,4 @@
-import { X, Play, Download, CheckCircle2, FileCode, Shield } from 'lucide-react';
+import { X, Download, CheckCircle2, FileCode } from 'lucide-react';
 
 interface VideoModalProps {
  isOpen: boolean;
@@ -28,22 +28,14 @@ export function VideoModal({ isOpen, onClose }: VideoModalProps) {
  </div>
 
  <div className="aspect-video bg-slate-950 rounded relative overflow-hidden flex items-center justify-center">
- <img
- alt="Video Stream"
- className="w-full h-full object-cover opacity-60"
- src="https://lh3.googleusercontent.com/aida-public/AB6AXuCP0LMDqPo3TTPJeMeKFrsp9v6KD1_GZ7i-IEqGGvYOfAPKyEP3BduxA8tBVL4SpEEGcBuFuzsTugFEAYD9v1z-bkuded04fQo_0L1gl2jKhAapE3xJOZMOizin9QytSuIbnPmVt-xOBXQ6U8gH-q21B5gsTegSQ9z1KF9dTNufQwkMLm_RNBNtVQqlw4DhSIWETyLWP52RmrtauTdiRpqmYxhn5UqIKI2HMsPsfw7LOZxFP5ONPXKf"
+ <video
+ controls
+ autoPlay
+ loop
+ playsInline
+ className="w-full h-full object-contain bg-black"
+ src="/videos/nexus-cleanroom-fleet.mp4"
  />
- <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-4 text-center">
- <div className="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center shadow-lg mb-3">
- <Play className="w-8 h-8 text-white fill-white ml-1" />
- </div>
- <span className="text-base font-semibold">
- 1080p 60FPS 자율 군집 주행 실증 영상 재생
- </span>
- <span className="text-xs font-mono text-blue-200 mt-1">
- 클린룸 내 파티클 및 층류 변화율 0.00% 실측
- </span>
- </div>
  </div>
 
  <div className="mt-4 flex flex-wrap justify-between items-center text-xs font-mono text-slate-500 gap-2">
