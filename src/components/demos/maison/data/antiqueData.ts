@@ -8,7 +8,7 @@ export const BRAND_INFO = {
   subheadline:
     "18~19세기 프랑스 루이 15세부터 영국 조지안 시대까지 — 메종 당티크가 엄선한 단 하나의 오리지널 빈티지 앤틱 컬렉션을 한남동 살롱에서 만나보세요.",
   announcement:
-    "PARIS · LONDON · FLORENCE DIRECT CURATION — ALL PIECES CERTIFIED AUTHENTIC WITH PROVENANCE DEED",
+    "PARIS · LONDON · FLORENCE DIRECT · 100% CERTIFIED AUTHENTIC",
   logoUrl:
     "https://lh3.googleusercontent.com/aida/AEtjO1VZlkjlXohzPlyYto1_W62UHwvmiOnT-7yl1s0B5ppQvbkqfv91xfYBTLkq8pmSTLPOIJqan6kufHHMLPVgavGRjfzno1hvUCGLFwnSy8cYhsQmdLUogq2cF0JQL1e5k_lHmOswXUJItQzxsd7jLReoSKQWP4pLrZhTdJEfDbOkfXUFqO1nnnZSYJVwWn71YXLCWyAYmEF3KrDWZsalGy3TDuAgwW-B90aJYXzlh81IkalBE6U3A0ckaQ",
   heroImageUrl:

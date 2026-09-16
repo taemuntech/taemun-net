@@ -54,71 +54,60 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={(e) => handleNavClick(e, 'hero')}
             className="flex items-center space-x-3 group text-left cursor-pointer"
           >
-            <img
-              id="brand-logo-img"
-              alt="Maison d'Antique Brand Logo"
-              className="h-11 w-11 object-contain transition-transform duration-300 group-hover:scale-105"
-              src={BRAND_INFO.logoUrl}
-            />
+            <div className="w-10 h-10 rounded-full border border-[#735b24]/40 bg-[#f5ece7] flex items-center justify-center shrink-0 group-hover:border-[#735b24] transition-colors shadow-2xs">
+              <span className="font-serif italic text-[#735b24] text-lg font-bold select-none">M</span>
+            </div>
             <div className="flex flex-col">
               <span className="font-serif text-[26px] lg:text-[28px] text-[#300a10] tracking-tight italic leading-none">
                 {BRAND_INFO.name}
               </span>
               <span className="text-[9px] uppercase tracking-[0.25em] text-[#735b24] font-semibold mt-1">
-                {BRAND_INFO.tagline}
+                PARIS 1884 · ARCHIVES
               </span>
             </div>
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav id="desktop-nav" className="hidden lg:flex items-center space-x-7">
+          <nav id="desktop-nav" className="hidden lg:flex items-center space-x-8 text-[13px] tracking-wider text-[#514344]">
             <a
               id="nav-link-furniture"
               href="#furniture"
               onClick={(e) => handleNavClick(e, 'furniture')}
-              className="text-[13px] uppercase tracking-wider text-[#300a10] font-semibold hover:border-b hover:border-[#735b24] pb-0.5 transition-colors duration-200"
+              className="text-[#300a10] font-semibold hover:text-[#735b24] transition-colors duration-200"
             >
               Furniture
             </a>
             <a
               id="nav-link-lighting"
-              href="#lighting"
-              onClick={(e) => handleNavClick(e, 'lighting')}
-              className="text-[13px] uppercase tracking-wider text-[#514344] hover:text-[#300a10] font-semibold transition-colors duration-200"
+              href="#furniture"
+              onClick={(e) => handleNavClick(e, 'furniture')}
+              className="hover:text-[#300a10] font-medium transition-colors duration-200"
             >
-              Lighting &amp; Mirrors
+              Lighting
             </a>
             <a
               id="nav-link-objects"
-              href="#objects"
-              onClick={(e) => handleNavClick(e, 'objects')}
-              className="text-[13px] uppercase tracking-wider text-[#514344] hover:text-[#300a10] font-semibold transition-colors duration-200"
+              href="#furniture"
+              onClick={(e) => handleNavClick(e, 'furniture')}
+              className="hover:text-[#300a10] font-medium transition-colors duration-200"
             >
-              Decorative Objects
+              Objects
             </a>
             <a
               id="nav-link-curation"
               href="#curation"
               onClick={(e) => handleNavClick(e, 'curation')}
-              className="text-[13px] uppercase tracking-wider text-[#514344] hover:text-[#300a10] font-semibold transition-colors duration-200"
+              className="hover:text-[#300a10] font-medium transition-colors duration-200"
             >
-              Rare Archives
+              Archives
             </a>
             <a
               id="nav-link-atelier"
               href="#atelier"
               onClick={(e) => handleNavClick(e, 'atelier')}
-              className="text-[13px] uppercase tracking-wider text-[#514344] hover:text-[#300a10] font-semibold transition-colors duration-200"
+              className="hover:text-[#300a10] font-medium transition-colors duration-200"
             >
-              Atelier Restoration
-            </a>
-            <a
-              id="nav-link-viewing"
-              href="#viewing"
-              onClick={(e) => handleNavClick(e, 'viewing')}
-              className="text-[13px] uppercase tracking-wider text-[#514344] hover:text-[#300a10] font-semibold transition-colors duration-200"
-            >
-              Private Viewing
+              Atelier
             </a>
           </nav>
 
@@ -176,9 +165,9 @@ export const Header: React.FC<HeaderProps> = ({
               id="btn-header-private-viewing"
               type="button"
               onClick={(e) => handleNavClick(e, 'viewing')}
-              className="hidden lg:inline-flex items-center justify-center bg-[#4a1e23] text-[#fff8f5] hover:bg-[#300a10] px-5 py-2.5 text-[12px] uppercase tracking-wider font-semibold transition-all duration-300 border border-[#735b24]/30 shadow-sm cursor-pointer"
+              className="hidden lg:inline-flex items-center justify-center bg-[#4a1e23] text-[#fff8f5] hover:bg-[#300a10] px-5 py-2.5 text-[12px] tracking-wider font-semibold transition-all duration-300 border border-[#735b24]/30 shadow-xs cursor-pointer rounded-xs"
             >
-              Private Viewing
+              프라이빗 뷰잉
             </button>
 
             {/* Mobile Hamburger Toggle */}
@@ -206,51 +195,44 @@ export const Header: React.FC<HeaderProps> = ({
               <a
                 href="#furniture"
                 onClick={(e) => handleNavClick(e, 'furniture')}
-                className="text-[14px] uppercase tracking-wider text-[#300a10] font-semibold py-1 border-b border-[#d6c2c2]/40"
+                className="text-[14px] tracking-wider text-[#300a10] font-semibold py-1.5 border-b border-[#d6c2c2]/40"
               >
-                Furniture (대형 가구)
+                Furniture (가구)
               </a>
               <a
-                href="#lighting"
-                onClick={(e) => handleNavClick(e, 'lighting')}
-                className="text-[14px] uppercase tracking-wider text-[#514344] font-semibold py-1 border-b border-[#d6c2c2]/40"
+                href="#furniture"
+                onClick={(e) => handleNavClick(e, 'furniture')}
+                className="text-[14px] tracking-wider text-[#514344] font-medium py-1.5 border-b border-[#d6c2c2]/40"
               >
-                Lighting &amp; Mirrors (조명 &amp; 거울)
+                Lighting (조명 &amp; 미러)
               </a>
               <a
-                href="#objects"
-                onClick={(e) => handleNavClick(e, 'objects')}
-                className="text-[14px] uppercase tracking-wider text-[#514344] font-semibold py-1 border-b border-[#d6c2c2]/40"
+                href="#furniture"
+                onClick={(e) => handleNavClick(e, 'furniture')}
+                className="text-[14px] tracking-wider text-[#514344] font-medium py-1.5 border-b border-[#d6c2c2]/40"
               >
-                Decorative Objects (도자기 &amp; 은제)
+                Objects (오브제)
               </a>
               <a
                 href="#curation"
                 onClick={(e) => handleNavClick(e, 'curation')}
-                className="text-[14px] uppercase tracking-wider text-[#514344] font-semibold py-1 border-b border-[#d6c2c2]/40"
+                className="text-[14px] tracking-wider text-[#514344] font-medium py-1.5 border-b border-[#d6c2c2]/40"
               >
-                Rare Archives (이달의 셀렉션)
+                Archives (희귀 아카이브)
               </a>
               <a
                 href="#atelier"
                 onClick={(e) => handleNavClick(e, 'atelier')}
-                className="text-[14px] uppercase tracking-wider text-[#514344] font-semibold py-1 border-b border-[#d6c2c2]/40"
+                className="text-[14px] tracking-wider text-[#514344] font-medium py-1.5 border-b border-[#d6c2c2]/40"
               >
-                Atelier Restoration (복원 아틀리에)
-              </a>
-              <a
-                href="#viewing"
-                onClick={(e) => handleNavClick(e, 'viewing')}
-                className="text-[14px] uppercase tracking-wider text-[#514344] font-semibold py-1 border-b border-[#d6c2c2]/40"
-              >
-                Private Viewing (살롱 예약)
+                Atelier (복원 아뜰리에)
               </a>
             </nav>
             <div className="pt-2">
               <button
                 type="button"
                 onClick={(e) => handleNavClick(e, 'viewing')}
-                className="w-full bg-[#4a1e23] text-[#fff8f5] py-3 text-center text-[12px] uppercase tracking-widest font-semibold"
+                className="w-full bg-[#4a1e23] text-[#fff8f5] py-3 text-center text-[12px] tracking-widest font-semibold cursor-pointer"
               >
                 프라이빗 뷰잉 살롱 예약하기
               </button>
