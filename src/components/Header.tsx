@@ -16,6 +16,7 @@ import {
   Send,
   Cpu,
   Globe,
+  Landmark,
 } from "lucide-react";
 
 export default function Header() {
@@ -156,6 +157,26 @@ export default function Header() {
                     </div>
                     <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
                       하이엔드 건축·인테리어 스튜디오 실물 사이트
+                    </p>
+                  </div>
+                </Link>
+
+                {/* Sodamjae Hanok Architecture Demo */}
+                <Link
+                  href="/demo/sodamjae"
+                  onClick={() => setPortfolioDropdownOpen(false)}
+                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-stone-100 transition-all group border border-transparent hover:border-stone-300"
+                >
+                  <div className="p-2 rounded-lg bg-stone-200 text-stone-800 border border-stone-300 shrink-0 group-hover:scale-105 transition-transform">
+                    <Landmark className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
+                      <span>소담재 건축공방</span>
+                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-stone-200 text-stone-800 font-extrabold">한옥 명가</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
+                      전통 결구 &amp; 현대식 패시브 주거 한옥
                     </p>
                   </div>
                 </Link>
@@ -347,6 +368,24 @@ export default function Header() {
                         <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-800 font-bold">DEMO</span>
                       </div>
                       <div className="text-xs text-zinc-500 mt-0.5">건축·인테리어 스튜디오 실물 데모</div>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-zinc-400" />
+                </Link>
+
+                <Link
+                  href="/demo/sodamjae"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-stone-400 text-left transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <Landmark className="w-5 h-5 text-stone-700" />
+                    <div>
+                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
+                        <span>소담재 건축공방</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-stone-200 text-stone-800 font-bold">한옥 명가</span>
+                      </div>
+                      <div className="text-xs text-zinc-500 mt-0.5">전통 결구 &amp; 패시브 주거 한옥 데모</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-400" />

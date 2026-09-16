@@ -366,6 +366,27 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
 
   // ─── 03. 건축 (Architecture) ─────────────────────────────────
   {
+    id: 'sodamjae-hanok-architecture',
+    title: '소담재 건축공방 전통한옥 & 프리미엄 중목구조',
+    client: '국가유산 수리기능자 도편수 직영 목수단',
+    category: 'architecture',
+    categoryName: '건축 · 현대한옥/주거',
+    summary: '25년 도편수 직영 전통 결구(사개맞춤) 공법과 패시브 삼중창호 단열을 융합한 프리미엄 한옥 스튜디오',
+    description: '100년 목재 자연 건조 노하우, 못을 쓰지 않는 전통 사개맞춤 결구의 구조미 위에 최고 등급 시스템 삼중창호와 현대식 지열·단열 설비를 더한 프리미엄 한옥 건축공방의 공식 웹사이트입니다. 전국 68채 완공작 아카이브, 도편수 철학, 5단계 시공 로드맵 및 1:1 맞춤 견적 신청 위저드를 탑재했습니다.',
+    thumbnailUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD_PpesrIFiVF4zFREwOcLQM-SdxMeXTGAlM4AyMaAoLdhb74A4OKHLdKt9pUUP3z3nC2X_KhhWnEiuwJGcSlpR-5ef2HRqfaH_NB1IcqNJ4vNb1cLwIZqky5fCAGw_W4fEiHUnp8ge4_PwWE6n4VnhpaBVzSQTSkhfKK1yGN8oSNYskPPkvhtu3U_iFDeeKw00xfMkhiRtfo3xoQXQaKCZf1gcQIXga3ukOvVNTCKbMgfQQwJ2MJVH',
+    liveDemoUrl: '/demo/sodamjae',
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Project Detail Modal', 'Hanok Quote Wizard'],
+    period: '2주',
+    year: '2026',
+    badge: '실물 라이브 데모',
+    highlights: [
+      '국가유산 수리기능자 도편수 직영 68+ 완공 한옥 아카이브 & 상세 모달',
+      '전통 결구(사개맞춤) 공법 & 현대 패시브 단열 하이브리드 설계 인터랙션',
+      '실시간 한옥 건축 상담 및 1:1 맞춤 견적 가이드 접수 위저드',
+      '단독 살림집·별서 세컨하우스·도심형 한옥 카테고리별 동적 필터링',
+    ],
+  },
+  {
     id: 'general-construction-corp',
     title: '종합건설사 디지털 포트폴리오 & 수주 브로슈어',
     client: '도급 순위 중견 종합건설기업',
