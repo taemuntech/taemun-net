@@ -8,8 +8,15 @@ import ParticleCanvas from "@/components/ParticleCanvas";
 import PortfolioGallery, { PortfolioGalleryFallback } from "@/components/portfolio/PortfolioGallery";
 import type { GalleryItem } from "@/components/portfolio/PortfolioCardView";
 import { getPortfolio, getPortfolioStats } from "@/lib/portfolio/registry";
+import { listedDemoLinks } from "@/lib/portfolio/header-links";
 import { toGalleryItem } from "@/lib/portfolio/gallery-items";
+import { getState, isListed, resolveStatus } from "@/lib/portfolio/state";
 import { SITE_OG_IMAGES } from "@/lib/site-og";
+
+// 공개 상태를 접속 때마다 다시 본다 — 관리자가 「내리기」를 누르면 바로 목록에서 빠져야 한다.
+// force-dynamic 이 없으면 빌드 시점에 읽은 스냅숏(표가 아직 없으면 「읽기 실패」)이 정적 HTML 로 굳어
+// 재배포 전까지 그대로 남는다. 목록 한 장이라 동적 렌더 비용은 무시할 만하다.
+export const dynamic = "force-dynamic";
 
 const DESCRIPTION =
   "태문 DEV STUDIO 가 만든 업종별 샘플 사이트와 직접 운영 중인 서비스를 한곳에서 보세요. 인테리어·건축·제조·쇼핑몰 등 업종별로 골라 보고, 마음에 드는 사이트를 기준으로 제작을 문의할 수 있습니다.";
@@ -38,8 +45,12 @@ function StatTile({ value, label, tone }: { value: number; label: string; tone: 
   );
 }
 
-export default function PortfolioPage() {
-  const portfolio = getPortfolio();
+export default async function PortfolioPage() {
+  // 목록에 실을 것만 남긴다 — 링크 전용(unlisted)·비공개(private)는 여기서 빠진다.
+  // 수치(StatTile)·업종 탭·종류 탭 개수도 남은 것만 세도록 걸러낸 목록으로 stats 를 만든다.
+  // 상태 읽기가 실패하면 resolveStatus 가 fallbackStatus 로 판정해 제안 시안이 통째로 빠진다(의도).
+  const snapshot = await getState();
+  const portfolio = getPortfolio().filter((p) => isListed(resolveStatus(snapshot, p.slug, p.kind)));
   const stats = getPortfolioStats(portfolio);
 
   const items: GalleryItem[] = portfolio.map(toGalleryItem);
@@ -52,7 +63,9 @@ export default function PortfolioPage() {
         <div className="absolute top-2/3 right-10 w-[500px] max-w-full h-[400px] bg-purple-600/10 rounded-full blur-[120px]" />
       </div>
 
-      <Header />
+      {/* 헤더 드롭다운도 같은 스냅숏으로 거른다 — 회사 이름이 클라이언트 청크에 박히지 않게
+          서버에서 걸러 낸 배열만 내려 준다(src/lib/portfolio/header-links.ts 주석 참고) */}
+      <Header demoLinks={listedDemoLinks(snapshot)} />
 
       <div className="relative z-10 pt-28 lg:pt-32 pb-24 px-4 lg:px-12 max-w-7xl mx-auto">
         {/* 제목 · 계산된 수치 */}

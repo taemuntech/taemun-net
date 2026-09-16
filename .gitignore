@@ -5,3 +5,5 @@ build
 .DS_Store
 *.pem
 .env*.local
+
+tsconfig.tsbuildinfo

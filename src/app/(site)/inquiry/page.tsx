@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { getPortfolio } from "@/lib/portfolio/registry";
+import { getState, isReachable, resolveStatus, type StateSnapshot } from "@/lib/portfolio/state";
 import { SITE_OG_IMAGES } from "@/lib/site-og";
 import InquiryView, { InquiryViewWithReferral, type SampleIndex } from "./InquiryView";
 
@@ -27,17 +28,25 @@ export const metadata: Metadata = {
   },
 };
 
-function buildSampleIndex(): SampleIndex {
+// 이 표는 그대로 HTML 에 실린다 — 내려간 시안의 제목(= 실존 업체 이름)이 남지 않게 상태를 본다.
+// 빼는 기준은 「목록 노출(isListed)」이 아니라 「주소가 열리는가(isReachable)」다: 링크 전용(unlisted)
+// 제안 시안은 영업 링크로 들어온 사람이 ?from= 을 달고 오므로 표에 있어야 유입 문구가 뜬다.
+// 비공개(private)·전부 내리기·DB 읽기 실패로 막힌 것만 뺀다.
+function buildSampleIndex(snapshot: StateSnapshot): SampleIndex {
   const index: SampleIndex = {};
-  // 갤러리 카드는 운영 서비스(https 링크)에서도 ?from= 을 넘기므로 전부 싣는다
+  // 갤러리 카드는 운영 서비스(https 링크)에서도 ?from= 을 넘기므로 막히지 않은 것은 전부 싣는다
   for (const item of getPortfolio()) {
+    if (!isReachable(resolveStatus(snapshot, item.slug, item.kind))) continue;
     index[item.slug] = { title: item.title, industry: item.industry, kind: item.kind };
   }
   return index;
 }
 
-export default function InquiryPage() {
-  const sampleIndex = buildSampleIndex();
+// 상태를 접속 때마다 다시 본다 — 홈·포트폴리오와 같은 이유(빌드 스냅숏이 굳으면 내려도 이름이 남는다)
+export const dynamic = "force-dynamic";
+
+export default async function InquiryPage() {
+  const sampleIndex = buildSampleIndex(await getState());
   return (
     <Suspense fallback={<InquiryView referral={null} />}>
       <InquiryViewWithReferral sampleIndex={sampleIndex} />

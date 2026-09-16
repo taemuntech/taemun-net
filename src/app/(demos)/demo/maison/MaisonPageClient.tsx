@@ -26,7 +26,7 @@ export default function MaisonPageClient({ isEmbed }: Props) {
         "Curator Dossier Modal",
         "Acquisition Folio Drawer",
       ]}
-      inquiryUrl="/inquiry?from=maison-antique"
+      inquiryUrl="/inquiry?from=maison"
       specs={[
         { label: "반응형 규격", value: "PC(와이드) · 태블릿 · 모바일 단일 lg: 브레이크포인트 규격" },
         { label: "인터랙션", value: "실시간 아카이브 검색, 소장 서류함(CartFolio), 관심작 보관함" },

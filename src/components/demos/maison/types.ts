@@ -41,13 +41,3 @@ export interface ResidenceStory {
   clientRole: string;
   projectLocation: string;
 }
-
-export interface ReservationSubmission {
-  clientName: string;
-  clientPhone: string;
-  interestCat: string;
-  visitDateTime: string;
-  notes: string;
-  submittedAt: string;
-  reservationCode: string;
-}

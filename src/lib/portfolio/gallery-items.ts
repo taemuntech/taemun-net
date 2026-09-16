@@ -6,16 +6,30 @@ import fs from "node:fs";
 import path from "node:path";
 import type { GalleryItem } from "@/components/portfolio/PortfolioCardView";
 import type { PortfolioCard } from "./registry";
+import { assetTargetFromPublicPath } from "./protected-assets";
 import { industryLabel } from "./schema";
 
 const PUBLIC_DIR = path.join(process.cwd(), "public");
+/** 상태를 따라야 하는 자산은 public/ 밖에 둔다 — 주소는 그대로고 proxy 가 보호 라우트로 넘긴다 */
+const PRIVATE_DIR = path.join(process.cwd(), "private-assets");
 
-/** public 기준 경로의 파일이 실제로 있을 때만 그 경로를 돌려준다(없는 썸네일은 자리표시로) */
+function existsUnder(root: string, relPath: string): boolean {
+  const abs = path.resolve(root, `.${relPath.startsWith("/") ? relPath : `/${relPath}`}`);
+  if (!abs.startsWith(root + path.sep)) return false;
+  return fs.existsSync(abs);
+}
+
+/**
+ * 그 주소의 파일이 실제로 있을 때만 주소를 돌려준다(없는 썸네일은 자리표시로).
+ * public/ 과 private-assets/ 두 곳을 본다 — 제안 시안 썸네일은 public 밖으로 옮겼지만
+ * **화면에 쓰는 주소는 그대로**이기 때문이다(proxy 가 /api/asset/… 으로 넘긴다).
+ */
 export function existingPublicFile(src: string | undefined): string | null {
   if (!src || !src.startsWith("/")) return null;
-  const abs = path.resolve(PUBLIC_DIR, `.${src}`);
-  if (!abs.startsWith(PUBLIC_DIR + path.sep)) return null;
-  return fs.existsSync(abs) ? src : null;
+  if (existsUnder(PUBLIC_DIR, src)) return src;
+  const target = assetTargetFromPublicPath(src);
+  if (target && existsUnder(PRIVATE_DIR, target.relPath)) return src;
+  return null;
 }
 
 export function toGalleryItem(p: PortfolioCard): GalleryItem {

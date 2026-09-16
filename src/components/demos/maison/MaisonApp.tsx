@@ -115,7 +115,7 @@ export default function MaisonApp({ isEmbed = false }: { isEmbed?: boolean } = {
               태문 DEV STUDIO 하이엔드 앤틱 살롱 &amp; D2C 아카이브 레퍼런스
             </span>
             <Link
-              href="/inquiry?from=maison-antique"
+              href="/inquiry?from=maison"
               className="bg-rose-800 hover:bg-rose-700 text-white font-medium px-3 py-1 rounded text-xs transition-colors flex items-center gap-1"
             >
               <Send className="w-3 h-3" />

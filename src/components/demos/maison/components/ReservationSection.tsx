@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
+import SampleNotice from '@/components/demo-kit/SampleNotice';
 import { BRAND_INFO } from '../data/antiqueData';
-import { ReservationSubmission } from '../types';
 
 export const ReservationSection: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -14,8 +14,8 @@ export const ReservationSection: React.FC = () => {
     agreePrivacy: true,
   });
 
-  const [submittedBooking, setSubmittedBooking] =
-    useState<ReservationSubmission | null>(null);
+  // 샘플이라 예약을 받지 않는다 — 검증을 통과하면 가짜 예약번호·성공 화면 대신 공용 안내(SampleNotice)만 연다.
+  const [isNoticeOpen, setIsNoticeOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -38,34 +38,7 @@ export const ReservationSection: React.FC = () => {
     }
 
     setErrorMessage('');
-    const randomCode =
-      'MDA-VIP-' + Math.floor(100000 + Math.random() * 900000);
-    const submission: ReservationSubmission = {
-      clientName: formData.name,
-      clientPhone: formData.phone,
-      interestCat: formData.interest,
-      visitDateTime: formData.dateTime,
-      notes: formData.notes,
-      submittedAt: new Date().toLocaleDateString('ko-KR', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      }),
-      reservationCode: randomCode,
-    };
-    setSubmittedBooking(submission);
-  };
-
-  const handleReset = () => {
-    setSubmittedBooking(null);
-    setFormData({
-      name: '',
-      phone: '',
-      interest: 'furniture',
-      dateTime: '',
-      notes: '',
-      agreePrivacy: true,
-    });
+    setIsNoticeOpen(true);
   };
 
   return (
@@ -157,223 +130,165 @@ export const ReservationSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Interactive Form or Confirmed Ticket (7 cols) */}
+          {/* Right Column: Interactive Reservation Form (7 cols) */}
           <div className="lg:col-span-7 bg-[#f5ece7] p-6 lg:p-10 border border-[#d6c2c2]">
-            {submittedBooking ? (
-              <div
-                id="reservation-confirmed-card"
-                className="bg-[#fff8f5] p-6 lg:p-8 border-2 border-[#735b24] space-y-6 text-center animate-in fade-in duration-300"
-              >
-                <div className="w-12 h-12 rounded-full bg-[#fddc97]/40 border border-[#735b24] text-[#735b24] flex items-center justify-center mx-auto">
-                  <span className="material-symbols-outlined text-2xl">
-                    mark_email_read
-                  </span>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {errorMessage && (
+                <div className="bg-[#fddc97]/30 border border-[#735b24] p-3 text-[13px] text-[#300a10] font-serif">
+                  {errorMessage}
                 </div>
+              )}
 
-                <div className="space-y-1">
-                  <span className="text-[10px] uppercase tracking-[0.25em] text-[#735b24] font-bold">
-                    Invitation Confirmed
-                  </span>
-                  <h4 className="font-serif text-[24px] text-[#300a10]">
-                    살롱 프라이빗 뷰잉 예약 신청 완료
-                  </h4>
-                  <p className="font-serif text-[15px] text-[#514344]">
-                    {submittedBooking.clientName} 님의 한남동 살롱 방문 예약이
-                    정상적으로 접수되었습니다.
-                  </p>
-                </div>
-
-                {/* Archival Ticket Seal */}
-                <div className="bg-[#fbf2ed] p-4 border border-[#d6c2c2] text-left space-y-2 font-serif text-[14px]">
-                  <div className="flex justify-between border-b border-[#d6c2c2]/60 pb-2">
-                    <span className="text-[#514344]">예약 증표 코드</span>
-                    <span className="font-bold text-[#300a10] font-sans">
-                      {submittedBooking.reservationCode}
-                    </span>
-                  </div>
-                  <div className="flex justify-between border-b border-[#d6c2c2]/60 pb-2">
-                    <span className="text-[#514344]">방문 희망 일시</span>
-                    <span className="font-medium text-[#1e1b18]">
-                      {new Date(submittedBooking.visitDateTime).toLocaleString(
-                        'ko-KR',
-                        {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        }
-                      )}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#514344]">담당 큐레이터</span>
-                    <span className="font-medium text-[#735b24]">
-                      선임 수석 아키비스트 배정
-                    </span>
-                  </div>
-                </div>
-
-                <p className="text-xs text-[#514344] leading-relaxed">
-                  * 원활한 프라이빗 도슨트 진행을 위해 담당 큐레이터가 2시간
-                  이내에 안내 전화를 드립니다.
-                </p>
-
-                <button
-                  type="button"
-                  onClick={handleReset}
-                  className="bg-[#4a1e23] text-[#fff8f5] hover:bg-[#300a10] px-6 py-2.5 text-[12px] uppercase tracking-wider font-semibold cursor-pointer"
-                >
-                  다른 일정 추가 예약하기
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
-                {errorMessage && (
-                  <div className="bg-[#fddc97]/30 border border-[#735b24] p-3 text-[13px] text-[#300a10] font-serif">
-                    {errorMessage}
-                  </div>
-                )}
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <label
-                      htmlFor="clientName"
-                      className="block text-[11px] uppercase tracking-wider text-[#514344] font-semibold"
-                    >
-                      성함 / 존칭 <span className="text-[#735b24]">*</span>
-                    </label>
-                    <input
-                      id="clientName"
-                      type="text"
-                      required
-                      placeholder="홍길동 님"
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                      className="w-full bg-[#fff8f5] border border-[#d6c2c2] p-3 text-[14px] text-[#1e1b18] focus:border-[#735b24] focus:outline-none transition-colors"
-                    />
-                  </div>
-
-                  <div className="space-y-1">
-                    <label
-                      htmlFor="clientPhone"
-                      className="block text-[11px] uppercase tracking-wider text-[#514344] font-semibold"
-                    >
-                      연락처 <span className="text-[#735b24]">*</span>
-                    </label>
-                    <input
-                      id="clientPhone"
-                      type="tel"
-                      required
-                      placeholder="010-0000-0000"
-                      value={formData.phone}
-                      onChange={(e) =>
-                        setFormData({ ...formData, phone: e.target.value })
-                      }
-                      className="w-full bg-[#fff8f5] border border-[#d6c2c2] p-3 text-[14px] text-[#1e1b18] focus:border-[#735b24] focus:outline-none transition-colors"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <label
-                      htmlFor="interestCategory"
-                      className="block text-[11px] uppercase tracking-wider text-[#514344] font-semibold"
-                    >
-                      관심 작품 카테고리
-                    </label>
-                    <select
-                      id="interestCategory"
-                      value={formData.interest}
-                      onChange={(e) =>
-                        setFormData({ ...formData, interest: e.target.value })
-                      }
-                      className="w-full bg-[#fff8f5] border border-[#d6c2c2] p-3 text-[14px] text-[#1e1b18] focus:border-[#735b24] focus:outline-none transition-colors"
-                    >
-                      <option value="all">전체 아카이브 관람</option>
-                      <option value="furniture">대형 가구 (코모드/데스크/파퇴유)</option>
-                      <option value="lighting">조명 &amp; 길트 샹들리에</option>
-                      <option value="mirrors">오리지널 수은 거울 &amp; 벽장식</option>
-                      <option value="objects">도자기 &amp; 은제 테이블웨어</option>
-                      <option value="restoration">소장 앤틱 복원 의뢰 자문</option>
-                    </select>
-                  </div>
-
-                  <div className="space-y-1">
-                    <label
-                      htmlFor="visitDateTime"
-                      className="block text-[11px] uppercase tracking-wider text-[#514344] font-semibold"
-                    >
-                      방문 희망 일시 <span className="text-[#735b24]">*</span>
-                    </label>
-                    <input
-                      id="visitDateTime"
-                      type="datetime-local"
-                      required
-                      value={formData.dateTime}
-                      onChange={(e) =>
-                        setFormData({ ...formData, dateTime: e.target.value })
-                      }
-                      className="w-full bg-[#fff8f5] border border-[#d6c2c2] p-3 text-[14px] text-[#1e1b18] focus:border-[#735b24] focus:outline-none transition-colors"
-                    />
-                  </div>
-                </div>
-
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label
-                    htmlFor="reservationNotes"
+                    htmlFor="clientName"
                     className="block text-[11px] uppercase tracking-wider text-[#514344] font-semibold"
                   >
-                    공간 및 컬렉팅 요청사항 (선택)
+                    성함 / 존칭 <span className="text-[#735b24]">*</span>
                   </label>
-                  <textarea
-                    id="reservationNotes"
-                    rows={3}
-                    placeholder="배치를 계획 중이신 공간의 성격(거실, 서재, 부티크 라운지 등)이나 특별히 찾으시는 시대 양식을 적어주시면 사전 큐레이션을 준비해 드립니다."
-                    value={formData.notes}
-                    onChange={(e) =>
-                      setFormData({ ...formData, notes: e.target.value })
-                    }
-                    className="w-full bg-[#fff8f5] border border-[#d6c2c2] p-3 text-[14px] text-[#1e1b18] focus:border-[#735b24] focus:outline-none transition-colors font-serif resize-none"
-                  ></textarea>
-                </div>
-
-                <div className="flex items-center space-x-2 pt-1">
                   <input
-                    id="privacyAgreement"
-                    type="checkbox"
-                    checked={formData.agreePrivacy}
+                    id="clientName"
+                    type="text"
+                    required
+                    placeholder="홍길동 님"
+                    value={formData.name}
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        agreePrivacy: e.target.checked,
-                      })
+                      setFormData({ ...formData, name: e.target.value })
                     }
-                    className="accent-[#300a10] w-4 h-4 cursor-pointer"
+                    className="w-full bg-[#fff8f5] border border-[#d6c2c2] p-3 text-[14px] text-[#1e1b18] focus:border-[#735b24] focus:outline-none transition-colors"
                   />
-                  <label
-                    htmlFor="privacyAgreement"
-                    className="text-xs text-[#514344] font-serif cursor-pointer"
-                  >
-                    살롱 프라이빗 뷰잉 진행을 위한 개인정보 수집 및 이용에 동의합니다.
-                  </label>
                 </div>
 
-                <button
-                  id="btn-submit-reservation"
-                  type="submit"
-                  className="w-full bg-[#4a1e23] text-[#fff8f5] hover:bg-[#300a10] py-4 text-[13px] uppercase tracking-widest font-semibold transition-all duration-200 border border-[#735b24]/40 shadow-sm cursor-pointer"
+                <div className="space-y-1">
+                  <label
+                    htmlFor="clientPhone"
+                    className="block text-[11px] uppercase tracking-wider text-[#514344] font-semibold"
+                  >
+                    연락처 <span className="text-[#735b24]">*</span>
+                  </label>
+                  <input
+                    id="clientPhone"
+                    type="tel"
+                    required
+                    placeholder="010-0000-0000"
+                    value={formData.phone}
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value })
+                    }
+                    className="w-full bg-[#fff8f5] border border-[#d6c2c2] p-3 text-[14px] text-[#1e1b18] focus:border-[#735b24] focus:outline-none transition-colors"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label
+                    htmlFor="interestCategory"
+                    className="block text-[11px] uppercase tracking-wider text-[#514344] font-semibold"
+                  >
+                    관심 작품 카테고리
+                  </label>
+                  <select
+                    id="interestCategory"
+                    value={formData.interest}
+                    onChange={(e) =>
+                      setFormData({ ...formData, interest: e.target.value })
+                    }
+                    className="w-full bg-[#fff8f5] border border-[#d6c2c2] p-3 text-[14px] text-[#1e1b18] focus:border-[#735b24] focus:outline-none transition-colors"
+                  >
+                    <option value="all">전체 아카이브 관람</option>
+                    <option value="furniture">대형 가구 (코모드/데스크/파퇴유)</option>
+                    <option value="lighting">조명 &amp; 길트 샹들리에</option>
+                    <option value="mirrors">오리지널 수은 거울 &amp; 벽장식</option>
+                    <option value="objects">도자기 &amp; 은제 테이블웨어</option>
+                    <option value="restoration">소장 앤틱 복원 의뢰 자문</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1">
+                  <label
+                    htmlFor="visitDateTime"
+                    className="block text-[11px] uppercase tracking-wider text-[#514344] font-semibold"
+                  >
+                    방문 희망 일시 <span className="text-[#735b24]">*</span>
+                  </label>
+                  <input
+                    id="visitDateTime"
+                    type="datetime-local"
+                    required
+                    value={formData.dateTime}
+                    onChange={(e) =>
+                      setFormData({ ...formData, dateTime: e.target.value })
+                    }
+                    className="w-full bg-[#fff8f5] border border-[#d6c2c2] p-3 text-[14px] text-[#1e1b18] focus:border-[#735b24] focus:outline-none transition-colors"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label
+                  htmlFor="reservationNotes"
+                  className="block text-[11px] uppercase tracking-wider text-[#514344] font-semibold"
                 >
-                  살롱 프라이빗 뷰잉 신청하기
-                </button>
-              </form>
-            )}
+                  공간 및 컬렉팅 요청사항 (선택)
+                </label>
+                <textarea
+                  id="reservationNotes"
+                  rows={3}
+                  placeholder="배치를 계획 중이신 공간의 성격(거실, 서재, 부티크 라운지 등)이나 특별히 찾으시는 시대 양식을 적어주시면 사전 큐레이션을 준비해 드립니다."
+                  value={formData.notes}
+                  onChange={(e) =>
+                    setFormData({ ...formData, notes: e.target.value })
+                  }
+                  className="w-full bg-[#fff8f5] border border-[#d6c2c2] p-3 text-[14px] text-[#1e1b18] focus:border-[#735b24] focus:outline-none transition-colors font-serif resize-none"
+                ></textarea>
+              </div>
+
+              <div className="flex items-center space-x-2 pt-1">
+                <input
+                  id="privacyAgreement"
+                  type="checkbox"
+                  checked={formData.agreePrivacy}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      agreePrivacy: e.target.checked,
+                    })
+                  }
+                  className="accent-[#300a10] w-4 h-4 cursor-pointer"
+                />
+                <label
+                  htmlFor="privacyAgreement"
+                  className="text-xs text-[#514344] font-serif cursor-pointer"
+                >
+                  살롱 프라이빗 뷰잉 진행을 위한 개인정보 수집 및 이용에 동의합니다.
+                </label>
+              </div>
+
+              <p className="border border-[#735b24]/50 bg-[#fff8f5] px-3 py-2.5 text-center font-serif text-[13px] leading-relaxed text-[#300a10]">
+                샘플 사이트 — 실제로 예약되지 않으며, 입력하신 내용은 어디에도 전송되지 않습니다.
+              </p>
+
+              <button
+                id="btn-submit-reservation"
+                type="submit"
+                className="w-full bg-[#4a1e23] text-[#fff8f5] hover:bg-[#300a10] py-4 text-[13px] uppercase tracking-widest font-semibold transition-all duration-200 border border-[#735b24]/40 shadow-sm cursor-pointer"
+              >
+                살롱 프라이빗 뷰잉 신청하기
+              </button>
+            </form>
           </div>
         </div>
       </div>
+
+      <SampleNotice
+        open={isNoticeOpen}
+        onClose={() => setIsNoticeOpen(false)}
+        slug="maison"
+        industry="commerce"
+        featureName="프라이빗 방문 예약"
+      />
     </section>
   );
 };

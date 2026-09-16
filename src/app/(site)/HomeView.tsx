@@ -4,12 +4,18 @@ import { useState } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import FloatingChatWidget from "@/components/FloatingChatWidget";
-import {
-  GALLERY_CATEGORIES,
-  GALLERY_PROJECTS,
+// ⚠️ **값(GALLERY_PROJECTS·GALLERY_CATEGORIES)을 import 하지 않는다 — 타입만 가져온다.**
+// 이 파일은 'use client' 라, 값을 import 하면 galleryData.ts 가 통째로 클라이언트 청크에 들어간다.
+// 서버가 걸러 렌더해도 청크는 별개라, 실측에서 내려간 시안의 회사 이름·클라이언트 표기·설명·/demo/<slug>
+// 링크가 `/_next/static/chunks/*.js`(72KB, Cache-Control: immutable 1년)로 누구에게나 200 으로 나갔다.
+// 그래서 **서버(page.tsx)가 걸러낸 배열 자체**를 props 로 받는다.
+import type {
   GalleryCategoryId,
+  GalleryCategoryMeta,
   GalleryProject,
 } from "@/lib/portfolio/galleryData";
+// 헤더 드롭다운 항목도 같은 이유로 **서버에서 받아 그대로 전달**한다(타입만 import).
+import type { HeaderDemoLink } from "@/lib/portfolio/header-links";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -34,7 +40,42 @@ import {
   Monitor,
 } from "lucide-react";
 
-export default function HomeView() {
+/**
+ * 홈 갤러리에 **실어도 되는 작업물만** 담긴 배열 — 서버(page.tsx)가 공개 상태를 읽어 걸러서 내려 준다.
+ *
+ * 왜 서버에서 걸러 받는가: 이 갤러리는 galleryData.ts 에 손으로 적은 목록이라 공개 상태를 모른다.
+ * 그래서 /portfolio 에서 빠진 실존 업체 제안 시안이 홈에는 회사 이름·설명째로 그대로 남아 있었다
+ * (「전부 내리기」를 눌러도 링크만 막히고 홈 카드는 살아 있었다 — 내리는 목적이 반쯤 깨진다).
+ * 판정 규칙(resolveStatus·isListed)은 서버에만 두고 여기서는 받은 것을 그리기만 한다 — 규칙을 두 벌로 만들지 않는다.
+ *
+ * ⚠️ 예전에는 「실을 slug 목록」만 받고 배열은 이 파일에서 import 했다. 그러면 **렌더 결과만** 걸러질 뿐,
+ * 배열 전체가 클라이언트 청크에 박혀 내려간 회사 이름이 그대로 나갔다(파일 맨 위 import 주석의 실측).
+ * 지금은 걸러낸 **배열 자체**를 받는다 — HTML 에도, 청크에도 보여도 되는 것만 남는다.
+ */
+export type HomeViewProps = {
+  /** 공개 상태가 「공개」인 작업물만 담긴 갤러리 카드 배열 */
+  projects: GalleryProject[];
+  /** 분류 메타(회사 정보 없음) — 값 import 를 끊으려고 이것도 서버에서 받는다 */
+  categories: GalleryCategoryMeta[];
+  /** 헤더 드롭다운·모바일 메뉴에 실을 내부 데모 — 서버가 「공개」인 것만 걸러서 준다. 여기서는 Header 로 넘기기만 한다 */
+  demoLinks?: readonly HeaderDemoLink[];
+};
+
+export default function HomeView({ projects, categories, demoLinks }: HomeViewProps) {
+  // 이름만 옛것 그대로 둔다(아래 화면 코드가 이 이름을 쓴다) — 값은 서버가 이미 걸러 준 배열이다
+  const galleryProjects = projects;
+  const GALLERY_CATEGORIES = categories;
+
+  // 손으로 적은 바로가기 버튼이 「그 시안이 아직 목록에 있는가」를 물을 때 쓴다.
+  // 걸러진 배열에서 뽑으므로 내려간 시안은 애초에 여기 없다.
+  const listedSlugs = new Set(
+    galleryProjects
+      .map((p) => p.liveDemoUrl)
+      .filter((url): url is string => typeof url === "string" && url.startsWith("/demo/"))
+      .map((url) => url.slice("/demo/".length).split(/[/?#]/)[0])
+      .filter(Boolean),
+  );
+
   // State for category accordion expand/collapse
   const [expandedCategories, setExpandedCategories] = useState<Record<GalleryCategoryId, boolean>>({
     manufacturing: false,
@@ -82,7 +123,7 @@ export default function HomeView() {
       />
 
       {/* Agency Navigation Bar */}
-      <Header />
+      <Header demoLinks={demoLinks} />
 
       {/* ─────────────────────────────────────────────────────────────
           1. FULL-WIDTH CINEMATIC VIDEO BACKGROUND HERO SECTION
@@ -172,7 +213,9 @@ export default function HomeView() {
         <div id="gallery" className="max-w-7xl mx-auto px-4 lg:px-8 relative z-20 w-full pt-4">
           <div className="flex items-center justify-start lg:justify-center gap-2 overflow-x-auto pb-2 scrollbar-none">
             {GALLERY_CATEGORIES.map((cat) => {
-              const count = GALLERY_PROJECTS.filter((p) => p.category === cat.id).length;
+              const count = galleryProjects.filter((p) => p.category === cat.id).length;
+              // 작업물이 다 내려간 분류는 바로가기도 없앤다 — 눌러도 빈 자리로 가는 칸을 남기지 않는다
+              if (count === 0) return null;
               return (
                 <a
                   key={cat.id}
@@ -196,7 +239,9 @@ export default function HomeView() {
           ───────────────────────────────────────────────────────────── */}
       <section className="pb-24 lg:pb-36 px-4 lg:px-8 max-w-7xl mx-auto relative z-10 space-y-20 lg:space-y-28">
         {GALLERY_CATEGORIES.map((category) => {
-          const allProjects = GALLERY_PROJECTS.filter((p) => p.category === category.id);
+          const allProjects = galleryProjects.filter((p) => p.category === category.id);
+          // 다 내려간 분류는 제목·설명까지 통째로 뺀다(「총 0개 작품」 자리가 남지 않게)
+          if (allProjects.length === 0) return null;
           const isExpanded = expandedCategories[category.id];
           // By default, display 5 items on desktop
           const visibleProjects = isExpanded ? allProjects : allProjects.slice(0, 5);
@@ -237,7 +282,8 @@ export default function HomeView() {
                 </div>
 
                 {/* Right Quick Action: Live Demo Direct Link (for interior/manufacturing) */}
-                {category.id === "interior" && (
+                {/* 손으로 적은 바로가기라 카드와 따로 논다 — 그 시안이 내려가면 이 버튼도 같이 빼야 한다 */}
+                {category.id === "interior" && listedSlugs.has("atelier-vaucluse") && (
                   <Link
                     href="/demo/atelier-vaucluse"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 text-xs font-bold transition-all shrink-0 self-start lg:self-end"

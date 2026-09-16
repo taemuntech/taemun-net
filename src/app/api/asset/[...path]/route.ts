@@ -1,0 +1,90 @@
+// 상태를 보고 내주는 정적 파일 — 썸네일(시안 전체 화면 스크린샷)과 업체 원본 이미지(로고·사진).
+// GET /api/asset/portfolio/<slug>/<파일> · GET /api/asset/company/<업체폴더>/<파일>
+//
+// 방문자는 이 주소를 직접 칠 필요가 없다 — proxy 가 옛 주소(/portfolio/<slug>/…, /hysfa/…)를 여기로
+// rewrite 한다(src/proxy.ts). 카드 JSON·갤러리 데이터의 주소는 한 줄도 안 바뀐다.
+//
+// 판정 규칙은 데모 주소와 같다: 그 작업물이 열리면(isReachable) 자산도 내주고, 내려가 있으면 404 다.
+// 「없는 것처럼」 404 를 낸다 — 403 은 「여기 뭔가 있다」를 알려 준다.
+//
+// 상태 읽기는 목록과 같은 getState()(최대 20초 캐시)를 쓴다. 데모 주소 판정(gate.ts)만 매번 지금 값을
+// 읽는 이유는 그게 「내려간 것이 되살아나면 안 된다」의 핵심 표면이기 때문이고, 썸네일은 목록과 같은 창에서
+// 같이 사라지면 된다. 이미지 1장마다 데이터베이스를 새로 읽으면 목록 한 장에 읽기가 8번 난다.
+
+import fs from "node:fs/promises";
+import path from "node:path";
+import { NextResponse, type NextRequest } from "next/server";
+import { readAdminSession } from "@/lib/admin/session";
+import { getPortfolioBySlug } from "@/lib/portfolio/registry";
+import { assetTargetFromRoutePath } from "@/lib/portfolio/protected-assets";
+import { getState, isReachable, resolveStatus } from "@/lib/portfolio/state";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+/** public/ 밖 — Next 가 정적으로 서빙하지 않는 자리 */
+const PRIVATE_DIR = path.join(process.cwd(), "private-assets");
+/** 옮기지 않은 파일(공개 샘플 썸네일)은 여기서 읽는다 */
+const PUBLIC_DIR = path.join(process.cwd(), "public");
+
+const CONTENT_TYPES: Record<string, string> = {
+  ".png": "image/png",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".webp": "image/webp",
+  ".avif": "image/avif",
+  ".gif": "image/gif",
+  ".svg": "image/svg+xml",
+  ".mp4": "video/mp4",
+  ".pdf": "application/pdf",
+};
+
+const NOT_FOUND = () => new NextResponse(null, { status: 404 });
+
+async function readIfExists(abs: string, root: string): Promise<Buffer | null> {
+  // 경로 올라가기 이중 차단(주소 해석에서 이미 막지만, 파일을 여는 자리에서 한 번 더 본다)
+  if (!abs.startsWith(root + path.sep)) return null;
+  try {
+    return await fs.readFile(abs);
+  } catch {
+    return null;
+  }
+}
+
+export async function GET(req: NextRequest, ctx: { params: Promise<{ path: string[] }> }) {
+  const { path: segments } = await ctx.params;
+  const target = assetTargetFromRoutePath(segments ?? []);
+  if (!target) return NOT_FOUND();
+
+  const card = getPortfolioBySlug(target.owner);
+  // 카드가 없는 자산은 종류를 모른다 → 가장 엄한 종류(proposal)로 다룬다(gate.ts 와 같은 규칙).
+  const kind = card?.kind ?? "proposal";
+
+  // 관리자는 내려간 것도 본다 — 관리자 화면의 썸네일이 「무엇을 내렸는지」 보여 줘야 하기 때문.
+  const isAdmin = readAdminSession(req) !== null;
+  if (!isAdmin) {
+    const status = resolveStatus(await getState(), target.owner, kind);
+    if (!isReachable(status)) return NOT_FOUND();
+  }
+
+  const relNative = target.relPath.split("/").join(path.sep);
+  let body = await readIfExists(path.join(PRIVATE_DIR, relNative), PRIVATE_DIR);
+  if (!body) {
+    // 아직 public/ 에 남아 있는 파일(공개 샘플 썸네일). 여기까지 온 요청은 위에서 이미 상태를 봤다.
+    const publicNative = target.publicPath.split("/").filter(Boolean).join(path.sep);
+    body = await readIfExists(path.join(PUBLIC_DIR, publicNative), PUBLIC_DIR);
+  }
+  if (!body) return NOT_FOUND();
+
+  const type = CONTENT_TYPES[path.extname(target.relPath).toLowerCase()] ?? "application/octet-stream";
+  return new NextResponse(new Uint8Array(body), {
+    status: 200,
+    headers: {
+      "Content-Type": type,
+      "Content-Length": String(body.byteLength),
+      // 내리면 바로 안 보여야 한다 — CDN·브라우저에 굳히지 않는다(이미 열린 URL 이 남는 것을 막을 수는 없다).
+      "Cache-Control": "private, no-store",
+      "X-Robots-Tag": "noindex, nofollow",
+    },
+  });
+}

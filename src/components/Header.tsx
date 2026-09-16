@@ -18,9 +18,95 @@ import {
   Globe,
   Landmark,
   Crown,
+  type LucideIcon,
 } from "lucide-react";
+// ⚠️ **타입만** 가져온다. 값(HEADER_DEMO_LINKS)을 import 하면 이 파일이 'use client' 라
+// 회사 이름·설명·/demo/<slug> 가 클라이언트 청크에 다시 박힌다 — 이 화면을 고친 이유가 그것이다.
+// 이 파일에는 slug·회사 이름·설명이 한 글자도 없어야 한다(slug 자체가 회사 이름이나 마찬가지다).
+import type { DemoLinkIconKey, DemoLinkTone, HeaderDemoLink } from "@/lib/portfolio/header-links";
 
-export default function Header() {
+/**
+ * 색 이름 → Tailwind 클래스.
+ *
+ * ⚠️ Tailwind v4 는 소스에서 **클래스 이름 문자열을 훑어** CSS 를 만든다. 그래서 `bg-${tone}-100` 처럼
+ * 조합하면 그 클래스가 아예 생성되지 않아 스타일이 통째로 사라진다 — 반드시 완전한 이름을 리터럴로 적는다.
+ */
+const TONE_CLASSES: Record<
+  DemoLinkTone,
+  { dropdownItem: string; dropdownIcon: string; dropdownBadge: string; mobileItem: string; mobileIcon: string; mobileBadge: string }
+> = {
+  blue: {
+    dropdownItem: "hover:bg-blue-50/60 hover:border-blue-200",
+    dropdownIcon: "bg-blue-100 text-blue-800 border-blue-200",
+    dropdownBadge: "bg-blue-100 text-blue-800",
+    mobileItem: "hover:border-blue-400",
+    mobileIcon: "text-blue-700",
+    mobileBadge: "bg-blue-100 text-blue-800",
+  },
+  amber: {
+    dropdownItem: "hover:bg-amber-50/60 hover:border-amber-200",
+    dropdownIcon: "bg-amber-100 text-amber-800 border-amber-200",
+    dropdownBadge: "bg-amber-100 text-amber-800",
+    mobileItem: "hover:border-amber-400",
+    mobileIcon: "text-amber-700",
+    mobileBadge: "bg-amber-100 text-amber-800",
+  },
+  stone: {
+    dropdownItem: "hover:bg-stone-100 hover:border-stone-300",
+    dropdownIcon: "bg-stone-200 text-stone-800 border-stone-300",
+    dropdownBadge: "bg-stone-200 text-stone-800",
+    mobileItem: "hover:border-stone-400",
+    mobileIcon: "text-stone-700",
+    mobileBadge: "bg-stone-200 text-stone-800",
+  },
+  rose: {
+    dropdownItem: "hover:bg-rose-50/60 hover:border-rose-200",
+    dropdownIcon: "bg-rose-100 text-rose-800 border-rose-200",
+    dropdownBadge: "bg-rose-100 text-rose-800",
+    mobileItem: "hover:border-rose-400",
+    mobileIcon: "text-rose-800",
+    mobileBadge: "bg-rose-100 text-rose-800",
+  },
+  cyan: {
+    dropdownItem: "hover:bg-cyan-50/60 hover:border-cyan-200",
+    dropdownIcon: "bg-cyan-100 text-cyan-800 border-cyan-200",
+    dropdownBadge: "bg-cyan-100 text-cyan-800",
+    mobileItem: "hover:border-cyan-400",
+    mobileIcon: "text-cyan-700",
+    mobileBadge: "bg-cyan-100 text-cyan-800",
+  },
+  emerald: {
+    dropdownItem: "hover:bg-emerald-50/60 hover:border-emerald-200",
+    dropdownIcon: "bg-emerald-100 text-emerald-800 border-emerald-200",
+    dropdownBadge: "bg-emerald-100 text-emerald-800",
+    mobileItem: "hover:border-emerald-400",
+    mobileIcon: "text-emerald-700",
+    mobileBadge: "bg-emerald-100 text-emerald-800",
+  },
+};
+
+/** 아이콘 이름 → lucide 컴포넌트 */
+const DEMO_ICONS: Record<DemoLinkIconKey, LucideIcon> = {
+  globe: Globe,
+  compass: Compass,
+  landmark: Landmark,
+  crown: Crown,
+  cpu: Cpu,
+  activity: Activity,
+};
+
+export type HeaderProps = {
+  /**
+   * 드롭다운·모바일 메뉴에 실을 내부 데모 목록 — **서버가 공개 상태로 걸러서** 넘겨 준다
+   * (src/lib/portfolio/header-links.ts 의 listedDemoLinks).
+   *
+   * 기본값이 빈 배열인 것은 일부러다: 안 넘기면 아무 것도 안 뜨는 쪽으로 넘어진다(안전한 기본값).
+   * 회사 이름이 새는 방향으로 넘어지지 않게 하려는 것이다.
+   */
+  demoLinks?: readonly HeaderDemoLink[];
+};
+
+export default function Header({ demoLinks = [] }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [portfolioDropdownOpen, setPortfolioDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -51,7 +137,7 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/90 border-b border-zinc-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
       <div className="max-w-7xl mx-auto px-4 lg:px-6 h-20 flex items-center justify-between">
-        
+
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-2.5 lg:gap-3 group min-w-0" onClick={() => setMobileMenuOpen(false)}>
           <div className="w-9 lg:w-10 h-9 lg:h-10 rounded-xl bg-zinc-950 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:bg-zinc-800 transition-all">
@@ -109,6 +195,8 @@ export default function Header() {
           </a>
 
           {/* Unified Portfolio & Solutions Dropdown */}
+          {/* 내부 데모가 0개여도 아래 자사 서비스(T-DOCS·태문브릿지) 두 줄은 항상 남는다 —
+              그래서 이 버튼을 눌렀을 때 빈 상자가 뜨는 경우는 없다. */}
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setPortfolioDropdownOpen(!portfolioDropdownOpen)}
@@ -121,126 +209,33 @@ export default function Header() {
             {/* Dropdown Menu */}
             {portfolioDropdownOpen && (
               <div className="absolute top-full left-0 mt-2 w-80 p-2 rounded-2xl bg-white border border-zinc-200 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-150 text-left">
-                
-                {/* Wonik QnC Demo */}
-                <Link
-                  href="/demo/wonik-qnc"
-                  onClick={() => setPortfolioDropdownOpen(false)}
-                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-blue-50/60 transition-all group border border-transparent hover:border-blue-200"
-                >
-                  <div className="p-2 rounded-lg bg-blue-100 text-blue-800 border border-blue-200 shrink-0 group-hover:scale-105 transition-transform">
-                    <Globe className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
-                      <span>원익큐앤씨 (WONIK QnC)</span>
-                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-blue-100 text-blue-800 font-extrabold">GLOBAL 1위</span>
-                    </div>
-                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
-                      반도체 쿼츠웨어 &amp; 정밀 세라믹 코스닥 상장사
-                    </p>
-                  </div>
-                </Link>
 
-                {/* Atelier Vaucluse Demo */}
-                <Link
-                  href="/demo/atelier-vaucluse"
-                  onClick={() => setPortfolioDropdownOpen(false)}
-                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-amber-50/60 transition-all group border border-transparent hover:border-amber-200"
-                >
-                  <div className="p-2 rounded-lg bg-amber-100 text-amber-800 border border-amber-200 shrink-0 group-hover:scale-105 transition-transform">
-                    <Compass className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
-                      <span>아뜰리에 보클루즈</span>
-                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-800 font-extrabold">DEMO</span>
-                    </div>
-                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
-                      하이엔드 건축·인테리어 스튜디오 실물 사이트
-                    </p>
-                  </div>
-                </Link>
-
-                {/* Sodamjae Hanok Architecture Demo */}
-                <Link
-                  href="/demo/sodamjae"
-                  onClick={() => setPortfolioDropdownOpen(false)}
-                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-stone-100 transition-all group border border-transparent hover:border-stone-300"
-                >
-                  <div className="p-2 rounded-lg bg-stone-200 text-stone-800 border border-stone-300 shrink-0 group-hover:scale-105 transition-transform">
-                    <Landmark className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
-                      <span>소담재 건축공방</span>
-                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-stone-200 text-stone-800 font-extrabold">한옥 명가</span>
-                    </div>
-                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
-                      전통 결구 &amp; 현대식 패시브 주거 한옥
-                    </p>
-                  </div>
-                </Link>
-
-                {/* Maison d'Antique Demo */}
-                <Link
-                  href="/demo/maison"
-                  onClick={() => setPortfolioDropdownOpen(false)}
-                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-rose-50/60 transition-all group border border-transparent hover:border-rose-200"
-                >
-                  <div className="p-2 rounded-lg bg-rose-100 text-rose-800 border border-rose-200 shrink-0 group-hover:scale-105 transition-transform">
-                    <Crown className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
-                      <span>메종 당티크 (Maison)</span>
-                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-rose-100 text-rose-800 font-extrabold">D2C 살롱</span>
-                    </div>
-                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
-                      유러피안 오리지널 앤틱 &amp; 프라이빗 살롱
-                    </p>
-                  </div>
-                </Link>
-
-                {/* Hanyang System Demo */}
-                <Link
-                  href="/demo/hysfa"
-                  onClick={() => setPortfolioDropdownOpen(false)}
-                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-cyan-50/60 transition-all group border border-transparent hover:border-cyan-200"
-                >
-                  <div className="p-2 rounded-lg bg-cyan-100 text-cyan-800 border border-cyan-200 shrink-0 group-hover:scale-105 transition-transform">
-                    <Cpu className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
-                      <span>한양시스템 (SEMES SSQ)</span>
-                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-cyan-100 text-cyan-800 font-extrabold">SEMES 협력사</span>
-                    </div>
-                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
-                      반도체 FA 장비 &amp; 초고순도 가스 시스템
-                    </p>
-                  </div>
-                </Link>
-
-                {/* Lithium Demo */}
-                <Link
-                  href="/demo/lithium-foil"
-                  onClick={() => setPortfolioDropdownOpen(false)}
-                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-emerald-50/60 transition-all group border border-transparent hover:border-emerald-200"
-                >
-                  <div className="p-2 rounded-lg bg-emerald-100 text-emerald-800 border border-emerald-200 shrink-0 group-hover:scale-105 transition-transform">
-                    <Activity className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
-                      <span>공정 데이터 모니터링</span>
-                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">LIVE</span>
-                    </div>
-                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
-                      리튬박 제조 KPI·수율·관리도 플랫폼
-                    </p>
-                  </div>
-                </Link>
+                {/* 내부 데모 — 서버가 「공개」인 것만 걸러서 내려 준 배열 */}
+                {demoLinks.map((link) => {
+                  const tone = TONE_CLASSES[link.tone];
+                  const Icon = DEMO_ICONS[link.iconKey];
+                  return (
+                    <Link
+                      key={link.slug}
+                      href={`/demo/${link.slug}`}
+                      onClick={() => setPortfolioDropdownOpen(false)}
+                      className={`flex items-start gap-3 p-3 rounded-xl transition-all group border border-transparent ${tone.dropdownItem}`}
+                    >
+                      <div className={`p-2 rounded-lg border shrink-0 group-hover:scale-105 transition-transform ${tone.dropdownIcon}`}>
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
+                          <span>{link.label}</span>
+                          <span className={`text-[9px] px-1.5 py-0.2 rounded-full font-extrabold ${tone.dropdownBadge}`}>{link.badge}</span>
+                        </div>
+                        <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
+                          {link.description}
+                        </p>
+                      </div>
+                    </Link>
+                  );
+                })}
 
                 {/* T-DOCS */}
                 <a
@@ -300,7 +295,7 @@ export default function Header() {
 
         {/* Right CTAs (Phone & Mobile Toggle) */}
         <div className="flex items-center gap-2 lg:gap-3">
-          
+
           {/* Direct Phone Call Button */}
           <a
             href="tel:010-8672-6463"
@@ -326,7 +321,7 @@ export default function Header() {
       {mobileMenuOpen && (
         <div className="lg:hidden fixed inset-0 top-20 bg-white/98 backdrop-blur-2xl z-50 p-6 overflow-y-auto border-t border-zinc-200 animate-in slide-in-from-top duration-200">
           <div className="max-w-md mx-auto space-y-6">
-            
+
             {/* Primary Nav Links */}
             <div className="space-y-3 pb-6 border-b border-zinc-200">
               <a
@@ -353,118 +348,37 @@ export default function Header() {
             </div>
 
             {/* Operating Solutions Section */}
+            {/* 데스크톱 드롭다운과 같은 배열을 돈다. 내부 데모가 0개여도 자사 서비스 두 줄이 남으므로
+                이 구획이 빈 채로 뜨지는 않는다. */}
             <div>
               <div className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-3">
                 직영 운영 솔루션 &amp; 라이브 데모
               </div>
               <div className="space-y-2">
-                <Link
-                  href="/demo/wonik-qnc"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-blue-400 text-left transition-all"
-                >
-                  <div className="flex items-center gap-3">
-                    <Globe className="w-5 h-5 text-blue-700" />
-                    <div>
-                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
-                        <span>원익큐앤씨 (WONIK QnC)</span>
-                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-blue-100 text-blue-800 font-bold">GLOBAL 1위</span>
+                {demoLinks.map((link) => {
+                  const tone = TONE_CLASSES[link.tone];
+                  const Icon = DEMO_ICONS[link.iconKey];
+                  return (
+                    <Link
+                      key={link.slug}
+                      href={`/demo/${link.slug}`}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 text-left transition-all ${tone.mobileItem}`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <Icon className={`w-5 h-5 ${tone.mobileIcon}`} />
+                        <div>
+                          <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
+                            <span>{link.mobileLabel ?? link.label}</span>
+                            <span className={`text-[9px] px-1.5 py-0.2 rounded-full font-bold ${tone.mobileBadge}`}>{link.badge}</span>
+                          </div>
+                          <div className="text-xs text-zinc-500 mt-0.5">{link.mobileDescription}</div>
+                        </div>
                       </div>
-                      <div className="text-xs text-zinc-500 mt-0.5">반도체 쿼츠웨어 &amp; KOSDAQ IR 데모</div>
-                    </div>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-zinc-400" />
-                </Link>
-
-                <Link
-                  href="/demo/atelier-vaucluse"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-amber-400 text-left transition-all"
-                >
-                  <div className="flex items-center gap-3">
-                    <Compass className="w-5 h-5 text-amber-700" />
-                    <div>
-                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
-                        <span>아뜰리에 보클루즈</span>
-                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-800 font-bold">DEMO</span>
-                      </div>
-                      <div className="text-xs text-zinc-500 mt-0.5">건축·인테리어 스튜디오 실물 데모</div>
-                    </div>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-zinc-400" />
-                </Link>
-
-                <Link
-                  href="/demo/sodamjae"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-stone-400 text-left transition-all"
-                >
-                  <div className="flex items-center gap-3">
-                    <Landmark className="w-5 h-5 text-stone-700" />
-                    <div>
-                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
-                        <span>소담재 건축공방</span>
-                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-stone-200 text-stone-800 font-bold">한옥 명가</span>
-                      </div>
-                      <div className="text-xs text-zinc-500 mt-0.5">전통 결구 &amp; 패시브 주거 한옥 데모</div>
-                    </div>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-zinc-400" />
-                </Link>
-
-                <Link
-                  href="/demo/maison"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-rose-400 text-left transition-all"
-                >
-                  <div className="flex items-center gap-3">
-                    <Crown className="w-5 h-5 text-rose-800" />
-                    <div>
-                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
-                        <span>메종 당티크 (Maison)</span>
-                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-rose-100 text-rose-800 font-bold">D2C 살롱</span>
-                      </div>
-                      <div className="text-xs text-zinc-500 mt-0.5">유러피안 앤틱 가구 &amp; 프라이빗 살롱 데모</div>
-                    </div>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-zinc-400" />
-                </Link>
-
-                <Link
-                  href="/demo/hysfa"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-cyan-400 text-left transition-all"
-                >
-                  <div className="flex items-center gap-3">
-                    <Cpu className="w-5 h-5 text-cyan-700" />
-                    <div>
-                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
-                        <span>한양시스템 (SEMES SSQ)</span>
-                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-cyan-100 text-cyan-800 font-bold">SEMES 협력사</span>
-                      </div>
-                      <div className="text-xs text-zinc-500 mt-0.5">반도체 FA 장비 &amp; 가스 시스템 데모</div>
-                    </div>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-zinc-400" />
-                </Link>
-
-                <Link
-                  href="/demo/lithium-foil"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-emerald-400 text-left transition-all"
-                >
-                  <div className="flex items-center gap-3">
-                    <Activity className="w-5 h-5 text-emerald-700" />
-                    <div>
-                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
-                        <span>공정 데이터 데모</span>
-                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 font-bold">LIVE</span>
-                      </div>
-                      <div className="text-xs text-zinc-500 mt-0.5">리튬박 제조 KPI·수율 대시보드</div>
-                    </div>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-zinc-400" />
-                </Link>
+                      <ArrowRight className="w-4 h-4 text-zinc-400" />
+                    </Link>
+                  );
+                })}
 
                 <a
                   href="https://tdocs.kr"

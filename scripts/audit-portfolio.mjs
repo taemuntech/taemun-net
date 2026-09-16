@@ -29,6 +29,8 @@ const SITE_DEMO_DIR = path.join(ROOT, "src", "app", "(site)", "demo");
  */
 const COMPONENT_DEMO_DIRS = [path.join(ROOT, "src", "components", "demos"), path.join(ROOT, "src", "components", "demo")];
 const PUBLIC_DIR = path.join(ROOT, "public");
+/** 상태를 보고 내주는 자산(제안 시안 썸네일·업체 원본 이미지) — public/ 밖에 둔다 */
+const PRIVATE_ASSETS_DIR = path.join(ROOT, "private-assets");
 
 /** (demos) 루트 레이아웃이 공용 제안 시안 고지를 렌더하는가 — 렌더하면 데모별 문구를 따로 요구하지 않는다 */
 const LAYOUT_PROPOSAL_DISCLAIMER = (() => {
@@ -45,6 +47,9 @@ const DEMOS_DEFAULT_TITLE = "샘플 사이트 — 태문 DEV STUDIO";
 const SITE_COPY_DIRS = [path.join(ROOT, "src", "app", "(site)")];
 const SITE_COPY_FILES = [
   path.join(ROOT, "src", "components", "Header.tsx"),
+  // 헤더 드롭다운 문구(회사 이름·배지·설명)는 Header.tsx 에서 이 파일로 옮겼다 — 검사 범위도 같이 옮긴다.
+  // 안 넣으면 실존 업체에 대한 단정 표현이 어디에도 안 걸린다.
+  path.join(ROOT, "src", "lib", "portfolio", "header-links.ts"),
   path.join(ROOT, "src", "components", "FloatingChatWidget.tsx"),
   path.join(ROOT, "src", "app", "api", "inquiry", "route.ts"),
 ];
@@ -131,7 +136,7 @@ const warn = (f, m) => add(f, "WARN", m);
  * 형·가온이 고른 홈 대표작 샘플 — 공장 샘플은 featured/order 를 넣지 않는다(6장).
  * 여기 없는 샘플 카드에 featured/order 가 있으면 WARN.
  */
-const CURATED_SAMPLE_SLUGS = new Set(["atelier-vaucluse", "lithium-foil"]);
+const CURATED_SAMPLE_SLUGS = new Set(["atelier-vaucluse", "lithium-foil", "maison"]);
 
 /** 카드 summary 에 「계약·납품한 사례가 아니다」 취지가 있는지 — schema 는 「제안용 시안」이라는 말만 ERROR 로 본다 */
 const PROPOSAL_SUMMARY_NOT_A_CASE =
@@ -241,8 +246,13 @@ for (const c of cards) {
   ]) {
     if (typeof p !== "string") continue;
     if (/^https?:\/\//.test(p)) continue; // 외부 주소는 실측(--base)에서만 본다
-    const full = path.join(PUBLIC_DIR, p.replace(/^\/+/, ""));
-    if (!fs.existsSync(full)) missing.push(`${label} public${p.startsWith("/") ? "" : "/"}${p}`);
+    // 상태를 따라야 하는 썸네일(제안 시안)은 public/ 밖(private-assets/)에 있고 주소만 그대로다 —
+    // 두 곳을 다 본다. 한 곳만 보면 「내려도 열리는 파일」을 고친 뒤 이 검사가 거짓으로 짖는다.
+    const rel = p.replace(/^\/+/, "");
+    const inPublic = fs.existsSync(path.join(PUBLIC_DIR, rel));
+    const privateRel = rel.startsWith("portfolio/") ? rel : `company/${rel}`;
+    const inPrivate = fs.existsSync(path.join(PRIVATE_ASSETS_DIR, privateRel));
+    if (!inPublic && !inPrivate) missing.push(`${label} public${p.startsWith("/") ? "" : "/"}${p}`);
   }
   if (missing.length) {
     const hint =
