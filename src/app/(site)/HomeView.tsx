@@ -34,7 +34,7 @@ import {
   Monitor,
 } from "lucide-react";
 
-export default function Home() {
+export default function HomeView() {
   // State for category accordion expand/collapse
   const [expandedCategories, setExpandedCategories] = useState<Record<GalleryCategoryId, boolean>>({
     manufacturing: false,

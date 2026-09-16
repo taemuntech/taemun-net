@@ -1,0 +1,21 @@
+{
+  "slug": "taemun-bridge",
+  "kind": "service",
+  "industry": "platform",
+  "title": "태문브릿지",
+  "subtitle": "건축·인테리어 의뢰인과 전문가를 잇는 매칭 플랫폼",
+  "summary": "건축·인테리어 의뢰인과 전문가를 잇는 매칭 플랫폼으로, 태문이 직접 운영하고 있습니다. 견적 요청부터 계약까지 단계별 견적 흐름에 본인인증, 멤버십 정기결제, 카카오 알림톡을 연결했습니다.",
+  "features": [
+    "견적 요청부터 계약까지 단계별 견적 흐름",
+    "PASS·KGI 본인인증",
+    "PortOne 빌링키 정기결제(멤버십 구독)",
+    "SOLAPI 카카오 알림톡",
+    "Supabase RLS 기반 데이터 접근 제어"
+  ],
+  "techStack": ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS v4", "Supabase", "PortOne", "SOLAPI"],
+  "liveUrl": "https://taemun.co.kr",
+  "thumbnail": { "desktop": "/images/mockup_taemun_bridge.jpg" },
+  "featured": true,
+  "order": 4,
+  "createdAt": "2026-08-01"
+}

@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Send, Phone, Lock, CheckCircle2, Copy, Check } from 'lucide-react';
+import { Send, Phone, Lock, Copy, Check } from 'lucide-react';
+import SampleNotice from '@/components/demo-kit/SampleNotice';
 import { ConsultationFormData } from '../types';
 
 interface ConsultationFormProps {
@@ -20,8 +21,8 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({ currentLang 
     agreedPrivacy: false,
   });
 
-  const [submitted, setSubmitted] = useState(false);
-  const [refNumber, setRefNumber] = useState('');
+  const [noticeOpen, setNoticeOpen] = useState(false);
+  const [privacyError, setPrivacyError] = useState<string | null>(null);
   const [copiedPhone, setCopiedPhone] = useState(false);
 
   const toggleDivision = (division: string) => {
@@ -43,15 +44,15 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({ currentLang 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.agreedPrivacy) {
-      alert(currentLang === 'KR' ? '개인정보 수집 및 이용 약관에 동의해 주세요.' : 'Please accept the privacy terms.');
+      setPrivacyError(
+        currentLang === 'KR' ? '개인정보 수집 및 이용 약관에 동의해 주세요.' : 'Please accept the privacy terms.'
+      );
       return;
     }
+    setPrivacyError(null);
 
-    const generatedRef = `HY-${new Date().getFullYear()}${(new Date().getMonth() + 1)
-      .toString()
-      .padStart(2, '0')}-${Math.floor(1000 + Math.random() * 9000)}`;
-    setRefNumber(generatedRef);
-    setSubmitted(true);
+    // 제안용 시안 — 입력값을 어디에도 보내지 않고 공용 안내만 연다
+    setNoticeOpen(true);
   };
 
   const handleCopyPhone = () => {
@@ -79,59 +80,6 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({ currentLang 
             </p>
           </div>
 
-          {submitted ? (
-            <div className="bg-white p-8 rounded-xl border border-[#0052cc]/30 text-center space-y-5 animate-fadeIn">
-              <div className="w-16 h-16 bg-[#e2e7ff] text-[#003d9b] rounded-full flex items-center justify-center mx-auto">
-                <CheckCircle2 className="w-10 h-10 text-[#0052cc]" />
-              </div>
-              <div>
-                <h3 className="text-[22px] font-bold text-[#131b2e]">
-                  {currentLang === 'KR' ? '기술 문의가 정상적으로 접수되었습니다' : 'Inquiry Successfully Submitted'}
-                </h3>
-                <p className="text-[14px] text-[#434654] mt-2">
-                  {currentLang === 'KR' ? (
-                    <>
-                      접수번호: <strong className="font-mono text-[#0052cc]">{refNumber}</strong>
-                      <br />
-                      엔지니어링 기술팀에서 검토 후 기재해주신 연락처로 24시간 내 연락드리겠습니다.
-                    </>
-                  ) : (
-                    <>
-                      Reference No: <strong className="font-mono text-[#0052cc]">{refNumber}</strong>
-                      <br />
-                      Our engineering division will review your specs and contact you within 24 hours.
-                    </>
-                  )}
-                </p>
-              </div>
-
-              <div className="p-4 bg-[#f2f3ff] rounded-lg text-left text-[13px] text-[#434654] max-w-md mx-auto space-y-1">
-                <div><strong>{currentLang === 'KR' ? '회사명:' : 'Company:'}</strong> {formData.company}</div>
-                <div><strong>{currentLang === 'KR' ? '담당자:' : 'Contact:'}</strong> {formData.personName}</div>
-                <div><strong>{currentLang === 'KR' ? '부문:' : 'Divisions:'}</strong> {formData.divisions.join(', ')}</div>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setSubmitted(false);
-                  setFormData({
-                    company: '',
-                    personName: '',
-                    phone: '',
-                    email: '',
-                    divisions: ['장비사업부 (FA설비)'],
-                    timeline: '즉시 협의 (1개월 이내)',
-                    requirements: '',
-                    agreedPrivacy: false,
-                  });
-                }}
-                className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#0052cc] text-white rounded-lg text-[14px] font-semibold hover:bg-[#003d9b] transition-colors cursor-pointer"
-              >
-                {currentLang === 'KR' ? '추가 문의 접수하기' : 'Submit Another Request'}
-              </button>
-            </div>
-          ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Company Name */}
@@ -283,7 +231,17 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({ currentLang 
                 </label>
               </div>
 
+              {privacyError && (
+                <p className="text-[13px] font-medium text-[#ba1a1a]">{privacyError}</p>
+              )}
+
               {/* Submit Button */}
+              <p className="text-[13px] font-semibold text-[#003d9b] text-center">
+                {currentLang === 'KR'
+                  ? '제안용 시안 — 실제로 접수되지 않습니다'
+                  : 'Proposal mockup — nothing is actually submitted'}
+              </p>
+
               <button
                 type="submit"
                 id="btn-submit-consultation"
@@ -293,7 +251,6 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({ currentLang 
                 <Send className="w-5 h-5" />
               </button>
             </form>
-          )}
 
           {/* Quick Contact & Security Disclaimer */}
           <div className="mt-8 pt-6 border-t border-[#c3c6d6]/30 flex flex-wrap items-center justify-between text-[#434654] text-[13px] gap-4">
@@ -323,6 +280,15 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({ currentLang 
           </div>
         </div>
       </div>
+
+      <SampleNotice
+        open={noticeOpen}
+        onClose={() => setNoticeOpen(false)}
+        slug="hysfa"
+        industry="manufacturing"
+        featureName="기술 견적 문의"
+        kind="proposal"
+      />
     </section>
   );
 };

@@ -28,9 +28,3 @@ export interface ConsultationFormData {
   notes: string;
   privacyAgreed: boolean;
 }
-
-export interface SubmissionRecord extends ConsultationFormData {
-  id: string;
-  submittedAt: string;
-  status: '접수 완료' | '검토 중';
-}

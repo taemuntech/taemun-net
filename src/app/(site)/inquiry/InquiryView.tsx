@@ -1,5 +1,13 @@
 "use client";
 
+// 프로젝트 견적 문의 화면 — 서버 래퍼는 page.tsx.
+// 샘플 사이트에서 넘어온 경우(/inquiry?from=<slug>&industry=<key>) 서비스를 미리 고르고 안내 칩을 띄운다.
+// 어느 샘플을 보고 왔는지는 방문자가 고칠 수 있는 「기타 문의 내용」이 아니라 요청 본문의 referral 칸으로 따로 보낸다
+// (API 가 다시 검증해 저장·문자에 넣는다 — 샘플별 전환을 셀 수 있게). 백엔드는 src/app/api/inquiry.
+//
+// 약속 문구 원칙: 연락 시각(「1시간 이내」「24시간」)·지체상금·무상 A/S 기간처럼 계약서에 없는 조건을 쓰지 않는다.
+// 형이 조건을 확정하면 화면·고객 문자(api/inquiry)·홈·상담 위젯 네 곳을 같은 문구로 맞춘다.
+
 import ParticleCanvas from "@/components/ParticleCanvas";
 import { 
   ArrowLeft, 
@@ -8,6 +16,7 @@ import {
   Clock, 
   Code, 
   FileCheck, 
+  FileText, 
   HelpCircle, 
   Layers, 
   Lock, 
@@ -15,16 +24,95 @@ import {
   PhoneCall, 
   Send, 
   ShieldCheck, 
-  FileText, 
   ThumbsUp, 
   Zap 
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useId, useState } from "react";
+import { parseInquiryIndustry, parseSampleInquiry } from "@/components/demo-kit/sample-lead";
+import { industryLabel, type IndustryKey, type PortfolioKind } from "@/lib/portfolio/schema";
 
-export default function InquiryPage() {
+/** 포트폴리오 등록 정보 색인(샘플·운영 서비스·사례 전부) — 서버 page 가 넘긴다(직렬화 가능한 값만) */
+export type SampleIndex = Record<string, { title: string; industry: IndustryKey; kind: PortfolioKind }>;
+
+/** 포트폴리오(샘플 바·샘플 안내·갤러리 카드)에서 넘어온 문의 — 화면에 쓰기 좋게 풀어 둔 것 */
+export type SampleReferral = {
+  from: string;
+  title: string;
+  industry?: IndustryKey;
+  /** 등록되지 않은 slug 면 없음 — 「포트폴리오」로 부른다 */
+  kind?: PortfolioKind;
+};
+
+/** 칩·상세 내용에 쓰는 이름. 운영 서비스를 「샘플」이라고 부르지 않게 종류별로 나눈다 */
+const REFERRAL_NOUN: Record<PortfolioKind | "unknown", { label: string; object: string }> = {
+  sample: { label: "샘플", object: "샘플을" },
+  proposal: { label: "제안용 시안", object: "제안용 시안을" },
+  service: { label: "운영 서비스", object: "운영 서비스를" },
+  case: { label: "구축 사례", object: "구축 사례를" },
+  unknown: { label: "포트폴리오", object: "포트폴리오를" },
+};
+
+function referralNoun(referral: SampleReferral) {
+  return REFERRAL_NOUN[referral.kind ?? "unknown"];
+}
+
+function serviceForIndustry(industry: IndustryKey | undefined): string {
+  if (industry === "commerce") return "shopping-mall";
+  if (industry === "platform") return "custom-web-app";
+  return "company-homepage";
+}
+
+/** 요청 본문의 referral 칸 — API 가 parseSampleInquiry 규칙으로 다시 검증한다. 업종만 들고 온 문의(?industry=)는 from 이 없다 */
+export type InquiryReferralPayload = {
+  from?: string;
+  industry?: IndustryKey;
+  kind?: PortfolioKind;
+};
+
+function referralPayload(referral: SampleReferral): InquiryReferralPayload {
+  return { from: referral.from, industry: referral.industry, kind: referral.kind };
+}
+
+function referralChipLabel(referral: SampleReferral): string {
+  const industry = referral.industry ? ` · ${industryLabel(referral.industry)}` : "";
+  return `${referralNoun(referral).label}${industry}`;
+}
+
+/**
+ * 주소의 from·industry 를 읽어 InquiryView 에 넘긴다. useSearchParams 를 쓰므로 page.tsx 에서 Suspense 안에 둔다.
+ * industry 가 주소에 없으면(상단 바에서 온 경우) 포트폴리오 등록 정보로 채운다.
+ */
+export function InquiryViewWithReferral({ sampleIndex }: { sampleIndex: SampleIndex }) {
+  const searchParams = useSearchParams();
+  const parsed = parseSampleInquiry(searchParams);
+  const known = parsed ? sampleIndex[parsed.from] : undefined;
+  // from 없이 업종만 온 경우(홈 갤러리 구성 예시·아직 샘플이 없는 업종 안내) — 서비스만 미리 고르고 업종을 함께 보낸다
+  const industryLead = parsed ? null : parseInquiryIndustry(searchParams);
+  const referral: SampleReferral | null = parsed
+    ? {
+        from: parsed.from,
+        title: known?.title ?? parsed.from,
+        // 등록 정보가 정본 — 주소의 industry 는 등록되지 않은 slug 일 때만 쓴다
+        industry: known?.industry ?? parsed.industry,
+        kind: known?.kind,
+      }
+    : null;
+  return <InquiryView referral={referral} industryLead={industryLead} />;
+}
+
+export default function InquiryView({
+  referral,
+  industryLead = null,
+}: {
+  referral: SampleReferral | null;
+  industryLead?: IndustryKey | null;
+}) {
   const [step, setStep] = useState(1);
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [selectedServices, setSelectedServices] = useState<string[]>(() =>
+    referral ? [serviceForIndustry(referral.industry)] : industryLead ? [serviceForIndustry(industryLead)] : []
+  );
   const [budget, setBudget] = useState("");
   const [timeline, setTimeline] = useState("");
   const [clientName, setClientName] = useState("");
@@ -32,6 +120,7 @@ export default function InquiryPage() {
   const [email, setEmail] = useState("");
   const [referenceUrl, setReferenceUrl] = useState("");
   const [details, setDetails] = useState("");
+  const fieldId = useId();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -40,7 +129,7 @@ export default function InquiryPage() {
     { id: "company-homepage", label: "기업/회사 홍보 홈페이지", desc: "브랜드 대표 반응형 사이트 & 랜딩페이지" },
     { id: "shopping-mall", label: "쇼핑몰 · 예약 · 커머스", desc: "제품 판매, 예약 시스템, PG 결제 연동" },
     { id: "custom-web-app", label: "맞춤형 웹 · 앱 개발", desc: "회원/관리자 시스템, 대형 플랫폼, 특수 웹앱" },
-    { id: "tdocs-saas", label: "모바일 전자서식 (T-DOCS)", desc: "카톡 3초 전자서명 & 23종 캔버스 서식 모듈" },
+    { id: "tdocs-saas", label: "모바일 전자서식 (T-DOCS)", desc: "카카오톡 모바일 전자서명 & 240여 종 서식" },
     { id: "pg-billing", label: "PG 결제 & 정기구독 빌링", desc: "포트원·토스페이먼츠 정기자동결제 모듈" },
     { id: "renewal-maintenance", label: "웹사이트 리뉴얼 & 고도화", desc: "디자인 리뉴얼 및 기능 고도화 유지보수" },
     { id: "undecided", label: "아직 미정", desc: "상담을 통해 맞춤형 서비스 추천" },
@@ -50,12 +139,12 @@ export default function InquiryPage() {
     "300만 원 미만 (기본 런칭)",
     "300만 원 ~ 500만 원 (스마트 패키지)",
     "500만 원 ~ 1,000만 원 (프리미엄 솔루션)",
-    "1,000만 원 이상 (대형 플랫폼 / 3D 융합)",
+    "1,000만 원 이상 (대형 플랫폼)",
     "미정 (상담 시 안내 받기)",
   ];
 
   const timelineOptions = [
-    "2주 이내 (초고속 MVP 런칭)",
+    "2주 이내",
     "1개월 이내",
     "2개월 이내",
     "일정 협의 가능",
@@ -112,6 +201,7 @@ export default function InquiryPage() {
           email,
           referenceUrl,
           details,
+          referral: referral ? referralPayload(referral) : industryLead ? { industry: industryLead } : undefined,
         }),
       });
 
@@ -166,75 +256,75 @@ export default function InquiryPage() {
       <div className="pt-28 lg:pt-32 pb-20 lg:pb-24 px-4 lg:px-6 max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           
-          {/* Left Column: Why TAEMUN DEV STUDIO & Trust Badges */}
+          {/* Left Column: 일하는 방식 — 계약서에 적을 수 있는 사실만. 모바일에서는 위저드 아래로 내려간다 */}
           <div className="lg:col-span-5 space-y-6 lg:space-y-8">
             <div className="space-y-3 lg:space-y-4">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-950/80 border border-indigo-500/30 text-indigo-300 text-xs font-semibold">
-                <FileText className="w-3.5 h-3.5" />
-                <span>1:1 무료 맞춤 기술 견적 신청</span>
+                <FileText className="w-3.5 h-3.5" aria-hidden="true" />
+                <span>4단계 무료 견적 문의</span>
               </div>
               <h1 className="text-2xl lg:text-4xl font-extrabold text-white leading-tight">
-                왜 국내 대표님들이<br />
+                태문 DEV STUDIO 는<br />
                 <span className="bg-gradient-to-r from-white via-indigo-200 to-purple-300 bg-clip-text text-transparent">
-                  태문 개발팀을 선택할까요?
+                  이렇게 일합니다
                 </span>
               </h1>
               <p className="text-xs lg:text-sm text-gray-400 leading-relaxed">
-                단순 2D 템플릿 복사가 아닙니다. 기획자·개발자 간의 전달 오류 제로. 총괄 아키텍트가 1:1로 직접 챙기는 고성능 시스템 구축.
+                업종별 샘플을 먼저 보고, 필요한 기능과 예산·일정을 골라 보내 주세요. 상담부터 개발까지 총괄 개발자가 직접 맡습니다.
               </p>
             </div>
 
-            {/* 4 Trust Cards */}
+            {/* 일하는 방식 4가지 — 「보장」「0%」「24시간」 같은 단정 대신 계약서로 정하는 항목으로 적는다 */}
             <div className="space-y-3 lg:space-y-4">
               <div className="p-4 lg:p-5 rounded-2xl bg-gray-900/60 border border-white/10 backdrop-blur-md flex items-start gap-3.5">
                 <div className="w-9 lg:w-10 h-9 lg:h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shrink-0">
-                  <ShieldCheck className="w-5 h-5" />
+                  <ShieldCheck className="w-5 h-5" aria-hidden="true" />
                 </div>
                 <div>
-                  <h4 className="text-xs lg:text-sm font-bold text-white mb-0.5">납기일 엄수 & 지체상금 보장</h4>
-                  <p className="text-[11px] lg:text-xs text-gray-400">약속된 기한을 철저히 준수하며 납기 지연 시 일당 지체상금 차감 지원</p>
+                  <h2 className="text-xs lg:text-sm font-bold text-white mb-0.5">범위와 일정을 먼저 문서로 합의</h2>
+                  <p className="text-[11px] lg:text-xs text-gray-400">만들 기능·일정·납품물을 계약 전에 문서로 정리하고, 그 기준으로 진행합니다</p>
                 </div>
               </div>
 
               <div className="p-4 lg:p-5 rounded-2xl bg-gray-900/60 border border-white/10 backdrop-blur-md flex items-start gap-3.5">
                 <div className="w-9 lg:w-10 h-9 lg:h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 shrink-0">
-                  <Code className="w-5 h-5" />
+                  <Code className="w-5 h-5" aria-hidden="true" />
                 </div>
                 <div>
-                  <h4 className="text-xs lg:text-sm font-bold text-white mb-0.5">소스코드 100% 소유권 이전</h4>
-                  <p className="text-[11px] lg:text-xs text-gray-400">월 관리비 강요 0%. 모든 깃허브 소스코드와 DB 소유권을 완전 양도</p>
+                  <h2 className="text-xs lg:text-sm font-bold text-white mb-0.5">소스코드·데이터 이전</h2>
+                  <p className="text-[11px] lg:text-xs text-gray-400">납품할 때 소스코드와 데이터베이스를 넘겨 드립니다. 이전 범위는 계약서에 적습니다</p>
                 </div>
               </div>
 
               <div className="p-4 lg:p-5 rounded-2xl bg-gray-900/60 border border-white/10 backdrop-blur-md flex items-start gap-3.5">
                 <div className="w-9 lg:w-10 h-9 lg:h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
-                  <Clock className="w-5 h-5" />
+                  <Clock className="w-5 h-5" aria-hidden="true" />
                 </div>
                 <div>
-                  <h4 className="text-xs lg:text-sm font-bold text-white mb-0.5">24시간 실시간 스태징 서버 공개</h4>
-                  <p className="text-[11px] lg:text-xs text-gray-400">깜깜이 개발 0%. 개발 진행 중인 스태징 URL을 실시간 공개하여 소통 지원</p>
+                  <h2 className="text-xs lg:text-sm font-bold text-white mb-0.5">개발 중 확인용 주소 공유</h2>
+                  <p className="text-[11px] lg:text-xs text-gray-400">만들고 있는 화면을 테스트 주소로 공유해 중간중간 직접 눌러 보실 수 있습니다</p>
                 </div>
               </div>
 
               <div className="p-4 lg:p-5 rounded-2xl bg-gray-900/60 border border-white/10 backdrop-blur-md flex items-start gap-3.5">
                 <div className="w-9 lg:w-10 h-9 lg:h-10 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 shrink-0">
-                  <ThumbsUp className="w-5 h-5" />
+                  <ThumbsUp className="w-5 h-5" aria-hidden="true" />
                 </div>
                 <div>
-                  <h4 className="text-xs lg:text-sm font-bold text-white mb-0.5">3개월 무상 버그 A/S 보장</h4>
-                  <p className="text-[11px] lg:text-xs text-gray-400">오픈 후 3개월간 버그 및 오타 발생 시 무상으로 즉시 수정 책임 지원</p>
+                  <h2 className="text-xs lg:text-sm font-bold text-white mb-0.5">오픈 후 수정 지원</h2>
+                  <p className="text-[11px] lg:text-xs text-gray-400">오픈 뒤 발견된 오류의 무상 수정 기간과 범위는 계약서에 명시합니다</p>
                 </div>
               </div>
             </div>
 
             <div className="p-5 lg:p-6 rounded-2xl bg-gradient-to-br from-indigo-950/60 to-purple-950/60 border border-indigo-500/30 backdrop-blur-md text-xs space-y-3">
               <div className="flex items-center gap-2 font-bold text-indigo-300">
-                <PhoneCall className="w-4 h-4" />
-                <span>유선 전화 상담도 언제든 가능합니다</span>
+                <PhoneCall className="w-4 h-4" aria-hidden="true" />
+                <span>전화로 상담하셔도 됩니다</span>
               </div>
               <div className="grid grid-cols-1 gap-2 pt-1">
                 <a href="tel:010-8672-6463" className="flex items-center gap-3 p-3 rounded-xl bg-indigo-600/20 border border-indigo-500/40 hover:border-indigo-400 transition-all text-white font-bold">
-                  <PhoneCall className="w-4.5 h-4.5 text-indigo-400 shrink-0" />
+                  <PhoneCall className="w-4.5 h-4.5 text-indigo-400 shrink-0" aria-hidden="true" />
                   <div className="text-left">
                     <div className="text-[10px] text-indigo-300 uppercase font-bold">총괄 아키텍트 직통</div>
                     <div className="text-sm lg:text-base text-white">010-8672-6463</div>
@@ -248,8 +338,8 @@ export default function InquiryPage() {
             </div>
           </div>
 
-          {/* Right Column: Interactive 4-Step Wizard */}
-          <div className="lg:col-span-7">
+          {/* Right Column: Interactive 4-Step Wizard — 모바일(lg 미만)에서는 맨 위. 문의하러 온 방문자가 첫 화면에서 폼을 본다 */}
+          <div className="lg:col-span-7 order-first lg:order-none">
             <div className="bg-gray-900/80 border border-white/10 backdrop-blur-xl rounded-3xl p-6 lg:p-10 shadow-2xl shadow-indigo-500/10 relative">
 
               {isSubmitted ? (
@@ -266,7 +356,7 @@ export default function InquiryPage() {
                   </h2>
 
                   <p className="text-xs lg:text-sm text-gray-300 max-w-md mx-auto leading-relaxed">
-                    작성해 주신 내용을 바탕으로 총괄 아키텍트가 1시간 이내로 연락해 정밀 견적과 개발 일정을 안내해 드리겠습니다.
+                    작성해 주신 내용을 확인한 뒤 총괄 아키텍트가 연락드려 견적과 개발 일정을 안내해 드리겠습니다.
                   </p>
 
                   <div className="pt-4">
@@ -282,6 +372,23 @@ export default function InquiryPage() {
               ) : (
                 /* Step Wizard View */
                 <div>
+                  {/* 샘플 사이트에서 넘어온 경우 안내 칩 */}
+                  {referral && (
+                    <div className="mb-5 lg:mb-6 inline-flex max-w-full items-start gap-2 px-3.5 py-2 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold">
+                      <Layers className="w-3.5 h-3.5 mt-0.5 shrink-0" aria-hidden="true" />
+                      <span>
+                        「{referral.title}」 {referralNoun(referral).object} 보고 오셨군요 — 비슷하게 만들어 드립니다
+                        <span className="sr-only"> ({referralChipLabel(referral)})</span>
+                      </span>
+                    </div>
+                  )}
+                  {!referral && industryLead && (
+                    <div className="mb-5 lg:mb-6 inline-flex max-w-full items-start gap-2 px-3.5 py-2 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold">
+                      <Layers className="w-3.5 h-3.5 mt-0.5 shrink-0" aria-hidden="true" />
+                      <span>「{industryLabel(industryLead)}」 업종으로 문의하시는군요 — 업종에 맞춰 상담해 드립니다</span>
+                    </div>
+                  )}
+
                   {/* Progress Header */}
                   <div className="mb-6 lg:mb-8 space-y-2.5">
                     <div className="flex items-center justify-between text-xs font-bold">
@@ -298,8 +405,9 @@ export default function InquiryPage() {
 
                   {/* Error Notification */}
                   {errorMessage && (
-                    <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs font-medium animate-in fade-in">
-                      ⚠️ {errorMessage}
+                    <div role="alert" className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs font-medium animate-in fade-in">
+                      <span aria-hidden="true">⚠️ </span>
+                      {errorMessage}
                     </div>
                   )}
 
@@ -313,13 +421,14 @@ export default function InquiryPage() {
                         <p className="text-xs text-gray-400">필요한 모든 항목을 자유롭게 복수 선택해 주세요.</p>
                       </div>
 
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                      <div role="group" aria-label="필요한 서비스 (복수 선택)" className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                         {serviceOptions.map((item) => {
                           const isSelected = selectedServices.includes(item.id);
                           return (
                             <button
                               key={item.id}
                               type="button"
+                              aria-pressed={isSelected}
                               onClick={() => toggleService(item.id)}
                               className={`p-3.5 lg:p-4 rounded-2xl border text-left transition-all flex flex-col justify-between ${
                                 isSelected
@@ -367,13 +476,15 @@ export default function InquiryPage() {
                         <p className="text-xs text-gray-400">예산에 최적화된 기술 아키텍처를 제안해 드립니다.</p>
                       </div>
 
-                      <div className="space-y-2.5 lg:space-y-3">
+                      <div role="radiogroup" aria-label="예상 예산 범위" className="space-y-2.5 lg:space-y-3">
                         {budgetOptions.map((opt, idx) => {
                           const isSelected = budget === opt;
                           return (
                             <button
                               key={idx}
                               type="button"
+                              role="radio"
+                              aria-checked={isSelected}
                               onClick={() => setBudget(opt)}
                               className={`w-full p-3.5 lg:p-4 rounded-2xl border text-left font-bold text-xs lg:text-sm transition-all flex items-center justify-between ${
                                 isSelected
@@ -421,16 +532,18 @@ export default function InquiryPage() {
                         <h3 className="text-xl lg:text-2xl font-bold text-white mb-1.5">
                           3. 언제까지 서비스 완성이 필요하신가요? <span className="text-indigo-400">*</span>
                         </h3>
-                        <p className="text-xs text-gray-400">초고속 MVP 런칭부터 정밀 구축까지 선택해 주세요.</p>
+                        <p className="text-xs text-gray-400">희망 일정을 선택해 주세요. 실제 일정은 범위에 맞춰 견적서에 적습니다.</p>
                       </div>
 
-                      <div className="space-y-2.5 lg:space-y-3">
+                      <div role="radiogroup" aria-label="희망 완수 일정" className="space-y-2.5 lg:space-y-3">
                         {timelineOptions.map((opt, idx) => {
                           const isSelected = timeline === opt;
                           return (
                             <button
                               key={idx}
                               type="button"
+                              role="radio"
+                              aria-checked={isSelected}
                               onClick={() => setTimeline(opt)}
                               className={`w-full p-3.5 lg:p-4 rounded-2xl border text-left font-bold text-xs lg:text-sm transition-all flex items-center justify-between ${
                                 isSelected
@@ -478,16 +591,18 @@ export default function InquiryPage() {
                         <h3 className="text-xl lg:text-2xl font-bold text-white mb-1.5">
                           4. 맞춤 견적서를 받아보실 정보를 입력해 주세요
                         </h3>
-                        <p className="text-xs text-gray-400">입력해 주신 정보로 1시간 이내에 맞춤 제안서를 보내드립니다.</p>
+                        <p className="text-xs text-gray-400">입력해 주신 연락처로 확인 후 연락드려 견적을 안내해 드립니다.</p>
                       </div>
 
                       <div className="space-y-3.5 lg:space-y-4 text-left">
                         <div>
-                          <label className="block text-xs font-bold text-gray-300 mb-1">
-                            성함 / 회사명 <span className="text-indigo-400">*</span>
+                          <label htmlFor={`${fieldId}-name`} className="block text-xs font-bold text-gray-300 mb-1">
+                            성함 / 회사명 <span className="text-indigo-400" aria-hidden="true">*</span>
                           </label>
                           <input
+                            id={`${fieldId}-name`}
                             type="text"
+                            autoComplete="name"
                             required
                             placeholder="예: 홍길동 대표 / 태문기업"
                             value={clientName}
@@ -497,11 +612,13 @@ export default function InquiryPage() {
                         </div>
 
                         <div>
-                          <label className="block text-xs font-bold text-gray-300 mb-1">
-                            연락처 (핸드폰 번호) <span className="text-indigo-400">*</span>
+                          <label htmlFor={`${fieldId}-phone`} className="block text-xs font-bold text-gray-300 mb-1">
+                            연락처 (핸드폰 번호) <span className="text-indigo-400" aria-hidden="true">*</span>
                           </label>
                           <input
+                            id={`${fieldId}-phone`}
                             type="tel"
+                            autoComplete="tel"
                             required
                             placeholder="예: 010-1234-5678"
                             value={phone}
@@ -512,9 +629,11 @@ export default function InquiryPage() {
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3.5 lg:gap-4">
                           <div>
-                            <label className="block text-xs font-bold text-gray-300 mb-1">이메일 (선택)</label>
+                            <label htmlFor={`${fieldId}-email`} className="block text-xs font-bold text-gray-300 mb-1">이메일 (선택)</label>
                             <input
+                              id={`${fieldId}-email`}
                               type="email"
+                              autoComplete="email"
                               placeholder="example@company.com"
                               value={email}
                               onChange={(e) => setEmail(e.target.value)}
@@ -523,8 +642,9 @@ export default function InquiryPage() {
                           </div>
 
                           <div>
-                            <label className="block text-xs font-bold text-gray-300 mb-1">참고 사이트 URL (선택)</label>
+                            <label htmlFor={`${fieldId}-reference`} className="block text-xs font-bold text-gray-300 mb-1">참고 사이트 URL (선택)</label>
                             <input
+                              id={`${fieldId}-reference`}
                               type="url"
                               placeholder="https://example.com"
                               value={referenceUrl}
@@ -535,8 +655,9 @@ export default function InquiryPage() {
                         </div>
 
                         <div>
-                          <label className="block text-xs font-bold text-gray-300 mb-1">기타 문의 내용 (선택)</label>
+                          <label htmlFor={`${fieldId}-details`} className="block text-xs font-bold text-gray-300 mb-1">기타 문의 내용 (선택)</label>
                           <textarea
+                            id={`${fieldId}-details`}
                             rows={3}
                             placeholder="구현하고 싶으신 핵심 기능이나 자유로운 문의 내용을 적어주세요."
                             value={details}

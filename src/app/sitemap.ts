@@ -10,16 +10,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     {
+      url: "https://taemun.net/portfolio",
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
       url: "https://taemun.net/inquiry",
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.8,
     },
-    {
-      url: "https://taemun.net/demo/lithium-foil",
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
+    // 샘플(/demo/*)은 noindex 라 싣지 않는다
   ];
 }

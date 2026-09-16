@@ -2,13 +2,10 @@
 
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, ExternalLink, Send, CheckCircle } from 'lucide-react';
-import { ConsultationFormData, SubmissionRecord } from './types';
+import SampleNotice from '@/components/demo-kit/SampleNotice';
+import { ConsultationFormData } from './types';
 
-interface ConsultationProps {
-  onSubmitSuccess: (record: SubmissionRecord) => void;
-}
-
-export const Consultation: React.FC<ConsultationProps> = ({ onSubmitSuccess }) => {
+export const Consultation: React.FC = () => {
   const [formData, setFormData] = useState<ConsultationFormData>({
     name: '',
     phone: '',
@@ -20,7 +17,7 @@ export const Consultation: React.FC<ConsultationProps> = ({ onSubmitSuccess }) =
     privacyAgreed: false,
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [noticeOpen, setNoticeOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleChange = (
@@ -70,45 +67,8 @@ export const Consultation: React.FC<ConsultationProps> = ({ onSubmitSuccess }) =
       return;
     }
 
-    setIsSubmitting(true);
-
-    setTimeout(() => {
-      const newRecord: SubmissionRecord = {
-        ...formData,
-        id: `VC-${Date.now().toString().slice(-6)}`,
-        submittedAt: new Date().toLocaleString('ko-KR', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-        }),
-        status: '접수 완료',
-      };
-
-      // Save to localStorage history
-      try {
-        const existing = JSON.parse(localStorage.getItem('vaucluse_submissions') || '[]');
-        localStorage.setItem('vaucluse_submissions', JSON.stringify([newRecord, ...existing]));
-      } catch {
-        // ignore storage errors
-      }
-
-      setIsSubmitting(false);
-      onSubmitSuccess(newRecord);
-
-      // Reset form
-      setFormData({
-        name: '',
-        phone: '',
-        spaceType: '아파트 / 주거 리노베이션',
-        area: '',
-        location: '',
-        expectedDate: '',
-        notes: '',
-        privacyAgreed: false,
-      });
-    }, 600);
+    // 샘플 사이트 — 입력값을 어디에도 보내지 않고 공용 안내만 연다
+    setNoticeOpen(true);
   };
 
   return (
@@ -353,24 +313,29 @@ export const Consultation: React.FC<ConsultationProps> = ({ onSubmitSuccess }) =
                 </label>
               </div>
 
+              <p className="text-xs lg:text-sm text-[#904b35] font-sans font-medium text-center">
+                샘플 사이트 — 실제로 접수되지 않습니다
+              </p>
+
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-[#2b2b28] text-[#faf9f7] hover:bg-[#904b35] disabled:bg-[#777770] transition-all duration-300 py-4 rounded text-xs font-semibold uppercase tracking-[0.2em] font-sans flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow"
+                className="w-full bg-[#2b2b28] text-[#faf9f7] hover:bg-[#904b35] transition-all duration-300 py-4 rounded text-xs font-semibold uppercase tracking-[0.2em] font-sans flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow"
               >
-                {isSubmitting ? (
-                  <span>신청서 전송 중...</span>
-                ) : (
-                  <>
-                    <span>1:1 상담 및 견적 신청서 발송</span>
-                    <Send size={14} />
-                  </>
-                )}
+                <span>1:1 상담 및 견적 신청서 발송</span>
+                <Send size={14} />
               </button>
             </form>
           </div>
         </div>
       </div>
+
+      <SampleNotice
+        open={noticeOpen}
+        onClose={() => setNoticeOpen(false)}
+        slug="atelier-vaucluse"
+        industry="interior"
+        featureName="1:1 공간 상담 신청"
+      />
     </section>
   );
 };

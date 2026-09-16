@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import { X, TrendingUp, Download, ExternalLink, Mail, FileText, CheckCircle2 } from 'lucide-react';
+import { X, TrendingUp, Download, ExternalLink, Mail, FileText } from 'lucide-react';
+import SampleNotice from '@/components/demo-kit/SampleNotice';
 import { IrHubItem, StockData } from '../types';
 
 interface IrDetailModalProps {
@@ -29,15 +30,16 @@ export const IrDetailModal: React.FC<IrDetailModalProps> = ({
       : 'contact'
   );
 
-  const [questionSent, setQuestionSent] = useState(false);
+  const [noticeOpen, setNoticeOpen] = useState(false);
 
   if (!item && !isStockDetailMode) return null;
 
   return (
-    <div
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
-      onClick={onClose}
-    >
+    <>
+      <div
+        className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+        onClick={onClose}
+      >
       <div
         className="bg-white max-w-2xl w-full rounded-xl overflow-hidden shadow-2xl border border-[#c3c6d6]/50 animate-in fade-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
@@ -254,21 +256,11 @@ export const IrDetailModal: React.FC<IrDetailModalProps> = ({
 
           {activeTab === 'contact' && (
             <div className="space-y-4">
-              {questionSent ? (
-                <div className="p-6 text-center space-y-2 bg-emerald-50 rounded-lg border border-emerald-200">
-                  <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto" />
-                  <h6 className="font-bold text-emerald-900">
-                    IR 문의가 접수되었습니다
-                  </h6>
-                  <p className="text-xs text-emerald-700">
-                    원익큐앤씨 IR/재무기획팀에서 등록하신 이메일로 영업일 기준 24시간 이내에 답변드리겠습니다.
-                  </p>
-                </div>
-              ) : (
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
-                    setQuestionSent(true);
+                    // 제안용 시안 — 입력값을 어디에도 보내지 않고 공용 안내만 연다
+                    setNoticeOpen(true);
                   }}
                   className="space-y-3"
                 >
@@ -295,6 +287,9 @@ export const IrDetailModal: React.FC<IrDetailModalProps> = ({
                     placeholder="문의 내용을 입력해 주세요 (예: 기관 미팅 신청, 분기 가이던스 질의 등)"
                     className="w-full px-3 py-2 border rounded text-xs outline-none focus:border-[#0052cc] resize-none"
                   />
+                  <p className="text-xs font-semibold text-[#0052cc] text-center">
+                    제안용 시안 — 실제로 접수되지 않습니다
+                  </p>
                   <div className="flex justify-end">
                     <button
                       type="submit"
@@ -304,7 +299,6 @@ export const IrDetailModal: React.FC<IrDetailModalProps> = ({
                     </button>
                   </div>
                 </form>
-              )}
 
               <div className="p-3 bg-gray-100 rounded-lg text-xs text-gray-600 font-mono">
                 <div>• IR 담당부서: 재무기획팀 IR 파트</div>
@@ -325,6 +319,16 @@ export const IrDetailModal: React.FC<IrDetailModalProps> = ({
           </button>
         </div>
       </div>
-    </div>
+      </div>
+
+      <SampleNotice
+        open={noticeOpen}
+        onClose={() => setNoticeOpen(false)}
+        slug="wonik-qnc"
+        industry="manufacturing"
+        featureName="IR 문의"
+        kind="proposal"
+      />
+    </>
   );
 };

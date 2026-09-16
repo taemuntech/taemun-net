@@ -1,0 +1,1024 @@
+#!/usr/bin/env node
+// 포트폴리오 입고 검사 — npm run audit:portfolio [-- --base http://localhost:3055] [--strict <slug>]
+//
+// 규칙의 정본은 src/lib/portfolio/schema.ts 다. 여기서는 그 모듈을 그대로 불러 쓰고(Node 24 타입 제거 실행),
+// 규칙을 복제하지 않는다. 이 스크립트가 더하는 건 「파일 밖」 사실 — 페이지 폴더·썸네일 파일·샘플 소스·실측 응답.
+//
+// 종료코드: ERROR 가 하나라도 있으면 1, WARN 만 있으면 0. --strict <slug> 면 그 샘플의 WARN 도 ERROR 로 센다.
+
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+// schema.ts 는 package.json 에 "type" 이 없어 ESM 재해석 경고가 한 줄 뜬다 — 그 경고만 삼킨다.
+process.removeAllListeners("warning");
+process.on("warning", (w) => {
+  if (w.code === "MODULE_TYPELESS_PACKAGE_JSON") return;
+  console.warn(`${w.name}: ${w.message}`);
+});
+
+const { validatePortfolioItem, thumbnailOf, BANNED_PHRASES } = await import("../src/lib/portfolio/schema.ts");
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const CONTENT_DIR = path.join(ROOT, "src", "content", "portfolio");
+const DEMOS_DIR = path.join(ROOT, "src", "app", "(demos)", "demo");
+const SITE_DEMO_DIR = path.join(ROOT, "src", "app", "(site)", "demo");
+/**
+ * 샘플 화면 코드 폴더 — 표준은 src/components/demos/<slug>/ (얇은 서버 page + <Slug>App.tsx, 골든 샘플 atelier-vaucluse).
+ * src/components/demo/<slug>/ 는 옛 위치(lithium-foil). 두 곳 모두 폴더 이름이 slug 와 같아야 검사 범위에 들어간다.
+ */
+const COMPONENT_DEMO_DIRS = [path.join(ROOT, "src", "components", "demos"), path.join(ROOT, "src", "components", "demo")];
+const PUBLIC_DIR = path.join(ROOT, "public");
+
+/** (demos) 루트 레이아웃이 공용 제안 시안 고지를 렌더하는가 — 렌더하면 데모별 문구를 따로 요구하지 않는다 */
+const LAYOUT_PROPOSAL_DISCLAIMER = (() => {
+  try {
+    const layout = fs.readFileSync(path.join(ROOT, "src", "app", "(demos)", "layout.tsx"), "utf8");
+    return layout.includes("<DemoDisclaimer");
+  } catch {
+    return false;
+  }
+})();
+const SITE_DEFAULT_TITLE = "홈페이지 제작 & 웹·앱 개발 외주 전문";
+const DEMOS_DEFAULT_TITLE = "샘플 사이트 — 태문 DEV STUDIO";
+/** 사이트 틀(다크) 문구 검사 대상 — 게이트가 샘플만 보면 사이트 페이지의 과장 문구가 어디에도 안 걸린다 */
+const SITE_COPY_DIRS = [path.join(ROOT, "src", "app", "(site)")];
+const SITE_COPY_FILES = [
+  path.join(ROOT, "src", "components", "Header.tsx"),
+  path.join(ROOT, "src", "components", "FloatingChatWidget.tsx"),
+  path.join(ROOT, "src", "app", "api", "inquiry", "route.ts"),
+];
+
+// ───────── 인자 ─────────
+const argv = process.argv.slice(2);
+if (argv.includes("--help") || argv.includes("-h")) {
+  console.log(`포트폴리오 입고 검사
+
+사용법
+  npm run audit:portfolio                                         정적 검사만
+  npm run audit:portfolio -- --base http://localhost:3055         정적 검사 + 떠 있는 서버 실측 (포트는 띄운 서버에 맞춘다)
+  npm run audit:portfolio -- --base http://localhost:3055 --strict haneul-dental
+                                                                  그 샘플(카드·소스·실측)의 WARN 도 ERROR 로 센다 — 입고할 땐 이걸로
+
+정적 검사 — ERROR
+  - src/content/portfolio/*.json 규격 (schema.ts validatePortfolioItem)
+  - liveUrl /demo/<slug> 의 페이지 폴더 존재 · kind=sample 인데 (site) 아래에 있음
+  - page.tsx 가 "use client" · metadata 없음 · sampleMetadata/SAMPLE_SLUG/SampleNotice 의 slug·industry 가 카드와 다름
+  - kind=proposal 인데 SampleNotice 에 kind="proposal" 이 없음 · 화면 안(components/demos/<slug>)에 제안 시안 고지가 없음
+  - page.tsx 가 다른 slug 의 컴포넌트 폴더(@/components/demos/<다른 slug>/)를 import
+  검사 범위: src/app/(demos)/demo/<slug>/** + src/components/demos/<slug>/** (+ 옛 위치 src/components/demo/<slug>/**)
+  - 폼인데 SampleNotice 를 렌더하지 않음(같은 샘플의 다른 파일이 열어도 — onSubmit 을 props 로 받는 폼만 WARN)
+  - SampleNotice 의 open 상태를 true 로 만드는 setter 호출이 없음
+  - 가짜 접수 문구(「접수되었습니다」「예약이 완료되었습니다」「전송되었습니다」…)
+  - 외부 전송: fetch( · axios · "/api/" · sendBeacon · XMLHttpRequest · WebSocket · EventSource
+               · formspree/getform/formsubmit/web3forms/emailjs · <form action="http…"> · 폼 내용을 실은 mailto
+  - fixed 이면서 top-0 인 요소(className 여러 줄·cn()·템플릿 리터럴·style position:"fixed"+top:0 포함) — 샘플 바에 가려진다
+정적 검사 — WARN
+  - 카드 JSON 없는 (demos)/demo 폴더 · 페이지·카드 없는 components/demos 폴더(slug 오타) · 썸네일 파일 없음 · 샘플 카드에 thumbnail/featured/order
+  - proposal 카드 summary 에 「실제 계약·납품한 사례가 아니다」 취지 문장이 없음
+  - 실존처럼 보이는 전화(하이픈·점·공백·괄호·붙여 쓴 번호·tel:)·대표번호·사업자번호·이메일 · mailto 링크
+  - sticky 이면서 top-0 · fixed inset-y-0 · z-[9000 이상] · data-sample-local 폼에 신청·예약·문의 버튼
+  - localStorage/sessionStorage 저장 · 「접수 완료」 같은 상태 문구 · 폼 없이 「예약하기」 버튼인데 SampleNotice 없음
+  - 실적 수치(1,200건·만족도 98%·ISO 9001·2주 완성 — 파일에 「예시 수치」가 있으면 면제) · 보장·최상급 · 금지 표현
+  - 화면에 샘플·시안 고지가 없음(가상 브랜드 샘플 문구 또는 실존 업체 제안 시안 문구) · 접수 폼 파일에 「전송되지 않습니다」 제출 전 고지가 없음
+  - 사이트 페이지((site)·Header·FloatingChatWidget·문의 API) 문구의 과장·약속 표현
+안 잡는 것 (눈으로 본다)
+  - 이미지 속 글자·실존 업체 사진 · 브랜드명이 실존하는지 · 변수에 담아 조립한 전화번호·주소
+  - 헤더를 fixed 로 두고 top 을 JS 로 계산하는 경우 · 버튼 onClick 이 다른 파일 함수로 가짜 성공 화면을 여는 경우
+실측 (--base) — ERROR
+  - 상태 200 · 기본 제목이 아님 · 사이트 페이지(/ · /portfolio · /inquiry)는 canonical·og:url 이 자기 주소
+  - 샘플은 noindex · 상단 태문 표시(기기 전환 툴바 또는 SampleSiteBar) 있음 · 사이트 틀의 dark class·JSON-LD 없음
+  - kind=proposal 은 HTML 에 제안 시안 고지 문구가 실려 있음
+  - 페이지 안 <img> 주소 응답 (페이지당 최대 30개, 8초)                           WARN
+
+종료코드: ERROR 있으면 1, WARN 만 있으면 0`);
+  process.exit(0);
+}
+function argValue(name) {
+  const i = argv.indexOf(name);
+  if (i !== -1) return argv[i + 1];
+  const eq = argv.find((a) => a.startsWith(`${name}=`));
+  return eq ? eq.slice(name.length + 1) : undefined;
+}
+const baseArg = argValue("--base");
+const BASE = baseArg ? baseArg.replace(/\/+$/, "") : null;
+if (baseArg !== undefined && !/^https?:\/\/[^/]+/.test(baseArg)) {
+  console.error(`--base 값 「${baseArg}」 가 http(s):// 주소가 아닙니다`);
+  process.exit(2);
+}
+const strictArg = argValue("--strict") ?? argValue("--strict-slug");
+if ((argv.includes("--strict") || argv.includes("--strict-slug")) && !strictArg) {
+  console.error("--strict 뒤에 slug 를 적으세요 (여러 개면 쉼표로)");
+  process.exit(2);
+}
+const STRICT_SLUGS = new Set((strictArg ?? "").split(",").map((s) => s.trim()).filter(Boolean));
+
+// ───────── 보고 모음 ─────────
+/** @type {Map<string, Array<{level: "ERROR" | "WARN", msg: string}>>} */
+const report = new Map();
+/** 보고 키 → 샘플 slug (--strict 승격용) */
+const keySlug = new Map();
+const rel = (p) => path.relative(ROOT, p).split(path.sep).join("/");
+function add(fileKey, level, msg) {
+  if (!report.has(fileKey)) report.set(fileKey, []);
+  report.get(fileKey).push({ level, msg });
+}
+const error = (f, m) => add(f, "ERROR", m);
+const warn = (f, m) => add(f, "WARN", m);
+
+// ───────── 1. 카드 JSON ─────────
+/**
+ * 형·가온이 고른 홈 대표작 샘플 — 공장 샘플은 featured/order 를 넣지 않는다(6장).
+ * 여기 없는 샘플 카드에 featured/order 가 있으면 WARN.
+ */
+const CURATED_SAMPLE_SLUGS = new Set(["atelier-vaucluse", "lithium-foil"]);
+
+/** 카드 summary 에 「계약·납품한 사례가 아니다」 취지가 있는지 — schema 는 「제안용 시안」이라는 말만 ERROR 로 본다 */
+const PROPOSAL_SUMMARY_NOT_A_CASE =
+  /실제 계약|계약·납품|납품한 사례가 아니|납품 사례가 아니|의뢰한 사이트도? 아니|의뢰하거나 만든 사이트가 아니/;
+
+const cards = []; // { file, slug, item }  — 규격 통과 여부와 무관하게 읽힌 것
+if (!fs.existsSync(CONTENT_DIR)) {
+  warn(rel(CONTENT_DIR), "포트폴리오 폴더가 없습니다 — 카드 0개로 검사합니다");
+}
+const jsonFiles = fs.existsSync(CONTENT_DIR)
+  ? fs.readdirSync(CONTENT_DIR).filter((f) => f.endsWith(".json")).sort()
+  : [];
+/** 파일 이름 기준 slug — JSON 문법 오류로 못 읽은 카드도 들어간다(「카드 JSON 을 만드세요」 오안내 방지) */
+const jsonSlugs = new Set(jsonFiles.map((f) => f.replace(/\.json$/, "")));
+for (const f of jsonFiles) {
+  const full = path.join(CONTENT_DIR, f);
+  const key = rel(full);
+  const slug = f.replace(/\.json$/, "");
+  keySlug.set(key, slug);
+  let raw;
+  try {
+    raw = JSON.parse(fs.readFileSync(full, "utf8").replace(/^﻿/, ""));
+  } catch (e) {
+    error(key, `JSON 문법 오류 — ${e.message}`);
+    continue;
+  }
+  for (const m of validatePortfolioItem(raw, slug)) error(key, m);
+  if (raw && typeof raw === "object" && !Array.isArray(raw)) {
+    cards.push({ file: full, key, slug, item: raw });
+    const isFactorySample = raw.kind === "sample" && typeof raw.liveUrl === "string" && raw.liveUrl.startsWith("/demo/");
+    if (isFactorySample && raw.thumbnail !== undefined) {
+      warn(key, "샘플 카드에 thumbnail 칸이 있습니다 — capture:thumbs 가 이 카드를 건너뜁니다. 칸을 지우면 /portfolio/<slug>/desktop.png 를 씁니다");
+    }
+    if (isFactorySample && !CURATED_SAMPLE_SLUGS.has(slug) && (raw.featured !== undefined || raw.order !== undefined)) {
+      warn(key, "샘플 카드에 featured/order 가 있습니다 — 홈 대표작·순서는 형·가온이 고릅니다. 칸을 지우세요");
+    }
+    // 제안용 시안 카드 — schema 는 「제안용 시안」이라는 말만 ERROR 로 본다. 한 걸음 더: 「계약·납품한 사례가 아니다」도 적는 게 좋다
+    if (raw.kind === "proposal" && typeof raw.summary === "string" && !PROPOSAL_SUMMARY_NOT_A_CASE.test(raw.summary)) {
+      warn(
+        key,
+        "제안용 시안 summary 에 「실제 계약·납품한 사례가 아니고 해당 회사가 의뢰한 것도 아니다」 취지 문장이 없습니다 — 카드만 읽고 지나가는 사람이 구축 사례로 읽습니다",
+      );
+    }
+  }
+}
+
+// ───────── 2·3. 페이지 폴더 ─────────
+const listDirs = (dir) =>
+  fs.existsSync(dir) ? fs.readdirSync(dir, { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name).sort() : [];
+const demosSlugs = listDirs(DEMOS_DIR);
+const siteDemoSlugs = listDirs(SITE_DEMO_DIR);
+
+/** slug → { dir, group } (page.tsx 가 있는 곳 우선, (demos) 먼저) */
+function findDemoPage(slug) {
+  for (const [dir, group] of [
+    [path.join(DEMOS_DIR, slug), "demos"],
+    [path.join(SITE_DEMO_DIR, slug), "site"],
+  ]) {
+    if (fs.existsSync(path.join(dir, "page.tsx"))) return { dir, group };
+  }
+  return null;
+}
+
+/** 소스 검사 대상: { slug, dir, group, kind, card } */
+const sampleSources = [];
+const cardSlugs = new Set(cards.map((c) => c.slug));
+for (const c of cards) {
+  const url = typeof c.item.liveUrl === "string" ? c.item.liveUrl : "";
+  if (!url.startsWith("/demo/")) continue;
+  const target = url.slice("/demo/".length).replace(/[/?#].*$/, "");
+  const page = target ? findDemoPage(target) : null;
+  if (!page) {
+    error(c.key, `liveUrl 「${url}」 의 페이지가 없습니다 — src/app/(demos)/demo/${target}/page.tsx 를 만드세요`);
+    continue;
+  }
+  if (page.group === "site" && c.item.kind === "sample") {
+    error(
+      c.key,
+      `샘플인데 페이지가 src/app/(site)/demo/${target}/ 에 있습니다 — 사이트 틀의 다크 class·JSON-LD 를 물려받고 샘플 바가 없습니다. (demos)/demo/ 로 옮기세요(git mv)`,
+    );
+  }
+  sampleSources.push({ slug: target, dir: page.dir, group: page.group, kind: c.item.kind, card: c.item });
+}
+for (const slug of demosSlugs) {
+  if (cardSlugs.has(slug)) continue;
+  const dir = path.join(DEMOS_DIR, slug);
+  keySlug.set(rel(dir), slug);
+  if (!jsonSlugs.has(slug)) {
+    warn(rel(dir), `카드 JSON 이 없어 포트폴리오 목록에 안 보입니다 — src/content/portfolio/${slug}.json 을 만드세요`);
+  }
+  if (fs.existsSync(path.join(dir, "page.tsx"))) sampleSources.push({ slug, dir, group: "demos", kind: "sample", card: null });
+}
+
+// ───────── 4. 썸네일 파일 ─────────
+for (const c of cards) {
+  if (typeof c.item.slug !== "string") continue;
+  let th;
+  try {
+    th = thumbnailOf(c.item);
+  } catch {
+    continue;
+  }
+  const missing = [];
+  for (const [label, p] of [
+    ["desktop", th?.desktop],
+    ["mobile", th?.mobile],
+  ]) {
+    if (typeof p !== "string") continue;
+    if (/^https?:\/\//.test(p)) continue; // 외부 주소는 실측(--base)에서만 본다
+    const full = path.join(PUBLIC_DIR, p.replace(/^\/+/, ""));
+    if (!fs.existsSync(full)) missing.push(`${label} public${p.startsWith("/") ? "" : "/"}${p}`);
+  }
+  if (missing.length) {
+    const hint =
+      c.item.thumbnail === undefined && typeof c.item.liveUrl === "string" && c.item.liveUrl.startsWith("/demo/")
+        ? `npm run capture:thumbs -- --only ${c.item.slug} 실행`
+        : "이미지를 해당 경로에 넣으세요";
+    warn(c.key, `썸네일 파일 없음 (${missing.join(", ")}) — ${hint}`);
+  }
+}
+
+// ───────── 5. 샘플 소스 ─────────
+function walkSources(dir) {
+  if (!fs.existsSync(dir)) return [];
+  const out = [];
+  for (const d of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, d.name);
+    if (d.isDirectory()) out.push(...walkSources(full));
+    else if (/\.(tsx|ts|jsx|js)$/.test(d.name)) out.push(full);
+  }
+  return out.sort();
+}
+
+const blank = (s) => s.replace(/[^\n]/g, " ");
+
+/**
+ * 코드 검사용 — 주석을 같은 길이의 공백으로 지운다(줄 번호 유지). 주석 속 옛 코드·설명이 걸리지 않게.
+ * 줄 끝 주석(`code // 설명`)까지 지우므로 JSX 텍스트 속 ` // ` 뒤도 지워진다 → 글자 검사에는 쓰지 않는다.
+ */
+function stripComments(src) {
+  return src.replace(/\/\*[\s\S]*?\*\//g, blank).replace(/(^|[\s;,{}()])(\/\/.*)$/gm, (_, pre, c) => pre + blank(c));
+}
+
+/**
+ * 글자 검사용(전화·이메일·금지 표현·접수 문구) — 블록 주석과 「줄 전체가 주석」인 줄만 지운다.
+ * `<span>대표번호 // 02-…</span>` 처럼 JSX 텍스트에 ` // ` 가 있어도 뒤 글자가 검사에서 빠지지 않는다.
+ * 대신 코드 뒤에 붙인 줄 끝 주석의 전화번호는 걸린다(샘플엔 주석에도 실번호를 적지 않는다).
+ */
+function stripCommentsForText(src) {
+  return src.replace(/\/\*[\s\S]*?\*\//g, blank).replace(/^([ \t]*)(\/\/.*)$/gm, (_, pre, c) => pre + blank(c));
+}
+
+/** 인덱스 → 1부터 세는 줄 번호 */
+function lineIndexer(src) {
+  const starts = [0];
+  for (let i = 0; i < src.length; i++) if (src[i] === "\n") starts.push(i + 1);
+  return (idx) => {
+    let lo = 0;
+    let hi = starts.length - 1;
+    while (lo < hi) {
+      const mid = (lo + hi + 1) >> 1;
+      if (starts[mid] <= idx) lo = mid;
+      else hi = mid - 1;
+    }
+    return lo + 1;
+  };
+}
+
+// ── 문자열 리터럴 모으기(className 속성값·cn() 인자·템플릿 리터럴) ──
+function readQuoted(src, j, q) {
+  for (let k = j + 1; k < src.length; k++) {
+    if (src[k] === "\\") {
+      k++;
+      continue;
+    }
+    if (src[k] === q || src[k] === "\n") return k;
+  }
+  return src.length;
+}
+function readTemplate(src, j) {
+  const parts = [];
+  let buf = "";
+  for (let k = j + 1; k < src.length; k++) {
+    const ch = src[k];
+    if (ch === "\\") {
+      buf += src[k + 1] ?? "";
+      k++;
+      continue;
+    }
+    if (ch === "`") {
+      parts.push(buf);
+      return { end: k, parts };
+    }
+    if (ch === "$" && src[k + 1] === "{") {
+      parts.push(buf);
+      buf = "";
+      const r = scanExpr(src, k + 1, "{", "}");
+      parts.push(...r.lits);
+      k = r.end;
+      continue;
+    }
+    buf += ch;
+  }
+  parts.push(buf);
+  return { end: src.length, parts };
+}
+/** src[i] 가 open 인 괄호식을 닫는 곳까지 읽고, 안의 문자열 리터럴 내용을 모은다 */
+function scanExpr(src, i, open, close) {
+  let depth = 0;
+  const lits = [];
+  for (let j = i; j < src.length; j++) {
+    const ch = src[j];
+    if (ch === '"' || ch === "'") {
+      const end = readQuoted(src, j, ch);
+      lits.push(src.slice(j + 1, end));
+      j = end;
+      continue;
+    }
+    if (ch === "`") {
+      const r = readTemplate(src, j);
+      lits.push(...r.parts);
+      j = r.end;
+      continue;
+    }
+    if (ch === open) depth++;
+    else if (ch === close) {
+      depth--;
+      if (depth === 0) return { end: j, lits };
+    }
+  }
+  return { end: src.length, lits };
+}
+/** 클래스 문자열 묶음: { text, index } — 한 묶음 안에서 fixed·top-0 을 같이 찾는다 */
+function classGroups(src) {
+  const groups = [];
+  for (const m of src.matchAll(/\bclassName\s*=\s*/g)) {
+    const i = m.index + m[0].length;
+    const ch = src[i];
+    if (ch === '"' || ch === "'") {
+      const end = src.indexOf(ch, i + 1); // JSX 속성 문자열은 여러 줄일 수 있다
+      groups.push({ text: src.slice(i + 1, end < 0 ? undefined : end), index: m.index });
+    } else if (ch === "{") {
+      groups.push({ text: scanExpr(src, i, "{", "}").lits.join(" "), index: m.index });
+    }
+  }
+  for (const m of src.matchAll(/\b(?:cn|clsx|classnames|classNames|twMerge|twJoin|cva)\s*\(/g)) {
+    const i = m.index + m[0].length - 1;
+    groups.push({ text: scanExpr(src, i, "(", ")").lits.join(" "), index: m.index });
+  }
+  // 변수·객체 값으로 둔 한 줄 클래스 문자열
+  for (const m of src.matchAll(/(["'`])((?:(?!\1)[^\\\n]|\\.)*)\1/g)) groups.push({ text: m[2], index: m.index });
+  return groups;
+}
+/** Tailwind 토큰의 바탕 이름 (lg:fixed → fixed, !top-0 → top-0) */
+function classBases(text) {
+  const out = new Set();
+  for (const tok of text.split(/\s+/)) {
+    if (!tok) continue;
+    // 임의 변형([&_x]:y)은 마지막 조각만, 그 외 변형 접두(lg:·hover:)도 마지막 조각만
+    const base = tok.replace(/^.*:(?![^[]*\])/, "").replace(/^!/, "");
+    out.add(base);
+  }
+  return out;
+}
+
+const SEQ_FREE = true; // 자리표시는 같은 숫자 반복(0000)과 010-1234-5678 만 인정한다
+const sameDigits = (s) => /^(\d)\1*$/.test(s);
+const PHONE_AREA = "02|0[3-6][1-5]|01[016789]|070";
+const TAEMUN_PHONE_DIGITS = "01086726463";
+function isPlaceholderPhone(area, mid, last) {
+  if (sameDigits(mid) && sameDigits(last)) return true;
+  // 입력칸 placeholder 관례 — 휴대폰 010-1234-5678 한 가지만
+  return SEQ_FREE && area.startsWith("01") && mid === "1234" && last === "5678";
+}
+/** 한 줄에서 전화번호 후보를 뽑는다: [{ shown, area, mid, last }] */
+function phoneCandidates(line) {
+  const out = [];
+  const seen = new Set();
+  const push = (shown, area, mid, last, at) => {
+    if (seen.has(at)) return;
+    seen.add(at);
+    out.push({ shown, area, mid, last });
+  };
+  // 구분자(하이픈·점·공백·괄호)
+  const sep = new RegExp(`(?<![\\d.\\-])\\(?(${PHONE_AREA})\\)?(?:[-.\\s]|(?<=\\))\\s?)(\\d{3,4})[-.\\s](\\d{4})(?![\\d\\-])`, "g");
+  for (const m of line.matchAll(sep)) push(m[0], m[1], m[2], m[3], m.index);
+  // 붙여 쓴 번호 (0212345678 · tel:01012345678)
+  const joined = new RegExp(`(?<![\\w.\\-])((?:${PHONE_AREA})\\d{7,8})(?![\\w])`, "g");
+  for (const m of line.matchAll(joined)) {
+    const d = m[1];
+    const areaLen = d.startsWith("02") ? 2 : 3;
+    const mid = d.slice(areaLen, -4);
+    if (mid.length < 3 || mid.length > 4) continue;
+    push(m[0], d.slice(0, areaLen), mid, d.slice(-4), m.index);
+  }
+  return out;
+}
+
+/**
+ * 폼 검사 면제 — 파일에 data-sample-local 을 붙일 수 없는(담당 밖) 기존 샘플만, 사유를 적어 올린다.
+ * 면제해도 WARN 으로 남겨 목록이 잊히지 않게 한다. 새 샘플은 여기 넣지 말고 파일에 표시할 것.
+ */
+const LOCAL_FORM_EXEMPTIONS = {
+  "src/components/demo/lithium-foil/screens/RollLogForm.tsx":
+    "롤 일지 입력 폼 — 제출값은 브라우저 안 DemoDataContext 에만 들어가 KPI·관리도를 다시 계산한다(외부 전송·「접수됐다」 문구 없음)",
+};
+/**
+ * fixed top-0 면제 — 담당 밖 파일이라 고칠 수 없고, 바깥에서 보정해 둔 경우만. WARN 으로 남긴다.
+ */
+const FIXED_HEADER_EXEMPTIONS = {
+  "src/components/demo/lithium-foil/DemoApp.tsx":
+    "사이트 틀 시절 헤더 — (demos)/demo/lithium-foil/page.tsx 래퍼가 top 을 샘플 바 높이만큼 내려 준다. DemoApp 이 top-[var(--sample-bar-h,0px)] 를 쓰게 바뀌면 목록에서 지울 것",
+};
+
+const PLACEHOLDER_EMAIL_DOMAIN = /(^|\.)(example\.(com|net|org|kr|co\.kr)|example|test|invalid|localhost)$/i;
+const IMAGE_TLD = /\.(png|jpe?g|webp|svg|gif|avif|ico)$/i;
+/** 가짜 접수 성공 문구 — 문장형(되었/됐)만 ERROR. 같은 줄에 부정(않·아닙)이 있으면 안내문으로 보고 넘긴다 */
+const FAKE_SUCCESS = /(접수|예약|신청|전송|발송|주문)(?:이|가)?\s*(?:정상적?으로\s*)?(?:접수|완료)?\s*(?:되었|됐)/;
+const STATUS_DONE = /(접수|신청|예약|주문)\s*완료/;
+const NEGATION = /않|아닙|안 됩|없습니다/;
+const SUBMIT_WORDS = /신청|예약|문의|상담|접수|주문|가입|구매|결제/;
+const FAKE_BUTTON = /(신청|예약|접수|주문|결제|구매)\s*(하기|완료|확정)/;
+const FIGURES = /\d{1,3}(?:,\d{3})+\s*(?:건|명|개사|곳|세대)|\d{3,}\s*(?:건|개사|세대)|만족도\s*\d+(?:\.\d+)?\s*%|재구매율\s*\d+|ISO\s*\d{4,5}|\d+\s*(?:주|일|개월)\s*(?:만에\s*)?완성/;
+// 대소문자를 가리지 않는다 — 「GLOBAL NO.1」 은 히어로 배지에서 대문자로 쓰여 소문자 규칙을 그냥 지나갔다(실측).
+// 「1위」·「#1」·「점유율 1위」 같은 순위 주장도 같은 부류라 같이 본다.
+const GUARANTEE = /보장|보증합니다|책임 보증|\bNo\.?\s?1\b|#\s?1\b|넘버원|최고의|무조건|(?<![\d.])1\s*위(?![원험])/i;
+// 화면에 남아 있어야 하는 고지. 가상 브랜드 샘플(「실제 업체가 아닙니다」)과
+// 실존 업체 제안 시안(「제안용으로 만든 시안 · 의뢰하거나 만든 사이트가 아닙니다」)은 문장이 다르다 — 둘 다 인정한다.
+const SAMPLE_DISCLOSURE =
+  /가상 브랜드|가상 데이터|가상의|샘플 사이트|샘플입니다|실제 (?:업체|회사|병원|매장|기업)가 아니|제안용으로 만든 시안|제안용 시안입니다|의뢰하거나 만든 사이트가 아니/;
+/**
+ * kind=proposal 전용 고지 — 실존 회사 이름이 걸린 화면이라 「가상 브랜드 샘플」 문구로는 대신할 수 없다.
+ * 「그 회사가 만들었거나 의뢰한 사이트가 아니다」가 화면 글자로 남아 있어야 한다(schema.ts PROPOSAL_DISCLAIMER 와 같은 취지).
+ */
+// 「제안용 시안입니다」 한 마디는 인정하지 않는다 — 폼 위 안내 한 줄만 있어도 통과해 버린다.
+// 「그 회사가 만들었거나 의뢰한 것이 아니다」라는 말이 실제로 화면에 있어야 한다.
+// 「아니며」와 「아닙니다」는 음절이 달라 「아니」 하나로는 「아닙니다」를 못 잡는다 — 둘 다 적는다(실측에서 걸렸다).
+const PROPOSAL_DISCLOSURE = /(?:의뢰하거나 만든|만들었거나 의뢰한|만들거나 의뢰한)\s*사이트(?:가|도)?\s*(?:아니|아닙)/;
+const PRE_SUBMIT_NOTICE = /전송되지 않|접수되지 않/;
+const EXTERNAL_FORM_SERVICE = /formspree|getform\.io|formsubmit\.co|web3forms|emailjs|staticforms|basin\.com/i;
+
+const buttonTexts = (src) =>
+  [...src.matchAll(/<button\b(?:=>|[^>])*>([\s\S]*?)<\/button>/g)].map((m) => ({
+    text: m[1].replace(/<[^>]*>|\{[^}]*\}/g, " ").replace(/\s+/g, " ").trim(),
+    index: m.index,
+  }));
+
+/**
+ * @param full 파일 경로
+ * @param ctx { isPage, slug, card, slugRendersNotice }
+ * @returns { rendersNotice, hasSubmitForm, hasDisclosure }
+ */
+function scanFile(full, { isPage, slug, card, slugRendersNotice }) {
+  const key = rel(full);
+  const original = fs.readFileSync(full, "utf8").replace(/^﻿/, "");
+  const src = stripComments(original);
+  const textSrc = stripCommentsForText(original);
+  const lines = src.split(/\r?\n/);
+  const textLines = textSrc.split(/\r?\n/);
+  const lineOf = lineIndexer(src);
+
+  if (isPage) {
+    const firstCode = lines.find((l) => l.trim().length > 0) ?? "";
+    if (/^\s*["']use client["']/.test(firstCode)) {
+      error(key, `page.tsx 가 "use client" 입니다 — metadata 를 못 써 제목·검색 정보가 사라집니다. 서버 page + 클라이언트 컴포넌트로 나누세요`);
+    }
+    const hasMeta =
+      /export\s+(const|let|var)\s+metadata\b/.test(src) ||
+      /export\s+(async\s+)?function\s+generateMetadata\b/.test(src) ||
+      /export\s+const\s+generateMetadata\b/.test(src) ||
+      /export\s*\{[^}]*\b(metadata|generateMetadata)\b[^}]*\}/.test(src);
+    if (!hasMeta) error(key, "page.tsx 에 metadata 또는 generateMetadata export 가 없습니다 — 탭 제목이 기본값으로 나옵니다");
+  }
+
+  // ── slug·업종이 카드와 같은가 (리드 추적이 조용히 틀린 slug 로 들어가지 않게) ──
+  if (card) {
+    for (const m of src.matchAll(/\bSAMPLE_SLUG\s*=\s*["'`]([^"'`]+)["'`]/g)) {
+      if (m[1] !== card.slug) error(key, `${lineOf(m.index)}행: SAMPLE_SLUG 「${m[1]}」 가 카드 slug 「${card.slug}」 와 다릅니다`);
+    }
+    for (const m of src.matchAll(/\bsampleMetadata\s*\(\s*\{[^}]*?\bslug\s*:\s*["'`]([^"'`]+)["'`]/g)) {
+      if (m[1] !== card.slug) error(key, `${lineOf(m.index)}행: sampleMetadata slug 「${m[1]}」 가 카드 slug 「${card.slug}」 와 다릅니다`);
+    }
+  }
+
+  // ── page.tsx 가 자기 slug 의 컴포넌트 폴더를 쓰는가 (다른 샘플 화면을 복사해 import 경로를 안 고친 경우) ──
+  if (isPage && slug) {
+    for (const m of src.matchAll(/from\s+["'`]@\/components\/demos?\/([^/"'`]+)\//g)) {
+      if (m[1] !== slug) {
+        error(key, `${lineOf(m.index)}행: page.tsx 가 다른 slug 의 컴포넌트 폴더 「${m[1]}」 를 import 합니다 — src/components/demos/${slug}/ 를 쓰세요`);
+      }
+    }
+  }
+
+  // ── SampleNotice: 렌더하는가 · 실제로 열리는가 · slug/industry ──
+  const noticeTags = [...src.matchAll(/<SampleNotice\b(?:=>|[^>])*\/?>/g)];
+  const rendersNotice = noticeTags.length > 0;
+  for (const t of noticeTags) {
+    const at = `${lineOf(t.index)}행`;
+    const tag = t[0];
+    if (card) {
+      const slugM = tag.match(/\bslug\s*=\s*["']([^"']+)["']/);
+      if (slugM && slugM[1] !== card.slug) error(key, `${at}: SampleNotice slug 「${slugM[1]}」 가 카드 slug 「${card.slug}」 와 다릅니다`);
+      const indM = tag.match(/\bindustry\s*=\s*(?:["']([^"']+)["']|\{\s*["']([^"']+)["']\s*\})/);
+      const ind = indM?.[1] ?? indM?.[2];
+      if (ind && ind !== card.industry) error(key, `${at}: SampleNotice industry 「${ind}」 가 카드 industry 「${card.industry}」 와 다릅니다`);
+      // 제안용 시안의 모달 제목은 「제안용 시안입니다」여야 한다 — 기본값이면 실존 회사 화면에서 「샘플 사이트입니다」가 뜬다
+      if (card.kind === "proposal") {
+        const kindM = tag.match(/\bkind\s*=\s*(?:["']([^"']+)["']|\{\s*["']([^"']+)["']\s*\})/);
+        const noticeKind = kindM?.[1] ?? kindM?.[2];
+        if (noticeKind !== "proposal") {
+          error(
+            key,
+            `${at}: 제안용 시안(kind=proposal)인데 SampleNotice 의 kind 가 「${noticeKind ?? "없음(기본 sample)"}」 입니다 — kind="proposal" 을 넘기세요(모달 제목이 「샘플 사이트입니다」로 나와 실존 회사 화면에서 오해를 부릅니다)`,
+          );
+        }
+      }
+    }
+    const openM = tag.match(/\bopen\s*=\s*\{\s*([A-Za-z_$][\w$]*)\s*\}/);
+    if (openM && openM[1] !== "true") {
+      const stateName = openM[1];
+      const decl = src.match(new RegExp(`\\[\\s*${stateName}\\s*,\\s*([A-Za-z_$][\\w$]*)\\s*\\]\\s*=\\s*(?:React\\.)?useState`));
+      if (decl) {
+        const setter = decl[1];
+        const refs = [...src.matchAll(new RegExp(`\\b${setter.replace(/\$/g, "\\$")}\\b`, "g"))].length - 1; // 선언 1회 제외
+        const closes = [...src.matchAll(new RegExp(`\\b${setter.replace(/\$/g, "\\$")}\\s*\\(\\s*false\\s*\\)`, "g"))].length;
+        if (refs - closes <= 0) {
+          error(key, `${at}: SampleNotice 가 한 번도 열리지 않습니다 — open 에 넘긴 ${stateName} 을 true 로 바꾸는 ${setter}(true) 호출이 없습니다(폼 제출 때 열어야 함)`);
+        }
+      }
+    }
+  }
+
+  // ── 폼 ──
+  // onSubmit 은 JSX 속성(onSubmit={…})만 센다. `const onSubmit = (e) => …` 선언까지 세면
+  // role="search" 폼이 「폼 밖 onSubmit 이 있다」로 오판돼 면제가 풀린다(TraceExplorer.tsx 에서 실측).
+  const ONSUBMIT_ATTR = /\bonSubmit\s*=\s*\{/;
+  const hasForm = /<form\b/.test(src) || ONSUBMIT_ATTR.test(src);
+  // 접수가 아닌 폼은 표시해서 뺀다: 검색창(role="search") · 화면 안 상태만 바꾸는 폼(data-sample-local).
+  // 파일 안 <form> 이 전부 그런 폼이고, <form> 밖 onSubmit(커스텀 폼 컴포넌트)이 없을 때만 면제.
+  const formMatches = [...src.matchAll(/<form\b(?:=>|[^>])*>/g)];
+  const formTags = formMatches.map((m) => m[0]);
+  const localOnly =
+    formTags.length > 0 &&
+    formTags.every((t) => /\brole\s*=\s*["']search["']|\bdata-sample-local\b/.test(t)) &&
+    [...src.matchAll(new RegExp(ONSUBMIT_ATTR.source, "g"))].length <= formTags.filter((t) => ONSUBMIT_ATTR.test(t)).length;
+
+  // data-sample-local 은 스스로 붙이는 표시라, 접수처럼 보이는 버튼이 들어 있으면 알린다
+  for (const m of formMatches) {
+    if (!/\bdata-sample-local\b/.test(m[0])) continue;
+    const bodyEnd = src.indexOf("</form>", m.index);
+    const body = src.slice(m.index, bodyEnd < 0 ? undefined : bodyEnd);
+    const hit = buttonTexts(body).find((b) => SUBMIT_WORDS.test(b.text)) ?? null;
+    const valueHit = body.match(/type\s*=\s*["']submit["'][^>]*\bvalue\s*=\s*["']([^"']+)["']/);
+    const label = hit?.text ?? (valueHit && SUBMIT_WORDS.test(valueHit[1]) ? valueHit[1] : null);
+    if (label) {
+      warn(key, `${lineOf(m.index)}행: data-sample-local 폼인데 버튼이 「${label}」 입니다 — 신청·예약·문의 폼이면 표시를 떼고 SampleNotice 를 여세요`);
+    }
+  }
+
+  let hasSubmitForm = false;
+  if (hasForm && !localOnly) {
+    hasSubmitForm = true;
+    const line = lines.findIndex((l) => /<form\b/.test(l) || ONSUBMIT_ATTR.test(l)) + 1;
+    const exemption = LOCAL_FORM_EXEMPTIONS[key];
+    const submitValues = [...src.matchAll(/\bonSubmit\s*=\s*\{\s*([^}\s]*)/g)].map((m) => m[1]);
+    const submitFromProps = submitValues.length > 0 && submitValues.every((v) => /^props\.|^on[A-Z]/.test(v));
+    if (exemption) {
+      warn(key, `${line}행: 폼 면제 목록(스크립트 안) — ${exemption}. 파일에 <form data-sample-local> 을 붙이면 목록에서 지울 것`);
+      hasSubmitForm = false;
+    } else if (rendersNotice) {
+      // 이 파일이 연다 — 위에서 실제로 열리는지 봤다
+    } else if (slugRendersNotice && submitFromProps) {
+      warn(key, `${line}행: 폼의 onSubmit 을 props 로 받습니다 — 부모 파일이 SampleNotice 를 여는지 확인하세요(가짜 접수 금지)`);
+    } else if (slugRendersNotice) {
+      error(
+        key,
+        `${line}행: 폼이 있는데 이 파일은 SampleNotice 를 렌더하지 않습니다 — 같은 샘플의 다른 파일에 있어도 이 폼이 여는지 알 수 없습니다. 이 파일에서 SampleNotice 를 열거나, onSubmit 을 props(onSubmit={onBook})로 받으세요`,
+      );
+    } else {
+      error(
+        key,
+        `${line}행: 폼이 있는데 SampleNotice 를 렌더하지 않습니다 — 제출 시 SampleNotice 를 열어야 합니다(가짜 접수 금지). 접수가 아닌 검색·화면 조작 폼이면 <form role="search"> 또는 <form data-sample-local>`,
+      );
+    }
+    if (hasSubmitForm && !PRE_SUBMIT_NOTICE.test(textSrc)) {
+      warn(key, `${line}행: 접수 폼인데 제출 전 고지가 없습니다 — 제출 버튼 위에 「샘플 사이트입니다 — 입력하신 내용은 어디에도 전송되지 않습니다」 한 줄`);
+    }
+  }
+
+  // 폼 태그 없이 onClick 만으로 예약·신청을 흉내 낸 버튼
+  if (!hasForm && !rendersNotice && !slugRendersNotice) {
+    for (const b of buttonTexts(src)) {
+      if (FAKE_BUTTON.test(b.text)) {
+        warn(key, `${lineOf(b.index)}행: 「${b.text}」 버튼이 있는데 샘플 어디에도 SampleNotice 가 없습니다 — 누르면 SampleNotice 를 여세요`);
+      }
+    }
+  }
+
+  // ── 고정 헤더·쌓임 (className 전체·cn()·템플릿 리터럴) ──
+  const flagged = new Set();
+  const flagOnce = (kind, idx, fn) => {
+    const k = `${kind}:${lineOf(idx)}`;
+    if (flagged.has(k)) return;
+    flagged.add(k);
+    fn(`${lineOf(idx)}행`);
+  };
+  for (const g of classGroups(src)) {
+    const bases = classBases(g.text);
+    if (bases.has("fixed") && bases.has("top-0")) {
+      flagOnce("fixed", g.index, (at) => {
+        const ex = FIXED_HEADER_EXEMPTIONS[key];
+        if (ex) warn(key, `${at}: fixed top-0 면제 목록(스크립트 안) — ${ex}`);
+        else error(key, `${at}: fixed + top-0 — 샘플 바(44px)를 붙이면 가려집니다. 헤더는 sticky top-[var(--sample-bar-h,0px)] 로 (바가 없으면 0px 라 지금 화면은 그대로)`);
+      });
+    }
+    if (bases.has("fixed") && bases.has("inset-y-0")) {
+      flagOnce("inset-y", g.index, (at) => warn(key, `${at}: fixed inset-y-0 — 샘플 바를 붙이면 위 44px 가 가려집니다. top-[var(--sample-bar-h,0px)] bottom-0 으로`));
+    }
+    if (bases.has("sticky") && bases.has("top-0")) {
+      flagOnce("sticky", g.index, (at) => warn(key, `${at}: sticky top-0 — 샘플 바를 붙이면 그 밑으로 사라집니다. sticky top-[var(--sample-bar-h,0px)] 로 (바가 없으면 0px 라 지금 화면은 그대로)`));
+    }
+    for (const b of bases) {
+      const z = b.match(/^z-\[(\d+)\]$/);
+      if (z && Number(z[1]) >= 9000) {
+        flagOnce(`z${z[1]}`, g.index, (at) => warn(key, `${at}: ${b} — 샘플 z-index 는 9000 미만(샘플 바 9999 · SampleNotice 10000 위로 올라갑니다)`));
+      }
+    }
+  }
+  for (const m of src.matchAll(/\bposition\s*:\s*["'`]fixed["'`]/g)) {
+    const from = src.lastIndexOf("{", m.index);
+    const to = src.indexOf("}", m.index);
+    const obj = src.slice(from < 0 ? m.index : from, to < 0 ? undefined : to);
+    if (/\btop\s*:\s*(?:0\b|["'`]0(?:px|rem)?["'`])/.test(obj)) {
+      flagOnce("fixed", m.index, (at) => error(key, `${at}: style position:"fixed" + top:0 — 공용 샘플 바에 가려집니다. sticky + top: "var(--sample-bar-h,0px)" 로`));
+    }
+  }
+
+  // ── 외부 전송 (코드) ──
+  lines.forEach((line, i) => {
+    const at = `${i + 1}행`;
+    if (/\bfetch\s*\(/.test(line)) error(key, `${at}: fetch( 호출 — 샘플은 아무 데도 보내지 않습니다`);
+    if (/\baxios\b/.test(line)) error(key, `${at}: axios 사용 — 샘플은 아무 데도 보내지 않습니다`);
+    if (/["'`]\/api\//.test(line)) error(key, `${at}: "/api/" 호출 — 샘플은 아무 데도 보내지 않습니다`);
+    if (/\bsendBeacon\b|\bXMLHttpRequest\b|\bnew\s+WebSocket\b|\bnew\s+EventSource\b/.test(line)) {
+      error(key, `${at}: sendBeacon/XMLHttpRequest/WebSocket/EventSource — 샘플은 아무 데도 보내지 않습니다`);
+    }
+    if (EXTERNAL_FORM_SERVICE.test(line)) error(key, `${at}: 외부 폼 전송 서비스 주소 — 샘플은 아무 데도 보내지 않습니다`);
+    if (/<form\b[^>]*\baction\s*=\s*["'{`]*https?:/.test(line)) error(key, `${at}: <form action="http…"> — 샘플 폼은 외부로 제출하지 않습니다`);
+    if (/\b(?:localStorage|sessionStorage)\s*\.\s*setItem\b/.test(line)) {
+      warn(key, `${at}: 브라우저 저장소에 저장 — 「신청 내역」 같은 가짜 접수 기록이면 금지(화면 설정 기억이면 무시)`);
+    }
+  });
+
+  // ── 글자 (주석 제외 원문) ──
+  textLines.forEach((line, i) => {
+    const at = `${i + 1}행`;
+
+    for (const p of phoneCandidates(line)) {
+      const digits = `${p.area}${p.mid}${p.last}`;
+      if (digits === TAEMUN_PHONE_DIGITS) {
+        warn(key, `${at}: 태문 실번호 「${p.shown.trim()}」 — 샘플 안에는 넣지 않습니다(제작 문의는 샘플 바·SampleNotice 가 한다)`);
+        continue;
+      }
+      if (isPlaceholderPhone(p.area, p.mid, p.last)) continue;
+      warn(key, `${at}: 실존처럼 보이는 전화번호 「${p.shown.trim()}」 — 02-0000-0000 · 010-0000-0000 같은 자리표시 번호로`);
+    }
+    for (const m of line.matchAll(/(?<![\d.\-])(1[5-9]\d{2})[-.](\d{4})(?![\d\-])/g)) {
+      if (sameDigits(m[2])) continue;
+      warn(key, `${at}: 대표번호처럼 보이는 번호 「${m[0]}」 — 실제 회사 번호일 수 있습니다. 1588-0000 으로`);
+    }
+    for (const m of line.matchAll(/(?<![\d-])(\d{3})-(\d{2})-(\d{5})(?![\d-])/g)) {
+      if ([m[1], m[2], m[3]].every(sameDigits)) continue;
+      warn(key, `${at}: 사업자등록번호 형식 「${m[0]}」 — 실존 번호일 수 있습니다. 000-00-00000 으로`);
+    }
+    for (const m of line.matchAll(/[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,})/g)) {
+      if (PLACEHOLDER_EMAIL_DOMAIN.test(m[1]) || IMAGE_TLD.test(m[0])) continue;
+      warn(key, `${at}: 실존처럼 보이는 이메일 「${m[0]}」 — example.com 주소로`);
+    }
+    if (/mailto:/i.test(line)) {
+      if (/[?&](?:body|subject)=|location\s*\.\s*href|window\s*\.\s*open|location\s*=/.test(line)) {
+        error(key, `${at}: 폼 내용을 실은 mailto — 메일 앱으로 「발송」을 흉내 냅니다(가짜 접수). SampleNotice 로`);
+      } else if (!/mailto:[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\.)*(?:example\.(?:com|net|org|kr|co\.kr)|example|test|invalid)\b/i.test(line)) {
+        warn(key, `${at}: mailto 링크 — 샘플엔 hello@example.com 같은 자리표시 주소만 씁니다`);
+      }
+    }
+    if (FAKE_SUCCESS.test(line) && !NEGATION.test(line)) {
+      error(key, `${at}: 가짜 접수 문구 「${line.match(FAKE_SUCCESS)[0]}」 — 샘플은 접수하지 않습니다. 제출하면 SampleNotice 를 여세요`);
+    } else if (STATUS_DONE.test(line) && !NEGATION.test(line)) {
+      warn(key, `${at}: 「${line.match(STATUS_DONE)[0]}」 — 관리 화면의 상태 표시면 괜찮지만, 폼 제출 뒤 보여 주는 성공 문구면 가짜 접수입니다`);
+    }
+    if (FIGURES.test(line) && !/예시 수치/.test(textSrc)) {
+      warn(key, `${at}: 실적·인증·기간 수치 「${line.match(FIGURES)[0]}」 — 샘플엔 쓰지 않거나 화면에 「예시 수치」라고 적습니다`);
+    }
+    if (GUARANTEE.test(line)) {
+      warn(key, `${at}: 보장·최상급 표현 「${line.match(GUARANTEE)[0]}」 — 가상 브랜드라도 보증·1위를 단정하지 않습니다`);
+    }
+    for (const b of BANNED_PHRASES) {
+      if (b.pattern.test(line)) warn(key, `${at}: 금지 표현 ${b.pattern} — ${b.why}`);
+    }
+  });
+
+  return {
+    rendersNotice,
+    hasDisclosure: SAMPLE_DISCLOSURE.test(textSrc),
+    hasProposalDisclosure: PROPOSAL_DISCLOSURE.test(textSrc),
+  };
+}
+
+const scannedFiles = new Set();
+for (const s of sampleSources) {
+  const files = [...walkSources(s.dir)];
+  for (const cdir of COMPONENT_DEMO_DIRS) files.push(...walkSources(path.join(cdir, s.slug)));
+  const unique = files.filter((f) => !scannedFiles.has(f));
+  const slugRendersNotice = files.some((f) => /<SampleNotice\b/.test(stripComments(fs.readFileSync(f, "utf8"))));
+  let disclosure = false;
+  let proposalDisclosure = false;
+  for (const f of unique) {
+    scannedFiles.add(f);
+    keySlug.set(rel(f), s.slug);
+    const isPage = path.dirname(f) === s.dir && path.basename(f) === "page.tsx";
+    const r = scanFile(f, { isPage, slug: s.slug, card: s.card, slugRendersNotice });
+    // 고지는 「화면 안」에 있어야 인정한다. 라우트 폴더(page.tsx·<Slug>PageClient.tsx)는 기기 전환 툴바 쪽 껍데기라
+    // ?embed=true 로 화면만 직접 열면 안 보인다 — 샘플 화면 컴포넌트에 있는 글자만 센다.
+    if (f.startsWith(s.dir + path.sep)) continue;
+    disclosure ||= r.hasDisclosure;
+    proposalDisclosure ||= r.hasProposalDisclosure;
+  }
+  // (demos) 루트 레이아웃이 공용 고지(DemoDisclaimer)를 붙이면 화면 컴포넌트에 문구가 없어도 인정한다.
+  // 레이아웃은 ?embed=true 로 직접 열어도 함께 렌더되므로(실측: /demo/wonik-qnc?embed=true 에 고지 1건),
+  // 데모마다 같은 문구를 복사해 넣는 것보다 한 곳에서 붙이는 쪽이 새 시안에도 자동으로 걸린다.
+  if (unique.length && !disclosure) {
+    const key = rel(s.dir);
+    keySlug.set(key, s.slug);
+    warn(
+      key,
+      "화면에 샘플·시안 고지가 없습니다 — 푸터에 한 줄 남기세요. 가상 브랜드면 「이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아닙니다」, 실존 업체 제안 시안이면 「태문 DEV STUDIO 가 제안용으로 만든 시안이며, 해당 회사가 의뢰하거나 만든 사이트가 아닙니다」 (샘플 바를 접어도 남는 표시)",
+    );
+  }
+  // 실존 업체 제안 시안은 「가상 브랜드 샘플」 문구로 대신할 수 없다 — 회사 이름이 걸린 화면이라 ERROR 로 막는다
+  if (unique.length && s.card?.kind === "proposal" && !proposalDisclosure && !LAYOUT_PROPOSAL_DISCLAIMER) {
+    const key = rel(s.dir);
+    keySlug.set(key, s.slug);
+    error(
+      key,
+      `kind=proposal 인데 제안 시안 고지가 없습니다 — 「태문 DEV STUDIO 가 제안용으로 만든 시안이며, 해당 회사가 만들었거나 의뢰한 사이트가 아닙니다」를 헤더 아래 띠·푸터처럼 접을 수 없는 자리에 넣으세요. 툴바(DevicePreviewFrame)의 고지 띠는 iframe 바깥이라 ?embed=true 를 직접 열면 안 보입니다`,
+    );
+  }
+}
+
+// 페이지·카드 어느 쪽에도 안 걸린 컴포넌트 폴더 — slug 오타면 검사를 통째로 빠져나간다
+{
+  const sourceSlugs = new Set(sampleSources.map((s) => s.slug));
+  for (const cdir of COMPONENT_DEMO_DIRS) {
+    for (const name of listDirs(cdir)) {
+      if (sourceSlugs.has(name)) continue;
+      const key = rel(path.join(cdir, name));
+      keySlug.set(key, name);
+      warn(
+        key,
+        `페이지(src/app/(demos)/demo/${name}/page.tsx)도 카드도 없는 샘플 컴포넌트 폴더입니다 — 폴더 이름이 slug 와 다르면 입고 검사에서 통째로 빠집니다`,
+      );
+    }
+  }
+}
+
+// ───────── 6. 사이트 문구 (WARN) ─────────
+const SITE_COPY_RULES = [
+  { re: /압도적|원천 차단|태문만의|업계 최고/, why: "근거 없는 최상급" },
+  { re: /100\s*%|(?<![\d.])0\s*%(?!\s*[~-])/, why: "100%·0% 단정 — 계약서로 지킬 수 있는 문장으로" },
+  { re: /24시간|1시간 이내|\d+분 이내|즉시 연락/, why: "연락 시각 약속 — 형이 확정한 조건만" },
+  { re: /(?<!\d)3초/, why: "근거 없는 속도 표현" },
+  { re: /실시간/, why: "실제로 실시간이 아닌 기능을 암시" },
+  { re: /지체상금|보장/, why: "계약상 보장 — 계약서에 없는 조건을 화면에 쓰지 않는다" },
+];
+const siteCopyFiles = [...SITE_COPY_DIRS.flatMap((d) => walkSources(d)), ...SITE_COPY_FILES.filter((f) => fs.existsSync(f))];
+for (const f of siteCopyFiles) {
+  const textLines = stripCommentsForText(fs.readFileSync(f, "utf8")).split(/\r?\n/);
+  const key = `사이트 문구 ${rel(f)}`;
+  textLines.forEach((line, i) => {
+    // 코드 줄(클래스·import)은 건너뛰고 한글이 있는 줄만 본다
+    if (!/[가-힣]/.test(line)) return;
+    const visible = line.replace(/className\s*=\s*(?:"[^"]*"|\{`[^`]*`\})/g, "");
+    for (const r of SITE_COPY_RULES) {
+      const m = visible.match(r.re);
+      if (m) warn(key, `${i + 1}행: 「${m[0]}」 — ${r.why}`);
+    }
+    for (const b of BANNED_PHRASES) {
+      if (b.pattern.test(visible)) warn(key, `${i + 1}행: 금지 표현 ${b.pattern} — ${b.why}`);
+    }
+  });
+}
+
+// ───────── 실측 (--base) ─────────
+const livePages = [];
+if (BASE) {
+  const decode = (s) =>
+    s
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .replace(/&#x27;|&#39;/g, "'")
+      .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)));
+  const attrs = (tag) => {
+    const o = {};
+    for (const m of tag.matchAll(/([\w:-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g)) o[m[1].toLowerCase()] = decode(m[2] ?? m[3] ?? "");
+    return o;
+  };
+  const samePath = (a, b) => a.replace(/\/+$/, "") === b.replace(/\/+$/, "");
+
+  const targets = [
+    // 홈은 레이아웃 기본 제목이 곧 홈 제목이다 — 기본 제목 검사만 뺀다(canonical·og:url 은 본다)
+    { path: "/", sample: false, home: true },
+    { path: "/portfolio", sample: false },
+    { path: "/inquiry", sample: false },
+  ];
+  for (const s of sampleSources) {
+    if (!cardSlugs.has(s.slug)) continue; // 카드 없는 폴더는 목록 밖 — 정적 WARN 으로 충분
+    const card = cards.find((c) => c.slug === s.slug || c.item.liveUrl === `/demo/${s.slug}`);
+    targets.push({
+      path: `/demo/${s.slug}`,
+      sample: s.group === "demos" || card?.item.kind === "sample",
+      kind: card?.item.kind ?? null,
+      slug: s.slug,
+    });
+  }
+
+  const imgCache = new Map();
+  async function checkImage(url) {
+    if (imgCache.has(url)) return imgCache.get(url);
+    const run = async () => {
+      try {
+        let res = await fetch(url, { method: "HEAD", redirect: "follow", signal: AbortSignal.timeout(8000) });
+        if ([400, 403, 405, 501].includes(res.status)) {
+          res = await fetch(url, { method: "GET", redirect: "follow", signal: AbortSignal.timeout(8000) });
+          await res.body?.cancel();
+        }
+        return res.status === 200 ? null : `상태 ${res.status}`;
+      } catch (e) {
+        return e.name === "TimeoutError" ? "8초 안에 응답 없음" : `요청 실패 — ${e.message}`;
+      }
+    };
+    const p = run();
+    imgCache.set(url, p);
+    return p;
+  }
+
+  let serverDown = false;
+  for (const t of targets) {
+    const pageUrl = `${BASE}${t.path}`;
+    const key = `실측 ${pageUrl}`;
+    if (t.slug) keySlug.set(key, t.slug);
+    livePages.push(pageUrl);
+    let res;
+    let html;
+    try {
+      res = await fetch(pageUrl, { redirect: "manual", signal: AbortSignal.timeout(90000) });
+      html = await res.text();
+    } catch (e) {
+      error(key, `요청 실패 — ${e.cause?.code ?? e.message}${e.name === "TimeoutError" ? " (90초)" : ""}`);
+      if (e.cause?.code === "ECONNREFUSED") {
+        serverDown = true;
+        break;
+      }
+      continue;
+    }
+    if (res.status !== 200) {
+      error(key, `상태 ${res.status}${res.headers.get("location") ? ` → ${res.headers.get("location")}` : ""} (200 이어야 합니다)`);
+      continue;
+    }
+    const head = html.split(/<\/head>/i)[0];
+    const titleM = head.match(/<title[^>]*>([\s\S]*?)<\/title>/i) ?? html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+    const title = titleM ? decode(titleM[1]).trim() : "";
+    if (!title) error(key, "<title> 이 없습니다");
+    else if ((!t.home && title.includes(SITE_DEFAULT_TITLE)) || title === DEMOS_DEFAULT_TITLE) {
+      error(key, `<title> 이 레이아웃 기본 제목 「${title}」 입니다 — 페이지 metadata.title 을 지정하세요`);
+    }
+
+    const metas = [...html.matchAll(/<meta\b[^>]*>/gi)].map((m) => attrs(m[0]));
+    const links = [...html.matchAll(/<link\b[^>]*>/gi)].map((m) => attrs(m[0]));
+    const htmlTag = html.match(/<html\b[^>]*>/i)?.[0] ?? "";
+    if (t.sample) {
+      const robots = metas.filter((m) => (m.name ?? "").toLowerCase() === "robots").map((m) => m.content ?? "");
+      if (!robots.some((c) => /noindex/i.test(c))) {
+        error(key, `샘플인데 <meta name="robots"> 에 noindex 가 없습니다${robots.length ? ` (현재 「${robots.join(" / ")}」)` : ""} — 가상 브랜드가 검색에 뜹니다`);
+      }
+      if (/\bclass\s*=\s*["'][^"']*\bdark\b/.test(htmlTag)) error(key, "샘플인데 <html class=\"dark\"> — 사이트 틀 레이아웃을 물려받았습니다. (demos) 로 옮기세요");
+      if (/application\/ld\+json/i.test(html)) error(key, "샘플인데 JSON-LD 가 있습니다 — 태문 사업자 정보가 가상 브랜드 페이지에 붙습니다. (demos) 로 옮기세요");
+      // 상단 태문 표시 — 지금은 기기 전환 툴바(DevicePreviewFrame)가 맡고, 툴바 없는 샘플은 SampleSiteBar 가 맡는다.
+      // 둘 중 하나는 반드시 있어야 「누가 만든 무슨 화면인지」와 포트폴리오·제작 문의 길이 화면에 남는다.
+      // 표시 문구는 툴바(아라 DevicePreviewFrame: 「태문 DEV STUDIO 직영 …」)와 SampleSiteBar 가 서로 다르다.
+      // 클라이언트에서 그려지는 툴바는 SSR HTML 본문 대신 RSC 페이로드에 실리므로 문자열 존재로 판정한다.
+      const hasStudioBar = html.includes("태문 DEV STUDIO");
+      if (!hasStudioBar) {
+        error(
+          key,
+          "상단 태문 표시가 없습니다 — 기기 전환 툴바(DevicePreviewFrame, <Slug>PageClient) 또는 SampleSiteBar 중 하나는 있어야 합니다",
+        );
+      }
+      if (t.kind === "proposal" && !PROPOSAL_DISCLOSURE.test(html)) {
+        error(
+          key,
+          "제안용 시안인데 화면에 「제안용으로 만든 시안 · 해당 회사가 만들었거나 의뢰한 사이트가 아닙니다」 고지가 없습니다 — 툴바 disclaimer 와 화면 안 고지 띠를 확인하세요",
+        );
+      }
+    } else {
+      const canon = links.find((l) => (l.rel ?? "").toLowerCase().split(/\s+/).includes("canonical"));
+      if (!canon?.href) error(key, "canonical 이 없습니다 — alternates.canonical 을 자기 주소로");
+      else {
+        let canonPath;
+        try {
+          canonPath = new URL(canon.href, pageUrl).pathname;
+        } catch {
+          canonPath = canon.href;
+        }
+        if (!samePath(decodeURIComponent(canonPath), t.path)) {
+          error(key, `canonical 이 자기 주소가 아닙니다 — 「${canon.href}」 (기대 ${t.path})`);
+        }
+      }
+      const ogUrl = metas.find((m) => (m.property ?? "").toLowerCase() === "og:url")?.content;
+      if (ogUrl) {
+        let ogPath;
+        try {
+          ogPath = new URL(ogUrl, pageUrl).pathname;
+        } catch {
+          ogPath = ogUrl;
+        }
+        if (!samePath(decodeURIComponent(ogPath), t.path)) {
+          error(key, `og:url 이 자기 주소가 아닙니다 — 「${ogUrl}」 (기대 ${t.path}). 페이지 metadata 에 openGraph 를 선언하세요(공유 미리보기가 홈으로 샙니다)`);
+        }
+      }
+    }
+
+    const srcs = [];
+    for (const m of html.matchAll(/<img\b[^>]*>/gi)) {
+      const src = attrs(m[0]).src;
+      if (!src || src.startsWith("data:") || src.startsWith("blob:")) continue;
+      let abs;
+      try {
+        abs = new URL(src, pageUrl).href;
+      } catch {
+        warn(key, `이미지 주소 해석 불가 「${src}」`);
+        continue;
+      }
+      if (!srcs.includes(abs)) srcs.push(abs);
+    }
+    const checked = srcs.slice(0, 30);
+    const results = await Promise.all(checked.map(async (u) => [u, await checkImage(u)]));
+    for (const [u, problem] of results) if (problem) warn(key, `이미지 ${problem} — ${u}`);
+    if (srcs.length > 30) warn(key, `<img> ${srcs.length}개 중 앞 30개만 확인했습니다`);
+  }
+  if (serverDown) error(`실측 ${BASE}`, `서버에 연결할 수 없습니다 — ${BASE} 가 떠 있는지 확인하세요. 나머지 실측은 건너뜁니다`);
+}
+
+// ───────── 출력 ─────────
+let errors = 0;
+let warns = 0;
+let promoted = 0;
+const header = `포트폴리오 입고 검사 — 카드 ${jsonFiles.length}개 · 샘플 소스 파일 ${scannedFiles.size}개 · 사이트 문구 파일 ${siteCopyFiles.length}개${BASE ? ` · 실측 페이지 ${livePages.length}개 (${BASE})` : ""}${STRICT_SLUGS.size ? ` · strict ${[...STRICT_SLUGS].join(",")}` : ""}`;
+console.log(header);
+if (siteDemoSlugs.length) {
+  console.log(`  참고: (site)/demo 폴더 ${siteDemoSlugs.join(", ")} — 샘플은 (demos)/demo 에 둡니다`);
+}
+for (const s of STRICT_SLUGS) {
+  if (!jsonSlugs.has(s) && !demosSlugs.includes(s)) console.log(`  참고: --strict 「${s}」 에 해당하는 카드·폴더가 없습니다`);
+}
+const keys = [...report.keys()].sort((a, b) => {
+  const rank = (k) => (k.startsWith("실측 ") ? 2 : k.startsWith("사이트 문구 ") ? 1 : 0);
+  return rank(a) - rank(b) || a.localeCompare(b);
+});
+for (const k of keys) {
+  const strict = STRICT_SLUGS.has(keySlug.get(k) ?? "");
+  const items = report
+    .get(k)
+    .map((it) => (strict && it.level === "WARN" ? { level: "ERROR", msg: `(strict) ${it.msg}`, promoted: true } : it))
+    .sort((a, b) => (a.level === b.level ? 0 : a.level === "ERROR" ? -1 : 1));
+  console.log(`\n■ ${k}`);
+  for (const it of items) {
+    if (it.level === "ERROR") errors += 1;
+    else warns += 1;
+    if (it.promoted) promoted += 1;
+    console.log(`  ${it.level === "ERROR" ? "ERROR" : "WARN "}  ${it.msg}`);
+  }
+}
+console.log(
+  `\n요약: ${errors === 0 && warns === 0 ? "통과" : `ERROR ${errors}${promoted ? ` (strict 승격 ${promoted})` : ""} · WARN ${warns}`} — 문제 있는 곳 ${keys.length} / 카드 ${jsonFiles.length} · 소스 ${scannedFiles.size}${BASE ? ` · 실측 ${livePages.length}` : ""}${errors ? " → 입고 불가" : ""}`,
+);
+// process.exit() 은 쓰지 않는다 — 실측 fetch 의 keep-alive 소켓이 열린 채 끊으면 Windows Node 가
+// libuv assertion(UV_HANDLE_CLOSING)으로 죽어 종료코드가 3221226505 로 바뀐다(실측).
+process.exitCode = errors > 0 ? 1 : 0;

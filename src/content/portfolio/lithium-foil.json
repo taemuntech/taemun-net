@@ -1,0 +1,20 @@
+{
+  "slug": "lithium-foil",
+  "kind": "sample",
+  "industry": "manufacturing",
+  "title": "리튬 호일 공정 데이터 플랫폼",
+  "subtitle": "제조 공정 데이터 플랫폼 샘플 (12주 가상 데이터)",
+  "summary": "리튬 호일 제조 공정의 12주 가상 데이터로 만든 공정 데이터 플랫폼 샘플입니다. 롤 일지를 입력하면 KPI와 관리도가 즉시 다시 계산되고, 원료부터 출하까지 로트 계보를 거슬러 올라가 볼 수 있습니다.",
+  "features": [
+    "롤 일지 입력 시 KPI·관리도 즉시 재계산",
+    "리튬 질량 수율 워터폴 차트",
+    "두께 균일도·불순물 관리도",
+    "원료→출하 로트 계보 역추적",
+    "관리도·교차표 기반 개선 제안"
+  ],
+  "techStack": ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS v4", "SVG 차트"],
+  "liveUrl": "/demo/lithium-foil",
+  "featured": true,
+  "order": 2,
+  "createdAt": "2026-09-15"
+}

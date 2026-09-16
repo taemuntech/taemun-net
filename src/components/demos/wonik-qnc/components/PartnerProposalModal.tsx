@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import { X, Shield, Send, CheckCircle } from 'lucide-react';
+import { X, Shield, Send } from 'lucide-react';
+import SampleNotice from '@/components/demo-kit/SampleNotice';
 
 interface PartnerProposalModalProps {
   isOpen: boolean;
@@ -12,7 +13,7 @@ export const PartnerProposalModal: React.FC<PartnerProposalModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [submitted, setSubmitted] = useState(false);
+  const [noticeOpen, setNoticeOpen] = useState(false);
   const [formData, setFormData] = useState({
     companyName: '',
     contactPerson: '',
@@ -27,19 +28,16 @@ export const PartnerProposalModal: React.FC<PartnerProposalModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-  };
-
-  const handleReset = () => {
-    setSubmitted(false);
-    onClose();
+    // 제안용 시안 — 입력값을 어디에도 보내지 않고 공용 안내만 연다
+    setNoticeOpen(true);
   };
 
   return (
-    <div
-      className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4"
-      onClick={onClose}
-    >
+    <>
+      <div
+        className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4"
+        onClick={onClose}
+      >
       <div
         className="bg-white max-w-xl w-full rounded-xl overflow-hidden shadow-2xl border border-[#c3c6d6]/50 animate-in fade-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
@@ -67,29 +65,6 @@ export const PartnerProposalModal: React.FC<PartnerProposalModalProps> = ({
         </div>
 
         {/* Content */}
-        {submitted ? (
-          <div className="p-8 text-center space-y-4">
-            <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
-              <CheckCircle className="w-8 h-8" />
-            </div>
-            <h4 className="text-xl font-bold text-[#131b2e]">
-              협력 제안이 정상적으로 접수되었습니다
-            </h4>
-            <p className="text-sm text-gray-600 leading-relaxed max-w-md mx-auto">
-              원익큐앤씨 구매/협력사 개발팀에서 제안서를 신속히 검토한 후 담당자 이메일(
-              {formData.email || '제출하신 이메일'})로 연락드리겠습니다.
-            </p>
-            <div className="pt-4">
-              <button
-                type="button"
-                onClick={handleReset}
-                className="px-6 py-2.5 bg-[#0052cc] hover:bg-[#003d9b] text-white font-medium text-sm rounded-md shadow-xs transition-colors"
-              >
-                닫기
-              </button>
-            </div>
-          </div>
-        ) : (
           <form onSubmit={handleSubmit} className="p-6 space-y-4 text-sm">
             <p className="text-xs text-gray-600 bg-[#f2f3ff] p-3 rounded-lg border border-[#dae2fd]">
               원익큐앤씨와 함께 성장할 반도체 원소재, 초정밀 가공, 화학약품, 분석 장비 분야의 우수 협력사를 모십니다.
@@ -214,25 +189,39 @@ export const PartnerProposalModal: React.FC<PartnerProposalModalProps> = ({
               />
             </div>
 
-            <div className="pt-3 border-t border-gray-100 flex items-center justify-end gap-2">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md text-xs font-semibold"
-              >
-                취소
-              </button>
-              <button
-                type="submit"
-                className="inline-flex items-center gap-1.5 px-5 py-2 bg-[#0052cc] hover:bg-[#003d9b] text-white rounded-md text-xs font-semibold shadow-xs"
-              >
-                <Send className="w-3.5 h-3.5" />
-                제안서 제출
-              </button>
+            <div className="pt-3 border-t border-gray-100 space-y-3">
+              <p className="text-xs font-semibold text-[#0052cc] text-center">
+                제안용 시안 — 실제로 접수되지 않습니다
+              </p>
+              <div className="flex items-center justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md text-xs font-semibold"
+                >
+                  취소
+                </button>
+                <button
+                  type="submit"
+                  className="inline-flex items-center gap-1.5 px-5 py-2 bg-[#0052cc] hover:bg-[#003d9b] text-white rounded-md text-xs font-semibold shadow-xs"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  제안서 제출
+                </button>
+              </div>
             </div>
           </form>
-        )}
       </div>
-    </div>
+      </div>
+
+      <SampleNotice
+        open={noticeOpen}
+        onClose={() => setNoticeOpen(false)}
+        slug="wonik-qnc"
+        industry="manufacturing"
+        featureName="파트너 제안"
+        kind="proposal"
+      />
+    </>
   );
 };

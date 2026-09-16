@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import "./globals.css";
+import { SITE_OG_IMAGES } from "@/lib/site-og";
+import "../globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://taemun.net"),
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
     template: "%s | 태문 DEV STUDIO",
   },
   description:
-    "맞춤형 홈페이지 제작부터 고성능 웹·앱 솔루션, 전자서식 SaaS, PG 결제 연동까지. 타사 대비 2배 빠른 0→1 프로덕션 구축! 개발 외주 문의 010-8672-6463",
+    "맞춤형 홈페이지 제작부터 고성능 웹·앱 솔루션, 전자서식 SaaS, PG 결제 연동까지. 업종별 샘플로 시안을 먼저 보고 결정하세요. 개발 외주 문의 010-8672-6463",
   keywords: [
     "홈페이지 제작",
     "홈페이지 제작 외주",
@@ -24,23 +25,22 @@ export const metadata: Metadata = {
     "태문 DEV STUDIO",
     "태문",
   ],
-  alternates: {
-    canonical: "/",
-  },
+  // alternates.canonical 은 레이아웃에 두지 않는다 — 하위 페이지가 전부 홈을 canonical 로
+  // 물려받는 결함이 있었다. 홈만 (site)/page.tsx 에서 "/" 를 선언한다.
   openGraph: {
     type: "website",
     locale: "ko_KR",
     siteName: "태문 DEV STUDIO",
     title: "홈페이지 제작 & 웹·앱 개발 외주 전문 | 태문 DEV STUDIO",
     description:
-      "맞춤형 홈페이지 제작부터 고성능 웹·앱 솔루션, 전자서식 SaaS, PG 결제 연동까지. 타사 대비 2배 빠른 0→1 프로덕션 구축!",
+      "맞춤형 홈페이지 제작부터 고성능 웹·앱 솔루션, 전자서식 SaaS, PG 결제 연동까지. 업종별 샘플로 시안을 먼저 보고 결정하세요.",
     url: "https://taemun.net",
+    images: SITE_OG_IMAGES,
   },
+  // twitter 에는 card 만 둔다 — title·description 을 여기 적으면 하위 페이지가 전부 홈 문구를 물려받는다
+  // (metadata 는 키 단위로 얕게 합쳐져 페이지의 openGraph 가 twitter 를 덮지 않음). 비워 두면 Next 가 각 페이지 openGraph 에서 채운다.
   twitter: {
     card: "summary_large_image",
-    title: "홈페이지 제작 & 웹·앱 개발 외주 전문 | 태문 DEV STUDIO",
-    description:
-      "맞춤형 홈페이지 제작부터 고성능 웹·앱 솔루션, 전자서식 SaaS, PG 결제 연동까지. 타사 대비 2배 빠른 0→1 프로덕션 구축!",
   },
   verification: {
     google: "googlef6d4a13fe73ddf52",
@@ -69,6 +69,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
+        {/* 아라가 a45bebf 에서 추가한 아이콘 폰트 — 그대로 유지 */}
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"

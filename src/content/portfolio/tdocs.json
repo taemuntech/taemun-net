@@ -1,0 +1,21 @@
+{
+  "slug": "tdocs",
+  "kind": "service",
+  "industry": "platform",
+  "title": "T-DOCS (티독스)",
+  "subtitle": "모바일 전자서식·전자서명 SaaS",
+  "summary": "견적서·계약서 등 240여 종 서식을 웹에서 작성하고 카카오톡으로 보내 모바일로 서명받는 전자서식 SaaS 입니다. 서명이 끝나면 서명본·서명 확인서·증명서를 한 PDF 로 발급하며, 태문이 직접 운영하고 있습니다.",
+  "features": [
+    "견적서·계약서 등 240여 종 서식 웹 작성",
+    "카카오톡으로 보내는 모바일 전자서명",
+    "서명본·서명 확인서·증명서를 한 PDF 로 발급",
+    "정기 구독 결제"
+  ],
+  "techStack": ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS v4", "Supabase", "PortOne"],
+  "liveUrl": "https://tdocs.kr",
+  "thumbnail": { "desktop": "/images/mockup_tdocs.jpg" },
+  "icon": "file-text",
+  "featured": true,
+  "order": 3,
+  "createdAt": "2026-08-25"
+}

@@ -11,12 +11,11 @@ import { Process } from './Process';
 import { Consultation } from './Consultation';
 import { Footer } from './Footer';
 import { ProjectModal } from './modals/ProjectModal';
-import { ConfirmationModal } from './modals/ConfirmationModal';
 import { MaterialArchiveModal } from './modals/MaterialArchiveModal';
 import { ImageLightboxModal } from './modals/ImageLightboxModal';
 import { JournalModal } from './modals/JournalModal';
 import { PrivacyPolicyModal } from './modals/PrivacyPolicyModal';
-import { Project, SubmissionRecord } from './types';
+import { Project } from './types';
 
 export default function AtelierVaucluseApp({ isEmbed = false }: { isEmbed?: boolean } = {}) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -35,7 +34,6 @@ export default function AtelierVaucluseApp({ isEmbed = false }: { isEmbed?: bool
     tab: 'journal',
   });
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
-  const [confirmedRecord, setConfirmedRecord] = useState<SubmissionRecord | null>(null);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -119,9 +117,7 @@ export default function AtelierVaucluseApp({ isEmbed = false }: { isEmbed?: bool
         <Process />
 
         {/* Consultation & Inquiry Section */}
-        <Consultation
-          onSubmitSuccess={(record) => setConfirmedRecord(record)}
-        />
+        <Consultation />
       </main>
 
       {/* Footer */}
@@ -141,11 +137,6 @@ export default function AtelierVaucluseApp({ isEmbed = false }: { isEmbed?: bool
         project={selectedProject}
         onClose={() => setSelectedProject(null)}
         onRequestConsultationWithProject={handleRequestConsultationWithProject}
-      />
-
-      <ConfirmationModal
-        record={confirmedRecord}
-        onClose={() => setConfirmedRecord(null)}
       />
 
       <MaterialArchiveModal

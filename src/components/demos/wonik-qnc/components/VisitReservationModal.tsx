@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import { X, CalendarCheck, MapPin, CheckCircle, Clock, ShieldCheck } from 'lucide-react';
+import { X, CalendarCheck, MapPin, Clock, ShieldCheck } from 'lucide-react';
+import SampleNotice from '@/components/demo-kit/SampleNotice';
 
 interface VisitReservationModalProps {
   isOpen: boolean;
@@ -12,7 +13,7 @@ export const VisitReservationModal: React.FC<VisitReservationModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [submitted, setSubmitted] = useState(false);
+  const [noticeOpen, setNoticeOpen] = useState(false);
   const [formData, setFormData] = useState({
     visitorName: '',
     company: '',
@@ -29,19 +30,16 @@ export const VisitReservationModal: React.FC<VisitReservationModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-  };
-
-  const handleReset = () => {
-    setSubmitted(false);
-    onClose();
+    // 제안용 시안 — 입력값을 어디에도 보내지 않고 공용 안내만 연다
+    setNoticeOpen(true);
   };
 
   return (
-    <div
-      className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4"
-      onClick={onClose}
-    >
+    <>
+      <div
+        className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4"
+        onClick={onClose}
+      >
       <div
         className="bg-white max-w-xl w-full rounded-xl overflow-hidden shadow-2xl border border-[#c3c6d6]/50 animate-in fade-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
@@ -69,34 +67,6 @@ export const VisitReservationModal: React.FC<VisitReservationModalProps> = ({
         </div>
 
         {/* Content */}
-        {submitted ? (
-          <div className="p-8 text-center space-y-4">
-            <div className="w-16 h-16 bg-blue-100 text-[#0052cc] rounded-full flex items-center justify-center mx-auto">
-              <CheckCircle className="w-8 h-8" />
-            </div>
-            <h4 className="text-xl font-bold text-[#131b2e]">
-              방문 예약 신청이 완료되었습니다
-            </h4>
-            <p className="text-sm text-gray-600 leading-relaxed max-w-md mx-auto">
-              보안 게이트 출입증 발급을 위한 사전 승인 안내 문자가 등록하신 연락처(
-              {formData.phone || '010-XXXX-XXXX'})로 발송되었습니다.
-            </p>
-            <div className="p-3.5 bg-gray-50 rounded-lg border text-xs text-left max-w-sm mx-auto space-y-1 font-mono">
-              <div>• 방문지: {formData.location === 'gumi-hq' ? '구미 본사 및 제1공장' : formData.location === 'gumi-rd' ? '구미 첨단 R&D센터' : '동탄 글로벌 마케팅 오피스'}</div>
-              <div>• 예약일시: {formData.visitDate} {formData.visitTime}</div>
-              <div>• 방문자: {formData.visitorName} ({formData.company})</div>
-            </div>
-            <div className="pt-4">
-              <button
-                type="button"
-                onClick={handleReset}
-                className="px-6 py-2.5 bg-[#0052cc] hover:bg-[#003d9b] text-white font-medium text-sm rounded-md shadow-xs transition-colors"
-              >
-                확인
-              </button>
-            </div>
-          </div>
-        ) : (
           <form onSubmit={handleSubmit} className="p-6 space-y-4 text-sm">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <div>
@@ -255,25 +225,39 @@ export const VisitReservationModal: React.FC<VisitReservationModalProps> = ({
               </div>
             </div>
 
-            <div className="pt-3 border-t border-gray-100 flex items-center justify-end gap-2">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md text-xs font-semibold"
-              >
-                취소
-              </button>
-              <button
-                type="submit"
-                disabled={!formData.securityAgreed}
-                className="px-5 py-2 bg-[#0052cc] hover:bg-[#003d9b] disabled:opacity-50 text-white rounded-md text-xs font-semibold shadow-xs"
-              >
-                예약 신청
-              </button>
+            <div className="pt-3 border-t border-gray-100 space-y-3">
+              <p className="text-xs font-semibold text-[#0052cc] text-center">
+                제안용 시안 — 실제로 접수되지 않습니다
+              </p>
+              <div className="flex items-center justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md text-xs font-semibold"
+                >
+                  취소
+                </button>
+                <button
+                  type="submit"
+                  disabled={!formData.securityAgreed}
+                  className="px-5 py-2 bg-[#0052cc] hover:bg-[#003d9b] disabled:opacity-50 text-white rounded-md text-xs font-semibold shadow-xs"
+                >
+                  예약 신청
+                </button>
+              </div>
             </div>
           </form>
-        )}
       </div>
-    </div>
+      </div>
+
+      <SampleNotice
+        open={noticeOpen}
+        onClose={() => setNoticeOpen(false)}
+        slug="wonik-qnc"
+        industry="manufacturing"
+        featureName="방문 예약"
+        kind="proposal"
+      />
+    </>
   );
 };

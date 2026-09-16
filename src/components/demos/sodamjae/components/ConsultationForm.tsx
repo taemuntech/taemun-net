@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import { MapPin, Hammer, PhoneCall, ShieldCheck, CheckCircle, Send, ArrowRight } from 'lucide-react';
+import { MapPin, Hammer, PhoneCall, ShieldCheck, Send } from 'lucide-react';
+import SampleNotice from '@/components/demo-kit/SampleNotice';
 import { ConsultationInquiry } from '../types';
 
 export const ConsultationForm: React.FC = () => {
@@ -16,35 +17,19 @@ export const ConsultationForm: React.FC = () => {
     privacyAgreed: false,
   });
 
-  const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [noticeOpen, setNoticeOpen] = useState(false);
+  const [privacyError, setPrivacyError] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.privacyAgreed) {
-      alert('개인정보 수집 및 대지 현장 분석을 위한 기본 정보 제공에 동의해 주세요.');
+      setPrivacyError('개인정보 수집 및 대지 현장 분석을 위한 기본 정보 제공에 동의해 주세요.');
       return;
     }
+    setPrivacyError(null);
 
-    setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-    }, 600);
-  };
-
-  const handleReset = () => {
-    setFormData({
-      name: '',
-      phone: '',
-      location: '',
-      landStatus: '토지 매입 완료 (100평 이상)',
-      targetArea: '40~50평형대 (패밀리 주거 한옥)',
-      startDate: '3개월 이내 (즉시 착공 희망)',
-      message: '',
-      privacyAgreed: false,
-    });
-    setSubmitted(false);
+    // 제안용 시안 — 입력값을 어디에도 보내지 않고 공용 안내만 연다
+    setNoticeOpen(true);
   };
 
   return (
@@ -116,33 +101,6 @@ export const ConsultationForm: React.FC = () => {
 
           {/* Interactive Inquiry Form */}
           <div className="lg:col-span-7 bg-[#f4f3f1] p-6 lg:p-10 rounded-xs border border-[#c8c7bf]/40 shadow-xs">
-            {submitted ? (
-              <div className="py-12 px-4 text-center animate-in fade-in zoom-in-95 duration-300">
-                <div className="w-14 h-14 rounded-full bg-[#161714] text-[#faf9f7] flex items-center justify-center mx-auto mb-5 shadow-xs">
-                  <CheckCircle className="w-8 h-8 text-[#fea58a]" />
-                </div>
-                <h3 className="font-serif text-2xl lg:text-3xl text-[#161714] mb-3 font-normal">
-                  건축 상담 신청이 성공적으로 접수되었습니다
-                </h3>
-                <p className="text-sm lg:text-base text-[#474741] max-w-md mx-auto leading-relaxed mb-6 font-light">
-                  <span className="font-medium text-[#161714]">{formData.name}</span> 건축주님의 대지 정보({formData.location})에 대해 위성 지형 및 인허가 법규 1차 분석 후, 24시간 이내에 담당 도편수 및 수석 건축사가 직접 안내 연락을 드리겠습니다.
-                </p>
-                
-                <div className="p-4 bg-[#faf9f7] rounded-xs border border-[#c8c7bf]/30 max-w-sm mx-auto text-left mb-6 text-xs text-[#474741] space-y-1">
-                  <div><span className="font-medium text-[#161714]">신청 대지:</span> {formData.location}</div>
-                  <div><span className="font-medium text-[#161714]">희망 면적:</span> {formData.targetArea}</div>
-                  <div><span className="font-medium text-[#161714]">긴급 문의:</span> 02-741-8930</div>
-                </div>
-
-                <button
-                  onClick={handleReset}
-                  className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#161714] text-[#faf9f7] text-xs font-medium rounded-xs hover:bg-[#904b35] transition-colors cursor-pointer"
-                >
-                  <span>추가 상담 신청 또는 수정하기</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            ) : (
               <div>
                 <h3 className="font-serif text-xl lg:text-2xl text-[#161714] mb-2 font-medium">
                   한옥 건축 기획 문의서
@@ -276,26 +234,35 @@ export const ConsultationForm: React.FC = () => {
                     </label>
                   </div>
 
+                  {privacyError && (
+                    <p className="text-xs text-[#ba1a1a] font-medium leading-relaxed">{privacyError}</p>
+                  )}
+
+                  <p className="text-xs lg:text-sm text-[#904b35] font-medium text-center">
+                    제안용 시안 — 실제로 접수되지 않습니다
+                  </p>
+
                   <button
                     type="submit"
-                    disabled={isSubmitting}
-                    className="w-full py-4 bg-[#161714] text-[#faf9f7] rounded-xs text-sm font-medium tracking-wider hover:bg-[#904b35] transition-colors duration-200 shadow-none flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                    className="w-full py-4 bg-[#161714] text-[#faf9f7] rounded-xs text-sm font-medium tracking-wider hover:bg-[#904b35] transition-colors duration-200 shadow-none flex items-center justify-center gap-2 cursor-pointer"
                   >
-                    {isSubmitting ? (
-                      <span>신청서 접수 중...</span>
-                    ) : (
-                      <>
-                        <span>대지 현장 답사 및 건축 기획 상담 신청하기</span>
-                        <Send className="w-4 h-4 text-[#fea58a]" />
-                      </>
-                    )}
+                    <span>대지 현장 답사 및 건축 기획 상담 신청하기</span>
+                    <Send className="w-4 h-4 text-[#fea58a]" />
                   </button>
                 </form>
               </div>
-            )}
           </div>
         </div>
       </div>
+
+      <SampleNotice
+        open={noticeOpen}
+        onClose={() => setNoticeOpen(false)}
+        slug="sodamjae"
+        industry="construction"
+        featureName="상담 신청"
+        kind="proposal"
+      />
     </section>
   );
 };
