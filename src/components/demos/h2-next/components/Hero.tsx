@@ -15,14 +15,25 @@ export const Hero: React.FC<HeroProps> = ({ onOpenVideoModal }) => {
     >
       {/* High-Resolution Visual Showcase Overlay */}
       <div className="absolute inset-0 z-0">
-        <img
-          id="hero-bg-img"
-          alt="Offshore Wind Hydrogen Infrastructure"
+        <video
+          id="hero-bg-video"
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster={HERO_IMAGE_URL}
           className="w-full h-full object-cover object-center scale-100 filter brightness-[1.02] contrast-[0.98]"
-          src={HERO_IMAGE_URL}
-        />
+        >
+          <source src="/videos/h2-offshore-wind.mp4" type="video/mp4" />
+          <img
+            id="hero-bg-img"
+            alt="Offshore Wind Hydrogen Infrastructure"
+            className="w-full h-full object-cover object-center scale-100 filter brightness-[1.02] contrast-[0.98]"
+            src={HERO_IMAGE_URL}
+          />
+        </video>
         {/* High-Key Nordic Translucent Clean Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/40 backdrop-blur-[2px]"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/35 backdrop-blur-[1px]"></div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#f8f9ff] via-transparent to-white/50"></div>
       </div>
 

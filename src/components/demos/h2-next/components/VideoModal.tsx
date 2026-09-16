@@ -55,28 +55,17 @@ export const VideoModal: React.FC<VideoModalProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Video Canvas Preview */}
-        <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-[#0b1c30] flex items-center justify-center mb-4 border border-[#bcc9c6]/30">
-          <img
-            alt="Offshore Wind Array Preview"
-            className="w-full h-full object-cover filter brightness-75 contrast-105"
-            src={HERO_IMAGE_URL}
-          />
-
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black/30 p-4 text-center">
-            <div className="w-16 h-16 rounded-full bg-[#00685f]/80 backdrop-blur-md flex items-center justify-center mb-3 shadow-lg border border-white/20 animate-pulse">
-              <Radio className="w-8 h-8 text-[#89f5e7]" />
-            </div>
-            <span className="text-lg font-semibold drop-shadow-sm">
-              고해상도 실시간 4K 드론 피드 연결 중
-            </span>
-            <span className="font-mono text-xs text-[#d3e4fe] mt-1">
-              현장 보안 프로토콜 승인 완료 • 전라남도 신안 해역
-            </span>
-            <div className="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/50 text-[11px] font-mono border border-white/10">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-              <span>LIVE FEED: 60 FPS • 2160p UHD</span>
-            </div>
-          </div>
+        <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-[#0b1c30] flex items-center justify-center mb-4 border border-[#bcc9c6]/30 shadow-inner">
+          <video
+            autoPlay
+            controls
+            playsInline
+            className="w-full h-full object-cover"
+            src="/videos/h2-offshore-wind.mp4"
+            poster={HERO_IMAGE_URL}
+          >
+            <source src="/videos/h2-offshore-wind.mp4" type="video/mp4" />
+          </video>
         </div>
 
         {/* Modal Footer */}
