@@ -28,6 +28,7 @@ import {
   Sprout,
   ShoppingBag,
   Apple,
+  Sparkles,
 } from "lucide-react";
 
 export default function Header() {
@@ -452,6 +453,26 @@ export default function Header() {
                   </div>
                 </Link>
 
+                {/* Luminous Lab E-Commerce Demo */}
+                <Link
+                  href="/demo/luminous-lab"
+                  onClick={() => setPortfolioDropdownOpen(false)}
+                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-teal-50/60 transition-all group border border-transparent hover:border-teal-200"
+                >
+                  <div className="p-2 rounded-lg bg-teal-100 text-teal-800 border border-teal-200 shrink-0 group-hover:scale-105 transition-transform">
+                    <Sparkles className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
+                      <span>루미너스 랩</span>
+                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-teal-100 text-teal-800 font-extrabold">쇼핑몰 03</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
+                      K-뷰티 &amp; 클린 더마 코스메틱 (올리브영)
+                    </p>
+                  </div>
+                </Link>
+
                 {/* Maison d'Antique Demo */}
                 <Link
                   href="/demo/verde-gourmet"
@@ -466,6 +487,24 @@ export default function Header() {
                         <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 font-bold">쇼핑몰 02</span>
                       </div>
                       <div className="text-xs text-zinc-500 mt-0.5">신선식품 &amp; 새벽배송 데모</div>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-zinc-400" />
+                </Link>
+
+                <Link
+                  href="/demo/luminous-lab"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-teal-500 text-left transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <Sparkles className="w-5 h-5 text-teal-700" />
+                    <div>
+                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
+                        <span>루미너스 랩 (LUMINOUS LAB)</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-teal-100 text-teal-800 font-bold">쇼핑몰 03</span>
+                      </div>
+                      <div className="text-xs text-zinc-500 mt-0.5">K-뷰티 &amp; 클린 더마 코스메틱 데모</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-400" />
@@ -917,6 +956,24 @@ export default function Header() {
                         <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 font-bold">쇼핑몰 02</span>
                       </div>
                       <div className="text-xs text-zinc-500 mt-0.5">신선식품 &amp; 새벽배송 데모</div>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-zinc-400" />
+                </Link>
+
+                <Link
+                  href="/demo/luminous-lab"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-teal-500 text-left transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <Sparkles className="w-5 h-5 text-teal-700" />
+                    <div>
+                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
+                        <span>루미너스 랩 (LUMINOUS LAB)</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-teal-100 text-teal-800 font-bold">쇼핑몰 03</span>
+                      </div>
+                      <div className="text-xs text-zinc-500 mt-0.5">K-뷰티 &amp; 클린 더마 코스메틱 데모</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-400" />
