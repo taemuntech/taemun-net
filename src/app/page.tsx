@@ -97,15 +97,15 @@ export default function Home() {
             loop
             muted
             playsInline
-            className="w-full h-full object-cover scale-105"
+            className="w-full h-full object-cover scale-105 brightness-105"
           />
-          {/* High-Contrast Luxury Cinematic Gradient Overlays */}
-          {/* 1. Base dark tint */}
-          <div className="absolute inset-0 bg-black/55 backdrop-blur-[0.5px]" />
-          {/* 2. Left-heavy gradient for razor-sharp typography */}
-          <div className="absolute inset-0 bg-gradient-to-r from-zinc-950/95 via-zinc-950/75 to-zinc-950/20" />
-          {/* 3. Top fade for fixed header */}
-          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/80 via-black/40 to-transparent" />
+          {/* High-Contrast Luxury Cinematic Gradient Overlays (Brightened ~20%) */}
+          {/* 1. Base dark tint (lightened from black/55 to black/30) */}
+          <div className="absolute inset-0 bg-black/30 backdrop-blur-[0.5px]" />
+          {/* 2. Left-focused gradient for razor-sharp typography while keeping right side bright */}
+          <div className="absolute inset-0 bg-gradient-to-r from-zinc-950/90 via-zinc-950/55 to-transparent" />
+          {/* 3. Top fade for header */}
+          <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/60 via-black/20 to-transparent" />
           {/* 4. Bottom smooth fade into pure white gallery section */}
           <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white via-white/80 to-transparent" />
         </div>
