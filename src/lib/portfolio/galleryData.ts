@@ -937,6 +937,27 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       '5G 자율주행 스트래들 캐리어, 그린 메탄올 에코 선대 4대 자동화 필러',
     ],
   },
+  {
+    id: 'voltron-advanced-ev',
+    title: '볼트론 EV 전장 솔루션 (VOLTRON) 800V SiC 전력반도체 & 메가와트 충전',
+    client: '글로벌 완성차 Tier-1 전기차 파워트레인 & 전력반도체 엔터프라이즈',
+    category: 'corporate',
+    categoryName: '기업랜딩 · 전기차/전력반도체',
+    summary: '차세대 800V SiC 인버터, 15분 메가와트 초급속 충전 & 열관리 시뮬레이터 및 ASIL-D 인증관',
+    description: '글로벌 완성차 Tier-1 전장 엔지니어링 기업을 위한 하이퍼 테크 플래그십 사이트입니다. 배터리 용량 및 주변온도별 실시간 800V 충전 속도·열방출 시뮬레이터, 3세대 SiC 전력 인버터 분해 마이크로 아키텍처 뷰어, 실시간 120kHz 스위칭 오실로스코프 파형 계측기, ISO 26262 ASIL-D 전장 안전 인증 및 기술 백서 다운로드 게이트를 완비했습니다.',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1558441719-8b489c63f7d1?auto=format&fit=crop&w=800&q=80',
+    liveDemoUrl: '/demo/voltron-ev',
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Charging Simulator', 'Architecture Explorer', 'ASIL-D Dossier'],
+    period: '2주',
+    year: '2026',
+    badge: '실물 라이브 데모',
+    highlights: [
+      '800V 배터리(75~120kWh) 및 온도(-20~45℃) 조절 초급속 충전 곡선 시뮬레이터',
+      'Gen-3 SiC 인버터, 고전압 정션박스 3D 분해 마이크로 아키텍처 뷰어',
+      'ISO 26262 ASIL-D, AEC-Q101 전장 인증 및 기밀 엔지니어링 백서 다운로드 게이트',
+      '글로벌 OEM 양산 사양 협의(RFQ) 및 총괄 아키텍트 직통 엔지니어링 상담 연동',
+    ],
+  },
 
   // ─── 03. 병의원 · 메디컬 · 치과 (Medical & Healthcare) ───────────────────
   {
