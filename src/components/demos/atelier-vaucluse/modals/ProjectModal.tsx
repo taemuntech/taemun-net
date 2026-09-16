@@ -98,11 +98,11 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               </span>
             </div>
 
-            <h2 className="text-2xl lg:text-3xl font-serif text-[#161714]">
+            <h2 className="text-2xl lg:text-3xl font-serif text-[#161714] break-keep [word-break:keep-all]">
               {project.title}
             </h2>
 
-            <p className="text-sm lg:text-base text-[#474741] font-sans font-light leading-relaxed">
+            <p className="text-sm lg:text-base text-[#474741] font-sans font-light leading-relaxed break-keep [word-break:keep-all]">
               {project.description}
             </p>
           </div>

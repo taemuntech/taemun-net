@@ -25,21 +25,21 @@ export const Portfolio: React.FC<PortfolioProps> = ({
     <section className="py-24 border-b border-[#c8c7bf]/20 bg-[#faf9f7]" id="portfolio">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Header & Filter Controls */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
-          <div>
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 lg:mb-12 gap-6">
+          <div className="shrink-0">
             <span className="text-xs uppercase tracking-[0.2em] font-semibold text-[#904b35] block mb-2 font-sans">
               Selected Works
             </span>
-            <h2 className="text-3xl lg:text-5xl font-serif font-normal text-[#161714] tracking-[-0.015em]">
+            <h2 className="text-3xl lg:text-5xl font-serif font-normal text-[#161714] tracking-[-0.015em] break-keep [word-break:keep-all]">
               대표 프로젝트 아카이브
             </h2>
           </div>
 
-          {/* Category Filter Tabs */}
-          <div className="flex flex-wrap gap-2">
+          {/* Category Filter Tabs: Horizontal swipe scroll on mobile, wrap on desktop */}
+          <div className="flex items-center gap-2 overflow-x-auto scrollbar-none pb-2 -mx-6 px-6 lg:mx-0 lg:px-0 lg:pb-0 lg:flex-wrap">
             <button
               onClick={() => setActiveCategory('all')}
-              className={`px-4 py-2 rounded text-xs uppercase tracking-wider font-sans transition-all duration-200 cursor-pointer ${
+              className={`px-4 py-2 rounded text-xs uppercase tracking-wider font-sans transition-all duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
                 activeCategory === 'all'
                   ? 'bg-[#161714] text-[#faf9f7] border border-[#161714]'
                   : 'bg-[#faf9f7] text-[#474741] hover:text-[#161714] border border-[#c8c7bf]/40'
@@ -49,7 +49,7 @@ export const Portfolio: React.FC<PortfolioProps> = ({
             </button>
             <button
               onClick={() => setActiveCategory('residential')}
-              className={`px-4 py-2 rounded text-xs uppercase tracking-wider font-sans transition-all duration-200 cursor-pointer ${
+              className={`px-4 py-2 rounded text-xs uppercase tracking-wider font-sans transition-all duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
                 activeCategory === 'residential'
                   ? 'bg-[#161714] text-[#faf9f7] border border-[#161714]'
                   : 'bg-[#faf9f7] text-[#474741] hover:text-[#161714] border border-[#c8c7bf]/40'
@@ -59,7 +59,7 @@ export const Portfolio: React.FC<PortfolioProps> = ({
             </button>
             <button
               onClick={() => setActiveCategory('commercial')}
-              className={`px-4 py-2 rounded text-xs uppercase tracking-wider font-sans transition-all duration-200 cursor-pointer ${
+              className={`px-4 py-2 rounded text-xs uppercase tracking-wider font-sans transition-all duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
                 activeCategory === 'commercial'
                   ? 'bg-[#161714] text-[#faf9f7] border border-[#161714]'
                   : 'bg-[#faf9f7] text-[#474741] hover:text-[#161714] border border-[#c8c7bf]/40'
@@ -69,7 +69,7 @@ export const Portfolio: React.FC<PortfolioProps> = ({
             </button>
             <button
               onClick={() => setActiveCategory('renovation')}
-              className={`px-4 py-2 rounded text-xs uppercase tracking-wider font-sans transition-all duration-200 cursor-pointer ${
+              className={`px-4 py-2 rounded text-xs uppercase tracking-wider font-sans transition-all duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
                 activeCategory === 'renovation'
                   ? 'bg-[#161714] text-[#faf9f7] border border-[#161714]'
                   : 'bg-[#faf9f7] text-[#474741] hover:text-[#161714] border border-[#c8c7bf]/40'
@@ -80,13 +80,21 @@ export const Portfolio: React.FC<PortfolioProps> = ({
           </div>
         </div>
 
-        {/* Editorial Project Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Mobile Swipe Notice */}
+        <div className="flex lg:hidden items-center justify-between text-xs text-[#777770] font-sans mb-3 px-1">
+          <span>{filteredProjects.length}개 프로젝트 컬렉션</span>
+          <span className="flex items-center gap-1 font-mono text-[11px] text-[#904b35]">
+            좌우 스와이프 &rarr;
+          </span>
+        </div>
+
+        {/* Editorial Project Showcase: Mobile Horizontal Swipe Carousel & Desktop 3-col Grid */}
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-6 px-6 scrollbar-none lg:grid lg:grid-cols-3 lg:gap-8 lg:mx-0 lg:px-0">
           {filteredProjects.map((project) => (
             <article
               key={project.id}
               onClick={() => onSelectProject(project)}
-              className="group cursor-pointer flex flex-col"
+              className="w-[84vw] shrink-0 snap-center lg:w-auto group cursor-pointer flex flex-col"
             >
               <div className="aspect-[4/5] overflow-hidden rounded bg-[#efeeec] relative mb-4 border border-[#c8c7bf]/20 shadow-xs">
                 <img
@@ -115,11 +123,11 @@ export const Portfolio: React.FC<PortfolioProps> = ({
                   <span>{project.year} / {project.area}</span>
                 </div>
 
-                <h3 className="text-xl lg:text-2xl font-serif text-[#161714] group-hover:text-[#904b35] transition-colors leading-snug">
+                <h3 className="text-xl lg:text-2xl font-serif text-[#161714] group-hover:text-[#904b35] transition-colors leading-snug break-keep [word-break:keep-all]">
                   {project.title}
                 </h3>
 
-                <p className="text-xs lg:text-sm text-[#474741] font-sans font-light line-clamp-1">
+                <p className="text-xs lg:text-sm text-[#474741] font-sans font-light line-clamp-1 break-keep [word-break:keep-all]">
                   {project.subtitle}
                 </p>
               </div>
@@ -128,10 +136,10 @@ export const Portfolio: React.FC<PortfolioProps> = ({
         </div>
 
         {/* View All & Material Details CTA */}
-        <div className="text-center mt-16">
+        <div className="text-center mt-12 lg:mt-16">
           <button
             onClick={onOpenMaterialArchive}
-            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#161714] hover:text-[#904b35] border-b border-[#161714] hover:border-[#904b35] pb-1 transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#161714] hover:text-[#904b35] border-b border-[#161714] hover:border-[#904b35] pb-1 transition-colors cursor-pointer break-keep [word-break:keep-all]"
           >
             <span>모든 프로젝트 및 마감재 디테일 보기</span>
             <ArrowUpRight size={14} />

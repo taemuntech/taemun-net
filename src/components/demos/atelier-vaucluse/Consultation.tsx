@@ -121,11 +121,10 @@ export const Consultation: React.FC<ConsultationProps> = ({ onSubmitSuccess }) =
               <span className="text-xs uppercase tracking-[0.2em] font-semibold text-[#904b35] block mb-2 font-sans">
                 Private Consultation
               </span>
-              <h2 className="text-3xl lg:text-5xl font-serif font-normal text-[#161714] leading-tight tracking-[-0.015em]">
-                당신의 공간을 위한 <br />
-                첫 걸음
+              <h2 className="text-3xl lg:text-5xl font-serif font-normal text-[#161714] leading-tight tracking-[-0.015em] break-keep [word-break:keep-all]">
+                당신의 공간을 위한 <br className="hidden lg:inline" />첫 걸음
               </h2>
-              <p className="text-sm lg:text-base text-[#474741] mt-4 leading-relaxed font-sans font-light">
+              <p className="text-sm lg:text-base text-[#474741] mt-4 leading-relaxed font-sans font-light break-keep [word-break:keep-all]">
                 공간의 성격과 규모, 예상 착공 일정에 맞춰 전문 디자이너가 사전 검토 후 24시간 이내에 직접 회신드립니다.
               </p>
             </div>

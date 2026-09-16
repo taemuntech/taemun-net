@@ -70,7 +70,7 @@ export const MaterialArchiveModal: React.FC<MaterialArchiveModalProps> = ({
             <span className="text-xs uppercase tracking-[0.2em] font-semibold text-[#904b35] font-sans block">
               Atelier Material Archive
             </span>
-            <h3 className="text-xl lg:text-2xl font-serif text-[#161714]">
+            <h3 className="text-xl lg:text-2xl font-serif text-[#161714] break-keep [word-break:keep-all]">
               보클루즈 천연 소재 &amp; 마감재 라이브러리
             </h3>
           </div>
@@ -86,7 +86,7 @@ export const MaterialArchiveModal: React.FC<MaterialArchiveModalProps> = ({
 
         {/* Content */}
         <div className="overflow-y-auto p-6 lg:p-8 space-y-8">
-          <p className="text-sm text-[#474741] font-sans font-light leading-relaxed">
+          <p className="text-sm text-[#474741] font-sans font-light leading-relaxed break-keep [word-break:keep-all]">
             아뜰리에 보클루즈는 합성 비닐 시트나 인공 유광 코팅제를 배제하고, 세월의 흐름에 따라 아름답게 숙성되는 영속적 천연 자재만을 고집합니다. 도산 쇼룸에서 모든 자재의 촉감을 직접 경험하실 수 있습니다.
           </p>
 

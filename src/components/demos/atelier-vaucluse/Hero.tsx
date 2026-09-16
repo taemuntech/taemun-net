@@ -28,12 +28,12 @@ export const Hero: React.FC<HeroProps> = ({
               </span>
             </div>
 
-            <h1 className="text-4xl lg:text-6xl font-normal font-serif leading-[1.15] text-[#161714] tracking-[-0.02em]">
+            <h1 className="text-4xl lg:text-6xl font-normal font-serif leading-[1.15] text-[#161714] tracking-[-0.02em] break-keep [word-break:keep-all]">
               공간에 머무는 <br className="hidden lg:inline" />
               <span className="italic font-normal font-serif text-[#904b35]/95">시간의 결</span>을 짓습니다.
             </h1>
 
-            <p className="text-base lg:text-lg text-[#474741] max-w-2xl font-light leading-relaxed font-sans">
+            <p className="text-base lg:text-lg text-[#474741] max-w-2xl font-light leading-relaxed font-sans break-keep [word-break:keep-all]">
               자연스러운 석재의 거친 표면, 건조된 참나무의 고요한 온기, 정제된 여백. 아뜰리에 보클루즈는 유행을 넘어 영속적인 미학을 담은 하이엔드 주거 및 감도 높은 상업 공간을 설계합니다.
             </p>
 
@@ -56,7 +56,7 @@ export const Hero: React.FC<HeroProps> = ({
           </div>
 
           {/* Studio Metrics Badge Panel */}
-          <div className="lg:col-span-4 bg-[#f4f3f1] p-8 rounded border border-[#c8c7bf]/30 space-y-6">
+          <div className="lg:col-span-4 bg-[#f4f3f1] p-6 lg:p-8 rounded border border-[#c8c7bf]/30 space-y-6">
             <span className="text-[11px] uppercase tracking-[0.18em] text-[#474741] font-medium block pb-2 border-b border-[#c8c7bf]/30 font-sans">
               Studio Metrics / 기준과 신뢰
             </span>
@@ -74,7 +74,7 @@ export const Hero: React.FC<HeroProps> = ({
                 <span className="text-[11px] tracking-wider text-[#474741] font-sans">Satisfaction</span>
               </div>
             </div>
-            <p className="text-xs lg:text-sm text-[#474741]/85 border-t border-[#c8c7bf]/30 pt-4 leading-relaxed font-sans">
+            <p className="text-xs lg:text-sm text-[#474741]/85 border-t border-[#c8c7bf]/30 pt-4 leading-relaxed font-sans break-keep [word-break:keep-all]">
               공간 기획 단계부터 마감재 맞춤 가공, 현장 상주 감리까지 타협 없는 원칙으로 완결성을 보증합니다.
             </p>
           </div>
@@ -85,7 +85,7 @@ export const Hero: React.FC<HeroProps> = ({
           {/* Main 8-col */}
           <div
             onClick={() => onSelectImage(HERO_IMAGES.main)}
-            className="lg:col-span-8 overflow-hidden rounded relative group h-[380px] lg:h-[560px] bg-[#efeeec] cursor-pointer shadow-sm border border-[#c8c7bf]/20"
+            className="lg:col-span-8 overflow-hidden rounded relative group h-[340px] lg:h-[560px] bg-[#efeeec] cursor-pointer shadow-sm border border-[#c8c7bf]/20"
           >
             <img
               referrerPolicy="no-referrer"
@@ -94,7 +94,7 @@ export const Hero: React.FC<HeroProps> = ({
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors pointer-events-none" />
-            <div className="absolute bottom-6 left-6 bg-[#faf9f7]/95 backdrop-blur-md px-4 py-2 rounded border border-[#c8c7bf]/40 flex items-center gap-2 shadow-sm">
+            <div className="absolute bottom-4 lg:bottom-6 left-4 lg:left-6 bg-[#faf9f7]/95 backdrop-blur-md px-3.5 lg:px-4 py-1.5 lg:py-2 rounded border border-[#c8c7bf]/40 flex items-center gap-2 shadow-sm">
               <span className="text-xs uppercase tracking-[0.15em] text-[#161714] font-medium font-sans">
                 {HERO_IMAGES.main.label}
               </span>
@@ -102,11 +102,11 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
           </div>
 
-          {/* 4-col Side Vertical Collage */}
-          <div className="lg:col-span-4 flex flex-col gap-6">
+          {/* 4-col Side Collage: Mobile Horizontal Swipe Pair & Desktop Vertical Stack */}
+          <div className="lg:col-span-4 flex flex-row lg:flex-col gap-4 lg:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none -mx-6 px-6 lg:mx-0 lg:px-0">
             <div
               onClick={() => onSelectImage(HERO_IMAGES.detail1)}
-              className="flex-1 overflow-hidden rounded relative group h-[220px] lg:h-auto bg-[#efeeec] cursor-pointer shadow-sm border border-[#c8c7bf]/20"
+              className="w-[78vw] lg:w-auto shrink-0 snap-center flex-1 overflow-hidden rounded relative group h-[210px] lg:h-auto bg-[#efeeec] cursor-pointer shadow-sm border border-[#c8c7bf]/20"
             >
               <img
                 referrerPolicy="no-referrer"
@@ -115,7 +115,7 @@ export const Hero: React.FC<HeroProps> = ({
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors pointer-events-none" />
-              <div className="absolute bottom-4 left-4 bg-[#faf9f7]/95 backdrop-blur-md px-3 py-1.5 rounded border border-[#c8c7bf]/40 flex items-center gap-2 shadow-sm">
+              <div className="absolute bottom-3 left-3 lg:bottom-4 lg:left-4 bg-[#faf9f7]/95 backdrop-blur-md px-3 py-1.5 rounded border border-[#c8c7bf]/40 flex items-center gap-2 shadow-sm">
                 <span className="text-[11px] tracking-[0.15em] text-[#161714] font-medium font-sans">
                   {HERO_IMAGES.detail1.label}
                 </span>
@@ -125,7 +125,7 @@ export const Hero: React.FC<HeroProps> = ({
 
             <div
               onClick={() => onSelectImage(HERO_IMAGES.detail2)}
-              className="flex-1 overflow-hidden rounded relative group h-[220px] lg:h-auto bg-[#efeeec] cursor-pointer shadow-sm border border-[#c8c7bf]/20"
+              className="w-[78vw] lg:w-auto shrink-0 snap-center flex-1 overflow-hidden rounded relative group h-[210px] lg:h-auto bg-[#efeeec] cursor-pointer shadow-sm border border-[#c8c7bf]/20"
             >
               <img
                 referrerPolicy="no-referrer"
@@ -134,7 +134,7 @@ export const Hero: React.FC<HeroProps> = ({
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors pointer-events-none" />
-              <div className="absolute bottom-4 left-4 bg-[#faf9f7]/95 backdrop-blur-md px-3 py-1.5 rounded border border-[#c8c7bf]/40 flex items-center gap-2 shadow-sm">
+              <div className="absolute bottom-3 left-3 lg:bottom-4 lg:left-4 bg-[#faf9f7]/95 backdrop-blur-md px-3 py-1.5 rounded border border-[#c8c7bf]/40 flex items-center gap-2 shadow-sm">
                 <span className="text-[11px] tracking-[0.15em] text-[#161714] font-medium font-sans">
                   {HERO_IMAGES.detail2.label}
                 </span>
