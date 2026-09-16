@@ -243,11 +243,11 @@ export default function Home() {
                 {/* Right Quick Action: Live Demo Direct Links */}
                 {category.id === "corporate" && (
                   <Link
-                    href="/demo/wonik-qnc"
+                    href="/demo/nexus-robotics"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-900 border border-blue-200 text-xs font-bold transition-all shrink-0 self-start lg:self-end"
                   >
                     <Play className="w-3 h-3 fill-current" />
-                    <span>원익큐앤씨 실물 사이트</span>
+                    <span>넥서스 로보틱스 실물 사이트</span>
                   </Link>
                 )}
                 {category.id === "commerce" && (
