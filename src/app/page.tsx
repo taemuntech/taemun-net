@@ -125,9 +125,9 @@ export default function Home() {
               <span className="font-serif italic text-amber-200 font-normal">디지털 플래그십 아카이브</span>
             </h1>
 
-            <p className="text-zinc-200 text-sm lg:text-base max-w-xl font-light leading-relaxed drop-shadow-sm">
-              리튬박 공정 통계 모니터링부터 하이엔드 건축 인테리어, 전자서약 SaaS, B2B 커머스까지.<br className="hidden lg:inline" />
-              기획서 속 그림이 아닌 브라우저에서 100% 작동하는 실물 프로덕션 레퍼런스를 둘러보세요.
+            <p className="text-zinc-200 text-sm lg:text-base max-w-xl font-light leading-relaxed drop-shadow-sm break-keep [word-break:keep-all]">
+              공정 통계 모니터링부터 하이엔드 건축 인테리어, 전자서약 SaaS, B2B 커머스까지.<br className="hidden lg:inline" />
+              기획서 속 그림이 아닌 브라우저에서 프로덕션 레퍼런스를 둘러보세요.
             </p>
 
             {/* Action CTAs */}
