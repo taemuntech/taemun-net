@@ -874,6 +874,27 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       '관심 영역(AOI) 지정, 전천후 센서 선택 및 Cloud GeoTIFF 촬영 의뢰 위저드',
     ],
   },
+  {
+    id: 'apex-partners-fund',
+    title: '아펙스 파트너스 (APEX PARTNERS) 글로벌 사모펀드(PE) & VC 대체투자',
+    client: '글로벌 기관투자자(LP) 및 AUM 4.2조 원 대체자산운용사',
+    category: 'corporate',
+    categoryName: '기업랜딩 · 사모펀드/VC 대체투자',
+    summary: 'AUM 4.2조 원, 10년 누적 Net IRR 24.8%, 플래그십 바이아웃·딥테크 그로쓰 및 기관 전용 VDR 게이트',
+    description: '월스트리트 및 스위스 프라이빗 뱅킹 감성의 최고급 사모펀드·대체자산운용사 플래그십 사이트입니다. 4대 투자 전략(바이아웃·딥테크·인프라·크레딧) 매트릭스, 48개 포트폴리오 기업 및 회수(Exit) 실적 모달, 약정액·투자기간 기반 실시간 Net IRR 및 DPI 분배금 계산기, 연기금/국부펀드 전용 에어갭 VDR 신청 시스템을 완비했습니다.',
+    thumbnailUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCe68hJkQbw3iNmUtaebjkqXeO060iE8Wo98SB-sxwQT03Q_rb8tTYuhBDmAsUkFL2feqfv13g7HliVuFDY_kR5rmZj6nJ34Mxf-2zs5vNUXQBwICKmSoR0OP8jzTrhmEvqg-XVSPx5nS0RZ2TK0_04ie3Cu9w0iA_53haUrDJI6Z0LPhu3EZWOn-IuGLIXBImWSV-CFBvl-I8rbDE2HWoWORpAugUSA6m6ewU52zVg5ekoWQrbHEIh',
+    liveDemoUrl: '/demo/apex-partners',
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Actuarial IRR Simulator', 'Air-Gapped VDR Gate'],
+    period: '2주',
+    year: '2026',
+    badge: '실물 라이브 데모',
+    highlights: [
+      'AUM 4.2조 원 ($3.2B) & 10년 누적 Net IRR 24.8% 실시간 금융 텔레메트리',
+      '플래그십 바이아웃, 딥테크 그로쓰, 인프라, 사모대출 4대 전략 인터랙티브 필러',
+      '출자 약정액(100억~1,000억) 및 목표 배수 조절 실시간 Net IRR/DPI 분배 시뮬레이터',
+      '기관투자자(LP) 전용 가상 데이터룸(VDR) 신청 및 NDA 전자 서약 워크플로우',
+    ],
+  },
 
   // ─── 03. 병의원 · 메디컬 · 치과 (Medical & Healthcare) ───────────────────
   {

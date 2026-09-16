@@ -103,4 +103,44 @@
   100% { transform: translateY(100%); opacity: 0.2; }
 }
 
+.font-serif-display {
+  font-family: 'EB Garamond', Georgia, serif;
+}
+
+.font-sans-body {
+  font-family: 'Inter', sans-serif;
+}
+
+.font-mono-metric {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.gold-shimmer {
+  background: linear-gradient(135deg, #f2ca50 0%, #d4af37 50%, #ffe088 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.custom-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+  background: #f2ca50;
+  cursor: pointer;
+  border: 2px solid #060b13;
+  box-shadow: 0 0 10px rgba(242, 202, 80, 0.5);
+}
+
+.custom-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
+  background: #f2ca50;
+  cursor: pointer;
+  border: 2px solid #060b13;
+  box-shadow: 0 0 10px rgba(242, 202, 80, 0.5);
+}
+
+
 
