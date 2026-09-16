@@ -85,46 +85,119 @@ export default function Home() {
       <Header />
 
       {/* ─────────────────────────────────────────────────────────────
-          1. EDITORIAL WHITE GALLERY HERO SECTION
+          1. EDITORIAL WHITE GALLERY HERO SECTION (2-COLUMN SPLIT)
           ───────────────────────────────────────────────────────────── */}
-      <section className="pt-36 lg:pt-44 pb-12 lg:pb-16 px-4 lg:px-8 max-w-7xl mx-auto text-center relative z-10">
-        <div className="inline-flex items-center gap-2 px-3.5 lg:px-4 py-1.5 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-800 text-xs font-semibold mb-6">
-          <span className="w-2 h-2 rounded-full bg-amber-600 animate-pulse" />
-          <span className="tracking-wider uppercase text-[11px] lg:text-xs font-mono">
-            TAEMUN DEV STUDIO • BESPOKE DIGITAL GALLERY
-          </span>
+      <section className="pt-32 lg:pt-40 pb-12 lg:pb-16 px-4 lg:px-8 max-w-7xl mx-auto relative z-10">
+        
+        {/* 2-Column Grid: Left Text & CTAs, Right Studio Video Theater */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center mb-14 lg:mb-20">
+          
+          {/* Left Column: Editorial Studio Manifesto (lg:col-span-7) */}
+          <div className="lg:col-span-7 text-left space-y-6">
+            <div className="inline-flex items-center gap-2 px-3.5 lg:px-4 py-1.5 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-800 text-xs font-semibold">
+              <span className="w-2 h-2 rounded-full bg-amber-600 animate-pulse" />
+              <span className="tracking-wider uppercase text-[11px] lg:text-xs font-mono">
+                TAEMUN DEV STUDIO • BESPOKE DIGITAL GALLERY
+              </span>
+            </div>
+
+            <h1 className="text-3xl lg:text-[52px] font-light tracking-[-0.03em] text-zinc-950 leading-[1.2] lg:leading-[1.12]">
+              산업의 본질을 세공하는<br />
+              <span className="font-serif italic text-zinc-800 font-normal">디지털 플래그십 아카이브</span>
+            </h1>
+
+            <p className="text-zinc-600 text-sm lg:text-base max-w-xl font-light leading-relaxed">
+              리튬박 공정 통계 모니터링부터 하이엔드 건축 인테리어, 전자서약 SaaS, B2B 커머스까지.<br className="hidden lg:inline" />
+              기획서 속 그림이 아닌 브라우저에서 100% 작동하는 실물 프로덕션 레퍼런스를 둘러보세요.
+            </p>
+
+            {/* Action CTAs */}
+            <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 pt-2">
+              <Link
+                href="/inquiry"
+                className="px-7 py-3.5 rounded-xl bg-zinc-950 hover:bg-black text-white font-bold text-xs lg:text-sm transition-all flex items-center justify-center gap-2 shadow-sm"
+              >
+                <span>프로젝트 견적 문의하기</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <a
+                href="tel:010-8672-6463"
+                className="px-6 py-3.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 font-semibold text-xs lg:text-sm transition-all border border-zinc-200 flex items-center justify-center gap-2"
+              >
+                <PhoneCall className="w-3.5 h-3.5 text-zinc-700" />
+                <span>총괄 아키텍트 직통 상담</span>
+              </a>
+            </div>
+
+            {/* Studio Trust Metrics / Badges */}
+            <div className="pt-6 border-t border-zinc-200/80 flex flex-wrap items-center gap-4 text-xs font-mono text-zinc-500">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span>100% 직영 개발</span>
+              </div>
+              <span className="text-zinc-300">•</span>
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                <span>Next.js 16 최신 스택</span>
+              </div>
+              <span className="text-zinc-300">•</span>
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                <span>엔터프라이즈 레퍼런스</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Studio Production Live Reel Video (lg:col-span-5) */}
+          <div className="lg:col-span-5 relative group">
+            {/* Ambient Backlight Glow */}
+            <div className="absolute -inset-2 bg-gradient-to-r from-amber-500/10 via-zinc-400/10 to-blue-500/10 rounded-3xl blur-xl opacity-70 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+            <div className="relative rounded-2xl lg:rounded-3xl overflow-hidden bg-zinc-950 border border-zinc-200/90 shadow-2xl transition-all duration-300">
+              {/* Top Video HUD Bar */}
+              <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-between px-4 py-3 bg-gradient-to-b from-black/80 via-black/40 to-transparent">
+                <div className="flex items-center gap-2">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
+                  </span>
+                  <span className="font-mono text-[10px] tracking-wider text-white font-bold uppercase">
+                    STUDIO LIVE REEL
+                  </span>
+                </div>
+                <span className="px-2 py-0.5 rounded-md bg-white/20 backdrop-blur-md font-mono text-[9px] text-white tracking-widest font-semibold border border-white/20">
+                  PRO-RES 4K
+                </span>
+              </div>
+
+              {/* Video Element */}
+              <div className="aspect-[4/3] lg:aspect-[16/11] relative overflow-hidden bg-black">
+                <video
+                  src="/videos/taemun-team.mp4"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+
+              {/* Bottom Caption Overlay */}
+              <div className="absolute bottom-0 inset-x-0 z-20 p-3.5 bg-gradient-to-t from-black/90 via-black/50 to-transparent text-left">
+                <div className="text-[11px] font-bold text-white flex items-center gap-1.5">
+                  <span>태문 DEV STUDIO 개발팀 실무 현장</span>
+                </div>
+                <p className="text-[10px] text-zinc-300 font-light mt-0.5 leading-tight">
+                  한국인 총괄 아키텍트 및 시니어 엔지니어링 실무 회의 &amp; 코딩
+                </p>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <h1 className="text-3xl lg:text-6xl font-light tracking-[-0.03em] mb-6 text-zinc-950 leading-[1.2] lg:leading-[1.15]">
-          산업의 본질을 세공하는<br />
-          <span className="font-serif italic text-zinc-800 font-normal">디지털 플래그십 아카이브</span>
-        </h1>
-
-        <p className="text-zinc-600 text-sm lg:text-base max-w-2xl mx-auto mb-8 font-light leading-relaxed">
-          리튬박 공정 통계 모니터링부터 하이엔드 건축 인테리어, 전자서약 SaaS, B2B 커머스까지.<br className="hidden lg:inline" />
-          기획서 속 그림이 아닌 브라우저에서 100% 작동하는 실물 프로덕션 레퍼런스를 둘러보세요.
-        </p>
-
-        {/* Action CTAs */}
-        <div className="flex flex-col lg:flex-row items-center justify-center gap-3 max-w-md mx-auto mb-12">
-          <Link
-            href="/inquiry"
-            className="w-full lg:w-auto px-7 py-3.5 rounded-xl bg-zinc-950 hover:bg-black text-white font-bold text-xs lg:text-sm transition-all flex items-center justify-center gap-2 shadow-sm"
-          >
-            <span>프로젝트 견적 문의하기</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-          <a
-            href="tel:010-8672-6463"
-            className="w-full lg:w-auto px-6 py-3.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 font-semibold text-xs lg:text-sm transition-all border border-zinc-200 flex items-center justify-center gap-2"
-          >
-            <PhoneCall className="w-3.5 h-3.5 text-zinc-700" />
-            <span>총괄 아키텍트 직통 상담</span>
-          </a>
-        </div>
-
-        {/* 🌟 Quick Category Navigation Pills */}
-        <div id="gallery" className="pt-6 border-t border-zinc-200/80">
+        {/* 🌟 Quick Category Navigation Pills (Full Width) */}
+        <div id="gallery" className="pt-8 border-t border-zinc-200/80">
           <div className="flex items-center justify-start lg:justify-center gap-2 overflow-x-auto pb-2 scrollbar-none">
             {GALLERY_CATEGORIES.map((cat) => {
               const count = GALLERY_PROJECTS.filter((p) => p.category === cat.id).length;
