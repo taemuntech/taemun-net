@@ -37,12 +37,12 @@ import {
 export default function Home() {
   // State for category accordion expand/collapse
   const [expandedCategories, setExpandedCategories] = useState<Record<GalleryCategoryId, boolean>>({
-    manufacturing: false,
+    corporate: false,
+    commerce: false,
     interior: false,
     architecture: false,
     saas: false,
-    commerce: false,
-    corporate: false,
+    manufacturing: false,
   });
 
   // State for project detail modal
@@ -236,14 +236,41 @@ export default function Home() {
                   </p>
                 </div>
 
-                {/* Right Quick Action: Live Demo Direct Link (for interior/manufacturing) */}
+                {/* Right Quick Action: Live Demo Direct Links */}
+                {category.id === "corporate" && (
+                  <Link
+                    href="/demo/wonik-qnc"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-900 border border-blue-200 text-xs font-bold transition-all shrink-0 self-start lg:self-end"
+                  >
+                    <Play className="w-3 h-3 fill-current" />
+                    <span>원익큐앤씨 실물 사이트</span>
+                  </Link>
+                )}
+                {category.id === "commerce" && (
+                  <Link
+                    href="/demo/maison"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-900 border border-rose-200 text-xs font-bold transition-all shrink-0 self-start lg:self-end"
+                  >
+                    <Play className="w-3 h-3 fill-current" />
+                    <span>메종 당티크 실물 사이트</span>
+                  </Link>
+                )}
                 {category.id === "interior" && (
                   <Link
                     href="/demo/atelier-vaucluse"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 text-xs font-bold transition-all shrink-0 self-start lg:self-end"
                   >
                     <Play className="w-3 h-3 fill-current" />
-                    <span>보클루즈 실물 사이트 체험</span>
+                    <span>보클루즈 실물 사이트</span>
+                  </Link>
+                )}
+                {category.id === "architecture" && (
+                  <Link
+                    href="/demo/sodamjae"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-900 border border-stone-300 text-xs font-bold transition-all shrink-0 self-start lg:self-end"
+                  >
+                    <Play className="w-3 h-3 fill-current" />
+                    <span>소담재 한옥 실물 사이트</span>
                   </Link>
                 )}
                 {category.id === "saas" && (
@@ -256,6 +283,15 @@ export default function Home() {
                     <ExternalLink className="w-3 h-3" />
                     <span>티독스 정식 서비스 방문</span>
                   </a>
+                )}
+                {category.id === "manufacturing" && (
+                  <Link
+                    href="/demo/wonik-qnc"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold transition-all shrink-0 self-start lg:self-end"
+                  >
+                    <Play className="w-3 h-3 fill-current" />
+                    <span>반도체 SSQ 실물 데모</span>
+                  </Link>
                 )}
               </div>
 

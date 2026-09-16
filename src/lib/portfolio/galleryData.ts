@@ -1,10 +1,10 @@
 export type GalleryCategoryId =
-  | 'manufacturing'
+  | 'corporate'
+  | 'commerce'
   | 'interior'
   | 'architecture'
   | 'saas'
-  | 'commerce'
-  | 'corporate';
+  | 'manufacturing';
 
 export interface GalleryCategoryMeta {
   id: GalleryCategoryId;
@@ -35,16 +35,24 @@ export interface GalleryProject {
 
 export const GALLERY_CATEGORIES: GalleryCategoryMeta[] = [
   {
-    id: 'manufacturing',
+    id: 'corporate',
     number: '01',
-    name: '제조 · 스마트팩토리 · 소재공정',
-    engName: 'Manufacturing & Smart Factory',
-    description: '수기 엑셀 장부를 실시간 통계 관리도(SPC), 수율 워터폴 분석, 4단계 로트 계보 역추적 시스템으로 디지털 전환한 엔터프라이즈 솔루션입니다.',
-    badge: '정밀 제조 데이터',
+    name: '기업 랜딩 · 스타트업 · 브랜드 플래그십',
+    engName: 'Corporate & Brand Flagship',
+    description: '글로벌 투자 유치와 엔터프라이즈 수주를 이끄는 테크 스타트업 IR 랜딩, 상장사 및 중견기업 공식 플래그십 사이트입니다.',
+    badge: '글로벌 IR 특화',
+  },
+  {
+    id: 'commerce',
+    number: '02',
+    name: '쇼핑몰 · 이커머스 · D2C 브랜드',
+    engName: 'E-Commerce & D2C Brands',
+    description: '브랜드 고유의 철학을 담은 비주얼 스토리텔링과 초고속 체크아웃, 정기구독 빌링을 지원하는 프리미엄 브랜드 커머스입니다.',
+    badge: '고전환 결제 UX',
   },
   {
     id: 'interior',
-    number: '02',
+    number: '03',
     name: '인테리어 · 공간 디자인 · 하이엔드',
     engName: 'Interior & Spatial Design',
     description: '자연석과 원목의 질감, 절제된 세리프 타이포그래피로 공간의 격조를 극대화한 최고급 주거·상업 공간 스튜디오 웹사이트입니다.',
@@ -52,7 +60,7 @@ export const GALLERY_CATEGORIES: GalleryCategoryMeta[] = [
   },
   {
     id: 'architecture',
-    number: '03',
+    number: '04',
     name: '건축 · 종합건설 · 토목엔지니어링',
     engName: 'Architecture & Construction',
     description: '종합건설사, 설계사무소, 플랜트·물류센터의 수주 경쟁력을 극대화하는 시공 실적 아카이브와 공법 소개 디지털 브로슈어입니다.',
@@ -60,27 +68,19 @@ export const GALLERY_CATEGORIES: GalleryCategoryMeta[] = [
   },
   {
     id: 'saas',
-    number: '04',
+    number: '05',
     name: 'SaaS · 전자서약 · B2B 플랫폼',
     engName: 'B2B SaaS & Digital Platforms',
     description: '100% 법적 효력 카카오 모바일 전자서명부터 300종 법정 서식 에디터, 엔지니어링 매칭 및 단계별 안심 기성 정산 플랫폼입니다.',
     badge: '자체 직영 운영',
   },
   {
-    id: 'commerce',
-    number: '05',
-    name: '쇼핑몰 · 이커머스 · D2C 브랜드',
-    engName: 'E-Commerce & D2C Brands',
-    description: '브랜드 고유의 철학을 담은 비주얼 스토리텔링과 초고속 체크아웃, 정기구독 빌링을 지원하는 프리미엄 브랜드 커머스입니다.',
-    badge: '고전환 결제 UX',
-  },
-  {
-    id: 'corporate',
+    id: 'manufacturing',
     number: '06',
-    name: '기업 랜딩 · 스타트업 · 브랜드 플래그십',
-    engName: 'Corporate & Brand Flagship',
-    description: '글로벌 투자 유치와 엔터프라이즈 수주를 이끄는 테크 스타트업 IR 랜딩, 상장사 및 중견기업 공식 플래그십 사이트입니다.',
-    badge: '글로벌 IR 특화',
+    name: '제조 · 스마트팩토리 · 소재공정',
+    engName: 'Manufacturing & Smart Factory',
+    description: '수기 엑셀 장부를 실시간 통계 관리도(SPC), 수율 워터폴 분석, 4단계 로트 계보 역추적 시스템으로 디지털 전환한 엔터프라이즈 솔루션입니다.',
+    badge: '정밀 제조 데이터',
   },
 ];
 
