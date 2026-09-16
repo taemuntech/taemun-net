@@ -201,49 +201,6 @@ export default function Home() {
                     <span>보클루즈 실물 사이트 체험</span>
                   </Link>
                 )}
-                {category.id === "manufacturing" && (
-                  <div className="flex flex-wrap items-center gap-2 self-start lg:self-end">
-                    <Link
-                      href="/demo/wonik-qnc"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-950 border border-blue-300 text-xs font-bold transition-all shrink-0"
-                    >
-                      <Play className="w-3 h-3 fill-current text-blue-600" />
-                      <span>원익큐앤씨 쿼츠웨어 데모</span>
-                    </Link>
-                    <Link
-                      href="/demo/hysfa"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-50 hover:bg-cyan-100 text-cyan-950 border border-cyan-300 text-xs font-bold transition-all shrink-0"
-                    >
-                      <Play className="w-3 h-3 fill-current text-cyan-600" />
-                      <span>한양시스템 4K SCADA 데모</span>
-                    </Link>
-                    <Link
-                      href="/demo/lithium-foil"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold transition-all shrink-0"
-                    >
-                      <Play className="w-3 h-3 fill-current" />
-                      <span>리튬박 공정 데모 실행</span>
-                    </Link>
-                  </div>
-                )}
-                {category.id === "corporate" && (
-                  <div className="flex flex-wrap items-center gap-2 self-start lg:self-end">
-                    <Link
-                      href="/demo/wonik-qnc"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-950 border border-blue-300 text-xs font-bold transition-all shrink-0"
-                    >
-                      <Play className="w-3 h-3 fill-current text-blue-600" />
-                      <span>원익큐앤씨 코스닥 상장사 데모</span>
-                    </Link>
-                    <Link
-                      href="/demo/hysfa"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-50 hover:bg-cyan-100 text-cyan-950 border border-cyan-300 text-xs font-bold transition-all shrink-0"
-                    >
-                      <Play className="w-3 h-3 fill-current text-cyan-600" />
-                      <span>한양시스템 하이테크 데모 체험</span>
-                    </Link>
-                  </div>
-                )}
                 {category.id === "saas" && (
                   <a
                     href="https://tdocs.kr"
