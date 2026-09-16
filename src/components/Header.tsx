@@ -18,6 +18,7 @@ import {
   Globe,
   Landmark,
   Crown,
+  Dna,
 } from "lucide-react";
 
 export default function Header() {
@@ -158,6 +159,26 @@ export default function Header() {
                     </div>
                     <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
                       신재생에너지 &amp; 극저온 액화수소 플랜트
+                    </p>
+                  </div>
+                </Link>
+
+                {/* Celebris Biopharma Demo */}
+                <Link
+                  href="/demo/celebris-biopharma"
+                  onClick={() => setPortfolioDropdownOpen(false)}
+                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-indigo-50/60 transition-all group border border-transparent hover:border-indigo-200"
+                >
+                  <div className="p-2 rounded-lg bg-indigo-100 text-indigo-800 border border-indigo-200 shrink-0 group-hover:scale-105 transition-transform">
+                    <Dna className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
+                      <span>셀레브리스 바이오파마</span>
+                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-indigo-100 text-indigo-800 font-extrabold">NEW</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
+                      표적단백질분해(TPD) &amp; ADC 혁신신약
                     </p>
                   </div>
                 </Link>
@@ -437,6 +458,24 @@ export default function Header() {
                         <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-teal-100 text-teal-800 font-bold">NEW</span>
                       </div>
                       <div className="text-xs text-zinc-500 mt-0.5">신재생에너지 &amp; 극저온 액화수소 플랜트</div>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-zinc-400" />
+                </Link>
+
+                <Link
+                  href="/demo/celebris-biopharma"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-indigo-400 text-left transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <Dna className="w-5 h-5 text-indigo-700" />
+                    <div>
+                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
+                        <span>셀레브리스 바이오파마</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-indigo-100 text-indigo-800 font-bold">NEW</span>
+                      </div>
+                      <div className="text-xs text-zinc-500 mt-0.5">표적단백질분해(TPD) &amp; ADC 혁신신약</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-400" />
