@@ -142,6 +142,26 @@ export default function Header() {
                   </div>
                 </Link>
 
+                {/* H2 NEXT Demo */}
+                <Link
+                  href="/demo/h2-next"
+                  onClick={() => setPortfolioDropdownOpen(false)}
+                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-teal-50/60 transition-all group border border-transparent hover:border-teal-200"
+                >
+                  <div className="p-2 rounded-lg bg-teal-100 text-teal-800 border border-teal-200 shrink-0 group-hover:scale-105 transition-transform">
+                    <Activity className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
+                      <span>하이드로젠 넥스트</span>
+                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-teal-100 text-teal-800 font-extrabold">NEW</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
+                      신재생에너지 &amp; 극저온 액화수소 플랜트
+                    </p>
+                  </div>
+                </Link>
+
                 {/* Wonik QnC Demo */}
                 <Link
                   href="/demo/wonik-qnc"
@@ -399,6 +419,24 @@ export default function Header() {
                         <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-blue-100 text-blue-800 font-bold">NEW</span>
                       </div>
                       <div className="text-xs text-zinc-500 mt-0.5">반도체 클린룸 자율주행 AMR &amp; 디지털 트윈</div>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-zinc-400" />
+                </Link>
+
+                <Link
+                  href="/demo/h2-next"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-teal-400 text-left transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <Activity className="w-5 h-5 text-teal-700" />
+                    <div>
+                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
+                        <span>하이드로젠 넥스트</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-teal-100 text-teal-800 font-bold">NEW</span>
+                      </div>
+                      <div className="text-xs text-zinc-500 mt-0.5">신재생에너지 &amp; 극저온 액화수소 플랜트</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-400" />
