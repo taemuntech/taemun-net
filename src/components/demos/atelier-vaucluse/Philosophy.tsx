@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { PHILOSOPHY_PILLARS } from './data/projects';
-import { Sparkles, CheckCircle2 } from 'lucide-react';
+import { Layers, CheckCircle2 } from 'lucide-react';
 
 interface PhilosophyProps {
   onOpenMaterialArchive: () => void;
@@ -72,7 +72,7 @@ export const Philosophy: React.FC<PhilosophyProps> = ({ onOpenMaterialArchive })
         <div className="mt-12 bg-[#efeeec] p-6 rounded border border-[#c8c7bf]/30 flex flex-col lg:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded bg-[#faf9f7] flex items-center justify-center text-[#904b35] shadow-xs">
-              <Sparkles size={18} />
+              <Layers size={18} />
             </div>
             <div>
               <h4 className="text-sm font-semibold text-[#161714] font-sans">스튜디오 실물 마감재 무드보드 라이브러리</h4>

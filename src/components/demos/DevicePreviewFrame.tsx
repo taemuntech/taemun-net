@@ -13,7 +13,8 @@ import {
   ExternalLink,
   Code2,
   Play,
-  Sparkles,
+  Send,
+  Palette,
   ArrowLeft,
   Check,
   Copy,
@@ -269,13 +270,13 @@ export default function DevicePreviewFrame({
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
 
-          {/* Inquiry / Remix Button (AI Studio Remix style) */}
+          {/* Inquiry / Custom build request Button */}
           <Link
             href={inquiryUrl}
-            className="flex items-center gap-1.5 px-3 lg:px-4 py-1.5 rounded-lg bg-zinc-950 hover:bg-black text-white text-xs font-bold transition-all shadow-sm"
+            className="flex items-center gap-1.5 px-3 lg:px-4 py-1.5 rounded-lg bg-zinc-950 hover:bg-black text-white text-xs font-bold transition-all shadow-sm group"
           >
-            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-            <span>이 사이트처럼 제작 의뢰</span>
+            <Send className="w-3.5 h-3.5 text-cyan-400 group-hover:translate-x-0.5 transition-transform" />
+            <span>이 사이트처럼 맞춤 제작 의뢰</span>
           </Link>
         </div>
       </header>
@@ -392,7 +393,7 @@ export default function DevicePreviewFrame({
 
               <div className="p-5 rounded-2xl bg-zinc-50 border border-zinc-200 space-y-2">
                 <div className="text-xs font-bold text-zinc-700 flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4 text-amber-600" />
+                  <Palette className="w-4 h-4 text-amber-600" />
                   <span>반응형 디자인 시스템</span>
                 </div>
                 <div className="text-base font-mono font-bold text-zinc-900">Tailwind CSS v4</div>

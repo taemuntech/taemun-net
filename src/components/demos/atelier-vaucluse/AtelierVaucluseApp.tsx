@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Sparkles } from 'lucide-react';
+import { ArrowLeft, Send } from 'lucide-react';
 import { Header } from './Header';
 import { Hero } from './Hero';
 import { Philosophy } from './Philosophy';
@@ -82,7 +82,7 @@ export default function AtelierVaucluseApp({ isEmbed = false }: { isEmbed?: bool
               href="/inquiry?from=atelier-vaucluse"
               className="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-1 rounded text-xs transition-colors flex items-center gap-1"
             >
-              <Sparkles className="w-3 h-3" />
+              <Send className="w-3 h-3" />
               <span>이런 사이트 제작 문의</span>
             </Link>
           </div>

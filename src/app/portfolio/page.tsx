@@ -14,7 +14,6 @@ import {
   ExternalLink,
   Play,
   CheckCircle2,
-  Sparkles,
   ArrowRight,
   Layers,
   Clock,
@@ -43,7 +42,7 @@ export default function PortfolioPage() {
         {/* Page Hero */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-medium tracking-wide mb-6">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-400 animate-pulse" />
+            <Layers className="w-3.5 h-3.5 text-indigo-400" />
             <span>TAEMUN DEV STUDIO PORTFOLIO ARCHIVE</span>
           </div>
           <h1 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-white mb-6 leading-tight">

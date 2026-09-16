@@ -15,7 +15,7 @@ import {
   PhoneCall, 
   Send, 
   ShieldCheck, 
-  Sparkles, 
+  FileText, 
   ThumbsUp, 
   Zap 
 } from "lucide-react";
@@ -170,8 +170,8 @@ export default function InquiryPage() {
           <div className="lg:col-span-5 space-y-6 lg:space-y-8">
             <div className="space-y-3 lg:space-y-4">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-950/80 border border-indigo-500/30 text-indigo-300 text-xs font-semibold">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>스마트 3초 무료 맞춤 견적 신청</span>
+                <FileText className="w-3.5 h-3.5" />
+                <span>1:1 무료 맞춤 기술 견적 신청</span>
               </div>
               <h1 className="text-2xl lg:text-4xl font-extrabold text-white leading-tight">
                 왜 국내 대표님들이<br />

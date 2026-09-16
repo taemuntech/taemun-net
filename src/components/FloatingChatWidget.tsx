@@ -1,6 +1,6 @@
 "use client";
 
-import { MessageCircle, Phone, Send, Sparkles, X } from "lucide-react";
+import { MessageCircle, Phone, Send, CheckCircle2, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -75,7 +75,7 @@ export default function FloatingChatWidget() {
           </div>
 
           <div className="mt-5 pt-3 border-t border-white/5 text-[11px] text-center text-gray-500 flex items-center justify-center gap-1">
-            <Sparkles className="w-3 h-3 text-indigo-400" />
+            <CheckCircle2 className="w-3 h-3 text-emerald-400" />
             <span>총괄 개발자가 직접 1:1로 친절하게 상담해 드립니다.</span>
           </div>
         </div>

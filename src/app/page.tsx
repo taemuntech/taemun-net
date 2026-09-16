@@ -13,7 +13,7 @@ import {
 import {
   ArrowRight,
   ArrowUpRight,
-  Sparkles,
+  Compass,
   Play,
   Layers,
   FileText,
@@ -27,7 +27,6 @@ import {
   ChevronUp,
   X,
   Clock,
-  Compass,
   Building2,
   Cpu,
   ShoppingBag,
@@ -62,7 +61,7 @@ export default function Home() {
       case "manufacturing":
         return <Cpu className="w-4 h-4 text-emerald-700" />;
       case "interior":
-        return <Sparkles className="w-4 h-4 text-amber-700" />;
+        return <Compass className="w-4 h-4 text-amber-700" />;
       case "architecture":
         return <Building2 className="w-4 h-4 text-stone-700" />;
       case "saas":
@@ -564,7 +563,7 @@ export default function Home() {
                   <div className="absolute bottom-3 left-3 right-3 p-2.5 rounded-xl bg-black/80 backdrop-blur-md text-white text-xs font-medium flex items-center justify-between border border-white/10">
                     <span className="flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                      <span>AI 스튜디오 반응형 뷰어 (PC · 태블릿 · 모바일)</span>
+                      <span>스튜디오 멀티 디바이스 반응형 뷰어 (PC · 태블릿 · 모바일)</span>
                     </span>
                     <span className="text-[11px] text-zinc-300 font-mono">회전(Rotate) 지원</span>
                   </div>

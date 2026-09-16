@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Project } from '../types';
-import { X, MapPin, Calendar, Layers, Sparkles, Quote, ArrowRight } from 'lucide-react';
+import { X, MapPin, Calendar, Layers, Palette, Quote, ArrowRight } from 'lucide-react';
 
 interface ProjectModalProps {
   project: Project | null;
@@ -110,7 +110,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
           {/* Material Palette Breakdown */}
           <div className="bg-[#f4f3f1] p-6 rounded border border-[#c8c7bf]/30 space-y-3">
             <h4 className="text-xs uppercase tracking-[0.2em] font-semibold text-[#161714] font-sans flex items-center gap-1.5">
-              <Sparkles size={14} className="text-[#904b35]" />
+              <Palette size={14} className="text-[#904b35]" />
               Material Palette &amp; Finishes
             </h4>
             <div className="flex flex-wrap gap-2">

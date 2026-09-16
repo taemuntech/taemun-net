@@ -16,7 +16,7 @@ import {
   RotateCcw,
   Save,
   TriangleAlert,
-  Wand2,
+  FileCheck,
 } from "lucide-react";
 import {
   arealToThicknessUm,
@@ -755,7 +755,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
               onClick={() => fillExample("normal")}
               className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-indigo-200 bg-indigo-50 px-3.5 py-2 text-sm font-semibold text-indigo-700 hover:border-indigo-300 hover:bg-indigo-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
             >
-              <Wand2 size={15} />
+              <FileCheck size={15} />
               예시로 채우기 — 정상 롤
             </button>
             <button
@@ -763,7 +763,7 @@ export default function RollLogForm({ onNavigate, onTrace }: RollLogFormProps) {
               onClick={() => fillExample("problem")}
               className="inline-flex min-h-10 items-center justify-center gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2 text-sm font-semibold text-amber-800 hover:border-amber-300 hover:bg-amber-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
             >
-              <Wand2 size={15} />
+              <FileCheck size={15} />
               예시로 채우기 — 문제 롤
             </button>
           </div>

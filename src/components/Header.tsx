@@ -12,7 +12,9 @@ import {
   FileText,
   Activity,
   ArrowRight,
-  Sparkles,
+  Compass,
+  Send,
+  Cpu,
 } from "lucide-react";
 
 export default function Header() {
@@ -102,7 +104,7 @@ export default function Header() {
                   className="flex items-start gap-3 p-3 rounded-xl hover:bg-amber-50/60 transition-all group border border-transparent hover:border-amber-200"
                 >
                   <div className="p-2 rounded-lg bg-amber-100 text-amber-800 border border-amber-200 shrink-0 group-hover:scale-105 transition-transform">
-                    <Sparkles className="w-4 h-4" />
+                    <Compass className="w-4 h-4" />
                   </div>
                   <div>
                     <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
@@ -111,6 +113,26 @@ export default function Header() {
                     </div>
                     <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
                       하이엔드 건축·인테리어 스튜디오 실물 사이트
+                    </p>
+                  </div>
+                </Link>
+
+                {/* Hanyang System Demo */}
+                <Link
+                  href="/demo/hysfa"
+                  onClick={() => setPortfolioDropdownOpen(false)}
+                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-cyan-50/60 transition-all group border border-transparent hover:border-cyan-200"
+                >
+                  <div className="p-2 rounded-lg bg-cyan-100 text-cyan-800 border border-cyan-200 shrink-0 group-hover:scale-105 transition-transform">
+                    <Cpu className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
+                      <span>한양시스템 (SEMES SSQ)</span>
+                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-cyan-100 text-cyan-800 font-extrabold">4K LIVE</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
+                      반도체 세정설비 &amp; 4K SCADA 관제 플랫폼
                     </p>
                   </div>
                 </Link>
@@ -257,13 +279,31 @@ export default function Header() {
                   className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-amber-400 text-left transition-all"
                 >
                   <div className="flex items-center gap-3">
-                    <Sparkles className="w-5 h-5 text-amber-700" />
+                    <Compass className="w-5 h-5 text-amber-700" />
                     <div>
                       <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
                         <span>아뜰리에 보클루즈</span>
                         <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-800 font-bold">DEMO</span>
                       </div>
                       <div className="text-xs text-zinc-500 mt-0.5">건축·인테리어 스튜디오 실물 데모</div>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-zinc-400" />
+                </Link>
+
+                <Link
+                  href="/demo/hysfa"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-cyan-400 text-left transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <Cpu className="w-5 h-5 text-cyan-700" />
+                    <div>
+                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
+                        <span>한양시스템 (SEMES SSQ)</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-cyan-100 text-cyan-800 font-bold">4K LIVE</span>
+                      </div>
+                      <div className="text-xs text-zinc-500 mt-0.5">반도체 세정 &amp; 4K SCADA 관제 데모</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-400" />
@@ -336,8 +376,8 @@ export default function Header() {
                 onClick={() => setMobileMenuOpen(false)}
                 className="w-full py-4 rounded-2xl bg-zinc-900 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg hover:bg-black"
               >
-                <Sparkles className="w-4 h-4" />
-                <span>프로젝트 무료 견적 문의하기</span>
+                <Send className="w-4 h-4" />
+                <span>프로젝트 무료 맞춤 견적 문의하기</span>
               </Link>
 
               <a
