@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import AtelierVaucluseApp from '@/components/demos/atelier-vaucluse/AtelierVaucluseApp';
+import AtelierVauclusePageClient from './AtelierVauclusePageClient';
 
 export const metadata: Metadata = {
   title: 'ATELIER VAUCLUSE | 하이엔드 인테리어 스튜디오 실물 데모 — 태문 DEV STUDIO',
@@ -12,6 +12,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AtelierVauclusePage() {
-  return <AtelierVaucluseApp />;
+export default async function AtelierVauclusePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ embed?: string }>;
+}) {
+  const params = await searchParams;
+  const isEmbed = params.embed === 'true';
+
+  return <AtelierVauclusePageClient isEmbed={isEmbed} />;
 }

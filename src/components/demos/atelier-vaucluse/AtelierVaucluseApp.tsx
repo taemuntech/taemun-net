@@ -18,7 +18,7 @@ import { JournalModal } from './modals/JournalModal';
 import { PrivacyPolicyModal } from './modals/PrivacyPolicyModal';
 import { Project, SubmissionRecord } from './types';
 
-export default function AtelierVaucluseApp() {
+export default function AtelierVaucluseApp({ isEmbed = false }: { isEmbed?: boolean } = {}) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedImage, setSelectedImage] = useState<{
     url: string;
@@ -58,34 +58,36 @@ export default function AtelierVaucluseApp() {
   return (
     <div className="min-h-screen flex flex-col bg-[#faf9f7] text-[#1a1c1b] font-sans selection:bg-[#e5e2dd] selection:text-[#161714]">
       {/* 🌟 Taemun Dev Studio Top Floating Demo Bar */}
-      <aside aria-label="데모 안내 바" className="sticky top-0 z-[60] bg-gray-950/95 backdrop-blur-md text-white border-b border-gray-800 text-xs py-2 px-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Link
-            href="/portfolio"
-            className="flex items-center gap-1.5 text-gray-400 hover:text-white transition-colors font-medium"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>포트폴리오 목록</span>
-          </Link>
-          <span className="text-gray-600">|</span>
-          <span className="flex items-center gap-1.5 font-medium text-emerald-400">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="font-semibold text-white">ATELIER VAUCLUSE</span> 실물 라이브 데모
-          </span>
-        </div>
-        <div className="flex items-center gap-3">
-          <span className="hidden lg:inline text-gray-400">
-            태문 DEV STUDIO 하이엔드 인테리어·건축 레퍼런스
-          </span>
-          <Link
-            href="/inquiry?from=atelier-vaucluse"
-            className="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-1 rounded text-xs transition-colors flex items-center gap-1"
-          >
-            <Sparkles className="w-3 h-3" />
-            <span>이런 사이트 제작 문의</span>
-          </Link>
-        </div>
-      </aside>
+      {!isEmbed && (
+        <aside aria-label="데모 안내 바" className="sticky top-0 z-[60] bg-gray-950/95 backdrop-blur-md text-white border-b border-gray-800 text-xs py-2 px-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/portfolio"
+              className="flex items-center gap-1.5 text-gray-400 hover:text-white transition-colors font-medium"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>포트폴리오 목록</span>
+            </Link>
+            <span className="text-gray-600">|</span>
+            <span className="flex items-center gap-1.5 font-medium text-emerald-400">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="font-semibold text-white">ATELIER VAUCLUSE</span> 실물 라이브 데모
+            </span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="hidden lg:inline text-gray-400">
+              태문 DEV STUDIO 하이엔드 인테리어·건축 레퍼런스
+            </span>
+            <Link
+              href="/inquiry?from=atelier-vaucluse"
+              className="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3 py-1 rounded text-xs transition-colors flex items-center gap-1"
+            >
+              <Sparkles className="w-3 h-3" />
+              <span>이런 사이트 제작 문의</span>
+            </Link>
+          </div>
+        </aside>
+      )}
 
       {/* Top Header */}
       <Header

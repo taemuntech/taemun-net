@@ -32,6 +32,7 @@ import {
   Cpu,
   ShoppingBag,
   Briefcase,
+  Monitor,
 } from "lucide-react";
 
 export default function Home() {
@@ -541,6 +542,15 @@ export default function Home() {
                     {selectedProject.badge}
                   </span>
                 )}
+                {selectedProject.liveDemoUrl && (
+                  <div className="absolute bottom-3 left-3 right-3 p-2.5 rounded-xl bg-black/80 backdrop-blur-md text-white text-xs font-medium flex items-center justify-between border border-white/10">
+                    <span className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      <span>AI 스튜디오 반응형 뷰어 (PC · 태블릿 · 모바일)</span>
+                    </span>
+                    <span className="text-[11px] text-zinc-300 font-mono">회전(Rotate) 지원</span>
+                  </div>
+                )}
               </div>
 
               {/* Title & Client */}
@@ -591,10 +601,11 @@ export default function Home() {
               {selectedProject.liveDemoUrl ? (
                 <Link
                   href={selectedProject.liveDemoUrl}
-                  className="flex-1 py-3 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all"
+                  className="flex-1 py-3 px-4 rounded-xl bg-zinc-950 hover:bg-black text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all group"
                 >
-                  <Play className="w-3.5 h-3.5 fill-current" />
-                  <span>실물 라이브 데모 직접 체험하기</span>
+                  <Monitor className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>반응형 뷰어로 체험 (PC · 태블릿 · 모바일 · 회전)</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                 </Link>
               ) : selectedProject.externalUrl ? (
                 <a
