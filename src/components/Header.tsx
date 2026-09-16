@@ -51,19 +51,41 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 lg:px-6 h-20 flex items-center justify-between">
         
         {/* Brand Logo */}
-        <Link href="/" className="flex items-center gap-2 group min-w-0" onClick={() => setMobileMenuOpen(false)}>
-          <div className="w-10 lg:w-11 h-10 lg:h-11 flex items-center justify-center select-none shrink-0 rounded-xl bg-zinc-100 border border-zinc-200 group-hover:border-zinc-300 transition-colors">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/logo/icon-192-transparent.png"
-              alt="태문 로고"
-              className="w-7 lg:w-8 h-7 lg:h-8 object-contain group-hover:scale-105 transition-transform"
-            />
+        <Link href="/" className="flex items-center gap-2.5 lg:gap-3 group min-w-0" onClick={() => setMobileMenuOpen(false)}>
+          <div className="w-9 lg:w-10 h-9 lg:h-10 rounded-xl bg-zinc-950 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:bg-zinc-800 transition-all">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="text-white"
+            >
+              {/* Minimalist Architectural T-Gate Mark */}
+              <path
+                d="M4 6.5H20"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
+              <path
+                d="M12 6.5V18.5"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
+              <circle cx="18.5" cy="18" r="2" fill="#d97706" />
+            </svg>
           </div>
           <div className="flex flex-col text-left">
-            <span className="text-base lg:text-lg font-bold tracking-tight text-zinc-900 leading-none">
-              태문 <span className="text-zinc-500 text-xs font-semibold tracking-normal font-sans">DEV STUDIO</span>
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-base lg:text-lg font-extrabold tracking-tight text-zinc-950 leading-none group-hover:text-black transition-colors">
+                태문
+              </span>
+              <span className="text-[11px] font-mono font-bold tracking-wider text-zinc-500 uppercase">
+                DEV STUDIO
+              </span>
+            </div>
             <span className="text-[10px] text-zinc-400 uppercase tracking-wider font-mono mt-0.5">
               Bespoke Digital Gallery
             </span>
