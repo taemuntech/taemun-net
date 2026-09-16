@@ -204,6 +204,13 @@ export default function Home() {
                 {category.id === "manufacturing" && (
                   <div className="flex flex-wrap items-center gap-2 self-start lg:self-end">
                     <Link
+                      href="/demo/wonik-qnc"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-950 border border-blue-300 text-xs font-bold transition-all shrink-0"
+                    >
+                      <Play className="w-3 h-3 fill-current text-blue-600" />
+                      <span>원익큐앤씨 쿼츠웨어 데모</span>
+                    </Link>
+                    <Link
                       href="/demo/hysfa"
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-50 hover:bg-cyan-100 text-cyan-950 border border-cyan-300 text-xs font-bold transition-all shrink-0"
                     >
@@ -220,13 +227,22 @@ export default function Home() {
                   </div>
                 )}
                 {category.id === "corporate" && (
-                  <Link
-                    href="/demo/hysfa"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-50 hover:bg-cyan-100 text-cyan-950 border border-cyan-300 text-xs font-bold transition-all shrink-0 self-start lg:self-end"
-                  >
-                    <Play className="w-3 h-3 fill-current text-cyan-600" />
-                    <span>한양시스템 하이테크 데모 체험</span>
-                  </Link>
+                  <div className="flex flex-wrap items-center gap-2 self-start lg:self-end">
+                    <Link
+                      href="/demo/wonik-qnc"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-950 border border-blue-300 text-xs font-bold transition-all shrink-0"
+                    >
+                      <Play className="w-3 h-3 fill-current text-blue-600" />
+                      <span>원익큐앤씨 코스닥 상장사 데모</span>
+                    </Link>
+                    <Link
+                      href="/demo/hysfa"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-50 hover:bg-cyan-100 text-cyan-950 border border-cyan-300 text-xs font-bold transition-all shrink-0"
+                    >
+                      <Play className="w-3 h-3 fill-current text-cyan-600" />
+                      <span>한양시스템 하이테크 데모 체험</span>
+                    </Link>
+                  </div>
                 )}
                 {category.id === "saas" && (
                   <a

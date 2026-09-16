@@ -15,6 +15,7 @@ import {
   Compass,
   Send,
   Cpu,
+  Globe,
 } from "lucide-react";
 
 export default function Header() {
@@ -97,6 +98,26 @@ export default function Header() {
             {portfolioDropdownOpen && (
               <div className="absolute top-full left-0 mt-2 w-80 p-2 rounded-2xl bg-white border border-zinc-200 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-150 text-left">
                 
+                {/* Wonik QnC Demo */}
+                <Link
+                  href="/demo/wonik-qnc"
+                  onClick={() => setPortfolioDropdownOpen(false)}
+                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-blue-50/60 transition-all group border border-transparent hover:border-blue-200"
+                >
+                  <div className="p-2 rounded-lg bg-blue-100 text-blue-800 border border-blue-200 shrink-0 group-hover:scale-105 transition-transform">
+                    <Globe className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
+                      <span>원익큐앤씨 (WONIK QnC)</span>
+                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-blue-100 text-blue-800 font-extrabold">GLOBAL 1위</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
+                      반도체 쿼츠웨어 &amp; 정밀 세라믹 코스닥 상장사
+                    </p>
+                  </div>
+                </Link>
+
                 {/* Atelier Vaucluse Demo */}
                 <Link
                   href="/demo/atelier-vaucluse"
@@ -273,6 +294,24 @@ export default function Header() {
                 직영 운영 솔루션 &amp; 라이브 데모
               </div>
               <div className="space-y-2">
+                <Link
+                  href="/demo/wonik-qnc"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-blue-400 text-left transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <Globe className="w-5 h-5 text-blue-700" />
+                    <div>
+                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
+                        <span>원익큐앤씨 (WONIK QnC)</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-blue-100 text-blue-800 font-bold">GLOBAL 1위</span>
+                      </div>
+                      <div className="text-xs text-zinc-500 mt-0.5">반도체 쿼츠웨어 &amp; KOSDAQ IR 데모</div>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-zinc-400" />
+                </Link>
+
                 <Link
                   href="/demo/atelier-vaucluse"
                   onClick={() => setMobileMenuOpen(false)}

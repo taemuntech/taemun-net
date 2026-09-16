@@ -87,6 +87,27 @@ export const GALLERY_CATEGORIES: GalleryCategoryMeta[] = [
 export const GALLERY_PROJECTS: GalleryProject[] = [
   // ─── 01. 제조 (Manufacturing) ─────────────────────────────────
   {
+    id: 'wonik-qnc-semiconductor-quartz',
+    title: '원익큐앤씨 글로벌 No.1 쿼츠웨어 & 정밀 세라믹',
+    client: '코스닥 상장사 (KOSDAQ: 074600) 원익큐앤씨',
+    category: 'manufacturing',
+    categoryName: '제조 · 반도체 소재부품',
+    summary: '글로벌 쿼츠웨어 점유율 1위, 40주년 기념 영상 및 KOSDAQ 실시간 IR 허브',
+    description: '반도체 식각·확산 공정 핵심 소재 쿼츠웨어 글로벌 1위 기업 원익큐앤씨의 공식 리뉴얼 프로토타입입니다. 4대 핵심 사업(쿼츠·세라믹·세정·옵틱) 인터랙티브 도면 및 쇼케이스, 40주년 기념 영상 상영관, KOSDAQ 실시간 주가 차트 및 SRM 신규 협력제안 포털을 탑재했습니다.',
+    thumbnailUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDgg1CFsX4Rlv7v8iswdosWchI-qMhyrD7vwnGmzOaR6P-3sCJD0XKtk3YCJebSRHSgrWQfTr1SQN79YTb7LobEF40hJaWrjcIyvbZyuxBi30x9cCYDsUv2XQsfpBCr_QHZ5qK1L1koYU4K9vg0r_8xrlGh9lhAfNHaUpRpM5KhGQ8Rfl3EBfuB-BbnFEs5Y1dunYaSmlNz5v4jkAwBK8m09fzboo4jrX0KCGkod1YWjeDPjqdaShEl',
+    liveDemoUrl: '/demo/wonik-qnc',
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', '40th PR Film', 'KOSDAQ IR Engine'],
+    period: '3주',
+    year: '2026',
+    badge: '글로벌 1위 데모',
+    highlights: [
+      '300mm 웨이퍼 식각·확산 쿼츠웨어 글로벌 1위 4대 사업부 인터랙티브 쇼케이스',
+      '40주년 기념 홍보 영상 극장 모달 및 UHD 챕터 네비게이션',
+      'KOSDAQ(074600) 실시간 주가·시가총액·외국인보유율 & DART 전자공시 연동',
+      'SRM 신규 협력사 제안, 공장 견학 예약, 글로벌 4개국어(KR/EN/CN/JP) 대응',
+    ],
+  },
+  {
     id: 'hysfa-semiconductor-scada',
     title: '한양시스템 반도체 설비 & 4K SCADA 관제',
     client: '삼성전자 세메스(SEMES) SSQ 인증 협력사',
