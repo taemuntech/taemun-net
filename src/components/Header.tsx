@@ -21,6 +21,14 @@ import {
   Dna,
   Boxes,
   Satellite,
+  TrendingUp,
+  Palmtree,
+  Ship,
+  Zap,
+  Sprout,
+  ShoppingBag,
+  Apple,
+  Sparkles,
   type LucideIcon,
 } from "lucide-react";
 // ⚠️ **타입만** 가져온다. 값(HEADER_DEMO_LINKS)을 import 하면 이 파일이 'use client' 라
@@ -119,6 +127,24 @@ const TONE_CLASSES: Record<
     mobileIcon: "text-amber-700",
     mobileBadge: "bg-amber-100 text-amber-900",
   },
+  // amber 와 같은 계열이지만 글자만 한 단계 짙다.
+  gold: {
+    dropdownItem: "hover:bg-amber-50/60 hover:border-amber-200",
+    dropdownIcon: "bg-amber-100 text-amber-900 border-amber-200",
+    dropdownBadge: "bg-amber-100 text-amber-900",
+    mobileItem: "hover:border-amber-400",
+    mobileIcon: "text-amber-800",
+    mobileBadge: "bg-amber-100 text-amber-900",
+  },
+  // 검정 바탕 + 형광 라임 글자 — onyx 와 같은 이유로 이름을 따로 뒀다.
+  noir: {
+    dropdownItem: "hover:bg-zinc-100 hover:border-zinc-300",
+    dropdownIcon: "bg-zinc-900 text-[#caf300] border-zinc-700",
+    dropdownBadge: "bg-zinc-900 text-[#caf300]",
+    mobileItem: "hover:border-zinc-900",
+    mobileIcon: "text-zinc-900",
+    mobileBadge: "bg-zinc-900 text-[#caf300]",
+  },
 };
 
 /** 아이콘 이름 → lucide 컴포넌트 */
@@ -133,6 +159,14 @@ const DEMO_ICONS: Record<DemoLinkIconKey, LucideIcon> = {
   boxes: Boxes,
   satellite: Satellite,
   layers: Layers,
+  trendingUp: TrendingUp,
+  palmtree: Palmtree,
+  ship: Ship,
+  zap: Zap,
+  sprout: Sprout,
+  shoppingBag: ShoppingBag,
+  apple: Apple,
+  sparkles: Sparkles,
 };
 
 export type HeaderProps = {
@@ -249,7 +283,7 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
             {/* Dropdown Menu */}
             {portfolioDropdownOpen && (
               // 헤더가 fixed 라 드롭다운이 뷰포트를 넘치면 페이지를 스크롤해도 넘친 줄에 닿을 수 없다.
-              // 데모가 늘면 바로 그렇게 된다(14줄 ≈ 890px > 세로 768px 노트북) — 목록 자체를 스크롤하게 둔다.
+              // 데모가 늘면 바로 그렇게 된다(지금 22줄 ≈ 1,400px > 세로 768px 노트북) — 목록 자체를 스크롤하게 둔다.
               <div className="absolute top-full left-0 mt-2 w-80 p-2 rounded-2xl bg-white border border-zinc-200 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-150 text-left max-h-[calc(100vh-7rem)] overflow-y-auto overscroll-contain">
 
                 {/* 내부 데모 — 서버가 「공개」인 것만 걸러서 내려 준 배열 */}

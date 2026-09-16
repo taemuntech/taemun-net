@@ -21,7 +21,21 @@ import { isListed, resolveStatus, type StateSnapshot } from "./state";
  * 색 이름만 넘긴다 — Tailwind 클래스는 Header.tsx 의 지도에 리터럴로 적혀 있다.
  * `onyx` 는 「짙은 스톤 바탕 + 앰버 글자」 조합이다(색 이름 하나로는 안 되는 짝이라 이름을 따로 줬다).
  */
-export type DemoLinkTone = "blue" | "amber" | "stone" | "rose" | "cyan" | "emerald" | "teal" | "indigo" | "sky" | "onyx";
+export type DemoLinkTone =
+  | "blue"
+  | "amber"
+  | "stone"
+  | "rose"
+  | "cyan"
+  | "emerald"
+  | "teal"
+  | "indigo"
+  | "sky"
+  | "onyx"
+  // 앰버 계열이지만 글자만 한 단계 짙다 — 아라 쪽 디자인 그대로다.
+  | "gold"
+  // 검정 바탕 + 형광 라임 글자 조합(색 이름 하나로는 안 되는 짝이라 이름을 따로 줬다).
+  | "noir";
 
 /** 아이콘 이름만 넘긴다 — lucide 컴포넌트 연결은 Header.tsx 의 지도가 한다 */
 export type DemoLinkIconKey =
@@ -34,7 +48,15 @@ export type DemoLinkIconKey =
   | "dna"
   | "boxes"
   | "satellite"
-  | "layers";
+  | "layers"
+  | "trendingUp"
+  | "palmtree"
+  | "ship"
+  | "zap"
+  | "sprout"
+  | "shoppingBag"
+  | "apple"
+  | "sparkles";
 
 export type HeaderDemoLink = {
   /** /demo/<slug> — 공개 상태 판정 열쇠이기도 하다 */
@@ -103,6 +125,53 @@ export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
     iconKey: "satellite",
   },
   {
+    slug: "apex-partners",
+    label: "아펙스 파트너스",
+    badge: "NEW",
+    // 설명은 사실 서술로 — 아라 쪽 원문은 「대체투자 AUM 4.2조」였다.
+    // 가상 운용사의 지어낸 운용자산 규모를 실적처럼 읽히게 적지 않는다.
+    description: "사모펀드 & 대체투자 운용사 IR 데모",
+    mobileDescription: "사모펀드 & 대체투자 IR 데모",
+    tone: "gold",
+    iconKey: "trendingUp",
+  },
+  {
+    slug: "atlas-resort",
+    label: "아틀라스 리조트",
+    badge: "NEW",
+    description: "럭셔리 부티크 & 프라이빗 빌라",
+    mobileDescription: "럭셔리 부티크 & 프라이빗 빌라",
+    tone: "stone",
+    iconKey: "palmtree",
+  },
+  {
+    slug: "transocean-scm",
+    label: "트랜스오션 SCM",
+    badge: "NEW",
+    description: "스마트 항만 & AI 복합물류",
+    mobileDescription: "스마트 항만 & AI 복합물류",
+    tone: "sky",
+    iconKey: "ship",
+  },
+  {
+    slug: "voltron-ev",
+    label: "볼트론 EV 전장",
+    badge: "NEW",
+    description: "800V SiC 전력반도체 & 메가와트 충전",
+    mobileDescription: "800V SiC 전력반도체 & 메가와트 충전",
+    tone: "cyan",
+    iconKey: "zap",
+  },
+  {
+    slug: "greencube-agri",
+    label: "그린큐브 스마트팜",
+    badge: "NEW",
+    description: "AI 밀폐형 수직농장 & 바이오 소재",
+    mobileDescription: "AI 밀폐형 수직농장 & 바이오 소재",
+    tone: "emerald",
+    iconKey: "sprout",
+  },
+  {
     slug: "wonik-qnc",
     label: "원익큐앤씨 (WONIK QnC)",
     // 배지는 사실 서술로 — 예전엔 「GLOBAL 1위」였다. 허락 없이 만든 시안에 그 회사의 최상급 주장을 적지 않는다.
@@ -139,6 +208,39 @@ export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
     mobileDescription: "전통 결구 & 패시브 주거 한옥 데모",
     tone: "stone",
     iconKey: "landmark",
+  },
+  {
+    slug: "atelier-noir",
+    label: "아틀리에 누아르",
+    mobileLabel: "아틀리에 누아르 (ATELIER NOIR)",
+    badge: "쇼핑몰 01",
+    // 설명에서 실존 플랫폼 이름을 뺐다 — 아라 쪽 원문은 「(무신사/29CM)」였다.
+    // 가상 브랜드 시안이 그 회사들과 관계가 있는 것처럼 읽힌다.
+    description: "K-패션 & 디자이너 셀렉트샵 커머스",
+    mobileDescription: "K-패션 & 디자이너 셀렉트샵 데모",
+    tone: "noir",
+    iconKey: "shoppingBag",
+  },
+  {
+    slug: "verde-gourmet",
+    label: "베르데 고메",
+    mobileLabel: "베르데 고메 (VERDE GOURMET)",
+    badge: "쇼핑몰 02",
+    description: "프리미엄 신선식품 & 풀콜드체인 새벽배송",
+    mobileDescription: "신선식품 & 새벽배송 데모",
+    tone: "emerald",
+    iconKey: "apple",
+  },
+  {
+    slug: "luminous-lab",
+    label: "루미너스 랩",
+    mobileLabel: "루미너스 랩 (LUMINOUS LAB)",
+    badge: "쇼핑몰 03",
+    // 설명에서 실존 유통사 이름을 뺐다 — 아라 쪽 원문은 「(올리브영)」이었다(위 atelier-noir 와 같은 이유).
+    description: "K-뷰티 & 클린 더마 코스메틱",
+    mobileDescription: "K-뷰티 & 클린 더마 코스메틱 데모",
+    tone: "teal",
+    iconKey: "sparkles",
   },
   {
     slug: "maison",
