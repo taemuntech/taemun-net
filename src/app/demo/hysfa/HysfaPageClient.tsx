@@ -23,16 +23,17 @@ export default function HysfaPageClient({ isEmbed }: Props) {
         "React 19",
         "Tailwind CSS v4",
         "TypeScript",
-        "4K SCADA Live Simulator",
-        "Interlock Telemetry",
+        "3 Core Divisions",
+        "5-Stage Total QA",
         "Bilingual (KO/EN)",
+        "Quote & Engineering Form",
       ]}
       inquiryUrl="/inquiry?from=hysfa"
       specs={[
-        { label: "실시간 4K SCADA 시뮬레이터", value: "PGMS/GDMS/LSS 밸브 제어 및 0.05초 인터록 셧다운 시연" },
-        { label: "삼성전자 세메스 협력사 인증", value: "SEMES SSQ 공식 인증 및 27년(1999~) 연혁 인터랙티브 타임라인" },
-        { label: "3대 핵심 사업부 쇼케이스", value: "매엽식 세정(Single Wafer Wet Clean), 특수가스 캐비닛, VMB 정밀 분배" },
-        { label: "글로벌 수주 다국어", value: "해외 반도체 팹 및 바이어 대응 국문/영문(KO/EN) 원클릭 전환" },
+        { label: "삼성전자 세메스 협력사 인증", value: "SEMES SSQ 품질인증 및 27년(1999~) 연혁·R&D 특허 기술 아카이브" },
+        { label: "3대 핵심 사업부 쇼케이스", value: "장비사업부(FA & Semiconductor Equipment), 배관사업부(UHP Gas), 정밀 제어 S/W" },
+        { label: "5단계 전수 검사 파이프라인", value: "원자재 수입검사, 오비탈 자동용접, 헬륨 리크, 72시간 무중단 신뢰성 시운전, 클린룸 출하" },
+        { label: "엔지니어링 견적 & 다국어", value: "견적 접수 위저드 실시간 채번 및 글로벌 바이어 대응 국/영문 원클릭 전환" },
       ]}
     />
   );

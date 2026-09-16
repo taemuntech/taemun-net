@@ -150,10 +150,10 @@ export default function Header() {
                   <div>
                     <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
                       <span>한양시스템 (SEMES SSQ)</span>
-                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-cyan-100 text-cyan-800 font-extrabold">4K LIVE</span>
+                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-cyan-100 text-cyan-800 font-extrabold">SEMES 협력사</span>
                     </div>
                     <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
-                      반도체 세정설비 &amp; 4K SCADA 관제 플랫폼
+                      반도체 FA 장비 &amp; 초고순도 가스 시스템
                     </p>
                   </div>
                 </Link>
@@ -340,9 +340,9 @@ export default function Header() {
                     <div>
                       <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
                         <span>한양시스템 (SEMES SSQ)</span>
-                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-cyan-100 text-cyan-800 font-bold">4K LIVE</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-cyan-100 text-cyan-800 font-bold">SEMES 협력사</span>
                       </div>
-                      <div className="text-xs text-zinc-500 mt-0.5">반도체 세정 &amp; 4K SCADA 관제 데모</div>
+                      <div className="text-xs text-zinc-500 mt-0.5">반도체 FA 장비 &amp; 가스 시스템 데모</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-400" />

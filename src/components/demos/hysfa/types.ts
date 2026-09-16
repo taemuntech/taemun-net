@@ -1,49 +1,40 @@
-export type Language = 'ko' | 'en';
-
-export interface TelemetrySensor {
+export interface DivisionInfo {
   id: string;
-  nameKo: string;
-  nameEn: string;
-  gasType: string;
-  pressure: number; // MPa
-  targetPressure: number;
-  flowRate: number; // SLPM
-  valveStatus: 'OPEN' | 'CLOSED';
-  ppm: number;
-  status: 'NORMAL' | 'WARNING' | 'INTERLOCK';
-}
-
-export interface ProductSpec {
-  id: string;
-  category: 'cleaning' | 'gas' | 'scada';
-  titleKo: string;
-  titleEn: string;
-  subtitleKo: string;
-  subtitleEn: string;
-  descriptionKo: string;
-  descriptionEn: string;
-  image: string;
-  featuresKo: string[];
-  featuresEn: string[];
-  specs: { labelKo: string; labelEn: string; valueKo: string; valueEn: string }[];
-}
-
-export interface HistoryItem {
-  year: string;
-  month: string;
-  titleKo: string;
-  titleEn: string;
-  highlight?: boolean;
-}
-
-export interface CertificationItem {
-  id: string;
-  titleKo: string;
-  titleEn: string;
-  issuerKo: string;
-  issuerEn: string;
-  year: string;
+  code: string;
+  name: string;
+  enName: string;
   badge: string;
-  descriptionKo: string;
-  descriptionEn: string;
+  description: string;
+  tags: string[];
+  image?: string;
+  imageCaption?: string;
+  specs: { label: string; value: string }[];
+  highlightItems?: { icon: string; title: string; desc: string }[];
+}
+
+export interface CoreTechItem {
+  id: string;
+  code: string;
+  title: string;
+  desc: string;
+  icon: string;
+  details?: string;
+}
+
+export interface QualityStep {
+  stepNumber: number;
+  title: string;
+  desc: string;
+  detailInfo?: string;
+}
+
+export interface ConsultationFormData {
+  company: string;
+  personName: string;
+  phone: string;
+  email: string;
+  divisions: string[];
+  timeline: string;
+  requirements: string;
+  agreedPrivacy: boolean;
 }
