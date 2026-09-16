@@ -68,6 +68,30 @@ export type HomeViewProps = {
   shortcuts?: readonly HomeShortcut[];
 };
 
+/**
+ * 작업물 성격 표시 — 카드 썸네일과 모달 이미지 귀퉁이에 붙는 작은 표.
+ *
+ * 가르는 것은 딱 두 갈래다: **밖에서 실제로 운영 중인 서비스**인가, 태문이 만든 **시연용 샘플**인가.
+ * 판정은 새 칸을 만들지 않고 **이미 있는 칸(externalUrl)** 으로 한다 — 밖으로 나가는 진짜 서비스 주소가
+ * 붙은 것만 「운영 중」(티독스·태문브릿지 둘)이고, 나머지는 전부 「샘플」이다.
+ * 이러면 카드 데이터 54개에 손대지 않고도 카드마다 사실대로 표가 붙는다.
+ *
+ * ⚠️ 문구를 더 세게(예: 「가상 브랜드 샘플」)·약하게(예: 「데모」) 바꾸려면 **여기 한 곳만** 고친다 —
+ *    카드와 모달이 같은 함수를 쓰므로 두 벌로 갈라지지 않는다.
+ */
+function WorkMark({ project, className = "" }: { project: GalleryProject; className?: string }) {
+  const live = Boolean(project.externalUrl);
+  return (
+    <span
+      className={`rounded-md border px-1.5 py-0.5 text-[10px] font-bold shadow-sm backdrop-blur-sm ${
+        live ? "border-emerald-700/30 bg-emerald-600/90 text-white" : "border-white/20 bg-zinc-900/70 text-white"
+      } ${className}`}
+    >
+      {live ? "운영 중" : "샘플"}
+    </span>
+  );
+}
+
 export default function HomeView({ projects, categories, demoLinks, shortcuts = [] }: HomeViewProps) {
   // 이름만 옛것 그대로 둔다(아래 화면 코드가 이 이름을 쓴다) — 값은 서버가 이미 걸러 준 배열이다
   const galleryProjects = projects;
@@ -238,12 +262,6 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
           2. THE 6-CATEGORY PORTFOLIO GALLERIES (5-COLUMN GRID + ACCORDION)
           ───────────────────────────────────────────────────────────── */}
       <section className="pb-24 lg:pb-36 px-4 lg:px-8 max-w-7xl mx-auto relative z-10 space-y-20 lg:space-y-28">
-        {/* 갤러리 고지 — 카드마다 「클라이언트 · 연도 · 기간」이 붙어 납품 실적처럼 읽힌다.
-            카드마다 배지를 다는 대신 갤러리 머리에 한 번 고정으로 둔다(접히거나 스크롤로 사라지는 자리는 피한다). */}
-        <p className="rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-xs lg:text-sm text-zinc-600 leading-relaxed">
-          아래 작업물은 태문 DEV STUDIO 가 기술 시연을 위해 만든 <strong className="font-semibold text-zinc-800">가상 브랜드 샘플</strong>이
-          중심입니다. 카드의 클라이언트·연도·기간 표기는 화면 구성을 보여 주기 위한 예시이며 실제 계약·납품 고객사가 아닙니다.
-        </p>
         {GALLERY_CATEGORIES.map((category) => {
           const allProjects = galleryProjects.filter((p) => p.category === category.id);
           // 다 내려간 분류는 제목·설명까지 통째로 뺀다(「총 0개 작품」 자리가 남지 않게)
@@ -367,6 +385,9 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                           {project.badge}
                         </div>
                       )}
+
+                      {/* 성격 표시 — 왼쪽 배지는 마케팅 문구 자리라, 사실 표시는 반대쪽 귀퉁이에 따로 둔다 */}
+                      <WorkMark project={project} className="absolute top-2 right-2" />
                     </div>
 
                     {/* Meta info */}
@@ -396,8 +417,9 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                             </span>
                           )}
                         </div>
-                        <span className="text-[10px] text-zinc-400 font-mono shrink-0">
-                          {project.period}
+                        {/* 제작 기간은 사실이고 이 회사의 핵심 세일즈 포인트라 흐릿하게 두지 않는다 */}
+                        <span className="text-[10px] text-zinc-700 font-mono font-bold shrink-0">
+                          제작 {project.period}
                         </span>
                       </div>
                     </div>
@@ -656,6 +678,8 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                     {selectedProject.badge}
                   </span>
                 )}
+                {/* 카드와 같은 표를 같은 함수로 — 카드에서 본 것이 모달에서도 그대로 보인다 */}
+                <WorkMark project={selectedProject} className="absolute top-3 right-3" />
                 {selectedProject.liveDemoUrl && (
                   <div className="absolute bottom-3 left-3 right-3 p-2.5 rounded-xl bg-black/80 backdrop-blur-md text-white text-xs font-medium flex items-center justify-between border border-white/10">
                     <span className="flex items-center gap-2">
@@ -667,13 +691,12 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                 )}
               </div>
 
-              {/* Title & Client */}
+              {/* Title & Target */}
               <div>
+                {/* 「클라이언트」가 아니라 「제작 대상」 — 이 화면을 어떤 업종·조직을 상정하고 만들었는가라는 뜻이다.
+                    실제 계약 고객을 가리키는 말이 아니므로 라벨을 바꿔 뜻을 맞춘다(성격은 오른쪽 위 표가 말한다). */}
                 <div className="text-xs text-zinc-500 font-mono mb-1">
-                  클라이언트: {selectedProject.client}
-                </div>
-                <div className="text-[11px] text-zinc-400 mb-1">
-                  가상 브랜드 샘플 — 실제 계약·납품 고객사가 아닙니다
+                  제작 대상: {selectedProject.client}
                 </div>
                 <h3 className="text-xl lg:text-2xl font-bold text-zinc-950">
                   {selectedProject.title}
