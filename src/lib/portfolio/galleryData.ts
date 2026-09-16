@@ -853,6 +853,27 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       '팹리스·파운드리 전용 웨이퍼 테스트 샘플 및 기술 실무 미팅 접수 위저드',
     ],
   },
+  {
+    id: 'stella-orbital-systems',
+    title: '스텔라 궤도 데이터 (STELLA ORBITAL) 초소형 위성 군집 & 지구관측 AI',
+    client: '우주항공/스페이스테크 데이터 엔터프라이즈 (LEO 48기 운용)',
+    category: 'corporate',
+    categoryName: '기업랜딩 · 우주항공/스페이스테크',
+    summary: '태양동기궤도 500km 초소형 위성 군집, 0.3m 초고해상도 광학 & X-Band SAR 레이더, 실시간 텔레메트리 다운링크',
+    description: 'NASA/SpaceX 스타일의 순백 스페이스테크 클린룸 감성으로 설계된 지구관측 위성 데이터 플랫폼 플래그십 사이트입니다. 광학(EO)·합성개구레이더(SAR)·초분광 3대 센서 인터랙티브 해상도 비교 뷰어, 국방/해양/인프라 분석 솔루션 매트릭스, 전 세계 14개 지상국 다운링크 텔레메트리 HUD, 촬영 위임 의뢰(Tasking) 위저드를 완비했습니다.',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80',
+    liveDemoUrl: '/demo/stella-orbital',
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Multi-Sensor Radar', 'Live Orbit HUD'],
+    period: '2주',
+    year: '2026',
+    badge: '실물 라이브 데모',
+    highlights: [
+      '0.3m 서브미터 컬러 광학 & X-Band SAR 3대 센서 인터랙티브 비교 뷰어',
+      '48기 LEO 저궤도 위성 군집 실시간 다운링크(10Gbps OISL) 텔레메트리 HUD',
+      '국방 해양 감시, 송유관 인프라 변위, 곡물 수확량 글로벌 분석 솔루션',
+      '관심 영역(AOI) 지정, 전천후 센서 선택 및 Cloud GeoTIFF 촬영 의뢰 위저드',
+    ],
+  },
 
   // ─── 03. 병의원 · 메디컬 · 치과 (Medical & Healthcare) ───────────────────
   {

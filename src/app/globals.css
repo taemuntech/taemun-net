@@ -87,4 +87,20 @@
   background: linear-gradient(90deg, rgba(30,64,175,0.05) 0%, rgba(30,64,175,0.3) 50%, rgba(30,64,175,0.05) 100%);
 }
 
+.telemetry-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(196, 197, 213, 0.18) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(196, 197, 213, 0.18) 1px, transparent 1px);
+}
+
+.scanner-line {
+  animation: scanSweep 4s ease-in-out infinite alternate;
+}
+
+@keyframes scanSweep {
+  0% { transform: translateY(0%); opacity: 0.8; }
+  100% { transform: translateY(100%); opacity: 0.2; }
+}
+
 
