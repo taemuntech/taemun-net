@@ -32,6 +32,7 @@ import {
   ShoppingBag,
   Briefcase,
   Monitor,
+  Stethoscope,
 } from "lucide-react";
 
 export default function Home() {
@@ -39,6 +40,7 @@ export default function Home() {
   const [expandedCategories, setExpandedCategories] = useState<Record<GalleryCategoryId, boolean>>({
     corporate: false,
     commerce: false,
+    medical: false,
     interior: false,
     architecture: false,
     saas: false,
@@ -70,6 +72,8 @@ export default function Home() {
         return <ShoppingBag className="w-4 h-4 text-rose-700" />;
       case "corporate":
         return <Briefcase className="w-4 h-4 text-blue-700" />;
+      case "medical":
+        return <Stethoscope className="w-4 h-4 text-teal-700" />;
     }
   };
 
@@ -254,6 +258,19 @@ export default function Home() {
                     <Play className="w-3 h-3 fill-current" />
                     <span>메종 당티크 실물 사이트</span>
                   </Link>
+                )}
+                {category.id === "medical" && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const firstMedical = GALLERY_PROJECTS.find((p) => p.category === "medical");
+                      if (firstMedical) setSelectedProject(firstMedical);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-50 hover:bg-teal-100 text-teal-900 border border-teal-200 text-xs font-bold transition-all shrink-0 self-start lg:self-end cursor-pointer"
+                  >
+                    <Play className="w-3 h-3 fill-current" />
+                    <span>메디컬 클리닉 포트폴리오</span>
+                  </button>
                 )}
                 {category.id === "interior" && (
                   <Link
