@@ -514,7 +514,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
               </p>
             </div>
             <div className="pt-3 border-t border-zinc-200 text-[11px] text-purple-800 font-mono">
-              • 100% 법적 효력 &amp; 감사추적
+              • 전자서명법 근거 &amp; 감사추적
             </div>
           </div>
 

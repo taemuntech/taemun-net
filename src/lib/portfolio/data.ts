@@ -99,7 +99,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     client: '주식회사 태문 직영 SaaS',
     category: 'saas',
     categoryLabel: '스마트 전자서명 SaaS',
-    summary: '300여 종 산업 서식 및 100% 법적 효력 카카오톡 모바일 전자서명 플랫폼',
+    summary: '300여 종 산업 서식 및 전자서명법에 근거한 카카오톡 모바일 전자서명 플랫폼',
     description:
       '건축, 인테리어, 부동산, 일반 기업 실무에 필수적인 300여 종의 전문 서식을 웹 에디터로 실시간 작성하고, 카카오 알림톡으로 전송하여 1분 만에 전자서명을 체결하는 올인원 스마트 도큐먼트 플랫폼입니다.',
     thumbnailUrl: '/images/mockup_tdocs.jpg',
