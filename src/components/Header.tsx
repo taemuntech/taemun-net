@@ -27,6 +27,7 @@ import {
   Zap,
   Sprout,
   ShoppingBag,
+  Apple,
 } from "lucide-react";
 
 export default function Header() {
@@ -431,7 +432,45 @@ export default function Header() {
                   </div>
                 </Link>
 
+                {/* Verde Gourmet E-Commerce Demo */}
+                <Link
+                  href="/demo/verde-gourmet"
+                  onClick={() => setPortfolioDropdownOpen(false)}
+                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-emerald-50/60 transition-all group border border-transparent hover:border-emerald-200"
+                >
+                  <div className="p-2 rounded-lg bg-emerald-100 text-emerald-800 border border-emerald-200 shrink-0 group-hover:scale-105 transition-transform">
+                    <Apple className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
+                      <span>베르데 고메</span>
+                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 font-extrabold">쇼핑몰 02</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
+                      프리미엄 신선식품 &amp; 풀콜드체인 새벽배송
+                    </p>
+                  </div>
+                </Link>
+
                 {/* Maison d'Antique Demo */}
+                <Link
+                  href="/demo/verde-gourmet"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-emerald-500 text-left transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <Apple className="w-5 h-5 text-emerald-700" />
+                    <div>
+                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
+                        <span>베르데 고메 (VERDE GOURMET)</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 font-bold">쇼핑몰 02</span>
+                      </div>
+                      <div className="text-xs text-zinc-500 mt-0.5">신선식품 &amp; 새벽배송 데모</div>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-zinc-400" />
+                </Link>
+
                 <Link
                   href="/demo/maison"
                   onClick={() => setPortfolioDropdownOpen(false)}
@@ -860,6 +899,24 @@ export default function Header() {
                         <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-zinc-900 text-[#caf300] font-bold">쇼핑몰 01</span>
                       </div>
                       <div className="text-xs text-zinc-500 mt-0.5">K-패션 &amp; 디자이너 셀렉트샵 데모</div>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-zinc-400" />
+                </Link>
+
+                <Link
+                  href="/demo/verde-gourmet"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-emerald-500 text-left transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <Apple className="w-5 h-5 text-emerald-700" />
+                    <div>
+                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
+                        <span>베르데 고메 (VERDE GOURMET)</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 font-bold">쇼핑몰 02</span>
+                      </div>
+                      <div className="text-xs text-zinc-500 mt-0.5">신선식품 &amp; 새벽배송 데모</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-400" />
