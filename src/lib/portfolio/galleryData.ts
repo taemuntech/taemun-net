@@ -958,6 +958,27 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       '글로벌 OEM 양산 사양 협의(RFQ) 및 총괄 아키텍트 직통 엔지니어링 상담 연동',
     ],
   },
+  {
+    id: 'greencube-vertical-farm',
+    title: '그린큐브 버티컬 팜 (GREENCUBE) AI 무농약 밀폐형 수직 스마트팜',
+    client: '글로벌 친환경 스마트팜 & 무농약 바이오 천연물 소재 상장사',
+    category: 'corporate',
+    categoryName: '기업랜딩 · 스마트팜/애그리테크',
+    summary: 'Class 1000 클린룸 바이오스피어, 95% 용수 절감 & 연간 수확량 계산기 및 분광 AI 매트릭스',
+    description: '첨단 바이오 무균 클린룸과 청정 바이오스피어 감성의 수직 스마트팜 플래그십 사이트입니다. 재배 면적(1,000~10,000평) 및 품종별 연간 생산량(톤), 용수 95% 절감 및 탄소 감축 ROI 실시간 계산기, Blue(450nm) 엽록소 강화 vs Red(660nm) 개화 촉진 분광 LED 파장 실시간 튜너, 온습도/CO2 Class 1000 클린룸 관제 HUD, 특급호텔 및 대형마트 B2B 4시간 콜드체인 납품 계약 위저드를 완비했습니다.',
+    thumbnailUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAy43GOmTnr2T8zFUP4t4l8gCmRafBwVHRK3QC-R1sXlbby4-Do0Lf8ukKqlomkfQAD5cbaUdcxYvgJDQmowqHJMVj9qzPoHLLLbBPemx3bKkBiqjbiThMAlGOPuGE7IHPNxwGF89JD5MhkkOO45WCnvM7WhI8BwrXvtiP-iBBoPNCwmdSYpic-KmPyNzNcUloj7YW8lJShKrggigr_z1sGhFae9hCMuGm3YcpXobqGHbUTjvfiqIa9',
+    liveDemoUrl: '/demo/greencube-agri',
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Spectral AI Matrix', 'Harvest Yield Calculator', 'Cold Chain HUD'],
+    period: '2주',
+    year: '2026',
+    badge: '실물 라이브 데모',
+    highlights: [
+      '재배면적(1,000~10,000평) 및 품종별 연간 수확량(톤) & 용수 95% 절감 계산기',
+      'Blue(450nm) 조직 치밀화 vs Red(660nm) 안토시아닌 AI 분광 매트릭스 튜너',
+      'ISO Class 1000 무균 양압 클린룸 실시간 온습도·CO2 기밀 환경 텔레메트리',
+      '특급호텔·항공사 케이터링 4시간 Farm-to-Table B2B 정기 계약 위저드',
+    ],
+  },
 
   // ─── 03. 병의원 · 메디컬 · 치과 (Medical & Healthcare) ───────────────────
   {
