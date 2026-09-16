@@ -318,23 +318,11 @@ export default function Header() {
           </Link>
         </nav>
 
-        {/* Right CTAs (Phone & Mobile Toggle) */}
-        <div className="flex items-center gap-2 lg:gap-3">
-          
-          {/* Direct Phone Call Button */}
-          <a
-            href="tel:010-8672-6463"
-            className="flex items-center gap-1.5 px-3 lg:px-4 py-2 lg:py-2.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-medium border border-zinc-200 transition-all"
-          >
-            <PhoneCall className="w-3.5 h-3.5 text-zinc-700 shrink-0" />
-            <span className="hidden lg:inline font-mono">010-8672-6463</span>
-            <span className="lg:hidden">직통 전화</span>
-          </a>
-
-          {/* Mobile Hamburger Button (lg:hidden) */}
+        {/* Mobile Hamburger Button (lg:hidden) */}
+        <div className="flex lg:hidden items-center">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-xl bg-zinc-100 border border-zinc-200 text-zinc-700 hover:text-zinc-950 hover:bg-zinc-200 transition-colors focus:outline-none"
+            className="p-2 rounded-xl bg-zinc-100 border border-zinc-200 text-zinc-700 hover:text-zinc-950 hover:bg-zinc-200 transition-colors focus:outline-none"
             aria-label="모바일 메뉴 열기"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -562,7 +550,7 @@ export default function Header() {
                 className="w-full py-3.5 rounded-2xl bg-zinc-100 border border-zinc-200 text-zinc-900 font-bold text-sm flex items-center justify-center gap-2"
               >
                 <PhoneCall className="w-4 h-4 text-zinc-700" />
-                <span>총괄 아키텍트 직통 연결 (010-8672-6463)</span>
+                <span>총괄 아키텍트 직통 연결</span>
               </a>
             </div>
 
