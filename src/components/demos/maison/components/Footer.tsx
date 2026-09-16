@@ -234,6 +234,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
             </span>
           </div>
         </div>
+
+        {/* 샘플 고지 — 상단 툴바를 접거나 ?embed=true 로 화면만 열어도 남아야 하는 표시 */}
+        <p className="mt-6 rounded-lg border border-[#e9e1dc]/20 px-4 py-3 text-xs leading-relaxed text-[#e9e1dc]/70">
+          이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며, 화면의 회사명·상품·수치·연락처는 모두
+          예시입니다. 예약·문의 폼은 접수되지 않습니다.
+        </p>
       </div>
     </footer>
   );

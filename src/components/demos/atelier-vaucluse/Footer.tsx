@@ -27,7 +27,7 @@ export const Footer: React.FC<FooterProps> = ({
             ATELIER VAUCLUSE
           </span>
           <p className="text-xs text-[#474741] max-w-md font-sans leading-relaxed">
-            아뜰리에 보클루즈 인테리어 아키텍처 | 대표: 권진우, 서유경 | 사업자등록번호: 211-88-94103 | 통신판매업신고: 제2023-서울강남-0412호
+            아뜰리에 보클루즈 인테리어 아키텍처 | 대표: 홍길동(예시) | 사업자등록번호: 000-00-00000 (예시) | 통신판매업신고 표기 자리 (예시)
           </p>
           <p className="text-[11px] uppercase tracking-wider text-[#474741]/70 mt-3 font-sans">
             &copy; 2025 Atelier Vaucluse Interior Architecture. All rights reserved.
@@ -72,6 +72,14 @@ export const Footer: React.FC<FooterProps> = ({
             Privacy Policy
           </button>
         </div>
+      </div>
+
+      {/* 샘플 고지 — 상단 툴바를 접거나 ?embed=true 로 화면만 열어도 남아야 하는 표시 */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 pb-10">
+        <p className="rounded-lg border border-[#c8c7bf]/60 bg-white/70 px-4 py-3 text-xs leading-relaxed text-[#474741]">
+          이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며, 화면의 회사명·수치·연락처는 모두 예시입니다.
+          상담·문의 폼은 접수되지 않습니다.
+        </p>
       </div>
     </footer>
   );

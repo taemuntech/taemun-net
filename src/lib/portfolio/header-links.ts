@@ -17,11 +17,24 @@
 import { getPortfolio } from "./registry";
 import { isListed, resolveStatus, type StateSnapshot } from "./state";
 
-/** 색 이름만 넘긴다 — Tailwind 클래스는 Header.tsx 의 지도에 리터럴로 적혀 있다 */
-export type DemoLinkTone = "blue" | "amber" | "stone" | "rose" | "cyan" | "emerald";
+/**
+ * 색 이름만 넘긴다 — Tailwind 클래스는 Header.tsx 의 지도에 리터럴로 적혀 있다.
+ * `onyx` 는 「짙은 스톤 바탕 + 앰버 글자」 조합이다(색 이름 하나로는 안 되는 짝이라 이름을 따로 줬다).
+ */
+export type DemoLinkTone = "blue" | "amber" | "stone" | "rose" | "cyan" | "emerald" | "teal" | "indigo" | "sky" | "onyx";
 
 /** 아이콘 이름만 넘긴다 — lucide 컴포넌트 연결은 Header.tsx 의 지도가 한다 */
-export type DemoLinkIconKey = "globe" | "compass" | "landmark" | "crown" | "cpu" | "activity";
+export type DemoLinkIconKey =
+  | "globe"
+  | "compass"
+  | "landmark"
+  | "crown"
+  | "cpu"
+  | "activity"
+  | "dna"
+  | "boxes"
+  | "satellite"
+  | "layers";
 
 export type HeaderDemoLink = {
   /** /demo/<slug> — 공개 상태 판정 열쇠이기도 하다 */
@@ -45,6 +58,51 @@ export type HeaderDemoLink = {
  */
 export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
   {
+    slug: "nexus-robotics",
+    label: "넥서스 로보틱스",
+    badge: "NEW",
+    description: "반도체 클린룸 자율주행 AMR & 디지털 트윈",
+    mobileDescription: "반도체 클린룸 자율주행 AMR & 디지털 트윈",
+    tone: "blue",
+    iconKey: "cpu",
+  },
+  {
+    slug: "h2-next",
+    label: "하이드로젠 넥스트",
+    badge: "NEW",
+    description: "신재생에너지 & 극저온 액화수소 플랜트",
+    mobileDescription: "신재생에너지 & 극저온 액화수소 플랜트",
+    tone: "teal",
+    iconKey: "activity",
+  },
+  {
+    slug: "celebris-biopharma",
+    label: "셀레브리스 바이오파마",
+    badge: "NEW",
+    description: "표적단백질분해(TPD) & ADC 혁신신약",
+    mobileDescription: "표적단백질분해(TPD) & ADC 혁신신약",
+    tone: "indigo",
+    iconKey: "dna",
+  },
+  {
+    slug: "nano-advanced",
+    label: "나노어드밴스드",
+    badge: "NEW",
+    description: "2.5D/3D 반도체 패키징 & 글래스 기판",
+    mobileDescription: "2.5D/3D 반도체 패키징 & 글래스 기판",
+    tone: "sky",
+    iconKey: "boxes",
+  },
+  {
+    slug: "stella-orbital",
+    label: "스텔라 궤도 데이터",
+    badge: "NEW",
+    description: "초소형 위성 군집 & 지구관측 AI",
+    mobileDescription: "초소형 위성 군집 & 지구관측 AI",
+    tone: "cyan",
+    iconKey: "satellite",
+  },
+  {
     slug: "wonik-qnc",
     label: "원익큐앤씨 (WONIK QnC)",
     // 배지는 사실 서술로 — 예전엔 「GLOBAL 1위」였다. 허락 없이 만든 시안에 그 회사의 최상급 주장을 적지 않는다.
@@ -62,6 +120,15 @@ export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
     mobileDescription: "건축·인테리어 스튜디오 실물 데모",
     tone: "amber",
     iconKey: "compass",
+  },
+  {
+    slug: "haus-space",
+    label: "HAUS & SPACE",
+    badge: "펜트하우스",
+    description: "한남 더 힐 105평 B&A 슬라이더 & 360 VR 데모",
+    mobileDescription: "한남 더 힐 105평 B&A 슬라이더 & VR 데모",
+    tone: "onyx",
+    iconKey: "layers",
   },
   {
     slug: "sodamjae",

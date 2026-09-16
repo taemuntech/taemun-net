@@ -309,6 +309,39 @@ const handleBookingSubmit = (e: FormEvent<HTMLFormElement>) => {
 | 이미지 | Unsplash 등 무료 스톡 또는 직접 만든 것. 실존 업체 사진·로고 금지 | |
 | 태문 연락처 | 샘플 안에 **넣지 않는다**. 제작 문의는 샘플 바와 SampleNotice 가 한다 | `010-8672-6463` ✗ |
 
+### 5-1. 새 데모 6종(2026-09-16)에서 실제로 걸린 것 — 이제 **게이트가 ERROR 로 막는다**
+
+가상 브랜드 샘플 6개(celebris-biopharma·h2-next·haus-space·nano-advanced·nexus-robotics·stella-orbital)를 한꺼번에
+들여오면서 같은 종류의 사고가 반복됐다. **없는 회사에 실존하는 것의 이름을 빌려 주면 무단 사칭·허위 레퍼런스다.**
+그때 `audit:portfolio` 는 경고를 한 건도 내지 않았다 — 초록불이 「깨끗하다」가 아니라 「그 범주를 안 봤다」였다.
+지금은 **`kind: "sample"` 에서 ERROR**, `kind: "proposal"`(그 회사 자신의 정보라 자연스러운 자리) 에서는 WARN 이다.
+
+| 걸린 것 | 실제 사례 | 이렇게 쓴다 |
+|---|---|---|
+| 실존 기업명 | 고객사 로고 구름의 `SAMSUNG SDI`·`TSMC TAINAN`·`SK H-SEMIC`·`LG EN-SOL`, 사양표의 `Intel RealSense`·`NVIDIA H100` | `A-FOUNDRY (예시)` · `3D 뎁스 비전 카메라 × 2 (예시)` |
+| 실존 규제기관·제도 | `FDA 희귀의약품(ODD) 지정 완료` · `EMA Annex 1 적격 인증` · `K-ETS 등록번호` · `ITAR REGISTERED` · `FCC & ITU LICENSED` | `해외 규제기관(예시) 가이드라인 기준` · `수출통제 준수 표기 (예시)` |
+| 실존 대학·인물 직함 | 자문단 약력의 `서울대 의대 석좌교수` · `존스홉킨스 의대 주임교수` · `대한암학회 이사장 역임` | `국내 대학병원 암연구소 교수 (예시)` · 학회 직함·역임 이력은 지운다 |
+| 실존 저널·DOI | `Nature Medicine (2025)` + `10.1038/s41591-…` — 진짜 등록 접두사라 조회되는 논문으로 읽힌다 | `국제 종양학 저널 (예시)` · `00.0000/example-2025-0001` 또는 DOI 줄 삭제 |
+| 실존 매체·건물 | `ARCHITECTURAL DIGEST`·`ELLE DÉCOR` 보도, `한남 더 힐 펜트하우스` 시공 | `해외 건축 매거진 (예시)` · `도심 하이엔드 펜트하우스(예시)` |
+| 조회 가능한 식별번호 | 사업자등록번호 `104-86-49201` · `KOSPI 392810` · 실내건축공사업 면허 `강남 제2015-18호` | `000-00-00000 (예시)` · 종목코드·면허번호는 「표기 자리 (예시)」로 |
+| 실존 기관 링크 | 푸터의 `DART 분기/결산 재무제표` → `https://dart.fss.or.kr` (없는 회사의 공시로 이어진다) | 내부 앵커(`#governance`)로 |
+| 근거를 실존 출처로 | 계산기 밑 `산업통상자원부 제10차 …·한국거래소 K-ETS 단가 기준 모델링` · `실제 24개 고객사 실측 데이터 기반` | `화면 구성을 보여 주기 위한 예시 산출식입니다` |
+| 100%·무결점·완벽 | `이송 병목 100% 해소` · `무결점을 실현합니다` · `완벽 정합` · `하루 만에 완벽한 연동 테스트를 완료` | `병목 개선 (예시)` · `목표 사양(예시)` · `연동 테스트 구성(예시)` |
+
+세 가지를 더 기억한다.
+
+1. **기기 전환 툴바의 `client=` 는 태문이 자기 목소리로 말하는 자리다.** `DevicePreviewFrame` 이 「클라이언트: …」로
+   그대로 찍어 영업 상대가 **수주 실적으로 읽는다.** `kind: "sample"` 이면 반드시
+   `client="가상 브랜드 샘플 — 실제 업체가 아닙니다 (○○ 설정)"` 형식으로 적는다(없으면 ERROR).
+2. **데모가 들고 온 영상·이미지는 `/public` 에 두지 않는다.** `public/videos/*.mp4` 에 둔 데모 영상은 게이트
+   (`src/proxy.ts` 의 `config.matcher`) 밖이라 **그 데모를 내려도 200 으로 그대로 열렸다.**
+   `private-assets/portfolio/<slug>/<파일>` 에 두고 화면에서는 `/portfolio/<slug>/<파일>` 로 쓴다 —
+   그 앞자리는 이미 matcher 에 있어 상태를 따르고, `.mp4` 는 구간 요청(Range)까지 받아 준다.
+   (태문 자체 자산 `/images/…`·`/fonts/…` 는 그대로 `/public` 에 둔다. 외부 이미지 호스트 직접 참조도
+   같은 이유로 게이트 밖이라 WARN 으로 개수를 보여 준다.)
+3. **「예시」 표시는 푸터 한 줄로 충분하지 않다.** 임상 수치·시설 규모처럼 투자·제휴 판단 정보로 읽히는 구역은
+   그 **구역 머리에** 「아래 수치는 화면 구성용 예시입니다」를 상시 노출로 붙인다(접히거나 스크롤로 사라지는 자리는 피한다).
+
 **실존 업체 제안 시안**(특정 회사 이름·로고로 만든 시안)은 **형이 지시했을 때만** 만든다 — 공장 기본 출력물이 아니다.
 만들 때는 위 표의 「가상 브랜드」 줄 대신 **6-3-1 「실존 업체 제안 시안 만들기」** 를 따른다. 회사 이름이 그대로 걸리는 화면이라
 규칙이 더 빡빡하고, 입고 검사도 WARN 이 아니라 **ERROR** 로 막는다.
@@ -478,6 +511,9 @@ npm run capture:thumbs -- --help                               # 브라우저 �
 - 결과: `public/portfolio/<slug>/desktop.png`(1440×900) · `mobile.png`(390×844, 모바일 UA). 페이지가 200 이 아니면 안 찍는다.
 - 촬영은 load 후 3초 기다린다. 등장 애니메이션이 3초보다 길면 빈 화면이 찍힌다 → 첫 화면 애니메이션을 짧게.
 - 이미 파일이 있으면 「건너뜀」 — 디자인을 고쳤으면 `--force`.
+- **찍지 않고 입고하지 않는다.** 2026-09-16 새 데모 6종이 썸네일 없이 들어와 `/portfolio` 카드 14장 중 6장이
+  회색 자리표시로 떴다 — 형이 영업 자리에서 목록을 열면 새 작업만 빈 칸이다. 여러 개면 쉼표로 한 번에:
+  `npm run capture:thumbs -- --only a,b,c --base http://localhost:<포트>`
 - **결과 확인은 필수**: 두 PNG 를 직접 열어 본다(Read 도구로 이미지 열기). 볼 것 — 샘플 바가 맨 위에 있는가 · 헤더가 바에 가리지 않는가 · 빈 화면·에러 화면·깨진 이미지가 아닌가 · 모바일에서 가로 넘침이 없는가.
 - 요약 줄 `요약: 완료 N · 건너뜀 N · 실패 N` — 실패가 있으면 종료코드 1.
 
@@ -518,12 +554,17 @@ npm run audit:portfolio -- --help                                         # 검�
 | ERROR | `fetch(`·`axios`·`"/api/"`·`sendBeacon`·`XMLHttpRequest`·`WebSocket`·`EventSource`·외부 폼 서비스·`<form action="http…">`·폼 내용을 실은 `mailto` |
 | ERROR | `fixed` + `top-0` 인 요소 — 한 줄·여러 줄 `className`·`cn()`/`clsx()` 인자·템플릿 리터럴·`style={{position:"fixed", top:0}}` 모두 |
 | ERROR (`proposal`) | `SampleNotice` 에 `kind="proposal"` 이 없음 · `src/components/demos/<slug>/` 안에 「만들었거나 의뢰한 사이트가 아닙니다」 고지가 없음 (6-3-1) |
+| ERROR | **카드 JSON 이 git 추적 대상이 아님** — `git add` 를 빠뜨리면 카드 없는 데모가 커밋된다(게이트가 「모르는 것 = 제안 시안」으로 다뤄 틀린 고지가 붙고 관리자 목록에서 사라진다) |
+| ERROR (`sample`) | 실존 기관·기업·매체 이름 · 실존 저널 접두사를 쓴 DOI · 조회 가능한 식별번호(사업자등록번호·종목코드·등록번호·면허번호) — 5-1 표. `proposal` 에서는 WARN |
+| ERROR | 데모가 참조하는 `/public` 파일이 `src/proxy.ts` 의 `matcher` 밖(내려도 그대로 열린다) — 태문 자체 자산 `/images`·`/fonts` 는 제외 |
+| ERROR (`sample`) | 기기 전환 툴바의 `client=` 에 가상 브랜드 표시가 없음(툴바가 「클라이언트: …」로 찍는다) |
 | ERROR (실측) | 상태 200 아님 · 제목이 레이아웃 기본값 · 샘플인데 noindex 없음 / 상단 태문 표시(기기 전환 툴바 또는 `SampleSiteBar`) 없음 / `<html class="dark">` / JSON-LD · `proposal` 인데 HTML 에 시안 고지 없음 · 사이트 페이지(`/`·`/portfolio`·`/inquiry`) canonical·og:url 이 자기 주소가 아님 |
 | WARN | 카드 JSON 없는 `(demos)/demo` 폴더 · 페이지·카드 없는 `src/components/demos/<x>` 폴더(slug 오타) · 썸네일 파일 없음 · 샘플 카드에 `thumbnail`/`featured`/`order` · `proposal` summary 에 「실제 계약·납품한 사례가 아니다」 취지 없음 |
 | WARN | 실존처럼 보이는 전화(하이픈·점·공백·괄호·붙여 쓴 번호·`tel:`)·대표번호·사업자번호·이메일 · 태문 실번호 · `mailto` 링크 |
 | WARN | `sticky top-0` · `fixed inset-y-0` · `z-[9000 이상]` · `data-sample-local` 폼에 신청·예약·문의 버튼 · 폼 없이 「예약하기」 버튼인데 SampleNotice 없음 · `localStorage/sessionStorage.setItem` · 「접수 완료」 상태 문구 |
 | WARN | 실적·인증·기간 수치 · 보장·최상급 · 금지 표현 · 가상 브랜드 샘플 고지 없음 · 접수 폼에 「전송되지 않습니다」 제출 전 고지 없음 |
 | WARN | 사이트 문구(`(site)`·Header·FloatingChatWidget·문의 API): 압도적·100%·24시간·1시간 이내·3초·실시간·지체상금·보장 |
+| WARN | 데모 공용 파일(`src/components/demos/*.tsx` — 기기 전환 툴바)의 100%·무결점·최상급 문구 · 외부 이미지 호스트 직접 참조(데모당 한 줄) |
 | WARN (실측) | `<img>` 주소가 200 이 아님(페이지당 30개) |
 | **안 잡는 것** | 이미지 속 글자·실존 업체 사진 · 브랜드명이 실존하는지 · 변수에 담아 조립한 전화번호·주소 · JS 로 계산한 fixed 헤더 위치 · 다른 파일 함수가 여는 가짜 성공 화면 · 코드 뒤 줄 끝 주석은 **걸린다**(샘플엔 주석에도 실번호를 적지 않는다) → **썸네일 두 장과 화면을 눈으로 본다** |
 
@@ -537,13 +578,16 @@ npm run audit:portfolio -- --help                                         # 검�
 cd C:\Projects\taemun-net-light
 npx tsc --noEmit -p .                                                      # 내 파일 오류 0
 npm run audit:portfolio -- --base http://localhost:3001 --strict <slug>    # ERROR 0 (포트는 띄운 서버에 맞춘다)
-git add "src/app/(demos)/demo/<slug>" "src/components/demos/<slug>" "src/content/portfolio/<slug>.json" "public/portfolio/<slug>"
+git add "src/app/(demos)/demo/<slug>" "src/components/demos/<slug>" "src/content/portfolio/<slug>.json" "public/portfolio/<slug>" "private-assets/portfolio/<slug>"
 git diff --cached --stat                                                   # 내 경로만 올라갔는지 눈으로 확인
 git commit -m "feat(portfolio): <가상 브랜드> <업종> 샘플 입고"
 git push
 ```
 
 - **`git add .` / `git add -A` 금지.** 같은 작업 트리에 다른 에이전트의 미커밋 변경이 있다. 경로를 괄호째 따옴표로 감싼다(`(demos)`).
+- **카드 JSON(`src/content/portfolio/<slug>.json`)을 빠뜨리지 않는다.** 2026-09-16 에 데모 `page.tsx` 만 스테이징되고
+  카드 3장이 추적조차 안 된 채 남아 있었다 — 그대로 커밋하면 **카드 없는 데모**가 나간다. 지금은 `audit:portfolio` 가 ERROR 로 막는다.
+- 데모가 영상·이미지를 들고 왔으면 `private-assets/portfolio/<slug>/` 도 같이 add 한다(5-1 의 2번).
 - **`tsconfig.tsbuildinfo` 는 올리지 않는다.** tsc·build 가 매번 다시 쓰는 캐시이고, 샘플 경로가 기록된다.
 - `git diff --cached` 에 내 slug 밖 파일이 보이면 `git restore --staged <그 파일>` 로 뺀다.
 - 샘플 여러 개를 한 번에 넣어도 **샘플 1개 = 커밋 1개** 가 좋다(문제가 난 샘플만 되돌릴 수 있게).

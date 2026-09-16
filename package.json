@@ -6,7 +6,7 @@
     "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "typecheck": "tsc --noEmit -p .",
     "audit:portfolio": "node scripts/audit-portfolio.mjs",
     "capture:thumbs": "node scripts/capture-portfolio-thumbs.mjs"
   },

@@ -17,7 +17,7 @@ export default function AtelierVauclusePageClient({ isEmbed }: Props) {
       src="/demo/atelier-vaucluse?embed=true"
       title="아뜰리에 보클루즈 (ATELIER VAUCLUSE)"
       category="건축 · 하이엔드 인테리어 스튜디오"
-      client="건축·인테리어 업종 특화 레퍼런스 데모"
+      client="가상 브랜드 샘플 — 실제 업체가 아닙니다 (건축·인테리어 스튜디오 설정)"
       techStack={[
         "Next.js 16",
         "React 19",

@@ -3,6 +3,7 @@ import HomeView from "./HomeView";
 import { GALLERY_CATEGORIES, GALLERY_PROJECTS, type GalleryProject } from "@/lib/portfolio/galleryData";
 import { getPortfolio } from "@/lib/portfolio/registry";
 import { listedDemoLinks } from "@/lib/portfolio/header-links";
+import { listedHomeShortcuts } from "@/lib/portfolio/home-shortcuts";
 import { getState, isListed, resolveStatus } from "@/lib/portfolio/state";
 
 // 홈 — 화면은 HomeView(아라 화이트 갤러리, 클라이언트 컴포넌트) 그대로.
@@ -48,5 +49,14 @@ export default async function Home() {
 
   // 헤더 드롭다운도 같은 스냅숏으로 거른다. HomeView 는 받은 것을 Header 에 그대로 전달만 한다 —
   // 헤더 항목을 Header.tsx('use client')에 적어 두면 갤러리와 똑같이 회사 이름이 청크로 새기 때문이다.
-  return <HomeView projects={projects} categories={GALLERY_CATEGORIES} demoLinks={listedDemoLinks(snapshot)} />;
+  // 분류 머리의 바로가기 버튼도 같은 스냅숏으로 거른다. 표를 HomeView('use client') 안에 두면
+  // 렌더를 막아도 「/demo/<slug>」·회사 이름이 홈 청크에 남는다(실측 — home-shortcuts.ts 머리말).
+  return (
+    <HomeView
+      projects={projects}
+      categories={GALLERY_CATEGORIES}
+      demoLinks={listedDemoLinks(snapshot)}
+      shortcuts={listedHomeShortcuts(listedSlugs)}
+    />
+  );
 }

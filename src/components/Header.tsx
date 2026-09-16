@@ -18,6 +18,9 @@ import {
   Globe,
   Landmark,
   Crown,
+  Dna,
+  Boxes,
+  Satellite,
   type LucideIcon,
 } from "lucide-react";
 // ⚠️ **타입만** 가져온다. 값(HEADER_DEMO_LINKS)을 import 하면 이 파일이 'use client' 라
@@ -83,6 +86,39 @@ const TONE_CLASSES: Record<
     mobileIcon: "text-emerald-700",
     mobileBadge: "bg-emerald-100 text-emerald-800",
   },
+  teal: {
+    dropdownItem: "hover:bg-teal-50/60 hover:border-teal-200",
+    dropdownIcon: "bg-teal-100 text-teal-800 border-teal-200",
+    dropdownBadge: "bg-teal-100 text-teal-800",
+    mobileItem: "hover:border-teal-400",
+    mobileIcon: "text-teal-700",
+    mobileBadge: "bg-teal-100 text-teal-800",
+  },
+  indigo: {
+    dropdownItem: "hover:bg-indigo-50/60 hover:border-indigo-200",
+    dropdownIcon: "bg-indigo-100 text-indigo-800 border-indigo-200",
+    dropdownBadge: "bg-indigo-100 text-indigo-800",
+    mobileItem: "hover:border-indigo-400",
+    mobileIcon: "text-indigo-700",
+    mobileBadge: "bg-indigo-100 text-indigo-800",
+  },
+  sky: {
+    dropdownItem: "hover:bg-sky-50/60 hover:border-sky-200",
+    dropdownIcon: "bg-sky-100 text-sky-800 border-sky-200",
+    dropdownBadge: "bg-sky-100 text-sky-800",
+    mobileItem: "hover:border-sky-400",
+    mobileIcon: "text-sky-700",
+    mobileBadge: "bg-sky-100 text-sky-800",
+  },
+  // 짙은 스톤 바탕 + 앰버 글자 — 색 이름 하나로 안 되는 짝이라 지도에만 이름을 둔다.
+  onyx: {
+    dropdownItem: "hover:bg-stone-100 hover:border-stone-300",
+    dropdownIcon: "bg-stone-900 text-amber-300 border-stone-800",
+    dropdownBadge: "bg-amber-100 text-amber-900",
+    mobileItem: "hover:border-stone-400",
+    mobileIcon: "text-amber-700",
+    mobileBadge: "bg-amber-100 text-amber-900",
+  },
 };
 
 /** 아이콘 이름 → lucide 컴포넌트 */
@@ -93,6 +129,10 @@ const DEMO_ICONS: Record<DemoLinkIconKey, LucideIcon> = {
   crown: Crown,
   cpu: Cpu,
   activity: Activity,
+  dna: Dna,
+  boxes: Boxes,
+  satellite: Satellite,
+  layers: Layers,
 };
 
 export type HeaderProps = {
@@ -208,7 +248,9 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
 
             {/* Dropdown Menu */}
             {portfolioDropdownOpen && (
-              <div className="absolute top-full left-0 mt-2 w-80 p-2 rounded-2xl bg-white border border-zinc-200 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-150 text-left">
+              // 헤더가 fixed 라 드롭다운이 뷰포트를 넘치면 페이지를 스크롤해도 넘친 줄에 닿을 수 없다.
+              // 데모가 늘면 바로 그렇게 된다(14줄 ≈ 890px > 세로 768px 노트북) — 목록 자체를 스크롤하게 둔다.
+              <div className="absolute top-full left-0 mt-2 w-80 p-2 rounded-2xl bg-white border border-zinc-200 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-150 text-left max-h-[calc(100vh-7rem)] overflow-y-auto overscroll-contain">
 
                 {/* 내부 데모 — 서버가 「공개」인 것만 걸러서 내려 준 배열 */}
                 {demoLinks.map((link) => {
@@ -293,23 +335,11 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
           </Link>
         </nav>
 
-        {/* Right CTAs (Phone & Mobile Toggle) */}
-        <div className="flex items-center gap-2 lg:gap-3">
-
-          {/* Direct Phone Call Button */}
-          <a
-            href="tel:010-8672-6463"
-            className="flex items-center gap-1.5 px-3 lg:px-4 py-2 lg:py-2.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-medium border border-zinc-200 transition-all"
-          >
-            <PhoneCall className="w-3.5 h-3.5 text-zinc-700 shrink-0" />
-            <span className="hidden lg:inline font-mono">010-8672-6463</span>
-            <span className="lg:hidden">직통 전화</span>
-          </a>
-
-          {/* Mobile Hamburger Button (lg:hidden) */}
+        {/* Mobile Hamburger Button (lg:hidden) */}
+        <div className="flex lg:hidden items-center">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-xl bg-zinc-100 border border-zinc-200 text-zinc-700 hover:text-zinc-950 hover:bg-zinc-200 transition-colors focus:outline-none"
+            className="p-2 rounded-xl bg-zinc-100 border border-zinc-200 text-zinc-700 hover:text-zinc-950 hover:bg-zinc-200 transition-colors focus:outline-none"
             aria-label="모바일 메뉴 열기"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -438,7 +468,7 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
                 className="w-full py-3.5 rounded-2xl bg-zinc-100 border border-zinc-200 text-zinc-900 font-bold text-sm flex items-center justify-center gap-2"
               >
                 <PhoneCall className="w-4 h-4 text-zinc-700" />
-                <span>총괄 아키텍트 직통 연결 (010-8672-6463)</span>
+                <span>총괄 아키텍트 직통 연결</span>
               </a>
             </div>
 

@@ -18,6 +18,7 @@ import type { PortfolioKind } from "./schema";
 import {
   isReachable,
   readStateForRequest,
+  readStateUncached,
   resolveStatus,
   type PortfolioStatus,
   type StateSnapshot,
@@ -93,7 +94,19 @@ function anythingIsDown(snapshot: StateSnapshot): boolean {
 export async function decideDemoAccess(headerSlug: string | null | undefined): Promise<DemoAccess> {
   // 요청 단위 메모(readStateForRequest) — 레이아웃과 generateMetadata 가 같은 요청에서 두 번 부르므로
   // 읽기는 한 번이면 된다. 캐시가 아니라 메모라 요청이 끝나면 사라진다(낡은 값이 살아남지 않는다).
-  const snapshot = await readStateForRequest();
+  return decideFrom(await readStateForRequest(), headerSlug);
+}
+
+/**
+ * proxy(요청 경계)에서 쓰는 같은 판정 — **요청 단위 메모를 쓰지 않는다.**
+ * React 의 cache() 는 렌더 안에서만 뜻이 있고 proxy 는 렌더 밖이라, 여기서는 지금 값을 그대로 읽는다.
+ * (렌더 쪽은 decideDemoAccess 가 그대로 메모를 쓴다 — 레이아웃·generateMetadata 가 두 번 불러도 읽기는 1회.)
+ */
+export async function decideDemoAccessAtEdge(headerSlug: string | null | undefined): Promise<DemoAccess> {
+  return decideFrom(await readStateUncached(), headerSlug);
+}
+
+function decideFrom(snapshot: StateSnapshot, headerSlug: string | null | undefined): DemoAccess {
   const slug = headerSlug && SLUG_RE.test(headerSlug) ? headerSlug : null;
 
   if (!slug) {

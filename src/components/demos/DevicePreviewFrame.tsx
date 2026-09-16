@@ -372,7 +372,7 @@ export default function DevicePreviewFrame({
                 <span className="px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 text-xs font-bold">
                   {category}
                 </span>
-                <span className="text-xs text-zinc-400 font-mono">• 100% PRODUCTION READY</span>
+                <span className="text-xs text-zinc-400 font-mono">• PRODUCTION READY BUILD</span>
               </div>
               <h2 className="text-2xl lg:text-3xl font-bold text-zinc-950">{title}</h2>
               <p className="text-xs lg:text-sm text-zinc-600 mt-2 font-light">
@@ -397,7 +397,7 @@ export default function DevicePreviewFrame({
                   <span>반응형 디자인 시스템</span>
                 </div>
                 <div className="text-base font-mono font-bold text-zinc-900">Tailwind CSS v4</div>
-                <p className="text-xs text-zinc-500">단일 lg: 브레이크포인트 규격으로 태블릿·모바일 무결점 호환</p>
+                <p className="text-xs text-zinc-500">단일 lg: 브레이크포인트 규격으로 태블릿·모바일까지 대응</p>
               </div>
 
               <div className="p-5 rounded-2xl bg-zinc-50 border border-zinc-200 space-y-2">
@@ -406,7 +406,7 @@ export default function DevicePreviewFrame({
                   <span>타입 안전성</span>
                 </div>
                 <div className="text-base font-mono font-bold text-zinc-900">TypeScript 5.7+</div>
-                <p className="text-xs text-zinc-500">컴포넌트 및 API 데이터 입출력 strict 타입 100% 보장</p>
+                <p className="text-xs text-zinc-500">컴포넌트 및 API 데이터 입출력에 strict 타입 적용</p>
               </div>
             </div>
 
@@ -448,7 +448,7 @@ export default function DevicePreviewFrame({
             <div className="p-8 rounded-3xl bg-zinc-950 text-white text-center space-y-4 shadow-xl">
               <h3 className="text-xl font-bold">이 프로젝트 아키텍처 그대로 귀사의 웹을 구축해 드립니다.</h3>
               <p className="text-xs text-zinc-400 max-w-lg mx-auto leading-relaxed">
-                소스코드 100% 완전 이전, 반응형 디바이스 뷰포트 최적화, 무상 하자보증까지.
+                소스코드 전체 이전, 반응형 디바이스 뷰포트 최적화, 하자 대응까지.
                 총괄 아키텍트 직통 상담으로 최적의 견적을 확인하세요.
               </p>
               <div className="pt-2 flex flex-col lg:flex-row items-center justify-center gap-3">

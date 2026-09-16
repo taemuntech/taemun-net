@@ -77,14 +77,49 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ path: strin
   if (!body) return NOT_FOUND();
 
   const type = CONTENT_TYPES[path.extname(target.relPath).toLowerCase()] ?? "application/octet-stream";
+  const baseHeaders = {
+    "Content-Type": type,
+    // 내리면 바로 안 보여야 한다 — CDN·브라우저에 굳히지 않는다(이미 열린 URL 이 남는 것을 막을 수는 없다).
+    "Cache-Control": "private, no-store",
+    "X-Robots-Tag": "noindex, nofollow",
+    // 동영상은 구간 요청으로 받는다 — 받아 줄 수 있다고 먼저 알린다.
+    "Accept-Ranges": "bytes",
+  };
+
+  // ── 구간 요청(Range) ──
+  // 데모 영상(.mp4)도 이 라우트를 탄다. Safari·iOS 는 구간 요청에 206 으로 답하지 않는 주소에서
+  // 영상을 아예 재생하지 않는다 — 200 만 내주면 「내리기」를 고치다가 화면이 깨진다.
+  const range = req.headers.get("range");
+  const m = range ? /^bytes=(\d*)-(\d*)$/.exec(range.trim()) : null;
+  if (m && (m[1] !== "" || m[2] !== "")) {
+    const size = body.byteLength;
+    let start: number;
+    let end: number;
+    if (m[1] === "") {
+      // bytes=-N — 뒤에서 N 바이트
+      const suffix = Number(m[2]);
+      start = Math.max(0, size - suffix);
+      end = size - 1;
+    } else {
+      start = Number(m[1]);
+      end = m[2] === "" ? size - 1 : Math.min(Number(m[2]), size - 1);
+    }
+    if (!Number.isFinite(start) || !Number.isFinite(end) || start > end || start >= size) {
+      return new NextResponse(null, { status: 416, headers: { ...baseHeaders, "Content-Range": `bytes */${size}` } });
+    }
+    const chunk = body.subarray(start, end + 1);
+    return new NextResponse(new Uint8Array(chunk), {
+      status: 206,
+      headers: {
+        ...baseHeaders,
+        "Content-Length": String(chunk.byteLength),
+        "Content-Range": `bytes ${start}-${end}/${size}`,
+      },
+    });
+  }
+
   return new NextResponse(new Uint8Array(body), {
     status: 200,
-    headers: {
-      "Content-Type": type,
-      "Content-Length": String(body.byteLength),
-      // 내리면 바로 안 보여야 한다 — CDN·브라우저에 굳히지 않는다(이미 열린 URL 이 남는 것을 막을 수는 없다).
-      "Cache-Control": "private, no-store",
-      "X-Robots-Tag": "noindex, nofollow",
-    },
+    headers: { ...baseHeaders, "Content-Length": String(body.byteLength) },
   });
 }

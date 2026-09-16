@@ -45,5 +45,3 @@ export function toGalleryItem(p: PortfolioCard): GalleryItem {
     thumbnailSrc: existingPublicFile(p.thumbnail.desktop),
   };
 }
-
-/** 헤더 드롭다운에 넘기는 짧은 목록 — 레지스트리의 featured 를 그대로 쓴다(하드코딩하지 않는다) */

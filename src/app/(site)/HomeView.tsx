@@ -16,6 +16,10 @@ import type {
 } from "@/lib/portfolio/galleryData";
 // 헤더 드롭다운 항목도 같은 이유로 **서버에서 받아 그대로 전달**한다(타입만 import).
 import type { HeaderDemoLink } from "@/lib/portfolio/header-links";
+// 분류 머리의 바로가기 버튼도 같은 이유로 서버에서 받는다(타입만 import).
+// 예전엔 이 버튼들이 여기 JSX 로 박혀 있어서, 렌더를 막아도 「/demo/<slug>」·회사 이름 문자열이
+// 홈 청크에 그대로 남았다(실측으로 잡힘 — lib/portfolio/home-shortcuts.ts 머리말 참고).
+import type { HomeShortcut } from "@/lib/portfolio/home-shortcuts";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -38,6 +42,7 @@ import {
   ShoppingBag,
   Briefcase,
   Monitor,
+  Stethoscope,
 } from "lucide-react";
 
 /**
@@ -59,31 +64,24 @@ export type HomeViewProps = {
   categories: GalleryCategoryMeta[];
   /** 헤더 드롭다운·모바일 메뉴에 실을 내부 데모 — 서버가 「공개」인 것만 걸러서 준다. 여기서는 Header 로 넘기기만 한다 */
   demoLinks?: readonly HeaderDemoLink[];
+  /** 분류 머리의 바로가기 버튼 — 서버가 「공개」인 것만 걸러서 준다. 내려간 시안은 배열에 없다 */
+  shortcuts?: readonly HomeShortcut[];
 };
 
-export default function HomeView({ projects, categories, demoLinks }: HomeViewProps) {
+export default function HomeView({ projects, categories, demoLinks, shortcuts = [] }: HomeViewProps) {
   // 이름만 옛것 그대로 둔다(아래 화면 코드가 이 이름을 쓴다) — 값은 서버가 이미 걸러 준 배열이다
   const galleryProjects = projects;
   const GALLERY_CATEGORIES = categories;
 
-  // 손으로 적은 바로가기 버튼이 「그 시안이 아직 목록에 있는가」를 물을 때 쓴다.
-  // 걸러진 배열에서 뽑으므로 내려간 시안은 애초에 여기 없다.
-  const listedSlugs = new Set(
-    galleryProjects
-      .map((p) => p.liveDemoUrl)
-      .filter((url): url is string => typeof url === "string" && url.startsWith("/demo/"))
-      .map((url) => url.slice("/demo/".length).split(/[/?#]/)[0])
-      .filter(Boolean),
-  );
-
   // State for category accordion expand/collapse
   const [expandedCategories, setExpandedCategories] = useState<Record<GalleryCategoryId, boolean>>({
-    manufacturing: false,
+    corporate: false,
+    commerce: false,
+    medical: false,
     interior: false,
     architecture: false,
     saas: false,
-    commerce: false,
-    corporate: false,
+    manufacturing: false,
   });
 
   // State for project detail modal
@@ -111,6 +109,8 @@ export default function HomeView({ projects, categories, demoLinks }: HomeViewPr
         return <ShoppingBag className="w-4 h-4 text-rose-700" />;
       case "corporate":
         return <Briefcase className="w-4 h-4 text-blue-700" />;
+      case "medical":
+        return <Stethoscope className="w-4 h-4 text-teal-700" />;
     }
   };
 
@@ -238,6 +238,12 @@ export default function HomeView({ projects, categories, demoLinks }: HomeViewPr
           2. THE 6-CATEGORY PORTFOLIO GALLERIES (5-COLUMN GRID + ACCORDION)
           ───────────────────────────────────────────────────────────── */}
       <section className="pb-24 lg:pb-36 px-4 lg:px-8 max-w-7xl mx-auto relative z-10 space-y-20 lg:space-y-28">
+        {/* 갤러리 고지 — 카드마다 「클라이언트 · 연도 · 기간」이 붙어 납품 실적처럼 읽힌다.
+            카드마다 배지를 다는 대신 갤러리 머리에 한 번 고정으로 둔다(접히거나 스크롤로 사라지는 자리는 피한다). */}
+        <p className="rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-xs lg:text-sm text-zinc-600 leading-relaxed">
+          아래 작업물은 태문 DEV STUDIO 가 기술 시연을 위해 만든 <strong className="font-semibold text-zinc-800">가상 브랜드 샘플</strong>이
+          중심입니다. 카드의 클라이언트·연도·기간 표기는 화면 구성을 보여 주기 위한 예시이며 실제 계약·납품 고객사가 아닙니다.
+        </p>
         {GALLERY_CATEGORIES.map((category) => {
           const allProjects = galleryProjects.filter((p) => p.category === category.id);
           // 다 내려간 분류는 제목·설명까지 통째로 뺀다(「총 0개 작품」 자리가 남지 않게)
@@ -281,28 +287,55 @@ export default function HomeView({ projects, categories, demoLinks }: HomeViewPr
                   </p>
                 </div>
 
-                {/* Right Quick Action: Live Demo Direct Link (for interior/manufacturing) */}
-                {/* 손으로 적은 바로가기라 카드와 따로 논다 — 그 시안이 내려가면 이 버튼도 같이 빼야 한다 */}
-                {category.id === "interior" && listedSlugs.has("atelier-vaucluse") && (
-                  <Link
-                    href="/demo/atelier-vaucluse"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 text-xs font-bold transition-all shrink-0 self-start lg:self-end"
-                  >
-                    <Play className="w-3 h-3 fill-current" />
-                    <span>보클루즈 실물 사이트 체험</span>
-                  </Link>
-                )}
-                {category.id === "saas" && (
-                  <a
-                    href="https://tdocs.kr"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200 text-xs font-bold transition-all shrink-0 self-start lg:self-end"
-                  >
-                    <ExternalLink className="w-3 h-3" />
-                    <span>티독스 정식 서비스 방문</span>
-                  </a>
-                )}
+                {/* Right Quick Action: Live Demo Direct Links */}
+                {/* 손으로 적은 바로가기라 카드와 따로 논다 — 그 시안이 내려가면 이 버튼도 같이 빠져야 한다.
+                    **표는 서버 모듈(lib/portfolio/home-shortcuts.ts)에 두고 걸러진 배열만 받는다.**
+                    여기에 주소·회사 이름을 적으면 렌더를 막아도 문자열이 홈 청크에 남는다(실측으로 잡힌 누수).
+                    firstProject 는 따로 뜨는 화면이 없는 분류(메디컬)용 — 그 분류에 남아 있는 첫 카드를 모달로 연다.
+                    allProjects 는 서버가 걸러 준 배열이고 length 0 이면 분류째 빠지므로 [0] 은 항상 있다. */}
+                {shortcuts
+                  .filter((shortcut) => shortcut.categoryId === category.id)
+                  .map((shortcut) => {
+                    const icon =
+                      shortcut.icon === "external" ? (
+                        <ExternalLink className="w-3 h-3" />
+                      ) : (
+                        <Play className="w-3 h-3 fill-current" />
+                      );
+                    if (shortcut.action === "firstProject") {
+                      return (
+                        <button
+                          key={shortcut.label}
+                          type="button"
+                          onClick={() => setSelectedProject(allProjects[0])}
+                          className={shortcut.className}
+                        >
+                          {icon}
+                          <span>{shortcut.label}</span>
+                        </button>
+                      );
+                    }
+                    if (shortcut.action === "external") {
+                      return (
+                        <a
+                          key={shortcut.label}
+                          href={shortcut.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={shortcut.className}
+                        >
+                          {icon}
+                          <span>{shortcut.label}</span>
+                        </a>
+                      );
+                    }
+                    return (
+                      <Link key={shortcut.label} href={shortcut.href ?? "#"} className={shortcut.className}>
+                        {icon}
+                        <span>{shortcut.label}</span>
+                      </Link>
+                    );
+                  })}
               </div>
 
               {/* 5-Column Gallery Grid (PC: lg:grid-cols-5, Mobile: grid-cols-2) */}
@@ -638,6 +671,9 @@ export default function HomeView({ projects, categories, demoLinks }: HomeViewPr
               <div>
                 <div className="text-xs text-zinc-500 font-mono mb-1">
                   클라이언트: {selectedProject.client}
+                </div>
+                <div className="text-[11px] text-zinc-400 mb-1">
+                  가상 브랜드 샘플 — 실제 계약·납품 고객사가 아닙니다
                 </div>
                 <h3 className="text-xl lg:text-2xl font-bold text-zinc-950">
                   {selectedProject.title}

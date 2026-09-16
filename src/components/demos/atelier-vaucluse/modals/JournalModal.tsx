@@ -11,7 +11,7 @@ interface JournalModalProps {
 
 const PRESS_ITEMS = [
   {
-    publisher: 'Architectural Digest Korea',
+    publisher: '글로벌 건축 매거진 (예시)',
     date: '2024.10 Issue',
     title: '시간을 짓는 사람들 — 아뜰리에 보클루즈의 촉각적 미니멀리즘',
     summary:
@@ -19,7 +19,7 @@ const PRESS_ITEMS = [
     link: '#',
   },
   {
-    publisher: 'Elle Decor Korea',
+    publisher: '인테리어 라이프스타일 매거진 (예시)',
     date: '2024.06 Issue',
     title: '한남동 테라스 빌라 리노베이션에 담긴 빛의 궤적과 안식',
     summary:

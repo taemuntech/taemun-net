@@ -50,6 +50,9 @@ const SITE_COPY_FILES = [
   // 헤더 드롭다운 문구(회사 이름·배지·설명)는 Header.tsx 에서 이 파일로 옮겼다 — 검사 범위도 같이 옮긴다.
   // 안 넣으면 실존 업체에 대한 단정 표현이 어디에도 안 걸린다.
   path.join(ROOT, "src", "lib", "portfolio", "header-links.ts"),
+  // 홈 분류 머리의 바로가기 문구(회사 이름·라벨)도 같은 이유로 HomeView.tsx 에서 이 파일로 옮겼다
+  // (청크 누수를 막느라 옮긴 것이라, 안 넣으면 옮긴 순간 그 문구들이 어느 검사에도 안 걸린다).
+  path.join(ROOT, "src", "lib", "portfolio", "home-shortcuts.ts"),
   path.join(ROOT, "src", "components", "FloatingChatWidget.tsx"),
   path.join(ROOT, "src", "app", "api", "inquiry", "route.ts"),
 ];
@@ -72,6 +75,11 @@ if (argv.includes("--help") || argv.includes("-h")) {
   - kind=proposal 인데 SampleNotice 에 kind="proposal" 이 없음 · 화면 안(components/demos/<slug>)에 제안 시안 고지가 없음
   - page.tsx 가 다른 slug 의 컴포넌트 폴더(@/components/demos/<다른 slug>/)를 import
   검사 범위: src/app/(demos)/demo/<slug>/** + src/components/demos/<slug>/** (+ 옛 위치 src/components/demo/<slug>/**)
+  - 카드 JSON 이 git 추적 대상이 아님(카드 없는 데모가 커밋된다)
+  - 실존 기관·기업·매체 이름 · 실존 저널 접두사를 쓴 DOI · 조회 가능한 식별번호(사업자등록번호·종목코드·등록번호·면허번호)
+    → kind=sample(가상 브랜드)에서 ERROR, kind=proposal(그 회사 자신의 정보)에서는 WARN
+  - 데모가 참조하는 /public 파일이 proxy 의 matcher 밖(내려도 그대로 열린다 — 태문 자체 자산 /images·/fonts 는 제외)
+  - kind=sample 데모의 기기 전환 툴바 client= 에 가상 브랜드 표시가 없음(툴바가 「클라이언트: …」로 찍는다)
   - 폼인데 SampleNotice 를 렌더하지 않음(같은 샘플의 다른 파일이 열어도 — onSubmit 을 props 로 받는 폼만 WARN)
   - SampleNotice 의 open 상태를 true 로 만드는 setter 호출이 없음
   - 가짜 접수 문구(「접수되었습니다」「예약이 완료되었습니다」「전송되었습니다」…)
@@ -87,6 +95,8 @@ if (argv.includes("--help") || argv.includes("-h")) {
   - 실적 수치(1,200건·만족도 98%·ISO 9001·2주 완성 — 파일에 「예시 수치」가 있으면 면제) · 보장·최상급 · 금지 표현
   - 화면에 샘플·시안 고지가 없음(가상 브랜드 샘플 문구 또는 실존 업체 제안 시안 문구) · 접수 폼 파일에 「전송되지 않습니다」 제출 전 고지가 없음
   - 사이트 페이지((site)·Header·FloatingChatWidget·문의 API) 문구의 과장·약속 표현
+  - 데모 공용 파일(src/components/demos/*.tsx — 기기 전환 툴바)의 100%·무결점·최상급 문구
+  - 외부 이미지 호스트 직접 참조(핫링크) — 데모 하나당 한 줄로 개수만
 안 잡는 것 (눈으로 본다)
   - 이미지 속 글자·실존 업체 사진 · 브랜드명이 실존하는지 · 변수에 담아 조립한 전화번호·주소
   - 헤더를 fixed 로 두고 top 을 JS 로 계산하는 경우 · 버튼 onClick 이 다른 파일 함수로 가짜 성공 화면을 여는 경우
@@ -425,8 +435,9 @@ function phoneCandidates(line) {
     seen.add(at);
     out.push({ shown, area, mid, last });
   };
-  // 구분자(하이픈·점·공백·괄호)
-  const sep = new RegExp(`(?<![\\d.\\-])\\(?(${PHONE_AREA})\\)?(?:[-.\\s]|(?<=\\))\\s?)(\\d{3,4})[-.\\s](\\d{4})(?![\\d\\-])`, "g");
+  // 구분자(하이픈·점·공백·괄호). 「02. 548. 9210」처럼 **점 뒤에 공백**이 오는 표기도 잡는다 —
+  // 구분자를 한 글자로 묶어 두었더니 haus-space 푸터의 실존 국번 전화가 통째로 빠져나갔다(실측).
+  const sep = new RegExp(`(?<![\\d.\\-])\\(?(${PHONE_AREA})\\)?(?:[-.]\\s?|\\s)(\\d{3,4})(?:[-.]\\s?|\\s)(\\d{4})(?![\\d\\-])`, "g");
   for (const m of line.matchAll(sep)) push(m[0], m[1], m[2], m[3], m.index);
   // 붙여 쓴 번호 (0212345678 · tel:01012345678)
   const joined = new RegExp(`(?<![\\w.\\-])((?:${PHONE_AREA})\\d{7,8})(?![\\w])`, "g");
@@ -483,6 +494,68 @@ const PROPOSAL_DISCLOSURE = /(?:의뢰하거나 만든|만들었거나 의뢰한
 const PRE_SUBMIT_NOTICE = /전송되지 않|접수되지 않/;
 const EXTERNAL_FORM_SERVICE = /formspree|getform\.io|formsubmit\.co|web3forms|emailjs|staticforms|basin\.com/i;
 
+// ───────── 실존 기관·식별번호 (2026-09-16 추가) ─────────
+//
+// 왜 넣었나(실측): 가상 브랜드 샘플 6종에 실존 대기업이 「고객사 로고」로, 실존 대학·규제기관이 자문단
+// 약력으로, 실존 저널의 진짜 DOI 접두사가 논문 목록으로 들어와 있었는데 이 검사는 **경고를 한 건도**
+// 내지 않았다. 「초록불 = 검사했는데 깨끗하다」가 아니라 「그 범주를 아예 안 봤다」였다.
+//
+// 종류에 따라 세기가 다르다:
+// - kind=sample(가상 브랜드) → ERROR. 없는 회사가 실존 기업·기관의 이름을 빌리면 무단 사칭·허위 레퍼런스다.
+// - kind=proposal(실존 업체 제안 시안) → WARN. 그 회사 자신의 이름·번호는 시안에 있는 게 자연스럽다.
+//
+// ⚠️ 이름표를 늘릴 때는 **짧고 흔한 토막**(LG·SK·SEMI 같은 두세 글자)을 그냥 넣지 말 것 —
+//    다른 낱말 안에서 걸려 거짓 양성이 된다. 경계(\b)나 뒷말까지 묶어서 적는다.
+const REAL_ORG_PATTERNS = [
+  { re: /삼성(?:전자|SDI|디스플레이|바이오|물산|중공업)?\b/, why: "실존 기업명" },
+  { re: /\bSAMSUNG\b/i, why: "실존 기업명" },
+  { re: /SK\s?(?:하이닉스|이노베이션|온|H-SEMIC)|하이닉스/i, why: "실존 기업명" },
+  { re: /LG\s?(?:전자|에너지솔루션|화학|디스플레이|EN-SOL)/i, why: "실존 기업명" },
+  { re: /\bTSMC\b|\bASML\b|\bINTEL\b|\bNVIDIA\b/i, why: "실존 기업명" },
+  { re: /셀트리온|\bCELLTRION\b/i, why: "실존 기업명" },
+  { re: /현대자동차|기아자동차|포스코|\bPOSCO\b/i, why: "실존 기업명" },
+  { re: /\bSpaceX\b|\bArianespace\b|\bFalcon[ -]?9\b|\bAriane[ -]?6\b|\bNASA\b|\bESA\b/i, why: "실존 발사업체·우주기관" },
+  { re: /\bFDA\b|\bEMA\b|\bMFDS\b|식품의약품안전처|유럽 의약품청/i, why: "실존 규제기관" },
+  { re: /\bODAC\b|희귀의약품\(ODD\) 지정|Fast[ -]?Track\s+Designat/i, why: "실존 규제 제도의 지정 실적" },
+  { re: /서울대|연세대|고려대|카이스트|\bKAIST\b|존스홉킨스|Johns\s?Hopkins|\bMIT\b|하버드|\bHarvard\b|\bStanford\b/i, why: "실존 대학·연구기관" },
+  { re: /Nature\s+Medicine|Cancer\s+Discovery|\bThe\s+Lancet\b|\bNEJM\b/i, why: "실존 학술지" },
+  { re: /ELLE\s?(?:DÉCOR|DECOR)|ARCHITECTURAL\s+DIGEST|모노클|\bWALLPAPER\*/i, why: "실존 매체" },
+  { re: /한남\s?더\s?힐|타워팰리스|롯데월드타워/i, why: "실존 건축물·단지" },
+  { re: /한국거래소|\bKRX\b|산업통상자원부|금융감독원|\bDART\b\s*(?:전자공시|Verified)|dart\.fss\.or\.kr/i, why: "실존 기관·공시 시스템" },
+  { re: /\bITAR\b|\bFCC\b\s|\bITU\b\s|\bK-ETS\b|\bTÜV\b|TUV\s?Rheinland/i, why: "실존 제도·인증기관" },
+];
+/** 실존 저널의 진짜 등록 접두사를 쓴 가짜 DOI — 자리표시(00.0000/…)는 걸리지 않는다 */
+const REAL_DOI = /\b10\.\d{4,9}\/[^\s"'`<>]+/;
+/** 조회 가능한 식별번호 — 없는 회사가 달고 있으면 실존 번호와 부딪힌다 */
+const FAKE_IDENTIFIERS = [
+  { re: /\bKOSPI\b\s*\d{6}|\bKOSDAQ\b\s*\d{6}|종목코드\s*[:：]?\s*\d{6}/, why: "거래소가 실제로 발급하는 6자리 종목코드" },
+  // 사업자등록번호는 위의 전용 검사가 따로 본다(여기서 두 번 짖지 않게).
+  { re: /(?<!사업자)등록번호\s*[:：]\s*([A-Z0-9][A-Z0-9-]{4,})/, why: "제도 등록번호 — 조회 가능한 값일 수 있습니다" },
+  { re: /등록면허\s*[:：]\s*\S+\s*제\d{4}-\d+호/, why: "지자체가 실제로 발급하는 면허번호 형식" },
+  { re: /통신판매업신고\s*[:：]\s*제\d{4}-/, why: "실제로 발급되는 신고번호 형식" },
+];
+
+/**
+ * 데모가 참조하는 /public 정적 파일 중 **태문 자체 자산**의 앞자리.
+ * 데모를 내려도 남아야 하는 것들이라 proxy matcher 밖에 있어도 괜찮다(로고·파비콘·사이트 폰트).
+ * 그 외의 파일(데모가 들고 온 영상·스크린샷)은 matcher 안에 있어야 한다 — 없으면 내려도 그대로 열린다.
+ */
+const SITE_OWNED_PUBLIC_PREFIXES = ["/images/", "/fonts/", "/favicon"];
+/** 데모 소스에 적힌 정적 파일 주소 */
+const PUBLIC_ASSET_REF = /["'`](\/[a-z0-9][a-z0-9._-]*(?:\/[a-z0-9][a-z0-9._-]*)+\.(?:mp4|webm|mov|png|jpe?g|webp|avif|gif|svg|pdf|ico))["'`]/gi;
+
+/** proxy 의 config.matcher 를 읽어 「상태를 따르는 주소」 앞자리 목록으로 바꾼다 */
+const PROXY_MATCHER_PREFIXES = (() => {
+  try {
+    const src = fs.readFileSync(path.join(ROOT, "src", "proxy.ts"), "utf8");
+    const block = /matcher\s*:\s*\[([^\]]*)\]/.exec(stripComments(src));
+    if (!block) return null;
+    return [...block[1].matchAll(/["'`]([^"'`]+)["'`]/g)].map((m) => m[1].split("/:")[0].replace(/\/+$/, "") + "/");
+  } catch {
+    return null;
+  }
+})();
+
 const buttonTexts = (src) =>
   [...src.matchAll(/<button\b(?:=>|[^>])*>([\s\S]*?)<\/button>/g)].map((m) => ({
     text: m[1].replace(/<[^>]*>|\{[^}]*\}/g, " ").replace(/\s+/g, " ").trim(),
@@ -494,8 +567,13 @@ const buttonTexts = (src) =>
  * @param ctx { isPage, slug, card, slugRendersNotice }
  * @returns { rendersNotice, hasSubmitForm, hasDisclosure }
  */
-function scanFile(full, { isPage, slug, card, slugRendersNotice }) {
+function scanFile(full, { isPage, slug, card, slugRendersNotice, kind }) {
   const key = rel(full);
+  /**
+   * 가상 브랜드 샘플에서는 실존 기관·식별번호가 ERROR, 실존 업체 제안 시안에서는 WARN.
+   * (제안 시안에는 **그 회사 자신의** 이름·번호가 적혀 있는 게 정상이다 — 없는 회사가 남의 이름을 쓰는 것과 다르다.)
+   */
+  const impersonation = (kind ?? card?.kind) === "proposal" ? warn : error;
   const original = fs.readFileSync(full, "utf8").replace(/^﻿/, "");
   const src = stripComments(original);
   const textSrc = stripCommentsForText(original);
@@ -714,7 +792,34 @@ function scanFile(full, { isPage, slug, card, slugRendersNotice }) {
     }
     for (const m of line.matchAll(/(?<![\d-])(\d{3})-(\d{2})-(\d{5})(?![\d-])/g)) {
       if ([m[1], m[2], m[3]].every(sameDigits)) continue;
-      warn(key, `${at}: 사업자등록번호 형식 「${m[0]}」 — 실존 번호일 수 있습니다. 000-00-00000 으로`);
+      // 없는 회사가 달고 있으면 실존 사업자와 부딪힌다 — 가상 브랜드 샘플에서는 ERROR 로 막는다.
+      impersonation(key, `${at}: 사업자등록번호 형식 「${m[0]}」 — 실존 번호일 수 있습니다. 000-00-00000 으로`);
+    }
+    // ── 실존 기관·기업·매체 이름 ──
+    for (const r of REAL_ORG_PATTERNS) {
+      const m = line.match(r.re);
+      if (m) {
+        impersonation(
+          key,
+          `${at}: ${r.why} 「${m[0]}」 — 실존 기관·기업·매체 이름을 지어낸 회사에 붙이지 않습니다. 「해외 규제기관(예시)」·「A-FOUNDRY (예시)」처럼 가상 표기로`,
+        );
+      }
+    }
+    // ── 실존 저널의 진짜 등록 접두사를 쓴 DOI ──
+    {
+      const m = line.match(REAL_DOI);
+      if (m) {
+        error(key, `${at}: DOI 「${m[0]}」 — 조회 가능한 논문으로 읽힙니다. 줄을 지우거나 00.0000/example-0000 같은 자리표시로`);
+      }
+    }
+    // ── 조회 가능한 식별번호(종목코드·등록번호·면허번호) ──
+    // 자리표시(000-00-00000 · 0000-0000)는 그냥 지나간다 — 이미 고쳐 둔 자리에 두 번 짖지 않게.
+    for (const r of FAKE_IDENTIFIERS) {
+      const m = line.match(r.re);
+      if (!m) continue;
+      const value = (m[1] ?? m[0]).replace(/[^0-9A-Za-z]/g, "");
+      if (/^(\d)\1*$/.test(value)) continue;
+      impersonation(key, `${at}: 「${m[0]}」 — ${r.why}. 지우거나 「표기 자리 (예시)」로`);
     }
     for (const m of line.matchAll(/[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,})/g)) {
       if (PLACEHOLDER_EMAIL_DOMAIN.test(m[1]) || IMAGE_TLD.test(m[0])) continue;
@@ -743,10 +848,35 @@ function scanFile(full, { isPage, slug, card, slugRendersNotice }) {
     }
   });
 
+  // ── 외부 이미지 호스트 직접 참조(핫링크) ──
+  // 게이트 바깥이라 데모를 내려도 이미지는 계속 살아 있고, 주소가 만료되면 예고 없이 깨진다(실측: 홈에서 404 2건).
+  // 방문자 IP·referer 도 그 호스트로 나간다. 당장 막지는 않고 **개수를 눈에 보이게** 둔다.
+  // (파일마다 짖으면 목록이 묻힌다 — 데모 하나당 한 줄로 모아서 아래 반복문이 보고한다)
+  const externalImageHosts = [...src.matchAll(/https?:\/\/(lh\d\.googleusercontent\.com|images\.unsplash\.com|[a-z0-9.-]*\.cloudfront\.net)/gi)].map(
+    (m) => m[1].toLowerCase(),
+  );
+
+  // ── 데모가 들고 온 정적 파일이 게이트 밖에 있는가 ──
+  // 데모를 내려도 그 데모의 영상·스크린샷이 200 으로 그대로 열리면 내린 의미가 없다(실측: /videos/*.mp4).
+  // 판정 기준은 proxy 의 config.matcher 다 — 거기 안 걸린 주소는 상태를 아예 안 본다.
+  if (PROXY_MATCHER_PREFIXES) {
+    for (const m of src.matchAll(PUBLIC_ASSET_REF)) {
+      const url = m[1];
+      if (SITE_OWNED_PUBLIC_PREFIXES.some((p) => url.startsWith(p))) continue; // 태문 자체 자산(로고·폰트)은 남아야 한다
+      if (PROXY_MATCHER_PREFIXES.some((p) => url.startsWith(p))) continue;
+      error(
+        key,
+        `${lineOf(m.index)}행: 「${url}」 는 proxy 의 matcher 밖입니다 — 이 데모를 내려도 파일은 200 으로 열립니다. ` +
+          `private-assets/portfolio/${slug}/ 로 옮기고 주소를 /portfolio/${slug}/<파일> 로 바꾸세요(그 앞자리는 이미 matcher 에 있습니다)`,
+      );
+    }
+  }
+
   return {
     rendersNotice,
     hasDisclosure: SAMPLE_DISCLOSURE.test(textSrc),
     hasProposalDisclosure: PROPOSAL_DISCLOSURE.test(textSrc),
+    externalImageHosts,
   };
 }
 
@@ -758,11 +888,13 @@ for (const s of sampleSources) {
   const slugRendersNotice = files.some((f) => /<SampleNotice\b/.test(stripComments(fs.readFileSync(f, "utf8"))));
   let disclosure = false;
   let proposalDisclosure = false;
+  const externalImages = [];
   for (const f of unique) {
     scannedFiles.add(f);
     keySlug.set(rel(f), s.slug);
     const isPage = path.dirname(f) === s.dir && path.basename(f) === "page.tsx";
-    const r = scanFile(f, { isPage, slug: s.slug, card: s.card, slugRendersNotice });
+    const r = scanFile(f, { isPage, slug: s.slug, card: s.card, slugRendersNotice, kind: s.kind });
+    externalImages.push(...r.externalImageHosts);
     // 고지는 「화면 안」에 있어야 인정한다. 라우트 폴더(page.tsx·<Slug>PageClient.tsx)는 기기 전환 툴바 쪽 껍데기라
     // ?embed=true 로 화면만 직접 열면 안 보인다 — 샘플 화면 컴포넌트에 있는 글자만 센다.
     if (f.startsWith(s.dir + path.sep)) continue;
@@ -789,6 +921,33 @@ for (const s of sampleSources) {
       `kind=proposal 인데 제안 시안 고지가 없습니다 — 「태문 DEV STUDIO 가 제안용으로 만든 시안이며, 해당 회사가 만들었거나 의뢰한 사이트가 아닙니다」를 헤더 아래 띠·푸터처럼 접을 수 없는 자리에 넣으세요. 툴바(DevicePreviewFrame)의 고지 띠는 iframe 바깥이라 ?embed=true 를 직접 열면 안 보입니다`,
     );
   }
+
+  // ── 외부 이미지 호스트 직접 참조(핫링크) — 데모 하나당 한 줄 ──
+  if (externalImages.length) {
+    const key = rel(s.dir);
+    keySlug.set(key, s.slug);
+    warn(
+      key,
+      `외부 이미지 호스트 직접 참조 ${externalImages.length}건 (${[...new Set(externalImages)].join(", ")}) — 게이트 밖이라 이 데모를 내려도 이미지는 살아 있고, 주소가 만료되면 예고 없이 깨집니다(실측: 홈 썸네일 2건이 404 였다). private-assets/portfolio/${s.slug}/ 로 내려받아 /portfolio/${s.slug}/<파일> 로 쓰면 상태를 따릅니다`,
+    );
+  }
+
+  // ── 기기 전환 툴바의 client= 문구 ──
+  // 툴바는 **태문이 자기 목소리로 말하는 자리**다. DevicePreviewFrame 이 「클라이언트: {client}」로 찍으므로
+  // 여기에 업종 설명만 적어 두면 영업 상대가 이 데모를 수주 실적으로 읽는다(실측: 6개 중 2개가 그랬다).
+  if (s.kind === "sample") {
+    for (const f of walkSources(s.dir)) {
+      const m = /client\s*=\s*["'`]([^"'`]*)["'`]/.exec(stripComments(fs.readFileSync(f, "utf8")));
+      if (!m) continue;
+      if (/가상|실제 (?:업체|고객사|회사)가 아니|실존 고객사 아님/.test(m[1])) continue;
+      const key = rel(f);
+      keySlug.set(key, s.slug);
+      error(
+        key,
+        `기기 전환 툴바의 client 문구 「${m[1]}」 에 가상 브랜드 표시가 없습니다 — 「가상 브랜드 샘플 — 실제 업체가 아닙니다 (…설정)」 형식으로 적으세요(툴바가 「클라이언트: …」로 그대로 찍습니다)`,
+      );
+    }
+  }
 }
 
 // 페이지·카드 어느 쪽에도 안 걸린 컴포넌트 폴더 — slug 오타면 검사를 통째로 빠져나간다
@@ -802,6 +961,32 @@ for (const s of sampleSources) {
       warn(
         key,
         `페이지(src/app/(demos)/demo/${name}/page.tsx)도 카드도 없는 샘플 컴포넌트 폴더입니다 — 폴더 이름이 slug 와 다르면 입고 검사에서 통째로 빠집니다`,
+      );
+    }
+  }
+}
+
+// ───────── 5-2. 카드 JSON 이 git 추적 대상인가 (ERROR) ─────────
+//
+// 왜: 데모 page.tsx 만 스테이징되고 카드 JSON 은 추적조차 안 된 채 남은 적이 있다(새 데모 6개 중 3개).
+// 그대로 커밋하면 **카드 없는 데모**가 배포된다 — gate.ts 는 종류를 모르는 데모를 가장 엄한 종류
+// (proposal)로 다루므로, 가상 브랜드 샘플에 「해당 회사가 만들었거나 의뢰한 사이트가 아닙니다」라는
+// 틀린 고지가 붙고, 관리자 목록에서 사라져 개별로 내릴 수도 없다.
+{
+  let tracked = null;
+  try {
+    const { execFileSync } = await import("node:child_process");
+    const out = execFileSync("git", ["ls-files", "--", "src/content/portfolio"], { cwd: ROOT, encoding: "utf8" });
+    tracked = new Set(out.split(/\r?\n/).filter(Boolean).map((p) => path.posix.basename(p)));
+  } catch {
+    tracked = null; // git 이 없거나 저장소가 아니면 이 검사는 건너뛴다
+  }
+  if (tracked) {
+    for (const c of cards) {
+      if (tracked.has(path.basename(c.file))) continue;
+      error(
+        c.key,
+        "카드 JSON 이 git 추적 대상이 아닙니다 — 이대로 커밋하면 카드 없는 데모가 배포됩니다(게이트가 「모르는 것 = 제안 시안」으로 다뤄 틀린 고지가 붙고 관리자 목록에서 사라집니다). git add 하세요",
       );
     }
   }
@@ -832,6 +1017,37 @@ for (const f of siteCopyFiles) {
       if (b.pattern.test(visible)) warn(key, `${i + 1}행: 금지 표현 ${b.pattern} — ${b.why}`);
     }
   });
+}
+
+// ───────── 6-2. 데모 공용 파일(태문 자기 목소리) 문구 (WARN) ─────────
+//
+// 왜 따로 두나: 기기 전환 툴바(src/components/demos/DevicePreviewFrame.tsx)는 데모 12종 **전부**를 감싸는데
+// 어느 검사에도 안 들어갔다 — 소스 검사는 <slug> 폴더만 돌고, 사이트 문구 검사는 파일 목록만 본다.
+// 그 사이로 「100% PRODUCTION READY」가 데모 전부에 붙은 채 지나갔다(실측).
+// CSS 값(width:"100%")에 걸리지 않도록 **단정 문구 모양**만 본다.
+const SHARED_DEMO_COPY_RULES = [
+  { re: /100\s*%\s*(?:PRODUCTION|보장|완전|완벽|이전|충족|해소|달성|검증|대응)/i, why: "100% 단정 — 계약서로 지킬 수 있는 문장으로" },
+  { re: /무결점|무상 하자보증|하자 보증/, why: "지킬 수 없는 약속" },
+  { re: /압도적|업계 최고|최고의|무조건/, why: "근거 없는 최상급" },
+];
+{
+  const sharedDir = path.join(ROOT, "src", "components", "demos");
+  const sharedFiles = fs.existsSync(sharedDir)
+    ? fs
+        .readdirSync(sharedDir, { withFileTypes: true })
+        .filter((d) => d.isFile() && /\.(tsx|ts)$/.test(d.name))
+        .map((d) => path.join(sharedDir, d.name))
+    : [];
+  for (const f of sharedFiles) {
+    const textLines = stripCommentsForText(fs.readFileSync(f, "utf8")).split(/\r?\n/);
+    const key = `사이트 문구 ${rel(f)}`;
+    textLines.forEach((line, i) => {
+      for (const r of SHARED_DEMO_COPY_RULES) {
+        const m = line.match(r.re);
+        if (m) warn(key, `${i + 1}행: 「${m[0]}」 — ${r.why} (데모 전부에 붙는 공용 툴바 문구입니다)`);
+      }
+    });
+  }
 }
 
 // ───────── 실측 (--base) ─────────

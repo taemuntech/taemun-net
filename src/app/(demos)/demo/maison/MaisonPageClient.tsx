@@ -17,7 +17,7 @@ export default function MaisonPageClient({ isEmbed }: Props) {
       src="/demo/maison?embed=true"
       title="메종 당티크 (Maison d'Antique)"
       category="커머스 · 하이엔드 앤틱 살롱 / D2C 아카이브"
-      client="1884 파리·런던 직영 앤틱 아카이브 살롱"
+      client="가상 브랜드 샘플 — 실제 업체가 아닙니다 (앤틱 아카이브 살롱 설정)"
       techStack={[
         "Next.js 16",
         "React 19",

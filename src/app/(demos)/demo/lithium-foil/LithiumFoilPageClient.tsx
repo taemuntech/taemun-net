@@ -17,7 +17,7 @@ export default function LithiumFoilPageClient({ isEmbed }: Props) {
       src="/demo/lithium-foil?embed=true"
       title="리튬박 공정 데이터 모니터링 플랫폼"
       category="제조 · 2차전지 소재 · 스마트팩토리"
-      client="2차전지 배터리 소재 제조사 특화 레퍼런스 데모"
+      client="가상 브랜드 샘플 — 실제 업체가 아닙니다 (2차전지 소재 제조사 설정)"
       techStack={[
         "Next.js 16",
         "React 19",
