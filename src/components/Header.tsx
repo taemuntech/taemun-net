@@ -29,6 +29,7 @@ import {
   ShoppingBag,
   Apple,
   Sparkles,
+  Laptop,
 } from "lucide-react";
 
 export default function Header() {
@@ -473,6 +474,26 @@ export default function Header() {
                   </div>
                 </Link>
 
+                {/* Technova Gear E-Commerce Demo */}
+                <Link
+                  href="/demo/technova-gear"
+                  onClick={() => setPortfolioDropdownOpen(false)}
+                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-cyan-50/60 transition-all group border border-transparent hover:border-cyan-200"
+                >
+                  <div className="p-2 rounded-lg bg-cyan-100 text-cyan-800 border border-cyan-200 shrink-0 group-hover:scale-105 transition-transform">
+                    <Laptop className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
+                      <span>테크노바 기어</span>
+                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-cyan-100 text-cyan-800 font-extrabold">쇼핑몰 04</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
+                      디지털 가전 &amp; 하이테크 하드웨어 (다나와)
+                    </p>
+                  </div>
+                </Link>
+
                 {/* Maison d'Antique Demo */}
                 <Link
                   href="/demo/verde-gourmet"
@@ -505,6 +526,24 @@ export default function Header() {
                         <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-teal-100 text-teal-800 font-bold">쇼핑몰 03</span>
                       </div>
                       <div className="text-xs text-zinc-500 mt-0.5">K-뷰티 &amp; 클린 더마 코스메틱 데모</div>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-zinc-400" />
+                </Link>
+
+                <Link
+                  href="/demo/technova-gear"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-cyan-500 text-left transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <Laptop className="w-5 h-5 text-cyan-700" />
+                    <div>
+                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
+                        <span>테크노바 기어 (TECHNOVA GEAR)</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-cyan-100 text-cyan-800 font-bold">쇼핑몰 04</span>
+                      </div>
+                      <div className="text-xs text-zinc-500 mt-0.5">디지털 가전 &amp; 하이테크 하드웨어 데모</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-400" />
@@ -974,6 +1013,24 @@ export default function Header() {
                         <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-teal-100 text-teal-800 font-bold">쇼핑몰 03</span>
                       </div>
                       <div className="text-xs text-zinc-500 mt-0.5">K-뷰티 &amp; 클린 더마 코스메틱 데모</div>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-zinc-400" />
+                </Link>
+
+                <Link
+                  href="/demo/technova-gear"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-cyan-500 text-left transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <Laptop className="w-5 h-5 text-cyan-700" />
+                    <div>
+                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
+                        <span>테크노바 기어 (TECHNOVA GEAR)</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-cyan-100 text-cyan-800 font-bold">쇼핑몰 04</span>
+                      </div>
+                      <div className="text-xs text-zinc-500 mt-0.5">디지털 가전 &amp; 하이테크 하드웨어 데모</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-400" />
