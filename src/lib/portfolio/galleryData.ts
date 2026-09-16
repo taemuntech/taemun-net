@@ -895,6 +895,27 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       '기관투자자(LP) 전용 가상 데이터룸(VDR) 신청 및 NDA 전자 서약 워크플로우',
     ],
   },
+  {
+    id: 'atlas-resorts-collection',
+    title: '아틀라스 리조트 컬렉션 (ATLAS RESORTS) 럭셔리 부티크 & 프라이빗 빌라',
+    client: '글로벌 하이엔드 호스피탈리티 & 프라이빗 에스테이트 엔터프라이즈',
+    category: 'corporate',
+    categoryName: '기업랜딩 · 럭셔리호텔/호스피탈리티',
+    summary: '남해 60m 절벽 인피니티 풀빌라, 제주 원시 곶자왈 프레지덴셜 에스테이트, 발리 우붓 생츄어리',
+    description: '아만(Aman) 및 슈발블랑(Cheval Blanc) 감성의 최고급 부티크 리조트·프라이빗 빌라 플래그십 사이트입니다. 3대 건축 스위트 익스플로러, 여행지·숙박일수·비포크 옵션 실시간 견적 계산기, 미쉐린 파인다이닝 & 프라이빗 웰니스 스파 쇼케이스, VIP 전용기·요트 컨시어지 직통 접수 시스템을 완비했습니다.',
+    thumbnailUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCozZMbR8Jj_DCUr1G4KdKVhg1Km_XGNvRaUqLuPu1pyq5_u_xxpiDZlJYY1PGXfrGXYtT0AKi7u15kfplSs9hcWE313IyFJ-XxojYYraGXG7RFMWyd3w5qtNjgFbAaP2ZQJBzK82r4iXoJoxpEofko7qgLzgGqIzZLTOEsoED8JYjzwIxmp9G_xzo6fLvLK32BlvV441TGya_7B7TDAftUK5JzVyU7hB6PTjj0m6l20UREWjnFy99X',
+    liveDemoUrl: '/demo/atlas-resort',
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', '360 Villa Suite Explorer', 'Dynamic Season Calculator'],
+    period: '2주',
+    year: '2026',
+    badge: '실물 라이브 데모',
+    highlights: [
+      '남해 절벽·제주 곶자왈·발리 우붓 3대 건축 스위트 파빌리온 익스플로러',
+      '목적지 배수·박수·비포크 애드온(요트/소믈리에 디너) 실시간 숙박비 계산기',
+      '전 객실 18m 온수 인피니티 풀, 전담 버틀러 동선, B&O 하이파이 사운드 완비',
+      'VIP 에어포트 픽업, 헬리콥터 트랜스퍼 및 프라이빗 차터 컨시어지 게이트',
+    ],
+  },
 
   // ─── 03. 병의원 · 메디컬 · 치과 (Medical & Healthcare) ───────────────────
   {

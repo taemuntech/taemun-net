@@ -22,6 +22,7 @@ import {
   Boxes,
   Satellite,
   TrendingUp,
+  Palmtree,
 } from "lucide-react";
 
 export default function Header() {
@@ -242,6 +243,26 @@ export default function Header() {
                     </div>
                     <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
                       사모펀드 &amp; 대체투자 AUM 4.2조
+                    </p>
+                  </div>
+                </Link>
+
+                {/* Atlas Resorts Demo */}
+                <Link
+                  href="/demo/atlas-resort"
+                  onClick={() => setPortfolioDropdownOpen(false)}
+                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-stone-100/70 transition-all group border border-transparent hover:border-stone-300"
+                >
+                  <div className="p-2 rounded-lg bg-stone-200 text-stone-800 border border-stone-300 shrink-0 group-hover:scale-105 transition-transform">
+                    <Palmtree className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
+                      <span>아틀라스 리조트</span>
+                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-stone-200 text-stone-800 font-extrabold">NEW</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
+                      럭셔리 부티크 &amp; 프라이빗 빌라
                     </p>
                   </div>
                 </Link>
@@ -593,6 +614,24 @@ export default function Header() {
                         <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-900 font-bold">NEW</span>
                       </div>
                       <div className="text-xs text-zinc-500 mt-0.5">사모펀드 &amp; 대체투자 AUM 4.2조</div>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-zinc-400" />
+                </Link>
+
+                <Link
+                  href="/demo/atlas-resort"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-stone-400 text-left transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <Palmtree className="w-5 h-5 text-stone-700" />
+                    <div>
+                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
+                        <span>아틀라스 리조트</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-stone-200 text-stone-800 font-bold">NEW</span>
+                      </div>
+                      <div className="text-xs text-zinc-500 mt-0.5">럭셔리 부티크 &amp; 프라이빗 빌라</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-400" />
