@@ -26,6 +26,7 @@ import {
   Ship,
   Zap,
   Sprout,
+  ShoppingBag,
 } from "lucide-react";
 
 export default function Header() {
@@ -406,6 +407,26 @@ export default function Header() {
                     </div>
                     <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
                       전통 결구 &amp; 현대식 패시브 주거 한옥
+                    </p>
+                  </div>
+                </Link>
+
+                {/* Atelier Noir E-Commerce Demo */}
+                <Link
+                  href="/demo/atelier-noir"
+                  onClick={() => setPortfolioDropdownOpen(false)}
+                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-zinc-100 transition-all group border border-transparent hover:border-zinc-300"
+                >
+                  <div className="p-2 rounded-lg bg-zinc-900 text-[#caf300] border border-zinc-700 shrink-0 group-hover:scale-105 transition-transform">
+                    <ShoppingBag className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-zinc-900 flex items-center gap-1.5">
+                      <span>아틀리에 누아르</span>
+                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-zinc-900 text-[#caf300] font-extrabold">쇼핑몰 01</span>
+                    </div>
+                    <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
+                      K-패션 &amp; 디자이너 셀렉트샵 (무신사/29CM)
                     </p>
                   </div>
                 </Link>
@@ -821,6 +842,24 @@ export default function Header() {
                         <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-stone-200 text-stone-800 font-bold">한옥 명가</span>
                       </div>
                       <div className="text-xs text-zinc-500 mt-0.5">전통 결구 &amp; 패시브 주거 한옥 데모</div>
+                    </div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-zinc-400" />
+                </Link>
+
+                <Link
+                  href="/demo/atelier-noir"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 hover:border-zinc-900 text-left transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <ShoppingBag className="w-5 h-5 text-zinc-900" />
+                    <div>
+                      <div className="text-sm font-bold text-zinc-900 flex items-center gap-1.5">
+                        <span>아틀리에 누아르 (ATELIER NOIR)</span>
+                        <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-zinc-900 text-[#caf300] font-bold">쇼핑몰 01</span>
+                      </div>
+                      <div className="text-xs text-zinc-500 mt-0.5">K-패션 &amp; 디자이너 셀렉트샵 데모</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-400" />

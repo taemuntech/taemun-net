@@ -633,6 +633,27 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
 
   // ─── 05. 쇼핑몰 커머스 (Commerce) ─────────────────────────────────
   {
+    id: 'atelier-noir-select',
+    title: '아틀리에 누아르 (ATELIER NOIR) K-패션 & 디자이너 셀렉트샵',
+    client: '하이엔드 디자이너 브랜드 & 스트릿웨어 온라인 셀렉트숍',
+    category: 'commerce',
+    categoryName: '커머스 · 패션/셀렉트샵',
+    summary: '무신사·29CM 스타일의 4단계 딥 카테고리 HUD, 인터랙티브 룩북 쇼퍼블 펄스 핀, 체형별 실측 치수 조견표 및 실시간 랭킹 시스템',
+    description: '대한민국 대표 디자이너 패션 셀렉트숍의 핵심 UX를 집약한 플래그십 이커머스 라이브 데모입니다. 4단계(대·중·소·세) 카테고리 트리와 컬러/핏/소재 정밀 필터, 2026 S/S 런웨이 쇼퍼블 펄스 핀, 어깨/가슴/소매/총장 실측 cm 매트릭스, 장바구니/위시리스트 드로어 및 성수·한남 스트릿 아카이브를 탑재했습니다.',
+    thumbnailUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD-dtknuyBxqWqoDO2WD5FfQSpKwSH3JcoXFfAlz77N0EPzdYvqlW9kDhoOKa79Al96jiKqTjgI4N58kLtTAP61nClqAAMkeX-a6z-tbbA2rJnNn5Y98J2GL_fTDkKk82bl-dSi1AE6bZKmpT31jeq7XBZvnJh-vLV9dJxEHrdB-FHp-8EpJxL6U2TIYTkMIBY4HjXhsOXPf54kxhewQNxTWvwT6Xbv48nGYQJqoroRGVXeUCmrNLW3',
+    liveDemoUrl: '/demo/atelier-noir',
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', '4-Tier Deep Category HUD', 'Shoppable Pulse Pins', 'Fit Measurement Matrix', 'Real-time Live Ranking Engine'],
+    period: '2주',
+    year: '2026',
+    badge: '실물 라이브 데모',
+    highlights: [
+      '대·중·소·세분류 4단계 카테고리 트리 및 컬러·핏·소재 다면 필터링 HUD',
+      '2026 S/S 런웨이 인터랙티브 룩북 쇼퍼블 펄스 핀 & 3-Piece 코디 세트 원클릭 담기',
+      '실시간 1~12위 랭킹 탭, 타임세일 카운트다운, 전신·디테일 접사 줌 갤러리',
+      '어깨·가슴·소매·총장 cm 실측 조견표, 모델 스펙 가이드, 위시리스트 & 장바구니 드로어',
+    ],
+  },
+  {
     id: 'maison-d-antique',
     title: "메종 당티크 (Maison d'Antique) 오리지널 유러피안 앤틱 살롱",
     client: '1884 파리·런던 직영 앤틱 아카이브 살롱',
