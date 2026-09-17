@@ -1628,6 +1628,28 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       '1:1 코딩테스트 및 이력서/GitHub 사전 역량 진단 신청 위저드',
     ],
   },
+  {
+    id: 'ivy-prep',
+    title: '아이비 프렙 아카데미',
+    client: '가상 브랜드 샘플 — 실제 업체가 아닙니다 (아이비리그 입시학원 설정)',
+    category: 'education',
+    categoryName: '학원 · 미국보딩/아이비리그',
+    summary: '6대 입시역량 방사형 레이더(Radar) 차트 & 목표 대학별 Digital SAT 1600점 텔레메트리',
+    description: '미국 최상위 명문 사립 보딩스쿨 및 아이비리그(Ivy League) 전문 입시 교육기관 공식 웹사이트입니다. GPA, SAT, AP, EC, 수상실적, 에세이를 아우르는 6대 입시역량 방사형 레이더(Radar) 차트 인터랙션, 목표 명문대 합격 컷라인 대비 Digital SAT 1600점 분석 텔레메트리, 실제 합격생 스파이크 포트폴리오 쇼케이스, 1:1 프라이빗 입시 로드맵 진단 위저드를 제공합니다.',
+    thumbnailUrl: '/portfolio/ivy-prep/desktop.png',
+    liveDemoUrl: '/demo/ivy-prep',
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', '6-Axis Competency Radar SVG Lab', 'Digital SAT Score Telemetry'],
+    period: '2주',
+    year: '2026',
+    badge: '실물 라이브 데모',
+    highlights: [
+      'GPA·SAT·AP·EC·수상·에세이 6대 입시역량 방사형 레이더(Radar) 차트 인터랙션',
+      '목표 대학별 25th~75th 백분위 컷라인 대비 Digital SAT 1600점 비교 텔레메트리 HUD',
+      'H-Univ(예시)·C-Univ(예시)·필립스 앤도버 합격생 스파이크(Spike) 포트폴리오 아카이브(예시)',
+      '1:1 프라이빗 입시 진단 및 학업 성취도 심층 상담 신청 위저드',
+    ],
+  },
 ];
+
 
 
