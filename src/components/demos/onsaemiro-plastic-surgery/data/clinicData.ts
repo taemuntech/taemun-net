@@ -1,237 +1,180 @@
-import { BeforeAfterCase, DoctorProfile, RecoveryStep, SafetyProtocol } from '../types';
+import { BeforeAfterCase, RoadmapStage, DoctorProfile } from '../types';
 
-export const CLINIC_INFO = {
-  name: '온새미로 성형외과의원',
-  englishName: 'ONSAEMIRO AESTHETIC & PLASTIC SURGERY',
-  meaning: '가르거나 쪼개지 않고 자연 그대로의 본래 모습',
-  slogan: '본연의 아름다움을 거스르지 않는 자연스러움의 미학',
-  tel: '02-0000-0000',
-  address: '서울특별시 강남구 압구정로 000 (온새미로 메디컬 타워 4~6F)',
-  subway: '수인분당선 압구정로데오역 5번 출구 도보 2분',
-  hours: {
-    weekday: '월 - 금  AM 10:00 - PM 07:00',
-    saturday: '토 요 일  AM 10:00 - PM 04:00 (점심시간 없음)',
-    closed: '일요일 및 법정 공휴일 휴진 (사전 예약 수술 상담 가능)',
-  },
-  registrationNumber: '000-00-00000 (샘플용)',
+export const CLINIC_IMAGES = {
+  logoProfile: 'https://lh3.googleusercontent.com/aida/AEtjO1UgOzBxasnj30qTFsb974fh5r24K04W3BkV_sS-coZZ-lUtnr1S3keZKnLmGj_P0xPtCQ6cL9u78JcL_xVopnw7oD3_wOGzUlrkGmr6OS6GyFwpGjz085mx8XDsHTRDReJaOZsnP8ymlBsfWa_psEk3fWhQ78CtSI7c6ml4qIuYAszrso1FPGsC59ZFkBfLX-xSWcspqEucqVHa2zl4i1rmPECD3YiL8wlNEBAQsVdDKEtTSVU2e07rv78',
+  heroModel: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBotHgAqgRJxbwEeRYWCVqYsdlellV-I-upeLoa1Pcwdi4rKblDbDMT5syprqtSfh3OLIFvpGw20nXcRJbLDsRDMMzofGM2hbJewoM5b6nHdpjbhvde-DBHvElmkqYBAcCSh3U4OnB6tGUjKN-70ojHmxzi_J36mVJyBaqwqYuOZ0EVaDpKYFjjWWlLcAcoJFYFmhyBaWSO1Wy-puoX6TuTMox0JqtD2QoQSbM2WwEJt9d2Vr58WkSjZQ',
+  philosophyNatural: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAzz1yNKuTlkt0MfT7pH1HjGhUY1tC-L8_F_6DzZsiUZyEHW3pM_JKWy2yzvcF_AY-fOyOR9BHg6zAg12Hvw4VgKf18wfvWOAnyJMQ4GZRpQ2IvJ4zFJJVZhk-3N-rwxQL2fvkqCoW4sAPRylBP41kS8nlSuddmO-5G0kWkHXW4bvP3zJoECCbF44Nlk-Bo7Ko4MRrBhlLexbWq-Wrs32YjdFlVXv_CS0-wYoo71S_dtQrbl0U4_ZgFyw',
+  philosophySuture: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC3wIwj4tyQxITmD61czpbjakEq9KeQDVlV76M-5uao9UaFdpnZ6TJ3emRbOCR7E9ksJmstVatdj9QxXFswMMQF9ErzCjl7y6xNBHdDG0t2gxbiUy2ZU59vodTHCVXmQtuEyPGFm74mhGi114UfIXd-4smxsabkUbag8xeuhKnTVHk95ZRyQWl1ZJQfFs9Kg1BmEf9LoNpCJ-WlMF68lX2_qbPmw2Nz03FKjiSAc7h8rPYarES6OjHWPA',
+  eyeAfter: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAnRlxBNdmCFfz9-ED4Uc9EU7LCMcOOV3LiZNvZZkn8elrnbRny_1XWGt_0GBunsUHnjujF0JXZacgXJQZrh4jMS5j4xbZwCMZ3lqgTFz1koYDq-prVchmcwuXLSj8h9bSMAIEWR1dY8T2HziIUDKq6lV9DXZ-rI2yk8BEHd-cbmxkwIFdJehaVfUBr881b_u1pbZBQXE5sUjR1tVUWRtQpTi5-9sjmqOQXj6a6UU3bqNOor4w5tS4TVg',
+  eyeBefore: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD1MChQsBld_b1E1o-_-AiF41kVgVOxdKw0SBvkuiHLngeKkrdWce52Tm8jKHHq1yeNbegxmIepZctH75TqFKcZ7wf17d4aC287gfpaLZzo0tPcCp8kw8j6cvd3FnQ_z9QhQ-TITYknND-0zsJSEaOIdYImRb2DDb7Le5z_Nf6Awo9LO59I8SAVV81S-xy4L_oVcUElNenaFpS0NzL6WqOtIvjePTBTzeF5qU2xNrnk_AI6BclFW0vEmA',
+  recoverySuite: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAUErukH6XHN2rqXucMOdQCRxyx1j8B5OzqdWr7bNMOovSCs5WqPGtmKV9KCfsf6et2GFf_3aw81SpK3k89pB-pkktLSlrhPKe2CbHdwLlC8R2PMVptzuVfuwkjkvxE19pLZZuUPOmDfLERPm1h_KEgQ-O32qFQI1rmrR63A6xKetwlBXcSUD21ADyoyLvEEuPGdolnkjYKz6ffUQea0LZ6275n2OnKdYRH-Fr3Xq0pmhN_ZzGOXFLmrQ',
+  doctorKang: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAR0qAi2ZPFEJbG3Oe6URJwuwg-c0sUdtPTAUYeqWjjq9v2OkGc3W6SH_9aHuaJdpn1rKXyyprNnxrwkH7Zg76anQGj6W6qTgI53nniGuAW7vu4T2JMHxzsjAvqKAgksx1az0iV4Z02SnbrcwDtvPskgxLqwDXN4yCIWKzhBF3hAlQsQUQORGwp0iPpfsOTon_Yis9x61cB0NuyOKe-J0tsVncTsl0NERFTWS1b8XGI9QucuvwHLj-IqQ',
+  doctorYoon: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBVH2OVx1K0iBuDysXdfzjzLQdiQYzuXY-BNgc8CNb_OZZIo6xpheYVF_zi_2bEayg6OaMOwZGpvMgHIvnMCqQp8SH6cORgO1DRqkkE4_vVHuiE-SVvt-p7ePLackELfXCZ8yShNfRfqdzfNwS-z7bslhCQNOy0QV3_DjXNYNNKU24iMkb1Zei62VnY6h0U7DAcyp7oWiGOMRMV8gykRmsKJLyHvA-yeHtmZAj5ajC0xQ_KqKa4auajpg',
+  doctorPark: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAmwXgmaflbuXBlaXwnJTEfFl__1vvHb8oWmCbU-aiUdVn-w4MT_4_u8IkuoxWi3MrXH7YFFt_oF0wOBd_tmAeQLvCCqSMl8YSJ1ybf-KsVb9D1okG49XtuT1s1BvSuciLV0i6OhcnbVoTYlifTc0t8cbu4Wa6qDmSQrxEPnLIjRkT-Asn_WXC3umTL83aMmUeVfcFfAKl8coGmDgXZ2hWF5PGANub4pnpJdEgA0TNtl2AA3_tSO_OAYA',
+  mapView: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCn-30R1IwxTpi_rH6pTYStVEDXjc6vOc4JBu_CMim-sbeAW1uoxEo-x71jap2JfFyY8_qifL7VzC68lNQ57oJY_fmh05EMu6bcVPJZOW0fKcWGzpnufa8eD1CvsymxhwbKSqvuuQqFbpSDTZCe8bvUNjTiRM26jbqKg97Fchyi6xxpYowJCAW8G8xB_7kV1Uy9SPVtzIbsXu6beSu4xJBt4v8xX2_P0x4YoT4actke02YpAz3L5mPjTA'
 };
 
-export const BEFORE_AFTER_CASES: BeforeAfterCase[] = [
-  {
-    id: 'ba-01',
+export const BEFORE_AFTER_CASES: Record<string, BeforeAfterCase> = {
+  eye: {
+    id: 'case-eye',
     category: 'eye',
-    categoryName: '눈성형',
-    title: '자연유착 쌍꺼풀 & 눈매교정',
-    description: '눈꺼풀 피부와 근육의 연결을 섬세하게 유도하여 절개 흉터 걱정 없이 또렷하고 자연스러운 인라인 쌍꺼풀을 완성했습니다.',
-    doctorName: '대표원장 강민우 성형외과 전문의',
-    tags: ['인아웃라인', '비절개눈매교정', '멍·붓기최소화'],
-    beforeImage: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80',
-    afterImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
-    period: '수술 후 3개월 경과 (예시)',
-    caution: '개인에 따라 출혈, 감염, 비대칭 등의 부작용이 발생할 수 있으므로 전문의와의 심층 상담이 필요합니다.',
+    title: '자연유착 인아웃 라인 쌍꺼풀 + 비절개 눈매교정',
+    subtitle: '피부 절개 없이 미세 홀을 통한 6포인트 연속 결찰',
+    desc: '절개 없이 미세 홀을 통한 6포인트 연속 결찰로 풀림 방지 및 붓기 4일만 완화',
+    beforeImg: CLINIC_IMAGES.eyeBefore,
+    afterImg: CLINIC_IMAGES.eyeAfter,
+    recoveryPeriod: '4~6일 (메이크업 가능)',
+    keyPoints: ['피부 절개 흉터 최소화 설계', '안검하수 0.8mm 정밀 리프팅', '자연스러운 인아웃 라인 도출']
   },
-  {
-    id: 'ba-02',
+  nose: {
+    id: 'case-nose',
     category: 'nose',
-    categoryName: '코성형',
-    title: '자가연골 3D 입체 코성형 (직반버선 라인)',
-    description: '비중격 및 귀연골을 활용하여 코끝 처짐을 방지하고, 비순각 98도의 이상적인 각도로 세련되고 입체적인 프로필을 연출했습니다.',
-    doctorName: '원장 윤서아 성형외과 전문의',
-    tags: ['직반버선', '자가비중격', '비순각교정'],
-    beforeImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
-    afterImage: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80',
-    period: '수술 후 6개월 경과 (예시)',
-    caution: '수술 후 초기 충격에 주의해야 하며, 개인 체질에 따라 회복 기간에 차이가 있을 수 있습니다.',
+    title: '무보형물 비중격 자가연골 코성형 (직반버선 라인)',
+    subtitle: '실리콘 이물감 없는 자가 생체 조직 재건',
+    desc: '실리콘 이물질 없이 자가 비중격 연골로만 코끝을 세워 비순각 98도 자연스러움 도출',
+    beforeImg: CLINIC_IMAGES.philosophyNatural,
+    afterImg: CLINIC_IMAGES.heroModel,
+    recoveryPeriod: '7일 (부목 및 테이핑 제거)',
+    keyPoints: ['보형물 비침 및 염증 우려 영구 배제', '비순각 98° 여성스러운 곡선미', '콧볼 미세 축소 병행']
   },
-  {
-    id: 'ba-03',
-    category: 'lifting',
-    categoryName: '리프팅 & 동안',
-    title: '미니 딥플레인 스마스(SMAS) 안면거상',
-    description: '피부 표면만 당기지 않고 깊은 근막층(SMAS)과 유지인대를 함께 박리·재배치하여 어색하지 않고 10년 전 본연의 얼굴선을 되찾았습니다.',
-    doctorName: '대표원장 강민우 성형외과 전문의',
-    tags: ['SMAS안면거상', '귀앞미세절개', '심부볼처짐개선'],
-    beforeImage: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80',
-    afterImage: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=800&q=80',
-    period: '수술 후 4개월 경과 (예시)',
-    caution: '염증 및 흉터 예방을 위해 술, 담배를 금하고 정기적인 흉터 레이저 사후관리를 권장합니다.',
+  lift: {
+    id: 'case-lift',
+    category: 'lift',
+    title: '미니 SMAS 안면거상 + 심부볼 정밀 리프팅',
+    subtitle: '귀 뒤 헤어라인 미세 절개선으로 흉터 눈에 띄지 않게 배치',
+    desc: '귀 뒤 미세 절개선으로 흉터 은폐, 처진 턱선과 팔자주름을 근막층부터 2중 견인',
+    beforeImg: CLINIC_IMAGES.eyeBefore,
+    afterImg: CLINIC_IMAGES.philosophyNatural,
+    recoveryPeriod: '5~7일 (일상생활 복귀)',
+    keyPoints: ['피부 표면이 아닌 SMAS 근막층 박리', '팔자주름 및 이중턱 동시 개선', '자연스러운 귀 형태 보존']
+  }
+};
+
+export const ROADMAP_STAGES: Record<string, RoadmapStage> = {
+  day0: {
+    id: 'day0',
+    stageName: '수술 당일',
+    stageBadge: 'STAGE 01 · SURGERY DAY',
+    title: '냉각 림프 순환 케어 & 프라이빗 스위트 휴식',
+    description: '수술 직후 전용 1인 스위트에서 미세 출혈을 예방하는 쿨링 패치 처치와 힐라이트 II 진정 광선을 1차 적용합니다. 전문 간호사가 1:1로 바이탈을 점검하며 안전한 귀가를 지원합니다.',
+    residualEdemaPct: 100,
+    badge: '초기 진정 프로토콜 가동',
+    careDetails: ['전용 1인 회복 스위트 배정', '힐라이트 II 진정 광선 1차 조사', '미세 압박 드레싱 및 얼음팩 제공']
   },
-  {
-    id: 'ba-04',
-    category: 'contour',
-    categoryName: '안면윤곽',
-    title: '소프트 광대축소 & 턱끝 밸런스 절골',
-    description: '과도한 뼈 깎기를 배제하고 필요한 볼륨만 정밀 회전 밀어넣기하여 볼처짐 없이 매끄러운 오발(Oval) 페이스 라인을 구현했습니다.',
-    doctorName: '대표원장 강민우 성형외과 전문의',
-    tags: ['3D-CT시뮬레이션', '무고정밀착', '자연스러운윤곽'],
-    beforeImage: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80',
-    afterImage: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80',
-    period: '수술 후 8개월 경과 (예시)',
-    caution: '단단한 음식 섭취를 삼가고 구강 내 청결 유지를 철저히 해야 합니다.',
+  day3: {
+    id: 'day3',
+    stageName: '3일차 (피크 붓기)',
+    stageBadge: 'STAGE 02 · DAY 03 (PEAK EDEMA)',
+    title: '고압산소 챔버 2.0 ATA 급속 디톡스 집중 치료',
+    description: '수술 후 붓기가 가장 최고조에 달하는 3일차에 고압산소 챔버를 통해 혈액 순환 속도를 3배 높이고 조직 부종을 집중 흡수시킵니다. 멍 크림과 맞춤형 온/냉 림프 팩이 제공됩니다.',
+    residualEdemaPct: 55,
+    badge: '부종 45% 즉각 경감',
+    careDetails: ['고압산소 챔버 2.0 ATA 40분 치료', '멍 케어 아르니카 연고 도포', '온/냉 림프 순환 수기 트리트먼트']
   },
-];
+  day7: {
+    id: 'day7',
+    stageName: '7일차 (실밥 발거)',
+    stageBadge: 'STAGE 03 · DAY 07 (SUTURE REMOVAL)',
+    title: '미세 실밥 발거 & 힐라이트 II 흉터 재생 조사',
+    description: '담당 집도의가 직접 0.1mm 단위 미세 봉합사를 흉터 없이 제거하며 절개부 유착 상태를 체크합니다. 재생 광선 테라피로 붉은 기를 지우고 표정 근육 스트레칭을 코칭합니다.',
+    residualEdemaPct: 20,
+    badge: '외출 및 가벼운 화장 가능',
+    careDetails: ['집도의 1:1 직접 실밥 발거', '미세 흉터 레이저 1차 조사', '세안 및 가벼운 메이크업 시작']
+  },
+  day14: {
+    id: 'day14',
+    stageName: '14일차 (일상 복귀)',
+    stageBadge: 'STAGE 04 · DAY 14 (FINAL RECOVERY)',
+    title: '최종 3D 윤곽 완성도 점검 & 메디컬 스킨케어',
+    description: '잔붓기가 90% 이상 빠지며 본연의 라인이 완성되는 시기입니다. 3D-CT 비교 분석을 통해 초기 시뮬레이션과의 일치율을 확인하고, 미세 잔붓기 림프 마사지로 마무리합니다.',
+    residualEdemaPct: 5,
+    badge: '일상생활 일상생활 복귀',
+    careDetails: ['3D 안면스캐너 최종 정밀 측정', '고주파 잔붓기 배출 관리', '정기 사후관리 보증서 발급']
+  }
+};
 
 export const DOCTORS: DoctorProfile[] = [
   {
-    id: 'doc-01',
-    name: '강민우',
-    role: '대표원장 / 성형외과 전문의',
-    specialty: '눈·코 심미성형, SMAS 안면거상, 고난도 안면윤곽',
-    image: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=800&q=80',
-    quote: '성형의 참된 가치는 다른 사람의 얼굴을 흉내 내는 것이 아니라, 본래 지닌 가장 아름다운 균형을 찾아주는 데 있습니다.',
-    career: [
-      '성형외과 전문의 자격 취득',
-      '대한성형외과학회 종신 정회원',
-      '대한미용성형외과학회(KSAPS) 정회원',
-      '국제성형외과학회(IPRAS) 정회원',
-      '전 서울 주요 대학병원 성형외과 임상자문의',
+    id: 'kang',
+    name: '강민우 대표원장',
+    role: '대표원장',
+    subRole: '성형외과 전문의',
+    quote: '"과한 변화는 얼굴의 본질을 해칩니다. 당신만이 가진 본연의 선을 찾아 가장 자연스러운 황금비율을 빚어냅니다."',
+    credentials: [
+      '주요 의과대학 졸업 및 의학석사',
+      '주요 대학병원 성형외과 임상자문의',
+      '대한성형외과학회 안면성형연구회 정회원',
+      '국제미용성형외과학회(ISAPS) 액티브 멤버'
     ],
-    academic: [
-      '「동양인의 안면 해부학적 특성에 따른 최소절개 안면거상술의 유효성」 발표',
-      '미국 PRS(Plastic and Reconstructive Surgery) 저널 논문 게재',
-      '대한성형외과학회 코성형연구회 패널 발표',
-    ],
+    specialties: '3D 자연유착 눈성형, 무보형물 코성형',
+    image: CLINIC_IMAGES.doctorKang
   },
   {
-    id: 'doc-02',
-    name: '윤서아',
-    role: '원장 / 성형외과 전문의',
-    specialty: '자연유착 눈매교정, 비절개 코끝성형, 동안 눈밑지방재배치',
-    image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=800&q=80',
-    quote: '1mm의 미세한 곡선 차이가 전체 인상의 온화함과 조화를 결정합니다. 섬세한 여성 전문의의 시선으로 빚어냅니다.',
-    career: [
-      '성형외과 전문의 자격 취득',
-      '대한성형외과학회 눈성형연구회 학술위원',
+    id: 'yoon',
+    name: '윤서아 원장',
+    role: '원장',
+    subRole: '성형외과 전문의',
+    quote: '"미세한 1mm의 차이가 인상의 온화함과 우아함을 결정합니다. 흉터 없는 섬세한 디테일을 약속합니다."',
+    credentials: [
+      '주요 의과대학 졸업',
+      '대학병원 성형외과 외래교수',
       '대한미용성형외과학회 정회원',
-      '대한두개안면성형외과학회 정회원',
+      '대한성형외과학회 눈·코성형연구회 정회원'
     ],
-    academic: [
-      '「다층 봉합술을 이용한 자연유착 쌍꺼풀의 장기 추적 관찰」 연구',
-      '아시아 안면성형 심포지엄 초청 연자',
-    ],
+    specialties: '섬세 눈재수술, 동안 안면거상 & 쁘띠 리쥬비네이션',
+    image: CLINIC_IMAGES.doctorYoon
   },
   {
-    id: 'doc-03',
-    name: '박진형',
-    role: '마취통증의학과 전문의 / 안심마취센터장',
-    specialty: '성형외과 수면·전신마취 전담, 실시간 생체신호 감시, 무통 통증관리',
-    image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=800&q=80',
-    quote: '수술 시작부터 회복실 퇴실까지 단 1초의 호흡 변화도 놓치지 않고 곁을 지킵니다. 안전은 타협할 수 없는 첫 번째 원칙입니다.',
-    career: [
-      '마취통증의학과 전문의 자격 취득',
+    id: 'park',
+    name: '박진형 센터장',
+    role: '마취안전센터장',
+    subRole: '마취통증의학과 전문의',
+    quote: '"환자분이 잠드시는 순간부터 완전히 깨어나실 때까지, 1초도 곁을 떠나지 않고 안전을 지킵니다."',
+    credentials: [
+      '주요 의과대학 졸업',
+      '대학병원 마취통증의학과 전임의',
       '대한마취통증의학회 정회원',
-      '미국 심장협회 전문심폐소생술(ACLS) Provider 자격 취득',
-      '온새미로 1:1 안심마취 케어 시스템 총괄 책임자',
+      '대한중환자의학회 세부전문의'
     ],
-    academic: [
-      '「외래 환자 수술 마취의 신속 회복 프로토콜에 관한 임상 고찰」 연구',
-      '마취 중 실시간 호기말 이산화탄소(EtCO2) 모니터링 가이드라인 수립',
-    ],
-  },
+    specialties: '1:1 수면/전신마취 전담 모니터링, 악성고열증 예방',
+    image: CLINIC_IMAGES.doctorPark
+  }
 ];
 
-export const SAFETY_PROTOCOLS: SafetyProtocol[] = [
+export const SAFETY_PILLARS = [
   {
-    id: 'safety-01',
-    icon: 'UserCheck',
-    title: '수술 실명제 (대리수술 원천 차단)',
-    subtitle: '상담한 전문의가 직접 끝까지 집도',
-    description: '상담부터 수술 계획 수립, 절개, 봉합까지 담당 지정 전문의가 100% 직접 책임 집도하며 대리수술(쉐도우 닥터)을 원천 차단합니다.',
-    details: [
-      '환자 및 보호자 수술 집도의 실명 확인 서약서 발급',
-      '수술 전 집도의 환자 대면 확인 절차(Time-out) 의무화',
-      '수술 기록지 및 참여 의료진 실명 전자 서명 보관',
-    ],
+    pillarNumber: 'PILLAR 01',
+    title: '수술 실명제 (전문의 100% 집도)',
+    desc: '상담을 진행한 대표/담당 원장이 마취 전 확인부터 수술 전과정, 실밥 제거와 최종 경과 체크까지 100% 직접 책임집니다.',
+    guarantee: '원내 전담 실명 확인제 엄수',
+    icon: 'verified_user'
   },
   {
-    id: 'safety-02',
-    icon: 'Activity',
+    pillarNumber: 'PILLAR 02',
     title: '마취과 전문의 1:1 전담 상주',
-    subtitle: '수술 시작부터 회복까지 1:1 전담 밀착 감시',
-    description: '마취통증의학과 전문의가 병원 내 상주하며 수술 전 정밀 심전도 검사부터 수술 중 실시간 바이탈 감시, 수술 후 각성까지 전담합니다.',
-    details: [
-      '실시간 호기말 이산화탄소(EtCO2) 및 산소포화도 정밀 모니터링',
-      '환자별 연령 및 체중 맞춤형 표적제어 수면마취(TCI) 장비 운용',
-      '무통 주사 및 수술 후 통증 완화 자가조절장치(PCA) 제공',
-    ],
+    desc: '출장 마취의가 아닌 온새미로 상주 마취통증의학과 전문의가 실시간 SpO2, 혈압, 심전도를 초 단위로 집중 모니터링합니다.',
+    guarantee: '심장자동제세동기(AED) 구비',
+    icon: 'ecg_heart'
   },
   {
-    id: 'safety-03',
-    icon: 'Video',
-    title: '보호자 안심 참관 CCTV 운영',
-    subtitle: '투명하고 정직한 의료 과정 실시간 열람',
-    description: '수술실 내 사각지대 없는 고화질 CCTV를 설치하여 환자 및 직계 보호자의 동의하에 안전하게 수술 전 과정을 실시간 모니터링할 수 있습니다.',
-    details: [
-      '개인정보보호법 및 의료법 기준을 준수한 엄격한 보안 프로토콜',
-      '수술 시작부터 봉합 종료까지 투명한 영상 보존 시스템',
-      '원내 보호자 전용 독립 대기실 모니터 참관 지원',
-    ],
+    pillarNumber: 'PILLAR 03',
+    title: '보호자 안심 참관 CCTV 시스템',
+    desc: '수술실 내 사각지대 없는 고화질 CCTV를 설치하여, 보호자가 원하실 경우 대기실 모니터를 통해 실시간 상황을 투명하게 시청할 수 있습니다.',
+    guarantee: '의료법 제38조의2 전면 준수',
+    icon: 'visibility'
   },
   {
-    id: 'safety-04',
-    icon: 'Zap',
-    title: '무정전 전원 공급 장치 (UPS)',
-    subtitle: '정전 및 비상 상황에도 멈추지 않는 수술 환경',
-    description: '천재지변이나 기습 정전 시에도 수술 장비와 생명 유지 장치에 즉각 무중단 비상 전력을 공급하는 대용량 UPS 시스템을 가동합니다.',
-    details: [
-      '정전 발생 시 0.01초 내 자동 비상 전력 전환 시스템',
-      '자동심장충격기(AED) 및 전문 기도확보 응급 카트 완비',
-      '대학병원급 비상 핫라인 및 신속 응급 이송 네트워크 구축',
-    ],
+    pillarNumber: 'PILLAR 04',
+    title: '무정전 전원 공급 장치 (UPS & 단트롤렌)',
+    desc: '천재지변이나 한전 정전 시에도 즉각 비상 전력을 가동하는 대용량 UPS와, 희귀 마취 합병증 치료제인 닥트롤렌(Dantrolene)을 상시 비치합니다.',
+    guarantee: '악성고열증 철저 대비',
+    icon: 'power'
   },
   {
-    id: 'safety-05',
-    icon: 'ShieldCheck',
-    title: '10단계 무균 양압 클린 수술실',
-    subtitle: '대학병원급 공조 에어샤워 및 헤파필터 시스템',
-    description: '미세먼지와 바이러스를 99.9% 차단하는 고성능 헤파(HEPA) 필터 양압 공조 시스템으로 수술실 내 감염 위험을 사전에 방지합니다.',
-    details: [
-      '수술실 내부 기압을 높여 외부 오염 공기 유입을 차단하는 양압 설비',
-      '에어샤워 멸균 게이트 및 플라즈마 저온 멸균 소독기 운용',
-      '1회용 멸균 수술포 및 1회용 소모품 원칙 준수',
-    ],
-  },
-];
-
-export const RECOVERY_STEPS: RecoveryStep[] = [
-  {
-    day: '당일 (Day 0)',
-    title: '1인 VIP 전용 리커버리실 집중 안정',
-    careDetails: [
-      '마취과 전문의의 완벽한 의식 회복 및 활력징후 확인',
-      '수술 부위 즉각 아이스 쿨링 팩 적용으로 초기 붓기 억제',
-      '1:1 전담 간호사의 주의사항 설명 및 전용 회복 키트 증정',
-    ],
-    tips: '머리를 심장보다 20~30도 높게 유지하고 무리한 이동을 피하세요.',
-  },
-  {
-    day: '1~3일차',
-    title: '고압산소 챔버 & 힐라이트 레이저 케어',
-    careDetails: [
-      '고순도 산소를 모세혈관 깊숙이 공급하여 세포 재생 2배 촉진',
-      '830nm 힐라이트(Healite II) 광선 조사로 멍과 통증 신속 완화',
-      '원내 처방 소염 림프 순환 약제 복용 가이드',
-    ],
-    tips: '냉찜질을 48시간 지속하고 짠 음식과 자극적인 식단을 삼가세요.',
-  },
-  {
-    day: '5~7일차',
-    title: '실밥 제거 및 미세 림프 순환 트리트먼트',
-    careDetails: [
-      '성형외과 전문의의 상처 부위 직접 확인 및 섬세한 실밥 제거',
-      '초음파 LDM 림프 드레니쥐를 통한 단단해진 조직 연화',
-      '세안 및 가벼운 일상 메이크업 가능 시점 판정',
-    ],
-    tips: '온찜질로 전환하여 혈액 순환을 돕고 가벼운 산책을 권장합니다.',
-  },
-  {
-    day: '2주~1개월',
-    title: '흉터 방지 레이저 & 최종 라인 안착 검진',
-    careDetails: [
-      '프락셔널 흉터 레이저 및 의료용 실리콘 겔 처방',
-      '원장단 1:1 정밀 경과 상담 및 비포애프터 3D 촬영 비교',
-      '최종 잔붓기 배출을 위한 페이셜 마사지 가이드',
-    ],
-    tips: '자외선 차단제를 꼼꼼히 바르고 격한 운동은 4주 후부터 시작하세요.',
-  },
+    pillarNumber: 'PILLAR 05',
+    title: '10단계 무균 양압 클린 수술실 (Class 1,000)',
+    desc: '대학병원 뇌수술실 수준의 Class 1,000 HEPA 필터 양압 공조 시스템으로 외부 먼지와 공기 중 바이러스를 99.97% 철저 차단하여 감염 확률을 0%에 수렴시킵니다.',
+    guarantee: '에어샤워 & 플라즈마 저온 멸균 소독기 운용',
+    icon: 'air'
+  }
 ];

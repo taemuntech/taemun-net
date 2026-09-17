@@ -1,127 +1,168 @@
 'use client';
-
 import React, { useState } from 'react';
 import { Header } from './components/Header';
-import { HeroSection } from './components/HeroSection';
-import { PhilosophySection } from './components/PhilosophySection';
-import { FacialProportionSection } from './components/FacialProportionSection';
-import { BeforeAfterSection } from './components/BeforeAfterSection';
-import { SafetySystemSection } from './components/SafetySystemSection';
-import { RecoveryLoungeSection } from './components/RecoveryLoungeSection';
-import { DoctorsSection } from './components/DoctorsSection';
-import { ConsultationSection } from './components/ConsultationSection';
-import { LocationSection } from './components/LocationSection';
+import { Hero } from './components/Hero';
+import { Philosophy } from './components/Philosophy';
+import { ProportionHUD } from './components/ProportionHUD';
+import { BeforeAfterGallery } from './components/BeforeAfterGallery';
+import { SafetyDeclaration } from './components/SafetyDeclaration';
+import { VipRecoveryCare } from './components/VipRecoveryCare';
+import { MedicalDirectors } from './components/MedicalDirectors';
+import { ReservationSection } from './components/ReservationSection';
+import { LocationConcierge } from './components/LocationConcierge';
 import { Footer } from './components/Footer';
-
-import { FaceAnalysisModal } from './components/modals/FaceAnalysisModal';
-import { SafetyInspectionModal } from './components/modals/SafetyInspectionModal';
-import { RecoveryGuideModal } from './components/modals/RecoveryGuideModal';
+import { ReportModal } from './components/ReportModal';
+import { SafetyModal } from './components/SafetyModal';
+import { SimpleModal } from './components/PriceModal';
+import { HUDParameters } from './types';
 
 interface OnsaemiroAppProps {
   isEmbed?: boolean;
 }
 
 export const OnsaemiroApp: React.FC<OnsaemiroAppProps> = ({ isEmbed = false }) => {
-  // Modals state
-  const [safetyModalOpen, setSafetyModalOpen] = useState(false);
-  const [recoveryModalOpen, setRecoveryModalOpen] = useState(false);
-  const [analysisModalOpen, setAnalysisModalOpen] = useState(false);
-  const [analysisData, setAnalysisData] = useState<{
-    upperRatio: number;
-    midRatio: number;
-    lowerRatio: number;
-    nasolabialAngle: number;
-    chinProjection: number;
-    harmonyScore: number;
-    presetName: string;
+  const [isSafetyModalOpen, setIsSafetyModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [simpleModalState, setSimpleModalState] = useState<{
+    isOpen: boolean;
+    title: string;
+    type: 'privacy' | 'price';
+  }>({
+    isOpen: false,
+    title: '',
+    type: 'privacy'
+  });
+
+  const [activeHUDReport, setActiveHUDReport] = useState<{
+    params: HUDParameters;
+    score: number;
+    status: string;
+    summary: string;
   } | null>(null);
 
-  const handleOpenAnalysisModal = (data: {
-    upperRatio: number;
-    midRatio: number;
-    lowerRatio: number;
-    nasolabialAngle: number;
-    chinProjection: number;
-    harmonyScore: number;
-    presetName: string;
-  }) => {
-    setAnalysisData(data);
-    setAnalysisModalOpen(true);
-  };
+  const [selectedDoctorId, setSelectedDoctorId] = useState<string>('any');
+  const [prefilledNotes, setPrefilledNotes] = useState<string>('');
 
-  const handleScrollToConsultation = () => {
-    const el = document.getElementById('consultation');
+  const scrollToElement = (id: string) => {
+    const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+      const headerOffset = 90;
+      const elementPosition = el.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     }
   };
 
-  const handleScrollToProportion = () => {
-    const el = document.getElementById('proportion');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+  const handleOpenReportModal = (
+    params: HUDParameters,
+    score: number,
+    status: string,
+    summary: string
+  ) => {
+    setActiveHUDReport({ params, score, status, summary });
+    setIsReportModalOpen(true);
+  };
+
+  const handleBookWithReport = () => {
+    setIsReportModalOpen(false);
+    if (activeHUDReport) {
+      const note = `[3D 안면 황금비율 HUD 진단 데이터 연동]\n• 상/중/하 비율: ${activeHUDReport.params.upper.toFixed(2)} : ${activeHUDReport.params.mid.toFixed(2)} : ${activeHUDReport.params.lower.toFixed(2)}\n• 비순각: ${activeHUDReport.params.angle}° / 턱끝 프로젝션: ${activeHUDReport.params.projection}mm\n• 하모니 평가: ${activeHUDReport.score}점 (${activeHUDReport.status})`;
+      setPrefilledNotes(note);
     }
+    scrollToElement('vip-inquiry');
+  };
+
+  const handleSelectDoctor = (doctorId: string) => {
+    setSelectedDoctorId(doctorId);
+    scrollToElement('vip-inquiry');
   };
 
   return (
-    <div className="min-h-screen bg-[#1A1817] text-[#1A1817] selection:bg-[#C5A880] selection:text-white font-sans">
-      {/* Header */}
+    <div className="min-h-screen bg-[#fdf9f5] text-[#1c1c19] font-sans antialiased selection:bg-[#c5a880] selection:text-[#513d1d]">
+      {/* Top Fixed Header */}
       <Header
-        onOpenConsultation={handleScrollToConsultation}
-        onOpenSafetyModal={() => setSafetyModalOpen(true)}
+        onOpenSafetyModal={() => setIsSafetyModalOpen(true)}
+        onOpenReservation={() => scrollToElement('vip-inquiry')}
       />
 
-      {/* Main Sections */}
-      <main>
-        <HeroSection
-          onOpenConsultation={handleScrollToConsultation}
-          onOpenSafetyModal={() => setSafetyModalOpen(true)}
-          onScrollToProportion={handleScrollToProportion}
+      {/* Main Content Sections */}
+      <main className="w-full pt-24 lg:pt-28">
+        <Hero
+          onScrollToHUD={() => scrollToElement('proportion-hud')}
+          onScrollToReservation={() => scrollToElement('vip-inquiry')}
         />
 
-        <PhilosophySection />
+        <Philosophy />
 
-        <FacialProportionSection
-          onOpenAnalysisModal={handleOpenAnalysisModal}
+        <ProportionHUD onOpenReportModal={handleOpenReportModal} />
+
+        <BeforeAfterGallery />
+
+        <SafetyDeclaration onOpenSafetyModal={() => setIsSafetyModalOpen(true)} />
+
+        <VipRecoveryCare />
+
+        <MedicalDirectors onSelectDoctorForConsultation={handleSelectDoctor} />
+
+        <ReservationSection
+          selectedDoctorId={selectedDoctorId}
+          prefilledNotes={prefilledNotes}
+          appliedHUDParams={activeHUDReport ? activeHUDReport.params : null}
         />
 
-        <BeforeAfterSection />
-
-        <SafetySystemSection
-          onOpenSafetyModal={() => setSafetyModalOpen(true)}
-        />
-
-        <RecoveryLoungeSection
-          onOpenRecoveryModal={() => setRecoveryModalOpen(true)}
-        />
-
-        <DoctorsSection />
-
-        <ConsultationSection />
-
-        <LocationSection />
+        <LocationConcierge />
       </main>
 
       {/* Footer */}
-      <Footer />
-
-      {/* Modals */}
-      <FaceAnalysisModal
-        open={analysisModalOpen}
-        onClose={() => setAnalysisModalOpen(false)}
-        data={analysisData}
-        onProceedToConsultation={handleScrollToConsultation}
+      <Footer
+        onOpenSafetyModal={() => setIsSafetyModalOpen(true)}
+        onOpenPrivacyModal={() =>
+          setSimpleModalState({
+            isOpen: true,
+            title: '개인정보처리방침',
+            type: 'privacy'
+          })
+        }
+        onOpenNonReimbursableModal={() =>
+          setSimpleModalState({
+            isOpen: true,
+            title: '비급여 진료비 고지',
+            type: 'price'
+          })
+        }
       />
 
-      <SafetyInspectionModal
-        open={safetyModalOpen}
-        onClose={() => setSafetyModalOpen(false)}
+      {/* 3D HUD Report Modal */}
+      {activeHUDReport && (
+        <ReportModal
+          isOpen={isReportModalOpen}
+          onClose={() => setIsReportModalOpen(false)}
+          params={activeHUDReport.params}
+          score={activeHUDReport.score}
+          status={activeHUDReport.status}
+          summary={activeHUDReport.summary}
+          onBookWithReport={handleBookWithReport}
+        />
+      )}
+
+      {/* 5 Safety Pillars Charter Modal */}
+      <SafetyModal
+        isOpen={isSafetyModalOpen}
+        onClose={() => setIsSafetyModalOpen(false)}
       />
 
-      <RecoveryGuideModal
-        open={recoveryModalOpen}
-        onClose={() => setRecoveryModalOpen(false)}
+      {/* Simple Information Modal (Privacy / Price) */}
+      <SimpleModal
+        isOpen={simpleModalState.isOpen}
+        onClose={() => setSimpleModalState(prev => ({ ...prev, isOpen: false }))}
+        title={simpleModalState.title}
+        type={simpleModalState.type}
       />
     </div>
   );
-};
+}
+
+export default OnsaemiroApp;

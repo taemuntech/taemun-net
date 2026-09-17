@@ -1,52 +1,51 @@
-export type ProcedureCategory = 'eye' | 'nose' | 'lifting' | 'contour' | 'petit';
+export interface HUDParameters {
+  upper: number;       // Upper facial ratio: 0.80 - 1.20
+  mid: number;         // Mid facial ratio: 0.80 - 1.20
+  lower: number;       // Lower facial ratio: 0.70 - 1.10
+  angle: number;       // Nasolabial angle (degrees): 88 - 112
+  projection: number;  // Chin projection (mm): -5.0 - +5.0
+}
 
 export interface BeforeAfterCase {
   id: string;
-  category: ProcedureCategory;
-  categoryName: string;
+  category: 'eye' | 'nose' | 'lift';
+  title: string;
+  subtitle: string;
+  desc: string;
+  beforeImg: string;
+  afterImg: string;
+  recoveryPeriod: string;
+  keyPoints: string[];
+}
+
+export interface RoadmapStage {
+  id: string;
+  stageName: string;
+  stageBadge: string;
   title: string;
   description: string;
-  doctorName: string;
-  tags: string[];
-  beforeImage: string;
-  afterImage: string;
-  period: string;
-  caution: string;
+  residualEdemaPct: number;
+  badge: string;
+  careDetails: string[];
 }
 
 export interface DoctorProfile {
   id: string;
   name: string;
   role: string;
-  specialty: string;
-  image: string;
+  subRole: string;
   quote: string;
-  career: string[];
-  academic: string[];
+  credentials: string[];
+  specialties: string;
+  image: string;
 }
 
-export interface SafetyProtocol {
-  id: string;
-  icon: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  details: string[];
-}
-
-export interface RecoveryStep {
-  day: string;
-  title: string;
-  careDetails: string[];
-  tips: string;
-}
-
-export interface ConsultationFormData {
+export interface ReservationPayload {
+  interests: string[];
+  doctorId: string;
+  preferredDate: string;
   name: string;
   phone: string;
-  preferredDate: string;
-  categories: ProcedureCategory[];
-  message: string;
-  contactMethod: 'call' | 'kakao';
-  agreePrivacy: boolean;
+  notes: string;
+  privacyAgreed: boolean;
 }

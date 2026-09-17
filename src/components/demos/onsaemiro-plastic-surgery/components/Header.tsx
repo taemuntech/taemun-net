@@ -1,155 +1,270 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Sparkles, Phone, ShieldCheck } from 'lucide-react';
-import { CLINIC_INFO } from '../data/clinicData';
+import { CLINIC_IMAGES } from '../data/clinicData';
 
 interface HeaderProps {
-  onOpenConsultation: () => void;
   onOpenSafetyModal: () => void;
+  onOpenReservation: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({
-  onOpenConsultation,
-  onOpenSafetyModal,
-}) => {
-  const [scrolled, setScrolled] = useState(false);
+export const Header: React.FC<HeaderProps> = ({ onOpenSafetyModal, onOpenReservation }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 20);
+
+      const sections = [
+        'philosophy',
+        'proportion-hud',
+        'before-after-cases',
+        'safety-declaration',
+        'vip-recovery-care',
+        'medical-directors',
+        'location-concierge'
+      ];
+
+      for (const sectionId of sections) {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 140 && rect.bottom >= 140) {
+            setActiveSection(sectionId);
+            break;
+          }
+        }
+      }
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { label: '온새미로 철학', href: '#philosophy' },
-    { label: '황금비율 시뮬레이터', href: '#proportion' },
-    { label: '비포&애프터', href: '#before-after' },
-    { label: '5대 안심안전망', href: '#safety' },
-    { label: 'VIP 회복케어', href: '#recovery' },
-    { label: '의료진', href: '#doctors' },
-    { label: '오시는 길', href: '#location' },
-  ];
+  const scrollTo = (id: string) => {
+    setMobileMenuOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      const headerOffset = 90;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
-    <header
-      className={`fixed top-[var(--sample-bar-h,0px)] left-0 right-0 z-40 transition-all duration-300 ${
-        scrolled
-          ? 'bg-[#1A1817]/90 backdrop-blur-md border-b border-[#C5A880]/20 py-3 shadow-lg'
-          : 'bg-gradient-to-b from-[#1A1817]/80 to-transparent py-5'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 lg:px-8 flex items-center justify-between">
-        {/* Logo */}
-        <a href="#hero" className="flex items-center gap-3 group">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#E8DDD4] to-[#C5A880] flex items-center justify-center text-[#1A1817] shadow-inner font-serif font-bold text-[18px]">
-            온
-          </div>
-          <div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-[17px] font-bold text-white tracking-tight group-hover:text-[#C5A880] transition-colors">
-                {CLINIC_INFO.name}
+    <header className={`fixed top-[var(--sample-bar-h,0px)] left-0 w-full z-40 transition-all duration-300 ${
+      isScrolled ? 'bg-[#fdf9f5]/95 backdrop-blur-xl shadow-[0_1px_16px_rgba(114,91,56,0.08)]' : 'bg-[#fdf9f5]/90 backdrop-blur-md'
+    }`}>
+      {/* Top micro-announcement bar */}
+      <div className="w-full bg-[#ebe7e4] py-1.5 px-4 lg:px-8 text-center text-[#4d463c] text-[11px] font-medium tracking-wider flex items-center justify-center gap-3 overflow-x-auto whitespace-nowrap border-b border-[#d1c5b8]/30">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#725b38] inline-block animate-pulse"></span>
+        <span>본연의 아름다움을 거스르지 않는 자연스러움의 미학</span>
+        <span className="text-[#d1c5b8]">·</span>
+        <span>100% 한국인 전문의 실명집도제</span>
+        <span className="text-[#d1c5b8]">·</span>
+        <span>압구정로데오역 5번 출구</span>
+      </div>
+
+      {/* Main navigation container */}
+      <div className="h-20 max-w-[1320px] mx-auto px-6 lg:px-10 flex items-center justify-between gap-6">
+        {/* Brand identity */}
+        <div className="flex items-center gap-3.5 shrink-0">
+          <button 
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="flex items-center gap-3 group text-left cursor-pointer"
+          >
+            <div className="relative flex items-center justify-center">
+              <img
+                src={CLINIC_IMAGES.logoProfile}
+                alt="온새미로 로고"
+                className="w-9 h-9 rounded-full object-cover shadow-[0_0_12px_rgba(197,168,128,0.35)] ring-1 ring-[#c5a880]/40 group-hover:scale-105 transition-transform"
+              />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-serif text-[22px] leading-tight tracking-tight text-[#1c1c19] group-hover:text-[#725b38] transition-colors font-medium">
+                온새미로
               </span>
-              <span className="hidden lg:inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-[#C5A880]/20 text-[#E8DDD4] border border-[#C5A880]/30">
-                압구정 부티크
+              <span className="text-[10px] uppercase tracking-[0.14em] text-[#4d463c] font-medium">
+                Aesthetic &amp; Plastic Surgery
               </span>
             </div>
-            <div className="text-[10px] text-[#A69F97] tracking-widest uppercase font-light">
-              Onsaemiro Aesthetic &amp; Plastic Surgery
-            </div>
-          </div>
-        </a>
-
-        {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-7 text-[14px] text-[#D3CBC3]">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="hover:text-white transition-colors relative py-1 hover:after:w-full after:w-0 after:h-[2px] after:bg-[#C5A880] after:absolute after:bottom-0 after:left-0 after:transition-all"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-
-        {/* Header Right Actions */}
-        <div className="hidden lg:flex items-center gap-3">
-          <button
-            onClick={onOpenSafetyModal}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-full text-[12px] text-[#E8DDD4] bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
-          >
-            <ShieldCheck className="w-3.5 h-3.5 text-[#C5A880]" />
-            <span>5대 안심선언</span>
-          </button>
-          <button
-            onClick={onOpenConsultation}
-            className="flex items-center gap-2 px-5 py-2 rounded-full text-[13px] font-medium text-[#1A1817] bg-gradient-to-r from-[#E8DDD4] to-[#C5A880] hover:brightness-105 shadow-sm transition-all"
-          >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>프라이빗 1:1 상담</span>
           </button>
         </div>
 
-        {/* Mobile Hamburger */}
-        <div className="flex items-center gap-2 lg:hidden">
+        {/* Desktop Nav Links */}
+        <nav className="hidden xl:flex items-center gap-7">
           <button
-            onClick={onOpenConsultation}
-            className="px-3 py-1.5 rounded-full text-[12px] font-medium text-[#1A1817] bg-gradient-to-r from-[#E8DDD4] to-[#C5A880]"
+            onClick={() => scrollTo('philosophy')}
+            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer ${
+              activeSection === 'philosophy' ? 'text-[#725b38] font-semibold border-b-2 border-[#725b38]' : 'text-[#4d463c] hover:text-[#1c1c19]'
+            }`}
           >
-            상담예약
+            온새미로 철학
           </button>
           <button
+            onClick={() => scrollTo('proportion-hud')}
+            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer flex items-center gap-1 ${
+              activeSection === 'proportion-hud' ? 'text-[#725b38] font-semibold border-b-2 border-[#725b38]' : 'text-[#4d463c] hover:text-[#1c1c19]'
+            }`}
+          >
+            <span>황금비율 HUD</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#c5a880]"></span>
+          </button>
+          <button
+            onClick={() => scrollTo('before-after-cases')}
+            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer ${
+              activeSection === 'before-after-cases' ? 'text-[#725b38] font-semibold border-b-2 border-[#725b38]' : 'text-[#4d463c] hover:text-[#1c1c19]'
+            }`}
+          >
+            비포&amp;애프터
+          </button>
+          <button
+            onClick={() => scrollTo('safety-declaration')}
+            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer ${
+              activeSection === 'safety-declaration' ? 'text-[#725b38] font-semibold border-b-2 border-[#725b38]' : 'text-[#4d463c] hover:text-[#1c1c19]'
+            }`}
+          >
+            5대 안심선언
+          </button>
+          <button
+            onClick={() => scrollTo('vip-recovery-care')}
+            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer ${
+              activeSection === 'vip-recovery-care' ? 'text-[#725b38] font-semibold border-b-2 border-[#725b38]' : 'text-[#4d463c] hover:text-[#1c1c19]'
+            }`}
+          >
+            VIP 회복케어
+          </button>
+          <button
+            onClick={() => scrollTo('medical-directors')}
+            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer ${
+              activeSection === 'medical-directors' ? 'text-[#725b38] font-semibold border-b-2 border-[#725b38]' : 'text-[#4d463c] hover:text-[#1c1c19]'
+            }`}
+          >
+            의료진
+          </button>
+          <button
+            onClick={() => scrollTo('location-concierge')}
+            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer ${
+              activeSection === 'location-concierge' ? 'text-[#725b38] font-semibold border-b-2 border-[#725b38]' : 'text-[#4d463c] hover:text-[#1c1c19]'
+            }`}
+          >
+            오시는 길
+          </button>
+        </nav>
+
+        {/* Header Actions */}
+        <div className="flex items-center gap-4 shrink-0">
+          {/* VIP Private Phone */}
+          <div className="hidden lg:flex flex-col items-end text-right">
+            <span className="text-[11px] uppercase tracking-wider text-[#4d463c]">
+              VIP Private Line
+            </span>
+            <a
+              href="tel:02-0000-0000"
+              className="text-[16px] text-[#725b38] tracking-tight font-semibold hover:text-[#1c1c19] transition-colors"
+            >
+              02-0000-0000
+            </a>
+          </div>
+
+          {/* Safety declaration pill button */}
+          <button
+            onClick={onOpenSafetyModal}
+            className="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#ebe7e4] text-[#4d463c] hover:bg-[#e5e2de] hover:text-[#1c1c19] text-[12px] font-medium transition-all shadow-[0_1px_4px_rgba(0,0,0,0.03)] cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-[16px] text-[#725b38]">verified_user</span>
+            <span>5대 안심선언 열람</span>
+          </button>
+
+          {/* Signature VIP Booking Button */}
+          <button
+            onClick={onOpenReservation}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#1A1817] text-[#fdf9f5] text-[12px] font-semibold tracking-wider shadow-[0_4px_20px_rgba(197,168,128,0.22)] hover:bg-[#2E2A27] hover:shadow-[0_4px_24px_rgba(197,168,128,0.36)] transition-all duration-300 cursor-pointer"
+          >
+            <span className="material-symbols-outlined text-[18px] text-[#fedeb2]">calendar_month</span>
+            <span className="whitespace-nowrap">프라이빗 1:1 상담 예약</span>
+          </button>
+
+          {/* Mobile hamburger menu toggle */}
+          <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-[#E8DDD4] hover:text-white"
+            className="xl:hidden p-2 rounded-xl text-[#1c1c19] hover:bg-[#ebe7e4] transition-colors cursor-pointer"
             aria-label="메뉴 열기"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <span className="material-symbols-outlined text-[24px]">
+              {mobileMenuOpen ? 'close' : 'menu'}
+            </span>
           </button>
         </div>
       </div>
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#1A1817]/98 border-b border-[#C5A880]/20 px-4 py-6 space-y-4">
-          <div className="flex flex-col space-y-3 pb-4 border-b border-white/10">
-            {navLinks.map((link) => (
+        <div className="xl:hidden bg-[#fdf9f5] border-t border-[#d1c5b8]/30 px-6 py-5 shadow-xl">
+          <div className="flex flex-col gap-3">
+            <button
+              onClick={() => scrollTo('philosophy')}
+              className="text-left py-2 text-[#1c1c19] text-[15px] font-medium border-b border-[#f1ede9]"
+            >
+              온새미로 철학
+            </button>
+            <button
+              onClick={() => scrollTo('proportion-hud')}
+              className="text-left py-2 text-[#725b38] font-semibold text-[15px] border-b border-[#f1ede9] flex items-center justify-between"
+            >
+              <span>1:1:0.8 안면 황금비율 HUD</span>
+              <span className="text-[11px] px-2 py-0.5 rounded bg-[#c5a880]/20 text-[#725b38]">시뮬레이터</span>
+            </button>
+            <button
+              onClick={() => scrollTo('before-after-cases')}
+              className="text-left py-2 text-[#1c1c19] text-[15px] font-medium border-b border-[#f1ede9]"
+            >
+              비포&amp;애프터 듀얼 갤러리
+            </button>
+            <button
+              onClick={() => scrollTo('safety-declaration')}
+              className="text-left py-2 text-[#1c1c19] text-[15px] font-medium border-b border-[#f1ede9]"
+            >
+              5대 무결점 환자 안심 시스템
+            </button>
+            <button
+              onClick={() => scrollTo('vip-recovery-care')}
+              className="text-left py-2 text-[#1c1c19] text-[15px] font-medium border-b border-[#f1ede9]"
+            >
+              1인 VIP 회복케어 &amp; 14일 로드맵
+            </button>
+            <button
+              onClick={() => scrollTo('medical-directors')}
+              className="text-left py-2 text-[#1c1c19] text-[15px] font-medium border-b border-[#f1ede9]"
+            >
+              성형외과 &amp; 마취과 의료진
+            </button>
+            <button
+              onClick={() => scrollTo('location-concierge')}
+              className="text-left py-2 text-[#1c1c19] text-[15px] font-medium border-b border-[#f1ede9]"
+            >
+              오시는 길 &amp; 프라이빗 발렛 안내
+            </button>
+            <div className="pt-2 flex flex-col gap-2">
               <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-[15px] font-medium text-[#D3CBC3] hover:text-[#C5A880] py-1"
+                href="tel:02-0000-0000"
+                className="w-full py-3 rounded-xl bg-[#ebe7e4] text-center font-semibold text-[#725b38] text-[14px]"
               >
-                {link.label}
+                VIP 전화 상담 (02-0000-0000)
               </a>
-            ))}
-          </div>
-
-          <div className="pt-2 flex flex-col gap-2">
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenSafetyModal();
-              }}
-              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-[13px] text-[#E8DDD4] bg-white/5 border border-white/10"
-            >
-              <ShieldCheck className="w-4 h-4 text-[#C5A880]" />
-              <span>5대 무결점 환자안심 시스템 확인</span>
-            </button>
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenConsultation();
-              }}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-[14px] font-bold text-[#1A1817] bg-gradient-to-r from-[#E8DDD4] to-[#C5A880]"
-            >
-              <Sparkles className="w-4 h-4" />
-              <span>프라이빗 1:1 비밀상담 신청</span>
-            </button>
-            <div className="flex items-center justify-center gap-2 text-[12px] text-[#A69F97] pt-2">
-              <Phone className="w-3.5 h-3.5 text-[#C5A880]" />
-              <span>{CLINIC_INFO.tel}</span>
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenReservation();
+                }}
+                className="w-full py-3 rounded-xl bg-[#1A1817] text-[#fdf9f5] font-semibold text-[14px] text-center"
+              >
+                1:1 시크릿 예약 신청
+              </button>
             </div>
           </div>
         </div>
