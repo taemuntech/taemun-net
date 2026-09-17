@@ -57,7 +57,7 @@ export const VipPortalModal: React.FC<VipPortalModalProps> = ({
           </button>
         </div>
 
-        <form onSubmit={handleLogin} className="flex flex-col gap-3.5">
+        <form data-sample-local onSubmit={handleLogin} className="flex flex-col gap-3.5">
           <div className="flex flex-col gap-1.5">
             <label className="font-label-md text-on-surface" htmlFor="vip-code">
               재원생 고유 학번 (6자리)

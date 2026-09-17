@@ -1,0 +1,26 @@
+{
+  "slug": "athletic-prep",
+  "kind": "sample",
+  "industry": "corporate",
+  "title": "아펙스 체대입시 & 엘리트 스포츠",
+  "subtitle": "기초실기 센서 HUD & 합격 계산기 웹사이트 샘플",
+  "summary": "가상 브랜드 「아펙스 체대입시 & 엘리트 스포츠(APEX ATHLETIC)」로 제작한 최상위 체대입시 전문 아카데미 웹사이트 샘플입니다. 배근력, 제자리멀리뛰기, 10m 왕복달리기, 좌전굴 4대 기초실기 전자 센서 계측 및 만점 환산 텔레메트리 HUD, 수능 백분위와 실기 감점을 결합한 대학별 합격선 계산기, 주요 명문 체대 합격생 아카이브, 1:1 무료 전자기측기 측정 위저드를 탑재했습니다. 화면의 모든 수치·학생명·지표는 가상 예시입니다.",
+  "features": [
+    "배근력·제멀·왕복달리기·좌전굴 4대 기초실기 전자 센서 계측 텔레메트리 HUD",
+    "수능 백분위 및 실기 감점 연동 목표 대학별 합격 가능성 진단 매트릭스",
+    "S대(예시)·Y대(예시)·K대(예시) 체육교육과 최초합격생 실기 지표 아카이브(예시)",
+    "디지털 전자계측기 기반 기초실기 만점 완성반 3단계 스파르타 트랙",
+    "1:1 무료 전자기측기 실기 측정 및 목표 대학 합격선 정밀 진단 위저드"
+  ],
+  "techStack": [
+    "Next.js 16",
+    "React 19",
+    "TypeScript",
+    "Tailwind CSS v4",
+    "Digital Sensor Biometrics HUD",
+    "Admission Viability Matrix"
+  ],
+  "liveUrl": "/demo/athletic-prep",
+  "icon": "activity",
+  "createdAt": "2026-09-18"
+}

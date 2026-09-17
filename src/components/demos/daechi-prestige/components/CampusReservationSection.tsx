@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { ASSETS } from '../data/mockData';
 import { ReservationFormData } from '../types';
+import SampleNotice from '@/components/demo-kit/SampleNotice';
 
 interface CampusReservationSectionProps {
   onReservationSuccess: (data: ReservationFormData) => void;
@@ -22,9 +23,7 @@ export const CampusReservationSection: React.FC<CampusReservationSectionProps> =
     notes: '',
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [ticketNumber, setTicketNumber] = useState('');
+  const [isNoticeOpen, setIsNoticeOpen] = useState(false);
 
   const formatPhone = (val: string) => {
     const raw = val.replace(/[^0-9]/g, '').slice(0, 11);
@@ -39,15 +38,8 @@ export const CampusReservationSection: React.FC<CampusReservationSectionProps> =
       alert('학생 성명과 학부모님 연락처를 입력해 주십시오.');
       return;
     }
-
-    setIsSubmitting(true);
-    setTimeout(() => {
-      const randomTicket = `DP-${Math.floor(100000 + Math.random() * 900000)}`;
-      setTicketNumber(randomTicket);
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      onReservationSuccess(formData);
-    }, 600);
+    setIsNoticeOpen(true);
+    onReservationSuccess(formData);
   };
 
   return (
@@ -146,266 +138,180 @@ export const CampusReservationSection: React.FC<CampusReservationSectionProps> =
 
           {/* 1:1 Precision Level Test Reservation Form (Right) */}
           <div className="lg:col-span-6 p-6 lg:p-8 rounded-3xl bg-surface-container-lowest shadow-xl border border-surface-container-high/40">
-            {!isSubmitted ? (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                <div className="flex flex-col gap-1 pb-3 border-b border-surface-container">
-                  <h3 className="font-headline-sm text-on-surface">
-                    1:1 정밀진단 레벨테스트 &amp; 심층상담(예시)
-                  </h3>
-                  <p className="font-body-sm text-on-surface-variant">
-                    90분 정밀 모의 테스트 + 5각 역량 리포트 발급(가상 시연)
-                  </p>
-                </div>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+              <div className="flex flex-col gap-1 pb-3 border-b border-surface-container">
+                <h3 className="font-headline-sm text-on-surface">
+                  1:1 정밀진단 레벨테스트 &amp; 심층상담(예시)
+                </h3>
+                <p className="font-body-sm text-on-surface-variant">
+                  90분 정밀 모의 테스트 + 5각 역량 리포트 발급(가상 시연)
+                </p>
+              </div>
 
-                {/* Grade & Target Major */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1.5">
-                    <label className="font-label-md text-on-surface" htmlFor="field-grade">
-                      수험생 학년 *
-                    </label>
-                    <select
-                      id="field-grade"
-                      value={formData.grade}
-                      onChange={(e) => setFormData({ ...formData, grade: e.target.value })}
-                      className="w-full px-3 py-2.5 rounded-xl bg-surface-container-low border border-surface-container text-sm text-on-surface focus:outline-primary min-h-[44px]"
-                    >
-                      <option value="고3">고등학교 3학년</option>
-                      <option value="N수">N수/재수 최상위반</option>
-                      <option value="고2">고등학교 2학년 (조기반)</option>
-                      <option value="고1">고등학교 1학년</option>
-                    </select>
-                  </div>
-
-                  <div className="flex flex-col gap-1.5">
-                    <label className="font-label-md text-on-surface" htmlFor="field-target">
-                      희망 진학 계열 *
-                    </label>
-                    <select
-                      id="field-target"
-                      value={formData.targetMajor}
-                      onChange={(e) =>
-                        setFormData({ ...formData, targetMajor: e.target.value })
-                      }
-                      className="w-full px-3 py-2.5 rounded-xl bg-surface-container-low border border-surface-container text-sm text-on-surface focus:outline-primary min-h-[44px]"
-                    >
-                      <option value="의예과">의예과 (메디컬 1지망)</option>
-                      <option value="치의예과">치의예과</option>
-                      <option value="약학과">약학과</option>
-                      <option value="한의예과">한의예과</option>
-                      <option value="수의예과">수의예과</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* Preferred Date & Preferred Time */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1.5">
-                    <label className="font-label-md text-on-surface" htmlFor="field-date">
-                      희망 예약 일자 *
-                    </label>
-                    <input
-                      id="field-date"
-                      type="date"
-                      value={formData.preferredDate}
-                      onChange={(e) =>
-                        setFormData({ ...formData, preferredDate: e.target.value })
-                      }
-                      className="w-full px-3 py-2.5 rounded-xl bg-surface-container-low border border-surface-container text-sm text-on-surface focus:outline-primary min-h-[44px]"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-1.5">
-                    <label className="font-label-md text-on-surface" htmlFor="field-time">
-                      희망 타임슬롯 *
-                    </label>
-                    <select
-                      id="field-time"
-                      value={formData.preferredTime}
-                      onChange={(e) =>
-                        setFormData({ ...formData, preferredTime: e.target.value })
-                      }
-                      className="w-full px-3 py-2.5 rounded-xl bg-surface-container-low border border-surface-container text-sm text-on-surface focus:outline-primary min-h-[44px]"
-                    >
-                      <option value="오전 10:00">오전 10:00 (오전 첫 타임)</option>
-                      <option value="오후 14:00">오후 14:00 (심층 추천)</option>
-                      <option value="오후 16:30">오후 16:30</option>
-                      <option value="오후 19:00">오후 19:00 (야간)</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* Student Name & Parent Contact */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1.5">
-                    <label className="font-label-md text-on-surface" htmlFor="field-name">
-                      학생 성명 *
-                    </label>
-                    <input
-                      id="field-name"
-                      type="text"
-                      placeholder="예: 김민준"
-                      value={formData.studentName}
-                      onChange={(e) =>
-                        setFormData({ ...formData, studentName: e.target.value })
-                      }
-                      className="w-full px-3 py-2.5 rounded-xl bg-surface-container-low border border-surface-container text-sm text-on-surface focus:outline-primary min-h-[44px]"
-                      required
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-1.5">
-                    <label className="font-label-md text-on-surface" htmlFor="field-phone">
-                      학부모님 연락처 *
-                    </label>
-                    <input
-                      id="field-phone"
-                      type="tel"
-                      placeholder="010-0000-0000"
-                      value={formData.parentContact}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          parentContact: formatPhone(e.target.value),
-                        })
-                      }
-                      className="w-full px-3 py-2.5 rounded-xl bg-surface-container-low border border-surface-container text-sm text-on-surface focus:outline-primary min-h-[44px]"
-                      required
-                    />
-                  </div>
-                </div>
-
-                {/* Current Math Percentile & Notes */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1.5">
-                    <label className="font-label-md text-on-surface" htmlFor="field-math">
-                      최근 수학 모의 백분위 (선택)
-                    </label>
-                    <input
-                      id="field-math"
-                      type="text"
-                      placeholder="예: 98% / 1등급"
-                      value={formData.currentMathPercentile}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          currentMathPercentile: e.target.value,
-                        })
-                      }
-                      className="w-full px-3 py-2.5 rounded-xl bg-surface-container-low border border-surface-container text-sm text-on-surface focus:outline-primary min-h-[44px]"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-1.5">
-                    <label className="font-label-md text-on-surface" htmlFor="field-notes">
-                      추가 상담 희망사항 (선택)
-                    </label>
-                    <input
-                      id="field-notes"
-                      type="text"
-                      placeholder="예: 미적분 킬러 시간 단축 희망"
-                      value={formData.notes}
-                      onChange={(e) =>
-                        setFormData({ ...formData, notes: e.target.value })
-                      }
-                      className="w-full px-3 py-2.5 rounded-xl bg-surface-container-low border border-surface-container text-sm text-on-surface focus:outline-primary min-h-[44px]"
-                    />
-                  </div>
-                </div>
-
-                {/* Submit Button */}
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full mt-2 py-4 rounded-xl bg-inverse-surface text-surface font-title-md hover:bg-on-surface transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer disabled:opacity-50 min-h-[48px]"
-                >
-                  {isSubmitting ? (
-                    <span>진단 예약 전송 중...</span>
-                  ) : (
-                    <>
-                      <span>1:1 레벨테스트 및 심층진단 신청 완료하기</span>
-                      <span className="material-symbols-outlined text-[20px] text-primary-fixed-dim">
-                        arrow_forward
-                      </span>
-                    </>
-                  )}
-                </button>
-                <span className="text-[11px] text-outline text-center">
-                  * 본 웹사이트는 포트폴리오 시연용 가상 샘플입니다. 실제 데이터는 외부로 전송되지 않습니다.
-                </span>
-              </form>
-            ) : (
-              /* Success Confirmation Card */
-              <div className="flex flex-col items-center text-center p-6 gap-5 animate-in fade-in duration-300">
-                <div className="w-16 h-16 rounded-full bg-primary/20 text-primary flex items-center justify-center">
-                  <span className="material-symbols-outlined text-[36px]">
-                    check_circle
-                  </span>
-                </div>
-                <div>
-                  <span className="font-label-sm text-primary font-bold uppercase tracking-wider">
-                    RESERVATION CONFIRMED
-                  </span>
-                  <h4 className="font-headline-md text-on-surface mt-1">
-                    1:1 심층진단 예약이 접수되었습니다(예시)
-                  </h4>
-                  <p className="font-body-sm text-on-surface-variant mt-2 max-w-md">
-                    {formData.studentName} 학생 ({formData.grade}, {formData.targetMajor} 목표)의 레벨테스트가 정상 등록되었습니다.
-                  </p>
-                </div>
-
-                {/* Ticket Details */}
-                <div className="w-full p-4 rounded-xl bg-surface-container-low flex flex-col gap-2 text-xs border border-surface-container text-left">
-                  <div className="flex justify-between font-mono">
-                    <span className="text-on-surface-variant">예약 번호:</span>
-                    <span className="font-bold text-primary">{ticketNumber}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-on-surface-variant">일시:</span>
-                    <span className="font-semibold text-on-surface">
-                      {formData.preferredDate} ({formData.preferredTime})
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-on-surface-variant">연락처:</span>
-                    <span className="font-semibold text-on-surface">
-                      {formData.parentContact}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-on-surface-variant">장소:</span>
-                    <span className="font-semibold text-on-surface">
-                      대치 본원 5층 VIP 컨설팅룸 (예시)
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex flex-col lg:flex-row gap-3 w-full">
-                  <button
-                    onClick={() => {
-                      setIsSubmitted(false);
-                      setFormData({
-                        ...formData,
-                        studentName: '',
-                        parentContact: '',
-                        notes: '',
-                      });
-                    }}
-                    className="flex-1 py-3 rounded-lg border border-surface-container text-xs text-on-surface font-semibold hover:bg-surface-container transition-colors cursor-pointer min-h-[44px]"
+              {/* Grade & Target Major */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div className="flex flex-col gap-1.5">
+                  <label className="font-label-md text-on-surface" htmlFor="field-grade">
+                    수험생 학년 *
+                  </label>
+                  <select
+                    id="field-grade"
+                    value={formData.grade}
+                    onChange={(e) => setFormData({ ...formData, grade: e.target.value })}
+                    className="p-3 rounded-xl bg-surface-container-low border border-surface-container text-on-surface text-sm font-body-md focus:border-primary focus:outline-none"
                   >
-                    추가 신청하기
-                  </button>
-                  <button
-                    onClick={() => {
-                      setIsSubmitted(false);
-                    }}
-                    className="flex-1 py-3 rounded-lg bg-inverse-surface text-surface text-xs font-semibold hover:bg-on-surface transition-colors text-center cursor-pointer min-h-[44px]"
+                    <option value="고3">고등학교 3학년</option>
+                    <option value="고2">고등학교 2학년</option>
+                    <option value="고1">고등학교 1학년</option>
+                    <option value="N수">N수생 (의약학 심화)</option>
+                  </select>
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className="font-label-md text-on-surface" htmlFor="field-target">
+                    목표 지망 계열 *
+                  </label>
+                  <select
+                    id="field-target"
+                    value={formData.targetMajor}
+                    onChange={(e) => setFormData({ ...formData, targetMajor: e.target.value })}
+                    className="p-3 rounded-xl bg-surface-container-low border border-surface-container text-on-surface text-sm font-body-md focus:border-primary focus:outline-none"
                   >
-                    확인 및 닫기
-                  </button>
+                    <option value="의예과">의예과</option>
+                    <option value="치의예과">치의예과</option>
+                    <option value="한의예과">한의예과</option>
+                    <option value="약학과">약학과</option>
+                    <option value="수의예과">수의예과</option>
+                  </select>
                 </div>
               </div>
-            )}
+
+              {/* Preferred Date & Time */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div className="flex flex-col gap-1.5">
+                  <label className="font-label-md text-on-surface" htmlFor="field-date">
+                    희망 진단 일자 *
+                  </label>
+                  <input
+                    id="field-date"
+                    type="date"
+                    value={formData.preferredDate}
+                    onChange={(e) => setFormData({ ...formData, preferredDate: e.target.value })}
+                    className="p-3 rounded-xl bg-surface-container-low border border-surface-container text-on-surface text-sm font-body-md focus:border-primary focus:outline-none"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className="font-label-md text-on-surface" htmlFor="field-time">
+                    희망 시간대 *
+                  </label>
+                  <select
+                    id="field-time"
+                    value={formData.preferredTime}
+                    onChange={(e) => setFormData({ ...formData, preferredTime: e.target.value })}
+                    className="p-3 rounded-xl bg-surface-container-low border border-surface-container text-on-surface text-sm font-body-md focus:border-primary focus:outline-none"
+                  >
+                    <option value="오전 10:00">오전 10:00 - 11:30</option>
+                    <option value="오후 14:00">오후 14:00 - 15:30</option>
+                    <option value="오후 16:30">오후 16:30 - 18:00</option>
+                    <option value="저녁 19:30">저녁 19:30 - 21:00</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Student Name & Parent Contact */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div className="flex flex-col gap-1.5">
+                  <label className="font-label-md text-on-surface" htmlFor="field-student">
+                    학생 성명 *
+                  </label>
+                  <input
+                    id="field-student"
+                    type="text"
+                    required
+                    placeholder="예: 홍길동"
+                    value={formData.studentName}
+                    onChange={(e) => setFormData({ ...formData, studentName: e.target.value })}
+                    className="p-3 rounded-xl bg-surface-container-low border border-surface-container text-on-surface text-sm font-body-md focus:border-primary focus:outline-none"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className="font-label-md text-on-surface" htmlFor="field-parent">
+                    학부모님 연락처 *
+                  </label>
+                  <input
+                    id="field-parent"
+                    type="tel"
+                    required
+                    placeholder="010-0000-0000"
+                    value={formData.parentContact}
+                    onChange={(e) =>
+                      setFormData({ ...formData, parentContact: formatPhone(e.target.value) })
+                    }
+                    className="p-3 rounded-xl bg-surface-container-low border border-surface-container text-on-surface text-sm font-body-md focus:border-primary focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Math Percentile */}
+              <div className="flex flex-col gap-1.5">
+                <label className="font-label-md text-on-surface" htmlFor="field-math">
+                  최근 모의고사 수학 백분위 / 등급
+                </label>
+                <input
+                  id="field-math"
+                  type="text"
+                  placeholder="예: 96% 또는 1등급 (선택 사항)"
+                  value={formData.currentMathPercentile}
+                  onChange={(e) =>
+                    setFormData({ ...formData, currentMathPercentile: e.target.value })
+                  }
+                  className="p-3 rounded-xl bg-surface-container-low border border-surface-container text-on-surface text-sm font-body-md focus:border-primary focus:outline-none"
+                />
+              </div>
+
+              {/* Notes */}
+              <div className="flex flex-col gap-1.5">
+                <label className="font-label-md text-on-surface" htmlFor="field-notes">
+                  집중 진단 희망 과목 및 요청 사항
+                </label>
+                <textarea
+                  id="field-notes"
+                  rows={3}
+                  placeholder="예: 킬러 22번 문항 시간 관리 문제, 미적분 정밀 오답 점검 등"
+                  value={formData.notes}
+                  onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                  className="p-3 rounded-xl bg-surface-container-low border border-surface-container text-on-surface text-sm font-body-md focus:border-primary focus:outline-none resize-none"
+                />
+              </div>
+
+              <div className="pt-2">
+                <p className="text-[11px] text-outline text-center mb-2">
+                  샘플 사이트입니다 — 입력하신 내용은 어디에도 전송되지 않습니다
+                </p>
+                <button
+                  type="submit"
+                  className="w-full py-4 rounded-xl bg-inverse-surface text-surface font-title-md hover:bg-on-surface transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer min-h-[48px]"
+                >
+                  <span>1:1 레벨테스트 및 심층진단 신청하기</span>
+                  <span className="material-symbols-outlined text-[20px] text-primary-fixed-dim">
+                    arrow_forward
+                  </span>
+                </button>
+              </div>
+            </form>
           </div>
+
+          {isNoticeOpen && (
+            <SampleNotice
+              open
+              onClose={() => setIsNoticeOpen(false)}
+              slug="daechi-prestige"
+              industry="corporate"
+              featureName="1:1 정밀진단 레벨테스트 신청"
+            />
+          )}
         </div>
       </div>
     </section>

@@ -18,7 +18,7 @@ export function Footer() {
               </span>
             </div>
             <p className="text-xs leading-relaxed text-[#64748B] max-w-md mb-6">
-              아틀리에 보자르 미대입시 연구소는 서울대 디자인, 국민대 조형대, 홍익대 등 최상위 명문 미대 실기 시험에 최적화된 3D 시각 발상과 황금분할 조형 교육을 선도합니다.
+              아틀리에 보자르 미대입시 연구소는 S대(예시) 디자인, K대(예시) 조형대, H대(예시) 등 최상위 명문 미대 실기 시험에 최적화된 3D 시각 발상과 황금분할 조형 교육을 선도합니다.
             </p>
             <div className="p-3 bg-[#16191F] border border-[#2A303C] rounded-xl inline-block">
               <span className="text-[11px] text-[#38BDF8] block">

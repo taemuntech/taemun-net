@@ -132,6 +132,9 @@ export function ReservationModal({ isOpen, onClose, defaultProgram }: Reservatio
             </div>
 
             <div className="pt-2">
+              <p className="text-[11px] text-[#a89f95] text-center mb-2">
+                샘플 사이트입니다 — 입력하신 내용은 어디에도 전송되지 않습니다
+              </p>
               <button
                 type="submit"
                 className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#d4af37] to-[#b89528] text-[#121110] font-semibold text-sm hover:brightness-110 active:scale-95 transition-all min-h-[44px] flex items-center justify-center shadow-lg"

@@ -1670,7 +1670,29 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       '1:1 합격 가능성 정밀 진단 및 서면 정성평가 입학 상담 신청 위저드',
     ],
   },
+  {
+    id: 'athletic-prep',
+    title: '아펙스 체대입시 & 엘리트 스포츠',
+    client: '가상 브랜드 샘플 — 실제 업체가 아닙니다 (체대입시 학원 설정)',
+    category: 'education',
+    categoryName: '학원 · 체대입시/스포츠',
+    summary: '배근력·제멀·왕복달리기·좌전굴 4대 기초실기 센서 HUD & 수능+실기 합격 계산기',
+    description: '최상위 체육교육과 및 명문 체대 입시 전문 아카데미 공식 웹사이트입니다. 배근력, 제자리멀리뛰기, 10m 왕복달리기, 좌전굴 4대 기초실기 전자 센서 계측 및 만점 환산 텔레메트리 HUD, 수능 백분위와 실기 감점을 결합한 대학별 합격선 계산기, 주요 명문 체대 합격생 아카이브, 1:1 무료 전자기측기 측정 위저드를 제공합니다.',
+    thumbnailUrl: '/portfolio/athletic-prep/desktop.png',
+    liveDemoUrl: '/demo/athletic-prep',
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Digital Sensor Biometrics HUD', 'Admission Viability Matrix'],
+    period: '2주',
+    year: '2026',
+    badge: '실물 라이브 데모',
+    highlights: [
+      '배근력·제멀·왕복달리기·좌전굴 4대 기초실기 전자 센서 계측 텔레메트리 HUD',
+      '수능 백분위 및 실기 감점 연동 목표 대학별 합격 가능성 진단 매트릭스',
+      'S대(예시)·Y대(예시)·K대(예시) 체육교육과 최초합격생 실기 지표 아카이브(예시)',
+      '1:1 무료 전자기측기 실기 측정 및 목표 대학 합격선 정밀 진단 위저드',
+    ],
+  },
 ];
+
 
 
 

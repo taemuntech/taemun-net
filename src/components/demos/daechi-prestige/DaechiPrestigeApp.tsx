@@ -33,7 +33,7 @@ export const DaechiPrestigeApp: React.FC<DaechiPrestigeAppProps> = ({ isEmbed = 
   };
 
   const handleReservationSuccess = (data: ReservationFormData) => {
-    setToastMessage(`[${data.studentName}] 학생의 1:1 심층진단 예약이 정상 접수되었습니다(가상 시연).`);
+    setToastMessage(`[${data.studentName}] 학생의 1:1 심층진단 신청 예시가 확인되었습니다(가상 시연).`);
     setTimeout(() => {
       setToastMessage(null);
     }, 4000);

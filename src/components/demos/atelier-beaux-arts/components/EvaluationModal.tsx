@@ -11,7 +11,7 @@ interface EvaluationModalProps {
 export function EvaluationModal({ isOpen, onClose }: EvaluationModalProps) {
   const [studentName, setStudentName] = useState('');
   const [phone, setPhone] = useState('');
-  const [targetUniv, setTargetUniv] = useState('서울대 디자인학부 (예시)');
+  const [targetUniv, setTargetUniv] = useState('S대(예시) 디자인학부');
   const [grade, setGrade] = useState('고3 / N수');
   const [experience, setExperience] = useState('');
   const [isNoticeOpen, setIsNoticeOpen] = useState(false);
@@ -28,7 +28,7 @@ export function EvaluationModal({ isOpen, onClose }: EvaluationModalProps) {
         }}
         slug="atelier-beaux-arts"
         industry="corporate"
-        featureName="1:1 모의 실기 평가 & 포트폴리오 진단"
+        featureName="1:1 실기 심층 평가 예약"
       />
     );
   }
@@ -39,12 +39,12 @@ export function EvaluationModal({ isOpen, onClose }: EvaluationModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full max-w-lg bg-[#1A1D24] border border-[#2A303C] rounded-3xl p-6 lg:p-8 text-white shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
+      <div className="relative w-full max-w-lg bg-[#181B22] border border-[#2A303C] rounded-2xl p-6 lg:p-8 text-white shadow-2xl">
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-5 right-5 w-10 h-10 rounded-full bg-[#12141A] border border-[#2A303C] text-[#94A3B8] hover:text-white flex items-center justify-center min-h-[44px] min-w-[44px]"
+          className="absolute top-5 right-5 w-10 h-10 rounded-full bg-[#202530] border border-[#2A303C] text-zinc-400 hover:text-white flex items-center justify-center min-h-[44px] min-w-[44px]"
           aria-label="닫기"
         >
           ✕
@@ -53,13 +53,13 @@ export function EvaluationModal({ isOpen, onClose }: EvaluationModalProps) {
         <div>
           <div className="mb-6">
             <span className="text-[11px] font-bold text-[#38BDF8] uppercase tracking-wider block mb-1">
-              Diagnostic Portfolio Evaluation
+              Admission Portfolio Review
             </span>
-            <h3 className="text-xl lg:text-2xl font-serif font-bold text-white">
+            <h3 className="text-xl lg:text-2xl font-bold font-sans">
               1:1 모의 실기 평가 & 포트폴리오 진단
             </h3>
             <p className="text-xs text-[#94A3B8] mt-1">
-              현재 실기 수준과 목표 대학별 합격선 간의 차이를 정밀 데이터로 진단해 드립니다.
+              실기 원장단의 핀셋 피드백과 지망 대학별 실전 합격선 정밀 분석을 제공합니다.
             </p>
           </div>
 
@@ -71,16 +71,16 @@ export function EvaluationModal({ isOpen, onClose }: EvaluationModalProps) {
               <input
                 type="text"
                 required
-                placeholder="예: 이서준 학생"
+                placeholder="예: 김민준"
                 value={studentName}
                 onChange={(e) => setStudentName(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-[#12141A] border border-[#2A303C] text-sm text-white placeholder-[#64748B] focus:outline-none focus:border-[#38BDF8]"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#12141A] border border-[#2A303C] text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#38BDF8]"
               />
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-[#CBD5E1] mb-1">
-                연락처 <span className="text-[#38BDF8]">*</span>
+                학부모 연락처 <span className="text-[#38BDF8]">*</span>
               </label>
               <input
                 type="tel"
@@ -88,7 +88,7 @@ export function EvaluationModal({ isOpen, onClose }: EvaluationModalProps) {
                 placeholder="010-0000-0000"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl bg-[#12141A] border border-[#2A303C] text-sm text-white placeholder-[#64748B] focus:outline-none focus:border-[#38BDF8]"
+                className="w-full px-4 py-2.5 rounded-xl bg-[#12141A] border border-[#2A303C] text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#38BDF8]"
               />
             </div>
 
@@ -102,10 +102,10 @@ export function EvaluationModal({ isOpen, onClose }: EvaluationModalProps) {
                   onChange={(e) => setTargetUniv(e.target.value)}
                   className="w-full px-4 py-2.5 rounded-xl bg-[#12141A] border border-[#2A303C] text-sm text-white focus:outline-none focus:border-[#38BDF8]"
                 >
-                  <option value="서울대 디자인학부 (예시)">서울대 디자인학부 (예시)</option>
-                  <option value="국민대 조형대학 (예시)">국민대 조형대학 (예시)</option>
-                  <option value="홍익대 미술우수자 (예시)">홍익대 미술우수자 (예시)</option>
-                  <option value="한예종 조형예술과 (예시)">한예종 조형예술과 (예시)</option>
+                  <option value="S대(예시) 디자인학부">S대(예시) 디자인학부</option>
+                  <option value="K대(예시) 조형대학">K대(예시) 조형대학</option>
+                  <option value="H대(예시) 미술우수자">H대(예시) 미술우수자</option>
+                  <option value="K-ARTS(예시) 조형예술과">K-ARTS(예시) 조형예술과</option>
                   <option value="기타 주요 미대">기타 주요 미대</option>
                 </select>
               </div>
@@ -139,6 +139,9 @@ export function EvaluationModal({ isOpen, onClose }: EvaluationModalProps) {
             </div>
 
             <div className="pt-2">
+              <p className="text-[11px] text-[#94A3B8] text-center mb-2">
+                샘플 사이트입니다 — 입력하신 내용은 어디에도 전송되지 않습니다
+              </p>
               <button
                 type="submit"
                 className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#0284C7] to-[#38BDF8] text-white font-semibold text-sm hover:brightness-110 active:scale-95 transition-all min-h-[44px] flex items-center justify-center shadow-lg"
