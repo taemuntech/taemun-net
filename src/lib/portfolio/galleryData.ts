@@ -1085,7 +1085,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     categoryName: '병의원 · 피부과/안티에이징',
     summary: '울쎄라·써마지 정품 인증 팁 조회 및 1인 단독 프라이빗 룸 중심 웰니스 스킨케어 웹',
     description: '피부과 전문의의 정밀 피부 정량 진단(마크뷰 영상분석)을 기반으로 한 1:1 맞춤형 리프팅·안티에이징 전문 피부과 공식 웹사이트입니다. 써마지 FLX·울쎄라 골드 스탠다드 정품 팁 인증 시리얼 넘버 실시간 확인 모듈, 비급여 수가표 투명 공개, 전 객실 1인 단독 VIP 케어룸 안내를 제공합니다.',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80',
+    thumbnailUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuACCpNzkGl2zGA1PXlUoeM9eUuqDeJ74sQSdDhYSeYL2k7sgUnli2bT5HUtjqJQiwaNCW6g5qOeiRWIQVLnK_5JVB8lZhlcmKqwmiWpzQprQIavPj0bTqEnh7xthcwO7oc7rQYXurQD-jAxR0qZMCtadcSE6nlmta4Ba9HZdp3KZ6ZQFLEV4frRoondEynpCfa7vmQnchA-zPDXg5IiAQyfdPL0TiboeUePE0QwG1_tdwIf_TS0D9R9Vg',
     liveDemoUrl: '/demo/the-noble-dermatology',
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Tip Serial Verification', 'Mark-Vu Diagnostic'],
     period: '3주',
