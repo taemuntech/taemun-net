@@ -294,6 +294,16 @@ export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
     iconKey: "activity",
   },
   {
+    slug: "artisan-gift",
+    label: "아티장 앤 기프트",
+    mobileLabel: "아티장 앤 기프트 (ARTISAN & GIFT)",
+    badge: "쇼핑몰 09",
+    description: "전통 수공예 & 비스포크 기프팅 셀렉트샵",
+    mobileDescription: "전통 수공예 & 비스포크 기프트 데모",
+    tone: "amber",
+    iconKey: "shoppingBag",
+  },
+  {
     slug: "maison",
     label: "메종 당티크 (Maison)",
     badge: "D2C 살롱",
