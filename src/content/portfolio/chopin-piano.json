@@ -1,0 +1,28 @@
+{
+  "slug": "chopin-piano",
+  "kind": "sample",
+  "industry": "corporate",
+  "title": "쇼팽하우스 피아노 아카데미",
+  "subtitle": "정통 유럽 비엔나 피아니즘 & 스타인웨이 살롱 웹사이트 샘플",
+  "summary": "가상 브랜드 「쇼팽하우스 피아노 아카데미(CHOPIN HAUS)」로 제작한 클래식 피아노 전문 마스터클래스 웹사이트 샘플입니다. Web Audio API 기반 88건반 실시간 배음 합성 인터랙티브 Lab, 스타인웨이 D-274 풀 콘서트 그랜드 홀 어쿠스틱 잔향 및 고조파 스펙트럼 HUD, 예중·예고 및 해외 음대 유학 1:1 도제식 커리큘럼, 실기 오디션 및 살롱 대관 신청 위저드를 탑재했습니다. 화면의 모든 인물·수치·경력은 가상 예시입니다.",
+  "features": [
+    "Web Audio API 기반 88건반 실시간 하모닉스 배음 사운드 합성 인터랙티브 Lab",
+    "스타인웨이 D-274 풀 콘서트 그랜드 룸 잔향(RT60) 및 1~8차 고조파 배음 분포도 텔레메트리 HUD",
+    "예원·선화 예중·예고 및 독일·오스트리아 국립음대 유학 1:1 도제식 마스터클래스 로드맵",
+    "오스트리아 빈 국립음대·미국 줄리어드 출신 명문 교수진 프로필 아카이브(예시)",
+    "지망 목표별 1:1 실기 심사 및 스타인웨이 콘서트 살롱 청강 신청 위저드",
+    "스타인웨이 B-211 및 베히슈타인 연습실 대관 안내 및 시간제 예약 시스템"
+  ],
+  "techStack": [
+    "Next.js 16",
+    "React 19",
+    "TypeScript",
+    "Tailwind CSS v4",
+    "Web Audio API",
+    "Harmonics Synthesizer",
+    "Acoustic Reverb HUD"
+  ],
+  "liveUrl": "/demo/chopin-piano",
+  "icon": "sparkles",
+  "createdAt": "2026-09-18"
+}

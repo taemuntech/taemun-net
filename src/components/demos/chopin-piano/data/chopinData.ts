@@ -1,0 +1,130 @@
+import { FacultyMember, MasterclassCourse, PianoKey, PracticeRoom } from '../types';
+
+export const PIANO_KEYS: PianoKey[] = [
+  { note: 'C4', name: '도 (C4)', isBlack: false, freq: 261.63 },
+  { note: 'C#4', name: '도# (C#4)', isBlack: true, freq: 277.18 },
+  { note: 'D4', name: '레 (D4)', isBlack: false, freq: 293.66 },
+  { note: 'D#4', name: '레# (D#4)', isBlack: true, freq: 311.13 },
+  { note: 'E4', name: '미 (E4)', isBlack: false, freq: 329.63 },
+  { note: 'F4', name: '파 (F4)', isBlack: false, freq: 349.23 },
+  { note: 'F#4', name: '파# (F#4)', isBlack: true, freq: 369.99 },
+  { note: 'G4', name: '솔 (G4)', isBlack: false, freq: 392.00 },
+  { note: 'G#4', name: '솔# (G#4)', isBlack: true, freq: 415.30 },
+  { note: 'A4', name: '라 (A4)', isBlack: false, freq: 440.00 },
+  { note: 'A#4', name: '라# (A#4)', isBlack: true, freq: 466.16 },
+  { note: 'B4', name: '시 (B4)', isBlack: false, freq: 493.88 },
+  { note: 'C5', name: '도 (C5)', isBlack: false, freq: 523.25 },
+  { note: 'C#5', name: '도# (C#5)', isBlack: true, freq: 554.37 },
+  { note: 'D5', name: '레 (D5)', isBlack: false, freq: 587.33 },
+  { note: 'D#5', name: '레# (D#5)', isBlack: true, freq: 622.25 },
+  { note: 'E5', name: '미 (E5)', isBlack: false, freq: 659.25 },
+  { note: 'F5', name: '파 (F5)', isBlack: false, freq: 698.46 },
+  { note: 'F#5', name: '파# (F#5)', isBlack: true, freq: 739.99 },
+  { note: 'G5', name: '솔 (G5)', isBlack: false, freq: 783.99 },
+  { note: 'G#5', name: '솔# (G#5)', isBlack: true, freq: 830.61 },
+  { note: 'A5', name: '라 (A5)', isBlack: false, freq: 880.00 },
+  { note: 'A#5', name: '라# (A#5)', isBlack: true, freq: 932.33 },
+  { note: 'B5', name: '시 (B5)', isBlack: false, freq: 987.77 },
+  { note: 'C6', name: '도 (C6)', isBlack: false, freq: 1046.50 },
+];
+
+export const FACULTY_MEMBERS: FacultyMember[] = [
+  {
+    id: 'faculty-1',
+    name: '김서율 교수 (예시)',
+    role: '피아노 학과장 / 아티스트 디렉터',
+    almaMater: '오스트리아 빈 국립음대 피아노 최고연주자과정(Postgraduate) 수석 졸업 (예시)',
+    bio: '국제 쇼팽 콩쿠르 디플로마 수상(예시) 및 유럽 유수 오케스트라 협연 경력의 정통 비엔나 피아니즘 전수자입니다.',
+    badge: '정통 유럽 비엔나 스쿨',
+    specialty: '쇼팽·베토벤 소나타 & 후기 낭만 해석',
+  },
+  {
+    id: 'faculty-2',
+    name: '에드워드 리 교수 (예시)',
+    role: '국제 콩쿠르 & 영아티스트 마스터',
+    almaMater: '미국 줄리어드 음악원 피아노과 학·석사 전액 장학생 (예시)',
+    bio: '카네기홀 와일 리사이틀홀 데뷔(예시) 및 주요 국제 콩쿠르 심사위원으로 활동 중인 무대 멘토입니다.',
+    badge: '미국 명문 음대 실기 수석',
+    specialty: '라흐마니노프·프로코피예프 협주곡 테크닉',
+  },
+  {
+    id: 'faculty-3',
+    name: '최하은 전임 (예시)',
+    role: '예원·선화 예중·예고 입시 총괄 디렉터',
+    almaMater: '독일 하노버 국립음대 전문연주자과정 졸업 (예시)',
+    bio: '최근 5년간 예원학교·선화예고 피아노과 합격생 다수 배출(예시) 노하우를 바탕으로 기초 릴랙스 타건을 지도합니다.',
+    badge: '예중·예고 입시 전문',
+    specialty: '모차르트·바흐 인벤션 기초 타건 & 암보 클리닉',
+  },
+];
+
+export const MASTERCLASS_COURSES: MasterclassCourse[] = [
+  {
+    id: 'course-1',
+    title: '예중·예고 & 국내 명문 음대 입시 집중 클래스',
+    target: '예원학교·서울예고·선화예고 및 국내 주요 음대 지망생',
+    duration: '12주 과정 (주 2회 1:1 레슨 + 주 1회 홀 리허설)',
+    capacity: '정원 8명 (심사 선발)',
+    curriculum: [
+      '손가락 독립 테크닉 및 중력 타건 릴랙스 훈련',
+      '지정곡 악보 원전판(Urtext) 판본 비교 및 다이내믹 분석',
+      '스타인웨이 콘서트홀 실전 무대 시뮬레이션 및 영상 피드백',
+      '1:1 콩쿠르·입시 실기 면접 멘탈 트레이닝',
+    ],
+    price: '상담 후 수준별 맞춤 편성 (예시)',
+  },
+  {
+    id: 'course-2',
+    title: '독일·오스트리아·미국 국립음대 해외 유학 프렙',
+    target: '독일 하노버·베를린, 오스트리아 빈 국립음대, 미국 줄리어드 지망생',
+    duration: '16주 과정 (독일어/영어 마스터클래스 실습 포함)',
+    capacity: '정원 5명 (오디션 선발)',
+    curriculum: [
+      '해외 음대 교수진 초빙 공개 마스터클래스 라이브',
+      'Aufnahmeprüfung (독일 음대 실기시험) 3단계 곡목 포트폴리오',
+      '독일어·영어 음악용어 코칭 및 프레젠테이션 스피치',
+      '고음질 오디션 영상 레코딩 및 음원 마스터링 지원',
+    ],
+    price: '상담 후 수준별 맞춤 편성 (예시)',
+  },
+  {
+    id: 'course-3',
+    title: '성인 아마추어 & 영아티스트 디플로마 살롱',
+    target: '클래식 피아노 심화 레퍼토리를 마스터하고자 하는 전공자 및 애호가',
+    duration: '8주 단기 집중 코스',
+    capacity: '정원 10명 (상시 접수)',
+    curriculum: [
+      '낭만파 야상곡·발라드 음악적 프레이징과 페달링 연구',
+      '무대 공포증 극복을 위한 살롱 프라이빗 연주회',
+      '스타인웨이 그랜드 피아노 연습실 자유 이용권',
+    ],
+    price: '상담 후 수준별 맞춤 편성 (예시)',
+  },
+];
+
+export const PRACTICE_ROOMS: PracticeRoom[] = [
+  {
+    id: 'room-1',
+    name: '콘서트 살롱 (Steinway D-274)',
+    pianoModel: 'Steinway & Sons D-274 Full Concert Grand',
+    reverbTime: '1.85초 (클래식 콘서트홀 최적 잔향)',
+    hourlyRate: '시간당 80,000원 (예시)',
+    features: ['50석 소규모 살롱 무대', '4K 멀티캠 레코딩 장비', '독일 마이크로폰 음향 설계'],
+  },
+  {
+    id: 'room-2',
+    name: '마스터 스튜디오 A (Steinway B-211)',
+    pianoModel: 'Steinway & Sons B-211 Classic Grand',
+    reverbTime: '1.45초 (집중 모니터링 룸)',
+    hourlyRate: '시간당 50,000원 (예시)',
+    features: ['1:1 교수 레슨 전용', '방음 더블 부스', '실시간 터치 분석 태블릿 연동'],
+  },
+  {
+    id: 'room-3',
+    name: '아티스트 스튜디오 B (C. Bechstein MP-192)',
+    pianoModel: 'C. Bechstein Concert MP-192',
+    reverbTime: '1.30초 (선명한 명료도)',
+    hourlyRate: '시간당 35,000원 (예시)',
+    features: ['정통 독일 베히슈타인 음색', '개인 전용 냉난방', '항온항습 50% 유지 시스템'],
+  },
+];
