@@ -75,13 +75,42 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToHUD, onScrollToReservation
           </div>
 
           {/* Right Column: Clean Visual Editorial Portrait */}
-          <div className="lg:col-span-5 relative mt-4 lg:mt-0">
-            <div className="relative rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(114,91,56,0.12)] bg-[#ebe7e4] aspect-[3/4] w-full max-w-[480px] mx-auto border border-[#d1c5b8]/50">
+          <div className="lg:col-span-5 relative mt-4 lg:mt-0 flex justify-center">
+            {/* Ambient Warm Golden Glow Backdrop */}
+            <div className="absolute -inset-3 bg-gradient-to-tr from-[#c5a880]/20 via-[#c5a880]/10 to-transparent rounded-[36px] blur-2xl -z-10 pointer-events-none" />
+
+            <div className="group relative rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(114,91,56,0.14)] bg-[#ebe7e4] aspect-[3/4] w-full max-w-[460px] border border-[#d1c5b8]/50">
               <img
                 src={CLINIC_IMAGES.heroModel}
                 alt="온새미로 에스테틱 클리닉 앰버서더"
-                className="w-full h-full object-cover object-center"
+                className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.02]"
               />
+              {/* Soft Photographic Gradient Vignette (너무 쨍한 느낌을 부드럽게 감싸는 소프트 필름톤) */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/5 to-black/15 pointer-events-none" />
+
+              {/* Inset Top-Right Micro Tag */}
+              <div className="absolute top-4 right-4 backdrop-blur-md bg-white/75 px-3 py-1.5 rounded-full shadow-sm flex items-center gap-2 border border-white/80">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#725b38] animate-pulse shrink-0" />
+                <span className="text-[11px] text-[#1c1c19] font-medium tracking-wider whitespace-nowrap">
+                  AESTHETIC CLINIC · 압구정 본원
+                </span>
+              </div>
+
+              {/* Inset Bottom Signature Glass Card */}
+              <div className="absolute bottom-5 left-5 right-5 p-4 rounded-2xl backdrop-blur-md bg-white/85 shadow-lg border border-white/90 flex items-center justify-between">
+                <div className="flex flex-col">
+                  <span className="text-[10px] uppercase tracking-[0.16em] text-[#725b38] font-bold">
+                    Natural Golden Ratio
+                  </span>
+                  <span className="font-serif text-[16px] lg:text-[17px] text-[#1c1c19] font-semibold break-keep">
+                    본연의 선을 살리는 1mm 미학
+                  </span>
+                </div>
+                <div className="text-right shrink-0">
+                  <span className="text-[11px] text-[#4d463c] block">한국형 동안비율</span>
+                  <span className="text-[13px] font-bold text-[#725b38] tracking-wider">1:1:0.8</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
