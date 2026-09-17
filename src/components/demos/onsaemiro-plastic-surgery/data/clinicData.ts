@@ -2,7 +2,7 @@ import { BeforeAfterCase, RoadmapStage, DoctorProfile } from '../types';
 
 export const CLINIC_IMAGES = {
   logoProfile: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-11.png',
-  heroModel: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-07.jpg',
+  heroModel: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-hero.png',
   philosophyNatural: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-05.jpg',
   philosophySuture: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-08.jpg',
   eyeAfter: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-eye-after.png',

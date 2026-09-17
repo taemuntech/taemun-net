@@ -74,50 +74,14 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToHUD, onScrollToReservation
             </div>
           </div>
 
-          {/* Right Column: Visual Editorial Collage */}
-          <div className="lg:col-span-5 relative">
-            <div className="relative rounded-2xl overflow-hidden shadow-[0_16px_40px_rgba(114,91,56,0.14)] bg-[#ebe7e4] aspect-[4/5] w-full border border-[#d1c5b8]/40">
+          {/* Right Column: Clean Visual Editorial Portrait */}
+          <div className="lg:col-span-5 relative mt-4 lg:mt-0">
+            <div className="relative rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(114,91,56,0.12)] bg-[#ebe7e4] aspect-[3/4] w-full max-w-[480px] mx-auto border border-[#d1c5b8]/50">
               <img
                 src={CLINIC_IMAGES.heroModel}
-                alt="온새미로 에스테틱 포트레이트"
-                className="w-full h-full object-cover"
+                alt="온새미로 에스테틱 클리닉 앰버서더"
+                className="w-full h-full object-cover object-center"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent pointer-events-none"></div>
-
-              {/* Overlay Suite badge */}
-              <div className="absolute top-4 right-4 backdrop-blur-md bg-[#fdf9f5]/85 px-3.5 py-2 rounded-xl shadow-md flex items-center gap-2 border border-white/50">
-                <span className="w-2 h-2 rounded-full bg-emerald-600 animate-ping"></span>
-                <span className="text-[11px] text-[#1c1c19] font-bold tracking-wider">APGUJEONG SUITE</span>
-              </div>
-
-              {/* Spec HUD card at bottom */}
-              <div className="absolute bottom-5 left-5 right-5 p-4 rounded-xl backdrop-blur-md bg-[#fdf9f5]/90 shadow-lg border border-[#c5a880]/30">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className="text-[11px] uppercase tracking-wider text-[#725b38] font-bold">
-                      Natural Golden Ratio
-                    </span>
-                    <div className="text-[20px] font-serif text-[#1c1c19] font-semibold">
-                      자연스러움의 정점
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-[12px] text-[#4d463c]">1:1:0.8 한국형 동안비율</span>
-                    <div className="text-[#725b38] font-bold text-[16px]">ONSAEMIRO</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Floating Decorative Badge */}
-            <div className="absolute -bottom-6 -left-6 bg-[#ffffff] p-4 rounded-2xl shadow-[0_12px_30px_rgba(0,0,0,0.08)] hidden lg:flex items-center gap-3.5 max-w-[280px] border border-[#d1c5b8]/30">
-              <div className="w-10 h-10 rounded-full bg-[#725b38]/10 flex items-center justify-center shrink-0">
-                <span className="material-symbols-outlined text-[#725b38] text-[22px]">verified</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[14px] font-semibold text-[#1c1c19]">대리수술 원천차단</span>
-                <span className="text-[11px] text-[#4d463c]">상담부터 수술, 치료까지 원장 1인 책임</span>
-              </div>
             </div>
           </div>
         </div>
