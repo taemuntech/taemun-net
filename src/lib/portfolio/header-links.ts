@@ -254,6 +254,16 @@ export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
     iconKey: "cpu",
   },
   {
+    slug: "maison-architect",
+    label: "메종 아키텍트",
+    mobileLabel: "메종 아키텍트 (MAISON ARCHITECT)",
+    badge: "쇼핑몰 05",
+    description: "홈퍼니싱 & 감성 인테리어 스튜디오 커머스",
+    mobileDescription: "홈퍼니싱 & 감성 인테리어 데모",
+    tone: "amber",
+    iconKey: "boxes",
+  },
+  {
     slug: "maison",
     label: "메종 당티크 (Maison)",
     badge: "D2C 살롱",
