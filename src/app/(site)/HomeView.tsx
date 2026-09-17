@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type SyntheticEvent } from "react";
+import { useState, useEffect, type SyntheticEvent } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import FloatingChatWidget from "@/components/FloatingChatWidget";
@@ -130,6 +130,42 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
       [categoryId]: !prev[categoryId],
     }));
   };
+
+  // 데모 뷰어에서 메인 갤러리로 복귀 시 원래 보던 카테고리/프로젝트 위치로 자동 스크롤
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleHashScroll = () => {
+      const hash = window.location.hash;
+      if (!hash) return;
+
+      const targetId = hash.replace("#", "");
+
+      // 만약 #project-{id} 형태라면, 해당 프로젝트가 속한 카테고리를 자동으로 펼쳐줌
+      if (targetId.startsWith("project-")) {
+        const projectId = targetId.replace("project-", "");
+        const project = galleryProjects.find((p) => p.id === projectId);
+        if (project) {
+          setExpandedCategories((prev) => ({
+            ...prev,
+            [project.category]: true,
+          }));
+        }
+      }
+
+      // 렌더링 및 아코디언 상태 반영 후 부드럽게 스크롤
+      setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }, 100);
+    };
+
+    handleHashScroll();
+    window.addEventListener("hashchange", handleHashScroll);
+    return () => window.removeEventListener("hashchange", handleHashScroll);
+  }, [galleryProjects]);
 
   // Helper icons for category headers
   const getCategoryIcon = (id: GalleryCategoryId) => {
@@ -376,8 +412,9 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                 {visibleProjects.map((project, index) => (
                   <div
                     key={project.id}
+                    id={`project-${project.id}`}
                     onClick={() => setSelectedProject(project)}
-                    className="group relative rounded-2xl bg-zinc-50 border border-zinc-200/90 hover:border-zinc-400 p-2.5 lg:p-3 flex flex-col justify-between transition-all duration-300 hover:shadow-lg cursor-pointer overflow-hidden"
+                    className="group relative rounded-2xl bg-zinc-50 border border-zinc-200/90 hover:border-zinc-400 p-2.5 lg:p-3 flex flex-col justify-between transition-all duration-300 hover:shadow-lg cursor-pointer overflow-hidden scroll-mt-32"
                   >
                     {/* Thumbnail Image Container */}
                     <div className="aspect-[4/3] rounded-xl overflow-hidden bg-zinc-200 relative mb-3">
@@ -757,7 +794,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
             <div className="p-5 lg:p-6 border-t border-zinc-200 bg-zinc-50/70 rounded-b-3xl flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
               {selectedProject.liveDemoUrl ? (
                 <Link
-                  href={selectedProject.liveDemoUrl}
+                  href={`${selectedProject.liveDemoUrl}${selectedProject.liveDemoUrl.includes('?') ? '&' : '?'}fromCategory=${selectedProject.category}&fromProject=${selectedProject.id}`}
                   className="flex-1 py-3 px-4 rounded-xl bg-zinc-950 hover:bg-black text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all group"
                 >
                   <Monitor className="w-3.5 h-3.5 text-emerald-400" />

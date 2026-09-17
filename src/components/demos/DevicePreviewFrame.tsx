@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Monitor,
   Tablet,
@@ -42,6 +43,26 @@ interface DevicePreviewFrameProps {
   };
 }
 
+/**
+ * 카테고리 텍스트와 데모 URL로부터 메인 갤러리의 정확한 복귀 앵커를 산출합니다.
+ */
+function resolveCategoryAnchor(categoryText: string, srcUrl: string): { categoryId: string; projectId: string } {
+  const cleanSrc = srcUrl.split("?")[0] || "";
+  const projectId = cleanSrc.replace("/demo/", "").trim();
+
+  let categoryId = "gallery";
+  if (categoryText.includes("인테리어")) categoryId = "interior";
+  else if (categoryText.includes("건축") || categoryText.includes("토목") || categoryText.includes("한옥")) categoryId = "architecture";
+  else if (categoryText.includes("제조") || categoryText.includes("소재") || categoryText.includes("공정") || categoryText.includes("스마트팩토리") || categoryText.includes("반도체")) categoryId = "manufacturing";
+  else if (categoryText.includes("커머스") || categoryText.includes("쇼핑몰") || categoryText.includes("패션") || categoryText.includes("식품") || categoryText.includes("뷰티") || categoryText.includes("명품")) categoryId = "commerce";
+  else if (categoryText.includes("SaaS") || categoryText.includes("플랫폼") || categoryText.includes("서약") || categoryText.includes("전자서명")) categoryId = "saas";
+  else if (categoryText.includes("메디컬") || categoryText.includes("병원") || categoryText.includes("의료") || categoryText.includes("클리닉")) categoryId = "medical";
+  else if (categoryText.includes("기업") || categoryText.includes("스타트업") || categoryText.includes("플래그십")) categoryId = "corporate";
+  else if (categoryText.includes("교육") || categoryText.includes("학원") || categoryText.includes("아카데미")) categoryId = "education";
+
+  return { categoryId, projectId };
+}
+
 export default function DevicePreviewFrame({
   src,
   title,
@@ -53,13 +74,41 @@ export default function DevicePreviewFrame({
   specs = [],
   codeArchitecture,
 }: DevicePreviewFrameProps) {
+  const router = useRouter();
   const [device, setDevice] = useState<DeviceMode>("desktop");
   const [orientation, setOrientation] = useState<Orientation>("portrait");
   const [activeTab, setActiveTab] = useState<ActiveTab>("preview");
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [backHref, setBackHref] = useState<string>("/#gallery");
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // 메인 갤러리 복귀 앵커 설정 (URL searchParams 우선, 없으면 category 및 slug 매핑)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const params = new URLSearchParams(window.location.search);
+    const queryCat = params.get("fromCategory");
+    const queryProj = params.get("fromProject");
+
+    const resolved = resolveCategoryAnchor(category, src);
+    const targetProject = queryProj || resolved.projectId;
+    const targetCategory = queryCat || resolved.categoryId;
+
+    if (targetProject) {
+      setBackHref(`/#project-${targetProject}`);
+    } else if (targetCategory && targetCategory !== "gallery") {
+      setBackHref(`/#category-${targetCategory}`);
+    } else {
+      setBackHref("/#gallery");
+    }
+  }, [category, src]);
+
+  const handleBackToGallery = (e: React.MouseEvent) => {
+    e.preventDefault();
+    router.push(backHref);
+  };
 
   // Toggle fullscreen mode
   const toggleFullscreen = () => {
@@ -134,11 +183,12 @@ export default function DevicePreviewFrame({
         {/* Left: Back Link & Tab Pills (Preview / Code) */}
         <div className="flex items-center gap-2 lg:gap-3 shrink-0">
           <Link
-            href="/"
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 transition-colors text-xs font-semibold"
-            title="메인 갤러리로 돌아가기"
+            href={backHref}
+            onClick={handleBackToGallery}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 transition-colors text-xs font-semibold group"
+            title="메인 갤러리로 돌아가기 (진입했던 카테고리로 복귀)"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
+            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
             <span className="hidden lg:inline">메인 갤러리</span>
           </Link>
 
