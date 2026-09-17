@@ -1083,6 +1083,98 @@ for (const s of sampleSources) {
     );
   }
 
+  // ── 저장한 이미지가 실제로 쓸 만한 크기인가 ──
+  // 왜 보는가: 2026-09-17 에 데모 이미지 227장을 저장소로 가져오면서 lh3 CDN 의 **기본 주소**를 썼는데
+  // 그건 미리보기용 512px 판이었다(원본은 =s0 을 붙이면 1376px). 히어로가 1400px 자리에 늘어나 뿌옇게
+  // 보였고, 「외부 참조 0건」 검사는 초록불을 줬다 — 파일이 있는지만 보고 **쓸 만한 물건인지는 안 봤다**.
+  // 그래서 크기를 잰다. 로고·아이콘처럼 원래 작은 것은 뺀다.
+  {
+    const LONG_SIDE_MIN = 1024;
+    const SMALL_BY_DESIGN = /(logo|icon|emblem|mark|favicon|badge|avatar|seal|crest)/i;
+    const localImgRe = new RegExp(
+      "[/](?:demo-media|portfolio)[/][A-Za-z0-9._-]+[/][A-Za-z0-9._-]+[.](?:jpg|jpeg|png|webp)",
+      "g",
+    );
+
+    /** 헤더만 읽어 가로·세로를 잰다(새 의존성 없이). 못 읽으면 null — avif 등은 건너뛴다. */
+    const imageSize = (file) => {
+      let fd;
+      try {
+        fd = fs.openSync(file, "r");
+        const buf = Buffer.alloc(65536);
+        const read = fs.readSync(fd, buf, 0, 65536, 0);
+        if (read > 24 && buf[0] === 0x89 && buf[1] === 0x50) {
+          return { w: buf.readUInt32BE(16), h: buf.readUInt32BE(20) };
+        }
+        if (read > 4 && buf.toString("ascii", 0, 4) === "RIFF" && buf.toString("ascii", 8, 12) === "WEBP") {
+          const chunk = buf.toString("ascii", 12, 16);
+          if (chunk === "VP8X") return { w: 1 + buf.readUIntLE(24, 3), h: 1 + buf.readUIntLE(27, 3) };
+          if (chunk === "VP8 ") {
+            const i = buf.indexOf(Buffer.from([0x9d, 0x01, 0x2a]));
+            if (i > 0) return { w: buf.readUInt16LE(i + 3) & 0x3fff, h: buf.readUInt16LE(i + 5) & 0x3fff };
+          }
+          if (chunk === "VP8L") {
+            const n = buf.readUInt32LE(21);
+            return { w: (n & 0x3fff) + 1, h: ((n >> 14) & 0x3fff) + 1 };
+          }
+          return null;
+        }
+        if (read > 4 && buf[0] === 0xff && buf[1] === 0xd8) {
+          let i = 2;
+          while (i < read - 9) {
+            if (buf[i] !== 0xff) { i += 1; continue; }
+            const m = buf[i + 1];
+            const isSof = (m >= 0xc0 && m <= 0xc3) || (m >= 0xc5 && m <= 0xc7) || (m >= 0xc9 && m <= 0xcb) || (m >= 0xcd && m <= 0xcf);
+            if (isSof) return { h: buf.readUInt16BE(i + 5), w: buf.readUInt16BE(i + 7) };
+            if (m === 0xd8 || m === 0xd9 || (m >= 0xd0 && m <= 0xd7)) { i += 2; continue; }
+            i += 2 + buf.readUInt16BE(i + 2);
+          }
+        }
+        return null;
+      } catch {
+        return null;
+      } finally {
+        if (fd !== undefined) try { fs.closeSync(fd); } catch {}
+      }
+    };
+
+    const seen = new Set();
+    const tooSmall = [];
+    for (const f of files) {
+      const text = fs.readFileSync(f, "utf8");
+      for (const m of text.matchAll(localImgRe)) {
+        const web = m[0];
+        if (seen.has(web)) continue;
+        seen.add(web);
+        if (SMALL_BY_DESIGN.test(web)) continue;
+        const candidates = web.startsWith("/demo-media/")
+          ? [path.join(ROOT, "public", web.slice(1))]
+          : [path.join(ROOT, "private-assets", web.slice(1)), path.join(ROOT, "public", web.slice(1))];
+        const file = candidates.find((c) => fs.existsSync(c));
+        if (!file) continue;
+        const size = imageSize(file);
+        if (!size || !size.w || !size.h) continue;
+        const longSide = Math.max(size.w, size.h);
+        // 정사각 작은 것은 로고로 본다(이름에 logo 가 없어도 흔하다)
+        if (size.w === size.h && longSide <= 640) continue;
+        // 가로로 길고 납작한 것(워드마크·구분선 띠)도 로고로 본다 — 512x96 같은 모양
+        const shortSide = Math.min(size.w, size.h);
+        if (shortSide < 200 && longSide / shortSide >= 3) continue;
+        if (longSide < LONG_SIDE_MIN) tooSmall.push(web + " (" + size.w + "x" + size.h + ")");
+      }
+    }
+    if (tooSmall.length) {
+      const key = rel(s.dir);
+      keySlug.set(key, s.slug);
+      warn(
+        key,
+        "화면에 쓰는 이미지 " + tooSmall.length + "장이 긴 변 " + LONG_SIDE_MIN + "px 미만입니다 — " +
+          tooSmall.slice(0, 5).join(" · ") + (tooSmall.length > 5 ? " 외 " + (tooSmall.length - 5) + "장" : "") +
+          ". 히어로·대표 사진이면 노트북 화면에서 늘어나 뿌옇게 보입니다. AI 스튜디오 이미지라면 원본 주소(=s0)로 다시 받으세요 — scripts/upgrade-images.mjs. 로고·아이콘이면 파일 이름에 logo/icon 을 넣으면 이 검사에서 빠집니다",
+      );
+    }
+  }
+
   // ── 기기 전환 툴바의 client= 문구 ──
   // 툴바는 **태문이 자기 목소리로 말하는 자리**다. DevicePreviewFrame 이 「클라이언트: {client}」로 찍으므로
   // 여기에 업종 설명만 적어 두면 영업 상대가 이 데모를 수주 실적으로 읽는다(실측: 6개 중 2개가 그랬다).
