@@ -334,6 +334,16 @@ export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
     iconKey: "sparkles",
   },
   {
+    slug: "seoul-barun-orthopedics",
+    label: "서울 바른마디 정형외과",
+    mobileLabel: "서울 바른마디 정형외과 (BARUN MADI)",
+    badge: "메디컬 04",
+    description: "비수술 척추·관절 & 100평 도수재활센터",
+    mobileDescription: "척추관절 & 도수재활 데모",
+    tone: "teal",
+    iconKey: "sparkles",
+  },
+  {
     slug: "maison",
     label: "메종 당티크 (Maison)",
     badge: "D2C 살롱",
