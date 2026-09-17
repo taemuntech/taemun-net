@@ -12,7 +12,6 @@ import { GovernanceSection } from './components/GovernanceSection';
 import { ConsultationSection } from './components/ConsultationSection';
 import { Footer } from './components/Footer';
 import { VideoModal } from './components/VideoModal';
-import { Toast, ToastData } from './components/Toast';
 
 interface H2NextAppProps {
   isEmbed?: boolean;
@@ -20,36 +19,23 @@ interface H2NextAppProps {
 
 export default function H2NextApp({ isEmbed = false }: H2NextAppProps) {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
-  const [currentToast, setCurrentToast] = useState<ToastData | null>(null);
-
-  const showToast = (title: string, message: string, type: 'success' | 'download' | 'info' = 'success') => {
-    setCurrentToast({
-      id: Date.now().toString(),
-      title,
-      message,
-      type,
-    });
-  };
+  /** 거점 화면이 보여 주는 거점 — 푸터 거점 링크도 이 값을 바꾼다 */
+  const [hubIndex, setHubIndex] = useState(0);
+  /** 푸터 IR 링크가 고른 문서 — 거버넌스 구역의 샘플 안내에 이름을 실어 연다 */
+  const [requestedDoc, setRequestedDoc] = useState<{ name: string; nonce: number } | null>(null);
 
   // 제안서·보고서 내려받기와 제휴 문의는 각 구역이 SampleNotice 를 직접 연다(가짜 접수·가짜 다운로드 금지).
-  // 아래 토스트는 「자료를 보내 준다」는 약속이 아니라 샘플이라는 안내만 한다.
-  const handlePillarAction = (actionText: string) => {
-    if (actionText.includes('도면') || actionText.includes('스펙')) {
-      showToast(
-        '샘플 사이트 안내',
-        '태문 DEV STUDIO 가 만든 가상 브랜드 샘플이라 실제 기술 자료는 없습니다. 자료 신청 화면이 필요하면 그대로 만들어 드립니다.',
-        'info'
-      );
-    }
-  };
+  // 기술 카드의 「상세 스펙 시트」는 토스트로 때우지 않고 PillarsSection 이 상세 모달을 직접 연다.
 
+  // 한글 제목이 낱말 한가운데서 쪼개지던 자리(「차세/대」·「패키/징」) — 이 데모 안의 제목에 keep-all 을 한 번에 건다
   return (
-    <div className="min-h-screen bg-[#f8f9ff] text-[#0b1c30] flex flex-col font-sans selection:bg-[#00685f]/20 selection:text-[#00685f]">
+    <div className="min-h-screen bg-[#f8f9ff] text-[#0b1c30] flex flex-col font-sans selection:bg-[#00685f]/20 selection:text-[#00685f] [&_h1]:break-keep [&_h2]:break-keep [&_h3]:break-keep">
       {/* 🌟 Taemun Dev Studio Top Floating Demo Bar */}
       {!isEmbed && (
         <aside
           aria-label="데모 안내 바"
-          className="sticky top-0 z-[60] bg-zinc-950/95 backdrop-blur-md text-white border-b border-zinc-800 text-xs py-2 px-4 flex items-center justify-between"
+          // 공용 샘플 바(높이 --sample-bar-h)에 가려지지 않게 top-0 대신 변수를 쓴다 — 바가 없으면 0px 라 화면은 그대로다.
+          className="sticky top-[var(--sample-bar-h,0px)] z-[60] bg-zinc-950/95 backdrop-blur-md text-white border-b border-zinc-800 text-xs py-2 px-4 flex items-center justify-between"
         >
           <div className="flex items-center gap-3">
             <Link
@@ -85,34 +71,40 @@ export default function H2NextApp({ isEmbed = false }: H2NextAppProps) {
         <Hero onOpenVideoModal={() => setIsVideoModalOpen(true)} />
 
         {/* 3. 3 Core Green Hydrogen Pillars */}
-        <PillarsSection onSelectAction={handlePillarAction} />
+        <PillarsSection />
 
         {/* 4. Live Telemetry & SCADA Hub Network */}
-        <HubsTelemetrySection />
+        <HubsTelemetrySection
+          selectedHubIndex={hubIndex}
+          onSelectHubIndex={setHubIndex}
+        />
 
         {/* 5. Enterprise PPA Financial Engine & Carbon Calculator */}
         <CalculatorSection />
 
         {/* 6. Global Standards & ESG Governance */}
-        <GovernanceSection />
+        <GovernanceSection requestedDoc={requestedDoc} />
 
         {/* 7. Enterprise Consultation & PPA Meeting Booking Form */}
         <ConsultationSection />
       </main>
 
       {/* 8. Enterprise Footer */}
-      <Footer />
+      <Footer
+        onSelectHub={(index) => {
+          setHubIndex(index);
+          document.getElementById('nodes')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }}
+        onRequestDoc={(docName) => {
+          setRequestedDoc({ name: docName, nonce: Date.now() });
+          document.getElementById('governance')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }}
+      />
 
       {/* Interactive Video Showcase Modal */}
       <VideoModal
         isOpen={isVideoModalOpen}
         onClose={() => setIsVideoModalOpen(false)}
-      />
-
-      {/* Notification Toast Component */}
-      <Toast
-        toast={currentToast}
-        onClose={() => setCurrentToast(null)}
       />
     </div>
   );

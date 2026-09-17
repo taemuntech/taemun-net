@@ -7,11 +7,14 @@ import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
 import { FleetLineupSection } from './components/FleetLineupSection';
 import { DigitalTwinSection } from './components/DigitalTwinSection';
+import { CleanroomStandardsSection } from './components/CleanroomStandardsSection';
 import { RoiCalculatorSection } from './components/RoiCalculatorSection';
 import { ReferencesSection } from './components/ReferencesSection';
 import { ConsultationWizardSection } from './components/ConsultationWizardSection';
 import { Footer } from './components/Footer';
 import { VideoModal, SpecModal, DocModal, Toast } from './components/Modals';
+import { FLEET_MODELS } from './data/fleetData';
+import { RobotModel } from './types';
 
 interface NexusRoboticsAppProps {
   isEmbed?: boolean;
@@ -20,7 +23,7 @@ interface NexusRoboticsAppProps {
 export default function NexusRoboticsApp({ isEmbed = false }: NexusRoboticsAppProps) {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [specModalOpen, setSpecModalOpen] = useState(false);
-  const [specRobotName, setSpecRobotName] = useState('AMR-500');
+  const [specRobot, setSpecRobot] = useState<RobotModel>(FLEET_MODELS.amr500);
   const [docModalOpen, setDocModalOpen] = useState(false);
 
   const [toast, setToast] = useState({
@@ -36,8 +39,8 @@ export default function NexusRoboticsApp({ isEmbed = false }: NexusRoboticsAppPr
     }, 4500);
   }, []);
 
-  const handleOpenSpec = (robotName: string) => {
-    setSpecRobotName(robotName);
+  const handleOpenSpec = (robot: RobotModel) => {
+    setSpecRobot(robot);
     setSpecModalOpen(true);
   };
 
@@ -51,18 +54,19 @@ export default function NexusRoboticsApp({ isEmbed = false }: NexusRoboticsAppPr
     showToast('샘플 사이트입니다', '리포트 PDF 는 실제로 만들어지지 않습니다. 화면 구성을 보여 주는 예시입니다.');
   };
 
+  // 한글 제목이 낱말 한가운데서 쪼개지던 자리(「차세/대」·「패키/징」) — 이 데모 안의 제목에 keep-all 을 한 번에 건다
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans flex flex-col selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen bg-white text-slate-900 font-sans flex flex-col selection:bg-blue-600 selection:text-white [&_h1]:break-keep [&_h2]:break-keep [&_h3]:break-keep">
       {/* 🌟 Taemun Dev Studio Top Floating Demo Bar */}
       {!isEmbed && (
         <aside
           aria-label="데모 안내 바"
-          className="sticky top-[var(--sample-bar-h,0px)] z-[60] bg-zinc-950/95 backdrop-blur-md text-white border-b border-zinc-800 text-xs py-2 px-4 flex items-center justify-between"
+          className="sticky top-[var(--sample-bar-h,0px)] z-[60] bg-zinc-950/95 backdrop-blur-md text-white border-b border-zinc-800 text-xs py-1.5 px-4 flex items-center justify-between gap-3"
         >
           <div className="flex items-center gap-3">
             <Link
               href="/#category-corporate"
-              className="inline-flex items-center gap-1.5 text-zinc-300 hover:text-white font-medium transition-colors"
+              className="inline-flex items-center gap-1.5 min-h-11 text-zinc-300 hover:text-white font-medium transition-colors"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>갤러리 아카이브로 돌아가기</span>
@@ -75,7 +79,7 @@ export default function NexusRoboticsApp({ isEmbed = false }: NexusRoboticsAppPr
           <div className="flex items-center gap-2">
             <Link
               href="/inquiry?from=nexus-robotics"
-              className="px-3 py-1 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold text-[11px] transition-all flex items-center gap-1 shadow-sm"
+              className="px-3 py-2.5 min-h-11 rounded bg-blue-600 hover:bg-blue-500 text-white font-bold text-[11px] transition-all inline-flex items-center gap-1 shadow-sm whitespace-nowrap"
             >
               <span>이 프로젝트 견적 문의</span>
               <Send className="w-3 h-3" />
@@ -98,18 +102,21 @@ export default function NexusRoboticsApp({ isEmbed = false }: NexusRoboticsAppPr
         {/* 3. NEXUS-OS Digital Twin 관제 플랫폼 */}
         <DigitalTwinSection />
 
-        {/* 4. ROI Simulator */}
+        {/* 4. Cleanroom Standards — 헤더·푸터가 가리키던 #standards 를 실재하는 앵커로 */}
+        <CleanroomStandardsSection />
+
+        {/* 5. ROI Simulator */}
         <RoiCalculatorSection onDownloadReport={handleDownloadRoiReport} />
 
-        {/* 5. Enterprise References & Testimonials */}
+        {/* 6. Enterprise References & Testimonials */}
         <ReferencesSection />
 
-        {/* 6. Engineering Consultation & PoC Wizard — 제출은 SampleNotice 만 연다(가짜 접수 없음) */}
+        {/* 7. Engineering Consultation & PoC Wizard — 제출은 SampleNotice 만 연다(가짜 접수 없음) */}
         <ConsultationWizardSection />
       </main>
 
       {/* Global Enterprise Footer */}
-      <Footer />
+      <Footer onOpenDocModal={() => setDocModalOpen(true)} />
 
       {/* Modals & Popups */}
       <VideoModal
@@ -119,7 +126,7 @@ export default function NexusRoboticsApp({ isEmbed = false }: NexusRoboticsAppPr
 
       <SpecModal
         isOpen={specModalOpen}
-        robotName={specRobotName}
+        robot={specRobot}
         onClose={() => setSpecModalOpen(false)}
         onDownload={handleDownloadSpec}
       />

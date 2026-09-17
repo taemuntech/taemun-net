@@ -18,7 +18,7 @@ export default function AdvisorySection() {
   };
 
   return (
-    <section className="py-20 bg-[#0e141c] border-t border-[#4d4635]/20" id="advisory">
+    <section className="py-20 bg-[#0e141c] border-t border-[#4d4635]/20 scroll-mt-24" id="advisory">
       <div className="max-w-[1680px] mx-auto px-6 lg:px-14">
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12">
@@ -26,7 +26,7 @@ export default function AdvisorySection() {
             <span className="font-mono-metric text-[11px] text-[#f2ca50] tracking-widest uppercase">
               STEWARDSHIP &amp; LEADERSHIP
             </span>
-            <h2 className="text-2xl lg:text-4xl font-serif-display text-[#dee2ef] mt-2">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif-display text-[#dee2ef] mt-2">
               글로벌 파트너십 &amp; 시니어 자문 위원회
             </h2>
           </div>
@@ -39,7 +39,7 @@ export default function AdvisorySection() {
         </div>
 
         {/* 4 Leadership Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {LEADERS.map((leader, idx) => (
             <div
               key={idx}
@@ -56,13 +56,13 @@ export default function AdvisorySection() {
                 <h3 className="font-serif-display text-xl text-[#dee2ef] mt-1">
                   {leader.name}
                 </h3>
-                <p className="text-xs lg:text-sm text-[#d0c5af] mt-3 leading-relaxed">
+                <p className="text-xs lg:text-sm text-[#d0c5af] mt-3 leading-relaxed [word-break:keep-all]">
                   {leader.bio}
                 </p>
               </div>
 
-              <div className="pt-4 mt-6 border-t border-[#4d4635]/20 font-mono-metric text-[11px] text-[#d0c5af] flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-[#4edea3]" />
+              <div className="pt-4 mt-6 border-t border-[#4d4635]/20 font-mono-metric text-[11px] text-[#d0c5af] flex items-start gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 shrink-0 mt-0.5 text-[#4edea3]" />
                 <span>{leader.credentialBadge}</span>
               </div>
             </div>

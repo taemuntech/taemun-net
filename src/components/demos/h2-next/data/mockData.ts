@@ -1,3 +1,5 @@
+// 가상 브랜드 「H2 NEXT」 샘플 데이터입니다. 아래 값은 전부 화면 구성을 보여 주기 위한 예시 수치이며,
+// 실존 인증기관·검증기관·공시기관 이름과 조회 가능한 인증번호는 넣지 않습니다(전부 「(예시)」 자리표시).
 import { HubData, PillarData, TrustMetric, ESGCertificate } from '../types';
 
 export const LOGO_URL = "https://lh3.googleusercontent.com/aida/AEtjO1VNkRe81i-hNTBDinLSEhmFjnQz6AF6aKTQCR8SNtL5f65pZIdau0bAv_rRf4ZBmouIOxnYt1mPkqpKGrMU0rdT-ACs73lsGN7JY6LxjWqpWwsnpxNwrzfDkoezuS89q_Ml3AbRF-JBx-ViU_ObOdbRDAzGm0zOR9vE0Bnw8kUWmmgfqO7DO1hpepx9-ttIiCM2mvsKdB2uQoJ4QJD9ZYWA-e-5P8dDmK2_-B9o2qZiAeVnS0VIuFQFJXw";
@@ -10,7 +12,7 @@ export const TRUST_METRICS: TrustMetric[] = [
     icon: "water_drop",
     value: "48,500",
     unit: "톤",
-    trend: "전년 대비 +42% 증설 가동",
+    trend: "전년 대비 +42% 증설 가동 (예시)",
     trendIcon: "trending_up",
     isPrimaryColor: true,
   },
@@ -27,16 +29,16 @@ export const TRUST_METRICS: TrustMetric[] = [
     icon: "electric_bolt",
     value: "1.8",
     unit: "GW+",
-    trend: "0.2초 초고속 부하 추종",
+    trend: "0.2초 초고속 부하 추종 (예시)",
     trendIcon: "speed",
     isPrimaryColor: true,
   },
   {
-    title: "글로벌 RE100 이행 고객사",
+    title: "무탄소 전력 공급 고객사",
     icon: "corporate_fare",
     value: "32",
-    unit: "개 대기업",
-    trend: "장기 PPA 파트너십 구축",
+    unit: "개 사",
+    trend: "고객사 수 표기 자리 (예시)",
     trendIcon: "handshake",
   },
 ];
@@ -57,15 +59,34 @@ export const PILLARS_DATA: PillarData[] = [
       { label: "스택 기대 수명 (Stack Durability)", value: "90,000+ 시간" },
       { label: "구조 설계 (Architecture)", value: "PEM 모듈형 병렬 배치" },
     ],
-    certLabel: "IEC 62282-2 국제규격 인증",
+    certLabel: "국제 규격 기준 적용 (예시 표기)",
     actionText: "상세 스펙 시트",
-    actionHref: "#consultation",
+    detail: {
+      overview:
+        "해상풍력이 만들어 낸 전력은 바람에 따라 출력이 크게 흔들립니다. PEM 수전해 스택은 이 변동을 그대로 받아내면서도 수소 순도를 유지해야 하므로, 전력 변환·열 관리·스택 보호를 하나의 제어 루프로 묶어 설계했습니다.",
+      blocks: [
+        {
+          title: "변동 부하 추종 제어",
+          body: "풍속 급변으로 입력 전력이 초 단위로 흔들려도 스택 전류 밀도를 0.2초 안에 재배분해, 전해질막에 무리가 가지 않는 범위에서 생산량을 따라 올립니다. 출력이 급락하면 잉여 열을 회수해 다음 기동까지 스택 온도를 유지합니다.",
+        },
+        {
+          title: "모듈형 병렬 배치",
+          body: "동일 규격 스택을 병렬로 붙여 용량을 늘리는 구조라, 한 모듈을 정비해도 나머지가 계속 돌아갑니다. 증설은 부지 공사 없이 모듈을 추가하는 방식으로 진행됩니다.",
+        },
+        {
+          title: "해양 가혹 환경 대응",
+          body: "염수 분무·고습·진동을 전제로 배관과 전장 함체를 설계했고, 해수 전처리는 역삼투압 뒤 탈이온 공정을 거쳐 수전해 급수 품질을 맞춥니다.",
+        },
+      ],
+      applications: ["반도체·디스플레이 공정용 수소", "제철 환원용 수소", "수소 충전 인프라", "암모니아 합성 원료"],
+      note: "위 수치·구성은 화면을 보여 주기 위한 예시입니다. 실제 규격서·도면은 없습니다.",
+    },
   },
   {
     id: "pillar-2",
     pillarNum: "PILLAR 02",
     title: "-253℃ 극저온 액화수소 SCM",
-    desc: "기체 수소 대비 부피를 1/800로 압축. 특허받은 3중 고진공 다층 단열(MLI) 극저온 구형 탱크로 대용량 장거리 운송 시 자연 기화 손실(BOR) 제로를 실현합니다.",
+    desc: "기체 수소 대비 부피를 1/800로 압축. 3중 고진공 다층 단열(MLI) 극저온 구형 탱크로 대용량 장거리 운송 구간의 자연 기화 손실(BOR)을 최소화하도록 설계했습니다.",
     icon: "ac_unit",
     colorType: "secondary",
     progressLabel: "부피 압축 비율 (Volumetric Density)",
@@ -76,9 +97,28 @@ export const PILLARS_DATA: PillarData[] = [
       { label: "진공 단열도 (Insulation Performance)", value: "< 0.05 mW/m·K" },
       { label: "터미널 저장용량 (Hub Tank Capacity)", value: "100,000 m³ 급 구형" },
     ],
-    certLabel: "ASME Section VIII 인증",
-    actionText: "단열 설계 도면",
-    actionHref: "#consultation",
+    certLabel: "압력용기 규격 기준 적용 (예시 표기)",
+    actionText: "단열 설계 개요",
+    detail: {
+      overview:
+        "액화수소는 영하 253도에서만 액체로 남습니다. 외부 열이 1W만 새어 들어와도 탱크 안에서는 곧바로 기화가 시작되므로, 단열은 성능이 아니라 운송 가능 여부를 가르는 조건입니다.",
+      blocks: [
+        {
+          title: "3중 고진공 다층 단열(MLI)",
+          body: "내조와 외조 사이를 고진공으로 뽑고 그 틈에 알루미늄 증착 필름과 스페이서를 수십 겹 겹칩니다. 전도·대류는 진공이 끊고, 남은 복사열은 반사막이 되돌려 보내는 구조입니다.",
+        },
+        {
+          title: "구형 탱크를 쓰는 이유",
+          body: "같은 용적에서 표면적이 가장 작은 형상이 구(球)입니다. 열이 들어오는 통로인 표면적을 줄이는 것이 기화 손실을 줄이는 가장 확실한 방법이라, 대용량 저장조는 원통형 대신 구형으로 갑니다.",
+        },
+        {
+          title: "BOG 회수 루프",
+          body: "그래도 발생하는 증발 가스(BOG)는 버리지 않고 압축·재액화 루프로 되돌리거나 터미널 자체 연료전지 연료로 씁니다. 운송 중에는 탱크로리 압력 상승분을 계측해 출하 계획에 반영합니다.",
+        },
+      ],
+      applications: ["해상 벙커링", "장거리 탱크로리 출하", "터미널 대용량 저장", "수출용 선적"],
+      note: "위 수치·구성은 화면을 보여 주기 위한 예시입니다. 실제 설계 도면은 없습니다.",
+    },
   },
   {
     id: "pillar-3",
@@ -87,17 +127,37 @@ export const PILLARS_DATA: PillarData[] = [
     desc: "반도체·철강·석유화학 대규모 제조 공장에 20년 고정 단가 무탄소 전력 직거래(PPA)를 공급하며, 무중단 공정 유지를 위한 온사이트 트라이젠 시스템을 결합합니다.",
     icon: "hub",
     colorType: "primary",
-    progressLabel: "RE100 탄소 감축 인정률 (CDP/RE100)",
-    progressValue: "인정 기준 충족",
+    progressLabel: "계약 물량의 무탄소 전력 비중 (예시)",
+    progressValue: "목표 기준 충족",
     progressPercent: 100,
     specs: [
       { label: "계약 구조 (PPA Horizon)", value: "15~20년 장기 고정 헤징" },
       { label: "복합 공급 (Co-generation)", value: "전력 + 공정 스팀 + 수소" },
       { label: "데이터 모니터링 (Telemetry)", value: "24/7 스마트 그리드 API" },
     ],
-    certLabel: "배출권 자동 정산 (예시)",
+    certLabel: "배출권 정산 표기 자리 (예시)",
     actionText: "PPA 단가 산출기",
     actionHref: "#calculator",
+    detail: {
+      overview:
+        "전력 직거래(PPA)는 전기를 파는 계약이 아니라 20년짜리 위험 분담 계약에 가깝습니다. 발전 사업자는 장기 매출을, 고객사는 요금 변동으로부터의 방어선을 얻는 구조입니다.",
+      blocks: [
+        {
+          title: "15~20년 고정 단가 헤징",
+          body: "계약 기간 단가를 미리 묶어 두면 연료비 연동제나 계통 한계가격 변동이 제조 원가에 그대로 튀는 일을 막을 수 있습니다. 대신 물량 인수 의무가 따라오므로 공장 가동 계획과 함께 설계합니다.",
+        },
+        {
+          title: "전력 + 공정 스팀 + 수소 복합 공급",
+          body: "제조 공정은 전기만으로 돌지 않습니다. 온사이트 트라이젠 설비를 붙여 전력·열·수소를 한 계약 안에서 공급하면 보일러용 화석연료까지 함께 걷어낼 수 있습니다.",
+        },
+        {
+          title: "무중단 전환",
+          body: "기존 계통을 끊지 않고 병렬로 붙인 뒤 비중을 단계적으로 올리는 방식이라, 전환 기간에도 공정이 멈추지 않습니다. 전환 일정은 왼쪽 산출기에서 목표 연도를 바꿔 보며 가늠할 수 있습니다.",
+        },
+      ],
+      applications: ["반도체·디스플레이", "철강·제련", "석유화학", "데이터센터"],
+      note: "위 조건·수치는 화면을 보여 주기 위한 예시이며 실제 계약 조건이 아닙니다.",
+    },
   },
 ];
 
@@ -120,7 +180,7 @@ export const HUBS_DATA: HubData[] = [
       { label: "일일 수소 생산량", val: "32.8 톤", sub: "순도 99.999% 유지" },
       { label: "계통 연계 안정도", val: "60.02 Hz", sub: "주파수 편차 ±0.03Hz 이내" },
       { label: "배출 저감 환산량", val: "284 tCO2/일", sub: "실시간 배출권 등록", isPrimary: true },
-      { label: "모니터링 터빈 수", val: "80 / 80기", sub: "무사고 1,420일 달성" },
+      { label: "모니터링 터빈 수", val: "80 / 80기", sub: "무사고 운전일 표기 (예시)" },
     ],
     loadText: "1,168 MW / 1,200 MW Peak",
     barWind: "75%",
@@ -141,11 +201,11 @@ export const HUBS_DATA: HubData[] = [
     investment: "9,600억 원",
     metrics: [
       { label: "저장탱크 평균 온도", val: "-252.8 °C", sub: "20.35 Kelvin 유지" },
-      { label: "진공 단열도", val: "0.038 mW/m·K", sub: "BOR (기화 손실) 0.00%", isPrimary: true },
+      { label: "진공 단열도", val: "0.038 mW/m·K", sub: "BOR (기화 손실) 최소화 운전", isPrimary: true },
       { label: "일일 트럭 출하량", val: "45.2 톤", sub: "초저온 탱크로리 22대 완충" },
       { label: "광역 파이프라인 압력", val: "84.5 bar", sub: "42km 배관망 직결 정상" },
       { label: "선적 대기 벙커링선", val: "2 척 접안", sub: "호주 수출항로 연계", isPrimary: true },
-      { label: "종합 안전 센서", val: "1,450 / 1,450", sub: "가스 누출 0건 (예시 수치)" },
+      { label: "종합 안전 센서", val: "1,450 / 1,450", sub: "가스 누출 경보 없음 (예시)" },
     ],
     loadText: "92,400 m³ / 100,000 m³ 가용 (92.4%)",
     barWind: "15%",
@@ -169,8 +229,8 @@ export const HUBS_DATA: HubData[] = [
       { label: "연간 총 발전량", val: "650 GWh", sub: "포항 철강단지 20% 자립", isPrimary: true },
       { label: "고온 공정스팀 회수", val: "36.2 Gcal/h", sub: "제철 가열로 직공급" },
       { label: "전기 변환 효율 (LHV)", val: "60.4 %", sub: "열병합 종합 91.2%" },
-      { label: "질소산화물(NOx) 배출", val: "0.00 ppm", sub: "대기오염물질 배출 제로", isPrimary: true },
-      { label: "RE100 전력 공급사", val: "6개 철강사", sub: "20년 장기 PPA 이행 중" },
+      { label: "질소산화물(NOx) 배출", val: "0.02 ppm", sub: "배출 저감 운전 (예시)", isPrimary: true },
+      { label: "무탄소 전력 공급사", val: "6개 사", sub: "장기 PPA 이행 표기 (예시)" },
     ],
     loadText: "79.6 MW / 80.0 MW (99.5%)",
     barWind: "40%",
@@ -208,29 +268,29 @@ export const ESG_CERTIFICATES: ESGCertificate[] = [
   {
     issuer: "국제 인증기관 (예시)",
     title: "그린수소 생산 인증",
-    description: "1kg 수소 생산당 온실가스 배출량 0.45kg CO2-eq 이하 달성 (국제 기준(예시) 충족)",
-    certCode: "Cert No. TR-GH2-2025-091",
+    description: "1kg 수소 생산당 온실가스 배출량 0.45kg CO2-eq 이하 (예시 수치, 국제 기준(예시) 충족)",
+    certCode: "인증번호 표기 자리 (예시)",
     highlightColor: "secondary",
   },
   {
-    issuer: "GOLD STANDARD",
-    title: "탄소 감축 실적 인증",
-    description: "자발적 탄소시장(VCM) 및 글로벌 RE100 이행을 위한 GS-VER 검증 획득 (예시 수치)",
-    certCode: "GS-VER Verified Protocol",
+    issuer: "감축 검증기관 (예시)",
+    title: "탄소 감축 실적 검증",
+    description: "자발적 탄소시장(VCM) 거래를 위한 제3자 감축량 검증 절차를 표기하는 자리입니다 (예시 수치)",
+    certCode: "검증 프로토콜 표기 자리 (예시)",
     highlightColor: "primary",
   },
   {
-    issuer: "ISO 14001 / 50001",
+    issuer: "환경·에너지 경영표준 (예시)",
     title: "환경 및 에너지 경영",
-    description: "해상 플랜트 및 극저온 액화 터미널 전 사업장 국제 표준 안전·환경 시스템 통합 가동",
-    certCode: "DNV-GL 제3자 사후심사 완료",
+    description: "해상 플랜트와 극저온 액화 터미널 전 사업장에 안전·환경 경영 시스템을 통합 운영합니다 (예시)",
+    certCode: "제3자 사후심사 표기 자리 (예시)",
     highlightColor: "secondary",
   },
   {
-    issuer: "TCFD & SASB",
+    issuer: "기후 재무공시 체계 (예시)",
     title: "기후변화 재무정보 공개",
-    description: "2°C 이하 시나리오 기반 물리적·전환 리스크 정량 공개 및 ISSB IFRS S2 조기 도입",
-    certCode: "공식 서포터 선언 완료",
+    description: "2°C 이하 시나리오를 전제로 물리적·전환 리스크를 정량 공개하는 체계를 표기하는 자리입니다 (예시)",
+    certCode: "공시 준비 단계 표기 (예시)",
     highlightColor: "primary",
   },
 ];

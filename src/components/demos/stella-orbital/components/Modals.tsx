@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+'use client';
+
+import React, { useId, useRef, useState } from 'react';
 import { Satellite, Radio, X, Download } from 'lucide-react';
 import SampleNotice from '@/components/demo-kit/SampleNotice';
-import { ModalType } from '../types';
+import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
+import { ModalType, SpectralBand } from '../types';
 
 interface ModalsProps {
   activeModal: ModalType;
@@ -10,14 +13,57 @@ interface ModalsProps {
 
 export const VIEWER_SPECTRAL_IMG = "https://lh3.googleusercontent.com/aida-public/AB6AXuAONxcUKaLT_msE-aP-YygIZmLyxk60RldiVGDw2i4rmsRKToTwfYmY1TcWlmnGqnSGKrlVAExUUTRMFBQbic0GAU-Fr0hMENLyeeLtQszl4b2AN9rcFkhBDlBmugxuvQUsoBR9iJhEBnBQK7bGxsevjWFLscjCbois_4jc732Jm2m68ubxSIvrM9Cua4TDAwavEVWwuQPJ1dEywYldL1aVLH_x5L2M96YVXl-lqEor9SK3PLZksUBk";
 
+// 밴드를 고르면 미리보기 표현·판독 줄·반사도가 함께 바뀐다 — 예전에는 네 칸 모두 같은 화면이었다.
+const SPECTRAL_BANDS: ReadonlyArray<SpectralBand> = [
+  {
+    id: 'nir',
+    label: 'BAND 08: NIR (842 nm)',
+    reads: '근적외선 반사도가 높을수록 식생 활력이 큽니다. 작황·산림 벌채 판독에 씁니다.',
+    imageClass: 'hue-rotate-90 saturate-150',
+    readout: 'NIR 842nm HIGH-REFLECTANCE • VEGETATION VIGOR',
+    reflectance: 'MEAN REFLECTANCE: 0.48',
+  },
+  {
+    id: 'red',
+    label: 'BAND 04: RED (665 nm)',
+    reads: '적색광 흡수량으로 엽록소 밀도를 읽습니다. NIR 과 묶으면 NDVI 가 나옵니다.',
+    imageClass: 'sepia saturate-200',
+    readout: 'RED 665nm ABSORPTION • CHLOROPHYLL DENSITY',
+    reflectance: 'MEAN REFLECTANCE: 0.11',
+  },
+  {
+    id: 'swir',
+    label: 'BAND 11: SWIR (1610 nm)',
+    reads: '단파적외선은 수분과 광물에 민감합니다. 토양 수분·화재 흔적 구분에 씁니다.',
+    imageClass: 'grayscale contrast-150',
+    readout: 'SWIR 1610nm • SOIL MOISTURE & BURN SCAR',
+    reflectance: 'MEAN REFLECTANCE: 0.23',
+  },
+  {
+    id: 'false-color',
+    label: 'FALSE-COLOR COMPOSITE (8-4-3)',
+    reads: 'NIR·RED·GREEN 을 RGB 에 얹은 위색 합성입니다. 식생이 붉게 나타납니다.',
+    imageClass: 'hue-rotate-180 saturate-200 contrast-125',
+    readout: 'FALSE-COLOR 8-4-3 COMPOSITE • VEGETATION IN RED',
+    reflectance: 'COMPOSITE STRETCH: 2% LINEAR',
+  },
+];
+
 export default function Modals({ activeModal, onClose }: ModalsProps) {
   const [dossierEmail, setDossierEmail] = useState('');
-  const [selectedBand, setSelectedBand] = useState('BAND 08: NIR (842 nm)');
+  const [selectedBandId, setSelectedBandId] = useState<string>(SPECTRAL_BANDS[0].id);
   const [downloadedGeoJSON, setDownloadedGeoJSON] = useState(false);
 
   // 샘플이라 백서를 보내지 않는다 — 「보안 다운로드 링크를 발송하였습니다」 라는 가짜 성공 화면 대신
   // 공용 안내(SampleNotice)만 연다. 입력한 이메일은 어디에도 나가지 않는다.
   const [isNoticeOpen, setIsNoticeOpen] = useState(false);
+
+  // Esc 로 닫기 · 배경 스크롤 잠금 · 포커스 가두기 — SampleNotice 와 같은 공용 훅을 쓴다.
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const titleId = useId();
+  useSampleDialog({ open: activeModal !== null, onClose, dialogRef });
+
+  const selectedBand = SPECTRAL_BANDS.find((band) => band.id === selectedBandId) ?? SPECTRAL_BANDS[0];
 
   const handleDossierSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +79,9 @@ export default function Modals({ activeModal, onClose }: ModalsProps) {
           type: "Feature",
           properties: {
             mission: "STELLA-ORBITAL-09",
+            sample: "가상 브랜드 샘플 — 실제 관측 데이터가 아닙니다",
             sensor: "Multi-Spectral Optical 0.3m",
+            band: selectedBand.label,
             acquisitionDate: new Date().toISOString(),
             sunElevation: 62.4,
             cloudCoverPercentage: 0.04,
@@ -70,129 +118,164 @@ export default function Modals({ activeModal, onClose }: ModalsProps) {
   return (
     <>
       {activeModal && (
-        <div className="fixed inset-0 z-50 bg-on-background/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div
+          className="fixed inset-0 z-50 bg-on-background/60 backdrop-blur-sm flex items-center justify-center p-3 lg:p-4"
+          onMouseDown={(event) => {
+            // 배경을 눌러도 닫힌다 — 카드 안에서 시작한 드래그는 무시한다
+            if (event.target === event.currentTarget) onClose();
+          }}
+        >
           {/* 1. Mission Dossier PDF Modal */}
-        {activeModal === 'dossier' && (
-          <div className="bg-surface-container-lowest max-w-lg w-full rounded-xl border border-outline-variant p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between border-b border-outline-variant/60 pb-3">
-              <div className="flex items-center gap-2">
-                <Radio className="w-5 h-5 text-primary" />
-                <h3 className="font-bold text-lg text-on-surface">2026 Mission Dossier PDF</h3>
-              </div>
-              <button
-                type="button"
-                className="text-on-surface-variant hover:text-on-surface p-1 rounded cursor-pointer"
-                onClick={onClose}
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <p className="text-sm text-on-surface-variant leading-relaxed">
-              초소형 위성 군집 32기의 광학 및 X-band SAR 센서 기술 사양서, 궤도 주기, 주파수 인가 내역 및 엔터프라이즈 SLA가 수록된 공식 기술 백서(Whitepaper 48p)를 다운로드합니다.
-            </p>
-
-            <form onSubmit={handleDossierSubmit} className="space-y-3">
-              <input
-                className="w-full px-4 py-2.5 border border-outline-variant rounded text-xs outline-none focus:border-primary bg-surface-container-lowest"
-                placeholder="기관/기업 공식 이메일을 입력하세요"
-                required
-                type="email"
-                value={dossierEmail}
-                onChange={(e) => setDossierEmail(e.target.value)}
-              />
-              <p className="rounded border border-outline-variant bg-surface-container-low px-3 py-2 text-center text-xs font-semibold leading-relaxed text-on-surface">
-                샘플 사이트입니다 — 입력하신 내용은 어디에도 전송되지 않습니다.
-              </p>
-              <div className="flex justify-end gap-2 pt-2">
+          {activeModal === 'dossier' && (
+            <div
+              ref={dialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={titleId}
+              tabIndex={-1}
+              className="bg-surface-container-lowest max-w-lg w-full max-h-[90vh] overflow-y-auto rounded-xl border border-outline-variant p-5 lg:p-6 shadow-2xl space-y-4 outline-none animate-in fade-in zoom-in-95 duration-200"
+            >
+              <div className="flex items-center justify-between gap-3 border-b border-outline-variant/60 pb-3">
+                <div className="flex items-center gap-2 min-w-0">
+                  <Radio className="w-5 h-5 text-primary shrink-0" />
+                  <h3 id={titleId} className="font-bold text-base lg:text-lg text-on-surface truncate">
+                    2026 Mission Dossier PDF
+                  </h3>
+                </div>
                 <button
                   type="button"
-                  className="px-4 py-2 border border-outline-variant rounded font-semibold text-xs text-on-surface cursor-pointer hover:bg-surface-container-low"
+                  aria-label="닫기"
+                  className="inline-flex items-center justify-center min-h-11 min-w-11 shrink-0 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg cursor-pointer"
                   onClick={onClose}
                 >
-                  취소
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-primary text-on-primary rounded font-semibold text-xs hover:bg-primary-container cursor-pointer transition-all"
-                >
-                  다운로드 링크 발송
+                  <X className="w-5 h-5" />
                 </button>
               </div>
-            </form>
-          </div>
-        )}
+
+              <p className="text-sm text-on-surface-variant leading-relaxed [word-break:keep-all]">
+                초소형 위성 군집 32기의 광학 및 X-band SAR 센서 기술 사양서, 궤도 주기, 주파수 인가 내역 및 엔터프라이즈 SLA 를 담은 기술 백서(예시 구성, 48p)를 안내합니다.
+              </p>
+
+              <form onSubmit={handleDossierSubmit} className="space-y-3">
+                <input
+                  className="w-full px-4 py-2.5 min-h-11 border border-outline-variant rounded text-xs outline-none focus:border-primary bg-surface-container-lowest"
+                  placeholder="기관/기업 공식 이메일을 입력하세요"
+                  aria-label="기관/기업 공식 이메일"
+                  required
+                  type="email"
+                  value={dossierEmail}
+                  onChange={(e) => setDossierEmail(e.target.value)}
+                />
+                <p className="rounded border border-outline-variant bg-surface-container-low px-3 py-2 text-center text-xs font-semibold leading-relaxed text-on-surface [word-break:keep-all]">
+                  샘플 사이트입니다 — 입력하신 내용은 어디에도 전송되지 않습니다.
+                </p>
+                <div className="flex flex-col-reverse md:flex-row md:justify-end gap-2 pt-2">
+                  <button
+                    type="button"
+                    className="px-4 py-2 min-h-11 border border-outline-variant rounded font-semibold text-xs text-on-surface cursor-pointer hover:bg-surface-container-low"
+                    onClick={onClose}
+                  >
+                    취소
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 min-h-11 bg-primary text-on-primary rounded font-semibold text-xs hover:bg-primary-container cursor-pointer transition-all"
+                  >
+                    백서 신청
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
 
           {/* 2. GeoTIFF Spectral Viewer Modal */}
-        {activeModal === 'viewer' && (
-          <div className="bg-surface-container-lowest max-w-4xl w-full rounded-xl border border-outline-variant p-6 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between border-b border-outline-variant/60 pb-3">
-              <div className="flex items-center gap-2">
-                <Satellite className="w-5 h-5 text-primary" />
-                <h3 className="font-bold text-lg text-on-surface">GeoTIFF 16-Band Spectral Inspector</h3>
-              </div>
-              <button
-                type="button"
-                className="text-on-surface-variant hover:text-on-surface p-1 rounded cursor-pointer"
-                onClick={onClose}
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Viewer Filter Pills */}
-            <div className="flex flex-wrap items-center gap-2 text-xs font-code-mono">
-              {['BAND 08: NIR (842 nm)', 'BAND 04: RED (665 nm)', 'BAND 11: SWIR (1610 nm)', 'FALSE-COLOR COMPOSITE (8-4-3)'].map((band) => (
+          {activeModal === 'viewer' && (
+            <div
+              ref={dialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={titleId}
+              tabIndex={-1}
+              className="bg-surface-container-lowest max-w-4xl w-full rounded-xl border border-outline-variant p-4 lg:p-6 shadow-2xl space-y-4 outline-none animate-in fade-in zoom-in-95 duration-200 max-h-[92vh] overflow-y-auto"
+            >
+              <div className="flex items-center justify-between gap-3 border-b border-outline-variant/60 pb-3">
+                <div className="flex items-center gap-2 min-w-0">
+                  <Satellite className="w-5 h-5 text-primary shrink-0" />
+                  <h3 id={titleId} className="font-bold text-base lg:text-lg text-on-surface truncate">
+                    GeoTIFF 16-Band Spectral Inspector
+                  </h3>
+                </div>
                 <button
-                  key={band}
                   type="button"
-                  className={`px-3 py-1.5 rounded border transition-all cursor-pointer ${ selectedBand === band ? 'border-primary bg-primary-fixed text-primary font-bold' : 'border-outline-variant bg-surface-container-low text-on-surface-variant hover:border-primary' }`}
-                  onClick={() => setSelectedBand(band)}
+                  aria-label="닫기"
+                  className="inline-flex items-center justify-center min-h-11 min-w-11 shrink-0 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg cursor-pointer"
+                  onClick={onClose}
                 >
-                  {band}
+                  <X className="w-5 h-5" />
                 </button>
-              ))}
-            </div>
-
-            <div className="relative aspect-video rounded bg-on-background overflow-hidden border border-outline-variant">
-              <img
-                className="w-full h-full object-cover"
-                alt="Satellite earth observation radiometric inspection interface displaying multi spectral false color bands"
-                src={VIEWER_SPECTRAL_IMG}
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute top-4 left-4 bg-on-background/80 p-2.5 rounded text-surface font-code-mono text-xs border border-outline-variant/40">
-                <p className="text-secondary-fixed font-bold">{selectedBand} HIGH-REFLECTANCE</p>
-                <p className="text-white/80">RADIOMETRIC RESOLUTION: 14-BIT RAW • CLOUD MASK: 0.04%</p>
               </div>
-              <div className="absolute bottom-4 right-4 bg-on-background/80 p-2 rounded text-surface font-code-mono text-[11px] border border-outline-variant/40">
-                STAC PROJECTION: EPSG:4326 • TILE ID: ST-2026-N36E127
+
+              {/* Viewer Filter Pills — 고르면 아래 미리보기와 판독 줄이 실제로 바뀐다 */}
+              <div className="flex flex-wrap items-center gap-2 text-xs font-code-mono">
+                {SPECTRAL_BANDS.map((band) => (
+                  <button
+                    key={band.id}
+                    type="button"
+                    aria-pressed={selectedBandId === band.id}
+                    className={`px-3 py-1.5 max-lg:min-h-11 rounded border transition-all cursor-pointer ${selectedBandId === band.id ? 'border-primary bg-primary-fixed text-primary font-bold' : 'border-outline-variant bg-surface-container-low text-on-surface-variant hover:border-primary'}`}
+                    onClick={() => setSelectedBandId(band.id)}
+                  >
+                    {band.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="relative aspect-video rounded bg-on-background overflow-hidden border border-outline-variant">
+                <img
+                  className={`w-full h-full object-cover transition-all duration-500 ${selectedBand.imageClass}`}
+                  alt={`${selectedBand.label} 밴드로 본 위성 관측 영상 예시`}
+                  src={VIEWER_SPECTRAL_IMG}
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute top-2 left-2 lg:top-4 lg:left-4 max-w-[calc(100%-1rem)] bg-on-background/80 p-2 lg:p-2.5 rounded text-surface font-code-mono text-[10px] lg:text-xs border border-outline-variant/40">
+                  <p className="text-secondary-fixed font-bold break-words">{selectedBand.readout}</p>
+                  <p className="text-white/80 break-words">
+                    RADIOMETRIC RESOLUTION: 14-BIT RAW • CLOUD MASK: 0.04% • {selectedBand.reflectance}
+                  </p>
+                </div>
+                <div className="absolute bottom-2 right-2 lg:bottom-4 lg:right-4 max-w-[calc(100%-1rem)] bg-on-background/80 p-2 rounded text-surface font-code-mono text-[10px] lg:text-[11px] border border-outline-variant/40">
+                  <span className="break-words">STAC PROJECTION: EPSG:4326 • TILE ID: ST-2026-N36E127</span>
+                </div>
+              </div>
+
+              {/* 밴드가 무엇을 읽어 내는지 — 고른 밴드에 따라 이 문장도 바뀐다 */}
+              <p className="rounded-lg border border-outline-variant bg-surface-container-low px-3 py-2.5 text-xs leading-relaxed text-on-surface [word-break:keep-all]">
+                <span className="font-bold">{selectedBand.label}</span> — {selectedBand.reads}
+              </p>
+
+              <div className="flex flex-wrap items-center justify-between font-code-mono text-xs text-on-surface-variant gap-3">
+                <span className="break-words">COORDINATES: LAT 36.3504° N, LON 127.3845° E (DAEJEON SOC-1 AOI)</span>
+                <button
+                  type="button"
+                  className="text-primary font-bold hover:underline inline-flex items-center gap-1 cursor-pointer max-lg:min-h-11 max-lg:w-full max-lg:justify-center max-lg:rounded-lg max-lg:border max-lg:border-outline-variant max-lg:px-3"
+                  onClick={handleDownloadGeoJSON}
+                >
+                  <Download className="w-3.5 h-3.5 shrink-0" />
+                  {downloadedGeoJSON ? 'Downloaded GeoJSON ✓' : 'DOWNLOAD STAC GEOJSON METADATA'}
+                </button>
+              </div>
+
+              <div className="flex justify-end pt-2 border-t border-outline-variant/60">
+                <button
+                  type="button"
+                  className="px-5 py-2.5 min-h-11 max-lg:w-full bg-primary text-on-primary rounded font-semibold text-xs hover:bg-primary-container cursor-pointer transition-all"
+                  onClick={onClose}
+                >
+                  닫기 (Close Inspector)
+                </button>
               </div>
             </div>
-
-            <div className="flex flex-wrap items-center justify-between font-code-mono text-xs text-on-surface-variant gap-3">
-              <span>COORDINATES: LAT 36.3504° N, LON 127.3845° E (DAEJEON SOC-1 AOI)</span>
-              <button
-                type="button"
-                className="text-primary font-bold hover:underline inline-flex items-center gap-1 cursor-pointer"
-                onClick={handleDownloadGeoJSON}
-              >
-                <Download className="w-3.5 h-3.5" />
-                {downloadedGeoJSON ? 'Downloaded GeoJSON ✓' : 'DOWNLOAD STAC GEOJSON METADATA'}
-              </button>
-            </div>
-
-            <div className="flex justify-end pt-2 border-t border-outline-variant/60">
-              <button
-                type="button"
-                className="px-5 py-2.5 bg-primary text-on-primary rounded font-semibold text-xs hover:bg-primary-container cursor-pointer transition-all"
-                onClick={onClose}
-              >
-                닫기 (Close Inspector)
-              </button>
-            </div>
-          </div>
-        )}
+          )}
         </div>
       )}
 

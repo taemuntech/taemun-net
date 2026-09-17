@@ -7,7 +7,7 @@ export const LayerExplorer: React.FC = () => {
   const currentLayer = LAYERS.find((l) => l.id === selectedLayerId) || LAYERS[0];
 
   return (
-    <section className="py-16 lg:py-24 bg-white border-b border-[#c4c5d5]/30" id="layer-explorer">
+    <section className="scroll-mt-20 py-16 lg:py-24 bg-white border-b border-[#c4c5d5]/30" id="layer-explorer">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="text-xs font-bold text-[#00288e] uppercase tracking-widest mb-2 font-mono">
@@ -62,7 +62,7 @@ export const LayerExplorer: React.FC = () => {
 
           {/* Layer Telemetry Card Screen (lg: 7 cols) */}
           <div className="lg:col-span-7 bg-[#eff4ff] p-6 lg:p-8 rounded-2xl border border-[#c4c5d5]/50 relative shadow-xs">
-            <div className="flex items-center justify-between border-b border-[#c4c5d5]/30 pb-4 mb-6">
+            <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 border-b border-[#c4c5d5]/30 pb-4 mb-6">
               <div className="flex items-center gap-2">
                 <Layers className="w-5 h-5 text-[#00288e]" />
                 <span className="font-mono text-xs text-[#00288e] font-bold uppercase tracking-wider">
@@ -82,8 +82,8 @@ export const LayerExplorer: React.FC = () => {
               {currentLayer.desc}
             </p>
 
-            {/* Real-time dynamic telemetry gauges */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-6">
+            {/* Real-time dynamic telemetry gauges — 태블릿(768)에서 세 칸이 나란히 들어간다 */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
               {/* Thermal Resistance */}
               <div className="bg-white p-4 rounded-xl border border-[#c4c5d5]/40 shadow-xs">
                 <div className="text-[11px] font-bold text-[#757684] uppercase mb-1">
@@ -134,18 +134,19 @@ export const LayerExplorer: React.FC = () => {
             </div>
 
             {/* Detailed Specifications List */}
-            <div className="bg-white p-4 rounded-xl border border-[#c4c5d5]/30 font-mono text-[12px] space-y-2 text-[#444653]">
-              <div className="flex justify-between py-1 border-b border-[#c4c5d5]/20">
+            {/* 라벨·값이 모두 긴 영문이라 좁은 폭에서는 위아래로 쌓는다(글자 겹침·잘림 방지) */}
+            <div className="bg-white p-4 rounded-xl border border-[#c4c5d5]/30 font-mono text-[12px] space-y-2 text-[#444653] break-words">
+              <div className="flex flex-col gap-0.5 md:flex-row md:items-baseline md:justify-between md:gap-3 py-1 border-b border-[#c4c5d5]/20">
                 <span className="text-[#757684]">Process Lithography Node:</span>
-                <span className="text-[#0b1c30] font-semibold">{currentLayer.node}</span>
+                <span className="text-[#0b1c30] font-semibold md:text-right">{currentLayer.node}</span>
               </div>
-              <div className="flex justify-between py-1 border-b border-[#c4c5d5]/20">
+              <div className="flex flex-col gap-0.5 md:flex-row md:items-baseline md:justify-between md:gap-3 py-1 border-b border-[#c4c5d5]/20">
                 <span className="text-[#757684]">Underfill Capillary Flow Rate:</span>
-                <span className="text-[#0b1c30] font-semibold">{currentLayer.underfill}</span>
+                <span className="text-[#0b1c30] font-semibold md:text-right">{currentLayer.underfill}</span>
               </div>
-              <div className="flex justify-between py-1">
+              <div className="flex flex-col gap-0.5 md:flex-row md:items-baseline md:justify-between md:gap-3 py-1">
                 <span className="text-[#757684]">Max Interconnect Capacitance:</span>
-                <span className="text-[#0b1c30] font-semibold">{currentLayer.cap}</span>
+                <span className="text-[#0b1c30] font-semibold md:text-right">{currentLayer.cap}</span>
               </div>
             </div>
           </div>

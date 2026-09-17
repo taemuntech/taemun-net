@@ -1,11 +1,21 @@
 import React from 'react';
 import { LOGO_IMG_URL } from '../data/mockData';
 
+/** 각 항목은 이 지면에 실제로 있는 구역(id)만 가리킨다 */
+const FOOTER_LINKS = [
+  { href: '#vision', label: 'Corporate Vision' },
+  { href: '#pipeline', label: 'R&D Pipeline' },
+  { href: '#platform', label: 'PROTEA-AI Platform' },
+  { href: '#infrastructure', label: 'cGMP Infrastructure' },
+  { href: '#sab', label: 'Scientific Advisory Board' },
+  { href: '#wizard', label: 'Partnering & L/O' },
+] as const;
+
 export const Footer: React.FC = () => {
   return (
     <footer className="w-full py-16 px-6 lg:px-12 max-w-7xl mx-auto bg-[#eff4ff]/60 border-t border-[#c4c5d5]/40 mt-12 rounded-t-2xl">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-12">
-        {/* Col 1: Brand & KOSDAQ Badge */}
+        {/* Col 1: Brand & Listing-prep Badge */}
         <div className="lg:col-span-4 space-y-4">
           <div className="flex items-center space-x-3">
             <img
@@ -38,7 +48,7 @@ export const Footer: React.FC = () => {
                 인천 송도 바이오클러스터 본사 & cGMP 캠퍼스
               </strong>
               <div className="text-[#444653] mt-0.5">
-                인천광역시 연수구 송도바이오대로 123 셀레브리스 바이오타워 1-8F
+                인천광역시 연수구 ○○대로 000 셀레브리스 바이오타워 1-8F (예시 주소)
               </div>
             </div>
             <div>
@@ -46,7 +56,7 @@ export const Footer: React.FC = () => {
                 미국 보스턴 R&D 이노베이션 센터
               </strong>
               <div className="text-[#444653] mt-0.5">
-                Kendall Square Bio-Hub Suite 940, Cambridge, MA 02142, USA
+                Bio-Hub Innovation Center Suite 000, Greater Boston Area, MA, USA (예시 주소)
               </div>
             </div>
           </div>
@@ -57,25 +67,18 @@ export const Footer: React.FC = () => {
           <div className="text-[11px] font-code-mono text-[#757684] uppercase font-bold tracking-wider">
             Institutional Disclosures
           </div>
-          <div className="grid grid-cols-2 gap-2 text-[13px]">
-            <a className="text-[#444653] hover:text-[#00288e] transition-colors" href="#vision">
-              Songdo Bio-Cluster HQ
-            </a>
-            <a className="text-[#444653] hover:text-[#00288e] transition-colors" href="#infrastructure">
-              Boston R&D Center
-            </a>
-            <a className="text-[#444653] hover:text-[#00288e] transition-colors" href="#pipeline">
-              DART IR Filing
-            </a>
-            <a className="text-[#444653] hover:text-[#00288e] transition-colors" href="#sab">
-              Clinical Governance
-            </a>
-            <a className="text-[#444653] hover:text-[#00288e] transition-colors" href="#infrastructure">
-              cGMP Certificates
-            </a>
-            <a className="text-[#444653] hover:text-[#00288e] transition-colors" href="#wizard">
-              Privacy & Legal
-            </a>
+          {/* 이름표와 가는 곳이 서로 달랐다 — 공시 시스템 이름을 단 링크가 엉뚱한 구역으로 갔다.
+              실존 기관 이름을 빼고, 라벨을 실제 도착 구역 이름으로 맞춘다. */}
+          <div className="grid grid-cols-2 gap-x-2 text-[13px]">
+            {FOOTER_LINKS.map((link) => (
+              <a
+                key={link.href}
+                className="flex min-h-11 items-center text-[#444653] hover:text-[#00288e] transition-colors"
+                href={link.href}
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
         </div>
       </div>
@@ -88,12 +91,12 @@ export const Footer: React.FC = () => {
 
       <div className="pt-8 border-t border-[#c4c5d5]/30 flex flex-col lg:flex-row items-center justify-between text-[12px] text-[#444653] gap-4">
         <div className="font-code-mono text-center lg:text-left">
-          © 2025 CELEBRIS BIOPHARMA Inc. All Rights Reserved. Songdo Bio-Cluster HQ & Boston Innovation Center. Listing Prep Stage (Sample).
+          © 2026 CELEBRIS BIOPHARMA Inc. All Rights Reserved. Songdo Bio-Cluster HQ & Boston Innovation Center. Listing Prep Stage (Sample).
         </div>
-        <div className="flex flex-wrap justify-center space-x-6 font-code-mono text-[12px]">
-          <a className="hover:text-[#00288e] transition" href="#vision">Terms of Research</a>
-          <a className="hover:text-[#00288e] transition" href="mailto:ir@example.com">IR: ir@example.com</a>
-          <a className="hover:text-[#00288e] transition" href="mailto:bd@example.com">BD: bd@example.com</a>
+        {/* 「Terms of Research」 는 약관 지면이 없는데도 Corporate Vision 으로 가던 링크라 뺐다 */}
+        <div className="flex flex-wrap items-center justify-center gap-x-6 font-code-mono text-[12px]">
+          <a className="flex min-h-11 items-center hover:text-[#00288e] transition" href="mailto:ir@example.com">IR: ir@example.com</a>
+          <a className="flex min-h-11 items-center hover:text-[#00288e] transition" href="mailto:bd@example.com">BD: bd@example.com</a>
         </div>
       </div>
     </footer>

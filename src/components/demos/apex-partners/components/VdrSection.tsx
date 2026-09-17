@@ -41,7 +41,7 @@ export default function VdrSection() {
 
   return (
     <section
-      className="py-20 bg-[#090e17] border-t border-[#4d4635]/20 relative"
+      className="py-20 bg-[#090e17] border-t border-[#4d4635]/20 relative scroll-mt-24"
       id="vdr"
     >
       <div className="max-w-[1680px] mx-auto px-6 lg:px-14">
@@ -55,7 +55,7 @@ export default function VdrSection() {
               </span>
             </div>
 
-            <h2 className="text-2xl lg:text-4xl font-serif-display text-[#dee2ef]">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif-display text-[#dee2ef]">
               기관투자자(LP) 전용 <br />
               가상 데이터룸(VDR) 신청
             </h2>
@@ -84,7 +84,7 @@ APEX PARTNERS의 펀드 운용 내역, 감사 보고서, 포트폴리오 기업 
                     블록체인 타임스탬프 감사 추적
                   </span>
                   <span className="font-mono-metric text-[11px] text-[#d0c5af]">
-                    모든 열람 로그 영구 보존 및 동적 워터마킹 적용
+                    열람 로그 보존 및 동적 워터마킹 적용 설정
                   </span>
                 </div>
               </div>
@@ -97,12 +97,13 @@ APEX PARTNERS의 펀드 운용 내역, 감사 보고서, 포트폴리오 기업 
 
           {/* Right Column: 3-Step Institutional VDR Request Form */}
           <div className="lg:col-span-7 bg-[#161c24] border border-[#4d4635]/40 rounded-xl p-6 lg:p-10 shadow-2xl relative">
-            <div className="flex items-center justify-between mb-6 pb-4 border-b border-[#4d4635]/30">
-              <h3 className="font-serif-display text-xl lg:text-2xl text-[#dee2ef]">
+            {/* 375 에서 배지가 제목을 파고들어 「…신청」/「서」로 쪼개졌다 — 좁은 폭에서는 위아래로 나눈다 */}
+            <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3 mb-6 pb-4 border-b border-[#4d4635]/30">
+              <h3 className="font-serif-display text-xl lg:text-2xl text-[#dee2ef] [word-break:keep-all]">
                 기관 적격성 심사 및 접근권한 신청서
               </h3>
-              <span className="font-mono-metric text-[11px] text-[#f2ca50] font-normal">
-                ENCRYPTED SSL 256
+              <span className="font-mono-metric text-[11px] text-[#f2ca50] font-normal whitespace-nowrap">
+                SAMPLE · NO DATA SENT
               </span>
             </div>
 
@@ -112,13 +113,13 @@ APEX PARTNERS의 펀드 운용 내역, 감사 보고서, 포트폴리오 기업 
                 <label className="font-mono-metric text-[11px] text-[#dee2ef] uppercase block mb-2">
                   1. 기관 유형 선택 (Institution Type)
                 </label>
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                   {INSTITUTION_TYPES.map((type) => {
                     const isChecked = selectedType === type.id;
                     return (
                       <label
                         key={type.id}
-                        className={`flex items-center gap-2 p-2.5 rounded font-mono-metric text-[11px] cursor-pointer transition-all border ${ isChecked ? 'bg-[#090e17] border-[#f2ca50] text-[#f2ca50]' : 'bg-[#090e17] border-[#4d4635]/40 text-[#d0c5af] hover:border-[#f2ca50]/50' }`}
+                        className={`flex items-center gap-2 p-3 min-h-11 rounded font-mono-metric text-[11px] cursor-pointer transition-all border ${ isChecked ? 'bg-[#090e17] border-[#f2ca50] text-[#f2ca50]' : 'bg-[#090e17] border-[#4d4635]/40 text-[#d0c5af] hover:border-[#f2ca50]/50' }`}
                       >
                         <input
                           type="radio"
@@ -147,7 +148,7 @@ APEX PARTNERS의 펀드 운용 내역, 감사 보고서, 포트폴리오 기업 
                   id="vdr-target-vintage"
                   value={targetVintage}
                   onChange={(e) => setTargetVintage(e.target.value)}
-                  className="w-full bg-[#090e17] border border-[#4d4635]/40 rounded px-3 py-2.5 text-xs text-[#dee2ef] focus:border-[#f2ca50] focus:ring-1 focus:ring-[#f2ca50] outline-none"
+                  className="w-full min-h-11 bg-[#090e17] border border-[#4d4635]/40 rounded px-3 py-2.5 text-xs text-[#dee2ef] focus:border-[#f2ca50] focus:ring-1 focus:ring-[#f2ca50] outline-none"
                 >
                   <option>Apex Flagship Buyout Fund VII호 (목표 결성액 ₩8,000억)</option>
                   <option>Apex Deep-Tech Growth Equity Fund III호 (목표 결성액 ₩4,000억)</option>
@@ -157,7 +158,7 @@ APEX PARTNERS의 펀드 운용 내역, 감사 보고서, 포트폴리오 기업 
               </div>
 
               {/* 3. Key Coordinates */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label
                     htmlFor="vdr-institution-name"
@@ -172,7 +173,7 @@ APEX PARTNERS의 펀드 운용 내역, 감사 보고서, 포트폴리오 기업 
                     value={institutionName}
                     onChange={(e) => setInstitutionName(e.target.value)}
                     placeholder="예: ○○공제회 / ○○생명"
-                    className="w-full bg-[#090e17] border border-[#4d4635]/40 rounded px-3 py-2 text-xs text-[#dee2ef] placeholder-[#d0c5af]/50 focus:border-[#f2ca50] focus:ring-1 focus:ring-[#f2ca50] outline-none"
+                    className="w-full min-h-11 bg-[#090e17] border border-[#4d4635]/40 rounded px-3 py-2 text-xs text-[#dee2ef] placeholder-[#d0c5af]/50 focus:border-[#f2ca50] focus:ring-1 focus:ring-[#f2ca50] outline-none"
                   />
                 </div>
                 <div>
@@ -189,12 +190,12 @@ APEX PARTNERS의 펀드 운용 내역, 감사 보고서, 포트폴리오 기업 
                     value={titleDept}
                     onChange={(e) => setTitleDept(e.target.value)}
                     placeholder="예: 대체투자본부 팀장 / 운용역"
-                    className="w-full bg-[#090e17] border border-[#4d4635]/40 rounded px-3 py-2 text-xs text-[#dee2ef] placeholder-[#d0c5af]/50 focus:border-[#f2ca50] focus:ring-1 focus:ring-[#f2ca50] outline-none"
+                    className="w-full min-h-11 bg-[#090e17] border border-[#4d4635]/40 rounded px-3 py-2 text-xs text-[#dee2ef] placeholder-[#d0c5af]/50 focus:border-[#f2ca50] focus:ring-1 focus:ring-[#f2ca50] outline-none"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label
                     htmlFor="vdr-full-name"
@@ -209,7 +210,7 @@ APEX PARTNERS의 펀드 운용 내역, 감사 보고서, 포트폴리오 기업 
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="성함을 입력하세요"
-                    className="w-full bg-[#090e17] border border-[#4d4635]/40 rounded px-3 py-2 text-xs text-[#dee2ef] placeholder-[#d0c5af]/50 focus:border-[#f2ca50] focus:ring-1 focus:ring-[#f2ca50] outline-none"
+                    className="w-full min-h-11 bg-[#090e17] border border-[#4d4635]/40 rounded px-3 py-2 text-xs text-[#dee2ef] placeholder-[#d0c5af]/50 focus:border-[#f2ca50] focus:ring-1 focus:ring-[#f2ca50] outline-none"
                   />
                 </div>
                 <div>
@@ -226,7 +227,7 @@ APEX PARTNERS의 펀드 운용 내역, 감사 보고서, 포트폴리오 기업 
                     value={corporateEmail}
                     onChange={(e) => setCorporateEmail(e.target.value)}
                     placeholder="name@example.com"
-                    className="w-full bg-[#090e17] border border-[#4d4635]/40 rounded px-3 py-2 text-xs text-[#dee2ef] placeholder-[#d0c5af]/50 focus:border-[#f2ca50] focus:ring-1 focus:ring-[#f2ca50] outline-none"
+                    className="w-full min-h-11 bg-[#090e17] border border-[#4d4635]/40 rounded px-3 py-2 text-xs text-[#dee2ef] placeholder-[#d0c5af]/50 focus:border-[#f2ca50] focus:ring-1 focus:ring-[#f2ca50] outline-none"
                   />
                 </div>
               </div>
@@ -258,10 +259,10 @@ APEX PARTNERS의 펀드 운용 내역, 감사 보고서, 포트폴리오 기업 
               {/* Action Button */}
               <button
                 type="submit"
-                className="w-full py-3.5 bg-[#f2ca50] hover:bg-[#e9c349] text-[#3c2f00] text-xs font-semibold rounded shadow-md hover:shadow-[#f2ca50]/30 transition-all flex items-center justify-center gap-2"
+                className="w-full min-h-12 px-4 py-3 bg-[#f2ca50] hover:bg-[#e9c349] text-[#3c2f00] text-xs font-semibold rounded shadow-md hover:shadow-[#f2ca50]/30 transition-all flex items-center justify-center gap-2 text-center"
               >
-                <ShieldCheck className="w-4 h-4" />
-                <span>기관 적격성 심사 및 VDR 보안 액세스 키 발급 신청</span>
+                <ShieldCheck className="w-4 h-4 shrink-0" />
+                <span>기관 적격성 심사 및 VDR 접근 신청</span>
               </button>
             </form>
           </div>

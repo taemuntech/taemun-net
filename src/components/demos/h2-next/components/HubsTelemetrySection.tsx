@@ -4,10 +4,16 @@ import { Radio, Activity, Calendar } from './Icons';
 
 interface HubsTelemetrySectionProps {
   onOpenConsultation?: () => void;
+  /** 어느 거점을 보여 줄지 — 푸터의 거점 링크도 이 값을 바꾼다(전에는 넷 다 #nodes 로만 갔다) */
+  selectedHubIndex: number;
+  onSelectHubIndex: (index: number) => void;
 }
 
-export const HubsTelemetrySection: React.FC<HubsTelemetrySectionProps> = ({ onOpenConsultation }) => {
-  const [selectedHubIndex, setSelectedHubIndex] = useState(0);
+export const HubsTelemetrySection: React.FC<HubsTelemetrySectionProps> = ({
+  onOpenConsultation,
+  selectedHubIndex,
+  onSelectHubIndex,
+}) => {
   const [ping, setPing] = useState(14);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -23,7 +29,7 @@ export const HubsTelemetrySection: React.FC<HubsTelemetrySectionProps> = ({ onOp
     if (idx === selectedHubIndex) return;
     setIsTransitioning(true);
     setTimeout(() => {
-      setSelectedHubIndex(idx);
+      onSelectHubIndex(idx);
       setIsTransitioning(false);
     }, 120);
   };
@@ -44,9 +50,15 @@ export const HubsTelemetrySection: React.FC<HubsTelemetrySectionProps> = ({ onOp
               실시간 청정에너지 발전·터미널 거점
             </h2>
           </div>
-          <div className="flex items-center gap-2 mt-3 lg:mt-0 font-mono text-xs text-[#3d4947] bg-[#eff4ff] px-3 py-1.5 rounded-lg border border-[#bcc9c6]/40">
-            <span className="inline-block w-2 h-2 rounded-full bg-[#00685f] animate-pulse"></span>
-            <span>전 거점 SCADA 텔레메트리 1.0초 단위 동기화 중</span>
+          <div className="flex flex-col gap-2 mt-3 lg:mt-0 lg:items-end">
+            <div className="flex items-center gap-2 font-mono text-xs text-[#3d4947] bg-[#eff4ff] px-3 py-1.5 rounded-lg border border-[#bcc9c6]/40">
+              <span className="inline-block w-2 h-2 flex-shrink-0 rounded-full bg-[#00685f] animate-pulse"></span>
+              <span className="[word-break:keep-all]">전 거점 SCADA 텔레메트리 1.0초 단위 동기화 중</span>
+            </div>
+            {/* 계기판 값이 실측처럼 읽히지 않게 구역 머리에 한 번 적는다 */}
+            <span className="font-mono text-[11px] text-[#6d7a77] [word-break:keep-all]">
+              거점·계측값·투자액은 모두 예시 데이터입니다
+            </span>
           </div>
         </div>
 
@@ -60,6 +72,8 @@ export const HubsTelemetrySection: React.FC<HubsTelemetrySectionProps> = ({ onOp
                 <button
                   key={item.id}
                   id={`hubBtn${index}`}
+                  type="button"
+                  aria-pressed={isSelected}
                   onClick={() => handleSelectHub(index)}
                   className={`text-left w-full p-4 rounded-xl transition-all duration-200 cursor-pointer ${
                     isSelected
@@ -67,7 +81,7 @@ export const HubsTelemetrySection: React.FC<HubsTelemetrySectionProps> = ({ onOp
                       : 'border border-[#bcc9c6]/40 hover:border-[#006398] bg-white'
                   }`}
                 >
-                  <div className="flex justify-between items-center mb-1">
+                  <div className="flex flex-wrap justify-between items-center gap-x-2 gap-y-1 mb-1">
                     <span
                       className={`font-mono text-xs font-semibold px-2 py-0.5 rounded ${
                         isSelected
@@ -95,8 +109,8 @@ export const HubsTelemetrySection: React.FC<HubsTelemetrySectionProps> = ({ onOp
                       {item.status}
                     </span>
                   </div>
-                  <h4 className="text-base lg:text-lg font-bold text-[#0b1c30] mt-1">{item.name}</h4>
-                  <p className="text-xs lg:text-sm text-[#3d4947] mt-1">{item.desc}</p>
+                  <h4 className="text-base lg:text-lg font-bold text-[#0b1c30] mt-1 [word-break:keep-all]">{item.name}</h4>
+                  <p className="text-xs lg:text-sm text-[#3d4947] mt-1 [word-break:keep-all]">{item.desc}</p>
                 </button>
               );
             })}
@@ -115,14 +129,14 @@ export const HubsTelemetrySection: React.FC<HubsTelemetrySectionProps> = ({ onOp
                 <div>
                   <span
                     id="displayBadge"
-                    className="font-mono text-xs text-[#00685f] uppercase tracking-wider font-semibold"
+                    className="font-mono text-xs text-[#00685f] uppercase tracking-wider font-semibold break-words"
                   >
                     {hub.badge}
                   </span>
-                  <h3 id="displayTitle" className="text-xl lg:text-2xl font-bold text-[#0b1c30]">
+                  <h3 id="displayTitle" className="text-xl lg:text-2xl font-bold text-[#0b1c30] [word-break:keep-all]">
                     {hub.title}
                   </h3>
-                  <p id="displaySub" className="text-xs lg:text-sm text-[#3d4947]">
+                  <p id="displaySub" className="text-xs lg:text-sm text-[#3d4947] [word-break:keep-all]">
                     {hub.sub}
                   </p>
                 </div>
@@ -141,7 +155,7 @@ export const HubsTelemetrySection: React.FC<HubsTelemetrySectionProps> = ({ onOp
                     key={mIdx}
                     className="bg-white p-3.5 rounded-xl border border-[#bcc9c6]/40 shadow-2xs"
                   >
-                    <span className="font-mono text-[11px] text-[#6d7a77] block mb-1">
+                    <span className="font-mono text-[11px] text-[#6d7a77] block mb-1 [word-break:keep-all]">
                       {metric.label}
                     </span>
                     <span
@@ -152,7 +166,7 @@ export const HubsTelemetrySection: React.FC<HubsTelemetrySectionProps> = ({ onOp
                       {metric.val}
                     </span>
                     <span
-                      className={`font-mono text-[11px] block mt-1 ${
+                      className={`font-mono text-[11px] block mt-1 [word-break:keep-all] ${
                         metric.isPrimary ? 'text-[#00685f]' : 'text-[#006398]'
                       }`}
                     >
@@ -164,12 +178,13 @@ export const HubsTelemetrySection: React.FC<HubsTelemetrySectionProps> = ({ onOp
 
               {/* Schematic Status Bar */}
               <div className="p-4 rounded-xl bg-white border border-[#bcc9c6]/40">
-                <div className="flex items-center justify-between font-mono text-xs mb-2">
-                  <span className="text-[#0b1c30] font-semibold flex items-center gap-1.5">
-                    <Activity className="w-4 h-4 text-[#00685f]" />
-                    PEM Electrolyzer Dynamic Load Distribution
+                {/* 두 문자열 다 길어서 375 에서는 서로를 3줄로 밀어낸다 — 좁은 폭에서는 위아래로 */}
+                <div className="flex flex-col gap-1 font-mono text-xs mb-2 lg:flex-row lg:items-center lg:justify-between lg:gap-3">
+                  <span className="text-[#0b1c30] font-semibold flex items-start gap-1.5">
+                    <Activity className="w-4 h-4 text-[#00685f] flex-shrink-0 mt-px" />
+                    <span className="break-words">PEM Electrolyzer Dynamic Load Distribution</span>
                   </span>
-                  <span id="loadPercentage" className="text-[#00685f] font-bold">
+                  <span id="loadPercentage" className="text-[#00685f] font-bold lg:whitespace-nowrap">
                     {hub.loadText}
                   </span>
                 </div>
@@ -193,10 +208,10 @@ export const HubsTelemetrySection: React.FC<HubsTelemetrySectionProps> = ({ onOp
                     title="Reserve Cushion"
                   ></div>
                 </div>
-                <div className="flex flex-wrap justify-between font-mono text-[11px] text-[#6d7a77] mt-2 gap-2">
-                  <span>해상 직결 발전: {hub.barWind}</span>
-                  <span>그린수소 수전해 흡수: {hub.barH2}</span>
-                  <span>계통 완충 예비력: {hub.barReserve}</span>
+                <div className="flex flex-wrap justify-between font-mono text-[11px] text-[#6d7a77] mt-2 gap-x-3 gap-y-1">
+                  <span className="[word-break:keep-all]">해상 직결 발전: {hub.barWind}</span>
+                  <span className="[word-break:keep-all]">그린수소 수전해 흡수: {hub.barH2}</span>
+                  <span className="[word-break:keep-all]">계통 완충 예비력: {hub.barReserve}</span>
                 </div>
               </div>
             </div>
@@ -209,7 +224,7 @@ export const HubsTelemetrySection: React.FC<HubsTelemetrySectionProps> = ({ onOp
               <a
                 href="#consultation"
                 onClick={onOpenConsultation}
-                className="text-sm text-[#00685f] font-semibold hover:underline inline-flex items-center gap-1"
+                className="text-sm text-[#00685f] font-semibold hover:underline inline-flex items-center gap-1 max-lg:py-3"
               >
                 <span>거점 현장 기술 실사 신청</span>
                 <Calendar className="w-4 h-4" />

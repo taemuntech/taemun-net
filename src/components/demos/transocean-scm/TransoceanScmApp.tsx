@@ -14,6 +14,7 @@ import { RfpSection } from './components/RfpSection';
 import { Footer } from './components/Footer';
 import { PortRadarModal } from './components/PortRadarModal';
 import { SensorNodesModal } from './components/SensorNodesModal';
+import { SHIPMENT_DOSSIERS } from './data/mockData';
 import { PortHub } from './types';
 
 interface TransoceanScmAppProps {
@@ -21,8 +22,11 @@ interface TransoceanScmAppProps {
 }
 
 export default function TransoceanScmApp({ isEmbed = false }: TransoceanScmAppProps) {
-  const [currentBl, setCurrentBl] = useState<string>('TOCU-8924018');
-  const [quickSearchInput, setQuickSearchInput] = useState<string>('TOCU-8924018');
+  const DEFAULT_BL = 'TOCU-8924018';
+  const [currentBl, setCurrentBl] = useState<string>(DEFAULT_BL);
+  const [quickSearchInput, setQuickSearchInput] = useState<string>(DEFAULT_BL);
+  /** 헤더 LOCATE 의 조회 결과 안내 — 트래커 화면이 이 문구를 그린다(예전엔 헤더 조회가 말없이 기본 화물로 떨어졌다) */
+  const [quickSearchFeedback, setQuickSearchFeedback] = useState<string | null>(null);
   
   // Modals state
   const [radarModalOpen, setRadarModalOpen] = useState<boolean>(false);
@@ -32,9 +36,19 @@ export default function TransoceanScmApp({ isEmbed = false }: TransoceanScmAppPr
   // Prefilled quotation from simulator to RFP
   const [prefilledRfpNote, setPrefilledRfpNote] = useState<string | null>(null);
 
+  // 없는 B/L 을 넣으면 예전에는 아무 말 없이 기본 화물로 떨어지고, 센서 모달 제목에는 그 없는 번호가 찍혔다.
+  // 판정을 여기서 하고 안내 문구까지 만들어 트래커로 내려 준다.
   const handleQuickSearchSubmit = () => {
-    const targetBl = quickSearchInput.trim().toUpperCase() || 'TOCU-8924018';
-    setCurrentBl(targetBl);
+    const targetBl = quickSearchInput.trim().toUpperCase() || DEFAULT_BL;
+    const isKnown = Object.prototype.hasOwnProperty.call(SHIPMENT_DOSSIERS, targetBl);
+    const resolved = isKnown ? targetBl : DEFAULT_BL;
+    setCurrentBl(resolved);
+    setQuickSearchInput(resolved);
+    setQuickSearchFeedback(
+      isKnown
+        ? `Sample B/L manifest ${resolved} loaded (예시 데이터 — 실제 조회가 아닙니다).`
+        : `No sample manifest for ${targetBl} — loaded the default Bio-Logistics sample ${resolved} (예시 데이터).`,
+    );
     const trackingEl = document.getElementById('trackingSection');
     trackingEl?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -65,8 +79,9 @@ export default function TransoceanScmApp({ isEmbed = false }: TransoceanScmAppPr
     el?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // 한글 제목이 낱말 한가운데서 쪼개지던 자리(「차세/대」·「패키/징」) — 이 데모 안의 제목에 keep-all 을 한 번에 건다
   return (
-    <div className="min-h-screen bg-[#061426] text-[#d6e3fe] flex flex-col font-sans selection:bg-[#2563eb] selection:text-white">
+    <div className="min-h-screen bg-[#061426] text-[#d6e3fe] flex flex-col font-sans selection:bg-[#2563eb] selection:text-white [&_h1]:break-keep [&_h2]:break-keep [&_h3]:break-keep">
       {/* 🌟 Taemun Dev Studio Top Floating Demo Bar */}
       {!isEmbed && (
         <aside
@@ -120,9 +135,11 @@ export default function TransoceanScmApp({ isEmbed = false }: TransoceanScmAppPr
         {/* 4. Live Container Tracking HUD */}
         <ContainerTracker
           currentBl={currentBl}
+          incomingFeedback={quickSearchFeedback}
           onSelectBl={(blId) => {
             setCurrentBl(blId);
             setQuickSearchInput(blId);
+            setQuickSearchFeedback(null);
           }}
           onOpenSensorDetails={() => setSensorModalOpen(true)}
         />
@@ -156,7 +173,7 @@ export default function TransoceanScmApp({ isEmbed = false }: TransoceanScmAppPr
       <SensorNodesModal
         isOpen={sensorModalOpen}
         onClose={() => setSensorModalOpen(false)}
-        blId={currentBl}
+        dossier={SHIPMENT_DOSSIERS[currentBl] ?? SHIPMENT_DOSSIERS[DEFAULT_BL]}
       />
     </div>
   );

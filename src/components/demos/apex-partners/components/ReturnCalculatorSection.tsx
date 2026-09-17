@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Calculator, Download, CheckCircle2 } from 'lucide-react';
+import { Calculator, Download } from 'lucide-react';
 
 interface ReturnCalculatorSectionProps {
   onOpenVdr: () => void;
@@ -13,12 +13,16 @@ export default function ReturnCalculatorSection({ onOpenVdr }: ReturnCalculatorS
   // Calculations
   const totalDistribution = capital * moic;
   const netGain = totalDistribution - capital;
-  const netIrr = (Math.pow(moic, 1 / years) - 1) * 100;
+  const grossIrr = (Math.pow(moic, 1 / years) - 1) * 100;
   const dpi = moic.toFixed(2);
+
+  // 현금흐름 단계 — 운용 기간에 맞춰 연차를 같이 움직인다(막대만 있고 숫자가 안 바뀌면 죽은 그림이다).
+  const callEndYear = Math.max(1, Math.round(years * 0.25));
+  const valueEndYear = Math.max(callEndYear + 1, Math.round(years * 0.6));
 
   return (
     <section
-      className="py-20 bg-[#090e17] border-t border-[#4d4635]/20 relative"
+      className="py-20 bg-[#090e17] border-t border-[#4d4635]/20 relative scroll-mt-24"
       id="performance"
     >
       <div className="max-w-[1680px] mx-auto px-6 lg:px-14">
@@ -28,7 +32,7 @@ export default function ReturnCalculatorSection({ onOpenVdr }: ReturnCalculatorS
             <span className="font-mono-metric text-[11px] text-[#f2ca50] tracking-widest uppercase">
               QUANTITATIVE MODELING &amp; LIQUIDITY
             </span>
-            <h2 className="text-2xl lg:text-4xl font-serif-display text-[#dee2ef] mt-2">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif-display text-[#dee2ef] mt-2">
               LP 기대 수익률 &amp; 분배금 시뮬레이터 (IRR &amp; DPI)
             </h2>
           </div>
@@ -63,11 +67,11 @@ export default function ReturnCalculatorSection({ onOpenVdr }: ReturnCalculatorS
                 step="50"
                 value={capital}
                 onChange={(e) => setCapital(parseFloat(e.target.value))}
-                className="w-full h-2 bg-[#30353e] rounded appearance-none cursor-pointer custom-slider"
+                className="custom-slider w-full h-11 -my-3 bg-transparent appearance-none cursor-pointer [&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-runnable-track]:rounded [&::-webkit-slider-runnable-track]:bg-[#30353e] [&::-moz-range-track]:h-2 [&::-moz-range-track]:rounded [&::-moz-range-track]:bg-[#30353e] [&::-webkit-slider-thumb]:-mt-[5px]"
               />
-              <div className="flex justify-between font-mono-metric text-[11px] text-[#d0c5af]/70 mt-1.5">
+              <div className="flex justify-between gap-2 font-mono-metric text-[11px] text-[#d0c5af]/70 mt-1.5">
                 <span>₩100억</span>
-                <span>₩500억</span>
+                <span className="hidden sm:inline">₩500억</span>
                 <span>₩1,000억 원</span>
               </div>
             </div>
@@ -93,11 +97,11 @@ export default function ReturnCalculatorSection({ onOpenVdr }: ReturnCalculatorS
                 step="1"
                 value={years}
                 onChange={(e) => setYears(parseFloat(e.target.value))}
-                className="w-full h-2 bg-[#30353e] rounded appearance-none cursor-pointer custom-slider"
+                className="custom-slider w-full h-11 -my-3 bg-transparent appearance-none cursor-pointer [&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-runnable-track]:rounded [&::-webkit-slider-runnable-track]:bg-[#30353e] [&::-moz-range-track]:h-2 [&::-moz-range-track]:rounded [&::-moz-range-track]:bg-[#30353e] [&::-webkit-slider-thumb]:-mt-[5px]"
               />
-              <div className="flex justify-between font-mono-metric text-[11px] text-[#d0c5af]/70 mt-1.5">
+              <div className="flex justify-between gap-2 font-mono-metric text-[11px] text-[#d0c5af]/70 mt-1.5">
                 <span>4년 (Fast Turnaround)</span>
-                <span>7년 (Standard Vintage)</span>
+                <span className="hidden sm:inline">7년 (Standard Vintage)</span>
                 <span>10년 (Long-Term Infra)</span>
               </div>
             </div>
@@ -123,30 +127,35 @@ export default function ReturnCalculatorSection({ onOpenVdr }: ReturnCalculatorS
                 step="0.1"
                 value={moic}
                 onChange={(e) => setMoic(parseFloat(e.target.value))}
-                className="w-full h-2 bg-[#30353e] rounded appearance-none cursor-pointer custom-slider"
+                className="custom-slider w-full h-11 -my-3 bg-transparent appearance-none cursor-pointer [&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-runnable-track]:rounded [&::-webkit-slider-runnable-track]:bg-[#30353e] [&::-moz-range-track]:h-2 [&::-moz-range-track]:rounded [&::-moz-range-track]:bg-[#30353e] [&::-webkit-slider-thumb]:-mt-[5px]"
               />
-              <div className="flex justify-between font-mono-metric text-[11px] text-[#d0c5af]/70 mt-1.5">
+              <div className="flex justify-between gap-2 font-mono-metric text-[11px] text-[#d0c5af]/70 mt-1.5">
                 <span>1.5x (Defensive Core)</span>
-                <span>2.8x (Standard Case)</span>
+                <span className="hidden sm:inline">2.8x (Standard Case)</span>
                 <span>4.5x (Deep-Tech Outlier)</span>
               </div>
             </div>
 
             {/* Compliance Disclaimer */}
             <div className="p-4 bg-[#1a2029] border border-[#4d4635]/30 rounded text-xs text-[#d0c5af]/80 leading-relaxed">
-              * 가상 브랜드 샘플의 계산기입니다. 운용보수(2.0%)·기준수익률(Hurdle 7%)·성과보수(20%)는 모두 가상 설정의 예시 수치이며, 실제 펀드 실적이나 수익률 제시가 아닙니다.
+              * 가상 브랜드 샘플의 계산기입니다. 목표 배수만으로 환산한 예시 값이라 운용보수·기준수익률·성과보수는 반영하지 않았고, 실제 펀드 실적이나 수익률 제시가 아닙니다.
             </div>
           </div>
 
           {/* Calculated Output Dashboard Column */}
           <div className="lg:col-span-6 flex flex-col justify-between bg-[#090e17] p-6 rounded-xl border border-[#4d4635]/40">
             <div>
-              <span className="font-mono-metric text-[11px] text-[#d0c5af] block mb-4 uppercase">
-                SIMULATED LP RETURN PROJECTION
-              </span>
+              <div className="flex flex-wrap items-center gap-2 mb-4">
+                <span className="font-mono-metric text-[11px] text-[#d0c5af] uppercase">
+                  SIMULATED LP RETURN PROJECTION
+                </span>
+                <span className="px-2 py-0.5 rounded bg-[#f2ca50]/15 border border-[#f2ca50]/30 font-mono-metric text-[11px] text-[#f2ca50]">
+                  예시 계산
+                </span>
+              </div>
 
               {/* 2-Column Main Distribution Totals */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-6 border-b border-[#4d4635]/30">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pb-6 border-b border-[#4d4635]/30">
                 <div>
                   <span className="font-mono-metric text-[11px] text-[#d0c5af] uppercase block">
                     예상 총 분배금 (Total Return)
@@ -169,10 +178,10 @@ export default function ReturnCalculatorSection({ onOpenVdr }: ReturnCalculatorS
               <div className="grid grid-cols-2 gap-6 py-6 border-b border-[#4d4635]/30">
                 <div>
                   <span className="font-mono-metric text-[11px] text-[#d0c5af] uppercase block">
-                    연평균 내부수익률 (Net IRR)
+                    연평균 수익률 (IRR 환산 · 보수 차감 전)
                   </span>
                   <div className="text-xl lg:text-2xl font-mono-metric text-[#dee2ef] font-semibold mt-1">
-                    {netIrr.toFixed(1)}%
+                    {grossIrr.toFixed(1)}%
                   </div>
                 </div>
                 <div>
@@ -195,24 +204,24 @@ export default function ReturnCalculatorSection({ onOpenVdr }: ReturnCalculatorS
                 <div
                   className="h-full bg-[#99907c]"
                   style={{ width: '25%' }}
-                  title="Phase I: 자본 납입 집행 (25%)"
+                  title={`Phase I: 자본 납입 집행 (~${callEndYear}년차)`}
                 />
                 <div
                   className="h-full bg-[#f2ca50]"
                   style={{ width: '35%' }}
-                  title="Phase II: 밸류업 가속 (35%)"
+                  title={`Phase II: 밸류업 가속 (${callEndYear + 1}~${valueEndYear}년차)`}
                 />
                 <div
                   className="h-full bg-[#4edea3]"
                   style={{ width: '40%' }}
-                  title="Phase III: 원금 + 초과수익 전액 분배 (40%)"
+                  title={`Phase III: 원금 + 초과수익 분배 (${valueEndYear + 1}~${years}년차)`}
                 />
               </div>
-              <div className="flex flex-col lg:flex-row justify-between font-mono-metric text-[11px] text-[#d0c5af]/80 mt-2 gap-1">
-                <span>Phase I: 투자 집행 (Call)</span>
-                <span>Phase II: 밸류업 가속</span>
+              <div className="flex flex-col sm:flex-row sm:flex-wrap justify-between font-mono-metric text-[11px] text-[#d0c5af]/80 mt-2 gap-1">
+                <span>Phase I: 투자 집행 (~{callEndYear}년차)</span>
+                <span>Phase II: 밸류업 ({callEndYear + 1}~{valueEndYear}년차)</span>
                 <span className="text-[#4edea3] font-medium">
-                  Phase III: 원금 + 초과수익 전액 분배
+                  Phase III: 분배 ({valueEndYear + 1}~{years}년차)
                 </span>
               </div>
             </div>
@@ -221,7 +230,7 @@ export default function ReturnCalculatorSection({ onOpenVdr }: ReturnCalculatorS
               <a
                 href="#vdr"
                 onClick={onOpenVdr}
-                className="w-full flex items-center justify-center gap-2 py-3.5 bg-[#f2ca50] hover:bg-[#e9c349] text-[#3c2f00] rounded text-xs font-semibold transition-all shadow-md"
+                className="w-full flex items-center justify-center gap-2 min-h-12 px-4 py-3 bg-[#f2ca50] hover:bg-[#e9c349] text-[#3c2f00] rounded text-xs font-semibold text-center transition-all shadow-md"
               >
                 <span>공식 기관용 팩트시트 (Detailed Factsheet) 다운로드 신청</span>
                 <Download className="w-4 h-4" />

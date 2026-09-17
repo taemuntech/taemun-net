@@ -98,7 +98,7 @@ export const YieldCalculator: React.FC<YieldCalculatorProps> = ({ onQuoteRequest
                         key={preset.size}
                         type="button"
                         onClick={() => setFootprint(preset.size)}
-                        className={`py-2 px-3 rounded-lg border text-xs font-mono transition cursor-pointer ${ isSelected ? 'border-[#006948] bg-[#006948]/10 text-[#006948] font-bold' : 'border-[#bccac0] text-[#131b2e] hover:border-[#006948] active:bg-[#85f8c4]/20' }`}
+                        className={`py-2.5 px-2 min-h-11 rounded-lg border text-xs font-mono transition cursor-pointer ${ isSelected ? 'border-[#006948] bg-[#006948]/10 text-[#006948] font-bold' : 'border-[#bccac0] text-[#131b2e] hover:border-[#006948] active:bg-[#85f8c4]/20' }`}
                       >
                         {preset.label}
                       </button>
@@ -115,7 +115,7 @@ export const YieldCalculator: React.FC<YieldCalculatorProps> = ({ onQuoteRequest
                   step="500"
                   value={footprint}
                   onChange={(e) => setFootprint(parseInt(e.target.value, 10))}
-                  className="w-full accent-[#006948] cursor-pointer mt-2"
+                  className="w-full h-11 accent-[#006948] cursor-pointer mt-1"
                 />
                 <div className="flex justify-between text-[11px] font-mono text-[#6d7a72] mt-1">
                   <span>1,000평 (모듈)</span>
@@ -185,7 +185,8 @@ export const YieldCalculator: React.FC<YieldCalculatorProps> = ({ onQuoteRequest
           </div>
 
           {/* Real-time Output Matrix Cards (Right) */}
-          <div className="lg:col-span-7 grid grid-cols-1 lg:grid-cols-2 gap-4">
+          {/* 모바일/웹 경계는 그대로 lg 다. md 는 태블릿(768)에서 카드가 한 장씩 늘어지던 걸 2열로 접는 중간 단계일 뿐이다. */}
+          <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Output 1: Annual Yield */}
             <div className="bg-[#f2f3ff] p-6 rounded-xl border border-[#bccac0]/40 flex flex-col justify-between shadow-2xs">
               <div>
@@ -210,7 +211,7 @@ export const YieldCalculator: React.FC<YieldCalculatorProps> = ({ onQuoteRequest
                   <strong className="text-[#131b2e]">
                     {(annualTonnes / 365).toFixed(1)}톤
                   </strong>
-                  의 무농약 농산물을 균등 출하합니다.
+                  의 무농약 농산물을 균등 출하하는 설정입니다. (예시)
                 </p>
               </div>
               <div className="mt-4 pt-3 border-t border-[#bccac0]/20 flex justify-between font-mono text-[11px]">
@@ -239,7 +240,7 @@ export const YieldCalculator: React.FC<YieldCalculatorProps> = ({ onQuoteRequest
                   </span>
                 </div>
                 <p className="font-body text-xs text-[#3d4a42] mt-2 leading-relaxed">
-                  초미세 초음파 에어로포닉스 미스트 분무 후 증산 수분을 98% 응축 재포집하여 재순환합니다.
+                  초미세 초음파 에어로포닉스 미스트 분무 후 증산 수분을 98% 응축 재포집해 재순환하는 구성입니다. (예시 수치)
                 </p>
               </div>
               <div className="mt-4 pt-3 border-t border-[#bccac0]/20 flex justify-between font-mono text-[11px]">
@@ -268,7 +269,7 @@ export const YieldCalculator: React.FC<YieldCalculatorProps> = ({ onQuoteRequest
                   </span>
                 </div>
                 <p className="font-body text-xs text-[#3d4a42] mt-2 leading-relaxed">
-                  트랙터 유류 제로, 화학 농약 미사용 및 4시간 직배송 푸드마일 단축으로 달성되는 탄소 감축량입니다.
+                  트랙터 유류 제로, 화학 농약 미사용 및 4시간 직배송 푸드마일 단축을 전제로 산정한 탄소 감축량입니다. (예시)
                 </p>
               </div>
               <div className="mt-4 pt-3 border-t border-[#bccac0]/20 flex justify-between font-mono text-[11px]">
@@ -301,7 +302,7 @@ export const YieldCalculator: React.FC<YieldCalculatorProps> = ({ onQuoteRequest
                 </p>
               </div>
               <div className="mt-4 pt-3 border-t border-[#bccac0]/20 flex justify-between font-mono text-[11px]">
-                <span className="text-[#6d7a72]">예상 연매출 규모</span>
+                <span className="text-[#6d7a72]">예상 연매출 규모 (예시)</span>
                 <span className="text-[#131b2e] font-bold">약 {estimatedRevenueEok} 억원</span>
               </div>
             </div>

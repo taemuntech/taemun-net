@@ -23,7 +23,7 @@ export const PortHubsSection: React.FC<PortHubsSectionProps> = ({ onSelectHub })
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
           {PORT_HUBS.map((hub) => {
             let statusBadgeBg = 'bg-emerald-950/60 text-emerald-400 border-emerald-500/40';
             let waitTextColor = 'text-emerald-400';
@@ -57,24 +57,24 @@ export const PortHubsSection: React.FC<PortHubsSectionProps> = ({ onSelectHub })
                   </p>
 
                   <div className="space-y-1.5 font-mono text-xs border-t border-[#434655]/30 pt-3 mb-4 text-[#d6e3fe]">
-                    <div className="flex justify-between">
-                      <span className="text-[#8d90a0]">Berth Wait Time:</span>
-                      <span className={`${waitTextColor} font-semibold`}>{hub.berthWaitTime}</span>
+                    <div className="flex justify-between gap-2">
+                      <span className="text-[#8d90a0] shrink-0">Berth Wait Time:</span>
+                      <span className={`${waitTextColor} font-semibold text-right`}>{hub.berthWaitTime}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-[#8d90a0]">Crane Turnaround:</span>
-                      <span className="text-white">{hub.craneTurnaround}</span>
+                    <div className="flex justify-between gap-2">
+                      <span className="text-[#8d90a0] shrink-0">Crane Turnaround:</span>
+                      <span className="text-white text-right">{hub.craneTurnaround}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-[#8d90a0]">{hub.intermodalLabel}:</span>
-                      <span className="text-white">{hub.intermodalDetail}</span>
+                    <div className="flex justify-between gap-2">
+                      <span className="text-[#8d90a0] min-w-0 break-words">{hub.intermodalLabel}:</span>
+                      <span className="text-white text-right">{hub.intermodalDetail}</span>
                     </div>
                   </div>
                 </div>
 
                 <button
                   onClick={() => onSelectHub(hub)}
-                  className="font-mono text-xs text-[#b4c5ff] uppercase flex items-center space-x-1 hover:text-white transition-colors pt-2 border-t border-[#434655]/20 text-left"
+                  className="font-mono text-xs text-[#b4c5ff] uppercase flex items-center space-x-1 hover:text-white transition-colors pt-2 min-h-11 border-t border-[#434655]/20 text-left"
                 >
                   <span>View {hub.name.split(' ')[0]} Live Yard Map</span>
                   <ArrowUpRight className="w-3.5 h-3.5 ml-1" />

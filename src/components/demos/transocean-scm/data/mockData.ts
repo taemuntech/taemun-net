@@ -1,5 +1,7 @@
 import { ShipmentDossier, TradeRoute, PortHub } from '../types';
 
+// 일정은 지어낸 예시다. 예전에는 1년 넘게 지난 날짜(2025년 5월)가 「3일 남음」과 나란히 찍혀
+// 「멈춘 화면」으로 읽혔다 — 남은 시간과 앞뒤가 맞는 최근 날짜로 맞추고 화면에도 「예시 일정」이라고 적는다.
 export const SHIPMENT_DOSSIERS: Record<string, ShipmentDossier> = {
   'TOCU-8924018': {
     blId: 'TOCU-8924018',
@@ -9,9 +11,9 @@ export const SHIPMENT_DOSSIERS: Record<string, ShipmentDossier> = {
     vesselImo: '0000000 (예시)',
     status: 'IN TRANSIT • ON SCHEDULE',
     originPort: 'Busan New Port (Terminal 4)',
-    originDetails: 'Departed: May 18, 2025 • 04:20 KST (Berth A-02)',
+    originDetails: 'Departed: Sep 09, 2026 • 04:20 KST (Berth A-02)',
     destPort: 'Rotterdam Maasvlakte 2',
-    destDetails: 'Expected Berth: May 29, 2025 • 11:30 CEST',
+    destDetails: 'Expected Berth: Sep 20, 2026 • 11:30 CEST (예시 일정)',
     eta: '3 Days 14 Hours Remaining',
     progressPercent: 78,
     distanceTraversed: '78% Journey Completed • 8,420 nm Traversed',
@@ -39,9 +41,9 @@ export const SHIPMENT_DOSSIERS: Record<string, ShipmentDossier> = {
     vesselImo: '0000000 (예시)',
     status: 'APPROACHING BERTH • PILOT ONBOARD',
     originPort: 'Busan New Port (Terminal 2)',
-    originDetails: 'Departed: May 22, 2025 • 18:00 KST (Berth B-07)',
+    originDetails: 'Departed: Sep 05, 2026 • 18:00 KST (Berth B-07)',
     destPort: 'Los Angeles Pier 400',
-    destDetails: 'Expected Berth: June 03, 2025 • 06:15 PDT',
+    destDetails: 'Expected Berth: Sep 17, 2026 • 06:15 PDT (예시 일정)',
     eta: '7 Hours Remaining',
     progressPercent: 96,
     distanceTraversed: '96% Journey Completed • 5,210 nm Traversed',
@@ -69,9 +71,9 @@ export const SHIPMENT_DOSSIERS: Record<string, ShipmentDossier> = {
     vesselImo: '0000000 (예시)',
     status: 'CORRIDOR NAVIGATION • ESCORT SECURE',
     originPort: 'Singapore Tuas Port T1',
-    originDetails: 'Departed: May 20, 2025 • 09:45 SGT (Berth T-14)',
+    originDetails: 'Departed: Sep 06, 2026 • 09:45 SGT (Berth T-14)',
     destPort: 'Rotterdam Gateway Berth 12',
-    destDetails: 'Expected Berth: June 06, 2025 • 16:00 CEST',
+    destDetails: 'Expected Berth: Sep 22, 2026 • 16:00 CEST (예시 일정)',
     eta: '5 Days 08 Hours Remaining',
     progressPercent: 62,
     distanceTraversed: '62% Journey Completed • 4,980 nm Traversed',
@@ -133,6 +135,9 @@ export const PORT_HUBS: PortHub[] = [
     intermodalLabel: 'Customs Clearance',
     coordinates: '35°04\'N, 128°49\'E',
     congestionIndex: 12,
+    anchoredVessels: 6,
+    berthsActive: '28 / 34',
+    seaState: 'Sea State 2 (Calm)',
   },
   {
     id: 'nlrtm',
@@ -146,12 +151,15 @@ export const PORT_HUBS: PortHub[] = [
     intermodalLabel: 'Direct Rail Corridors',
     coordinates: '51°57\'N, 04°03\'E',
     congestionIndex: 38,
+    anchoredVessels: 14,
+    berthsActive: '31 / 34',
+    seaState: 'Sea State 4 (Moderate)',
   },
   {
     id: 'sgsin',
     code: 'SGSIN',
     name: 'Singapore Strait Hub',
-    description: 'Southeast Asian Transshipment Citadel. Tuas Mega Port autonomous berths with 100% electrified AGV networks. (예시 데이터)',
+    description: 'Southeast Asian Transshipment Citadel. Tuas Mega Port autonomous berths with a fully electrified AGV network. (예시 데이터)',
     status: 'OPTIMAL',
     berthWaitTime: '0.6 Days',
     craneTurnaround: '18.5 Hours',
@@ -159,6 +167,9 @@ export const PORT_HUBS: PortHub[] = [
     intermodalLabel: 'Bunker Fuel',
     coordinates: '01°16\'N, 103°38\'E',
     congestionIndex: 22,
+    anchoredVessels: 9,
+    berthsActive: '26 / 30',
+    seaState: 'Sea State 1 (Smooth)',
   },
   {
     id: 'uslax',
@@ -172,9 +183,8 @@ export const PORT_HUBS: PortHub[] = [
     intermodalLabel: 'On-Dock Rail Lead',
     coordinates: '33°44\'N, 118°16\'W',
     congestionIndex: 78,
+    anchoredVessels: 27,
+    berthsActive: '22 / 22',
+    seaState: 'Sea State 3 (Slight)',
   },
 ];
-
-export const BRAND_LOGO_URL = 'https://lh3.googleusercontent.com/aida/AEtjO1VFij37kOzNUYMYJVUQ1IRTf6xGJrRmCzWHuQRHsFOBQ8jE27brNxb8O2D4kZHOw1zrWwMO4XpmAryggzdX07vj1fOxpY4oxPCkxv6AWUeTegberVAZdN9TmrgIZNCmhqwo6kmWoxRotxBota3DaOlb-g1Ziv91Y5Vu63DtqAszhbIK0et9-eJsZ3AzMrLzzHDt4y3eev3OAwR9FD6cnuyNk4sSUTTA9vI9Yh3nnFlSFaFrsiuJS4Ds8g';
-
-export const HERO_SHIP_URL = 'https://lh3.googleusercontent.com/aida-public/AB6AXuBuE0Y8RrN9OOxGpEeoWuEgELTCS4QdPMmlbE5NvfykOlmb00zrPz1BdUv7K4-C487l86IZMqzgy_TfyE6rNh6r0aFzVmEnAoHeK1DBYaDqY8lYwR46NBhEpySKdmu-hLtfe9JtOtvJvJnKOXLHVAJFUeF0SsHEEDTlWk7EGgLbFF2GZOusQgPrdtuCBOFWNJABA6m10QHPDGU9yIJxZ-qyOyqWVLa4FCLVdvkCFmNjmtR5AbHDLKd5';

@@ -1,23 +1,56 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Phone, MessageSquare } from 'lucide-react';
 import SampleNotice from '@/components/demo-kit/SampleNotice';
+import { DESTINATIONS } from '../data/resorts';
 import { BookingFormData } from '../types';
 
 interface ConciergeGateProps {
-  defaultDestination?: string;
+  /** 견적기에서 고른 목적지 id — 폼의 목적지 칸이 그걸 따라간다 */
+  selectedDestinationId: string;
+  /** 푸터 컨시어지 항목이 고른 주제 — 요청 사항 칸을 그 문장으로 채운다 */
+  prefillRequest?: string | null;
 }
 
-export const ConciergeGate: React.FC<ConciergeGateProps> = ({ defaultDestination = '남해 오션 클리프 (Namhae Cliffside)' }) => {
+// 예전엔 선택지 문자열과 상위가 넘기던 값의 표기가 서로 달라(Namhae Cliffside vs Namhae Ocean Cliff)
+// 견적기에서 무엇을 고르든 폼은 늘 첫 항목으로 되돌아갔다. 이제 선택지도 값도 같은 데이터에서 만든다.
+const DESTINATION_OPTIONS = DESTINATIONS.map((dest) => ({
+  id: dest.id,
+  label: `${dest.nameKo} (${dest.name})`,
+}));
+
+export const ConciergeGate: React.FC<ConciergeGateProps> = ({
+  selectedDestinationId,
+  prefillRequest = null,
+}) => {
   const [formData, setFormData] = useState<BookingFormData>({
     fullName: '',
     phone: '',
-    destination: defaultDestination,
+    destination: selectedDestinationId,
     partySize: '',
     preferredDates: '',
     specialRequirements: '',
   });
+
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, destination: selectedDestinationId }));
+  }, [selectedDestinationId]);
+
+  // 푸터에서 고른 컨시어지 주제를 요청 사항 칸에 넣는다(이미 쓰던 내용이 있으면 덮지 않고 뒤에 잇는다)
+  useEffect(() => {
+    if (!prefillRequest) return;
+    setFormData((prev) =>
+      prev.specialRequirements.includes(prefillRequest)
+        ? prev
+        : {
+            ...prev,
+            specialRequirements: prev.specialRequirements
+              ? `${prev.specialRequirements.trimEnd()} ${prefillRequest}`
+              : prefillRequest,
+          },
+    );
+  }, [prefillRequest]);
 
   // 샘플이라 문의를 받지 않는다 — 가짜 접수 완료 화면 대신 공용 안내(SampleNotice)만 연다.
   const [isNoticeOpen, setIsNoticeOpen] = useState(false);
@@ -35,7 +68,10 @@ export const ConciergeGate: React.FC<ConciergeGateProps> = ({ defaultDestination
   };
 
   return (
-    <section className="py-20 lg:py-24 bg-[#fcf9f3] border-t border-[#c6c7c0]/20" id="concierge">
+    <section
+      className="py-16 lg:py-24 bg-[#fcf9f3] border-t border-[#c6c7c0]/20 scroll-mt-[calc(var(--sample-bar-h,0px)_+_64px)]"
+      id="concierge"
+    >
       <div className="w-full px-6 lg:px-14 mx-auto max-w-6xl">
         <div className="bg-[#f6f3ed] border border-[#c6c7c0]/30 rounded p-6 lg:p-14 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
@@ -72,7 +108,7 @@ export const ConciergeGate: React.FC<ConciergeGateProps> = ({ defaultDestination
                       KakaoTalk Concierge
                     </span>
                     <span className="text-sm lg:text-base font-medium tracking-wide">
-                      @ATLAS_SANCTUARY
+                      @ATLAS_SANCTUARY (예시)
                     </span>
                   </div>
                 </div>
@@ -122,12 +158,13 @@ export const ConciergeGate: React.FC<ConciergeGateProps> = ({ defaultDestination
                       name="destination"
                       value={formData.destination}
                       onChange={handleChange}
-                      className="w-full bg-transparent border-0 border-b border-[#767872]/30 focus:border-[#725b38] focus:ring-0 px-0 py-2 text-sm text-[#030402] transition-colors"
+                      className="w-full min-h-11 bg-transparent border-0 border-b border-[#767872]/30 focus:border-[#725b38] focus:ring-0 px-0 py-2 text-sm text-[#030402] transition-colors"
                     >
-                      <option value="남해 오션 클리프 (Namhae Cliffside)">남해 오션 클리프 (Namhae Cliffside)</option>
-                      <option value="제주 곶자왈 (Jeju Gotjawal)">제주 곶자왈 (Jeju Gotjawal)</option>
-                      <option value="발리 우붓 (Bali Ubud)">발리 우붓 (Bali Ubud)</option>
-                      <option value="교토 아라시야마 (Kyoto Arashiyama)">교토 아라시야마 (Kyoto Arashiyama)</option>
+                      {DESTINATION_OPTIONS.map((option) => (
+                        <option key={option.id} value={option.id}>
+                          {option.label}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div>
@@ -174,13 +211,13 @@ export const ConciergeGate: React.FC<ConciergeGateProps> = ({ defaultDestination
                 </div>
 
                 <div className="pt-4 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-                  <span className="text-[10px] text-[#767872] tracking-[0.16em] normal-case">
+                  <span className="text-[10px] text-[#767872] tracking-[0.16em] normal-case leading-relaxed">
                     샘플 사이트입니다 — 입력하신 내용은 어디에도 전송되지 않습니다.
                   </span>
                   <button
                     type="submit"
                     id="btn-concierge-submit"
-                    className="w-full bg-[#030402] text-[#fcf9f3] px-8 py-3.5 rounded text-[11px] uppercase tracking-[0.2em] font-medium hover:bg-[#31312d] transition-colors duration-300"
+                    className="w-full lg:w-auto shrink-0 min-h-12 bg-[#030402] text-[#fcf9f3] px-8 py-3.5 rounded text-[11px] uppercase tracking-[0.2em] font-medium hover:bg-[#31312d] transition-colors duration-300 whitespace-nowrap"
                   >
                     컨시어지 직통 문의 발송
                   </button>

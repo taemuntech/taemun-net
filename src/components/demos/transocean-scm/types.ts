@@ -50,4 +50,8 @@ export interface PortHub {
   intermodalLabel: string;
   coordinates: string;
   congestionIndex: number;
+  /** 레이더 모달 하단 요약 — 허브를 바꾸면 같이 바뀌어야 한다(전에는 고정값이라 탭이 결과를 안 바꿨다) */
+  anchoredVessels: number;
+  berthsActive: string;
+  seaState: string;
 }

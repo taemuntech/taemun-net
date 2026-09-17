@@ -1,5 +1,5 @@
 import React from 'react';
-import { GraduationCap, FileText, ExternalLink, BookOpen } from 'lucide-react';
+import { GraduationCap, BookOpen } from 'lucide-react';
 import { SAB_ADVISORS, PUBLICATIONS } from '../data/mockData';
 import { Publication } from '../types';
 
@@ -9,7 +9,7 @@ interface SabSectionProps {
 
 export const SabSection: React.FC<SabSectionProps> = ({ onSelectPublication }) => {
   return (
-    <section className="py-24 cleanroom-grid border-t border-[#c4c5d5]/30" id="sab">
+    <section className="scroll-mt-[calc(5rem+var(--sample-bar-h,0px))] py-24 cleanroom-grid border-t border-[#c4c5d5]/30" id="sab">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
@@ -20,17 +20,18 @@ export const SabSection: React.FC<SabSectionProps> = ({ onSelectPublication }) =
           <h2 className="text-[32px] lg:text-[40px] font-bold text-[#0b1c30] tracking-tight">
             글로벌 과학 자문단 (SAB) & 주요 학술 성과
           </h2>
-          <p className="text-[16px] text-[#444653] mt-3 leading-relaxed">
-            세계적인 종양학 권위자들과 TPD 분야 석학들이 CELEBRIS의 임상 전략과 작용 기전을 검증합니다.
+          <p className="text-[16px] text-[#444653] mt-3 leading-relaxed [word-break:keep-all]">
+            종양학·TPD 분야 자문 위원 구성과 학술 성과 지면을 보여 주는 예시입니다 — 아래 인물·소속·약력은 모두 지어낸 것입니다.
           </p>
         </div>
 
         {/* SAB Profiles Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-16">
+        {/* 768px 에서 자문 카드 3장이 전폭으로 늘어지던 자리 — 태블릿(sm~lg)에서는 2열 */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           {SAB_ADVISORS.map((advisor, idx) => (
             <div
               key={idx}
-              className="bg-white p-8 rounded-xl border border-[#c4c5d5]/40 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow"
+              className="bg-white p-6 lg:p-8 rounded-xl border border-[#c4c5d5]/40 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow"
             >
               <div>
                 <div className="flex items-center space-x-4 mb-6">
@@ -117,7 +118,7 @@ export const SabSection: React.FC<SabSectionProps> = ({ onSelectPublication }) =
 
                 <button
                   onClick={() => onSelectPublication(pub)}
-                  className="inline-flex items-center space-x-1.5 px-4 py-2.5 rounded-lg bg-white border border-[#c4c5d5]/50 text-[13px] font-semibold text-[#00288e] hover:bg-[#e5eeff] transition-all shadow-2xs shrink-0 cursor-pointer"
+                  className="inline-flex min-h-11 items-center justify-center space-x-1.5 px-4 py-2.5 rounded-lg bg-white border border-[#c4c5d5]/50 text-[13px] font-semibold text-[#00288e] hover:bg-[#e5eeff] transition-all shadow-2xs shrink-0 cursor-pointer"
                 >
                   <BookOpen className="w-4 h-4" />
                   <span>논문 브리핑 PDF 열람</span>

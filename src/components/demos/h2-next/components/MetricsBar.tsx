@@ -40,7 +40,17 @@ export const MetricsBar: React.FC<MetricsBarProps> = ({ id = "metrics-bar" }) =>
   return (
     <div id={id} className="relative z-10 w-full bg-white/85 backdrop-blur-md border-t border-[#bcc9c6]/30 py-4">
       <div className="max-w-[1440px] mx-auto px-4 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+        {/* 실적처럼 읽히는 수치라 지표 바 머리에 예시 표시를 한 번 남긴다 */}
+        <div className="mb-2 flex items-center gap-2">
+          <span className="shrink-0 whitespace-nowrap rounded-full border border-[#00685f]/30 bg-white px-2.5 py-0.5 font-mono text-[11px] font-semibold text-[#00685f]">
+            예시 수치
+          </span>
+          <span className="font-mono text-[11px] text-[#6d7a77] [word-break:keep-all]">
+            아래 지표는 화면 구성을 보여 주기 위한 값입니다
+          </span>
+        </div>
+        {/* 태블릿(640~1023)에서 한 칸씩 늘어져 빈 폭이 남던 자리를 2열로 채운다 */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {TRUST_METRICS.map((metric, idx) => (
             <div
               key={idx}
@@ -48,7 +58,7 @@ export const MetricsBar: React.FC<MetricsBarProps> = ({ id = "metrics-bar" }) =>
               className="p-4 rounded-xl bg-white/90 border border-[#bcc9c6]/40 shadow-xs hover:shadow-sm transition-shadow flex flex-col justify-between"
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="text-[13px] text-[#3d4947] font-medium">{metric.title}</span>
+                <span className="text-[13px] text-[#3d4947] font-medium [word-break:keep-all]">{metric.title}</span>
                 {getIcon(metric.icon)}
               </div>
               <div className="flex items-baseline gap-1 my-1">
@@ -61,9 +71,15 @@ export const MetricsBar: React.FC<MetricsBarProps> = ({ id = "metrics-bar" }) =>
                 </span>
                 <span className="font-mono text-xs text-[#3d4947] font-semibold">{metric.unit}</span>
               </div>
-              <div className="flex items-center gap-1 mt-1 text-[11px] font-mono text-[#006398]">
-                {getTrendIcon(metric.trendIcon)}
-                <span className={metric.trendIcon === 'verified' || metric.trendIcon === 'handshake' ? 'text-[#00685f]' : 'text-[#006398]'}>
+              <div className="flex items-start gap-1 mt-1 text-[11px] font-mono text-[#006398]">
+                <span className="mt-0.5 flex-shrink-0">{getTrendIcon(metric.trendIcon)}</span>
+                <span
+                  className={`[word-break:keep-all] ${
+                    metric.trendIcon === 'verified' || metric.trendIcon === 'handshake'
+                      ? 'text-[#00685f]'
+                      : 'text-[#006398]'
+                  }`}
+                >
                   {metric.trend}
                 </span>
               </div>

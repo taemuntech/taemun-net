@@ -30,9 +30,9 @@ export default function ApexPartnersPageClient({ isEmbed }: Props) {
       ]}
       inquiryUrl="/inquiry?from=apex-partners"
       specs={[
-        { label: '반응형 규격', value: 'PC(와이드) · 태블릿 · 모바일 단일 lg: 브레이크포인트 규격' },
+        { label: '반응형 규격', value: '모바일 375 단일 열 · 태블릿 768 2열 · PC 1024+ 전체 레이아웃 3단계' },
         { label: '수익률 시뮬레이터', value: '약정액·투자기간·목표배수 조절 실시간 Net IRR 및 DPI 분배금 계산기' },
-        { label: '포트폴리오 매트릭스', value: '바이아웃·딥테크·인프라 펀드별 포트폴리오 기업 및 회수(Exit) 실적 모달' },
+        { label: '포트폴리오 매트릭스', value: '유니콘·회수·딥테크·헬스케어 필터(건수 표시)와 키보드로도 열리는 상세 모달' },
         { label: '기관투자자 VDR 게이트', value: '연기금·공제회·국부펀드 전용 데이터룸 신청 및 NDA 동의 플로우 (샘플 — 접수되지 않음)' },
       ]}
     />

@@ -29,10 +29,12 @@ export const Footer: React.FC = () => {
           </div>
 
           <p className="font-code text-[11px] text-[#bac9cc]">
-            © 2025 VOLTRON DYNAMICS AG // TIER-1 POWERTRAIN ARCHITECTURE // ISO-26262 ASIL-D 표기 (예시)
+            © 2026 VOLTRON DYNAMICS AG // TIER-1 POWERTRAIN ARCHITECTURE // ISO-26262 ASIL-D 표기 (예시)
           </p>
 
-          <div className="flex flex-wrap items-center gap-3 text-[10px] font-code text-[#849396]">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] font-code text-[#849396]">
+            <span className="text-[#5be9ad]">거점 (예시 표기)</span>
+            <span>•</span>
             <span>STUTTGART R&amp;D HUB</span>
             <span>•</span>
             <span>PANGYO SEMICONDUCTOR FAB (KR)</span>
@@ -50,42 +52,47 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Links Column / Cluster */}
-        <div className="flex flex-wrap items-center gap-6 font-display text-[10px] tracking-wider uppercase text-[#bac9cc]">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-1 font-display text-[10px] tracking-wider uppercase text-[#bac9cc]">
           <button
             onClick={() => scrollTo('sic-semiconductor')}
-            className="hover:text-[#00e5ff] transition-colors cursor-pointer"
+            className="flex items-center min-h-11 lg:min-h-0 lg:py-1 hover:text-[#00e5ff] transition-colors cursor-pointer"
           >
             SIC WAFER SPECS
           </button>
           <button
             onClick={() => scrollTo('charging-sim')}
-            className="hover:text-[#00e5ff] transition-colors cursor-pointer"
+            className="flex items-center min-h-11 lg:min-h-0 lg:py-1 hover:text-[#00e5ff] transition-colors cursor-pointer"
           >
             THERMAL MODELING
           </button>
           <button
             onClick={() => scrollTo('powertrain')}
-            className="hover:text-[#00e5ff] transition-colors cursor-pointer"
+            className="flex items-center min-h-11 lg:min-h-0 lg:py-1 hover:text-[#00e5ff] transition-colors cursor-pointer"
           >
             ASIL-D TELEMETRY
           </button>
           <button
             onClick={() => scrollTo('rfq-wizard')}
-            className="text-[#00e5ff] font-bold hover:underline transition-colors cursor-pointer"
+            className="flex items-center min-h-11 lg:min-h-0 lg:py-1 text-[#00e5ff] font-bold hover:underline transition-colors cursor-pointer"
           >
             CONFIDENTIAL RFQ PORTAL
           </button>
+          {/*
+            두 링크가 똑같이 #certifications 로 가서 「눌러도 같은 데」였다. 게다가 「DATA RETENTION PROTOCOL」은
+            개인정보 보존정책처럼 읽히는데 도착지에는 그런 내용이 없었다 —
+            이름을 그 구역에 실제로 있는 규격에 맞추고, 각자 해당 배지로 보낸다.
+          */}
           <button
-            onClick={() => scrollTo('certifications')}
-            className="hover:text-[#00e5ff] transition-colors cursor-pointer"
+            onClick={() => scrollTo('badge-unece-r100')}
+            className="flex items-center min-h-11 lg:min-h-0 lg:py-1 hover:text-[#00e5ff] transition-colors cursor-pointer"
           >
             EXPORT / OEM COMPLIANCE
           </button>
           <button
-            onClick={() => scrollTo('certifications')}
-            className="hover:text-[#00e5ff] transition-colors cursor-pointer"
+            onClick={() => scrollTo('badge-iso21434')}
+            className="flex items-center min-h-11 lg:min-h-0 lg:py-1 hover:text-[#00e5ff] transition-colors cursor-pointer"
           >
-            DATA RETENTION PROTOCOL
+            TELEMETRY CYBERSECURITY
           </button>
         </div>
       </div>

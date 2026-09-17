@@ -25,7 +25,7 @@ export default function NanoAdvancedPageClient({ isEmbed }: Props) {
         'TypeScript',
         'Heterogeneous 4-Layer Explorer',
         'AI Thermal & Warpage Simulator',
-        'Foundry Zero-Defect Inspection',
+        'Foundry Quality Inspection Flow',
       ]}
       inquiryUrl="/inquiry?from=nano-advanced"
       specs={[

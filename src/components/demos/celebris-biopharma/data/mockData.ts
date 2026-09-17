@@ -4,23 +4,24 @@ export const LOGO_IMG_URL = "https://lh3.googleusercontent.com/aida/AEtjO1VDEon1
 
 export const CLEANROOM_IMG_URL = "https://lh3.googleusercontent.com/aida-public/AB6AXuBe97IvD3tZ5kr3Yc4Tfny1FiKRxLpBrS59MFc2QrdYOTlyQtzDrK1d1j5-_XfoJCHF7eA8HuSHBKU5gmKyqXGyPro5BtIIh3DwqCgWtgFUpckAXBAnkkyQ52IE4t84At3zpvrMWlcQx5rSWDXezBE0NXtT_5DCbsTLOpbSG4kgS9W-mx7eKdwVWaZ5TJAvheb-bZgt5Fn8rSq8P5X64kBOGmsx_kO15R8yo7fSp1KgB02Y1plsH7N0";
 
+// 전부 지어낸 수치다 — 지면(Hero)에서 이 막대 머리에 「예시 수치」 배지를 한 개 단다.
 export const TRUST_METRICS = [
   {
     label: "GLOBAL PATENTS",
     value: "54건",
-    subtext: "미국·유럽·일본 원천특허 포트폴리오",
+    subtext: "미국·유럽·일본 원천특허 포트폴리오 (예시)",
     colorClass: "text-[#1e40af]"
   },
   {
     label: "TECH TRANSFER (L/O)",
     value: "1.2조 원",
-    subtext: "글로벌 빅파마 2건 계약 (선급금 $85M)",
+    subtext: "글로벌 제약사(예시) 2건 계약 · 선급금 표기 자리",
     colorClass: "text-[#00687a]"
   },
   {
     label: "SONGDO cGMP CAMPUS",
     value: "12,000평",
-    subtext: "2,000L 배양기 4기 완전 가동 체제",
+    subtext: "2,000L 배양기 4기 가동 체제 (예시)",
     colorClass: "text-[#00288e]"
   },
   {
@@ -64,12 +65,12 @@ export const PIPELINE_DATA: PipelineItem[] = [
     target: "Trop-2 x Topo1 차세대 ADC",
     indication: "삼중음성유방암 (TNBC), 요로상피암",
     moa: "Enzyme-Cleavable Peptide Linker",
-    characteristic: "DAR 4 균일 접합 • 전신 독성 70% 감소",
+    characteristic: "DAR 4 균일 접합 • 전신 독성 70% 감소 (예시 수치)",
     phase: "phase1b",
     phaseBadge: "Phase Ib",
     phaseBadgeColor: "bg-[#dce9ff] text-[#00687a]",
     progressPercentage: 50,
-    highlightStatus: "유럽 빅파마 공동 임상 진행",
+    highlightStatus: "해외 제약사(예시) 공동 임상 진행",
     subStatus: "용량 증량 코호트 순항",
     partnershipStatus: "Co-Dev",
     activePhaseIndex: 2,
@@ -89,12 +90,12 @@ export const PIPELINE_DATA: PipelineItem[] = [
     target: "CD73 x TGF-β TME 이중항체",
     indication: "췌장암, 난소암 종양미세환경 대사 표적",
     moa: "Dual-Immunometabolism Inhibition",
-    characteristic: "환자 유래 오가노이드 TGI 82% 입증",
+    characteristic: "환자 유래 오가노이드 TGI 82% 관찰 (예시)",
     phase: "preclinical",
     phaseBadge: "IND Approved",
     phaseBadgeColor: "bg-[#eff4ff] text-[#00563a]",
     progressPercentage: 30,
-    highlightStatus: "2026 Q1 임상 1상 환자 첫 투약 예정",
+    highlightStatus: "임상 1상 첫 투약 목표 시점 표기 자리 (예시)",
     subStatus: "전임상 패키지 완료",
     partnershipStatus: "L/O Open",
     activePhaseIndex: 1,
@@ -114,7 +115,7 @@ export const PIPELINE_DATA: PipelineItem[] = [
     target: "IRAK4 / RIPK1 분해 신약",
     indication: "난치성 자가면역 질환, 류마티스 관절염",
     moa: "Kinase Kinome Degron Engine",
-    characteristic: "표적 선택성 99.9% • 비표적 독성 배제",
+    characteristic: "표적 선택성 99% 이상 • 비표적 독성 최소화",
     phase: "discovery",
     phaseBadge: "Lead Opt",
     phaseBadgeColor: "bg-[#e5eeff] text-[#757684]",
@@ -158,7 +159,7 @@ export const SAB_ADVISORS: SabAdvisor[] = [
     name: "Dr. Elena Rostova, Ph.D.",
     role: "Head of Molecular AI Advisory",
     affiliation: "해외 유전체 연구소 출신 (예시)",
-    bio: "구조 생물정보학 및 거대 분자 시뮬레이션 알고리즘 설계 선구자. PROTEA-AI 결합 에너지 예측 코어 파이프라인 공동 설계.",
+    bio: "구조 생물정보학과 거대 분자 시뮬레이션 알고리즘을 설계한 연구자. PROTEA-AI 결합 에너지 예측 파이프라인 공동 설계 (예시 약력).",
     specialty: "Specialty: De Novo Molecular Generation & Structural AI",
     colorTheme: "tertiary"
   }
@@ -172,7 +173,7 @@ export const PUBLICATIONS: Publication[] = [
     title: '"Targeted degradation of KRAS-mutant oncoproteins via oral PROTAC CB-101"',
     description: "KRAS G12D/V 선택적 분해를 통한 체내 종양 퇴행 및 전임상 약동학 프로파일 규명",
     badgeBg: "bg-[#1e40af] text-white",
-    abstract: "본 연구는 삼차원 유도적합 결합 모델링을 통해 발굴된 경구용 PROTAC CB-101이 KRAS G12D 및 G12V 변이 종양 모델에서 높은 표적 선택성(DC50 = 3.2 nM)과 경구 생체이용률(F = 68%)을 나타내며, 기존 억제제 대비 내성 돌연변이 발생 빈도를 유의미하게 억제함을 검증하였습니다.",
+    abstract: "본 연구는 삼차원 유도적합 결합 모델링을 통해 발굴된 경구용 PROTAC CB-101이 KRAS G12D 및 G12V 변이 종양 모델에서 높은 표적 선택성(DC50 = 3.2 nM)과 경구 생체이용률(F = 68%)을 나타내며, 기존 억제제 대비 내성 돌연변이 발생 빈도를 낮췄다고 보고합니다. (예시 논문 초록 — 실제 연구 결과가 아닙니다)",
     filePdfName: "Journal_Example_2025_CB101_Full_Paper.pdf"
   },
   {
@@ -182,7 +183,7 @@ export const PUBLICATIONS: Publication[] = [
     title: '"Overcoming payload resistance in Trop-2 directed ADCs with novel hydrophilic linkers"',
     description: "삼중음성유방암에서의 페이로드 내성 극복 및 Bystander Effect 극대화 분석",
     badgeBg: "bg-[#00687a] text-white",
-    abstract: "친수성 펩타이드 링커 기술이 적용된 CB-204는 혈중 순환계에서 99.8%의 초고안정성을 유지하면서도 종양 내 카텝신 B에 의해 신속하게 절단되어 주변 암세포까지 광범위하게 사멸시키는 바이스탠더 효과(Bystander Killing)를 유도함을 입증하였습니다.",
+    abstract: "친수성 펩타이드 링커 기술이 적용된 CB-204는 혈중 순환계에서 99.8% 수준의 안정성을 유지하면서도 종양 내 카텝신 B에 의해 신속하게 절단되어 주변 암세포까지 사멸시키는 바이스탠더 효과(Bystander Killing)를 유도했습니다. (예시 논문 초록 — 실제 연구 결과가 아닙니다)",
     filePdfName: "Journal_Example_2024_Trop2_ADC_Paper.pdf"
   }
 ];

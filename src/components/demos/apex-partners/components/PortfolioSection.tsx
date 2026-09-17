@@ -24,7 +24,7 @@ export default function PortfolioSection({ onSelectItem }: PortfolioSectionProps
   });
 
   return (
-    <section className="py-20 bg-[#0e141c] border-t border-[#4d4635]/20" id="portfolio">
+    <section className="py-20 bg-[#0e141c] border-t border-[#4d4635]/20 scroll-mt-24" id="portfolio">
       <div className="max-w-[1680px] mx-auto px-6 lg:px-14">
         {/* Section Header & Filters */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-10">
@@ -32,7 +32,7 @@ export default function PortfolioSection({ onSelectItem }: PortfolioSectionProps
             <span className="font-mono-metric text-[11px] text-[#f2ca50] tracking-widest uppercase">
               PROVEN VALUE GENERATION
             </span>
-            <h2 className="text-2xl lg:text-4xl font-serif-display text-[#dee2ef] mt-2">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-serif-display text-[#dee2ef] mt-2">
               포트폴리오 매트릭스 &amp; 엑싯 홀
             </h2>
             {/* 고지 — 포트폴리오 기업·실적은 모두 지어낸 예시다 */}
@@ -41,37 +41,46 @@ export default function PortfolioSection({ onSelectItem }: PortfolioSectionProps
             </p>
           </div>
 
-          {/* Filter Pills */}
-          <div className="flex flex-wrap gap-2 mt-6 lg:mt-0">
+          {/* Filter Pills — 거른 결과 건수를 같이 내보낸다(눌러도 안 바뀌는 것처럼 보이지 않게) */}
+          <div className="flex flex-col items-start gap-2 mt-6 lg:mt-0 lg:items-end">
+            <span aria-live="polite" className="font-mono-metric text-[11px] text-[#d0c5af]/80">
+              {filteredItems.length}건 표시 중 · 전체 {PORTFOLIO_ITEMS.length}건
+            </span>
+            <div className="flex flex-wrap gap-2 lg:justify-end">
             {FILTER_OPTIONS.map((opt) => {
               const isActive = activeFilter === opt.key;
               return (
                 <button
                   key={opt.key}
+                  type="button"
                   onClick={() => setActiveFilter(opt.key)}
-                  className={`px-4 py-2 text-[11px] font-mono-metric rounded transition-all ${ isActive ? 'border border-[#f2ca50] bg-[#f2ca50] text-[#3c2f00] font-semibold shadow-sm' : 'border border-[#4d4635]/40 bg-[#161c24] text-[#d0c5af] hover:text-[#f2ca50] hover:border-[#f2ca50]/40' }`}
+                  aria-pressed={isActive}
+                  className={`flex items-center px-4 min-h-11 text-[11px] font-mono-metric rounded transition-all ${ isActive ? 'border border-[#f2ca50] bg-[#f2ca50] text-[#3c2f00] font-semibold shadow-sm' : 'border border-[#4d4635]/40 bg-[#161c24] text-[#d0c5af] hover:text-[#f2ca50] hover:border-[#f2ca50]/40' }`}
                 >
                   {opt.label}
                 </button>
               );
             })}
+            </div>
           </div>
         </div>
 
         {/* 6 Rich Portfolio Bento Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredItems.map((item) => {
             const isExitBadge = item.badgeVariant === 'emerald';
             const isGoldBadge = item.badgeVariant === 'gold';
 
             return (
-              <div
+              <button
                 key={item.id}
+                type="button"
                 onClick={() => onSelectItem(item)}
-                className="group bg-[#161c24] border border-[#4d4635]/30 hover:border-[#f2ca50]/60 rounded-xl p-6 transition-all duration-200 cursor-pointer flex flex-col justify-between hover:shadow-xl hover:shadow-[#f2ca50]/5"
+                aria-label={`${item.title} — 상세 제원 보기`}
+                className="group text-left bg-[#161c24] border border-[#4d4635]/30 hover:border-[#f2ca50]/60 focus-visible:border-[#f2ca50] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f2ca50] rounded-xl p-6 transition-all duration-200 cursor-pointer flex flex-col justify-between hover:shadow-xl hover:shadow-[#f2ca50]/5"
               >
                 <div>
-                  <div className="flex justify-between items-center mb-4">
+                  <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
                     <span
                       className={`px-2.5 py-1 font-mono-metric text-[11px] rounded ${ isExitBadge ? 'bg-[#00a572]/20 border border-[#4edea3]/30 text-[#4edea3]' : isGoldBadge ? 'bg-[#f2ca50]/15 border border-[#f2ca50]/30 text-[#f2ca50]' : 'bg-[#252a33] border border-[#4d4635]/40 text-[#dee2ef]' }`}
                     >
@@ -84,7 +93,7 @@ export default function PortfolioSection({ onSelectItem }: PortfolioSectionProps
                     </span>
                   </div>
 
-                  <h3 className="font-serif-display text-xl lg:text-2xl text-[#dee2ef] group-hover:text-[#f2ca50] transition-colors">
+                  <h3 className="font-serif-display text-xl lg:text-2xl text-[#dee2ef] group-hover:text-[#f2ca50] transition-colors [word-break:keep-all]">
                     {item.title}
                   </h3>
                   <p className="font-mono-metric text-xs text-[#d0c5af] mt-1.5 line-clamp-1">
@@ -95,7 +104,7 @@ export default function PortfolioSection({ onSelectItem }: PortfolioSectionProps
                   </p>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-[#4d4635]/20 flex justify-between items-center font-mono-metric text-[11px]">
+                <div className="pt-6 mt-6 border-t border-[#4d4635]/20 flex flex-wrap justify-between items-center gap-2 font-mono-metric text-[11px]">
                   <span
                     className={
                       item.dealStage.includes('Complete') || item.dealStage.includes('Exit')
@@ -110,7 +119,7 @@ export default function PortfolioSection({ onSelectItem }: PortfolioSectionProps
                     <ArrowRight className="w-3.5 h-3.5" />
                   </span>
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>

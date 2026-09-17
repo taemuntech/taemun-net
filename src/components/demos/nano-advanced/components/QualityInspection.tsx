@@ -3,23 +3,23 @@ import { CERTIFICATIONS, INSPECTION_STEPS } from '../data/packagingData';
 
 export const QualityInspection: React.FC = () => {
   return (
-    <section className="py-16 lg:py-24 bg-[#f8f9ff] border-b border-[#c4c5d5]/30" id="yield-metrics">
+    <section className="scroll-mt-20 py-16 lg:py-24 bg-[#f8f9ff] border-b border-[#c4c5d5]/30" id="yield-metrics">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="text-xs font-bold text-[#00288e] uppercase tracking-widest mb-2 font-mono">
-            Zero-Defect Assurance
+            Quality Assurance Program
           </div>
           <h2 className="text-2xl lg:text-4xl font-bold text-[#0b1c30] mb-4 tracking-tight">
             파운드리 생태계 인증 및 5단계 전수 검사 체계
           </h2>
           <p className="text-base text-[#444653] leading-relaxed">
-            세계 유수의 파운드리 얼라이언스와 함께 검증된 99.85% 양산 수율. 출하되는 모든 기판은 5단계
-            비파괴 나노 단층 검사를 거칩니다.
+            파운드리 생태계 파트너 규격에 맞춘 99.85% 목표 양산 수율(예시 수치). 출하되는 모든 기판은 5단계
+            비파괴 나노 단층 검사를 거치는 구성입니다. 아래 인증 표기는 모두 예시입니다.
           </p>
         </div>
 
         {/* Ecosystem Alliance Badges */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
           {CERTIFICATIONS.map((cert) => (
             <div
               key={cert.title}
@@ -34,7 +34,7 @@ export const QualityInspection: React.FC = () => {
         </div>
 
         {/* 5-Step Inspection Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {INSPECTION_STEPS.map((step) => (
             <div
               key={step.step}

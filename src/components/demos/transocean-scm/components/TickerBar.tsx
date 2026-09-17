@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Radio } from 'lucide-react';
 
 interface TickerBarProps {
   onOpenRadar: (portId?: string) => void;
@@ -19,12 +18,16 @@ export const TickerBar: React.FC<TickerBarProps> = ({ onOpenRadar }) => {
   }, []);
 
   return (
-    <aside id="top-radar-ticker" className="w-full bg-[#020e21] border-b border-[#434655]/30 py-1.5 px-4 text-[#c3c6d7] font-mono text-xs overflow-x-auto no-scrollbar">
-      <div className="flex items-center space-x-6 min-w-max">
+    // 항목이 전부 「누르면 레이더가 열리는」 버튼이라 흘려보낼 수 없다(움직이는 글자는 못 누른다).
+    // 대신 오른쪽 끝에 페이드를 둬 「잘린 것」이 아니라 「옆으로 더 있다」로 읽히게 한다.
+    <aside id="top-radar-ticker" className="relative w-full bg-[#020e21] border-b border-[#434655]/30 text-[#c3c6d7] font-mono text-xs">
+      <div className="overflow-x-auto no-scrollbar py-1.5 px-4">
+      <div className="flex items-center space-x-6 min-w-max pr-10">
+        {/* 버튼 높이 16px 로는 폰에서 누를 수 없어 좁은 폭에서만 세로 터치 영역을 44px 로 넓힌다 */}
         {/* Radar Indicator */}
         <button
           onClick={() => onOpenRadar()}
-          className="flex items-center space-x-1.5 text-[#fe6b00] font-semibold hover:brightness-125 transition-all text-left"
+          className="flex items-center space-x-1.5 text-[#fe6b00] font-semibold hover:brightness-125 transition-all text-left max-lg:min-h-11"
           title="Open Port Congestion Radar"
         >
           <span className="inline-block w-2 h-2 rounded-full bg-[#fe6b00] animate-ping" />
@@ -35,7 +38,7 @@ export const TickerBar: React.FC<TickerBarProps> = ({ onOpenRadar }) => {
         {/* Busan */}
         <button
           onClick={() => onOpenRadar('krpus')}
-          className="flex items-center space-x-1.5 hover:text-white transition-colors text-left"
+          className="flex items-center space-x-1.5 hover:text-white transition-colors text-left max-lg:min-h-11"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
           <span className="text-[#d6e3fe] font-medium">Busan Port (T4):</span>
@@ -47,7 +50,7 @@ export const TickerBar: React.FC<TickerBarProps> = ({ onOpenRadar }) => {
         {/* Rotterdam */}
         <button
           onClick={() => onOpenRadar('nlrtm')}
-          className="flex items-center space-x-1.5 hover:text-white transition-colors text-left"
+          className="flex items-center space-x-1.5 hover:text-white transition-colors text-left max-lg:min-h-11"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
           <span className="text-[#d6e3fe] font-medium">Rotterdam Gateway:</span>
@@ -59,7 +62,7 @@ export const TickerBar: React.FC<TickerBarProps> = ({ onOpenRadar }) => {
         {/* Singapore */}
         <button
           onClick={() => onOpenRadar('sgsin')}
-          className="flex items-center space-x-1.5 hover:text-white transition-colors text-left"
+          className="flex items-center space-x-1.5 hover:text-white transition-colors text-left max-lg:min-h-11"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
           <span className="text-[#d6e3fe] font-medium">Singapore Hub:</span>
@@ -71,7 +74,7 @@ export const TickerBar: React.FC<TickerBarProps> = ({ onOpenRadar }) => {
         {/* Los Angeles */}
         <button
           onClick={() => onOpenRadar('uslax')}
-          className="flex items-center space-x-1.5 hover:text-white transition-colors text-left"
+          className="flex items-center space-x-1.5 hover:text-white transition-colors text-left max-lg:min-h-11"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-[#fe6b00]" />
           <span className="text-[#d6e3fe] font-medium">Los Angeles / Long Beach:</span>
@@ -87,6 +90,11 @@ export const TickerBar: React.FC<TickerBarProps> = ({ onOpenRadar }) => {
           </span>
         </div>
       </div>
+      </div>
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-[#020e21] to-transparent"
+      />
     </aside>
   );
 };

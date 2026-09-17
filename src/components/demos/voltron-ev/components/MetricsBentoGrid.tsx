@@ -4,7 +4,9 @@ import { Zap, BatteryCharging, Wind, Scale } from 'lucide-react';
 export const MetricsBentoGrid: React.FC = () => {
   return (
     <div className="max-w-[1720px] mx-auto px-6 lg:px-12 -mt-6 mb-16 relative z-20">
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+      {/* 태블릿(768) 중간 단계 — lg 미만이 전부 1열이라 768 에서 카드 4장이 세로로 늘어졌다.
+          모바일/웹 경계는 그대로 lg 이고, md 는 그 안에서 열 수만 늘리는 보정이다. */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Box 1 */}
         <div
           id="metric-card-01"

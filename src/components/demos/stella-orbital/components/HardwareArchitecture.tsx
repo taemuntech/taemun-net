@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radar, Satellite, Zap, Cpu, CheckCircle2 } from 'lucide-react';
+import { Radar, Satellite, Zap, Cpu } from 'lucide-react';
 
 export default function HardwareArchitecture() {
   return (
@@ -76,13 +76,13 @@ export default function HardwareArchitecture() {
               <h3 className="text-xl lg:text-2xl font-bold text-on-surface mb-3">
                 비행 이력 표기 자리 (예시)
               </h3>
-              <p className="text-sm text-on-surface-variant mb-6 leading-relaxed">
-                해외 라이드셰어 발사(예시)를 통한 위성 32기 궤도 투입과 48/48 전송 이력을 보여 주는 예시 구성입니다.
+              <p className="text-sm text-on-surface-variant mb-6 leading-relaxed [word-break:keep-all]">
+                라이드셰어 발사(예시) 두 차례로 위성 32기를 궤도에 올린 이력을 보여 주는 예시 구성입니다. 발사체·발사장·인증 기관은 실존 이름을 쓰지 않고 표기 자리만 둡니다.
               </p>
 
               <div className="space-y-4 font-code-mono text-xs">
                 <div className="p-4 bg-surface-container-lowest rounded border border-outline-variant">
-                  <div className="flex justify-between items-center text-primary font-bold">
+                  <div className="flex flex-wrap justify-between items-center gap-x-3 gap-y-1 text-primary font-bold">
                     <span>LAUNCH MISSION 01</span>
                     <span>RIDESHARE FLIGHT A (예시)</span>
                   </div>
@@ -92,7 +92,7 @@ export default function HardwareArchitecture() {
                 </div>
 
                 <div className="p-4 bg-surface-container-lowest rounded border border-outline-variant">
-                  <div className="flex justify-between items-center text-secondary font-bold">
+                  <div className="flex flex-wrap justify-between items-center gap-x-3 gap-y-1 text-secondary font-bold">
                     <span>LAUNCH MISSION 02</span>
                     <span>RIDESHARE FLIGHT B (예시)</span>
                   </div>
@@ -102,7 +102,7 @@ export default function HardwareArchitecture() {
                 </div>
 
                 <div className="p-4 bg-surface-container-lowest rounded border border-outline-variant">
-                  <div className="flex justify-between items-center text-tertiary-container font-bold">
+                  <div className="flex flex-wrap justify-between items-center gap-x-3 gap-y-1 text-tertiary-container font-bold">
                     <span>NEXT PLANNED CONSTELLATION EXPANSION</span>
                     <span>Q3 2026 SCHEDULED</span>
                   </div>
@@ -113,7 +113,7 @@ export default function HardwareArchitecture() {
               </div>
 
               <div className="mt-6 pt-6 border-t border-outline-variant/60 flex flex-wrap items-center justify-between gap-2 text-xs font-semibold">
-                <span className="text-on-surface-variant">Cleanroom Facility: ISO 5 (Class 100)</span>
+                <span className="text-on-surface-variant">클린룸 등급 표기 자리 (예시)</span>
                 <span className="text-primary font-bold">수출통제 준수 표기 (예시)</span>
               </div>
             </div>

@@ -3,7 +3,7 @@ import { Cpu, Share2, Link as LinkIcon, Crosshair, Server } from 'lucide-react';
 
 export const PlatformSection: React.FC = () => {
   return (
-    <section className="py-24 cleanroom-grid relative" id="platform">
+    <section className="scroll-mt-[calc(5rem+var(--sample-bar-h,0px))] py-24 cleanroom-grid relative" id="platform">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-[#e5eeff] text-[#00288e] text-[12px] font-code-mono font-bold mb-3 shadow-xs">
@@ -13,15 +13,21 @@ export const PlatformSection: React.FC = () => {
           <h2 className="text-[32px] lg:text-[40px] font-bold text-[#0b1c30] tracking-tight">
             자체 AI 신약 발굴 엔진 'PROTEA-AI'
           </h2>
-          <p className="text-[16px] text-[#444653] mt-3 leading-relaxed">
-            14억 개 화합물 구조 데이터베이스와 삼차원 유도적합(Induced-Fit) 모델링으로 타깃 단백질 분해제 및 링커-페이로드 접합을 초고속 예측합니다.
+          <p className="text-[16px] text-[#444653] mt-3 leading-relaxed [word-break:keep-all]">
+            14억 개 화합물 구조 데이터베이스와 삼차원 유도적합(Induced-Fit) 모델링으로 타깃 단백질 분해제 및 링커-페이로드 접합을 빠르게 예측합니다.
+          </p>
+          {/* 아래 속도·안정성·선택성 숫자는 전부 지어낸 값이다 — 구역 머리에 배지를 한 개 단다 */}
+          <p className="mt-4 inline-flex items-center rounded-md bg-white border border-[#c4c5d5]/50 px-3 py-1.5 text-[12px] text-[#444653] [word-break:keep-all]">
+            아래 플랫폼 성능 지표는 화면 구성용 예시 수치입니다.
           </p>
         </div>
 
         {/* Bento Grid Architecture */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        {/* 768px 에서 카드 3장이 세로로만 늘어져 여백이 비던 자리 — 태블릿(sm~lg)에서는 2열로 앉힌다.
+            저장소의 모바일/웹 경계는 lg 그대로 두고, 그 안쪽에서 밀도만 한 단계 더 준다. */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-6">
           {/* Feature 1 */}
-          <div className="lg:col-span-4 bg-white p-8 rounded-xl border border-[#c4c5d5]/40 shadow-xs flex flex-col justify-between hover:border-[#1e40af] hover:shadow-md transition-all group">
+          <div className="lg:col-span-4 bg-white p-6 lg:p-8 rounded-xl border border-[#c4c5d5]/40 shadow-xs flex flex-col justify-between hover:border-[#1e40af] hover:shadow-md transition-all group">
             <div>
               <div className="w-12 h-12 rounded-lg bg-[#e5eeff] flex items-center justify-center text-[#00288e] mb-6 group-hover:scale-110 transition-transform">
                 <Share2 className="w-6 h-6" />
@@ -33,7 +39,7 @@ export const PlatformSection: React.FC = () => {
                 Structural AI Predictor
               </h3>
               <p className="text-[14px] text-[#444653] leading-relaxed">
-                수십억 개 리간드-표적 단백질 3차원 유도적합(Induced-fit) 결합 모델링을 <strong className="text-[#0b1c30]">0.2초 내</strong> 초정밀 분자 도킹 예측 완료. 3성분 복합체(Ternary Complex) 형성 에너지를 실시간 시뮬레이션합니다.
+                수십억 개 리간드-표적 단백질 3차원 유도적합(Induced-fit) 결합 모델링을 <strong className="text-[#0b1c30]">0.2초 내</strong>에 분자 도킹으로 예측합니다. 3성분 복합체(Ternary Complex) 형성 에너지도 함께 시뮬레이션합니다.
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-[#c4c5d5]/30 flex items-center justify-between font-code-mono text-[12px]">
@@ -43,7 +49,7 @@ export const PlatformSection: React.FC = () => {
           </div>
 
           {/* Feature 2 */}
-          <div className="lg:col-span-4 bg-white p-8 rounded-xl border border-[#c4c5d5]/40 shadow-xs flex flex-col justify-between hover:border-[#00687a] hover:shadow-md transition-all group">
+          <div className="lg:col-span-4 bg-white p-6 lg:p-8 rounded-xl border border-[#c4c5d5]/40 shadow-xs flex flex-col justify-between hover:border-[#00687a] hover:shadow-md transition-all group">
             <div>
               <div className="w-12 h-12 rounded-lg bg-[#dce9ff] flex items-center justify-center text-[#00687a] mb-6 group-hover:scale-110 transition-transform">
                 <LinkIcon className="w-6 h-6" />
@@ -65,7 +71,7 @@ export const PlatformSection: React.FC = () => {
           </div>
 
           {/* Feature 3 */}
-          <div className="lg:col-span-4 bg-white p-8 rounded-xl border border-[#c4c5d5]/40 shadow-xs flex flex-col justify-between hover:border-[#00563a] hover:shadow-md transition-all group">
+          <div className="lg:col-span-4 bg-white p-6 lg:p-8 rounded-xl border border-[#c4c5d5]/40 shadow-xs flex flex-col justify-between hover:border-[#00563a] hover:shadow-md transition-all group">
             <div>
               <div className="w-12 h-12 rounded-lg bg-[#eff4ff] flex items-center justify-center text-[#00563a] mb-6 group-hover:scale-110 transition-transform">
                 <Crosshair className="w-6 h-6" />
@@ -77,7 +83,7 @@ export const PlatformSection: React.FC = () => {
                 Ultra-Low Off-Target
               </h3>
               <p className="text-[14px] text-[#444653] leading-relaxed">
-                정상 세포 및 유사 키나아제 단백질 교차 결합에 따른 오인 독성을 <strong className="text-[#0b1c30]">0.01% 미만</strong>으로 원천 억제하여, 임상 단계에서의 안전성 마진과 치료 유효 지수(TI)를 극대화합니다.
+                정상 세포 및 유사 키나아제 단백질 교차 결합에 따른 오인 독성을 <strong className="text-[#0b1c30]">0.01% 미만</strong> 수준으로 낮춰, 임상 단계에서의 안전성 마진과 치료 유효 지수(TI)를 넓히는 것을 목표로 합니다.
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-[#c4c5d5]/30 flex items-center justify-between font-code-mono text-[12px]">
@@ -87,7 +93,7 @@ export const PlatformSection: React.FC = () => {
           </div>
 
           {/* System Hardware Specs Bar */}
-          <div className="lg:col-span-12 bg-[#eff4ff] p-6 rounded-xl border border-[#c4c5d5]/30 flex flex-col lg:flex-row items-center justify-between gap-4">
+          <div className="sm:col-span-2 lg:col-span-12 bg-[#eff4ff] p-6 rounded-xl border border-[#c4c5d5]/30 flex flex-col lg:flex-row items-center justify-between gap-4">
             <div className="flex items-center space-x-4">
               <div className="p-2.5 rounded-lg bg-white text-[#00288e] shadow-xs">
                 <Server className="w-7 h-7" />
@@ -109,7 +115,7 @@ export const PlatformSection: React.FC = () => {
                 1.4 Billion Chemical DB
               </span>
               <span className="px-3 py-1.5 bg-white rounded-lg border border-[#c4c5d5]/40 text-[#00563a] font-semibold shadow-xs">
-                Cryo-EM / AlphaFold3 Pipeline
+                Cryo-EM / 구조 예측 파이프라인
               </span>
             </div>
           </div>

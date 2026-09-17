@@ -37,8 +37,8 @@ export const CertificationsSection: React.FC = () => {
               </p>
             </div>
 
-            {/* Badges Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/* Badges Grid — 태블릿(768) 중간 단계. 모바일/웹 경계는 그대로 lg 이다 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div
                 id="badge-iso26262"
                 className="p-4 rounded bg-[#191c21] border border-[#3b494c]/40 flex items-start gap-3.5 shadow-md"
@@ -112,11 +112,12 @@ export const CertificationsSection: React.FC = () => {
           >
             <div className="absolute -right-10 -bottom-10 w-48 h-48 bg-[#00e5ff]/10 rounded-full blur-2xl pointer-events-none" />
 
-            <div className="flex items-center justify-between border-b border-[#3b494c]/40 pb-3 mb-5">
-              <span className="font-code text-xs text-[#c3f5ff] font-bold">
+            {/* gap 이 없어 375 에서 「RESTRICTED TIER-1」 이 「TIER-」/「1」 로 쪼개졌다 */}
+            <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-[#3b494c]/40 pb-3 mb-5">
+              <span className="font-code text-xs text-[#c3f5ff] font-bold whitespace-nowrap">
                 // CLASSIFIED OEM DOSSIER
               </span>
-              <span className="text-xs font-code text-[#5be9ad] font-semibold">
+              <span className="text-xs font-code text-[#5be9ad] font-semibold whitespace-nowrap">
                 RESTRICTED TIER-1
               </span>
             </div>
@@ -126,16 +127,17 @@ export const CertificationsSection: React.FC = () => {
             </h3>
 
             <p className="font-body text-xs text-[#bac9cc] mb-6 leading-relaxed">
-              Comprehensive 96-page engineering compilation detailing 1,200V trench gate
+              Comprehensive 96-page engineering compilation (예시) detailing 1,200V trench gate
               capacitance, thermal transient FEM analyses, and hairpin stator slot fill
               benchmarking.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4" id="dossier-request-form">
               <div>
-                <label className="block font-code text-xs text-[#849396] mb-1">
+                <label htmlFor="input-dossier-email" className="block font-code text-xs text-[#849396] mb-1">
                   AUTHORIZED CORPORATE EMAIL (.OEM / .TIER1)
                 </label>
+                {/* 폰에서 16px 미만이면 iOS 가 초점을 잡을 때 화면을 확대해 가로 스크롤이 생긴다 — lg 미만만 16px */}
                 <input
                   id="input-dossier-email"
                   type="email"
@@ -143,12 +145,12 @@ export const CertificationsSection: React.FC = () => {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   placeholder="architect@example.com"
-                  className="w-full bg-[#0b0e13] border border-[#3b494c]/60 rounded px-3 py-2 text-xs font-code text-[#e1e2ea] focus:outline-none focus:border-[#00e5ff] focus:ring-1 focus:ring-[#00e5ff]"
+                  className="w-full min-h-11 bg-[#0b0e13] border border-[#3b494c]/60 rounded px-3 py-2 text-[16px] lg:text-xs font-code text-[#e1e2ea] focus:outline-none focus:border-[#00e5ff] focus:ring-1 focus:ring-[#00e5ff]"
                 />
               </div>
 
               <div>
-                <label className="block font-code text-xs text-[#849396] mb-1">
+                <label htmlFor="input-dossier-entity" className="block font-code text-xs text-[#849396] mb-1">
                   OEM / INTEGRATOR ENTITY
                 </label>
                 <input
@@ -158,7 +160,7 @@ export const CertificationsSection: React.FC = () => {
                   value={entity}
                   onChange={e => setEntity(e.target.value)}
                   placeholder="예) A사 · B모빌리티 · C오토 (예시)"
-                  className="w-full bg-[#0b0e13] border border-[#3b494c]/60 rounded px-3 py-2 text-xs font-code text-[#e1e2ea] focus:outline-none focus:border-[#00e5ff] focus:ring-1 focus:ring-[#00e5ff]"
+                  className="w-full min-h-11 bg-[#0b0e13] border border-[#3b494c]/60 rounded px-3 py-2 text-[16px] lg:text-xs font-code text-[#e1e2ea] focus:outline-none focus:border-[#00e5ff] focus:ring-1 focus:ring-[#00e5ff]"
                 />
               </div>
 

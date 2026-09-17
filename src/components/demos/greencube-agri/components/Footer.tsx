@@ -14,8 +14,9 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDocModal }) => {
     'Privacy Shield',
   ];
 
-  const handleLinkClick = (e: React.MouseEvent, link: string) => {
-    e.preventDefault();
+  // 예전엔 빈 해시 앵커에 preventDefault 를 걸어 모달을 열었다 — 주소로는 아무 데도 가지 않는 「죽은 링크」로 세어진다.
+  // 실제로 하는 일이 모달 열기이므로 버튼으로 바꿨다(모양은 그대로).
+  const handleLinkClick = (link: string) => {
     if (onOpenDocModal) {
       onOpenDocModal(link);
     }
@@ -44,16 +45,16 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDocModal }) => {
           </div>
 
           {/* Institutional Links */}
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
             {institutionalLinks.map((link) => (
-              <a
+              <button
                 key={link}
-                href="#"
-                onClick={(e) => handleLinkClick(e, link)}
-                className="text-[#3d4a42] font-mono text-xs hover:text-[#006948] transition-colors duration-150 cursor-pointer"
+                type="button"
+                onClick={() => handleLinkClick(link)}
+                className="flex items-center min-h-11 text-[#3d4a42] font-mono text-xs hover:text-[#006948] transition-colors duration-150 cursor-pointer"
               >
                 {link}
-              </a>
+              </button>
             ))}
           </div>
         </div>
@@ -102,7 +103,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDocModal }) => {
           <p className="font-body text-xs text-[#6d7a72]">
             이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며, 화면의 회사 정보·인증·수치는 모두 예시 값입니다.
           </p>
-          <div className="flex items-center gap-4 font-mono text-[11px] text-[#6d7a72]">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 font-mono text-[11px] text-[#6d7a72]">
             <span>사업자등록번호: 000-00-00000 (예시)</span>
             <span>•</span>
             <span>대표이사: 홍길동 (예시)</span>

@@ -1,13 +1,26 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SampleNotice from '@/components/demo-kit/SampleNotice';
 import { ESG_CERTIFICATES } from '../data/mockData';
 import { ShieldCheck, BookOpen, Download, ExternalLink } from './Icons';
 
-export const GovernanceSection: React.FC = () => {
+interface GovernanceSectionProps {
+  /** 푸터 IR 링크가 고른 문서 — nonce 가 바뀌면 같은 문서를 다시 눌러도 안내가 열린다 */
+  requestedDoc?: { name: string; nonce: number } | null;
+}
+
+export const GovernanceSection: React.FC<GovernanceSectionProps> = ({ requestedDoc = null }) => {
   // 샘플이라 보고서 파일이 없다 — 「발송되었습니다」 대신 공용 안내(SampleNotice)를 연다.
   const [isNoticeOpen, setIsNoticeOpen] = useState(false);
+  // 푸터 IR 링크가 요청한 문서 이름 — 어느 문서를 눌렀는지 안내에 그대로 싣는다
+  const [docName, setDocName] = useState('지속가능경영보고서 내려받기');
+
+  useEffect(() => {
+    if (!requestedDoc) return;
+    setDocName(requestedDoc.name);
+    setIsNoticeOpen(true);
+  }, [requestedDoc]);
 
   return (
     <section id="governance" className="py-16 bg-white border-b border-[#bcc9c6]/30">
@@ -23,13 +36,19 @@ export const GovernanceSection: React.FC = () => {
               글로벌 인증 및 ESG 투명 경영
             </h2>
           </div>
-          <p className="text-sm lg:text-base text-[#3d4947] max-w-lg mt-3 lg:mt-0 leading-relaxed">
-            H2 NEXT의 모든 수전해 및 액화수소 공정은 글로벌 공인기관의 엄격한 제3자 실사를 통해 전 주기 청정성을 인증받습니다.
-          </p>
+          <div className="mt-3 lg:mt-0 lg:text-right">
+            <p className="text-sm lg:text-base text-[#3d4947] max-w-lg leading-relaxed [word-break:keep-all]">
+              수전해·액화수소 공정에 제3자 검증과 환경·에너지 경영 체계를 어떻게 붙여 보여 줄지 구성한 구역입니다.
+            </p>
+            {/* 실존 인증기관·검증기관 이름과 조회 가능한 인증번호는 넣지 않는다 — 자리만 표시한다 */}
+            <span className="mt-2 inline-block rounded-full border border-[#00685f]/30 bg-[#eff4ff] px-2.5 py-1 font-mono text-[11px] text-[#00685f] [word-break:keep-all]">
+              아래 인증기관·인증번호는 실제 기관이 아닌 예시 표기 자리입니다
+            </span>
+          </div>
         </div>
 
-        {/* 4 Badges Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-8">
+        {/* 4 Badges Row — 태블릿(640~1023)에서 한 줄씩 늘어지던 자리를 2열로 */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {ESG_CERTIFICATES.map((cert, index) => {
             const isSecondary = cert.highlightColor === 'secondary';
             return (
@@ -45,12 +64,14 @@ export const GovernanceSection: React.FC = () => {
                   >
                     {cert.issuer}
                   </span>
-                  <h4 className="text-base lg:text-lg font-bold text-[#0b1c30] mb-1.5">{cert.title}</h4>
-                  <p className="text-xs ] text-[#3d4947] leading-relaxed">
+                  <h4 className="text-base lg:text-lg font-bold text-[#0b1c30] mb-1.5 [word-break:keep-all]">
+                    {cert.title}
+                  </h4>
+                  <p className="text-xs text-[#3d4947] leading-relaxed [word-break:keep-all]">
                     {cert.description}
                   </p>
                 </div>
-                <span className="font-mono text-[11px] text-[#6d7a77] mt-4 pt-2.5 border-t border-[#bcc9c6]/30 block">
+                <span className="font-mono text-[11px] text-[#6d7a77] mt-4 pt-2.5 border-t border-[#bcc9c6]/30 block [word-break:keep-all]">
                   {cert.certCode}
                 </span>
               </div>
@@ -68,11 +89,11 @@ export const GovernanceSection: React.FC = () => {
               <BookOpen className="w-8 h-8" />
             </div>
             <div>
-              <h3 className="text-lg lg:text-xl font-bold text-[#0b1c30]">
-                2025 지속가능경영보고서 (GRI Standards) &amp; 정기 주주총회 소집공고
+              <h3 className="text-lg lg:text-xl font-bold text-[#0b1c30] [word-break:keep-all]">
+                2025 지속가능경영보고서 &amp; 정기 주주총회 소집공고
               </h3>
-              <p className="text-xs lg:text-sm text-[#3d4947] mt-1 leading-relaxed">
-                H2 NEXT의 투명한 거버넌스 원칙과 넷제로 이행 로드맵, ESG 핵심 지표가 상세히 수록된 연차보고서 전문을 열람하세요.
+              <p className="text-xs lg:text-sm text-[#3d4947] mt-1 leading-relaxed [word-break:keep-all]">
+                거버넌스 원칙과 넷제로 이행 로드맵, ESG 핵심 지표를 담는 연차보고서 지면입니다 (예시 — 실제 보고서 파일은 없습니다).
               </p>
             </div>
           </div>
@@ -82,21 +103,21 @@ export const GovernanceSection: React.FC = () => {
               id="btn-download-sustainability-report"
               type="button"
               onClick={() => setIsNoticeOpen(true)}
-              className="inline-flex items-center justify-center gap-2 bg-[#00685f] hover:bg-[#008378] text-white text-sm font-semibold px-5 py-3 rounded-lg shadow-sm hover:shadow transition-all duration-150 cursor-pointer text-center"
+              className="inline-flex min-h-11 items-center justify-center gap-2 bg-[#00685f] hover:bg-[#008378] text-white text-sm font-semibold px-5 py-3 rounded-lg shadow-sm hover:shadow transition-all duration-150 cursor-pointer text-center"
             >
-              <Download className="w-4 h-4" />
-              <span>지속가능경영보고서 다운로드</span>
+              <Download className="w-4 h-4 flex-shrink-0" />
+              <span className="[word-break:keep-all]">지속가능경영보고서 다운로드</span>
             </button>
-            <a
+            {/* 전에는 자기 페이지(#governance)를 새 탭으로 여는 링크였다 — 아무 데도 가지 않으므로 같은 안내를 여는 버튼으로 바꾼다 */}
+            <button
               id="link-dart-disclosure"
-              className="inline-flex items-center justify-center gap-1.5 bg-white hover:bg-slate-50 border border-[#bcc9c6]/40 text-[#0b1c30] text-sm font-semibold px-5 py-3 rounded-lg transition-all duration-150 text-center"
-              href="#governance"
-              target="_blank"
-              rel="noopener noreferrer"
+              type="button"
+              onClick={() => setIsNoticeOpen(true)}
+              className="inline-flex min-h-11 items-center justify-center gap-1.5 bg-white hover:bg-slate-50 border border-[#bcc9c6]/40 text-[#0b1c30] text-sm font-semibold px-5 py-3 rounded-lg transition-all duration-150 text-center cursor-pointer"
             >
-              <span>전자공시 지면 (예시)</span>
-              <ExternalLink className="w-4 h-4 text-[#6d7a77]" />
-            </a>
+              <span className="[word-break:keep-all]">전자공시 지면 (예시)</span>
+              <ExternalLink className="w-4 h-4 text-[#6d7a77] flex-shrink-0" />
+            </button>
           </div>
         </div>
       </div>
@@ -106,7 +127,7 @@ export const GovernanceSection: React.FC = () => {
         onClose={() => setIsNoticeOpen(false)}
         slug="h2-next"
         industry="corporate"
-        featureName="지속가능경영보고서 내려받기"
+        featureName={docName}
       />
     </section>
   );

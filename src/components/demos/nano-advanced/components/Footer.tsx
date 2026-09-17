@@ -1,15 +1,21 @@
-import React from 'react';
-import { LOGO_URL } from '../data/packagingData';
+'use client';
+
+import React, { useState } from 'react';
+import SampleNotice from '@/components/demo-kit/SampleNotice';
+import { LOGO_URL, SAMPLE_INDUSTRY, SAMPLE_SLUG } from '../data/packagingData';
 
 export const Footer: React.FC = () => {
-  const footerLinks = [
+  // href="#" 로 아무 데도 가지 않던 링크 3개(ESG·전자공시·개인정보처리방침)를 치웠다.
+  // 이 화면에 지면이 있는 것은 앵커로, 없는 것은 「샘플이라 따로 없다」고 알려 주는 안내 모달로 잇는다(2026-09-17).
+  const [noticeFeature, setNoticeFeature] = useState<string | null>(null);
+
+  const anchorLinks = [
     { label: '기술 백서 아카이브', href: '#solutions' },
     { label: '파운드리 인증 현황', href: '#yield-metrics' },
     { label: '품질 경영 방침', href: '#yield-metrics' },
-    { label: 'ESG 지속가능경영', href: '#' },
-    { label: '전자공시 (예시)', href: '#' },
-    { label: '개인정보처리방침', href: '#' },
   ];
+
+  const noticeLinks = ['ESG 지속가능경영', '회사 소개 (예시)', '개인정보처리방침'];
 
   return (
     <footer
@@ -26,23 +32,33 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Institutional links */}
-          <nav className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-semibold">
-            {footerLinks.map((link) => (
+          <nav className="flex flex-wrap items-center gap-x-6 gap-y-1 text-xs font-semibold">
+            {anchorLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="text-[#444653] hover:text-[#00288e] hover:underline transition-colors duration-150"
+                className="inline-flex max-lg:min-h-11 items-center text-[#444653] hover:text-[#00288e] hover:underline transition-colors duration-150"
               >
                 {link.label}
               </a>
+            ))}
+            {noticeLinks.map((label) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => setNoticeFeature(label)}
+                className="inline-flex max-lg:min-h-11 items-center text-[#444653] hover:text-[#00288e] hover:underline transition-colors duration-150 cursor-pointer"
+              >
+                {label}
+              </button>
             ))}
           </nav>
         </div>
 
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 text-xs text-[#444653]">
           <div>
-            © 2026 NANO ADVANCED Corp. All Rights Reserved. 판교 시스템반도체 R&amp;D 센터 &amp; 구미
-            첨단 패키징 팹 1/2 캠퍼스.
+            © 2026 NANO ADVANCED Corp. All Rights Reserved. 국내 시스템반도체 R&amp;D 센터 &amp;
+            첨단 패키징 팹 1/2 캠퍼스 (예시 표기).
           </div>
           <div className="font-mono text-[11px] text-[#757684]">
             INTERNATIONAL STANDARD COMPLIANCE • PARTNER PROGRAM (SAMPLE)
@@ -55,6 +71,14 @@ export const Footer: React.FC = () => {
           예시입니다. 문의·신청 폼은 접수되지 않습니다.
         </p>
       </div>
+
+      <SampleNotice
+        open={noticeFeature !== null}
+        onClose={() => setNoticeFeature(null)}
+        slug={SAMPLE_SLUG}
+        industry={SAMPLE_INDUSTRY}
+        featureName={noticeFeature ? `${noticeFeature} 지면` : undefined}
+      />
     </footer>
   );
 };

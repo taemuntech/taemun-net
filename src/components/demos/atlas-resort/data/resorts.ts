@@ -1,5 +1,8 @@
 import { Villa, Destination, AddOnOption, ExperiencePillar } from '../types';
 
+// 목적지는 빌라와 1:1 로 맞춘다 — 예전에는 대응하는 빌라가 없는 「교토 아라시야마」가 있어서
+// 교토를 고르면 남해·제주·발리 빌라가 그대로 붙은 채 요금만 1.25배가 되고,
+// 예약 모달이 「선택 안식처: 교토 / 선택 빌라: Cliff Pool Villa」를 나란히 찍었다.
 export const DESTINATIONS: Destination[] = [
   {
     id: 'namhae',
@@ -7,7 +10,7 @@ export const DESTINATIONS: Destination[] = [
     nameKo: '남해 오션 클리프',
     multiplier: 1.0,
     temp: '19°C',
-    time: '17:42',
+    timeZone: 'Asia/Seoul',
   },
   {
     id: 'jeju',
@@ -15,7 +18,7 @@ export const DESTINATIONS: Destination[] = [
     nameKo: '제주 곶자왈',
     multiplier: 1.15,
     temp: '18°C',
-    time: '17:42',
+    timeZone: 'Asia/Seoul',
   },
   {
     id: 'bali',
@@ -23,15 +26,7 @@ export const DESTINATIONS: Destination[] = [
     nameKo: '발리 우붓',
     multiplier: 0.9,
     temp: '28°C',
-    time: '16:42',
-  },
-  {
-    id: 'kyoto',
-    name: 'Kyoto Arashiyama',
-    nameKo: '교토 아라시야마',
-    multiplier: 1.25,
-    temp: '16°C',
-    time: '17:42',
+    timeZone: 'Asia/Makassar',
   },
 ];
 
@@ -41,6 +36,7 @@ export const VILLAS: Villa[] = [
     type: 'cliff',
     name: 'Cliff Pool Villa',
     nameKo: '클리프 인피니티 풀빌라 (Cliff Pool Villa)',
+    shortLabel: '클리프 풀빌라 · 420㎡',
     badge: 'Exclusive Pavilion',
     region: 'Namhae Ocean Cliff',
     areaText: '남해 절벽 풀빌라 - 420㎡ / 127평',
@@ -59,16 +55,20 @@ export const VILLAS: Villa[] = [
     pricePerNight: 2800000,
     imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCozZMbR8Jj_DCUr1G4KdKVhg1Km_XGNvRaUqLuPu1pyq5_u_xxpiDZlJYY1PGXfrGXYtT0AKi7u15kfplSs9hcWE313IyFJ-XxojYYraGXG7RFMWyd3w5qtNjgFbAaP2ZQJBzK82r4iXoJoxpEofko7qgLzgGqIzZLTOEsoED8JYjzwIxmp9G_xzo6fLvLK32BlvV441TGya_7B7TDAftUK5JzVyU7hB6PTjj0m6l20UREWjnFy99X',
     alt: 'Expansive ultra-luxury cliffside private villa overlooking serene ocean waters',
+    // 원본 사진 왼쪽 위와 아래쪽에 다른 브랜드 이름(The Azure Cliff Villa)·달러 요금이 박혀 있다.
+    // 화면 문구와 어긋나는 가짜 정보라 위쪽 기준으로 확대해 그 부분을 잘라낸다.
+    imageCropStyle: { transform: 'scale(1.42)', transformOrigin: 'top center' },
   },
   {
     id: 'presidential',
     type: 'presidential',
     name: 'Presidential Estate',
     nameKo: '제주 곶자왈 프레지덴셜 에스테이트 (Presidential Estate)',
+    shortLabel: '프레지덴셜 에스테이트 · 850㎡',
     badge: 'Monumental Sanctuary',
     region: 'Jeju Gotjawal',
     areaText: '제주 곶자왈 프레지덴셜 - 850㎡ / 257평',
-    description: '태고의 원시림 속에 고요히 파묻힌 대저택. 3동의 독립형 파빌리온, 개인 헬리패드 진입로 및 프라이빗 셰프 전용 주방을 완비했습니다.',
+    description: '태고의 원시림 속에 고요히 파묻힌 대저택. 3동의 독립형 파빌리온, 개인 헬리패드 진입로 및 프라이빗 셰프 전용 주방을 갖췄습니다. (예시 사양)',
     specs: {
       suite: '4 침실 & 4 서재',
       pool: '25m 화산석 온천풀',
@@ -89,10 +89,11 @@ export const VILLAS: Villa[] = [
     type: 'forest',
     name: 'Forest Sanctuary',
     nameKo: '우붓 프라이빗 밸리 생츄어리 (Forest Sanctuary)',
+    shortLabel: '포레스트 생츄어리 · 380㎡',
     badge: 'Sacred Valley Retreat',
     region: 'Bali Ubud',
     areaText: '우붓 프라이빗 밸리 - 380㎡ / 115평',
-    description: '아융강 계곡의 물소리와 정글 캐노피에 둘러싸인 목재 중심 건축. 야외 석재 욕조와 명상용 오픈 에어 살라(Sala)가 마련되어 있습니다.',
+    description: '아융강 계곡의 물소리와 정글 캐노피에 둘러싸인 목재 중심 건축. 야외 석재 욕조와 명상용 오픈 에어 살라(Sala)가 마련되어 있습니다. (예시 사양)',
     specs: {
       suite: '1 침실 & 오픈 살라',
       pool: '15m 천연 슬레이트풀',
@@ -143,7 +144,7 @@ export const PILLARS: ExperiencePillar[] = [
     tabTitle: '01. Gastronomy',
     category: 'The Culinary Art',
     title: '로컬 대지의 생명력을 담아낸 하이엔드 파인다이닝',
-    description: '제주 해녀가 당일 채취한 해양 식자재, 남해의 유기농 올리브와 허브, 지리산 제철 산나물을 재해석한 현대적 오뜨 퀴진(Haute Cuisine). 프라이빗 셀러에는 세계적 명성의 빈티지 그랑 크뤼를 포함한 3,000병의 마스터 와인 아카이브가 준비되어 있습니다.',
+    description: '제주 해녀가 당일 채취한 해양 식자재, 남해의 유기농 올리브와 허브, 지리산 제철 산나물을 재해석한 현대적 오뜨 퀴진(Haute Cuisine). 프라이빗 셀러에는 빈티지 그랑 크뤼를 포함한 3,000병 규모의 와인 아카이브가 준비되어 있습니다. (예시 수치)',
     stats: {
       label1: '와인 아카이브',
       val1: '3,000+ Bottles (예시)',
@@ -158,7 +159,7 @@ export const PILLARS: ExperiencePillar[] = [
     tabTitle: '02. Wellness & Spa',
     category: 'Ancient Mineral Sanctuary',
     title: '천연 미네랄 온천수와 히노키 파빌리온의 리추얼',
-    description: '지하 800미터 화산 암반층에서 용출되는 알칼리 천연 온천수와 티벳 명상 싱잉볼을 활용한 딥 사운드 배스. 체류 기간 동안 개인별 체질 진단을 통해 맞춤 제작된 동양 한방 아로마 테라피가 심신의 깊은 치유를 안내합니다.',
+    description: '지하 800미터 화산 암반층에서 용출되는 알칼리 천연 온천수와 티벳 명상 싱잉볼을 활용한 딥 사운드 배스. 체류 기간 동안 개인별 체질 진단을 통해 맞춤 제작된 동양 한방 아로마 테라피를 함께 준비합니다. (예시 구성)',
     stats: {
       label1: '미네랄 온천수 온도',
       val1: '41.5°C 일정 유지 (예시)',
@@ -173,7 +174,7 @@ export const PILLARS: ExperiencePillar[] = [
     tabTitle: '03. Bespoke Journeys',
     category: 'Curated Discovery',
     title: '대자연의 숨겨진 비경 속으로 인도하는 프라이빗 탐험',
-    description: '곶자왈 숲 수목 해설가와 함께하는 비공개 트레킹, 남해 청정 무인도 해양 고고학 스노클링, 그리고 한밤의 천문학자와 함께하는 야간 별빛 명상. 상업화되지 않은 자연 속에서 오직 귀하만을 위해 열리는 특별한 여정을 경험하십시오.',
+    description: '곶자왈 숲 수목 해설가와 함께하는 비공개 트레킹, 남해 청정 무인도 해양 고고학 스노클링, 그리고 한밤의 천문학자와 함께하는 야간 별빛 명상. 상업화되지 않은 자연 속에서 귀하를 위해 따로 여는 여정으로 구성합니다. (예시 프로그램)',
     stats: {
       label1: '가이드 자격',
       val1: '생태학 전문 가이드 (예시)',
@@ -184,9 +185,6 @@ export const PILLARS: ExperiencePillar[] = [
     alt: 'An exclusive private yacht sailing into the sunset along tranquil emerald coastal cliffs',
   },
 ];
-
-export const BRAND_LOGO_URL =
-  'https://lh3.googleusercontent.com/aida/AEtjO1Xu8QYTiPtR0A90DR1YcNxfy9poNAhC29eG-aXVFbqXOcWCTAeYwDJu0nZuIkfUyqPvUul0NXeYw1ebKHBgGuXCHj1nGtU15vZ5bDIyt7F5QSJauCnmhrKHd4irt1TiRDmNgWr-OOEr8VamQZHklEm7_lxgVczGFiFvOe3_JohM02l55X048EE28KsO04LAnwTXByIIRNNCul6jXRPrrRps2s7eniTPEWkosx6r_D5T6J6PN5_p82F3Fg';
 
 export const HERO_BG_URL =
   'https://lh3.googleusercontent.com/aida-public/AB6AXuAUIvUCsJX6H1AibZsMmrS90iFdaon3IS0GbYX5yfZc6IJ-Jkic54Oo15DKvebVbb5qzTwayFujn-MTBjvzJwp4MZfY5xr_LHaQUr0V7RMB5qwR0k1LEGKOYteTldjMzcu8JIFl_wqXH-tA260pcistWUuSU2KFNpigO8_O9CQAdheF-1S0zuYawO2XwbekvP9QSnl2rRxub6_qdxFq_BSSwQuNUGIkmRMmq0Sm_d91Aw9X7lLuWvBu';

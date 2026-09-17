@@ -153,6 +153,8 @@ const PROPOSAL_SUMMARY_NOT_A_CASE =
   /실제 계약|계약·납품|납품한 사례가 아니|납품 사례가 아니|의뢰한 사이트도? 아니|의뢰하거나 만든 사이트가 아니/;
 
 const cards = []; // { file, slug, item }  — 규격 통과 여부와 무관하게 읽힌 것
+/** 카드 JSON 의 글(제목·부제·요약·기능) — 패턴 상수가 정의된 뒤에 공용 텍스트 검사로 돌린다 */
+const cardCopyQueue = [];
 if (!fs.existsSync(CONTENT_DIR)) {
   warn(rel(CONTENT_DIR), "포트폴리오 폴더가 없습니다 — 카드 0개로 검사합니다");
 }
@@ -183,6 +185,20 @@ for (const f of jsonFiles) {
     if (isFactorySample && !CURATED_SAMPLE_SLUGS.has(slug) && (raw.featured !== undefined || raw.order !== undefined)) {
       warn(key, "샘플 카드에 featured/order 가 있습니다 — 홈 대표작·순서는 형·가온이 고릅니다. 칸을 지우세요");
     }
+    // 카드에 적힌 글도 데모 소스와 같은 잣대로 본다 — 예전에는 카드 JSON 이 구조 검사와 금지 표현 4개만 통과하고
+    // 실존 기관·기업명·DOI·사업자등록번호·종목코드 검사에는 한 번도 들어가지 않았다.
+    // (검사 자체는 패턴 상수들이 정의된 뒤에 돌린다 — 여기서 부르면 초기화 전 접근이라 죽는다.)
+    cardCopyQueue.push({
+      key,
+      kind: raw.kind,
+      fields: [
+        ["title", raw.title],
+        ["subtitle", raw.subtitle],
+        ["summary", raw.summary],
+        ...(Array.isArray(raw.features) ? raw.features.map((f, n) => [`features[${n}]`, f]) : []),
+      ].filter(([, v]) => typeof v === "string"),
+    });
+
     // 제안용 시안 카드 — schema 는 「제안용 시안」이라는 말만 ERROR 로 본다. 한 걸음 더: 「계약·납품한 사례가 아니다」도 적는 게 좋다
     if (raw.kind === "proposal" && typeof raw.summary === "string" && !PROPOSAL_SUMMARY_NOT_A_CASE.test(raw.summary)) {
       warn(
@@ -475,7 +491,10 @@ const STATUS_DONE = /(접수|신청|예약|주문)\s*완료/;
 const NEGATION = /않|아닙|안 됩|없습니다/;
 const SUBMIT_WORDS = /신청|예약|문의|상담|접수|주문|가입|구매|결제/;
 const FAKE_BUTTON = /(신청|예약|접수|주문|결제|구매)\s*(하기|완료|확정)/;
-const FIGURES = /\d{1,3}(?:,\d{3})+\s*(?:건|명|개사|곳|세대)|\d{3,}\s*(?:건|개사|세대)|만족도\s*\d+(?:\.\d+)?\s*%|재구매율\s*\d+|ISO\s*\d{4,5}|\d+\s*(?:주|일|개월)\s*(?:만에\s*)?완성/;
+// 실적처럼 읽히는 수치. 예전에는 「N건·N명·만족도 N%·ISO NNNN·N주 완성」만 봐서, 기업 랜딩 10종이 실제로 쓰는
+// 수율·감축률·IRR·AUM·설비 용량은 **한 줄도** 걸리지 않았다(실측: FIGURES 로 걸린 줄 0건).
+const FIGURES =
+  /\d{1,3}(?:,\d{3})+\s*(?:건|명|개사|곳|세대)|\d{3,}\s*(?:건|개사|세대)|만족도\s*\d+(?:\.\d+)?\s*%|재구매율\s*\d+|ISO\s*\d{4,5}|\d+\s*(?:주|일|개월)\s*(?:만에\s*)?완성|\d+(?:\.\d+)?\s*%\s*(?:수율|절감|감축|저감|향상|단축|개선|증가|상승|감소|달성)|(?:수율|가동률|정시율|회수율)\s*\d+(?:\.\d+)?\s*%|\b(?:Net\s*)?IRR\b\s*[:=]?\s*\d|\bAUM\b\s*[:=]?\s*\d|\d+(?:\.\d+)?\s*조\s*원/;
 // 대소문자를 가리지 않는다 — 「GLOBAL NO.1」 은 히어로 배지에서 대문자로 쓰여 소문자 규칙을 그냥 지나갔다(실측).
 // 「1위」·「#1」·「점유율 1위」 같은 순위 주장도 같은 부류라 같이 본다.
 const GUARANTEE = /보장|보증합니다|책임 보증|\bNo\.?\s?1\b|#\s?1\b|넘버원|최고의|무조건|(?<![\d.])1\s*위(?![원험])/i;
@@ -523,6 +542,12 @@ const REAL_ORG_PATTERNS = [
   { re: /한남\s?더\s?힐|타워팰리스|롯데월드타워/i, why: "실존 건축물·단지" },
   { re: /한국거래소|\bKRX\b|산업통상자원부|금융감독원|\bDART\b\s*(?:전자공시|Verified)|dart\.fss\.or\.kr/i, why: "실존 기관·공시 시스템" },
   { re: /\bITAR\b|\bFCC\b\s|\bITU\b\s|\bK-ETS\b|\bTÜV\b|TUV\s?Rheinland/i, why: "실존 제도·인증기관" },
+  // 2026-09-17 보강: 갤러리 카드 설명에 실존 호텔·해운·오디오·미식 가이드 브랜드가 그대로 박혀 있었다.
+  // 「○○ 감성」·「○○ 스타일」처럼 비유로 쓰더라도 지어낸 브랜드의 소개글에 실존 상표를 얹는 것은 같은 문제다.
+  { re: /\bAman\b|\bCheval\s?Blanc\b|슈발\s?블랑|\bFour\s?Seasons\b|\bRitz[- ]?Carlton\b|\bBanyan\s?Tree\b|아만리조트/i, why: "실존 호텔·리조트 브랜드" },
+  { re: /미쉐린|미슐랭|\bMichelin\b/i, why: "실존 미식 가이드" },
+  { re: /\bMaersk\b|머스크|\bCMA\s?CGM\b/i, why: "실존 선사·인물" },
+  { re: /\bBang\s*&\s*Olufsen\b|\bB&O\b|\bBose\b|\bSonos\b|\bDevialet\b/i, why: "실존 오디오 브랜드" },
 ];
 /** 실존 저널의 진짜 등록 접두사를 쓴 가짜 DOI — 자리표시(00.0000/…)는 걸리지 않는다 */
 const REAL_DOI = /\b10\.\d{4,9}\/[^\s"'`<>]+/;
@@ -534,6 +559,62 @@ const FAKE_IDENTIFIERS = [
   { re: /등록면허\s*[:：]\s*\S+\s*제\d{4}-\d+호/, why: "지자체가 실제로 발급하는 면허번호 형식" },
   { re: /통신판매업신고\s*[:：]\s*제\d{4}-/, why: "실제로 발급되는 신고번호 형식" },
 ];
+
+/**
+ * 실존 이름·조회 가능한 번호·실적 수치·보장 표현 검사 — **한 함수**로 두고 세 곳(데모 소스·카드 JSON·홈
+ * 갤러리 카드 데이터)에서 부른다.
+ *
+ * 왜 뽑았나(실측 2026-09-17): 이 검사들이 데모 소스 스캔 루프 **안에만** 있어서, 카드 JSON
+ * (src/content/portfolio/*.json)과 홈 갤러리 카드 데이터(src/lib/portfolio/galleryData.ts)는 여기에 한 번도
+ * 들어오지 않았다. 그래서 갤러리 카드에 실존 브랜드가 박힌 채로도 「ERROR 0」이 나왔다.
+ *
+ * 실적 수치 면제는 **파일 단위가 아니라 앞뒤 2줄**로 본다 — 예전에는 파일 어딘가에 「예시 수치」가 한 번만
+ * 있으면 그 파일 전체가 면제라, 바로 옆 줄의 단정형 수치가 조용히 지나갔다.
+ */
+function scanCopyForImpersonation(key, textLines, { impersonation = error, report = warn, atOf = null } = {}) {
+  const exemptNear = (idx) => textLines.slice(Math.max(0, idx - 2), idx + 3).some((l) => /예시/.test(l));
+  textLines.forEach((line, i) => {
+    const at = atOf ? atOf(i) : `${i + 1}행`;
+    for (const m of line.matchAll(/(?<![\d-])(\d{3})-(\d{2})-(\d{5})(?![\d-])/g)) {
+      if ([m[1], m[2], m[3]].every(sameDigits)) continue;
+      impersonation(key, `${at}: 사업자등록번호 형식 「${m[0]}」 — 실존 번호일 수 있습니다. 000-00-00000 으로`);
+    }
+    for (const r of REAL_ORG_PATTERNS) {
+      const m = line.match(r.re);
+      if (m) {
+        impersonation(
+          key,
+          `${at}: ${r.why} 「${m[0]}」 — 실존 기관·기업·매체 이름을 지어낸 회사에 붙이지 않습니다. 「해외 규제기관(예시)」·「A-FOUNDRY (예시)」처럼 가상 표기로`,
+        );
+      }
+    }
+    {
+      const m = line.match(REAL_DOI);
+      if (m) {
+        impersonation(
+          key,
+          `${at}: DOI 「${m[0]}」 — 조회 가능한 논문으로 읽힙니다. 줄을 지우거나 00.0000/example-0000 같은 자리표시로`,
+        );
+      }
+    }
+    for (const r of FAKE_IDENTIFIERS) {
+      const m = line.match(r.re);
+      if (!m) continue;
+      const value = (m[1] ?? m[0]).replace(/[^0-9A-Za-z]/g, "");
+      if (/^(\d)\1*$/.test(value)) continue;
+      impersonation(key, `${at}: 「${m[0]}」 — ${r.why}. 지우거나 「표기 자리 (예시)」로`);
+    }
+    if (FIGURES.test(line) && !exemptNear(i)) {
+      report(key, `${at}: 실적·인증·기간 수치 「${line.match(FIGURES)[0]}」 — 샘플엔 쓰지 않거나 **그 수치 옆에** 「예시」라고 적습니다`);
+    }
+    if (GUARANTEE.test(line)) {
+      report(key, `${at}: 보장·최상급 표현 「${line.match(GUARANTEE)[0]}」 — 가상 브랜드라도 보증·1위를 단정하지 않습니다`);
+    }
+    for (const b of BANNED_PHRASES) {
+      if (b.pattern.test(line)) report(key, `${at}: 금지 표현 ${b.pattern} — ${b.why}`);
+    }
+  });
+}
 
 /**
  * 데모가 참조하는 /public 정적 파일 중 **태문 자체 자산**의 앞자리.
@@ -790,37 +871,7 @@ function scanFile(full, { isPage, slug, card, slugRendersNotice, kind }) {
       if (sameDigits(m[2])) continue;
       warn(key, `${at}: 대표번호처럼 보이는 번호 「${m[0]}」 — 실제 회사 번호일 수 있습니다. 1588-0000 으로`);
     }
-    for (const m of line.matchAll(/(?<![\d-])(\d{3})-(\d{2})-(\d{5})(?![\d-])/g)) {
-      if ([m[1], m[2], m[3]].every(sameDigits)) continue;
-      // 없는 회사가 달고 있으면 실존 사업자와 부딪힌다 — 가상 브랜드 샘플에서는 ERROR 로 막는다.
-      impersonation(key, `${at}: 사업자등록번호 형식 「${m[0]}」 — 실존 번호일 수 있습니다. 000-00-00000 으로`);
-    }
-    // ── 실존 기관·기업·매체 이름 ──
-    for (const r of REAL_ORG_PATTERNS) {
-      const m = line.match(r.re);
-      if (m) {
-        impersonation(
-          key,
-          `${at}: ${r.why} 「${m[0]}」 — 실존 기관·기업·매체 이름을 지어낸 회사에 붙이지 않습니다. 「해외 규제기관(예시)」·「A-FOUNDRY (예시)」처럼 가상 표기로`,
-        );
-      }
-    }
-    // ── 실존 저널의 진짜 등록 접두사를 쓴 DOI ──
-    {
-      const m = line.match(REAL_DOI);
-      if (m) {
-        error(key, `${at}: DOI 「${m[0]}」 — 조회 가능한 논문으로 읽힙니다. 줄을 지우거나 00.0000/example-0000 같은 자리표시로`);
-      }
-    }
-    // ── 조회 가능한 식별번호(종목코드·등록번호·면허번호) ──
-    // 자리표시(000-00-00000 · 0000-0000)는 그냥 지나간다 — 이미 고쳐 둔 자리에 두 번 짖지 않게.
-    for (const r of FAKE_IDENTIFIERS) {
-      const m = line.match(r.re);
-      if (!m) continue;
-      const value = (m[1] ?? m[0]).replace(/[^0-9A-Za-z]/g, "");
-      if (/^(\d)\1*$/.test(value)) continue;
-      impersonation(key, `${at}: 「${m[0]}」 — ${r.why}. 지우거나 「표기 자리 (예시)」로`);
-    }
+    // 실존 이름·번호·식별자 검사는 공용 함수가 한다(카드 JSON·갤러리 데이터와 같은 잣대) — forEach 밖에서 부른다.
     for (const m of line.matchAll(/[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,})/g)) {
       if (PLACEHOLDER_EMAIL_DOMAIN.test(m[1]) || IMAGE_TLD.test(m[0])) continue;
       warn(key, `${at}: 실존처럼 보이는 이메일 「${m[0]}」 — example.com 주소로`);
@@ -837,16 +888,9 @@ function scanFile(full, { isPage, slug, card, slugRendersNotice, kind }) {
     } else if (STATUS_DONE.test(line) && !NEGATION.test(line)) {
       warn(key, `${at}: 「${line.match(STATUS_DONE)[0]}」 — 관리 화면의 상태 표시면 괜찮지만, 폼 제출 뒤 보여 주는 성공 문구면 가짜 접수입니다`);
     }
-    if (FIGURES.test(line) && !/예시 수치/.test(textSrc)) {
-      warn(key, `${at}: 실적·인증·기간 수치 「${line.match(FIGURES)[0]}」 — 샘플엔 쓰지 않거나 화면에 「예시 수치」라고 적습니다`);
-    }
-    if (GUARANTEE.test(line)) {
-      warn(key, `${at}: 보장·최상급 표현 「${line.match(GUARANTEE)[0]}」 — 가상 브랜드라도 보증·1위를 단정하지 않습니다`);
-    }
-    for (const b of BANNED_PHRASES) {
-      if (b.pattern.test(line)) warn(key, `${at}: 금지 표현 ${b.pattern} — ${b.why}`);
-    }
   });
+
+  scanCopyForImpersonation(key, textLines, { impersonation });
 
   // ── 외부 이미지 호스트 직접 참조(핫링크) ──
   // 게이트 바깥이라 데모를 내려도 이미지는 계속 살아 있고, 주소가 만료되면 예고 없이 깨진다(실측: 홈에서 404 2건).
@@ -992,6 +1036,18 @@ for (const s of sampleSources) {
   }
 }
 
+// ───────── 5-3. 카드 JSON 의 글 (데모 소스와 같은 잣대) ─────────
+for (const entry of cardCopyQueue) {
+  scanCopyForImpersonation(
+    entry.key,
+    entry.fields.map(([, v]) => v),
+    {
+      impersonation: entry.kind === "proposal" ? warn : error,
+      atOf: (i) => entry.fields[i][0],
+    },
+  );
+}
+
 // ───────── 6. 사이트 문구 (WARN) ─────────
 const SITE_COPY_RULES = [
   { re: /압도적|원천 차단|태문만의|업계 최고/, why: "근거 없는 최상급" },
@@ -1017,6 +1073,25 @@ for (const f of siteCopyFiles) {
       if (b.pattern.test(visible)) warn(key, `${i + 1}행: 금지 표현 ${b.pattern} — ${b.why}`);
     }
   });
+}
+
+// ───────── 6-1. 홈 갤러리 카드 데이터 (실존 이름·수치) ─────────
+//
+// 왜 따로 두나: 홈 갤러리 카드(제작 대상·요약·하이라이트)는 화면과 카드 모달에 그대로 실리는데
+// 어느 검사에도 들어가지 않았다 — 데모 소스 스캔은 <slug> 폴더만 돌고, 사이트 문구 검사는 파일 목록만 본다.
+// 그 사이로 실존 호텔·해운·오디오·미식 가이드 브랜드가 카드 설명에 박힌 채 「ERROR 0」이 나왔다(실측 2026-09-17).
+// SITE_COPY_RULES(실시간·100% 같은 태문 자기 목소리 규칙)는 여기 걸지 않는다 — 데모 기능 설명이라 뜻이 다르다.
+//
+// ⚠️ 지금은 WARN 이다. 이 파일은 아라(다른 에이전트) 담당이라 가온이 고칠 수 없는데 ERROR 로 두면 게이트가
+//    빨간불이 되어 **전원의 커밋이 막힌다**. 아라가 카드 문구를 고치면 아래 값을 "error" 로 올릴 것.
+const GALLERY_DATA_SEVERITY = "warn";
+{
+  const galleryFile = path.join(ROOT, "src", "lib", "portfolio", "galleryData.ts");
+  if (fs.existsSync(galleryFile)) {
+    const sev = GALLERY_DATA_SEVERITY === "error" ? error : warn;
+    const textLines = stripCommentsForText(fs.readFileSync(galleryFile, "utf8")).split(/\r?\n/);
+    scanCopyForImpersonation(`갤러리 카드 ${rel(galleryFile)}`, textLines, { impersonation: sev, report: sev });
+  }
 }
 
 // ───────── 6-2. 데모 공용 파일(태문 자기 목소리) 문구 (WARN) ─────────

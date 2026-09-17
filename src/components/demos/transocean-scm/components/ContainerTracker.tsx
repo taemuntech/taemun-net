@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ShipmentDossier } from '../types';
 import { SHIPMENT_DOSSIERS } from '../data/mockData';
-import { Search, Satellite, Lock, Thermometer, Droplets, Activity, BatteryCharging, Box, Check, RefreshCw } from 'lucide-react';
+import { Satellite, Lock, Thermometer, Droplets, Activity, BatteryCharging, Box, Check, RefreshCw } from 'lucide-react';
 
 interface ContainerTrackerProps {
   currentBl: string;
+  /** 헤더 LOCATE 로 조회했을 때의 안내 문구 — 판정은 앱이 한다 */
+  incomingFeedback?: string | null;
   onSelectBl: (blId: string) => void;
   onOpenSensorDetails: () => void;
 }
 
 export const ContainerTracker: React.FC<ContainerTrackerProps> = ({
   currentBl,
+  incomingFeedback = null,
   onSelectBl,
   onOpenSensorDetails,
 }) => {
@@ -19,6 +22,17 @@ export const ContainerTracker: React.FC<ContainerTrackerProps> = ({
   const [queryFeedback, setQueryFeedback] = useState<string | null>(null);
 
   const dossier: ShipmentDossier = SHIPMENT_DOSSIERS[currentBl] || SHIPMENT_DOSSIERS['TOCU-8924018'];
+
+  // 이 입력칸은 마운트 때 한 번만 currentBl 을 받아 두고 이후를 따라가지 않았다 —
+  // 그래서 헤더에는 새 번호가, 트래커에는 옛 번호가 남았다.
+  useEffect(() => {
+    setSearchInput(currentBl);
+  }, [currentBl]);
+
+  // 헤더 LOCATE 로 들어온 안내를 이 화면의 같은 자리에 띄운다
+  useEffect(() => {
+    if (incomingFeedback) setQueryFeedback(incomingFeedback);
+  }, [incomingFeedback]);
 
   const handleSearchSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -69,21 +83,21 @@ export const ContainerTracker: React.FC<ContainerTrackerProps> = ({
             <span className="font-mono text-xs text-[#8d90a0] uppercase mr-1">Sample Manifests:</span>
             <button
               onClick={() => handlePresetClick('TOCU-8924018')}
-              className={`font-mono text-xs px-2.5 py-1 rounded border transition-all ${ currentBl === 'TOCU-8924018' ? 'bg-[#1d2a3e] text-[#b4c5ff] border-[#2563eb] font-semibold' : 'bg-[#132033] text-[#c3c6d7] border-[#434655]/40 hover:border-[#b4c5ff]' }`}
+              className={`font-mono text-xs px-2.5 min-h-11 lg:min-h-0 lg:py-1 rounded border transition-all ${ currentBl === 'TOCU-8924018' ? 'bg-[#1d2a3e] text-[#b4c5ff] border-[#2563eb] font-semibold' : 'bg-[#132033] text-[#c3c6d7] border-[#434655]/40 hover:border-[#b4c5ff]' }`}
             >
               TOCU-8924018 (Bio-Reefer)
             </button>
 
             <button
               onClick={() => handlePresetClick('TOCU-9812401')}
-              className={`font-mono text-xs px-2.5 py-1 rounded border transition-all ${ currentBl === 'TOCU-9812401' ? 'bg-[#1d2a3e] text-[#b4c5ff] border-[#2563eb] font-semibold' : 'bg-[#132033] text-[#c3c6d7] border-[#434655]/40 hover:border-[#b4c5ff]' }`}
+              className={`font-mono text-xs px-2.5 min-h-11 lg:min-h-0 lg:py-1 rounded border transition-all ${ currentBl === 'TOCU-9812401' ? 'bg-[#1d2a3e] text-[#b4c5ff] border-[#2563eb] font-semibold' : 'bg-[#132033] text-[#c3c6d7] border-[#434655]/40 hover:border-[#b4c5ff]' }`}
             >
               TOCU-9812401 (Dry 40HQ)
             </button>
 
             <button
               onClick={() => handlePresetClick('TOCU-7412095')}
-              className={`font-mono text-xs px-2.5 py-1 rounded border transition-all ${ currentBl === 'TOCU-7412095' ? 'bg-[#1d2a3e] text-[#b4c5ff] border-[#2563eb] font-semibold' : 'bg-[#132033] text-[#c3c6d7] border-[#434655]/40 hover:border-[#b4c5ff]' }`}
+              className={`font-mono text-xs px-2.5 min-h-11 lg:min-h-0 lg:py-1 rounded border transition-all ${ currentBl === 'TOCU-7412095' ? 'bg-[#1d2a3e] text-[#b4c5ff] border-[#2563eb] font-semibold' : 'bg-[#132033] text-[#c3c6d7] border-[#434655]/40 hover:border-[#b4c5ff]' }`}
             >
               TOCU-7412095 (Hazardous IMO 3)
             </button>
@@ -111,7 +125,7 @@ export const ContainerTracker: React.FC<ContainerTrackerProps> = ({
           <button
             type="submit"
             disabled={isQuerying}
-            className="w-full bg-[#2563eb] text-white px-6 py-2.5 rounded font-mono text-xs font-bold uppercase tracking-wider hover:bg-[#1d4ed8] transition-all flex items-center justify-center space-x-2 shrink-0 shadow-md"
+            className="w-full lg:w-auto bg-[#2563eb] text-white px-6 min-h-11 rounded font-mono text-xs font-bold uppercase tracking-wider hover:bg-[#1d4ed8] transition-all flex items-center justify-center space-x-2 shrink-0 shadow-md"
           >
             {isQuerying ? (
               <>
@@ -149,7 +163,7 @@ export const ContainerTracker: React.FC<ContainerTrackerProps> = ({
               </div>
             </div>
 
-            <div className="flex items-center space-x-4 text-[#c3c6d7] font-mono text-xs">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[#c3c6d7] font-mono text-xs">
               <div>
                 Master: <span className="text-white font-semibold">{dossier.master}</span>
               </div>
@@ -164,7 +178,7 @@ export const ContainerTracker: React.FC<ContainerTrackerProps> = ({
 
           <div className="p-4 lg:p-6">
             {/* Origin & Destination Ports Summary */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 mb-6">
               {/* Origin */}
               <div className="lg:col-span-4 bg-[#0e1c2f] p-4 rounded border border-[#434655]/30">
                 <span className="font-mono text-[10px] text-[#8d90a0] uppercase block mb-1">
@@ -179,7 +193,7 @@ export const ContainerTracker: React.FC<ContainerTrackerProps> = ({
               </div>
 
               {/* Route Vector Graphic */}
-              <div className="lg:col-span-4 flex flex-col justify-center items-center py-2 text-center bg-[#0e1c2f]/40 p-4 rounded border border-[#434655]/20">
+              <div className="sm:col-span-2 lg:col-span-4 order-last sm:order-none flex flex-col justify-center items-center py-2 text-center bg-[#0e1c2f]/40 p-4 rounded border border-[#434655]/20">
                 <span className="font-mono text-xs text-[#ffb693] uppercase font-semibold">
                   Transit Corridor ETA
                 </span>
@@ -215,7 +229,7 @@ export const ContainerTracker: React.FC<ContainerTrackerProps> = ({
               <span className="font-mono text-[11px] text-[#8d90a0] uppercase tracking-wider block mb-2">
                 Autonomous Maritime Waypoint Chronology
               </span>
-              <div className="grid grid-cols-2 lg:grid-cols-5 gap-2 text-left">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 text-left">
                 {dossier.waypoints.map((wp) => (
                   <div
                     key={wp.step}
@@ -236,21 +250,21 @@ export const ContainerTracker: React.FC<ContainerTrackerProps> = ({
             {/* Live Container Micro-Climate Telemetry (5 Sensors Grid) */}
             <div>
               <div className="flex flex-wrap items-center justify-between mb-3 gap-2">
-                <span className="font-mono text-xs text-[#8d90a0] uppercase tracking-wider flex items-center space-x-1.5">
-                  <span className="material-symbols-outlined text-[16px] text-[#b4c5ff]">sensors</span>
-                  <span>IoT SMART CONTAINER SENSOR NODES (TELEMETRY LIVE ID: TOC-7712-40R)</span>
+                <span className="font-mono text-[11px] lg:text-xs text-[#8d90a0] uppercase tracking-wider flex items-start gap-1.5 min-w-0">
+                  <span className="material-symbols-outlined text-[16px] shrink-0 text-[#b4c5ff]">sensors</span>
+                  <span className="break-words">IoT SMART CONTAINER SENSOR NODES (TELEMETRY LIVE ID: TOC-7712-40R)</span>
                 </span>
                 <div className="flex items-center space-x-3">
                   <button
                     onClick={onOpenSensorDetails}
-                    className="font-mono text-[11px] text-[#b4c5ff] hover:underline flex items-center space-x-1"
+                    className="font-mono text-[11px] text-[#b4c5ff] hover:underline flex items-center space-x-1 max-lg:min-h-11"
                   >
                     <span>Diagnostics Feed</span>
                     <span className="material-symbols-outlined text-[14px]">open_in_new</span>
                   </button>
                   <span className="font-mono text-xs text-[#ffb693] flex items-center space-x-1 bg-[#132033] px-2 py-0.5 rounded border border-[#fe6b00]/30">
                     <Lock className="w-3 h-3 text-[#fe6b00]" />
-                    <span>E-SEAL: TAMPER-PROOF ARMED</span>
+                    <span>E-SEAL ARMED (예시)</span>
                   </span>
                 </div>
               </div>
