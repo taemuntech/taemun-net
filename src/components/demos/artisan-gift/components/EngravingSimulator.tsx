@@ -178,7 +178,7 @@ export const EngravingSimulator: React.FC<EngravingSimulatorProps> = ({ onApplyE
                 <button
                   type="button"
                   onClick={() => setMethod('gold')}
-                  className={`py-2.5 px-2 rounded text-xs font-medium text-center transition-all ${
+                  className={`min-h-11 lg:min-h-0 py-2.5 px-2 rounded text-xs font-medium text-center transition-all ${
                     method === 'gold'
                       ? 'border-2 border-[#583119] bg-[#f0ede9] text-[#3e1c06] font-semibold shadow-xs'
                       : 'border border-[#d6c3ba] bg-[#fcf9f4] text-[#51443d] hover:border-[#583119]'
@@ -189,7 +189,7 @@ export const EngravingSimulator: React.FC<EngravingSimulatorProps> = ({ onApplyE
                 <button
                   type="button"
                   onClick={() => setMethod('blind')}
-                  className={`py-2.5 px-2 rounded text-xs font-medium text-center transition-all ${
+                  className={`min-h-11 lg:min-h-0 py-2.5 px-2 rounded text-xs font-medium text-center transition-all ${
                     method === 'blind'
                       ? 'border-2 border-[#583119] bg-[#f0ede9] text-[#3e1c06] font-semibold shadow-xs'
                       : 'border border-[#d6c3ba] bg-[#fcf9f4] text-[#51443d] hover:border-[#583119]'
@@ -200,7 +200,7 @@ export const EngravingSimulator: React.FC<EngravingSimulatorProps> = ({ onApplyE
                 <button
                   type="button"
                   onClick={() => setMethod('rosegold')}
-                  className={`py-2.5 px-2 rounded text-xs font-medium text-center transition-all ${
+                  className={`min-h-11 lg:min-h-0 py-2.5 px-2 rounded text-xs font-medium text-center transition-all ${
                     method === 'rosegold'
                       ? 'border-2 border-[#583119] bg-[#f0ede9] text-[#3e1c06] font-semibold shadow-xs'
                       : 'border border-[#d6c3ba] bg-[#fcf9f4] text-[#51443d] hover:border-[#583119]'
@@ -220,7 +220,7 @@ export const EngravingSimulator: React.FC<EngravingSimulatorProps> = ({ onApplyE
                 <button
                   type="button"
                   onClick={() => setFont('serif')}
-                  className={`py-2.5 px-2 rounded text-xs text-center font-serif transition-all ${
+                  className={`min-h-11 lg:min-h-0 py-2.5 px-2 rounded text-xs text-center font-serif transition-all ${
                     font === 'serif'
                       ? 'border-2 border-[#583119] bg-[#f0ede9] text-[#3e1c06] font-semibold'
                       : 'border border-[#d6c3ba] bg-[#fcf9f4] text-[#51443d] hover:border-[#583119]'
@@ -231,7 +231,7 @@ export const EngravingSimulator: React.FC<EngravingSimulatorProps> = ({ onApplyE
                 <button
                   type="button"
                   onClick={() => setFont('script')}
-                  className={`py-2.5 px-2 rounded text-xs text-center transition-all ${
+                  className={`min-h-11 lg:min-h-0 py-2.5 px-2 rounded text-xs text-center transition-all ${
                     font === 'script'
                       ? 'border-2 border-[#583119] bg-[#f0ede9] text-[#3e1c06] font-semibold'
                       : 'border border-[#d6c3ba] bg-[#fcf9f4] text-[#51443d] hover:border-[#583119]'
@@ -242,7 +242,7 @@ export const EngravingSimulator: React.FC<EngravingSimulatorProps> = ({ onApplyE
                 <button
                   type="button"
                   onClick={() => setFont('sans')}
-                  className={`py-2.5 px-2 rounded text-xs text-center font-sans transition-all ${
+                  className={`min-h-11 lg:min-h-0 py-2.5 px-2 rounded text-xs text-center font-sans transition-all ${
                     font === 'sans'
                       ? 'border-2 border-[#583119] bg-[#f0ede9] text-[#3e1c06] font-semibold'
                       : 'border border-[#d6c3ba] bg-[#fcf9f4] text-[#51443d] hover:border-[#583119]'
@@ -258,11 +258,11 @@ export const EngravingSimulator: React.FC<EngravingSimulatorProps> = ({ onApplyE
               <label className="block text-xs font-semibold text-[#3e1c06] mb-2">
                 가죽 색상 시각화
               </label>
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-2 lg:gap-3">
                 <button
                   type="button"
                   onClick={() => setLeatherColor('cognac')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs transition-all ${
+                  className={`min-h-11 lg:min-h-0 flex items-center gap-1.5 px-3 py-1.5 rounded text-xs transition-all ${
                     leatherColor === 'cognac'
                       ? 'bg-[#583119] text-white font-medium'
                       : 'bg-[#ebe8e3] text-[#51443d] hover:bg-[#e0dcd5]'
@@ -274,7 +274,7 @@ export const EngravingSimulator: React.FC<EngravingSimulatorProps> = ({ onApplyE
                 <button
                   type="button"
                   onClick={() => setLeatherColor('ebony')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs transition-all ${
+                  className={`min-h-11 lg:min-h-0 flex items-center gap-1.5 px-3 py-1.5 rounded text-xs transition-all ${
                     leatherColor === 'ebony'
                       ? 'bg-[#583119] text-white font-medium'
                       : 'bg-[#ebe8e3] text-[#51443d] hover:bg-[#e0dcd5]'
@@ -286,7 +286,7 @@ export const EngravingSimulator: React.FC<EngravingSimulatorProps> = ({ onApplyE
                 <button
                   type="button"
                   onClick={() => setLeatherColor('green')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs transition-all ${
+                  className={`min-h-11 lg:min-h-0 flex items-center gap-1.5 px-3 py-1.5 rounded text-xs transition-all ${
                     leatherColor === 'green'
                       ? 'bg-[#583119] text-white font-medium'
                       : 'bg-[#ebe8e3] text-[#51443d] hover:bg-[#e0dcd5]'
@@ -304,7 +304,7 @@ export const EngravingSimulator: React.FC<EngravingSimulatorProps> = ({ onApplyE
                 id="apply-engraving-cta"
                 type="button"
                 onClick={handleApply}
-                className="w-full py-3.5 bg-[#C84B31] text-[#FAF7F2] text-sm font-medium rounded hover:bg-[#a83b23] transition-colors flex items-center justify-center gap-2 shadow-sm"
+                className="w-full min-h-11 py-3.5 bg-[#C84B31] text-[#FAF7F2] text-sm font-medium rounded hover:bg-[#a83b23] transition-colors flex items-center justify-center gap-2 shadow-sm"
               >
                 <Gift className="w-4 h-4" />
                 이 문구로 맞춤 선물 제작하기 (무료 각인 포함)

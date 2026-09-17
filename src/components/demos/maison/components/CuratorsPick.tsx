@@ -20,7 +20,7 @@ export const CuratorsPick: React.FC<CuratorsPickProps> = ({
   return (
     <section
       id="curation"
-      className="py-16 lg:py-20 bg-[#fff8f5] border-b border-[#d6c2c2]"
+      className="py-16 lg:py-20 bg-[#fff8f5] border-b border-[#d6c2c2] scroll-mt-[calc(var(--sample-bar-h,0px)_+_88px)]"
     >
       <div className="max-w-7xl mx-auto px-4 lg:px-16">
         {/* Section Monograph Title */}
@@ -30,6 +30,9 @@ export const CuratorsPick: React.FC<CuratorsPickProps> = ({
           </span>
           <h2 className="font-serif text-[28px] lg:text-[36px] text-[#300a10] mt-2">
             이달의 대표 아카이브 셀렉션
+            <span className="ml-3 inline-block border border-[#735b24]/60 px-2 py-0.5 align-middle text-[10px] font-sans font-bold uppercase tracking-wider text-[#735b24]">
+              예시 데이터
+            </span>
           </h2>
           <p className="font-serif text-[16px] text-[#514344] mt-2">
             300년의 세월을 간직한 프로방스 귀족 가문의 마스터피스, 프랑스 로코코 양식의 정수를 전시합니다.
@@ -123,7 +126,7 @@ export const CuratorsPick: React.FC<CuratorsPickProps> = ({
               </span>
               <div className="text-xs space-y-1">
                 <span className="text-[10px] uppercase tracking-wider text-[#735b24] font-bold block">
-                  Archival Provenance Deed
+                  Archival Provenance Deed · 샘플 기록
                 </span>
                 <p className="font-serif text-[#514344] text-[13px] leading-relaxed">
                   {FEATURED_SPECIMEN.provenanceDeed}
@@ -147,7 +150,7 @@ export const CuratorsPick: React.FC<CuratorsPickProps> = ({
                   id="btn-curators-pick-inquire"
                   type="button"
                   onClick={() => onInquire(FEATURED_SPECIMEN)}
-                  className="flex-1 lg:flex-initial bg-[#4a1e23] text-[#fff8f5] hover:bg-[#300a10] px-6 py-3 text-[12px] uppercase tracking-wider font-semibold transition-colors duration-200 cursor-pointer shadow-sm"
+                  className="flex-1 lg:flex-initial inline-flex min-h-11 items-center justify-center bg-[#4a1e23] text-[#fff8f5] hover:bg-[#300a10] px-6 text-[12px] uppercase tracking-wider font-semibold transition-colors duration-200 cursor-pointer shadow-sm"
                 >
                   작품 소장 문의
                 </button>
@@ -156,7 +159,7 @@ export const CuratorsPick: React.FC<CuratorsPickProps> = ({
                   aria-label="Add to Wishlist"
                   type="button"
                   onClick={() => onToggleWishlist(FEATURED_SPECIMEN)}
-                  className={`border border-[#1e1b18] p-3 transition-colors duration-200 cursor-pointer flex items-center justify-center ${
+                  className={`border border-[#1e1b18] min-h-11 min-w-11 transition-colors duration-200 cursor-pointer flex items-center justify-center ${
                     isWishlisted
                       ? 'bg-[#4a1e23] text-[#fff8f5] border-[#4a1e23]'
                       : 'text-[#1e1b18] hover:bg-[#f5ece7]'

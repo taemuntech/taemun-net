@@ -1,12 +1,35 @@
-import React, { useState } from 'react';
-import { X, Sparkles, BrainCircuit, CheckCircle2, ShoppingBag, ArrowRight } from 'lucide-react';
-import { Product } from '../types';
+'use client';
+
+import React, { useRef, useState } from 'react';
+import { X, Sparkles, BrainCircuit, CheckCircle2, ShoppingBag } from 'lucide-react';
+import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
+import { RANKING_PRODUCTS } from '../data/mockData';
 
 interface DiagnosisModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddRecommendedToCart: (productNames: string[]) => void;
+  onAddRecommendedToCart: (productIds: string[]) => void;
 }
+
+// 고른 고민에 따라 결과 문장과 추천 2종이 실제로 갈린다 — 무엇을 골라도 같은 결과가 나오면 진단이 아니다.
+const ROUTINE_BY_CONCERN: Record<string, { summary: string; productIds: [string, string] }> = {
+  '속당김 & 건조함': {
+    summary: '각질층 속 수분 손실(TEWL)이 커져 속당김이 먼저 오는 유형이라는 예시 결과입니다. 속수분을 채우고 겉에서 잠그는 2단 조합을 권합니다.',
+    productIds: ['prod-1', 'prod-2'],
+  },
+  '붉은기 & 트러블': {
+    summary: '외부 자극에 붉은기가 쉽게 올라오는 유형이라는 예시 결과입니다. 진정 앰플로 달래고 자외선 자극을 마일드하게 막는 조합을 권합니다.',
+    productIds: ['prod-1', 'prod-3'],
+  },
+  '모공 늘어짐 & 탄력': {
+    summary: '피지 분비 대비 탄력이 떨어져 모공이 늘어져 보이는 유형이라는 예시 결과입니다. 레티놀로 결을 정돈하고 장벽을 채우는 조합을 권합니다.',
+    productIds: ['prod-4', 'prod-2'],
+  },
+  '칙칙한 피부톤 & 잡티': {
+    summary: '턴오버가 느려져 피부톤이 가라앉아 보이는 유형이라는 예시 결과입니다. 레티놀 루틴에 수분 앰플을 겹쳐 자극을 낮추는 조합을 권합니다.',
+    productIds: ['prod-4', 'prod-1'],
+  },
+};
 
 export const DiagnosisModal: React.FC<DiagnosisModalProps> = ({
   isOpen,
@@ -16,6 +39,15 @@ export const DiagnosisModal: React.FC<DiagnosisModalProps> = ({
   const [concern, setConcern] = useState('속당김 & 건조함');
   const [washStatus, setWashStatus] = useState('수부지');
   const [showResult, setShowResult] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  const handleClose = () => {
+    setShowResult(false);
+    onClose();
+  };
+
+  useSampleDialog({ open: isOpen, onClose: handleClose, dialogRef, initialFocusRef: closeRef });
 
   if (!isOpen) return null;
 
@@ -26,33 +58,46 @@ export const DiagnosisModal: React.FC<DiagnosisModalProps> = ({
     { id: '4', title: '4. 칙칙한 피부톤 & 잡티', key: '칙칙한 피부톤 & 잡티' },
   ];
 
+  const routine = ROUTINE_BY_CONCERN[concern] ?? ROUTINE_BY_CONCERN['속당김 & 건조함'];
+  const recommended = routine.productIds
+    .map((id) => RANKING_PRODUCTS.find((p) => p.id === id))
+    .filter((p): p is (typeof RANKING_PRODUCTS)[number] => Boolean(p));
+
   const handleDiagnose = () => {
     setShowResult(true);
   };
 
   const handleApplyRoutine = () => {
-    onAddRecommendedToCart([
-      '시카 엑소좀 수분 진정 앰플 50ml',
-      '8중 히알루론산 장벽 리페어 크림 80ml',
-    ]);
+    onAddRecommendedToCart(recommended.map((p) => p.id));
     setShowResult(false);
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-white space-y-5 animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+    <div
+      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-end lg:items-center justify-center lg:p-4 animate-in fade-in duration-200"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) handleClose();
+      }}
+    >
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="1분 피부 진단 테스트"
+        tabIndex={-1}
+        className="bg-white rounded-t-3xl lg:rounded-3xl lg:max-w-lg w-full p-6 shadow-2xl border border-white space-y-5 outline-none animate-in slide-in-from-bottom lg:zoom-in-95 duration-200 max-h-[85vh] lg:max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between pb-3 border-b border-gray-100">
           <div className="flex items-center gap-2">
             <BrainCircuit className="w-6 h-6 text-[#006948]" />
             <h3 className="text-lg font-bold text-[#141b2b]">1분 피부 진단 테스트</h3>
           </div>
           <button
-            onClick={() => {
-              setShowResult(false);
-              onClose();
-            }}
-            className="text-gray-400 hover:text-gray-700 p-1 rounded-full cursor-pointer"
+            ref={closeRef}
+            type="button"
+            onClick={handleClose}
+            aria-label="피부 진단 테스트 닫기"
+            className="w-11 h-11 -mr-2 shrink-0 flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full cursor-pointer transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -70,7 +115,7 @@ export const DiagnosisModal: React.FC<DiagnosisModalProps> = ({
                     key={item.id}
                     type="button"
                     onClick={() => setConcern(item.key)}
-                    className={`p-3 text-left rounded-xl border transition-all cursor-pointer font-medium ${ concern === item.key ? 'border-[#006948] bg-[#006948]/10 text-[#006948] font-bold shadow-2xs' : 'border-gray-200 hover:border-[#006948]/50 text-[#3d4a42] bg-white' }`}
+                    className={`p-3 min-h-11 flex items-center text-left rounded-xl border transition-all cursor-pointer font-medium ${ concern === item.key ? 'border-[#006948] bg-[#006948]/10 text-[#006948] font-bold shadow-2xs' : 'border-gray-200 hover:border-[#006948]/50 text-[#3d4a42] bg-white' }`}
                   >
                     {item.title}
                   </button>
@@ -119,46 +164,49 @@ export const DiagnosisModal: React.FC<DiagnosisModalProps> = ({
                 </span>
               </div>
               <h4 className="text-lg font-black text-[#141b2b]">
-                고객님은 <span className="text-[#006948]">[{washStatus} 장벽 손상형]</span> 입니다.
+                고객님은 <span className="text-[#006948]">[{washStatus} · {concern}]</span> 유형입니다.
               </h4>
-              <p className="text-xs text-[#3d4a42] leading-relaxed">
-                피부 표면의 피지 분비 대비 각질층 내부 수분 손실(TEWL)이 심화되어 속당김과 붉은기가 복합 발생하고 있습니다. 고순도 마이크로 엑소좀 시카와 8중 히알루론산 수분 락킹 처방이 필수적입니다.
+              <p className="text-xs text-[#3d4a42] leading-relaxed">{routine.summary}</p>
+              <p className="text-[11px] text-[#6d7a72] leading-relaxed">
+                의학적 진단이 아니라, 고르신 답변에 따라 화면에서 바로 문구가 갈리는 예시 결과입니다.
               </p>
             </div>
 
             <div className="space-y-2">
-              <span className="text-xs font-bold text-[#141b2b] block">전문가 추천 맞춤 솔루션</span>
-              <div className="p-3 rounded-xl bg-gray-50 border border-gray-200 flex items-center gap-3">
-                <CheckCircle2 className="w-5 h-5 text-[#006948] shrink-0" />
-                <div className="text-xs">
-                  <p className="font-bold text-[#141b2b]">Step 1. 시카 엑소좀 수분 진정 앰플 50ml</p>
-                  <p className="text-[11px] text-[#6d7a72]">속수분 충전 및 진정 (예시 수치)</p>
+              <span className="text-xs font-bold text-[#141b2b] block">이 답변에 맞춘 추천 루틴 (예시)</span>
+              {recommended.map((product, idx) => (
+                <div
+                  key={product.id}
+                  className="p-3 rounded-xl bg-gray-50 border border-gray-200 flex items-center gap-3"
+                >
+                  <CheckCircle2 className="w-5 h-5 text-[#006948] shrink-0" />
+                  <div className="text-xs min-w-0">
+                    <p className="font-bold text-[#141b2b]">
+                      Step {idx + 1}. {product.name}
+                    </p>
+                    <p className="text-[11px] text-[#6d7a72]">
+                      {product.subTitle} · ₩{product.price.toLocaleString()}
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="p-3 rounded-xl bg-gray-50 border border-gray-200 flex items-center gap-3">
-                <CheckCircle2 className="w-5 h-5 text-[#006948] shrink-0" />
-                <div className="text-xs">
-                  <p className="font-bold text-[#141b2b]">Step 2. 8중 히알루론산 장벽 리페어 크림 80ml</p>
-                  <p className="text-[11px] text-[#6d7a72]">보습 락킹 및 장벽 복원 (예시 수치)</p>
-                </div>
-              </div>
+              ))}
             </div>
 
             <div className="flex gap-2 pt-2">
               <button
                 type="button"
                 onClick={() => setShowResult(false)}
-                className="w-1/3 h-11 border border-gray-300 rounded-full text-xs font-semibold text-gray-700 hover:bg-gray-100"
+                className="w-1/3 h-12 border border-gray-300 rounded-full text-xs font-semibold text-gray-700 hover:bg-gray-100 cursor-pointer transition-colors"
               >
                 다시 테스트
               </button>
               <button
                 type="button"
                 onClick={handleApplyRoutine}
-                className="flex-1 h-11 bg-[#006948] hover:bg-[#00855d] text-white text-xs font-bold rounded-full flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
+                className="flex-1 h-12 bg-[#006948] hover:bg-[#00855d] text-white text-xs font-bold rounded-full flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
               >
                 <ShoppingBag className="w-4 h-4" />
-                추천 루틴 2종 특가로 담기
+                추천 루틴 2종 장바구니 담기
               </button>
             </div>
           </div>

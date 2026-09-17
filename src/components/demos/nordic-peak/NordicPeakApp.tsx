@@ -1,9 +1,11 @@
 "use client";
 
-import SampleNotice from '@/components/demo-kit/SampleNotice';
 
-import React, { useState, useEffect } from 'react';
-import { PRODUCTS } from './data/products';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+// 이 샘플의 색·글자 토큰. 저장소 어디에도 정의가 없어서 화면이 통째로 흰 바탕으로 렌더되고 있었다
+// (자세한 사정은 theme.css 머리말).
+import './theme.css';
+import { FLAGSHIP_PRODUCT, PRODUCTS } from './data/products';
 import { Product, CartItem, FilterState } from './types';
 import { Header } from './components/Header';
 import { FilterBar } from './components/FilterBar';
@@ -23,39 +25,41 @@ interface NordicPeakAppProps {
   isEmbed?: boolean;
 }
 
+const DEFAULT_FILTERS: FilterState = {
+  category: 'all',
+  season: 'all',
+  capacity: 'all',
+  pole: 'all',
+  fabric: 'all',
+};
+
 export default function NordicPeakApp({ isEmbed }: NordicPeakAppProps = {}) {
-  // Initial cart with 3 items matching screenshot badge "3"
+  void isEmbed; // 틀(embed) 여부는 바깥 래퍼가 판단한다 — 화면 구성은 같다
+
   const [cartItems, setCartItems] = useState<CartItem[]>([
     { product: PRODUCTS[0], quantity: 1 },
     { product: PRODUCTS[1], quantity: 1 },
     { product: PRODUCTS[3], quantity: 1 },
   ]);
 
-  // Filter state matching default selected tags in design
-  const [filters, setFilters] = useState<FilterState>({
-    category: 'shelter',
-    season: 'winter',
-    capacity: '4',
-    pole: 'dac',
-    fabric: '70d',
-  });
-
-  const [activeNav, setActiveNav] = useState<string>('shelter');
+  const [filters, setFilters] = useState<FilterState>(DEFAULT_FILTERS);
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   const [isWeatherOpen, setIsWeatherOpen] = useState<boolean>(false);
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
+  const [searchSeed, setSearchSeed] = useState<string>('');
   const [isCompareOpen, setIsCompareOpen] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isOrderOpen, setIsOrderOpen] = useState<boolean>(false);
-  const [orderTargetProduct, setOrderTargetProduct] = useState<Product | null>(PRODUCTS[0]);
+  const [orderTargetProduct, setOrderTargetProduct] = useState<Product | null>(FLAGSHIP_PRODUCT);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [sampleNoticeOpen, setSampleNoticeOpen] = useState(false);
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Keyboard shortcut for Command+K (search HUD)
+  // Command/Ctrl + K 로 검색 HUD
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
+        setSearchSeed('');
         setIsSearchOpen(true);
       }
     };
@@ -63,131 +67,137 @@ export default function NordicPeakApp({ isEmbed }: NordicPeakAppProps = {}) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const showToast = (msg: string) => {
+  useEffect(() => {
+    return () => {
+      if (toastTimer.current) clearTimeout(toastTimer.current);
+    };
+  }, []);
+
+  const showToast = useCallback((msg: string) => {
     setToastMessage(msg);
-    setTimeout(() => {
-      setToastMessage(null);
-    }, 3000);
-  };
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToastMessage(null), 3000);
+  }, []);
 
   const handleAddToCart = (product: Product) => {
     setCartItems((prev) => {
       const existing = prev.find((item) => item.product.id === product.id);
       if (existing) {
         return prev.map((item) =>
-          item.product.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          item.product.id === product.id ? { ...item, quantity: item.quantity + 1 } : item,
         );
       }
       return [...prev, { product, quantity: 1 }];
     });
-    showToast(`'${product.title}' 장비가 기어백에 추가되었습니다.`);
+    showToast(`「${product.title}」 장비를 기어백에 담았습니다.`);
   };
 
   const handleUpdateQuantity = (productId: string, quantity: number) => {
     setCartItems((prev) =>
-      prev.map((item) => (item.product.id === productId ? { ...item, quantity } : item))
+      prev.map((item) => (item.product.id === productId ? { ...item, quantity } : item)),
     );
   };
 
   const handleRemoveItem = (productId: string) => {
     setCartItems((prev) => prev.filter((item) => item.product.id !== productId));
-    showToast('장비가 기어백에서 제거되었습니다.');
+    showToast('장비를 기어백에서 뺐습니다.');
   };
 
   const handleFilterChange = (key: keyof FilterState, value: string) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
-  const handleResetFilters = () => {
-    setFilters({
-      category: 'all',
-      season: 'all',
-      capacity: '4',
-      pole: 'dac',
-      fabric: '70d',
-    });
+  const handleResetFilters = () => setFilters(DEFAULT_FILTERS);
+
+  const goToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleSelectNav = (category: string) => {
-    setActiveNav(category);
     setFilters((prev) => ({ ...prev, category }));
-    const showcase = document.getElementById('gear-showcase');
-    showcase?.scrollIntoView({ behavior: 'smooth' });
+    goToSection('gear-showcase');
   };
 
   const handleTagClick = (tag: string) => {
+    setSearchSeed(tag);
     setIsSearchOpen(true);
   };
 
-  const handleOrderHero = () => {
-    setOrderTargetProduct(PRODUCTS[0]);
-    setIsOrderOpen(true);
-  };
-
-  const handlePitchingGuide = () => {
-    const el = document.getElementById('dimension-sim');
-    el?.scrollIntoView({ behavior: 'smooth' });
+  const openSearch = () => {
+    setSearchSeed('');
+    setIsSearchOpen(true);
   };
 
   const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const cartTotalPrice = cartItems.reduce((s, i) => s + i.product.price * i.quantity, 0);
 
-  // Filter products: by category or show full flagship lineup
-  const displayedProducts = PRODUCTS.filter((p) => {
-    if (filters.category === 'all') return true;
-    if (filters.category === 'shelter') return true; // Show full flagship 4-card lineup
-    return p.category === filters.category;
-  });
+  // 고른 조건이 실제로 목록을 거른다. 상품의 season 이 'all' 이면 어느 계절 조건에도 걸린다.
+  const displayedProducts = useMemo(
+    () =>
+      PRODUCTS.filter((p) => {
+        if (filters.category !== 'all' && p.category !== filters.category) return false;
+        if (filters.season !== 'all' && p.season !== 'all' && p.season !== filters.season) return false;
+        if (filters.capacity !== 'all' && p.capacity !== filters.capacity) return false;
+        if (filters.pole !== 'all' && p.pole !== filters.pole) return false;
+        if (filters.fabric !== 'all' && p.fabric !== filters.fabric) return false;
+        return true;
+      }),
+    [filters],
+  );
 
   return (
-    <div className="min-h-screen bg-background text-on-surface flex flex-col font-body-md selection:bg-tertiary-container selection:text-on-tertiary">
-      {/* 1 & 2. Header & Live Navigation */}
+    <div
+      id="np-root"
+      className="min-h-screen bg-background text-on-surface flex flex-col font-body-md text-body-md"
+    >
       <Header
         cartCount={totalCartCount}
         onOpenCart={() => setIsCartOpen(true)}
         onOpenWeather={() => setIsWeatherOpen(true)}
-        onOpenSearch={() => setIsSearchOpen(true)}
-        activeNav={activeNav}
+        onOpenSearch={openSearch}
+        activeNav={filters.category}
         onSelectNav={handleSelectNav}
         onTagClick={handleTagClick}
       />
 
-      {/* 3. 4-Tier Deep Category HUD & Tactical Attribute Filter */}
       <FilterBar
         filters={filters}
         onFilterChange={handleFilterChange}
         onResetFilters={handleResetFilters}
+        resultCount={displayedProducts.length}
       />
 
-      {/* Main Content */}
       <main className="flex-grow">
-        {/* 4. Expedition Field Test Spotlight (Hero Section) */}
         <HeroExpedition
-          onOrderNow={handleOrderHero}
-          onOpenPitchingGuide={handlePitchingGuide}
+          onOrderNow={() => {
+            setOrderTargetProduct(FLAGSHIP_PRODUCT);
+            setIsOrderOpen(true);
+          }}
+          onOpenPitchingGuide={() => goToSection('dimension-sim')}
           onCompare={() => setIsCompareOpen(true)}
           isComparing={isCompareOpen}
         />
 
-        {/* 5. Technical Gear Showcase (4-Column Grid) */}
-        <div id="gear-showcase">
+        <div id="gear-showcase" className="scroll-mt-20">
           <GearShowcase
-            products={displayedProducts.length > 0 ? displayedProducts : PRODUCTS}
+            products={displayedProducts}
             onAddToCart={handleAddToCart}
             onSelectProduct={(p) => setSelectedProduct(p)}
+            onResetFilters={handleResetFilters}
           />
         </div>
 
-        {/* 6. Interactive Tent Dimension & Pitching Simulator Section */}
         <BlueprintSimulator />
 
-        {/* Field Service & Assurance Banners */}
         <FieldServiceAssurance />
       </main>
 
-      {/* 7. Trust & Expedition Assurance Footer */}
-      <Footer />
+      <Footer
+        onSelectCategory={handleSelectNav}
+        onGoToSection={goToSection}
+        onOpenSearch={openSearch}
+      />
 
-      {/* Slide-over Gear Bag Cart Drawer */}
       <CartDrawer
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
@@ -201,18 +211,16 @@ export default function NordicPeakApp({ isEmbed }: NordicPeakAppProps = {}) {
         }}
       />
 
-      {/* Weather Telemetry HUD Modal */}
       <WeatherHUDModal isOpen={isWeatherOpen} onClose={() => setIsWeatherOpen(false)} />
 
-      {/* Command-K Search HUD Modal */}
       <SearchHUDModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
         products={PRODUCTS}
         onSelectProduct={(p) => setSelectedProduct(p)}
+        initialQuery={searchSeed}
       />
 
-      {/* Product Spec Detail Modal */}
       <ProductDetailModal
         product={selectedProduct}
         onClose={() => setSelectedProduct(null)}
@@ -224,7 +232,6 @@ export default function NordicPeakApp({ isEmbed }: NordicPeakAppProps = {}) {
         }}
       />
 
-      {/* Gear Compare Modal */}
       <CompareModal
         isOpen={isCompareOpen}
         onClose={() => setIsCompareOpen(false)}
@@ -232,38 +239,28 @@ export default function NordicPeakApp({ isEmbed }: NordicPeakAppProps = {}) {
         onAddToCart={handleAddToCart}
       />
 
-      {/* Quick Dispatch Order Modal */}
       <OrderModal
         isOpen={isOrderOpen}
         onClose={() => setIsOrderOpen(false)}
         product={orderTargetProduct}
-        totalPrice={
-          orderTargetProduct
-            ? orderTargetProduct.price
-            : cartItems.reduce((s, i) => s + i.product.price * i.quantity, 0)
-        }
+        totalPrice={orderTargetProduct ? orderTargetProduct.price : cartTotalPrice}
         itemCount={orderTargetProduct ? 1 : totalCartCount}
-        onSuccess={() => {
-          setSampleNoticeOpen(true);
-        }}
       />
 
-      {/* Tactical Toast Notification */}
+      {/* 담기 알림 — 브라우저 기본 경고창 대신 화면 안 토스트 */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-surface-container-high border border-primary text-on-surface px-4 py-3 rounded-sm shadow-2xl flex items-center gap-2 font-label-mono-sm text-label-mono-sm animate-bounce">
-          <span className="material-symbols-outlined text-primary" style={{ fontSize: 18 }}>
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-4 left-4 right-4 lg:left-auto lg:right-6 lg:bottom-6 lg:max-w-sm z-[60] bg-surface-container-high border border-primary text-on-surface px-4 py-3 rounded-sm shadow-2xl flex items-center gap-2 font-label-mono-sm text-label-mono-sm"
+        >
+          <span className="material-symbols-outlined text-primary shrink-0" style={{ fontSize: 18 }}>
             check_circle
           </span>
-          <span>{toastMessage}</span>
+          <span className="[word-break:keep-all]">{toastMessage}</span>
         </div>
       )}
-      <SampleNotice
-        open={sampleNoticeOpen}
-        onClose={() => setSampleNoticeOpen(false)}
-        slug="nordic-peak"
-        industry="commerce"
-        featureName="익스페디션 장비 특급 출고"
-      />
+
     </div>
   );
 }

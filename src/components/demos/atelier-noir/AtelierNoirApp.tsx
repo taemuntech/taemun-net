@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Send } from 'lucide-react';
 
 import { Header } from './components/Header';
-import { CategoryFilter } from './components/CategoryFilter';
+import { CategoryFilter, LUXURY_CATEGORY, type FilterOptions } from './components/CategoryFilter';
 import { HeroEditorial } from './components/HeroEditorial';
 import { ProductGrid } from './components/ProductGrid';
 import { StreetArchive } from './components/StreetArchive';
@@ -18,18 +18,44 @@ import { PolicyModal } from './components/PolicyModal';
 import { Footer } from './components/Footer';
 import { Toast } from './components/Toast';
 import SampleNotice from '@/components/demo-kit/SampleNotice';
-import { PRODUCTS, INITIAL_CART, LOOKBOOK_PIECES } from './data/mockData';
+import { PRODUCTS, INITIAL_CART, colorNameOf } from './data/mockData';
+import { CurrencyProvider } from './currency';
 import { Product, CartItem } from './types';
+
+// 카테고리 칩은 상품이 실제로 가진 category 값만 쓴다 —
+// 예전 목록의 「남성의류」·「여성의류」는 어느 상품에도 안 붙어 눌러도 빈 화면이 됐다.
+const CATEGORIES = [
+  '전체보기',
+  '아우터 (OUTER)',
+  '상의 (TOPS)',
+  '하의 (BOTTOMS)',
+  '잡화/가방',
+  '슈즈 (FOOTWEAR)',
+  LUXURY_CATEGORY,
+];
+
+const LUXURY_MIN_PRICE = 700000;
+
+function matchesCategory(item: Product, category: string): boolean {
+  if (category === '전체보기') return true;
+  if (category === LUXURY_CATEGORY) return item.price >= LUXURY_MIN_PRICE;
+  return item.category === category;
+}
+
+function uniq(values: string[]): string[] {
+  return Array.from(new Set(values));
+}
 
 export default function AtelierNoirApp({ isEmbed = false }: { isEmbed?: boolean }) {
   const [products, setProducts] = useState<Product[]>(PRODUCTS);
   const [cart, setCart] = useState<CartItem[]>(INITIAL_CART);
   const [selectedCategory, setSelectedCategory] = useState<string>('아우터 (OUTER)');
-  const [selectedSubCategory, setSelectedSubCategory] = useState<string>('오버사이즈 더블 블레이저');
-  const [selectedColor, setSelectedColor] = useState<string>('Noir Black');
-  const [selectedFit, setSelectedFit] = useState<string>('오버핏 (OVERSIZED)');
-  const [selectedFabric, setSelectedFabric] = useState<string>('100% VIRGIN WOOL');
+  const [selectedSubCategory, setSelectedSubCategory] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string | null>(null);
+  const [selectedFit, setSelectedFit] = useState<string | null>(null);
+  const [selectedFabric, setSelectedFabric] = useState<string | null>(null);
   const [activeNav, setActiveNav] = useState<string>('RANKING');
+  const [activeTab, setActiveTab] = useState<'realtime' | 'md' | 'timedeal' | 'exclusive'>('realtime');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   // Modals and Drawers
@@ -78,11 +104,15 @@ export default function AtelierNoirApp({ isEmbed = false }: { isEmbed?: boolean 
     selectedSize: string = 'L (추천 사이즈)',
     selectedColor: string = 'Noir Black'
   ) => {
+    // 상세에서 넘어오는 값은 16진 색상코드라 사람이 읽는 이름으로 바꾼다 —
+    // 예전엔 장바구니 줄에 '#0C0D0E / L (추천 사이즈)' 가 그대로 찍혔다.
+    const colorLabel = selectedColor.startsWith('#') ? colorNameOf(selectedColor) : selectedColor;
+
     const existingIndex = cart.findIndex(
       (item) =>
         item.productId === product.id &&
         item.selectedSize === selectedSize &&
-        item.selectedColor === selectedColor
+        item.selectedColor === colorLabel
     );
 
     if (existingIndex > -1) {
@@ -97,7 +127,7 @@ export default function AtelierNoirApp({ isEmbed = false }: { isEmbed?: boolean 
         productId: product.id,
         brand: product.brand,
         name: product.name,
-        selectedColor,
+        selectedColor: colorLabel,
         selectedSize,
         price: product.price,
         image: product.image,
@@ -126,47 +156,28 @@ export default function AtelierNoirApp({ isEmbed = false }: { isEmbed?: boolean 
     setNoticeFeature('선물하기');
   };
 
+  // 히어로의 3-PIECE 세트는 실제 상품 3개(블레이저·슬랙스·더비슈즈)를 가리킨다.
+  // 목록도 담기도 이 배열 하나를 보므로 지면 가격과 장바구니 가격이 갈라지지 않는다.
+  const LOOK_SET_IDS = [1, 2, 7];
+  const lookSetProducts = useMemo(
+    () => LOOK_SET_IDS.map((id) => products.find((p) => p.id === id)).filter((p): p is Product => Boolean(p)),
+    [products]
+  );
+
   // 3-Piece look set commit
   const handleAddLookSetToCart = () => {
-    const lookPiece1 = products.find((p) => p.id === 1) || products[0];
-    const lookPiece2 = products.find((p) => p.id === 2) || products[1];
-    const lookPiece3 = products.find((p) => p.id === 7) || products[6];
-
-    const setLookItems: CartItem[] = [
-      {
-        id: `cart-set-1-${Date.now()}`,
-        productId: lookPiece1.id,
-        brand: lookPiece1.brand,
-        name: '테일러드 오버 블레이저 (LOOK SET 15% OFF)',
-        selectedColor: 'Noir Black',
-        selectedSize: 'L (100-105)',
-        price: Math.round(348000 * 0.85),
-        image: lookPiece1.image,
-        quantity: 1,
-      },
-      {
-        id: `cart-set-2-${Date.now()}`,
-        productId: lookPiece2.id,
-        brand: lookPiece2.brand,
-        name: '딥 플리츠 와이드 슬랙스 (LOOK SET 15% OFF)',
-        selectedColor: 'Dark Charcoal',
-        selectedSize: '48 (M)',
-        price: Math.round(178000 * 0.85),
-        image: lookPiece2.image,
-        quantity: 1,
-      },
-      {
-        id: `cart-set-3-${Date.now()}`,
-        productId: lookPiece3.id,
-        brand: lookPiece3.brand,
-        name: '스퀘어토 카프 더비슈즈 (LOOK SET 15% OFF)',
-        selectedColor: 'Noir Black',
-        selectedSize: '270 (EU 42)',
-        price: Math.round(258000 * 0.85),
-        image: lookPiece3.image,
-        quantity: 1,
-      },
-    ];
+    // 금액은 상품 데이터에서 가져온다 — 숫자를 따로 적어 두면 그리드·상세 가격과 어긋난다.
+    const setLookItems: CartItem[] = lookSetProducts.map((piece, idx) => ({
+      id: `cart-set-${idx + 1}-${Date.now()}`,
+      productId: piece.id,
+      brand: piece.brand,
+      name: `${piece.name} (LOOK SET 15% OFF)`,
+      selectedColor: colorNameOf(piece.colors[0] ?? '#0C0D0E'),
+      selectedSize: piece.measurements?.[1]?.size ?? piece.sizeOptions?.[0] ?? 'L (추천 사이즈)',
+      price: Math.round(piece.price * 0.85),
+      image: piece.image,
+      quantity: 1,
+    }));
 
     setCart((prev) => [...setLookItems, ...prev]);
     showToast('2026 S/S 3-PIECE 세트(15% 특가)가 장바구니에 담겼습니다!');
@@ -196,18 +207,11 @@ export default function AtelierNoirApp({ isEmbed = false }: { isEmbed?: boolean 
     setNoticeFeature('주문 결제');
   };
 
-  // Open modal with partial or full product
-  const handleOpenProductSpec = (partial: Partial<Product>) => {
-    const found = products.find((p) => p.id === partial.id) || products[0];
-    const target = { ...found, ...partial };
-    setSelectedProduct(target as Product);
-    setIsProductModalOpen(true);
-  };
-
-  const handleOpenProductByName = (name: string, price?: number) => {
-    const matched =
-      products.find((p) => p.name.includes(name) || name.includes(p.name)) ||
-      products[0];
+  // 스트릿 스냅·룩북 핀은 상품 id 로 잇는다 — 이름으로 찾던 예전에는 못 찾으면
+  // 엉뚱하게 1번 상품이 열렸다(「스퀘어토 미니멀 로퍼」·「5.0 테크니컬 팬츠」가 그랬다).
+  const handleOpenProductById = (productId: number) => {
+    const matched = products.find((p) => p.id === productId);
+    if (!matched) return;
     setSelectedProduct(matched);
     setIsProductModalOpen(true);
   };
@@ -233,9 +237,12 @@ export default function AtelierNoirApp({ isEmbed = false }: { isEmbed?: boolean 
         altText: '니켈 도금 체인 초커 목걸이 (예시)',
         colors: ['#71717A'],
         category: '잡화/가방',
+        subCategory: '체인 목걸이',
         fit: '원사이즈',
         fabric: 'Nickel Plated Brass',
         isWishlisted: false,
+        modelSpec: '체인 길이 42cm · 랍스터 클래스프 (예시 수치)',
+        sizeOptions: ['ONE SIZE'],
       },
       {
         id: 10,
@@ -251,9 +258,16 @@ export default function AtelierNoirApp({ isEmbed = false }: { isEmbed?: boolean 
         altText: '다트 디테일 와이드 트라우저 (예시)',
         colors: ['#0C0D0E', '#27272A'],
         category: '하의 (BOTTOMS)',
+        subCategory: '와이드 트라우저',
         fit: '와이드 테이퍼드',
         fabric: 'Virgin Wool 100%',
         isWishlisted: false,
+        modelSpec: '183cm / 70kg, 48(M) 착용',
+        measurements: [
+          { size: '46 (S)', shoulder: '-', chest: '-', sleeve: '-', length: '103 cm', stock: '재고 3개' },
+          { size: '48 (M)', shoulder: '-', chest: '-', sleeve: '-', length: '106 cm', isModelSize: true, stock: '추천 사이즈' },
+          { size: '50 (L)', shoulder: '-', chest: '-', sleeve: '-', length: '109 cm', stock: '재고 1개' },
+        ],
       },
       {
         id: 11,
@@ -269,9 +283,16 @@ export default function AtelierNoirApp({ isEmbed = false }: { isEmbed?: boolean 
         altText: '엠브로이더리 코튼 포플린 셔츠 (예시)',
         colors: ['#F4F4F5', '#0C0D0E'],
         category: '상의 (TOPS)',
+        subCategory: '엠브로이더리 셔츠',
         fit: '오버핏 (OVERSIZED)',
         fabric: 'Cotton Poplin 100%',
         isWishlisted: false,
+        modelSpec: '180cm / 68kg, L 착용 (넉넉한 드롭 숄더)',
+        measurements: [
+          { size: 'M (95-100)', shoulder: '50 cm', chest: '57 cm', sleeve: '61 cm', length: '73 cm', stock: '재고 4개' },
+          { size: 'L (100-105)', shoulder: '52 cm', chest: '60 cm', sleeve: '63 cm', length: '75 cm', isModelSize: true, stock: '추천 사이즈' },
+          { size: 'XL (105-110)', shoulder: '54 cm', chest: '63 cm', sleeve: '65 cm', length: '77 cm', stock: '재고 2개' },
+        ],
       },
       {
         id: 12,
@@ -287,9 +308,16 @@ export default function AtelierNoirApp({ isEmbed = false }: { isEmbed?: boolean 
         altText: '아방가르드 드레이프 롱 코트 (예시)',
         colors: ['#0C0D0E'],
         category: '아우터 (OUTER)',
+        subCategory: '롱 테일러드 코트',
         fit: '오버핏 (OVERSIZED)',
         fabric: 'Gabardine Wool 100%',
         isWishlisted: false,
+        modelSpec: '187cm / 75kg, L 착용 (종아리 아래로 떨어지는 기장)',
+        measurements: [
+          { size: 'M (95-100)', shoulder: '55 cm', chest: '64 cm', sleeve: '65 cm', length: '118 cm', stock: '재고 1개' },
+          { size: 'L (100-105)', shoulder: '57 cm', chest: '67 cm', sleeve: '67 cm', length: '121 cm', isModelSize: true, stock: '추천 사이즈' },
+          { size: 'XL (105-110)', shoulder: '59 cm', chest: '70 cm', sleeve: '69 cm', length: '124 cm', stock: '품절임박' },
+        ],
       },
     ];
 
@@ -298,46 +326,120 @@ export default function AtelierNoirApp({ isEmbed = false }: { isEmbed?: boolean 
     showToast('예시 컬렉션 4종을 목록에 더했습니다.');
   };
 
-  // Filter products based on search or category
-  const filteredProducts = products.filter((item) => {
+  // 검색어가 있으면 검색이 이긴다. 없으면 카테고리 + 세부분류 + 컬러 + 핏 + 패브릭을 모두 적용한다.
+  const filteredProducts = useMemo(() => {
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
-      return (
-        item.name.toLowerCase().includes(q) ||
-        item.brand.toLowerCase().includes(q) ||
-        item.category.toLowerCase().includes(q)
+      return products.filter(
+        (item) =>
+          item.name.toLowerCase().includes(q) ||
+          item.brand.toLowerCase().includes(q) ||
+          item.category.toLowerCase().includes(q) ||
+          item.subCategory.toLowerCase().includes(q)
       );
     }
-    if (selectedCategory && selectedCategory !== '전체보기') {
-      if (item.category !== selectedCategory) return false;
-    }
-    return true;
-  });
+    return products.filter((item) => {
+      if (!matchesCategory(item, selectedCategory)) return false;
+      if (selectedSubCategory && item.subCategory !== selectedSubCategory) return false;
+      if (
+        selectedColor &&
+        !item.colors.some((hex) => hex.toLowerCase() === selectedColor.toLowerCase())
+      ) {
+        return false;
+      }
+      if (selectedFit && item.fit !== selectedFit) return false;
+      if (selectedFabric && item.fabric !== selectedFabric) return false;
+      return true;
+    });
+  }, [products, searchQuery, selectedCategory, selectedSubCategory, selectedColor, selectedFit, selectedFabric]);
+
+  // 칩 목록은 지금 카테고리에 실제로 있는 상품에서 뽑는다 — 결과가 0인 죽은 칩을 만들지 않는다.
+  const filterOptions = useMemo<FilterOptions>(() => {
+    const inCategory = products.filter((item) => matchesCategory(item, selectedCategory));
+    return {
+      subCategories: uniq(inCategory.map((item) => item.subCategory)),
+      colors: uniq(inCategory.flatMap((item) => item.colors)),
+      fits: uniq(inCategory.map((item) => item.fit)),
+      fabrics: uniq(inCategory.map((item) => item.fabric)),
+    };
+  }, [products, selectedCategory]);
+
+  const hasActiveFilters =
+    selectedCategory !== '전체보기' ||
+    selectedSubCategory !== null ||
+    selectedColor !== null ||
+    selectedFit !== null ||
+    selectedFabric !== null ||
+    searchQuery !== '';
 
   const handleResetFilters = () => {
-    setSelectedCategory('아우터 (OUTER)');
-    setSelectedSubCategory('오버사이즈 더블 블레이저');
-    setSelectedColor('Noir Black');
-    setSelectedFit('오버핏 (OVERSIZED)');
-    setSelectedFabric('100% VIRGIN WOOL');
+    setSelectedCategory('전체보기');
+    setSelectedSubCategory(null);
+    setSelectedColor(null);
+    setSelectedFit(null);
+    setSelectedFabric(null);
     setSearchQuery('');
-    showToast('모든 필터가 기본값으로 초기화되었습니다.');
+    showToast('필터를 해제하고 전체 상품을 표시합니다.');
+  };
+
+  // 카테고리를 바꾸면 그 카테고리에 없는 세부 필터는 같이 풀어 준다(0개 화면 방지).
+  const handleSelectCategory = (cat: string) => {
+    setSelectedCategory(cat);
+    setSelectedSubCategory(null);
+    setSelectedColor(null);
+    setSelectedFit(null);
+    setSelectedFabric(null);
+    setSearchQuery('');
   };
 
   const scrollToCatalog = () => {
-    const elem = document.getElementById('ranking');
-    if (elem) {
-      elem.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('ranking')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToLookbook = () => {
+    document.getElementById('lookbook')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleGoHome = () => {
+    handleResetFilters();
+    setActiveNav('RANKING');
+    setActiveTab('realtime');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // 상단 내비는 전부 무언가를 바꾼다 — 예전엔 BRANDS·EXCLUSIVE 가 글자만 굵어지고 끝이었다.
+  const handleSelectNav = (nav: string) => {
+    setActiveNav(nav);
+    setSearchQuery('');
+    if (nav === 'LOOKBOOK') {
+      scrollToLookbook();
+      return;
     }
+    // 카테고리를 전체로 되돌릴 때는 속성 필터도 같이 푼다 — 남겨 두면 탭을 눌러도 0개가 나온다.
+    if (nav === 'BRANDS') {
+      handleSelectCategory('전체보기');
+      setActiveTab('md');
+    } else if (nav === 'RANKING') {
+      setActiveTab('realtime');
+    } else if (nav === 'SALE') {
+      handleSelectCategory('전체보기');
+      setActiveTab('timedeal');
+    } else if (nav === 'EXCLUSIVE') {
+      handleSelectCategory('전체보기');
+      setActiveTab('exclusive');
+    }
+    scrollToCatalog();
   };
 
   return (
+    <CurrencyProvider>
     <div className="min-h-screen bg-[#0c0d0e] text-[#e3e2e3] font-body-md flex flex-col selection:bg-[#caf300] selection:text-black">
       {/* 🌟 Taemun Dev Studio Top Floating Demo Bar */}
       {!isEmbed && (
         <aside
           aria-label="데모 안내 바"
-          className="sticky top-0 z-[60] bg-zinc-950/95 backdrop-blur-md text-white border-b border-zinc-800 text-xs py-2 px-4 flex items-center justify-between"
+          // 공용 샘플 바에 가려지지 않게 top-0 대신 --sample-bar-h 를 쓴다 — 바가 없으면 0px 라 화면은 그대로다.
+          className="sticky top-[var(--sample-bar-h,0px)] z-[60] bg-zinc-950/95 backdrop-blur-md text-white border-b border-zinc-800 text-xs py-2 px-4 flex items-center justify-between"
         >
           <div className="flex items-center gap-3">
             <Link
@@ -406,23 +508,17 @@ export default function AtelierNoirApp({ isEmbed = false }: { isEmbed?: boolean 
           showToast(`'${q}' 검색 결과를 표시합니다.`);
         }}
         activeNav={activeNav}
-        setActiveNav={(nav) => {
-          setActiveNav(nav);
-          if (nav === 'LOOKBOOK' || nav === 'RANKING') scrollToCatalog();
-          if (nav === 'SALE') {
-            setSelectedCategory('전체보기');
-            scrollToCatalog();
-          }
-        }}
+        setActiveNav={handleSelectNav}
+        onGoHome={handleGoHome}
       />
 
       {/* 3. Deep 4-Tier Category Drawer & Attribute Filter HUD */}
       <CategoryFilter
+        categories={CATEGORIES}
+        options={filterOptions}
+        resultCount={filteredProducts.length}
         selectedCategory={selectedCategory}
-        onSelectCategory={(cat) => {
-          setSelectedCategory(cat);
-          setSearchQuery('');
-        }}
+        onSelectCategory={handleSelectCategory}
         selectedSubCategory={selectedSubCategory}
         onSelectSubCategory={setSelectedSubCategory}
         selectedColor={selectedColor}
@@ -431,6 +527,7 @@ export default function AtelierNoirApp({ isEmbed = false }: { isEmbed?: boolean 
         onSelectFit={setSelectedFit}
         selectedFabric={selectedFabric}
         onSelectFabric={setSelectedFabric}
+        hasActiveFilters={hasActiveFilters}
         onResetFilters={handleResetFilters}
       />
 
@@ -438,7 +535,7 @@ export default function AtelierNoirApp({ isEmbed = false }: { isEmbed?: boolean 
       <main className="flex-1">
         {/* Active Search Banner if searching */}
         {searchQuery && (
-          <div className="bg-[#1f2021] hairline-b px-6 py-2.5 flex items-center justify-between text-xs max-w-[1920px] mx-auto">
+          <div className="bg-[#1f2021] hairline-b px-4 lg:px-6 py-1.5 flex flex-wrap items-center justify-between gap-2 text-xs max-w-[1920px] mx-auto">
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-sm text-[#caf300]">search</span>
               <span>
@@ -447,7 +544,7 @@ export default function AtelierNoirApp({ isEmbed = false }: { isEmbed?: boolean 
             </div>
             <button
               onClick={() => setSearchQuery('')}
-              className="text-[#8f9378] hover:text-[#ffffff] underline font-label-sm"
+              className="text-[#8f9378] hover:text-[#ffffff] underline font-label-sm min-h-11 px-1 shrink-0 cursor-pointer"
             >
               검색 필터 해제
             </button>
@@ -456,14 +553,17 @@ export default function AtelierNoirApp({ isEmbed = false }: { isEmbed?: boolean 
 
         {/* 4. Editorial Hero Runway & Interactive Lookbook Showcase */}
         <HeroEditorial
-          onOpenProductSpec={handleOpenProductSpec}
+          onOpenProductSpec={handleOpenProductById}
           onAddLookSetToCart={handleAddLookSetToCart}
           onScrollToCatalog={scrollToCatalog}
+          lookSetProducts={lookSetProducts}
         />
 
         {/* 5. Real-Time Live Ranking & 4-Tab Switcher */}
         <ProductGrid
           products={filteredProducts}
+          activeTab={activeTab}
+          onChangeTab={setActiveTab}
           onOpenProductModal={(product) => {
             setSelectedProduct(product);
             setIsProductModalOpen(true);
@@ -471,11 +571,13 @@ export default function AtelierNoirApp({ isEmbed = false }: { isEmbed?: boolean 
           onToggleWishlist={handleToggleWishlist}
           onLoadMore={handleLoadMore}
           hasMore={hasMore}
+          hasActiveFilters={hasActiveFilters}
+          onResetFilters={handleResetFilters}
         />
 
         {/* 6. Street Archive: Seongsu · Hannam · Dosan */}
         <StreetArchive
-          onOpenProductModalByName={handleOpenProductByName}
+          onOpenProductModalById={handleOpenProductById}
         />
       </main>
 
@@ -541,5 +643,6 @@ export default function AtelierNoirApp({ isEmbed = false }: { isEmbed?: boolean 
         featureName={noticeFeature ?? undefined}
       />
     </div>
+    </CurrencyProvider>
   );
 }

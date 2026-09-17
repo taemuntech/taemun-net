@@ -1,6 +1,52 @@
 import React from 'react';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  /** 이 지면 안에 실제로 있는 구역으로 보낸다 */
+  onScrollTo: (sectionId: string) => void;
+  /** 샘플이라 문서가 없는 자리 — 눌리면 무엇이 없는지 그 자리에서 알려 준다 */
+  onNotice: (message: string) => void;
+}
+
+/**
+ * 푸터 링크는 예전에 전부 빈 앵커 주소였다 — 11개가 눌러도 아무 일이 없었다.
+ * 지금은 셋 중 하나다: (1) 이 지면의 실제 구역으로 스크롤, (2) 무엇이 없는지 알리는 안내,
+ * (3) 링크가 아니라 글자. 「준비 중」이라고 적지 않는다.
+ */
+type FooterLink =
+  | { label: string; to: string; strong?: boolean }
+  | { label: string; notice: string; strong?: boolean };
+
+const LINK_GROUPS: ReadonlyArray<{ heading: string; links: ReadonlyArray<FooterLink> }> = [
+  {
+    heading: '서비스 안내',
+    links: [
+      { label: '회사소개', notice: '가상 브랜드 샘플이라 회사소개 페이지는 들어 있지 않습니다.' },
+      { label: '골든 콜드체인 철학', to: 'coldchain-inspection', strong: true },
+      { label: '친환경 배송 포장재', to: 'verde-pillars' },
+      { label: '입점문의', notice: '샘플 사이트라 입점문의 접수는 동작하지 않습니다.' }
+    ]
+  },
+  {
+    heading: '고객 지원',
+    links: [
+      { label: '고객만족센터', notice: '화면의 고객센터 번호는 예시 표기입니다 — 연결되지 않습니다.' },
+      { label: '교환·환불 안내', to: 'verde-pillars' },
+      { label: '대량주문 B2B 상담', notice: '샘플 사이트라 B2B 상담 접수는 동작하지 않습니다.' },
+      { label: '자주 묻는 질문(FAQ)', notice: '가상 브랜드 샘플이라 FAQ 문서는 들어 있지 않습니다.' }
+    ]
+  },
+  {
+    heading: '약관 및 정책',
+    links: [
+      { label: '이용약관', notice: '샘플 사이트라 약관 문서는 들어 있지 않습니다.' },
+      { label: '개인정보처리방침', notice: '샘플 사이트라 개인정보처리방침 문서는 들어 있지 않습니다.', strong: true },
+      { label: '전자금융거래 기본약관', notice: '샘플 사이트라 약관 문서는 들어 있지 않습니다.' },
+      { label: '결제 이용안내', notice: '샘플 사이트라 결제가 연동돼 있지 않습니다 — 주문은 접수되지 않습니다.' }
+    ]
+  }
+];
+
+export const Footer: React.FC<FooterProps> = ({ onScrollTo, onNotice }) => {
   return (
     <footer className="bg-surface-container-low text-primary border-t border-outline-variant mt-16">
       <div className="w-full max-w-7xl mx-auto px-4 lg:px-12 py-10">
@@ -28,33 +74,24 @@ export const Footer: React.FC = () => {
 
           {/* Footer Links */}
           <div className="lg:col-span-7 grid grid-cols-2 lg:grid-cols-3 gap-6 text-xs">
-            <div>
-              <h4 className="font-bold text-primary mb-3 text-sm">서비스 안내</h4>
-              <ul className="space-y-2 text-on-surface-variant">
-                <li><a href="#" className="hover:text-primary transition-colors">회사소개</a></li>
-                <li><a href="#coldchain-inspection" className="hover:text-primary transition-colors font-bold text-secondary">골든 콜드체인 철학</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">친환경 배송 포장재</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">입점문의</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold text-primary mb-3 text-sm">고객 지원</h4>
-              <ul className="space-y-2 text-on-surface-variant">
-                <li><a href="#" className="hover:text-primary transition-colors">고객만족센터</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">교환·환불 정책</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">대량주문 B2B 상담</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">자주 묻는 질문(FAQ)</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold text-primary mb-3 text-sm">약관 및 정책</h4>
-              <ul className="space-y-2 text-on-surface-variant">
-                <li><a href="#" className="hover:text-primary transition-colors">이용약관</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors font-bold">개인정보처리방침</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">전자금융거래 기본약관</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">안전결제 이용안내</a></li>
-              </ul>
-            </div>
+            {LINK_GROUPS.map((group) => (
+              <div key={group.heading}>
+                <h4 className="font-bold text-primary mb-2 text-sm">{group.heading}</h4>
+                <ul className="text-on-surface-variant">
+                  {group.links.map((link) => (
+                    <li key={link.label}>
+                      <button
+                        type="button"
+                        onClick={() => ('to' in link ? onScrollTo(link.to) : onNotice(link.notice))}
+                        className={`inline-flex min-h-11 items-center text-left hover:text-primary transition-colors ${ link.strong ? 'font-bold text-secondary' : '' }`}
+                      >
+                        {link.label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -71,9 +108,10 @@ export const Footer: React.FC = () => {
             </p>
           </div>
           <div className="flex items-center gap-3 shrink-0">
+            {/* 결제 안전장치를 뜻하는 말은 법에 요건이 걸려 있어 쓰지 않는다 — 연동 표시라고만 적는다 */}
             <span className="inline-flex items-center gap-1 bg-surface-container px-3 py-1.5 rounded text-[11px] font-mono border border-outline-variant">
               <span className="material-symbols-outlined text-secondary text-sm">lock</span>
-              결제대행사(예시) 안전결제 연동 표시
+              결제대행사(예시) 연동 표시
             </span>
           </div>
         </div>

@@ -28,7 +28,7 @@ export const ClinicalReviews: React.FC<ClinicalReviewsProps> = ({ reviews }) => 
   };
 
   return (
-    <section className="py-12 lg:py-20 bg-[#eff4ff] border-t border-[#bfc9c1]/60">
+    <section id="reviews" className="py-12 lg:py-20 bg-[#eff4ff] border-t border-[#bfc9c1]/60">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         {/* Doctor Endorsement Feature Banner */}
         <div className="bg-white border-2 border-[#0f5238]/30 rounded-2xl p-6 lg:p-10 mb-12 shadow-sm flex flex-col lg:flex-row items-center gap-8">
@@ -42,7 +42,7 @@ export const ClinicalReviews: React.FC<ClinicalReviewsProps> = ({ reviews }) => 
           <div className="space-y-3 flex-1 text-center lg:text-left">
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
               <span className="bg-[#0f5238] text-white text-[11px] font-bold px-2.5 py-0.5 rounded shadow-sm">
-                전문의 공식 검증
+                자문 수의사 코멘트 (예시)
               </span>
               <span className="text-base font-bold text-[#121c2a]">김민준 수의내과 전문 수의사</span>
               <span className="text-xs text-[#404943] font-medium">
@@ -52,13 +52,13 @@ export const ClinicalReviews: React.FC<ClinicalReviewsProps> = ({ reviews }) => 
 
             <p className="text-base lg:text-lg text-[#0f5238] font-semibold italic">
               "단백질원 단일화(Single Animal Protein)와 저분자 펩타이드 공법으로 눈물샘 염증과
-              소화기 부담을 획기적으로 낮췄습니다."
+              소화기 부담을 낮추는 것을 목표로 설계했습니다."
             </p>
 
             <p className="text-xs lg:text-sm text-[#404943] max-w-3xl leading-relaxed">
-              "식이 알러지가 잦은 반려견의 80% 이상은 복합 육류 단백질과 미검증 글루텐이 원인입니다.
-              포우즈 앤 테일은 알래스카 생연어 원육과 초록입홍합만을 기능성 배합하여, 임상 테스트
-              4주 차에 변 상태 개선 및 눈물 번짐 감소 결과를 입증하였습니다."
+              "식이 알러지가 잦은 반려견에서는 복합 육류 단백질과 미검증 글루텐이 흔한 원인으로
+              꼽힙니다. 포우즈 앤 테일은 알래스카 생연어 원육과 초록입홍합만을 기능성 배합해, 가상 급여
+              시나리오 4주 차에 변 상태와 눈물 번짐이 나아지는 것을 목표로 설계했습니다. (예시 코멘트)"
             </p>
           </div>
 
@@ -74,26 +74,30 @@ export const ClinicalReviews: React.FC<ClinicalReviewsProps> = ({ reviews }) => 
         {/* Section Title for Parent Reviews */}
         <div className="flex justify-between items-end mb-8">
           <div>
-            <span className="text-[#0f5238] text-xs font-bold flex items-center gap-1">
+            <span className="text-[#0f5238] text-xs font-bold flex flex-wrap items-center gap-1.5">
               <span className="material-symbols-outlined text-base">rate_review</span>
-              <span>REAL PET PARENTS</span>
+              <span>PET PARENT REVIEWS</span>
+              {/* 지어낸 후기다 — 구역 머리에 배지 한 개로 밝힌다 */}
+              <span className="rounded-full bg-[#ffdcbb] px-2 py-0.5 text-[10px] font-bold text-[#2b1700]">
+                예시 후기
+              </span>
             </span>
             <h2 className="text-2xl lg:text-3xl font-bold text-[#121c2a] tracking-tight">
-              실구매 보호자 생생 포토 리뷰
+              보호자 포토 리뷰 (예시)
             </h2>
           </div>
 
           <a
-            href="#reviews"
-            className="text-xs font-bold text-[#0f5238] hover:underline hidden lg:flex items-center gap-1"
+            href="#review-list"
+            className="text-xs font-bold text-[#0f5238] hover:underline hidden lg:flex items-center gap-1 min-h-11"
           >
-            <span>1,840건 리뷰 전체보기</span>
+            <span>1,840건 리뷰 전체보기 (예시 수치)</span>
             <span className="material-symbols-outlined text-sm">arrow_forward</span>
           </a>
         </div>
 
-        {/* 3 Verified Photo Review Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* 3 Photo Review Cards — 위 「전체보기」 앵커가 여기로 내려온다(대상 없는 #reviews 였다) */}
+        <div id="review-list" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {reviews.map((rev) => {
             const likeInfo = likesState[rev.id] || { count: rev.likes, liked: false };
 
@@ -136,7 +140,7 @@ export const ClinicalReviews: React.FC<ClinicalReviewsProps> = ({ reviews }) => 
                   <span>{rev.author}</span>
                   <button
                     onClick={() => handleToggleLike(rev.id)}
-                    className={`font-bold flex items-center gap-1 transition-colors px-2 py-1 rounded-lg ${
+                    className={`font-bold flex items-center gap-1 transition-colors px-2 min-h-11 rounded-lg ${
                       likeInfo.liked
                         ? 'text-[#0f5238] bg-[#b1f0ce]/40'
                         : 'text-[#404943] hover:text-[#0f5238]'

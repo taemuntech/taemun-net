@@ -23,7 +23,7 @@ import { ColdchainModal } from './components/ColdchainModal';
 import { AddressModal } from './components/AddressModal';
 import { CategoryModal } from './components/CategoryModal';
 import { Toast } from './components/Toast';
-import { PRODUCTS } from './data/mockData';
+import { PRODUCTS, matchesQuery } from './data/mockData';
 import { CartItem, Product, RecipeIngredient } from './types';
 
 export default function VerdeGourmetApp({ isEmbed = false }: { isEmbed?: boolean }) {
@@ -36,7 +36,10 @@ export default function VerdeGourmetApp({ isEmbed = false }: { isEmbed?: boolean
 
   const [wishlist, setWishlist] = useState<string[]>(['prod-hanwoo-1']);
   const [activeCategory, setActiveCategory] = useState<string>('all');
-  const [selectedPill, setSelectedPill] = useState<string>('신선정육 (1++)');
+  // 검색어는 헤더 검색창·인기어·빠른 선택 칩이 **같이** 쓰는 한 곳짜리 상태다.
+  // 예전에는 칩이 따로 `selectedPill` 을 들고 있어서, 목록은 「전체」인데 칩만 진하게 켜져 있었다.
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [isWishlistOnly, setIsWishlistOnly] = useState(false);
   const [currentAddress, setCurrentAddress] = useState<string>('서울 용산구 한남동 일대 (예시)');
 
   // Modal States
@@ -79,7 +82,7 @@ export default function VerdeGourmetApp({ isEmbed = false }: { isEmbed?: boolean
 
     showToast(
       `${product.name}이(가) 장바구니에 담겼습니다.`,
-      '밤 11시 전 결제 시 내일 아침 7시 도착!'
+      '밤 11시 전 결제 시 내일 아침 7시 전 도착 예정 (예시 안내)'
     );
   };
 
@@ -144,44 +147,59 @@ export default function VerdeGourmetApp({ isEmbed = false }: { isEmbed?: boolean
     });
   };
 
+  // 헤더 하트 — 안내만 띄우고 끝내면 눌러도 화면이 그대로다. 실제로 목록을 「찜한 상품만」으로 좁힌다.
+  const handleToggleWishlistOnly = () => {
+    if (!isWishlistOnly && wishlist.length === 0) {
+      showToast('찜한 상품이 아직 없습니다.', '상품 카드의 하트를 눌러 담아 보세요.');
+      return;
+    }
+    const next = !isWishlistOnly;
+    setIsWishlistOnly(next);
+    if (next) {
+      // 분류·검색이 같이 걸려 있으면 「찜한 상품 N개」라 해 놓고 0개가 나온다 — 켤 때는 둘을 푼다
+      setActiveCategory('all');
+      setSearchTerm('');
+    }
+    showToast(next ? `찜한 상품 ${wishlist.length}개만 보여 드립니다.` : '전체 상품을 다시 보여 드립니다.');
+    scrollToSection('best-section');
+  };
+
   // 장바구니는 그대로 둔다 — 비우면 「주문이 접수됐다」로 읽힌다.
   const handleCheckout = () => {
     setIsCartOpen(false);
     setIsNoticeOpen(true);
   };
 
-  const handleSelectPill = (pillName: string) => {
-    setSelectedPill(pillName);
-    if (pillName.includes('정육')) {
-      setActiveCategory('meat');
-    } else if (pillName.includes('수산')) {
-      setActiveCategory('seafood');
-    } else if (pillName.includes('채소') || pillName.includes('과일')) {
-      setActiveCategory('vegetable');
-    } else if (pillName.includes('베이커리') || pillName.includes('치즈')) {
-      setActiveCategory('bakery');
-    } else {
-      setActiveCategory('all');
-    }
-
-    const section = document.getElementById('best-section');
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
+  const scrollToSection = (sectionId: string) => {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleSelectSearchKeyword = (keyword: string) => {
-    if (keyword.includes('한우')) setActiveCategory('meat');
-    else if (keyword.includes('연어')) setActiveCategory('seafood');
-    else if (keyword.includes('당근')) setActiveCategory('vegetable');
-    else if (keyword.includes('사워도우')) setActiveCategory('bakery');
-    else setActiveCategory('all');
+  /**
+   * 검색 — 카드 글자(상품명·산지·설명·보관 배지·분류명)에 실제로 걸린다.
+   * 예전에는 키워드에 「한우/연어/당근」이 들어 있는지만 보고 분류를 바꿨고, 그 밖의 말은 전체를 보여 주면서도
+   * 「검색 결과로 이동했습니다」라고 말해 아무 것도 거르지 않은 것을 거른 척했다.
+   */
+  const handleSearch = (keyword: string) => {
+    const term = keyword.trim();
+    setSearchTerm(term);
+    // 검색은 「전체 상품에서 찾는다」로 둔다 — 분류·찜 필터가 남아 있으면 아래 결과 수와 목록이 어긋난다
+    setActiveCategory('all');
+    setIsWishlistOnly(false);
 
-    showToast(`'${keyword}' 검색 결과로 이동했습니다.`);
-    const section = document.getElementById('best-section');
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (!term) return;
+
+    const hits = PRODUCTS.filter(p => matchesQuery(p, term)).length;
+    showToast(
+      hits > 0 ? `'${term}' 검색 결과 ${hits}개입니다.` : `'${term}' 와(과) 맞는 상품이 없습니다.`,
+      hits > 0 ? '아래 목록이 검색 결과로 바뀌었습니다.' : '이 샘플에는 네 가지 식재료가 담겨 있습니다.'
+    );
+    scrollToSection('best-section');
+  };
+
+  // 분류 탭을 누르면 검색어는 푼다(둘이 동시에 걸리면 왜 비었는지 알 수 없다)
+  const handleSelectCategory = (category: string) => {
+    setActiveCategory(category);
+    setSearchTerm('');
   };
 
   return (
@@ -190,7 +208,7 @@ export default function VerdeGourmetApp({ isEmbed = false }: { isEmbed?: boolean
       {!isEmbed && (
         <aside
           aria-label="데모 안내 바"
-          className="sticky top-0 z-[60] bg-zinc-950/95 backdrop-blur-md text-white border-b border-zinc-800 text-xs py-2 px-4 flex items-center justify-between"
+          className="sticky top-[var(--sample-bar-h,0px)] z-[60] bg-zinc-950/95 backdrop-blur-md text-white border-b border-zinc-800 text-xs py-2 px-4 flex items-center justify-between"
         >
           <div className="flex items-center gap-3">
             <Link
@@ -289,21 +307,19 @@ export default function VerdeGourmetApp({ isEmbed = false }: { isEmbed?: boolean
         onOpenCart={() => setIsCartOpen(true)}
         onOpenAddress={() => setIsAddressModalOpen(true)}
         onOpenCategory={() => setIsCategoryModalOpen(true)}
-        onSelectSearchKeyword={handleSelectSearchKeyword}
-        selectedPill={selectedPill}
-        onSelectPill={handleSelectPill}
+        searchTerm={searchTerm}
+        onSearch={handleSearch}
         wishlistCount={wishlist.length}
-        onOpenWishlist={() => showToast(`관심 상품 ${wishlist.length}개가 보관되어 있습니다.`)}
+        isWishlistOnly={isWishlistOnly}
+        onToggleWishlistOnly={handleToggleWishlistOnly}
+        onOpenNotice={() => setIsNoticeOpen(true)}
       />
 
       {/* MAIN CONTAINER */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-12 py-4 lg:py-6 space-y-12">
         {/* HERO CULINARY SHOWCASE */}
         <HeroSection
-          onExploreProducts={() => {
-            const section = document.getElementById('best-section');
-            if (section) section.scrollIntoView({ behavior: 'smooth' });
-          }}
+          onExploreProducts={() => scrollToSection('best-section')}
           onOpenColdchain={() => setIsColdchainModalOpen(true)}
         />
 
@@ -311,11 +327,15 @@ export default function VerdeGourmetApp({ isEmbed = false }: { isEmbed?: boolean
         <ProductSection
           products={PRODUCTS}
           activeCategory={activeCategory}
-          onSelectCategory={setActiveCategory}
+          onSelectCategory={handleSelectCategory}
           onAddToCart={(p) => handleAddToCart(p, 1)}
           onSelectProduct={(p) => setSelectedProduct(p)}
           wishlist={wishlist}
           onToggleWishlist={handleToggleWishlist}
+          searchTerm={searchTerm}
+          onClearSearch={() => setSearchTerm('')}
+          isWishlistOnly={isWishlistOnly}
+          onClearWishlistOnly={() => setIsWishlistOnly(false)}
         />
 
         {/* CHEF'S RECIPE ARCHIVE */}
@@ -329,7 +349,10 @@ export default function VerdeGourmetApp({ isEmbed = false }: { isEmbed?: boolean
       </main>
 
       {/* FOOTER */}
-      <Footer />
+      <Footer
+        onScrollTo={scrollToSection}
+        onNotice={(message) => showToast(message, '실제 구축 때는 이 자리에 문서·페이지를 연결합니다.')}
+      />
 
       {/* MODALS & DRAWERS */}
       <CartDrawer
@@ -369,9 +392,8 @@ export default function VerdeGourmetApp({ isEmbed = false }: { isEmbed?: boolean
         isOpen={isCategoryModalOpen}
         onClose={() => setIsCategoryModalOpen(false)}
         onSelectCategory={(cat) => {
-          setActiveCategory(cat);
-          const section = document.getElementById('best-section');
-          if (section) section.scrollIntoView({ behavior: 'smooth' });
+          handleSelectCategory(cat);
+          scrollToSection('best-section');
         }}
       />
 

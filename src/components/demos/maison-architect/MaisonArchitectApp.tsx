@@ -14,11 +14,12 @@ import { BundleDrawer } from './components/BundleDrawer';
 import { CartDrawer } from './components/CartDrawer';
 import { WishlistDrawer } from './components/WishlistDrawer';
 import { ShowroomModal } from './components/ShowroomModal';
+import { PolicyModal, type PolicyTopic } from './components/PolicyModal';
 import { ProductDetailModal } from './components/ProductDetailModal';
 import { Toast } from './components/Toast';
 import SampleNotice from '@/components/demo-kit/SampleNotice';
 import { PRODUCTS } from './data/products';
-import { Product, CartItem, ShowroomBookingData } from './types';
+import { Product, CartItem } from './types';
 
 interface MaisonArchitectAppProps {
   isEmbed?: boolean;
@@ -54,17 +55,19 @@ export default function MaisonArchitectApp({ isEmbed = false }: MaisonArchitectA
 
   // Filters and search
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [selectedMaterials, setSelectedMaterials] = useState<string[]>(['boucle']);
+  // 예전 기본값은 ['boucle'] 이었는데, 부클레 상품이 소파 하나뿐이라 첫 화면의 「마스터피스 컬렉션」에
+  // 4종 중 1종만 보였다. 기본은 필터 없음으로 두고, 소재 칩은 눌렀을 때 걸러지는 것을 보여 준다.
+  const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<string>('recommended');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   // Modals and Drawers
   const [isBundleDrawerOpen, setIsBundleDrawerOpen] = useState(false);
-  const [bundleDrawerType, setBundleDrawerType] = useState<string>('bundle');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [isShowroomModalOpen, setIsShowroomModalOpen] = useState(false);
   const [inspectedProduct, setInspectedProduct] = useState<Product | null>(null);
+  const [policyTopic, setPolicyTopic] = useState<PolicyTopic | null>(null);
 
   // Toast
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -94,6 +97,12 @@ export default function MaisonArchitectApp({ isEmbed = false }: MaisonArchitectA
       showToast('자연광 5000K 주광색 무드로 전환되었습니다.');
     }
   };
+
+  const handleResetFilters = useCallback(() => {
+    setSelectedCategory('all');
+    setSelectedMaterials([]);
+    setSearchQuery('');
+  }, []);
 
   const handleToggleMaterial = (matId: string) => {
     setSelectedMaterials((prev) =>
@@ -190,22 +199,12 @@ export default function MaisonArchitectApp({ isEmbed = false }: MaisonArchitectA
     setNoticeFeature('장바구니 주문·결제');
   };
 
-  const handleShowroomBookingSubmit = (data: ShowroomBookingData) => {
-    setIsShowroomModalOpen(false);
-    setNoticeFeature(`${data.showroom === 'cheongdam' ? '청담 아틀리에' : '한남 갤러리'} 1:1 도슨트 쇼룸 예약`);
-  };
-
   // Filter & sort products
   const filteredProducts = useMemo(() => {
     return PRODUCTS.filter((product) => {
-      // Category filter
-      if (selectedCategory !== 'all') {
-        if (selectedCategory === 'sofa' && product.category !== 'sofa') return false;
-        if (selectedCategory === 'dining' && product.category !== 'dining') return false;
-        if (selectedCategory === 'lighting' && product.category !== 'lighting') return false;
-        if (selectedCategory === 'storage' && product.category !== 'storage') return false;
-        if (selectedCategory === 'lounge' && product.category !== 'lounge') return false;
-      }
+      // Category filter — 'all' 이 아니면 **반드시** 같은 카테고리여야 한다.
+      // 예전 방식(id 마다 if 한 줄)은 목록에 없는 id 가 오면 조건을 하나도 못 만나 전체가 통과했다.
+      if (selectedCategory !== 'all' && product.category !== selectedCategory) return false;
 
       // Material filter (if any selected, item must contain at least one)
       if (selectedMaterials.length > 0) {
@@ -218,10 +217,17 @@ export default function MaisonArchitectApp({ isEmbed = false }: MaisonArchitectA
       // Search query
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
-        const matchesName = product.name.toLowerCase().includes(q);
-        const matchesDesc = product.description.toLowerCase().includes(q);
-        const matchesHighlight = product.highlight.toLowerCase().includes(q);
-        if (!matchesName && !matchesDesc && !matchesHighlight) return false;
+        const haystack = [
+          product.name,
+          product.subtitle,
+          product.description,
+          product.highlight,
+          product.categoryLabel,
+          ...product.materialTags
+        ]
+          .join(' ')
+          .toLowerCase();
+        if (!haystack.includes(q)) return false;
       }
 
       return true;
@@ -262,7 +268,7 @@ export default function MaisonArchitectApp({ isEmbed = false }: MaisonArchitectA
       {!isEmbed && (
         <aside
           aria-label="데모 안내 바"
-          className="sticky top-0 z-[60] bg-zinc-950/95 backdrop-blur-md text-white border-b border-zinc-800 text-xs py-2 px-4 flex items-center justify-between"
+          className="sticky top-[var(--sample-bar-h,0px)] z-[60] bg-zinc-950/95 backdrop-blur-md text-white border-b border-zinc-800 text-xs py-2 px-4 flex items-center justify-between"
         >
           <div className="flex items-center gap-3">
             <Link
@@ -309,10 +315,13 @@ export default function MaisonArchitectApp({ isEmbed = false }: MaisonArchitectA
         <HeroSpatialTour
           lightingMood={lightingMood}
           setLightingMood={handleSetLightingMood}
-          onOpenBundleDrawer={(itemType) => {
-            setBundleDrawerType(itemType || 'bundle');
-            setIsBundleDrawerOpen(true);
+          onOpenProduct={(productId) => {
+            // 핀 하나 = 그 상품 하나. 예전에는 핀 3개가 전부 번들 드로어를 열어서, 조명 핀을 눌렀는데
+            // 유일한 단추가 「번들 세트 장바구니」라 소파·테이블까지 같이 담기고 금액도 번들 합계가 찍혔다.
+            const product = PRODUCTS.find((p) => p.id === productId);
+            if (product) setInspectedProduct(product);
           }}
+          onOpenBundle={() => setIsBundleDrawerOpen(true)}
         />
 
         {/* CATEGORY & MATERIAL FILTER HUD */}
@@ -321,6 +330,7 @@ export default function MaisonArchitectApp({ isEmbed = false }: MaisonArchitectA
           onSelectCategory={setSelectedCategory}
           selectedMaterials={selectedMaterials}
           onToggleMaterial={handleToggleMaterial}
+          onResetMaterials={() => setSelectedMaterials([])}
           sortBy={sortBy}
           onSortChange={setSortBy}
         />
@@ -332,6 +342,7 @@ export default function MaisonArchitectApp({ isEmbed = false }: MaisonArchitectA
           onToggleWishlist={handleToggleWishlist}
           onAddToCart={handleAddToCart}
           onOpenProductDetail={setInspectedProduct}
+          onResetFilters={handleResetFilters}
         />
 
         {/* APARTMENT FLOORPLAN PLACEMENT SIMULATION */}
@@ -346,13 +357,15 @@ export default function MaisonArchitectApp({ isEmbed = false }: MaisonArchitectA
       </main>
 
       {/* FOOTER */}
-      <Footer onOpenShowroomModal={() => setIsShowroomModalOpen(true)} />
+      <Footer
+        onOpenShowroomModal={() => setIsShowroomModalOpen(true)}
+        onOpenPolicy={setPolicyTopic}
+      />
 
       {/* DRAWERS & MODALS */}
       <BundleDrawer
         isOpen={isBundleDrawerOpen}
         onClose={() => setIsBundleDrawerOpen(false)}
-        activeItemType={bundleDrawerType}
         onAddBundleToCart={handleAddBundleToCart}
       />
 
@@ -370,16 +383,13 @@ export default function MaisonArchitectApp({ isEmbed = false }: MaisonArchitectA
         onClose={() => setIsWishlistOpen(false)}
         wishlistProducts={wishlistProducts}
         onRemoveFromWishlist={handleToggleWishlist}
-        onAddToCart={(prod, col) => {
-          handleAddToCart(prod, col);
-          showToast(`[${prod.name}]이(가) 장바구니에 담겼습니다.`);
-        }}
+        onAddToCart={handleAddToCart}
       />
 
+      {/* 예약 폼은 ShowroomModal 안에서 스스로 SampleNotice 를 연다 — 여기서 또 열지 않는다 */}
       <ShowroomModal
         isOpen={isShowroomModalOpen}
         onClose={() => setIsShowroomModalOpen(false)}
-        onSubmit={handleShowroomBookingSubmit}
       />
 
       <ProductDetailModal
@@ -390,6 +400,8 @@ export default function MaisonArchitectApp({ isEmbed = false }: MaisonArchitectA
         isWishlisted={inspectedProduct ? wishlistIds.includes(inspectedProduct.id) : false}
         onToggleWishlist={handleToggleWishlist}
       />
+
+      <PolicyModal topic={policyTopic} onClose={() => setPolicyTopic(null)} />
 
       {/* Toast Notification */}
       <Toast message={toastMessage} />

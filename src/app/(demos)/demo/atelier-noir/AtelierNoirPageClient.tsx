@@ -23,7 +23,7 @@ export default function AtelierNoirPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        '4-Tier Deep Category HUD',
+        'Faceted Category & Attribute Filter HUD',
         'Interactive Lookbook Pulse Pins',
         'Multi-Angle Fit & Measurement Matrix',
         'Ranking & Curation Tabs',
@@ -32,9 +32,9 @@ export default function AtelierNoirPageClient({ isEmbed }: Props) {
       inquiryUrl="/inquiry?from=atelier-noir"
       specs={[
         { label: '반응형 규격', value: '모바일 2열 상품 그리드 · 데스크톱 4열, 단일 lg: 브레이크포인트' },
-        { label: '4단계 카테고리 & 속성 필터', value: '대·중·소·세분류와 컬러 · 핏 · 패브릭 칩을 한 줄 HUD 에서 조합' },
+        { label: '카테고리 & 속성 필터', value: '카테고리 · 세부분류 · 컬러 · 핏 · 패브릭을 겹쳐 거르고, 칩 목록은 실제 상품에서 만든다 (결과 0인 칩이 생기지 않게)' },
         { label: '인터랙티브 룩북 & 쇼퍼블 핀', value: '룩북 사진의 펄스 핀을 누르면 아이템 팝오버가 열리고 3-피스 세트를 한 번에 담기' },
-        { label: '체형별 실측 치수 조견표', value: '어깨/가슴/소매/총장 실측 cm 표와 모델 착용 스펙, 다각도 상세 썸네일 (수치는 예시 데이터)' },
+        { label: '체형별 실측 치수 조견표', value: '상품마다 다른 어깨/가슴/소매/총장 실측 cm 표와 착용 스펙 · 컬러/사이즈 선택 (수치는 예시 데이터)' },
       ]}
     />
   );

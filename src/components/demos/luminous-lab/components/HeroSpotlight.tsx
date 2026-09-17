@@ -12,11 +12,13 @@ interface HeroSpotlightProps {
     optionText: string;
   }) => void;
   onOpenClinicalReport: () => void;
+  onOpenCart: () => void;
 }
 
 export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
   onAddToCart,
   onOpenClinicalReport,
+  onOpenCart,
 }) => {
   const handleDirectBuy = () => {
     onAddToCart({
@@ -27,12 +29,13 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
       imageUrl: HERO_PRODUCT.imageUrl,
       optionText: '본품 50ml + 에코 리필 파우치 50ml 증정',
     });
+    onOpenCart();
   };
 
   return (
     <section id="hero-runway" className="relative overflow-hidden bg-gradient-to-b from-white via-[#f1f3ff]/40 to-[#f9f9ff] py-6 lg:py-12">
       {/* Ambient Glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[650px] h-[320px] bg-[#85f8c4]/30 rounded-full blur-[110px] pointer-events-none -z-10" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-full max-w-[650px] h-[320px] bg-[#85f8c4]/30 rounded-full blur-[110px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 lg:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
@@ -75,7 +78,7 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
               {HERO_PRODUCT.clinicalStats.map((stat, idx) => (
                 <div key={idx} className="dew-glass-tier1 rounded-xl p-3 text-center border border-gray-100">
                   <span className="block text-[11px] font-semibold text-[#3d4a42]">{stat.label}</span>
-                  <span className="text-[20px] lg:text-[22px] font-extrabold text-[#006948] tracking-tight">
+                  <span className="text-[18px] lg:text-[22px] font-extrabold text-[#006948] tracking-tight">
                     {stat.value}
                   </span>
                 </div>
@@ -91,10 +94,10 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
                 루미너스 어워즈 선정 (예시)
               </span>
               <span className="px-2.5 py-1 rounded-full bg-[#ff6b6b]/15 text-[#ae2f34] text-[11px] font-bold border border-[#ff6b6b]/30">
-                당일·익일 배송
+                당일·익일 배송 (예시 정책)
               </span>
               <span className="px-2.5 py-1 rounded-full bg-[#e1e8fd] text-[#3d4a42] text-[11px] font-bold">
-                비건 & 크루얼티프리
+                비건 처방 (예시 인증)
               </span>
             </div>
 
@@ -139,10 +142,10 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
             <div className="flex flex-col lg:flex-row gap-3 pt-1">
               <button
                 onClick={handleDirectBuy}
-                className="flex-1 h-12 lg:h-[52px] bg-[#006948] hover:bg-[#00855d] active:scale-[0.98] text-white rounded-full font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#006948]/20 transition-all cursor-pointer specular-meniscus"
+                className="lg:flex-1 h-12 lg:h-[52px] bg-[#006948] hover:bg-[#00855d] active:scale-[0.98] text-white rounded-full font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#006948]/20 transition-all cursor-pointer specular-meniscus"
               >
                 <Zap className="w-5 h-5 fill-white" />
-                당일배송으로 바로 구매하기
+                장바구니에 담고 주문 보기
               </button>
               <button
                 onClick={onOpenClinicalReport}
@@ -157,11 +160,11 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
             <div className="flex items-center justify-between text-[12px] text-[#3d4a42] px-1 pt-0.5">
               <span className="flex items-center gap-1.5 font-medium">
                 <Truck className="w-4 h-4 text-[#006948]" />
-                오후 4시 이전 주문 시 당일 출발
+                오후 4시 이전 주문 시 당일 출발 (예시)
               </span>
               <span className="flex items-center gap-1.5 font-medium">
                 <ShieldCheck className="w-4 h-4 text-[#006948]" />
-                피부 안심 환불 제도
+                피부 안심 환불 제도 (예시)
               </span>
             </div>
           </div>

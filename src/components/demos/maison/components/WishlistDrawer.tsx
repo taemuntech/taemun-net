@@ -1,7 +1,8 @@
 "use client";
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { Product } from '../types';
+import { useOverlay } from '../use-overlay';
 
 interface WishlistDrawerProps {
   isOpen: boolean;
@@ -20,6 +21,10 @@ export const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
   onSelectProduct,
   onAddToCart,
 }) => {
+  // ESC 닫기·배경 스크롤 잠금. 훅이라 `if (!isOpen) return null` 보다 먼저 불러야 한다.
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useOverlay(isOpen, onClose, dialogRef);
+
   if (!isOpen) return null;
 
   return (
@@ -30,8 +35,12 @@ export const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
     >
       <aside
         id="wishlist-drawer"
-        aria-label="Saved Wishlist"
-        className="bg-[#fff8f5] w-full max-w-md h-full shadow-2xl flex flex-col justify-between border-l border-[#d6c2c2] animate-in slide-in-from-right duration-300"
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="관심 보관함"
+        tabIndex={-1}
+        className="bg-[#fff8f5] w-full max-w-md h-full shadow-2xl flex flex-col justify-between border-l border-[#d6c2c2] animate-in slide-in-from-right duration-300 outline-none"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -48,7 +57,8 @@ export const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
             id="btn-close-wishlist-drawer"
             type="button"
             onClick={onClose}
-            className="p-1 text-[#514344] hover:text-[#300a10] cursor-pointer"
+            aria-label="관심 아카이브 닫기"
+            className="flex min-h-11 min-w-11 shrink-0 items-center justify-center text-[#514344] hover:text-[#300a10] cursor-pointer"
           >
             <span className="material-symbols-outlined text-[24px]">close</span>
           </button>
@@ -108,7 +118,8 @@ export const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
                   <button
                     type="button"
                     onClick={() => onRemoveItem(item.id)}
-                    className="text-[#847374] hover:text-[#300a10] p-1.5 cursor-pointer"
+                    className="flex min-h-11 min-w-11 shrink-0 items-center justify-center text-[#847374] hover:text-[#300a10] cursor-pointer"
+                    aria-label={`${item.name} 보관함에서 삭제`}
                     title="보관함에서 삭제"
                   >
                     <span className="material-symbols-outlined text-[18px]">
@@ -121,7 +132,7 @@ export const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
                   <button
                     type="button"
                     onClick={() => onAddToCart(item)}
-                    className="flex-1 bg-[#300a10] hover:bg-[#4a1e23] text-[#fff8f5] py-1.5 text-[11px] uppercase tracking-wider font-semibold cursor-pointer text-center"
+                    className="flex-1 inline-flex min-h-11 items-center justify-center bg-[#300a10] hover:bg-[#4a1e23] text-[#fff8f5] text-[11px] uppercase tracking-wider font-semibold cursor-pointer text-center"
                   >
                     소장 의뢰서에 추가
                   </button>
@@ -131,7 +142,7 @@ export const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
                       onClose();
                       onSelectProduct(item);
                     }}
-                    className="border border-[#300a10] text-[#300a10] hover:bg-[#fff8f5] px-3 py-1.5 text-[11px] uppercase tracking-wider font-semibold cursor-pointer"
+                    className="inline-flex min-h-11 items-center justify-center border border-[#300a10] text-[#300a10] hover:bg-[#fff8f5] px-3 text-[11px] uppercase tracking-wider font-semibold cursor-pointer"
                   >
                     상세보기
                   </button>

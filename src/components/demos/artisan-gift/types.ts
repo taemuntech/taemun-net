@@ -2,6 +2,12 @@ export type EngravingMethod = 'gold' | 'blind' | 'rosegold';
 export type EngravingFont = 'serif' | 'script' | 'sans';
 export type LeatherColor = 'cognac' | 'ebony' | 'green';
 
+/** 컬렉션 필터 키 — 'all' 외에는 Product.category 값과 글자 그대로 같아야 한다 */
+export type CategoryKey = 'all' | '가죽공예' | '도예/세라믹' | '금속/목공' | '전통 패브릭';
+
+/** 컬렉션 정렬 키 */
+export type SortKey = 'recommended' | 'priceAsc' | 'priceDesc' | 'rating';
+
 export interface EngravingConfig {
   text: string;
   method: EngravingMethod;

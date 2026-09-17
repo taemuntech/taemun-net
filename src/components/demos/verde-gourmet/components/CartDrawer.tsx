@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useId, useRef } from 'react';
+import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
 import { CartItem } from '../types';
 
 interface CartDrawerProps {
@@ -20,6 +21,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onClearCart,
   onCheckout
 }) => {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const titleId = useId();
+
+  // Esc·배경 스크롤 잠금·포커스 순환 — 조건부 호출이 되지 않게 early return 위에서 부른다
+  useSampleDialog({ open: isOpen, onClose, dialogRef });
+
   if (!isOpen) return null;
 
   const subtotal = items.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
@@ -36,28 +43,49 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
         className="absolute inset-0 bg-black/40 backdrop-blur-xs transition-opacity duration-300"
       />
 
-      <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
-        <div className="w-screen max-w-md bg-surface-container-lowest shadow-2xl border-l border-outline-variant flex flex-col justify-between">
+      {/* 공용 샘플 바(44px)에 위가 잘리지 않게 inset-y-0 대신 --sample-bar-h 를 쓴다 */}
+      <div className="fixed top-[var(--sample-bar-h,0px)] bottom-0 right-0 max-w-full flex pl-10">
+        <div
+          ref={dialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={titleId}
+          tabIndex={-1}
+          className="w-screen max-w-md bg-surface-container-lowest shadow-2xl border-l border-outline-variant flex flex-col justify-between outline-none"
+        >
           {/* Header */}
           <div className="p-5 border-b border-outline-variant flex items-center justify-between bg-surface-container-low">
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-primary text-2xl">shopping_bag</span>
-              <h2 className="text-lg font-bold text-primary">장바구니</h2>
+              <h2 id={titleId} className="text-lg font-bold text-primary">장바구니</h2>
               <span className="bg-primary text-on-primary text-xs font-mono font-bold px-2 py-0.5 rounded-full">
                 {items.length}
               </span>
             </div>
-            <button
-              onClick={onClose}
-              className="p-1 rounded-full text-on-surface-variant hover:bg-surface-container transition-colors"
-            >
-              <span className="material-symbols-outlined text-2xl">close</span>
-            </button>
+            <div className="flex items-center gap-1">
+              {items.length > 0 && (
+                <button
+                  type="button"
+                  onClick={onClearCart}
+                  className="inline-flex min-h-11 items-center rounded-lg px-2 text-[11px] text-outline hover:text-error transition-colors"
+                >
+                  전체 비우기
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="장바구니 닫기"
+                className="flex h-11 w-11 items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container transition-colors"
+              >
+                <span className="material-symbols-outlined text-2xl">close</span>
+              </button>
+            </div>
           </div>
 
           {/* Free Shipping Progress */}
           <div className="px-5 py-3 bg-surface-container border-b border-outline-variant">
-            <div className="flex items-center justify-between text-xs mb-1.5">
+            <div className="flex items-center justify-between gap-2 text-xs mb-1.5">
               {remainingForFreeShipping > 0 ? (
                 <span className="text-primary font-medium">
                   <strong className="text-secondary font-bold">
@@ -70,7 +98,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   무료 새벽배송 혜택이 적용되는 금액입니다
                 </span>
               )}
-              <span className="text-outline font-mono text-[11px]">
+              <span className="text-outline font-mono text-[11px] shrink-0">
                 {subtotal.toLocaleString('ko-KR')} / 40,000원
               </span>
             </div>
@@ -94,8 +122,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   새벽을 여는 신선한 미식 상품들을 담아보세요.
                 </p>
                 <button
+                  type="button"
                   onClick={onClose}
-                  className="mt-5 bg-primary text-on-primary px-5 py-2.5 rounded-lg text-xs font-mono font-bold"
+                  className="mt-5 inline-flex min-h-11 items-center bg-primary text-on-primary px-5 rounded-lg text-xs font-mono font-bold"
                 >
                   상품 둘러보기
                 </button>
@@ -116,7 +145,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       <div className="text-[10px] font-mono text-secondary font-semibold">
                         {product.tempBadge}
                       </div>
-                      <h4 className="text-xs font-bold text-primary truncate mt-0.5">
+                      {/* truncate 로 자르면 무엇을 담았는지 안 보인다 — 두 줄까지 보여 준다 */}
+                      <h4 className="text-xs font-bold text-primary line-clamp-2 mt-0.5">
                         {product.name}
                       </h4>
                       <div className="text-xs font-bold text-primary font-mono mt-1">
@@ -124,22 +154,24 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-outline-variant/60">
+                    <div className="flex items-center justify-between gap-2 mt-2 pt-2 border-t border-outline-variant/60">
                       <div className="flex items-center border border-outline-variant rounded bg-surface-container-lowest">
                         <button
                           type="button"
+                          aria-label={`${product.name} 수량 줄이기`}
                           onClick={() => onUpdateQuantity(product.id, -1)}
-                          className="px-2 py-0.5 text-xs hover:bg-surface-container font-mono"
+                          className="flex h-10 w-10 items-center justify-center text-xs hover:bg-surface-container font-mono"
                         >
                           -
                         </button>
-                        <span className="px-2.5 py-0.5 text-xs font-mono font-bold">
+                        <span className="px-1.5 text-xs font-mono font-bold">
                           {quantity}
                         </span>
                         <button
                           type="button"
+                          aria-label={`${product.name} 수량 늘리기`}
                           onClick={() => onUpdateQuantity(product.id, 1)}
-                          className="px-2 py-0.5 text-xs hover:bg-surface-container font-mono"
+                          className="flex h-10 w-10 items-center justify-center text-xs hover:bg-surface-container font-mono"
                         >
                           +
                         </button>
@@ -148,7 +180,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       <button
                         type="button"
                         onClick={() => onRemoveItem(product.id)}
-                        className="text-[11px] text-outline hover:text-error transition-colors"
+                        className="inline-flex min-h-10 items-center rounded-lg px-2 text-[11px] text-outline hover:text-error transition-colors"
                       >
                         삭제
                       </button>
@@ -187,7 +219,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
               <div className="p-2.5 bg-surface-container rounded-lg border border-outline-variant text-[11px] text-on-surface-variant flex items-center gap-2">
                 <span className="material-symbols-outlined text-secondary text-base">local_shipping</span>
-                <span>밤 11시 전 결제 시 <strong>내일 아침 7시</strong> 문 앞 도착!</span>
+                <span>밤 11시 전 결제 시 <strong>내일 아침 7시 전 도착 예정</strong> (예시 안내)</span>
               </div>
 
               {/* 샘플이라 주문을 접수하지 않는다 — 누르면 부모(VerdeGourmetApp)가 SampleNotice 를 연다 */}
@@ -196,8 +228,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               </p>
 
               <button
+                type="button"
                 onClick={onCheckout}
-                className="w-full bg-primary hover:bg-secondary text-on-primary py-3.5 rounded-xl font-mono font-bold text-sm shadow-md transition-all active:scale-98 flex items-center justify-center gap-2"
+                className="w-full min-h-11 bg-primary hover:bg-secondary text-on-primary py-3.5 rounded-xl font-mono font-bold text-sm shadow-md transition-all active:scale-98 flex items-center justify-center gap-2"
               >
                 <span>₩{total.toLocaleString('ko-KR')} 주문하기</span>
                 <span className="material-symbols-outlined text-base">arrow_forward</span>

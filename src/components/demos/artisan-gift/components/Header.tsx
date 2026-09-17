@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Heart, ShoppingBag, User, Menu, X } from 'lucide-react';
-import { LOGO_URL } from '../data';
+import { CATEGORY_FILTERS, LOGO_URL } from '../data';
+import { CategoryKey } from '../types';
 
 interface HeaderProps {
+  activeCategory: CategoryKey;
+  onSelectCategory: (category: CategoryKey) => void;
   favoritesCount: number;
   cartCount: number;
   onOpenCart: () => void;
@@ -12,6 +15,8 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({
+  activeCategory,
+  onSelectCategory,
   favoritesCount,
   cartCount,
   onOpenCart,
@@ -21,14 +26,10 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const navLinks = [
-    { name: 'Leathercraft', href: '#leathercraft', active: true },
-    { name: 'Ceramics', href: '#ceramics' },
-    { name: 'Metal & Jewelry', href: '#metal' },
-    { name: 'Woodcraft & Living', href: '#woodcraft' },
-    { name: 'Traditional Fabric', href: '#fabric' },
-    { name: 'Bespoke Gifting', href: '#bespoke-gifting' },
-  ];
+  // 카테고리 메뉴는 예전에 #ceramics·#metal·#woodcraft·#fabric·#bespoke-gifting 처럼
+  // **없는 앵커**를 가리켜 눌러도 아무 일도 없었다. 이제 실제로 있는 #collection 으로 이동하면서
+  // 같은 이름의 필터를 건다 — 목록이 눈에 보이게 바뀐다.
+  const categoryLinks = CATEGORY_FILTERS.filter((cat) => cat.key !== 'all');
 
   return (
     <header
@@ -40,8 +41,9 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center gap-3">
           <a
             id="brand-logo-link"
-            className="flex items-center gap-2 group transition-opacity hover:opacity-90"
-            href="#"
+            className="flex items-center gap-2 group transition-opacity hover:opacity-90 min-h-11 lg:min-h-0"
+            href="#top-notice-bar"
+            aria-label="ARTISAN & GIFT 맨 위로"
           >
             <img
               src={LOGO_URL}
@@ -58,19 +60,27 @@ export const Header: React.FC<HeaderProps> = ({
           aria-label="주요 카테고리 메뉴"
           className="hidden lg:flex items-center space-x-7"
         >
-          {navLinks.map((link) => (
+          {categoryLinks.map((cat) => (
             <a
-              key={link.name}
-              href={link.href}
+              key={cat.key}
+              href="#collection"
+              onClick={() => onSelectCategory(cat.key)}
+              aria-current={activeCategory === cat.key ? 'true' : undefined}
               className={`text-xs font-medium tracking-wider uppercase transition-colors pb-1 ${
-                link.active
+                activeCategory === cat.key
                   ? 'border-b-2 border-[#3e1c06] text-[#3e1c06] font-semibold'
                   : 'text-[#51443d] hover:text-[#3e1c06]'
               }`}
             >
-              {link.name}
+              {cat.navLabel}
             </a>
           ))}
+          <a
+            href="#bespoke-simulator"
+            className="text-xs font-medium tracking-wider uppercase text-[#51443d] hover:text-[#3e1c06] transition-colors pb-1"
+          >
+            Bespoke Gifting
+          </a>
         </nav>
 
         {/* Trailing Action Cluster */}
@@ -97,11 +107,11 @@ export const Header: React.FC<HeaderProps> = ({
               type="button"
               onClick={onOpenFavorites}
               aria-label="찜한 상품 목록"
-              className="p-2 text-[#3e1c06] hover:text-[#C84B31] transition-colors relative"
+              className="p-3 lg:p-2 text-[#3e1c06] hover:text-[#C84B31] transition-colors relative"
             >
               <Heart className="w-5 h-5" />
               {favoritesCount > 0 && (
-                <span className="absolute top-1 right-1 w-4 h-4 bg-[#C84B31] text-white rounded-full text-[10px] flex items-center justify-center font-bold">
+                <span className="absolute top-2 right-2 lg:top-1 lg:right-1 w-4 h-4 bg-[#C84B31] text-white rounded-full text-[10px] flex items-center justify-center font-bold">
                   {favoritesCount}
                 </span>
               )}
@@ -112,10 +122,10 @@ export const Header: React.FC<HeaderProps> = ({
               type="button"
               onClick={onOpenCart}
               aria-label="장바구니 열기"
-              className="p-2 text-[#3e1c06] hover:text-[#583119] transition-colors relative"
+              className="p-3 lg:p-2 text-[#3e1c06] hover:text-[#583119] transition-colors relative"
             >
               <ShoppingBag className="w-5 h-5" />
-              <span className="absolute top-1 right-1 w-4 h-4 bg-[#C84B31] text-white rounded-full text-[10px] flex items-center justify-center font-bold">
+              <span className="absolute top-2 right-2 lg:top-1 lg:right-1 w-4 h-4 bg-[#C84B31] text-white rounded-full text-[10px] flex items-center justify-center font-bold">
                 {cartCount}
               </span>
             </button>
@@ -125,7 +135,7 @@ export const Header: React.FC<HeaderProps> = ({
               type="button"
               onClick={onOpenProfile}
               aria-label="회원 프로필 및 주문 조회"
-              className="p-2 text-[#3e1c06] hover:text-[#583119] transition-colors"
+              className="p-3 lg:p-2 text-[#3e1c06] hover:text-[#583119] transition-colors"
             >
               <User className="w-5 h-5" />
             </button>
@@ -134,7 +144,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-[#3e1c06] lg:hidden hover:bg-stone-200/50 rounded"
+              className="p-3 text-[#3e1c06] lg:hidden hover:bg-stone-200/50 rounded"
               aria-label="모바일 메뉴"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -147,22 +157,35 @@ export const Header: React.FC<HeaderProps> = ({
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-[#d6c3ba]/40 bg-[#fcf9f4] px-5 py-4 space-y-3 shadow-md">
           <div className="grid grid-cols-2 gap-2 text-sm">
-            {navLinks.map((link) => (
+            {categoryLinks.map((cat) => (
               <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="py-2 text-xs font-medium text-[#51443d] hover:text-[#3e1c06]"
+                key={cat.key}
+                href="#collection"
+                onClick={() => {
+                  onSelectCategory(cat.key);
+                  setMobileMenuOpen(false);
+                }}
+                aria-current={activeCategory === cat.key ? 'true' : undefined}
+                className={`min-h-11 flex items-center py-2 text-xs font-medium ${
+                  activeCategory === cat.key ? 'text-[#3e1c06] font-semibold' : 'text-[#51443d]'
+                }`}
               >
-                {link.name}
+                {cat.navLabel}
               </a>
             ))}
+            <a
+              href="#bespoke-simulator"
+              onClick={() => setMobileMenuOpen(false)}
+              className="min-h-11 flex items-center py-2 text-xs font-medium text-[#51443d]"
+            >
+              Bespoke Gifting
+            </a>
           </div>
           <div className="pt-3 border-t border-[#d6c3ba]/30 flex items-center gap-2">
             <a
               href="#bespoke-simulator"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex-1 text-center py-2.5 bg-[#3e1c06] text-white text-xs font-medium rounded"
+              className="flex-1 min-h-11 flex items-center justify-center py-2.5 bg-[#3e1c06] text-white text-xs font-medium rounded"
             >
               Bespoke Order
             </a>
@@ -172,7 +195,7 @@ export const Header: React.FC<HeaderProps> = ({
                 setMobileMenuOpen(false);
                 onOpenConcierge();
               }}
-              className="flex-1 text-center py-2.5 border border-[#3e1c06] text-[#3e1c06] text-xs font-medium rounded"
+              className="flex-1 min-h-11 flex items-center justify-center py-2.5 border border-[#3e1c06] text-[#3e1c06] text-xs font-medium rounded"
             >
               Concierge
             </button>

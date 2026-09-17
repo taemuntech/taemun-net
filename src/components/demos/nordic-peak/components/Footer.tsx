@@ -1,101 +1,103 @@
 import React from 'react';
-import { BRAND_LOGO_URL } from '../data/products';
+import { BRAND_LOGO_URL, CATEGORIES } from '../data/products';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  /** 분류를 골라 목록으로 데려간다 — 빈 앵커 주소로 아무 일도 안 하는 링크를 두지 않는다 */
+  onSelectCategory: (category: string) => void;
+  /** 페이지 안 구역으로 데려간다 */
+  onGoToSection: (id: string) => void;
+  onOpenSearch: () => void;
+}
+
+const linkClass =
+  'min-h-11 lg:min-h-0 lg:py-0.5 inline-flex items-center text-left hover:text-on-surface transition-colors cursor-pointer';
+
+export const Footer: React.FC<FooterProps> = ({ onSelectCategory, onGoToSection, onOpenSearch }) => {
   return (
     <footer className="bg-surface-container-lowest border-t border-outline-variant pt-12 pb-8">
       <div className="max-w-7xl mx-auto px-4 lg:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-10 border-b border-outline-variant">
-          {/* Brand identity & HQ Contact */}
+          {/* 브랜드·사업자 표기 */}
           <div className="lg:col-span-5 space-y-4">
             <div className="flex items-center gap-3">
               <img
-                alt="NORDIC PEAK Brand Logo"
+                alt="NORDIC PEAK 브랜드 로고 (가상 브랜드)"
                 className="w-8 h-8 object-contain rounded-sm border border-outline-variant"
-                src={BRAND_LOGO_URL} referrerPolicy="no-referrer" />
+                src={BRAND_LOGO_URL}
+                referrerPolicy="no-referrer"
+              />
               <span className="font-headline-sm text-headline-sm font-bold tracking-widest text-on-surface uppercase">
                 NORDIC PEAK
               </span>
             </div>
-            <p className="font-body-md text-body-md text-outline leading-relaxed max-w-md">
-              노르딕 피크는 극지 원정대원, 고산 알파이니스트, 부시크래프트 전문가들을 위해 탄생한 하이엔드 택티컬 아웃도어 기어 전문 브랜드입니다. 자연의 거친 힘 앞에서도 타협 없는 엔지니어링을 증명합니다.
+            <p className="font-body-md text-body-md text-outline leading-relaxed max-w-md [word-break:keep-all]">
+              노르딕 피크는 극지 원정대원·고산 알피니스트·부시크래프트 이용자를 위한 택티컬 아웃도어
+              기어 브랜드라는 설정으로 만든 가상 브랜드입니다. 화면의 상호·사양·수치는 모두 예시이며
+              실제 업체가 아닙니다.
             </p>
             <div className="font-label-mono-sm text-label-mono-sm text-on-surface-variant space-y-1">
-              <div>운영사: (주)노르딕피크 익스페디션 코리아 (예시) | 대표이사: 귀하</div>
+              <div>운영사: (주)노르딕피크 익스페디션 코리아 (예시) | 대표: 표기 자리 (예시)</div>
               <div>사업자등록번호: 000-00-00000 | 통신판매업신고: 표기 자리 (예시)</div>
-              <div>본사 및 필드 랩: 강원특별자치도 평창군 대관령면 경강로 5120 노르딕 피크 베이스랩</div>
+              <div>본사 및 필드 랩: 강원특별자치도 평창군 대관령면 (주소 표기 자리 · 예시)</div>
             </div>
           </div>
 
-          {/* Links Column 1 */}
+          {/* 기어 아카이브 — 누르면 실제로 그 분류가 걸린다 */}
           <div className="lg:col-span-2">
-            <h4 className="font-label-mono-md text-label-mono-md font-bold text-on-surface uppercase mb-3 text-primary">
+            <h4 className="font-label-mono-md text-label-mono-md font-bold uppercase mb-3 text-primary">
               기어 아카이브
             </h4>
-            <ul className="space-y-2 font-label-mono-sm text-label-mono-sm text-outline">
+            <ul className="space-y-1 lg:space-y-2 font-label-mono-sm text-label-mono-sm text-outline">
+              {CATEGORIES.map((c) => (
+                <li key={c.key}>
+                  <button type="button" className={linkClass} onClick={() => onSelectCategory(c.key)}>
+                    {c.shortLabel}
+                  </button>
+                </li>
+              ))}
               <li>
-                <a className="hover:text-on-surface transition-colors" href="#">
-                  지오데식 텐트 라인
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-on-surface transition-colors" href="#">
-                  실타프 &amp; 익스텐션
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-on-surface transition-colors" href="#">
-                  7075 듀랄루민 체어
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-on-surface transition-colors" href="#">
-                  Grade 1 순수 티타늄
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-on-surface transition-colors" href="#">
-                  극한기 구스다운 1000FP
-                </a>
+                <button type="button" className={linkClass} onClick={onOpenSearch}>
+                  기어 통합 검색
+                </button>
               </li>
             </ul>
           </div>
 
-          {/* Links Column 2: Warranty & Support */}
+          {/* 원정대 케어 — 누르면 해당 구역으로 데려간다 */}
           <div className="lg:col-span-2">
-            <h4 className="font-label-mono-md text-label-mono-md font-bold text-on-surface uppercase mb-3 text-primary">
+            <h4 className="font-label-mono-md text-label-mono-md font-bold uppercase mb-3 text-primary">
               원정대 케어
             </h4>
-            <ul className="space-y-2 font-label-mono-sm text-label-mono-sm text-outline">
+            <ul className="space-y-1 lg:space-y-2 font-label-mono-sm text-label-mono-sm text-outline">
               <li>
-                <a className="hover:text-on-surface transition-colors" href="#">
-                  평생 보증 가이드
-                </a>
+                <button type="button" className={linkClass} onClick={() => onGoToSection('field-service')}>
+                  수리·보증 정책 안내
+                </button>
               </li>
               <li>
-                <a className="hover:text-on-surface transition-colors" href="#">
+                <button type="button" className={linkClass} onClick={() => onGoToSection('field-service')}>
                   설산 긴급 부품 지원
-                </a>
+                </button>
               </li>
               <li>
-                <a className="hover:text-on-surface transition-colors" href="#">
-                  폴대 리페어 센터 접수
-                </a>
+                <button type="button" className={linkClass} onClick={() => onGoToSection('field-service')}>
+                  폴대 리페어 센터 안내
+                </button>
               </li>
               <li>
-                <a className="hover:text-on-surface transition-colors" href="#">
-                  원단 발수/심실링 복원
-                </a>
+                <button type="button" className={linkClass} onClick={() => onGoToSection('dimension-sim')}>
+                  피칭 설계도 보기
+                </button>
               </li>
               <li>
-                <a className="hover:text-on-surface transition-colors" href="#">
-                  B2B 알핀 원정대 협찬
-                </a>
+                <button type="button" className={linkClass} onClick={() => onGoToSection('gear-showcase')}>
+                  전체 라인업 보기
+                </button>
               </li>
             </ul>
           </div>
 
-          {/* Emergency Customer Center */}
+          {/* 고객 지원 */}
           <div className="lg:col-span-3 bg-surface-container p-4 rounded-sm border border-outline-variant">
             <div className="font-label-mono-sm text-label-mono-sm text-tertiary mb-1 font-bold">
               OPERATOR DESK // 고객 지원 센터
@@ -106,40 +108,36 @@ export const Footer: React.FC = () => {
             <p className="font-body-sm text-body-sm text-outline mb-3">
               평일 09:30 - 18:00 (점심시간 12:30 - 13:30)
               <br />
-              동계 설산 시즌 주말 현장 응급 핫라인 운영
+              동계 시즌 주말 현장 지원 운영 (예시 안내)
             </p>
-            <div className="pt-2 border-t border-outline-variant flex items-center justify-between text-outline font-label-mono-sm text-label-mono-sm">
-              <span>구매자 안심 결제 가동 중</span>
-              <span className="text-primary font-bold">안심 구매 보호 (예시)</span>
+            <div className="pt-2 border-t border-outline-variant text-outline font-label-mono-sm text-label-mono-sm [word-break:keep-all]">
+              이 화면은 샘플 사이트입니다 — 주문·결제는 접수되지 않고, 입력하신 내용은 어디에도
+              전송되지 않습니다.
             </div>
           </div>
         </div>
 
-        {/* Copyright & Bottom Nav links */}
+        {/* 저작권·하단 메뉴 */}
         <div className="pt-6 flex flex-col lg:flex-row justify-between items-center gap-4 text-center lg:text-left">
-          <div className="font-label-mono-sm text-label-mono-sm text-outline">
-            © 2024 NORDIC PEAK EXPEDITION GEAR. ALL RIGHTS RESERVED. MIL-SPEC TESTED.
+          <div className="font-label-mono-sm text-label-mono-sm text-outline [word-break:keep-all]">
+            © 2026 NORDIC PEAK EXPEDITION GEAR — 가상 브랜드 샘플입니다. 실제 업체가 아닙니다.
           </div>
-          <div className="flex items-center gap-4 font-label-mono-sm text-label-mono-sm text-outline flex-wrap justify-center">
-            <a className="hover:text-on-surface transition-colors" href="#">
+          <div className="flex items-center gap-x-4 font-label-mono-sm text-label-mono-sm text-outline flex-wrap justify-center">
+            <button type="button" className={linkClass} onClick={() => onGoToSection('dimension-sim')}>
               Expedition Standards
-            </a>
+            </button>
             <span className="text-outline-variant">·</span>
-            <a className="hover:text-on-surface transition-colors" href="#">
-              Lifetime Warranty
-            </a>
+            <button type="button" className={linkClass} onClick={() => onGoToSection('field-service')}>
+              Warranty Policy
+            </button>
             <span className="text-outline-variant">·</span>
-            <a className="hover:text-on-surface transition-colors" href="#">
+            <button type="button" className={linkClass} onClick={() => onGoToSection('field-service')}>
               Field Repair Service
-            </a>
+            </button>
             <span className="text-outline-variant">·</span>
-            <a className="hover:text-on-surface transition-colors" href="#">
-              Tactical Support
-            </a>
-            <span className="text-outline-variant">·</span>
-            <a className="hover:text-on-surface transition-colors" href="#">
-              Contact HQ
-            </a>
+            <button type="button" className={linkClass} onClick={() => onGoToSection('gear-showcase')}>
+              Gear Lineup
+            </button>
           </div>
         </div>
       </div>

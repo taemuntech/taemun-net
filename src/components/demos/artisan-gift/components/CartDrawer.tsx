@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { X, Trash2, Plus, Minus, ShieldCheck, ArrowRight } from 'lucide-react';
+import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
 import { CartItem } from '../types';
 
 interface CartDrawerProps {
@@ -19,6 +20,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onRemoveItem,
   onCheckout,
 }) => {
+  // Esc 로 닫기 · 배경 스크롤 잠금 · 포커스 가두기 — 훅은 early return 앞에서 부른다(조건부 호출 금지)
+  const panelRef = useRef<HTMLDivElement>(null);
+  useSampleDialog({ open: isOpen, onClose, dialogRef: panelRef });
+
   if (!isOpen) return null;
 
   const totalProductPrice = items.reduce(
@@ -34,12 +39,19 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
         onClick={onClose}
       />
 
-      <div className="fixed top-[var(--sample-bar-h,0px)] bottom-0 right-0 max-w-full flex pl-10">
-        <div className="w-screen max-w-md bg-[#fcf9f4] border-l border-[#d6c3ba] shadow-2xl flex flex-col justify-between">
+      <div className="fixed top-[var(--sample-bar-h,0px)] bottom-0 right-0 max-w-full flex pl-6 lg:pl-10">
+        <div
+          ref={panelRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="cart-drawer-title"
+          tabIndex={-1}
+          className="w-screen max-w-md bg-[#fcf9f4] border-l border-[#d6c3ba] shadow-2xl flex flex-col justify-between outline-none"
+        >
           {/* Header */}
           <div className="p-5 border-b border-[#d6c3ba]/40 flex items-center justify-between bg-[#f6f3ee]">
             <div>
-              <h2 className="text-base font-serif font-bold text-[#3e1c06]">
+              <h2 id="cart-drawer-title" className="text-base font-serif font-bold text-[#3e1c06]">
                 장바구니 &amp; 비스포크 주문함
               </h2>
               <p className="text-xs text-[#83746c]">
@@ -49,7 +61,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="p-1.5 text-[#51443d] hover:text-[#3e1c06] rounded"
+              aria-label="장바구니 닫기"
+              className="w-11 h-11 lg:w-9 lg:h-9 flex items-center justify-center text-[#51443d] hover:text-[#3e1c06] rounded"
             >
               <X className="w-5 h-5" />
             </button>
@@ -100,7 +113,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       <button
                         type="button"
                         onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
-                        className="p-1 hover:bg-[#f6f3ee] text-[#51443d]"
+                        aria-label="수량 줄이기"
+                        className="w-11 h-11 lg:w-8 lg:h-8 flex items-center justify-center hover:bg-[#f6f3ee] text-[#51443d] disabled:opacity-40"
                         disabled={item.quantity <= 1}
                       >
                         <Minus className="w-3 h-3" />
@@ -109,7 +123,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       <button
                         type="button"
                         onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
-                        className="p-1 hover:bg-[#f6f3ee] text-[#51443d]"
+                        aria-label="수량 늘리기"
+                        className="w-11 h-11 lg:w-8 lg:h-8 flex items-center justify-center hover:bg-[#f6f3ee] text-[#51443d]"
                       >
                         <Plus className="w-3 h-3" />
                       </button>
@@ -118,7 +133,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     <button
                       type="button"
                       onClick={() => onRemoveItem(item.id)}
-                      className="text-[#83746c] hover:text-[#C84B31] p-1"
+                      className="w-11 h-11 lg:w-9 lg:h-9 flex items-center justify-center text-[#83746c] hover:text-[#C84B31]"
                       aria-label="삭제"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -151,15 +166,19 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 </div>
               </div>
 
-              <div className="flex items-center gap-1.5 text-[11px] text-[#83746c] justify-center">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#815439]" />
-                1:1 장인 검수 후 안전 보증서와 함께 발송됩니다.
+              <div className="flex items-center gap-1.5 text-[11px] text-[#83746c] justify-center text-center">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#815439] shrink-0" />
+                1:1 장인 검수를 거쳐 제작 이력 카드와 함께 발송됩니다.
               </div>
+
+              <p className="text-[11px] text-[#51443d] text-center leading-relaxed">
+                샘플 사이트입니다 — 입력하신 내용은 어디에도 전송되지 않습니다.
+              </p>
 
               <button
                 type="button"
                 onClick={onCheckout}
-                className="w-full py-3.5 bg-[#583119] text-[#FAF7F2] text-xs font-semibold rounded hover:bg-[#422310] transition-colors flex items-center justify-center gap-2 shadow-sm"
+                className="w-full min-h-11 py-3.5 bg-[#583119] text-[#FAF7F2] text-xs font-semibold rounded hover:bg-[#422310] transition-colors flex items-center justify-center gap-2 shadow-sm"
               >
                 주문서 작성 및 결제하기
                 <ArrowRight className="w-4 h-4" />

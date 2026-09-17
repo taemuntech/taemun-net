@@ -1,11 +1,57 @@
 import React from 'react';
 import { BRAND_LOGO_URL } from '../data/mockData';
+import type { InfoDialogContent } from './InfoDialog';
 
 interface FooterProps {
   onOpenDeliveryCheck: () => void;
+  onShowInfo: (content: InfoDialogContent) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenDeliveryCheck }) => {
+const FOOTER_INFO: Record<string, InfoDialogContent> = {
+  bottleReturn: {
+    title: '공병 수거 캠페인 (예시 설정)',
+    lines: [
+      '다 쓴 공병 3개를 모아 보내면 5,000P 를 적립해 드린다는 예시 정책으로 구성한 화면입니다.',
+      '실제 서비스라면 수거 신청서·회수 택배 접수·적립 내역 조회가 이 버튼에 연결됩니다.',
+    ],
+  },
+  company: {
+    title: '회사소개 (예시 브랜드)',
+    lines: [
+      '루미너스 랩은 태문 DEV STUDIO 가 화면 설명을 위해 지어낸 가상 브랜드입니다. 실재하는 회사가 아닙니다.',
+      '실제 제작 시에는 연혁·연구소·생산 파트너·브랜드 철학 페이지가 이 자리에 들어갑니다.',
+    ],
+  },
+  terms: {
+    title: '이용약관 (예시 자리)',
+    lines: [
+      '샘플이라 약관 전문을 싣지 않았습니다. 실제 사이트에서는 전자상거래법에 맞춘 약관 전문 페이지가 연결됩니다.',
+    ],
+  },
+  privacy: {
+    title: '개인정보처리방침 (예시 자리)',
+    lines: [
+      '샘플이라 방침 전문을 싣지 않았습니다. 이 샘플은 어떤 개인정보도 수집·전송하지 않습니다.',
+      '실제 사이트에서는 수집 항목·보관 기간·위탁 현황을 담은 방침 전문이 연결됩니다.',
+    ],
+  },
+  cleanGrade: {
+    title: '원료 & 클린 등급 기준 (예시 기준)',
+    lines: [
+      '화면의 「클린 그린 등급」은 공인 인증이 아니라 이 샘플에서 지어낸 브랜드 자체 기준입니다.',
+      '실제 운영하실 성분 기준표·판정 방식을 그대로 옮겨 드립니다.',
+    ],
+  },
+  refill: {
+    title: '친환경 리필 캠페인 (예시 설정)',
+    lines: [
+      '리필 파우치 구매 시 본품 대비 포장재를 줄인다는 예시 설정으로 구성한 화면입니다.',
+      '실제 인증·포장 규격은 운영하시는 내용으로 바꿔 넣습니다.',
+    ],
+  },
+};
+
+export const Footer: React.FC<FooterProps> = ({ onOpenDeliveryCheck, onShowInfo }) => {
   return (
     <footer className="w-full mt-12 bg-[#f1f3ff] border-t border-[#bccac0]/30 text-xs">
       <div className="max-w-7xl mx-auto px-4 lg:px-10 py-10 grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -32,27 +78,27 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDeliveryCheck }) => {
           <h4 className="text-xs font-bold text-[#141b2b]">스킨케어 솔루션</h4>
           <ul className="space-y-2 text-xs">
             <li>
-              <a href="#ranking-section" className="text-[#3d4a42] hover:text-[#006948] transition-colors">
+              <a href="#ranking-section" className="text-[#3d4a42] hover:text-[#006948] transition-colors inline-flex items-center max-lg:min-h-11">
                 실시간 베스트 랭킹
               </a>
             </li>
             <li>
-              <a href="#filter-section" className="text-[#3d4a42] hover:text-[#006948] transition-colors">
+              <a href="#filter-section" className="text-[#3d4a42] hover:text-[#006948] transition-colors inline-flex items-center max-lg:min-h-11">
                 수부지 진정 앰플 케어
               </a>
             </li>
             <li>
-              <a href="#filter-section" className="text-[#3d4a42] hover:text-[#006948] transition-colors">
+              <a href="#filter-section" className="text-[#3d4a42] hover:text-[#006948] transition-colors inline-flex items-center max-lg:min-h-11">
                 100시간 보습 장벽 크림
               </a>
             </li>
             <li>
-              <a href="#formula-inspector" className="text-[#3d4a42] hover:text-[#006948] transition-colors">
+              <a href="#formula-inspector" className="text-[#3d4a42] hover:text-[#006948] transition-colors inline-flex items-center max-lg:min-h-11">
                 클린 그린 등급 선케어
               </a>
             </li>
             <li>
-              <a href="#bundle-section" className="text-[#3d4a42] hover:text-[#006948] transition-colors">
+              <a href="#bundle-section" className="text-[#3d4a42] hover:text-[#006948] transition-colors inline-flex items-center max-lg:min-h-11">
                 단독 리필 기획세트
               </a>
             </li>
@@ -70,13 +116,13 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDeliveryCheck }) => {
           <div className="pt-2 flex flex-wrap gap-2 text-[11px] font-semibold">
             <button
               onClick={onOpenDeliveryCheck}
-              className="px-2.5 py-1 bg-white rounded border border-gray-200 hover:border-[#006948] hover:text-[#006948] transition-colors cursor-pointer"
+              className="px-3 py-1 bg-white rounded border border-gray-200 hover:border-[#006948] hover:text-[#006948] transition-colors cursor-pointer inline-flex items-center max-lg:min-h-11"
             >
               당일배송 조회
             </button>
             <button
-              onClick={() => alert('공병수거 캠페인: 사용 완료된 루미너스 랩 공병 3개를 반납하시면 5,000P 적립금을 즉시 지급합니다.')}
-              className="px-2.5 py-1 bg-white rounded border border-gray-200 hover:border-[#006948] hover:text-[#006948] transition-colors cursor-pointer"
+              onClick={() => onShowInfo(FOOTER_INFO.bottleReturn)}
+              className="px-3 py-1 bg-white rounded border border-gray-200 hover:border-[#006948] hover:text-[#006948] transition-colors cursor-pointer inline-flex items-center max-lg:min-h-11"
             >
               공병수거 신청
             </button>
@@ -89,46 +135,46 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDeliveryCheck }) => {
           <ul className="space-y-1.5 text-xs">
             <li>
               <button
-                onClick={() => alert('LUMINOUS LAB: 과학적 더마톨로지와 클린 뷰티의 조화')}
-                className="text-[#3d4a42] hover:text-[#006948] transition-colors cursor-pointer"
+                onClick={() => onShowInfo(FOOTER_INFO.company)}
+                className="text-[#3d4a42] hover:text-[#006948] transition-colors cursor-pointer inline-flex items-center max-lg:min-h-11"
               >
                 회사소개
               </button>
             </li>
             <li>
               <button
-                onClick={() => alert('이용약관 안내 전문')}
-                className="text-[#3d4a42] hover:text-[#006948] transition-colors cursor-pointer"
+                onClick={() => onShowInfo(FOOTER_INFO.terms)}
+                className="text-[#3d4a42] hover:text-[#006948] transition-colors cursor-pointer inline-flex items-center max-lg:min-h-11"
               >
                 이용약관
               </button>
             </li>
             <li>
               <button
-                onClick={() => alert('개인정보처리방침 안내 전문')}
-                className="text-[#006948] font-bold hover:underline transition-colors cursor-pointer"
+                onClick={() => onShowInfo(FOOTER_INFO.privacy)}
+                className="text-[#006948] font-bold hover:underline transition-colors cursor-pointer inline-flex items-center max-lg:min-h-11"
               >
                 개인정보처리방침
               </button>
             </li>
             <li>
               <button
-                onClick={() => alert('원료 & 자체 클린 그린 등급 기준 (예시)')}
-                className="text-[#3d4a42] hover:text-[#006948] transition-colors cursor-pointer"
+                onClick={() => onShowInfo(FOOTER_INFO.cleanGrade)}
+                className="text-[#3d4a42] hover:text-[#006948] transition-colors cursor-pointer inline-flex items-center max-lg:min-h-11"
               >
                 원료 &amp; 클린 등급 기준
               </button>
             </li>
             <li>
               <button
-                onClick={() => alert('친환경 리필 & 업사이클링 캠페인')}
-                className="text-[#3d4a42] hover:text-[#006948] transition-colors cursor-pointer"
+                onClick={() => onShowInfo(FOOTER_INFO.refill)}
+                className="text-[#3d4a42] hover:text-[#006948] transition-colors cursor-pointer inline-flex items-center max-lg:min-h-11"
               >
                 친환경 리필 캠페인
               </button>
             </li>
             <li>
-              <a href="tel:1588-0000" className="text-[#3d4a42] hover:text-[#006948] transition-colors">
+              <a href="tel:1588-0000" className="text-[#3d4a42] hover:text-[#006948] transition-colors inline-flex items-center max-lg:min-h-11">
                 고객센터: 1588-0000
               </a>
             </li>

@@ -1,12 +1,22 @@
 import React from 'react';
-import { Zap, Sparkles, Microscope, Award, FileText, Phone } from 'lucide-react';
+import { Zap, Microscope, Award, FileText, Phone } from 'lucide-react';
+import type { InfoDialogContent } from './InfoDialog';
 
 interface TopBarProps {
   onOpenDeliveryCheck: () => void;
   onOpenDiagnosis: () => void;
+  onShowInfo: (content: InfoDialogContent) => void;
 }
 
-export const TopBar: React.FC<TopBarProps> = ({ onOpenDeliveryCheck, onOpenDiagnosis }) => {
+const MEMBER_BENEFIT_INFO: InfoDialogContent = {
+  title: '회원 혜택 안내 (예시 설정)',
+  lines: [
+    '신규 가입 시 15% 웰컴 쿠폰 1장, 3만원 이상 주문 시 배송비 무료라는 예시 정책으로 화면을 구성했습니다.',
+    '등급별 적립률·생일 쿠폰·정기배송 할인처럼 실제 운영하실 혜택 구조를 그대로 넣어 드립니다.',
+  ],
+};
+
+export const TopBar: React.FC<TopBarProps> = ({ onOpenDeliveryCheck, onOpenDiagnosis, onShowInfo }) => {
   return (
     <div className="w-full bg-[#006948] text-white border-b border-[#00855d]/30 text-xs">
       <div className="max-w-7xl mx-auto px-4 lg:px-10 py-2 flex flex-col lg:flex-row items-center justify-between gap-1.5 font-medium">
@@ -15,7 +25,7 @@ export const TopBar: React.FC<TopBarProps> = ({ onOpenDeliveryCheck, onOpenDiagn
             <Zap className="w-3.5 h-3.5 fill-[#006948]" />
           </span>
           <span className="text-white text-[13px]">
-            지금 주문하면 <strong className="underline decoration-[#85f8c4] underline-offset-2 font-bold">오늘 저녁 8시 전 도착!</strong>
+            오후 4시 이전 주문 시 <strong className="underline decoration-[#85f8c4] underline-offset-2 font-bold">당일 출발 (예시 정책)</strong>
           </span>
           <span className="hidden lg:inline-block text-[#85f8c4] opacity-60">|</span>
           <button
@@ -40,8 +50,8 @@ export const TopBar: React.FC<TopBarProps> = ({ onOpenDeliveryCheck, onOpenDiagn
             <FileText className="w-3.5 h-3.5" /> 전성분 사전
           </a>
           <button
-            onClick={() => alert('회원 혜택: 신규 가입 시 15% 웰컴 쿠폰 & 3만원 이상 무료배송')}
-            className="hover:text-[#85f8c4] transition-colors"
+            onClick={() => onShowInfo(MEMBER_BENEFIT_INFO)}
+            className="hover:text-[#85f8c4] transition-colors cursor-pointer"
           >
             회원혜택
           </button>

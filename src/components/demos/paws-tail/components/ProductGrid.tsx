@@ -3,6 +3,10 @@ import { Product } from '../types';
 
 interface ProductGridProps {
   products: Product[];
+  /** 전체 상품 수 — 「4종 중 2종」처럼 필터가 실제로 줄였다는 걸 보여 준다 */
+  totalCount: number;
+  isFilterActive: boolean;
+  onResetFilters: () => void;
   onAddToCart: (product: Product) => void;
   favorites: string[];
   onToggleFavorite: (id: string) => void;
@@ -10,6 +14,9 @@ interface ProductGridProps {
 
 export const ProductGrid: React.FC<ProductGridProps> = ({
   products,
+  totalCount,
+  isFilterActive,
+  onResetFilters,
   onAddToCart,
   favorites,
   onToggleFavorite,
@@ -23,13 +30,17 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
   });
 
   return (
-    <section className="py-12 lg:py-20 bg-[#eff4ff] border-y border-[#bfc9c1]/60">
+    <section id="products" className="py-12 lg:py-20 bg-[#eff4ff] border-y border-[#bfc9c1]/60">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 gap-4">
           <div>
-            <div className="flex items-center gap-2 text-[#0f5238] text-xs font-bold mb-1">
+            <div className="flex flex-wrap items-center gap-2 text-[#0f5238] text-xs font-bold mb-1">
               <span className="material-symbols-outlined text-base">award_star</span>
-              <span>AAFCO &amp; FEDIAF CLINICAL PORTFOLIO</span>
+              <span>AAFCO &amp; FEDIAF 급여기준 참고 (예시 표기)</span>
+              {/* 별점·리뷰 수는 지어낸 값이다 — 구역 머리에 한 번만 밝혀 둔다 */}
+              <span className="rounded-full bg-[#ffdcbb] px-2 py-0.5 text-[10px] font-bold text-[#2b1700]">
+                별점·리뷰 수는 예시
+              </span>
             </div>
             <h2 className="text-2xl lg:text-3xl font-bold text-[#121c2a] tracking-tight">
               임상 검증 시그니처 처방식 &amp; 기능성 식단
@@ -37,12 +48,18 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
             <p className="text-sm text-[#404943] mt-1">
               전문 수의사와 반려동물 영양학 박사 연구진이 개발한 원육 65% 이상의 신선 포뮬러
             </p>
+            <p className="text-xs text-[#0f5238] font-semibold mt-2">
+              {isFilterActive
+                ? `필터 적용 — 전체 ${totalCount}종 중 ${products.length}종`
+                : `전체 ${totalCount}종`}
+            </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <button
+              type="button"
               onClick={() => setSortOrder('popular')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-colors ${
+              className={`px-3.5 py-1.5 max-lg:min-h-11 inline-flex items-center rounded-full text-xs font-bold transition-colors ${
                 sortOrder === 'popular'
                   ? 'bg-white border border-[#0f5238] text-[#0f5238] shadow-sm'
                   : 'bg-white border border-[#bfc9c1] text-[#404943] hover:border-[#0f5238]'
@@ -52,7 +69,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
             </button>
             <button
               onClick={() => setSortOrder('reviews')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-colors ${
+              className={`px-3.5 py-1.5 max-lg:min-h-11 inline-flex items-center rounded-full text-xs font-bold transition-colors ${
                 sortOrder === 'reviews'
                   ? 'bg-white border border-[#0f5238] text-[#0f5238] shadow-sm'
                   : 'bg-white border border-[#bfc9c1] text-[#404943] hover:border-[#0f5238]'
@@ -62,7 +79,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
             </button>
             <button
               onClick={() => setSortOrder('allergy')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-colors ${
+              className={`px-3.5 py-1.5 max-lg:min-h-11 inline-flex items-center rounded-full text-xs font-bold transition-colors ${
                 sortOrder === 'allergy'
                   ? 'bg-white border border-[#0f5238] text-[#0f5238] shadow-sm'
                   : 'bg-white border border-[#bfc9c1] text-[#404943] hover:border-[#0f5238]'
@@ -73,8 +90,27 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
           </div>
         </div>
 
-        {/* 4-Card Responsive Grid (Mobile 1 Col, Desktop 4 Col) */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {sortedProducts.length === 0 && (
+          <div className="rounded-2xl border border-dashed border-[#bfc9c1] bg-white p-10 text-center">
+            <span className="material-symbols-outlined text-4xl text-[#bfc9c1]">search_off</span>
+            <p className="mt-2 text-sm font-bold text-[#121c2a]">
+              조건에 맞는 상품이 없습니다
+            </p>
+            <p className="mt-1 text-xs text-[#404943]">
+              선택한 카테고리·생애주기·임상 기능 조합에 해당하는 식단이 이 샘플에는 없습니다.
+            </p>
+            <button
+              type="button"
+              onClick={onResetFilters}
+              className="mt-4 min-h-11 rounded-full bg-[#0f5238] px-6 text-xs font-bold text-white shadow-sm transition-colors hover:bg-[#2d6a4f]"
+            >
+              필터 초기화하고 전체 보기
+            </button>
+          </div>
+        )}
+
+        {/* 4-Card Responsive Grid — 태블릿(768)은 2열, lg 이상 4열 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {sortedProducts.map((prod) => {
             const isFav = favorites.includes(prod.id);
 
@@ -122,7 +158,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
                         e.stopPropagation();
                         onToggleFavorite(prod.id);
                       }}
-                      className={`absolute top-3 right-3 w-8 h-8 rounded-full backdrop-blur-sm flex items-center justify-center transition-all ${
+                      className={`absolute top-3 right-3 w-11 h-11 rounded-full backdrop-blur-sm flex items-center justify-center transition-all ${
                         isFav
                           ? 'bg-white text-[#ba1a1a] shadow'
                           : 'bg-white/80 text-[#404943] hover:text-[#ba1a1a]'
@@ -186,7 +222,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
                 <div className="p-5 pt-0">
                   <button
                     onClick={() => onAddToCart(prod)}
-                    className="w-full py-2.5 rounded-xl bg-[#0f5238] text-white text-xs font-bold hover:bg-[#2d6a4f] transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-95"
+                    className="w-full py-3 min-h-11 rounded-xl bg-[#0f5238] text-white text-xs font-bold hover:bg-[#2d6a4f] transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-95"
                   >
                     <span className="material-symbols-outlined text-base">shopping_cart</span>
                     <span>빠른 장바구니 담기</span>

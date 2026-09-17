@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ZoomIn, X } from 'lucide-react';
+import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
 import { BOJAGI_LOOKBOOK } from '../data';
 import { BojagiLookbookItem } from '../types';
 
 export const BojagiLookbook: React.FC = () => {
   const [activePreview, setActivePreview] = useState<BojagiLookbookItem | null>(null);
+  // Esc 로 닫기 · 배경 스크롤 잠금 · 포커스 가두기 — 공용 훅(SampleNotice 와 같은 것)
+  const previewRef = useRef<HTMLDivElement>(null);
+  useSampleDialog({
+    open: activePreview !== null,
+    onClose: () => setActivePreview(null),
+    dialogRef: previewRef,
+  });
 
   return (
     <section
@@ -32,7 +40,8 @@ export const BojagiLookbook: React.FC = () => {
         </div>
 
         {/* 4 Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* 태블릿(768)에서 한 열로 늘어지던 자리라 그리드 칸 수만 2열로 나눈다(UI 모드 경계는 lg 그대로) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {BOJAGI_LOOKBOOK.map((item) => (
             <div
               key={item.id}
@@ -40,9 +49,11 @@ export const BojagiLookbook: React.FC = () => {
               className="bg-[#fcf9f4] rounded p-5 border border-[#d6c3ba]/50 flex flex-col justify-between hover:shadow-md transition-shadow group"
             >
               <div>
-                <div
-                  className="aspect-[4/3] rounded overflow-hidden bg-[#f6f3ee] mb-4 relative cursor-pointer"
+                <button
+                  type="button"
                   onClick={() => setActivePreview(item)}
+                  aria-label={`${item.title} 확대 보기`}
+                  className="w-full aspect-[4/3] rounded overflow-hidden bg-[#f6f3ee] mb-4 relative cursor-pointer block"
                 >
                   <img
                     src={item.image}
@@ -55,7 +66,7 @@ export const BojagiLookbook: React.FC = () => {
                       <ZoomIn className="w-3.5 h-3.5" /> 확대 보기
                     </span>
                   </div>
-                </div>
+                </button>
 
                 <span className="text-xs font-semibold text-[#C84B31]">{item.styleNum}</span>
                 <h3 className="text-base font-serif font-bold text-[#3e1c06] mt-1">
@@ -84,24 +95,32 @@ export const BojagiLookbook: React.FC = () => {
       {/* Lookbook Zoom Modal */}
       {activePreview && (
         <div
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4"
-          onClick={() => setActivePreview(null)}
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-end lg:items-center justify-center p-0 lg:p-4"
+          onMouseDown={(e) => {
+            if (e.target === e.currentTarget) setActivePreview(null);
+          }}
         >
           <div
-            className="bg-[#fcf9f4] border border-[#d6c3ba] rounded-lg max-w-xl w-full p-6 relative shadow-xl space-y-4"
-            onClick={(e) => e.stopPropagation()}
+            ref={previewRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="bojagi-preview-title"
+            tabIndex={-1}
+            className="bg-[#fcf9f4] border border-[#d6c3ba] rounded-t-2xl lg:rounded-lg max-w-xl w-full p-5 lg:p-6 relative shadow-xl space-y-4 outline-none max-h-[88vh] overflow-y-auto"
           >
             <button
               type="button"
               onClick={() => setActivePreview(null)}
-              className="absolute top-4 right-4 text-[#51443d] hover:text-black p-1"
+              className="absolute top-3 right-3 w-11 h-11 lg:w-9 lg:h-9 flex items-center justify-center text-[#51443d] hover:text-black rounded"
               aria-label="닫기"
             >
               <X className="w-5 h-5" />
             </button>
 
             <span className="text-xs font-bold text-[#C84B31]">{activePreview.styleNum}</span>
-            <h3 className="text-xl font-serif text-[#3e1c06]">{activePreview.title}</h3>
+            <h3 id="bojagi-preview-title" className="text-xl font-serif text-[#3e1c06] pr-10">
+              {activePreview.title}
+            </h3>
 
             <div className="aspect-[4/3] rounded overflow-hidden bg-stone-100">
               <img

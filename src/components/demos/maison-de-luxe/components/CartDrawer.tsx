@@ -1,13 +1,15 @@
 import React from 'react';
 import { CartItem } from '../types';
 import { formatPrice } from '../data/luxuryData';
-import { X, ShoppingBag, Lock } from 'lucide-react';
+import { useDrawerBehavior } from '../use-drawer-behavior';
+import { X, ShoppingBag, Lock, Minus, Plus } from 'lucide-react';
 
 interface CartDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   items: CartItem[];
   onRemoveItem: (id: string) => void;
+  onChangeQuantity: (id: string, delta: number) => void;
   onProceedCheckout: () => void;
 }
 
@@ -16,23 +18,33 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onClose,
   items,
   onRemoveItem,
+  onChangeQuantity,
   onProceedCheckout,
 }) => {
   const totalAmount = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const totalCount = items.reduce((s, i) => s + i.quantity, 0);
+
+  // Esc 로 닫기 + 열려 있는 동안 배경 스크롤 잠금
+  useDrawerBehavior(isOpen, onClose);
 
   return (
     <>
-      {/* Backdrop for mobile */}
+      {/* Backdrop — 바깥을 눌러도 닫힌다 */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:bg-black/40 lg:backdrop-blur-none"
           onClick={onClose}
+          aria-hidden="true"
         />
       )}
 
       {/* Cart Drawer Panel */}
       <div
         id="cartDrawer"
+        role="dialog"
+        aria-modal="true"
+        aria-label="컬렉션 장바구니"
+        inert={!isOpen}
         className={`fixed top-[var(--sample-bar-h,0px)] bottom-0 right-0 max-w-md w-full bg-[#0e0e0e] border-l border-[#d4af37]/40 z-50 transform transition-transform duration-300 flex flex-col shadow-2xl ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
@@ -40,13 +52,13 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
         {/* Header */}
         <div className="p-4 lg:p-5 border-b border-[#4d4635] flex items-center justify-between bg-[#131313]">
           <span className="font-serif text-base lg:text-lg text-[#e5e2e1] font-bold tracking-wide">
-            컬렉션 장바구니 ({items.reduce((s, i) => s + i.quantity, 0)})
+            컬렉션 장바구니 ({totalCount})
           </span>
           <button
             type="button"
-            className="text-[#99907c] hover:text-[#f2ca50] transition-colors cursor-pointer p-1"
+            className="flex items-center justify-center h-11 w-11 -mr-2 text-[#99907c] hover:text-[#f2ca50] transition-colors cursor-pointer"
             onClick={onClose}
-            title="닫기"
+            aria-label="장바구니 닫기"
           >
             <X className="w-5 h-5" />
           </button>
@@ -58,39 +70,59 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             <div className="text-center py-16 text-[#99907c] space-y-3">
               <ShoppingBag className="w-10 h-10 mx-auto text-[#4d4635]" />
               <p className="text-sm text-[#d0c5af]">장바구니가 비어 있습니다.</p>
-              <p className="text-xs text-[#99907c]">살롱 컬렉션에서 소장하실 명품을 담아보세요.</p>
+              <p className="text-xs text-[#99907c] [word-break:keep-all]">
+                살롱 컬렉션에서 소장하실 피스를 담아 보세요.
+              </p>
             </div>
           ) : (
             items.map((item) => (
-              <div
-                key={item.id}
-                className="flex gap-3 p-3 bg-[#1c1b1b] border border-[#4d4635] relative group"
-              >
+              <div key={item.id} className="flex gap-3 p-3 bg-[#1c1b1b] border border-[#4d4635] relative group">
                 <div className="w-16 h-16 bg-[#201f1f] flex-shrink-0 border border-[#4d4635] overflow-hidden">
-                  <img
-                    alt={item.name}
-                    className="w-full h-full object-cover"
-                    src={item.image}
-                    referrerPolicy="no-referrer"
-                  />
+                  <img alt="" className="w-full h-full object-cover" src={item.image} referrerPolicy="no-referrer" />
                 </div>
-                <div className="flex-1 min-w-0 pr-4">
-                  <p className="text-[10px] text-[#f2ca50] font-semibold tracking-wider uppercase">
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] text-[#f2ca50] font-semibold tracking-wider uppercase truncate">
                     {item.brand}
                   </p>
-                  <h4 className="text-xs lg:text-sm text-[#e5e2e1] font-medium truncate">
+                  <h4 className="text-xs lg:text-sm text-[#e5e2e1] font-medium leading-snug [word-break:keep-all]">
                     {item.name}
                   </h4>
                   <p className="text-[10px] text-[#99907c] mt-0.5">{item.taxNote}</p>
-                  <p className="text-xs lg:text-sm text-[#f2ca50] font-bold mt-1">
-                    {formatPrice(item.price * item.quantity)}
-                  </p>
+
+                  {/* 수량 조절 — 예전엔 삭제밖에 없었다 */}
+                  <div className="mt-2 flex items-center justify-between gap-2">
+                    <div className="flex items-center border border-[#4d4635]">
+                      <button
+                        type="button"
+                        onClick={() => onChangeQuantity(item.id, -1)}
+                        disabled={item.quantity <= 1}
+                        className="flex items-center justify-center h-11 w-11 lg:h-9 lg:w-9 text-[#d0c5af] hover:text-[#f2ca50] disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                        aria-label={`${item.name} 수량 줄이기`}
+                      >
+                        <Minus className="w-3.5 h-3.5" />
+                      </button>
+                      <span className="min-w-8 text-center text-xs text-[#e5e2e1] font-mono" aria-live="polite">
+                        {item.quantity}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => onChangeQuantity(item.id, 1)}
+                        className="flex items-center justify-center h-11 w-11 lg:h-9 lg:w-9 text-[#d0c5af] hover:text-[#f2ca50] transition-colors cursor-pointer"
+                        aria-label={`${item.name} 수량 늘리기`}
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                    <p className="text-xs lg:text-sm text-[#f2ca50] font-bold whitespace-nowrap">
+                      {formatPrice(item.price * item.quantity)}
+                    </p>
+                  </div>
                 </div>
                 <button
                   type="button"
                   onClick={() => onRemoveItem(item.id)}
-                  className="text-[#99907c] hover:text-[#ffb4ab] transition-colors p-1 self-start"
-                  title="삭제"
+                  className="flex items-center justify-center h-11 w-11 -mt-1 -mr-1 shrink-0 text-[#99907c] hover:text-[#ffb4ab] transition-colors self-start cursor-pointer"
+                  aria-label={`${item.name} 장바구니에서 빼기`}
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -101,30 +133,31 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           {/* Pricing Ledger Breakdown */}
           {items.length > 0 && (
             <div className="bg-[#0e0e0e] border border-[#4d4635] p-3.5 text-xs space-y-2 text-[#d0c5af]">
-              <div className="flex justify-between">
-                <span className="text-[#99907c]">기본 상품가</span>
+              <div className="flex justify-between gap-2">
+                <span className="text-[#99907c]">상품 합계</span>
                 <span className="font-mono text-[#e5e2e1]">{formatPrice(totalAmount)}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-[#99907c]">수입 관·부가세 (전액 지원)</span>
-                <span className="text-[#f2ca50] font-semibold">₩ 0 (포함)</span>
+              <div className="flex justify-between gap-2">
+                <span className="text-[#99907c]">관·부가세</span>
+                <span className="text-[#f2ca50] font-semibold">표시가에 포함</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-[#99907c]">VIP 발렛 안심 배송비</span>
-                <span className="text-[#f2ca50] font-semibold">₩ 0 (무료)</span>
+              <div className="flex justify-between gap-2">
+                <span className="text-[#99907c]">컨시어지 배송비</span>
+                <span className="text-[#f2ca50] font-semibold">₩ 0</span>
               </div>
-              <div className="border-t border-[#4d4635] pt-2.5 flex justify-between font-bold text-sm text-[#e5e2e1]">
-                <span>최종 결제 예정 금액</span>
-                <span className="text-[#f2ca50] text-base font-mono">
-                  {formatPrice(totalAmount)}
-                </span>
+              <div className="border-t border-[#4d4635] pt-2.5 flex justify-between gap-2 font-bold text-sm text-[#e5e2e1]">
+                <span>결제 예정 금액</span>
+                <span className="text-[#f2ca50] text-base font-mono">{formatPrice(totalAmount)}</span>
               </div>
             </div>
           )}
         </div>
 
         {/* Footer Checkout Action */}
-        <div className="p-4 lg:p-5 border-t border-[#4d4635] bg-[#131313]">
+        <div className="p-4 lg:p-5 border-t border-[#4d4635] bg-[#131313] space-y-2">
+          <p className="text-[10px] text-[#99907c] text-center [word-break:keep-all]">
+            샘플 사이트입니다 — 입력하신 내용은 어디에도 전송되지 않습니다.
+          </p>
           <button
             type="button"
             disabled={items.length === 0}
@@ -132,7 +165,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             className="w-full py-3.5 bg-[#f2ca50] text-[#0e0e0e] text-[12px] tracking-wider uppercase font-bold hover:bg-[#ffe088] disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 cursor-pointer shadow-lg active:scale-[0.99]"
           >
             <Lock className="w-4 h-4" />
-            안심 예치 결제 진행
+            주문서 작성하기
           </button>
         </div>
       </div>

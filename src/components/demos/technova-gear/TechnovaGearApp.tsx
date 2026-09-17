@@ -1,11 +1,17 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Send } from 'lucide-react';
 
 import { TopNavBar } from './components/TopNavBar';
-import { SpecFilterHUD, SpecFilterState } from './components/SpecFilterHUD';
+import { SpecFilterHUD } from './components/SpecFilterHUD';
+import {
+  DEFAULT_FILTERS,
+  computeFlagshipConfig,
+  labelOf,
+  type SpecFilterState,
+} from './flagship-config';
 import { HeroSpotlight } from './components/HeroSpotlight';
 import { ComparisonMatrix } from './components/ComparisonMatrix';
 import { ProductBentoRack } from './components/ProductBentoRack';
@@ -15,24 +21,84 @@ import { ArchitectureViewerModal } from './components/Modals/ArchitectureViewerM
 import { CartDrawer } from './components/Modals/CartDrawer';
 import { CompareModal } from './components/Modals/CompareModal';
 import { CheckoutModal } from './components/Modals/CheckoutModal';
-import { INITIAL_PRODUCTS, COMPARISON_MODELS } from './data/hardwareData';
+import { InfoModal, type InfoModalContent } from './components/Modals/InfoModal';
+import { SpecSheetModal, type SpecSheetData } from './components/Modals/SpecSheetModal';
+import { INITIAL_PRODUCTS } from './data/hardwareData';
 import { HardwareProduct, CartItem, PowerMode, ComparisonModel } from './types';
 
-const DEFAULT_FILTERS: SpecFilterState = {
-  segment: '게이밍 랩탑',
-  gpu: 'RTX 4080',
-  cpu: 'Ultra 9 185H',
-  display: 'OLED 240Hz',
-  ram: '32GB DDR5',
+const CATEGORY_LABELS: Record<string, string> = {
+  laptop: 'PC/노트북',
+  display: '디스플레이',
+  gear: '게이밍기어',
+  audio: '오디오/음향',
 };
+
+/** 상품 → 상세 데이터시트. 값이 없는 칸은 아예 내보내지 않는다(빈 자리표시를 만들지 않기 위해). */
+function toSpecSheet(product: HardwareProduct): SpecSheetData {
+  const rows: SpecSheetData['rows'] = [];
+  const push = (label: string, value?: string) => {
+    if (value) rows.push({ label, value });
+  };
+  push('프로세서', product.specs.cpu);
+  push('그래픽', product.specs.gpu);
+  push('전력 한계', product.specs.tgp);
+  push('메모리', product.specs.ram);
+  push('저장장치', product.specs.storage);
+  push('디스플레이', product.specs.display);
+  push('쿨링', product.specs.cooling);
+  push('무게/배터리', product.specs.weight);
+  push('포트', product.specs.ports);
+  rows.push({ label: '모델 코드', value: `SKU ${product.sku}` });
+
+  return {
+    id: product.id,
+    title: product.name,
+    badge: product.categoryName,
+    subtitle: product.subtitle,
+    image: product.image,
+    price: product.discountPrice,
+    originalPrice: product.originalPrice,
+    discountRate: product.discountRate,
+    rating: product.rating,
+    reviewCount: product.reviewCount,
+    chips: product.chips,
+    rows,
+    purchasable: true,
+  };
+}
+
+/** 대조 매트릭스의 참고 모델 → 상세 데이터시트. 벤토 랙에 없는 모델은 장바구니에 담지 않는다. */
+function comparisonToSpecSheet(model: ComparisonModel): SpecSheetData {
+  return {
+    id: model.id,
+    title: model.name,
+    badge: model.badge,
+    price: Number(model.price.replace(/[^\d]/g, '')) || 0,
+    rows: [
+      { label: '프로세서', value: model.cpu, detail: model.cpuDetail },
+      { label: '그래픽', value: model.gpu },
+      { label: '디스플레이', value: model.display, detail: model.displayDetail },
+      { label: '쿨링', value: model.cooling, detail: model.coolingDetail },
+      { label: 'I/O', value: model.io },
+      { label: '무게/배터리', value: model.weight },
+      { label: '그래픽 점수', value: model.timeSpy, detail: `자체 랩 예시 점수 (${model.timeSpyTarget})` },
+    ],
+    purchasable: INITIAL_PRODUCTS.some((p) => p.id === model.id),
+  };
+}
 
 export default function TechnovaGearApp({ isEmbed = false }: { isEmbed?: boolean }) {
   // Navigation & Search State
-  const [activeCategory, setActiveCategory] = useState<string>('laptop');
-  const [searchQuery, setSearchQuery] = useState<string>('TECHNOVA TITAN 16 PRO RTX 4080');
+  // 'all' = 전체. 예전 기본값은 'laptop' 이었는데 판정에서 laptop 을 「필터 없음」으로 써서,
+  // 「PC/노트북」 탭이 켜진 채 모니터·키보드·헤드셋까지 같이 나왔다(탭이 거짓말을 했다).
+  const [activeCategory, setActiveCategory] = useState<string>('all');
+  // 예전 기본값은 「TECHNOVA TITAN 16 PRO RTX 4080」 이었는데 이 말로는 아무 상품도 걸리지 않아
+  // 검색이 조용히 전체 목록으로 되돌아갔다 — 검색이 죽은 것처럼 보이던 원인이다.
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Spec Filters
+  // Spec Filters — 플래그십 한 대의 구성. 가격·점수 계산은 flagship-config 한 곳에서만 한다.
   const [filters, setFilters] = useState<SpecFilterState>(DEFAULT_FILTERS);
+  const flagshipConfig = useMemo(() => computeFlagshipConfig(filters), [filters]);
 
   // Power Mode for flagship
   const [powerMode, setPowerMode] = useState<PowerMode>('turbo');
@@ -47,7 +113,7 @@ export default function TechnovaGearApp({ isEmbed = false }: { isEmbed?: boolean
       image: INITIAL_PRODUCTS[0].image,
       price: 2890000,
       quantity: 1,
-      specsSummary: 'Ultra 9 185H / RTX 4080 16GB / 32GB DDR5 / OLED 240Hz',
+      specsSummary: '16코어 CPU / 외장 GPU 16GB / 32GB DDR5 / OLED 240Hz',
     },
     {
       id: 'cart-2',
@@ -73,6 +139,8 @@ export default function TechnovaGearApp({ isEmbed = false }: { isEmbed?: boolean
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCompareOpen, setIsCompareOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [infoContent, setInfoContent] = useState<InfoModalContent | null>(null);
+  const [specSheet, setSpecSheet] = useState<SpecSheetData | null>(null);
 
   // Active checkout target
   const [checkoutInfo, setCheckoutInfo] = useState<{ title: string; price: number }>({
@@ -90,15 +158,18 @@ export default function TechnovaGearApp({ isEmbed = false }: { isEmbed?: boolean
     }, 2800);
   };
 
+  const showInfo = useCallback((content: InfoModalContent) => setInfoContent(content), []);
+
   // Filter Handler
   const handleFilterChange = <K extends keyof SpecFilterState>(key: K, value: SpecFilterState[K]) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
-    showToast(`스펙 필터 [${key.toUpperCase()}]: ${value} 적용`);
+    // 「필터」가 아니라 「구성」이다 — 이 칩들은 목록을 거르지 않고 플래그십 한 대의 사양을 바꾼다.
+    showToast(`플래그십 구성 변경 [${key.toUpperCase()}]: ${labelOf(key, value)}`);
   };
 
   const handleResetFilters = () => {
     setFilters(DEFAULT_FILTERS);
-    showToast('스펙 필터가 기본 엔지니어링 값으로 초기화되었습니다.');
+    showToast('플래그십 구성이 기본값으로 되돌아갔습니다.');
   };
 
   // Cart Handlers
@@ -123,6 +194,11 @@ export default function TechnovaGearApp({ isEmbed = false }: { isEmbed?: boolean
       ];
     });
     showToast(`장바구니에 [${product.name}]이(가) 추가되었습니다.`);
+  };
+
+  const handleAddToCartById = (id: string) => {
+    const product = INITIAL_PRODUCTS.find((p) => p.id === id);
+    if (product) handleAddToCart(product);
   };
 
   const handleUpdateCartQuantity = (id: string, delta: number) => {
@@ -162,18 +238,18 @@ export default function TechnovaGearApp({ isEmbed = false }: { isEmbed?: boolean
 
   // Instant Checkout Trigger
   const handleInstantBuyFlagship = () => {
-    // calculate price based on filters
-    let price = 2890000;
-    if (filters.gpu === 'RTX 4090') price = 3490000;
-    else if (filters.gpu === '4070 Ti') price = 2490000;
-    else if (filters.gpu === 'RX 7900') price = 2650000;
-    if (filters.ram === '64GB') price += 250000;
-    else if (filters.ram === '16GB') price -= 120000;
-
+    // 가격은 flagship-config 한 곳에서만 계산한다 — 히어로·대조 매트릭스·주문서가 같은 값을 써야 한다.
     setCheckoutInfo({
-      title: `TECHNOVA TITAN 16 PRO (${filters.cpu} / ${filters.gpu} / ${filters.ram})`,
-      price,
+      title: `TECHNOVA TITAN 16 PRO (${flagshipConfig.summary})`,
+      price: flagshipConfig.price,
     });
+    setIsCheckoutOpen(true);
+  };
+
+  /** 상세 데이터시트에서 바로 주문서로 — 그 화면에 적힌 이름·가격 그대로 넘긴다 */
+  const handleBuyFromSpecSheet = () => {
+    if (!specSheet) return;
+    setCheckoutInfo({ title: specSheet.title, price: specSheet.price });
     setIsCheckoutOpen(true);
   };
 
@@ -192,25 +268,39 @@ export default function TechnovaGearApp({ isEmbed = false }: { isEmbed?: boolean
     return INITIAL_PRODUCTS.filter((p) => comparedProductIds.includes(p.id));
   }, [comparedProductIds]);
 
-  // Filtered Products for Bento Rack based on search or category
+  /**
+   * 벤토 랙에 보일 목록.
+   * 예전에는 분류·검색에서 걸리는 게 없으면 **조용히 전체 목록으로 되돌아갔다** — 눌러도 화면이 그대로라
+   * 필터가 죽은 것처럼 보였고, 실제로는 「없다」를 「전부」로 바꿔 보여 주는 거짓말이었다.
+   * 이제는 걸러진 결과를 그대로 내주고, 0건이면 랙이 「없다」고 말한다.
+   */
   const displayedProducts = useMemo(() => {
-    let list = INITIAL_PRODUCTS;
-    if (activeCategory !== 'laptop') {
-      const match = list.filter((p) => p.category === activeCategory);
-      if (match.length > 0) list = match;
-    }
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase().replace('#', '').trim();
-      const filtered = list.filter(
-        (p) =>
-          p.name.toLowerCase().includes(q) ||
-          p.subtitle.toLowerCase().includes(q) ||
-          p.chips.some((c) => c.toLowerCase().includes(q))
+    const q = searchQuery.toLowerCase().replace(/#/g, '').trim();
+    return INITIAL_PRODUCTS.filter((p) => {
+      if (activeCategory !== 'all' && p.category !== activeCategory) return false;
+      if (!q) return true;
+      return (
+        p.name.toLowerCase().includes(q) ||
+        p.subtitle.toLowerCase().includes(q) ||
+        p.categoryName.toLowerCase().includes(q) ||
+        p.sku.toLowerCase().includes(q) ||
+        p.chips.some((c) => c.toLowerCase().includes(q))
       );
-      if (filtered.length > 0) return filtered;
-    }
-    return list;
+    });
   }, [activeCategory, searchQuery]);
+
+  // 'all' 은 전체 목록을 뜻하므로 「걸린 조건」으로 세지 않는다.
+  const categoryLabel = activeCategory === 'all' ? null : CATEGORY_LABELS[activeCategory] ?? null;
+
+  const handleResetBrowse = () => {
+    setActiveCategory('all');
+    setSearchQuery('');
+  };
+
+  const handleSubmitSearch = () => {
+    // 검색어는 입력과 동시에 이미 목록에 반영돼 있다 — 버튼은 그 결과로 데려다 준다.
+    document.getElementById('curated-hardware-rack')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
     <div className="bg-[#0f131c] text-[#dfe2ee] min-h-screen flex flex-col font-body selection:bg-[#03b5d3] selection:text-[#001f26]">
@@ -218,7 +308,7 @@ export default function TechnovaGearApp({ isEmbed = false }: { isEmbed?: boolean
       {!isEmbed && (
         <aside
           aria-label="데모 안내 바"
-          className="sticky top-0 z-[60] bg-zinc-950/95 backdrop-blur-md text-white border-b border-zinc-800 text-xs py-2 px-4 flex items-center justify-between"
+          className="sticky top-[var(--sample-bar-h,0px)] z-[60] bg-zinc-950/95 backdrop-blur-md text-white border-b border-zinc-800 text-xs py-2 px-4 flex items-center justify-between"
         >
           <div className="flex items-center gap-3">
             <Link
@@ -267,11 +357,49 @@ export default function TechnovaGearApp({ isEmbed = false }: { isEmbed?: boolean
           -ms-overflow-style: none;
           scrollbar-width: none;
         }
+        /* animate-fadeIn · animate-slideLeft 는 이 데모가 쓰는데 어디에도 정의가 없어
+           지금까지 아무 효과도 나지 않았다(클래스만 붙어 있는 죽은 이름이었다). */
+        @keyframes technovaFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(4px);
+          }
+          to {
+            opacity: 1;
+            transform: none;
+          }
+        }
+        @keyframes technovaSlideLeft {
+          from {
+            opacity: 0;
+            transform: translateX(16px);
+          }
+          to {
+            opacity: 1;
+            transform: none;
+          }
+        }
+        .animate-fadeIn {
+          animation: technovaFadeIn 0.2s ease-out both;
+        }
+        .animate-slideLeft {
+          animation: technovaSlideLeft 0.25s ease-out both;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .animate-fadeIn,
+          .animate-slideLeft {
+            animation: none;
+          }
+        }
       `}</style>
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#181c24] border border-[#4cd7f6] text-[#dfe2ee] px-4 py-2.5 rounded-lg shadow-2xl flex items-center gap-2 text-xs font-label active-glow animate-fadeIn">
-          <span className="material-symbols-outlined text-[#4cd7f6] text-base">info</span>
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-6 right-4 lg:right-6 left-4 lg:left-auto z-[70] bg-[#181c24] border border-[#4cd7f6] text-[#dfe2ee] px-4 py-2.5 rounded-lg shadow-2xl flex items-center gap-2 text-xs font-label active-glow animate-fadeIn"
+        >
+          <span className="material-symbols-outlined text-[#4cd7f6] text-base shrink-0">info</span>
           <span>{toastMessage}</span>
         </div>
       )}
@@ -287,6 +415,8 @@ export default function TechnovaGearApp({ isEmbed = false }: { isEmbed?: boolean
         onSearchChange={setSearchQuery}
         activeCategory={activeCategory}
         onSelectCategory={setActiveCategory}
+        onShowInfo={showInfo}
+        onSubmitSearch={handleSubmitSearch}
       />
 
       {/* Deep Engineering Subcategory & Parametric Spec Filter HUD */}
@@ -307,25 +437,27 @@ export default function TechnovaGearApp({ isEmbed = false }: { isEmbed?: boolean
           onOpen3DModal={() => setIs3DModalOpen(true)}
           isCompared={comparedProductIds.includes('titan-16-pro')}
           onToggleCompare={() => handleToggleCompare('titan-16-pro')}
+          onShowInfo={showInfo}
         />
 
-        {/* Side-by-Side Danawa-Style Hardware Spec Comparison Matrix */}
+        {/* Side-by-Side Hardware Spec Comparison Matrix */}
         <ComparisonMatrix
-          onSelectModel={(model: ComparisonModel) => {
-            showToast(`[${model.name}] 세부 텔레메트리 스펙 로드 완료`);
-          }}
+          currentConfig={flagshipConfig}
+          onSelectModel={(model: ComparisonModel) => setSpecSheet(comparisonToSpecSheet(model))}
           onInstantBuy={handleInstantBuyFlagship}
         />
 
         {/* Curated High-Tech Product Cards (4-Column Bento Hardware Rack) */}
         <ProductBentoRack
           products={displayedProducts}
+          totalCount={INITIAL_PRODUCTS.length}
+          categoryLabel={categoryLabel}
+          searchQuery={searchQuery}
+          onResetBrowse={handleResetBrowse}
           comparedIds={comparedProductIds}
           onToggleCompare={handleToggleCompare}
           onAddToCart={handleAddToCart}
-          onViewProduct={(product) => {
-            showToast(`[${product.name}] 제품 상세 데이터시트 조회`);
-          }}
+          onViewProduct={(product) => setSpecSheet(toSpecSheet(product))}
         />
 
         {/* Interactive I/O Port & Cooling Architecture Inspector */}
@@ -333,7 +465,7 @@ export default function TechnovaGearApp({ isEmbed = false }: { isEmbed?: boolean
       </main>
 
       {/* Footer */}
-      <Footer />
+      <Footer onShowInfo={showInfo} />
 
       {/* Modals & Drawers */}
       <ArchitectureViewerModal
@@ -358,12 +490,21 @@ export default function TechnovaGearApp({ isEmbed = false }: { isEmbed?: boolean
         onAddToCart={handleAddToCart}
       />
 
+      <SpecSheetModal
+        data={specSheet}
+        onClose={() => setSpecSheet(null)}
+        onAddToCart={handleAddToCartById}
+        onBuyNow={handleBuyFromSpecSheet}
+      />
+
       <CheckoutModal
         isOpen={isCheckoutOpen}
         onClose={() => setIsCheckoutOpen(false)}
         productTitle={checkoutInfo.title}
         totalPrice={checkoutInfo.price}
       />
+
+      <InfoModal content={infoContent} onClose={() => setInfoContent(null)} />
     </div>
   );
 }

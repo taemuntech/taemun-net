@@ -1,5 +1,6 @@
 import SampleNotice from '@/components/demo-kit/SampleNotice';
-import React, { useState } from 'react';
+import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
+import React, { useRef, useState } from 'react';
 
 interface TriageModalProps {
   isOpen: boolean;
@@ -13,6 +14,11 @@ export const TriageModal: React.FC<TriageModalProps> = ({ isOpen, onClose }) => 
   const [symptom, setSymptom] = useState('관절/슬개골');
   const [notes, setNotes] = useState('');
   const [sampleNoticeOpen, setSampleNoticeOpen] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  // Esc·배경 클릭 닫기와 배경 스크롤 잠금 — 공용 훅(demo-kit)에 맡긴다.
+  // SampleNotice 가 떠 있는 동안에는 끈다(같은 훅을 쓰므로 포커스 가둠·Esc 가 서로 물린다).
+  useSampleDialog({ open: isOpen && !sampleNoticeOpen, onClose, dialogRef });
 
   if (!isOpen) return null;
 
@@ -22,11 +28,25 @@ export const TriageModal: React.FC<TriageModalProps> = ({ isOpen, onClose }) => 
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-[#bfc9c1]/60 relative">
+    <div
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 backdrop-blur-sm lg:items-center lg:p-4"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="온라인 무료 문진 접수"
+        tabIndex={-1}
+        className="bg-white rounded-t-2xl lg:rounded-2xl max-w-lg w-full max-h-[92vh] lg:max-h-[88vh] overflow-y-auto p-6 shadow-2xl border border-[#bfc9c1]/60 relative outline-none"
+      >
         <button
+          type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 text-[#707973] hover:text-[#121c2a] p-1"
+          aria-label="닫기"
+          className="absolute top-3 right-3 text-[#707973] hover:text-[#121c2a] min-h-11 min-w-11 flex items-center justify-center rounded-full hover:bg-slate-100"
         >
           <span className="material-symbols-outlined text-xl">close</span>
         </button>
@@ -54,7 +74,7 @@ export const TriageModal: React.FC<TriageModalProps> = ({ isOpen, onClose }) => 
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4 text-xs">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-[#404943] font-bold mb-1">반려동물 구분</label>
                 <div className="grid grid-cols-2 gap-2">
@@ -96,7 +116,7 @@ export const TriageModal: React.FC<TriageModalProps> = ({ isOpen, onClose }) => 
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label className="block text-[#404943] font-bold mb-1">나이</label>
                 <select
@@ -144,7 +164,8 @@ export const TriageModal: React.FC<TriageModalProps> = ({ isOpen, onClose }) => 
             <div className="p-3 bg-[#dee9fc] rounded-xl text-[11px] text-[#0f5238] flex items-center gap-2">
               <span className="material-symbols-outlined text-base shrink-0">verified_user</span>
               <span>
-                작성된 진료 데이터는 수의사법 및 개인정보보호법에 의거 안전하게 보호됩니다.
+                실제 서비스라면 수의사법·개인정보보호법에 따라 진료 데이터를 보호합니다. 이 샘플은
+                입력값을 저장하지도 보내지도 않습니다.
               </span>
             </div>
 
@@ -152,13 +173,13 @@ export const TriageModal: React.FC<TriageModalProps> = ({ isOpen, onClose }) => 
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 py-2.5 rounded-full border border-[#bfc9c1] text-[#404943] font-bold hover:bg-slate-50"
+                className="flex-1 py-2.5 min-h-11 rounded-full border border-[#bfc9c1] text-[#404943] font-bold hover:bg-slate-50"
               >
                 취소
               </button>
               <button
                 type="submit"
-                className="flex-1 py-2.5 rounded-full bg-[#0f5238] text-white font-bold hover:bg-[#2d6a4f] shadow-md"
+                className="flex-1 py-2.5 min-h-11 rounded-full bg-[#0f5238] text-white font-bold hover:bg-[#2d6a4f] shadow-md"
               >
                 무료 문진 제출하기
               </button>

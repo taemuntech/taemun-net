@@ -14,7 +14,7 @@ export const FormulaInspector: React.FC = () => {
             전성분 투명성 &amp; 임상 검증 인스펙터
           </h2>
           <p className="text-sm text-[#3d4a42] mt-2 leading-relaxed">
-            루미너스 랩은 전 제품의 20가지 유해의심성분 검출 여부와 자체 클린 그린 등급을 투명하게 공개합니다. 화면의 성분·수치는 모두 예시입니다.
+            루미너스 랩은 주의성분 검출 여부와 자체 클린 그린 등급을 상품마다 공개한다는 설정입니다. 화면의 성분·등급·수치는 모두 예시이고, 공인 인증이 아닙니다.
           </p>
         </div>
 
@@ -24,10 +24,10 @@ export const FormulaInspector: React.FC = () => {
             <div className="flex items-center justify-between pb-3 border-b border-gray-100">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-6 h-6 text-[#006948]" />
-                <span className="text-base font-bold text-[#141b2b]">20가지 주의성분 판정</span>
+                <span className="text-base font-bold text-[#141b2b]">주의성분 판정 (예시 6종)</span>
               </div>
               <span className="text-xs font-bold bg-[#006948] text-white px-2.5 py-1 rounded-full">
-                0건 검출 (ZERO)
+                0건 검출 (예시 판정)
               </span>
             </div>
 

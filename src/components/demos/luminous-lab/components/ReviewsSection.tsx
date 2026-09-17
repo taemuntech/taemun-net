@@ -14,15 +14,16 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({ onOpenCounseling
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-2">
           <div>
             <span className="text-xs font-extrabold text-[#006948] uppercase tracking-wider">
-              Real Customer Verification
+              Customer Reviews · Sample Data
             </span>
             <h2 className="text-2xl lg:text-3xl font-extrabold text-[#141b2b] mt-1 tracking-tight">
-              실구매자 리얼 클린 리뷰 (예시 데이터)
+              클린 뷰티 예시 후기 (샘플 데이터)
             </h2>
           </div>
           <div className="flex items-center gap-1.5 text-lg font-bold text-[#141b2b]">
             <Star className="w-5 h-5 fill-[#F59E0B] text-[#F59E0B]" />
             <span>4.9 / 5.0</span>
+            <span className="text-[11px] font-semibold text-[#6d7a72]">(예시 평점)</span>
           </div>
         </div>
 
@@ -84,7 +85,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({ onOpenCounseling
           <div className="p-4 rounded-xl bg-white text-center space-y-1.5 border border-[#bccac0]/30 shadow-2xs hover:border-[#006948] transition-colors">
             <Recycle className="w-7 h-7 text-[#006948] mx-auto" />
             <h3 className="text-xs font-bold text-[#141b2b]">리필 공병 수거 캠페인</h3>
-            <p className="text-[11px] text-[#3d4a42]">공병 반납 시 5,000P 즉시 리워드</p>
+            <p className="text-[11px] text-[#3d4a42]">공병 반납 시 5,000P 적립 (예시 혜택)</p>
           </div>
 
           <button
@@ -93,7 +94,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({ onOpenCounseling
           >
             <Headphones className="w-7 h-7 text-[#006948] mx-auto" />
             <h3 className="text-xs font-bold text-[#141b2b]">1:1 더마 카운셀링</h3>
-            <p className="text-[11px] text-[#006948] font-semibold underline">피부 전문가 온라인 무료 상담</p>
+            <p className="text-[11px] text-[#006948] font-semibold underline">피부 고민 상담 폼 열기 (샘플)</p>
           </button>
         </div>
       </div>

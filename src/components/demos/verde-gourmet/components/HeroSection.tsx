@@ -16,7 +16,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="lg:col-span-7 relative min-h-[320px] lg:min-h-[480px]">
           <img
             src="/demo-media/verde-gourmet/verde-gourmet-05.jpg"
-            alt="횡성 1++ No.9 채끝등심과 제주 햇당근, 신선한 식재료가 우드 도마 위에 놓인 고메 테이블 연출"
+            alt="횡성 마블링 채끝등심과 제주 햇당근, 신선한 식재료가 우드 도마 위에 놓인 고메 테이블 연출"
             className="w-full h-full object-cover"
           referrerPolicy="no-referrer" />
           <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-primary-container/80 via-primary-container/30 to-transparent flex flex-col justify-end p-6 lg:p-8">
@@ -29,7 +29,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               </span>
             </div>
             <p className="text-on-primary text-2xl lg:text-3xl font-bold drop-shadow-sm leading-tight">
-              횡성 1++ No.9 한우 &amp;<br />제주 송당리 햇당근 컬렉션
+              횡성 마블링 한우 &amp;<br />제주 송당리 햇당근 컬렉션
             </p>
           </div>
         </div>
@@ -45,13 +45,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <span className="text-outline-variant">·</span>
               <span className="text-on-surface-variant text-xs font-mono">오늘 아침 4시 최종 선별</span>
             </div>
+            {/* 끊김 없음·최상급을 뜻하던 옛 문구는 지킬 수 없는 단정이라 바꿨다 — 줄 수·길이는 그대로다 */}
             <h1 className="text-2xl lg:text-3xl font-bold text-primary leading-tight mb-4">
               새벽 이슬 머금은 대지의 선물,<br />
-              가장 완벽한 온도로 식탁까지.
+              알맞은 온도 그대로 식탁까지.
             </h1>
             <p className="text-[14px] text-on-surface-variant leading-relaxed mb-6">
-              밤 사이 수확하여 아침 7시 식탁 위로 전해지는 타협 없는 신선함. 
-              도축 즉시 산소차단 스킨팩 포장과 0~2℃ 무중단 골든 콜드체인으로 
+              밤 사이 수확하여 아침 7시 식탁 위로 전해지는 신선함.
+              도축 즉시 산소차단 스킨팩 포장과 0~2℃ 골든 콜드체인으로
               풍부한 육즙과 농축된 흙내음을 있는 그대로 배송해 드립니다.
             </p>
             <div className="space-y-2.5 mb-6">

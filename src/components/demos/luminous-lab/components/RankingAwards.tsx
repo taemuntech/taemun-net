@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Star, Heart, ShoppingBag, Sparkles, Flame } from 'lucide-react';
+import { Star, Heart, ShoppingBag, SearchX, Flame, RotateCcw } from 'lucide-react';
 import { Product } from '../types';
 
 interface RankingAwardsProps {
@@ -7,17 +7,23 @@ interface RankingAwardsProps {
   wishlist: string[];
   onToggleWishlist: (productId: string) => void;
   onAddToCart: (product: Product) => void;
+  /** 위쪽 필터가 하나라도 걸려 있는가 — 결과가 0건일 때 안내 문구를 가른다 */
+  hasActiveFilters: boolean;
+  onResetFilters: () => void;
 }
+
+// 탭은 예시 상품이 실제로 존재하는 분류만 둔다 — 눌러도 목록이 그대로인 「죽은 탭」을 만들지 않는다.
+const TABS = ['실시간 통합 베스트', '스킨/앰플', '수분크림', '선케어'] as const;
 
 export const RankingAwards: React.FC<RankingAwardsProps> = ({
   products,
   wishlist,
   onToggleWishlist,
   onAddToCart,
+  hasActiveFilters,
+  onResetFilters,
 }) => {
-  const [activeTab, setActiveTab] = useState('실시간 통합 베스트');
-
-  const tabs = ['실시간 통합 베스트', '스킨/앰플', '수분크림', '선케어', '마스크팩'];
+  const [activeTab, setActiveTab] = useState<string>(TABS[0]);
 
   // Filter products by ranking tab if selected
   const displayedProducts = products.filter((prod) => {
@@ -55,13 +61,14 @@ export const RankingAwards: React.FC<RankingAwardsProps> = ({
 
           {/* Interactive Ranking Category Tabs */}
           <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
-            {tabs.map((tab) => {
+            {TABS.map((tab) => {
               const isActive = activeTab === tab;
               return (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-2 rounded-full text-xs font-bold shrink-0 transition-all cursor-pointer ${ isActive ? 'bg-[#141b2b] text-white shadow-sm' : 'bg-[#e9edff] text-[#3d4a42] hover:text-[#141b2b]' }`}
+                  aria-pressed={isActive}
+                  className={`px-4 min-h-11 lg:min-h-0 lg:py-2 rounded-full text-xs font-bold shrink-0 transition-all cursor-pointer ${ isActive ? 'bg-[#141b2b] text-white shadow-sm' : 'bg-[#e9edff] text-[#3d4a42] hover:text-[#141b2b]' }`}
                 >
                   {tab}
                 </button>
@@ -69,6 +76,40 @@ export const RankingAwards: React.FC<RankingAwardsProps> = ({
             })}
           </div>
         </div>
+
+        {/* 조건에 맞는 예시 상품이 없을 때 — 목록을 몰래 되돌리지 않고 0건을 그대로 보여 준다 */}
+        {displayedProducts.length === 0 && (
+          <div className="py-14 flex flex-col items-center justify-center text-center gap-3 rounded-2xl border border-dashed border-[#bccac0]/60 bg-white/70">
+            <SearchX className="w-10 h-10 text-[#bccac0]" />
+            <div className="space-y-1">
+              <p className="text-sm font-bold text-[#141b2b]">조건에 맞는 상품이 없습니다.</p>
+              <p className="text-xs text-[#6d7a72] px-6 leading-relaxed">
+                {hasActiveFilters
+                  ? '위의 더마 필터 또는 랭킹 탭 조건을 줄이면 다시 목록이 나타납니다. (샘플이라 예시 상품 4종만 들어 있습니다)'
+                  : '이 랭킹 탭에는 예시 상품이 없습니다. 다른 탭을 눌러 보세요.'}
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              <button
+                type="button"
+                onClick={() => setActiveTab(TABS[0])}
+                className="px-4 min-h-11 rounded-full bg-[#e9edff] text-[#141b2b] text-xs font-bold cursor-pointer hover:bg-[#dfe6ff] transition-colors"
+              >
+                통합 베스트 보기
+              </button>
+              {hasActiveFilters && (
+                <button
+                  type="button"
+                  onClick={onResetFilters}
+                  className="px-4 min-h-11 rounded-full bg-[#006948] text-white text-xs font-bold inline-flex items-center gap-1.5 cursor-pointer hover:bg-[#00855d] transition-colors"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  필터 초기화
+                </button>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* 4 Products Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
@@ -104,8 +145,9 @@ export const RankingAwards: React.FC<RankingAwardsProps> = ({
                   {/* Wishlist Heart Toggle */}
                   <button
                     onClick={() => onToggleWishlist(product.id)}
-                    aria-label="관심상품 등록"
-                    className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/85 backdrop-blur-md flex items-center justify-center transition-all z-10 cursor-pointer shadow-xs hover:scale-110 active:scale-95"
+                    aria-label={`${product.name} ${isWished ? '관심상품 해제' : '관심상품 등록'}`}
+                    aria-pressed={isWished}
+                    className="absolute top-3 right-3 w-11 h-11 lg:w-9 lg:h-9 rounded-full bg-white/85 backdrop-blur-md flex items-center justify-center transition-all z-10 cursor-pointer shadow-xs hover:scale-110 active:scale-95"
                   >
                     <Heart
                       className={`w-5 h-5 transition-colors ${ isWished ? 'fill-[#ae2f34] text-[#ae2f34]' : 'text-[#6d7a72] hover:text-[#ae2f34]' }`}
@@ -115,16 +157,16 @@ export const RankingAwards: React.FC<RankingAwardsProps> = ({
                   {/* Hydration / Efficacy Meter Bar */}
                   {product.clinicalHighlight && (
                     <div className="absolute bottom-0 inset-x-0 bg-white/95 backdrop-blur-md px-3 py-1.5 border-t border-[#bccac0]/30 flex items-center justify-between text-[11px]">
-                      <span className="text-[#3d4a42] font-medium">
+                      <span className="text-[#3d4a42] font-medium truncate">
                         {product.clinicalHighlight.label}
                       </span>
-                      <div className="w-24 h-2 bg-[#e1e8fd] rounded-full overflow-hidden">
+                      <div className="flex-1 mx-2 max-w-24 h-2 bg-[#e1e8fd] rounded-full overflow-hidden">
                         <div
                           className="h-full bg-[#006948] rounded-full transition-all duration-700"
                           style={{ width: `${product.clinicalHighlight.percent}%` }}
                         />
                       </div>
-                      <span className="font-bold text-[#006948]">
+                      <span className="font-bold text-[#006948] shrink-0">
                         {product.clinicalHighlight.value}
                       </span>
                     </div>
@@ -154,7 +196,7 @@ export const RankingAwards: React.FC<RankingAwardsProps> = ({
                         ({product.reviewCount.toLocaleString()}개 리뷰)
                       </span>
                     </div>
-                    <div className="flex items-baseline gap-2">
+                    <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
                       <span className="text-lg font-extrabold text-[#ae2f34]">
                         {product.discountRate}%
                       </span>
@@ -170,7 +212,7 @@ export const RankingAwards: React.FC<RankingAwardsProps> = ({
                   {/* Quick Cart Button */}
                   <button
                     onClick={() => onAddToCart(product)}
-                    className="w-full h-10 rounded-full bg-[#e9edff] hover:bg-[#006948] hover:text-white text-[#141b2b] text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer active:scale-98"
+                    className="w-full h-11 rounded-full bg-[#e9edff] hover:bg-[#006948] hover:text-white text-[#141b2b] text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer active:scale-98"
                   >
                     <ShoppingBag className="w-4 h-4" />
                     장바구니 담기

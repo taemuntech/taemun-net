@@ -64,7 +64,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onReserveClick }) =>
                   Certificat
                 </p>
                 <p className="font-serif font-medium text-[16px] text-[#300a10] mt-0.5">
-                  100% 진품 보증
+                  출처 기록 동봉
                 </p>
                 <p className="font-serif text-[12px] text-[#514344]">소장 등록 대장 발급</p>
               </div>
@@ -73,7 +73,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onReserveClick }) =>
                   Atelier
                 </p>
                 <p className="font-serif font-medium text-[16px] text-[#300a10] mt-0.5">
-                  35년 장인 복원
+                  장인 수작업 복원
                 </p>
                 <p className="font-serif text-[12px] text-[#514344]">프렌치 폴리싱 기법</p>
               </div>
@@ -109,12 +109,12 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onReserveClick }) =>
                 </div>
               </div>
 
-              {/* 1884 Heritage Circular Seal */}
+              {/* Heritage Circular Seal — 연호는 지어낼 수 없어 넣지 않는다 */}
               <div
                 id="hero-heritage-seal"
                 className="absolute -top-3 -right-3 hidden lg:flex items-center justify-center w-16 h-16 rounded-full bg-[#fff8f5] border border-[#735b24] text-[#735b24] text-[10px] font-semibold uppercase tracking-widest text-center shadow-md rotate-12 select-none"
               >
-                1884<br />Heritage
+                Archive<br />Heritage
               </div>
             </div>
           </div>

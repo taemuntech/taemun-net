@@ -22,7 +22,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartSubscription })
               <span className="material-symbols-outlined text-sm text-[#0f5238]">
                 clinical_notes
               </span>
-              <span>수의학 임상영양 전문의 (예시) 임상 검증 포뮬러</span>
+              <span>수의학 임상영양 전문의 (예시) 감수 포뮬러</span>
             </div>
 
             <h1 className="text-2xl lg:text-5xl lg:text-5xl text-[#121c2a] font-bold tracking-tight leading-tight lg:leading-[1.2]">
@@ -34,8 +34,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartSubscription })
             </h1>
 
             <p className="text-sm lg:text-base text-[#404943] max-w-2xl leading-relaxed">
-              곡물 알러지 걱정 없는 생육 65%와 유기농 수퍼푸드로 완성한 임상 맞춤 처방식. 4주 급여 후
-              눈물자국 84% 개선 입증. 자연 친화적 클린 공정으로 생산됩니다.
+              곡물 걱정을 덜어낸 생육 65%와 자연 유래 수퍼푸드로 완성한 맞춤 레시피. 4주 급여 후
+              눈물자국 84% 개선 (가상 급여 시나리오 · 예시 수치). 자연 친화적 클린 공정으로 생산됩니다.
             </p>
 
             {/* 4 Key Clinical Badges */}
@@ -45,7 +45,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartSubscription })
                   verified_user
                 </span>
                 <span className="text-xs lg:text-sm font-bold text-[#121c2a]">
-                  AAFCO 영양 가이드라인 기준 충족
+                  AAFCO 영양 가이드라인 참고 배합 (예시 표기)
                 </span>
               </div>
 
@@ -59,7 +59,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartSubscription })
               <div className="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-[#bfc9c1]/70 shadow-sm">
                 <span className="material-symbols-outlined text-[#0f5238] text-xl">science</span>
                 <span className="text-xs lg:text-sm font-bold text-[#121c2a]">
-                  소화흡수율 92.4% 입증
+                  소화흡수율 92.4% (예시 수치)
                 </span>
               </div>
 
@@ -86,7 +86,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartSubscription })
                 className="h-12 px-6 rounded-full bg-white border border-[#0f5238] text-[#0f5238] text-sm font-semibold flex items-center justify-center gap-2 hover:bg-[#dee9fc] transition-colors"
               >
                 <span className="material-symbols-outlined text-lg">view_in_ar</span>
-                <span>키블 알갱이 3D 실측 보기</span>
+                <span>키블 실측 크기 비교 보기</span>
               </button>
             </div>
 

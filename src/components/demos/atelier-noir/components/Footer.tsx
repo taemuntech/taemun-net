@@ -20,10 +20,10 @@ export const Footer: React.FC<FooterProps> = ({
             </span>
             <div className="text-left">
               <div className="font-label-sm text-xs text-[#ffffff] font-bold">
-                입고 전 정품 검수 절차
+                입고 검수 절차
               </div>
               <div className="text-[#8f9378] text-[11px]">
-                전 상품 입고 검수 후 판매 (예시 정책)
+                입고 상품을 검수한 뒤 판매하는 절차 (예시 정책)
               </div>
             </div>
           </div>
@@ -34,10 +34,10 @@ export const Footer: React.FC<FooterProps> = ({
             </span>
             <div className="text-left">
               <div className="font-label-sm text-xs text-[#ffffff] font-bold">
-                무료 반품 &amp; 교환 안심케어
+                반품 &amp; 교환 안내
               </div>
               <div className="text-[#8f9378] text-[11px]">
-                사이즈 미스 시 1회 왕복 무료배송 교환 지원
+                사이즈 교환 절차를 적는 자리 (예시 정책)
               </div>
             </div>
           </div>
@@ -89,7 +89,7 @@ export const Footer: React.FC<FooterProps> = ({
           </div>
         </div>
 
-        {/* Regulatory & Escrow Links (Col 5-8) */}
+        {/* Regulatory & Policy Links (Col 5-8) */}
         <div className="col-span-12 lg:col-span-4">
           <h3 className="font-headline-sm text-sm text-[#ffffff] font-semibold mb-3 tracking-wider">
             REGULATORY &amp; POLICIES
@@ -98,7 +98,7 @@ export const Footer: React.FC<FooterProps> = ({
             <li>
               <button
                 onClick={() => onOpenPolicy('이용약관 및 개인정보처리방침')}
-                className="hover:text-[#ffffff] underline transition-colors text-left"
+                className="hover:text-[#ffffff] underline transition-colors text-left min-h-11 flex items-center"
               >
                 TERMS OF USE &amp; PRIVACY POLICY
               </button>
@@ -106,7 +106,7 @@ export const Footer: React.FC<FooterProps> = ({
             <li>
               <button
                 onClick={() => onOpenPolicy('결제 및 보안 안내')}
-                className="hover:text-[#ffffff] underline transition-colors text-left"
+                className="hover:text-[#ffffff] underline transition-colors text-left min-h-11 flex items-center"
               >
                 PAYMENT &amp; SECURITY
               </button>
@@ -114,23 +114,23 @@ export const Footer: React.FC<FooterProps> = ({
             <li>
               <button
                 onClick={() => onOpenPolicy('사업자정보 안내')}
-                className="hover:text-[#ffffff] underline transition-colors text-left"
+                className="hover:text-[#ffffff] underline transition-colors text-left min-h-11 flex items-center"
               >
                 BUSINESS INFORMATION
               </button>
             </li>
             <li>
               <button
-                onClick={() => onOpenPolicy('정품 검수 절차 안내')}
-                className="hover:text-[#ffffff] underline transition-colors text-left"
+                onClick={() => onOpenPolicy('입고 검수 절차 안내')}
+                className="hover:text-[#ffffff] underline transition-colors text-left min-h-11 flex items-center"
               >
-                AUTHENTICITY CHECK
+                INBOUND QUALITY CHECK
               </button>
             </li>
             <li>
               <button
                 onClick={() => onOpenPolicy('배송 및 교환/환불 규정 안내')}
-                className="hover:text-[#ffffff] underline transition-colors text-left"
+                className="hover:text-[#ffffff] underline transition-colors text-left min-h-11 flex items-center"
               >
                 SHIPPING &amp; RETURN POLICIES
               </button>
@@ -138,7 +138,7 @@ export const Footer: React.FC<FooterProps> = ({
             <li>
               <button
                 onClick={onOpenConcierge}
-                className="hover:text-[#ffffff] underline transition-colors text-left"
+                className="hover:text-[#ffffff] underline transition-colors text-left min-h-11 flex items-center"
               >
                 GLOBAL CONCIERGE &amp; CS CENTER
               </button>
@@ -153,14 +153,14 @@ export const Footer: React.FC<FooterProps> = ({
               CUSTOMER CENTER
             </h3>
             <div className="font-display-hero text-2xl lg:text-3xl font-bold text-[#caf300] mb-1">
-              1588-0000
+              1588-0000 <span className="text-sm font-normal text-[#8f9378]">(예시 번호)</span>
             </div>
             <p className="font-label-sm text-[#8f9378] text-[11px] mb-4">
               평일 10:00 - 18:00 (점심시간 12:30 - 13:30) / 주말 및 공휴일 휴무
             </p>
             <button
               onClick={onOpenConcierge}
-              className="inline-flex items-center gap-2 bg-[#1f2021] hairline-all px-4 py-2.5 text-xs font-label-sm hover:border-[#caf300] text-[#ffffff] transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 bg-[#1f2021] hairline-all px-4 min-h-11 py-2.5 text-xs font-label-sm hover:border-[#caf300] text-[#ffffff] transition-colors cursor-pointer"
             >
               <span className="material-symbols-outlined text-[16px] text-[#caf300]">chat</span>
               <span>1:1 라이브 컨시어지 상담</span>

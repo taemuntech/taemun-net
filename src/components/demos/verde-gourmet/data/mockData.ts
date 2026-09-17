@@ -6,11 +6,13 @@ import { Product, RecipeIngredient, TelemetryStep } from '../types';
 export const PRODUCTS: Product[] = [
   {
     id: 'prod-hanwoo-1',
-    name: '[베르데 단독] 횡성 1++ No.9 마블링 한우 채끝등심 300g',
+    name: '횡성 마블링 한우 채끝등심 300g',
     origin: '강원 횡성 산지직송 · 당일소포장',
     tag: '스킨진공포장으로 육즙 보존, 구이/스테이크 겸용',
-    badge: '베르데 온리',
-    tempBadge: '❄️ 냉장 0~2℃',
+    badge: '베르데 추천',
+    // 「1++ No.9」 는 축산물품질평가원이 매기는 실제 공인 등급이다 — 가상 브랜드가 그 등급을
+    // 받은 것처럼 읽히지 않게 아래 당근과 같은 방식으로 「표기 (예시)」 로 낮춘다.
+    tempBadge: '❄️ 냉장 0~2℃ · 1++ 등급 표기 (예시)',
     price: 34900,
     originalPrice: 46500,
     discountPercent: 25,
@@ -19,7 +21,7 @@ export const PRODUCTS: Product[] = [
     reviewCount: 2841,
     image: '/demo-media/verde-gourmet/verde-gourmet-03.jpg',
     category: 'meat',
-    description: '최고 등급인 1++ No.9의 촘촘한 마블링과 깊은 육향. 당일 도축 후 3중 진공 스킨팩으로 밀봉하여 수확 직후의 신선도를 그대로 유지합니다.',
+    description: '촘촘한 마블링과 깊은 육향이 살아 있는 채끝등심. 당일 도축 후 3중 진공 스킨팩으로 밀봉하여 수확 직후의 신선도를 그대로 유지합니다. (등급 표기는 예시입니다)',
     traceabilityNumber: '000000000000 (예시)',
     producer: '○○축산물공판장 엄선 한우 명가 (예시)',
     storageType: '냉장보관 (-2℃~2℃)',
@@ -31,7 +33,9 @@ export const PRODUCTS: Product[] = [
     origin: '제주 구좌읍 산지직송 · 무세척 흙당근',
     tag: '화산회토에서 자라 향과 당도가 뛰어난 햇채소',
     badge: '당일수확',
-    tempBadge: '🌱 유기농 인증',
+    // 「유기농 인증」은 실제 제도(친환경농산물 인증)의 이름이다 — 가상 브랜드가 인증을 받은 것처럼
+    // 읽히지 않게 「표기 (예시)」로 낮춘다.
+    tempBadge: '🌱 유기농 표기 (예시)',
     price: 8900,
     originalPrice: 11200,
     discountPercent: 20,
@@ -69,7 +73,9 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'prod-sourdough-4',
-    name: '르방 천연발효 깜파뉴 사워도우 & AOP 발효버터 500g',
+    // AOP 는 EU 가 실제로 부여하는 원산지 보호 표시다 — 가상 브랜드가 그 등급의 버터를 파는 것처럼
+    // 읽히지 않게 「프랑스식」으로 바꾼다.
+    name: '르방 천연발효 깜파뉴 사워도우 & 프랑스식 발효버터 500g',
     origin: '성수동 브레드 랩 단독 · 천연발효종',
     tag: '72시간 저온숙성으로 소화가 편한 식사빵',
     badge: '성수 아티장',
@@ -80,7 +86,7 @@ export const PRODUCTS: Product[] = [
     reviewCount: 890,
     image: '/demo-media/verde-gourmet/verde-gourmet-07.jpg',
     category: 'bakery',
-    description: '프랑스 전통 르방 스타터를 사용해 72시간 저온 자연발효한 깜파뉴. 겉은 바삭하고 속은 촉촉하며, 프랑스 AOP 발효버터가 동봉됩니다.',
+    description: '프랑스 전통 르방 스타터를 사용해 72시간 저온 자연발효한 깜파뉴. 겉은 바삭하고 속은 촉촉하며, 프랑스식 발효버터가 동봉됩니다.',
     traceabilityNumber: 'ARTISAN-0000 (예시)',
     producer: '아티장 브레드 랩 (예시)',
     storageType: '상온 보관 (개봉 후 냉동 보관 권장)',
@@ -91,7 +97,7 @@ export const PRODUCTS: Product[] = [
 export const RECIPE_INGREDIENTS: RecipeIngredient[] = [
   {
     id: 'rec-ing-1',
-    name: '횡성 1++ No.9 한우 채끝 300g (냉장)',
+    name: '횡성 마블링 한우 채끝 300g (냉장)',
     subtext: '도축 3일차 최적 숙성육',
     price: 34900,
     checked: true
@@ -133,16 +139,17 @@ export const TELEMETRY_STEPS: TelemetryStep[] = [
     step: 'STEP 02',
     title: '냉장 탑차 이동',
     temp: '1.2℃',
-    location: '영동고속도로 운송구간',
+    location: '수도권 방향 고속도로 운송구간 (예시)',
     time: '2026.09.15 20:15',
     status: 'completed',
     description: '차량 내부 GPS 온도 트래커 연동'
   },
   {
     step: 'STEP 03',
-    title: '곤지암 물류허브',
+    // 「곤지암 메가 콜드센터」는 실존 물류사의 특정 시설을 가리키는 이름으로 읽힌다 — 지역명으로 낮춘다.
+    title: '수도권 물류허브',
     temp: '1.0℃',
-    location: '곤지암 메가 콜드센터',
+    location: '○○ 저온 물류센터 (예시)',
     time: '2026.09.16 01:20',
     status: 'completed',
     description: '풀콜드 실내 피킹 & 포장 구역'
@@ -158,7 +165,7 @@ export const TELEMETRY_STEPS: TelemetryStep[] = [
   }
 ];
 
-export const CATEGORIES = [
+export const CATEGORIES: ReadonlyArray<{ id: Product['category']; name: string }> = [
   { id: 'all', name: '전체 베스트' },
   { id: 'meat', name: '신선 정육/달걀' },
   { id: 'seafood', name: '산지 수산' },
@@ -166,13 +173,41 @@ export const CATEGORIES = [
   { id: 'bakery', name: '베이커리/샤퀴테리' }
 ];
 
-export const QUICK_PILLS = [
-  { name: '신선정육 (1++)', icon: 'restaurant', active: true, categoryId: 'meat' },
-  { name: '산지수산 직송', icon: 'set_meal', active: false, categoryId: 'seafood' },
-  { name: '친환경 유기농 채소', icon: 'eco', active: false, categoryId: 'vegetable' },
-  { name: '당도보증 프리미엄 과일', icon: 'nutrition', active: false, categoryId: 'vegetable' },
-  { name: '아티장 베이커리 & 델리', icon: 'bakery_dining', active: false, categoryId: 'bakery' },
-  { name: '치즈 & 샤퀴테리', icon: 'lunch_dining', active: false, categoryId: 'bakery' },
-  { name: '소믈리에 셀렉션 와인', icon: 'wine_bar', active: false, categoryId: 'all' },
-  { name: '레스토랑 간편식(RMR)', icon: 'soup_kitchen', active: false, categoryId: 'meat' }
+/**
+ * 상단 빠른 선택 칩 — **누르면 실제로 상품 검색어가 걸린다**(카테고리와 별개).
+ *
+ * 왜 이렇게 두나: 예전에는 「소믈리에 셀렉션 와인」·「레스토랑 간편식(RMR)」·「당도보증 프리미엄 과일」처럼
+ * 이 샘플에 **상품이 하나도 없는** 칩이 있었고, 눌러도 엉뚱한 분류가 열려 파는 물건과 칩이 따로 놀았다.
+ * 지금은 `query` 가 전부 PRODUCTS 의 글자와 실제로 맞물린다 — 칩을 늘릴 때도 **결과가 0건이 아닌지**
+ * 먼저 확인할 것(0건 칩은 「준비 중」과 같은 말이 된다).
+ */
+export const QUICK_PILLS: ReadonlyArray<{ name: string; icon: string; query: string }> = [
+  { name: '신선정육 마블링 한우', icon: 'restaurant', query: '한우' },
+  { name: '산지수산 생연어 직송', icon: 'set_meal', query: '생연어' },
+  { name: '친환경 유기농 채소', icon: 'eco', query: '유기농' },
+  { name: '제주 무세척 흙당근', icon: 'nutrition', query: '흙당근' },
+  { name: '아티장 천연발효 사워도우', icon: 'bakery_dining', query: '사워도우' },
+  { name: '프랑스식 발효버터 동봉', icon: 'lunch_dining', query: '발효버터' },
+  { name: '구이 · 스테이크용', icon: 'outdoor_grill', query: '스테이크' },
+  { name: '진공 스킨팩 포장', icon: 'inventory_2', query: '진공' }
 ];
+
+/** 검색·칩이 같이 쓰는 한 곳짜리 판정 — 카드/칩마다 다른 규칙을 쓰면 칩이 조용히 0건을 낸다. */
+export function matchesQuery(product: Product, rawQuery: string): boolean {
+  const query = rawQuery.trim().toLowerCase();
+  if (!query) return true;
+  const categoryName = CATEGORIES.find((c) => c.id === product.category)?.name ?? '';
+  const haystack = [
+    product.name,
+    product.origin,
+    product.tag,
+    product.badge ?? '',
+    product.tempBadge,
+    product.description,
+    product.unitPrice,
+    categoryName
+  ]
+    .join(' ')
+    .toLowerCase();
+  return query.split(/\s+/).every((token) => haystack.includes(token));
+}

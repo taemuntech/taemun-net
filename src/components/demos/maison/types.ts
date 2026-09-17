@@ -4,7 +4,7 @@ export interface Product {
   enName: string;
   period: string;
   periodSubtitle?: string;
-  category: 'french' | 'british' | 'lighting' | 'objects' | 'furniture';
+  category: 'french' | 'british' | 'lighting' | 'mirrors' | 'objects' | 'furniture';
   originEra: string;
   materials: string;
   dimensions: string;
@@ -26,7 +26,6 @@ export interface CategoryItem {
   id: string;
   title: string;
   subtitle: string;
-  specimens: string;
   image: string;
   imageAlt: string;
   filterKey: string;

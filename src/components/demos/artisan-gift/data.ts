@@ -1,10 +1,30 @@
-import { BojagiLookbookItem, Product, Review } from './types';
+import { BojagiLookbookItem, CategoryKey, Product, Review, SortKey } from './types';
 
 export const LOGO_URL =
   '/demo-media/artisan-gift/artisan-gift-10.png';
 
 export const MASTER_ARTISAN_HERO_IMAGE =
   '/demo-media/artisan-gift/artisan-gift-02.jpg';
+
+/**
+ * 컬렉션 필터 · 헤더 카테고리 메뉴가 함께 쓰는 분류표.
+ * 예전에는 헤더 메뉴가 #ceramics 처럼 **없는 앵커**를 가리켜 눌러도 아무 일도 없었다 —
+ * 이제 같은 key 로 컬렉션 필터를 바꾼다(대상이 실제로 바뀐다).
+ */
+export const CATEGORY_FILTERS: { key: CategoryKey; label: string; navLabel: string }[] = [
+  { key: 'all', label: '전체 작품', navLabel: 'All Crafts' },
+  { key: '가죽공예', label: '가죽공예', navLabel: 'Leathercraft' },
+  { key: '도예/세라믹', label: '도예 · 세라믹', navLabel: 'Ceramics' },
+  { key: '금속/목공', label: '금속 · 목공', navLabel: 'Metal & Woodcraft' },
+  { key: '전통 패브릭', label: '전통 패브릭', navLabel: 'Traditional Fabric' },
+];
+
+export const SORT_OPTIONS: { key: SortKey; label: string }[] = [
+  { key: 'recommended', label: '추천순' },
+  { key: 'priceAsc', label: '낮은 가격순' },
+  { key: 'priceDesc', label: '높은 가격순' },
+  { key: 'rating', label: '평점 높은순' },
+];
 
 export const PRODUCTS: Product[] = [
   {
@@ -15,7 +35,7 @@ export const PRODUCTS: Product[] = [
     badgeColor: 'bg-[#3e1c06] text-white',
     rating: 4.9,
     reviewCount: 840,
-    description: '이탈리아 뷰테로 레더와 황동 솔트레지가 어우러진 손바느질 포켓 카드지갑.',
+    description: '이탈리아산 베지터블 레더와 황동 하드웨어가 어우러진 손바느질 포켓 카드지갑.',
     price: 89000,
     shippingText: '무료 배송',
     image:
@@ -28,7 +48,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'product-2',
-    name: '문경 도자기 명장 백자 달항아리 다기 2인 세트',
+    name: '전통 장작가마 백자 달항아리 다기 2인 세트',
     category: '도예/세라믹',
     badge: '전통 오동나무 상자',
     badgeColor: 'bg-[#545f73] text-white',
@@ -93,7 +113,7 @@ export const BOJAGI_LOOKBOOK: BojagiLookbookItem[] = [
     koreanName: '수국 매듭',
     englishName: 'Hydrangea Knot',
     description:
-      '피어나는 수국 꽃잎의 형상을 본뜬 입체적인 매듭. 감사의 마음과 풍성한 축복을 상징하며 은사님, 부모님 예단 선물로 가장 사랑받습니다.',
+      '피어나는 수국 꽃잎의 형상을 본뜬 입체적인 매듭. 감사의 마음과 풍성한 축복을 상징하며 은사님, 부모님 예단 선물로 많이 찾으시는 매듭입니다.',
     recommendedUse: '명절 & 예단',
     priceTag: '선택 옵션 (+₩5,000)',
     isPremium: false,
@@ -135,7 +155,7 @@ export const BOJAGI_LOOKBOOK: BojagiLookbookItem[] = [
     koreanName: '궁중 옥색 보자기',
     englishName: 'Royal Celadon Bojagi',
     description:
-      '조선 왕실 의궤의 색채를 복원한 고귀한 옥색(玉色) 명주 원단에 금사 태슬과 황동 비녀 장식을 곁들인 최고급 VIP 헌정 패키지입니다.',
+      '조선 왕실 의궤의 색채를 복원한 고귀한 옥색(玉色) 명주 원단에 금사 태슬과 황동 비녀 장식을 곁들인 VIP 헌정 패키지입니다.',
     recommendedUse: '기업 의전 & VIP',
     priceTag: '프리미엄 (+₩10,000)',
     isPremium: true,
@@ -160,11 +180,11 @@ export const REVIEWS: Review[] = [
     id: 'rev-2',
     authorInitial: '김',
     author: '김세은 님 (다기 세트)',
-    productName: '문경 도자기 명장 백자 달항아리 다기 2인 세트',
+    productName: '전통 장작가마 백자 달항아리 다기 2인 세트',
     options: '달항아리 2인 세트 / 오동나무 포장',
     rating: 5,
     content:
-      '외국인 교수님 귀국 기념 선물로 준비했는데 품격의 극치였습니다. 오동나무 향기와 정갈한 한지 서신 카드까지 완벽하게 준비되어 있어서 따로 손댈 필요가 전혀 없었어요. 한국의 아름다움을 가장 우아하게 전했습니다.',
+      '외국인 교수님 귀국 기념 선물로 준비했는데 품격의 극치였습니다. 오동나무 향기와 정갈한 한지 서신 카드까지 정갈하게 준비되어 있어서 따로 손댈 필요가 전혀 없었어요. 한국의 아름다움을 우아하게 전했습니다.',
     date: '2025.02.10',
   },
   {

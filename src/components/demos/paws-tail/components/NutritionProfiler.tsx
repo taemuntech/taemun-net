@@ -95,7 +95,7 @@ export const NutritionProfiler: React.FC<NutritionProfilerProps> = ({
     recipeDetail = `1일 권장 급여량 ${dailyGrams}g (아침 ${morningGrams}g / 저녁 ${eveningGrams}g) — L-카르니틴 강화 및 조지방 9% 저칼로리 설계`;
     prescriptionPrice = 37800;
   } else if (concerns.allergies) {
-    recipeTitle = '포우즈 단일단백질 생연어 & 유기농 슈퍼베리 알러지케어 1.5kg';
+    recipeTitle = '포우즈 단일단백질 생연어 & 슈퍼베리 알러지케어 1.5kg';
     recipeDetail = `1일 권장 급여량 ${dailyGrams}g (아침 ${morningGrams}g / 저녁 ${eveningGrams}g) — 가수분해 펩타이드 및 눈물자국 루테인 4중 복합체`;
     prescriptionPrice = 38250;
   } else if (concerns.urinary) {
@@ -140,7 +140,7 @@ export const NutritionProfiler: React.FC<NutritionProfilerProps> = ({
           </h2>
           <p className="text-sm text-[#404943] mt-2 leading-relaxed">
             반려동물의 체질, 체중, 건강 고민에 맞춰 임상영양 수의학 전문 데이터베이스(예시)가 맞춤
-            급여 처방을 도출합니다.
+            급여량을 계산합니다. 진단을 대신하지 않으며 실제 식이는 담당 수의사와 상의해 정하세요.
           </p>
         </div>
 
@@ -194,7 +194,7 @@ export const NutritionProfiler: React.FC<NutritionProfilerProps> = ({
                   <button
                     type="button"
                     onClick={() => setIsNeutered(true)}
-                    className={`flex-1 py-2 px-3 rounded-lg text-xs font-semibold transition-colors ${
+                    className={`flex-1 py-2 px-3 min-h-11 rounded-lg text-xs font-semibold transition-colors ${
                       isNeutered
                         ? 'bg-[#0f5238] text-white shadow-sm'
                         : 'border border-[#bfc9c1] hover:border-[#0f5238] text-[#404943]'
@@ -205,7 +205,7 @@ export const NutritionProfiler: React.FC<NutritionProfilerProps> = ({
                   <button
                     type="button"
                     onClick={() => setIsNeutered(false)}
-                    className={`flex-1 py-2 px-3 rounded-lg text-xs font-semibold transition-colors ${
+                    className={`flex-1 py-2 px-3 min-h-11 rounded-lg text-xs font-semibold transition-colors ${
                       !isNeutered
                         ? 'bg-[#0f5238] text-white shadow-sm'
                         : 'border border-[#bfc9c1] hover:border-[#0f5238] text-[#404943]'
@@ -289,8 +289,7 @@ export const NutritionProfiler: React.FC<NutritionProfilerProps> = ({
 
               <div className="space-y-2 mt-2">
                 <label
-                  onClick={() => toggleConcern('joints')}
-                  className={`flex items-center justify-between p-2.5 rounded-xl border cursor-pointer transition-colors ${
+                  className={`flex items-center justify-between p-2.5 min-h-11 rounded-xl border cursor-pointer transition-colors ${
                     concerns.joints
                       ? 'border-[#0f5238] bg-[#b1f0ce]/25 shadow-sm'
                       : 'border-[#bfc9c1] hover:border-[#0f5238] bg-white'
@@ -305,14 +304,13 @@ export const NutritionProfiler: React.FC<NutritionProfilerProps> = ({
                   <input
                     type="checkbox"
                     checked={concerns.joints}
-                    onChange={() => {}}
-                    className="rounded text-[#0f5238] focus:ring-[#0f5238] h-4 w-4 pointer-events-none"
+                    onChange={() => toggleConcern('joints')}
+                    className="rounded text-[#0f5238] focus:ring-[#0f5238] h-4 w-4"
                   />
                 </label>
 
                 <label
-                  onClick={() => toggleConcern('allergies')}
-                  className={`flex items-center justify-between p-2.5 rounded-xl border cursor-pointer transition-colors ${
+                  className={`flex items-center justify-between p-2.5 min-h-11 rounded-xl border cursor-pointer transition-colors ${
                     concerns.allergies
                       ? 'border-[#0f5238] bg-[#b1f0ce]/25 shadow-sm'
                       : 'border-[#bfc9c1] hover:border-[#0f5238] bg-white'
@@ -327,14 +325,13 @@ export const NutritionProfiler: React.FC<NutritionProfilerProps> = ({
                   <input
                     type="checkbox"
                     checked={concerns.allergies}
-                    onChange={() => {}}
-                    className="rounded text-[#0f5238] focus:ring-[#0f5238] h-4 w-4 pointer-events-none"
+                    onChange={() => toggleConcern('allergies')}
+                    className="rounded text-[#0f5238] focus:ring-[#0f5238] h-4 w-4"
                   />
                 </label>
 
                 <label
-                  onClick={() => toggleConcern('weightControl')}
-                  className={`flex items-center justify-between p-2.5 rounded-xl border cursor-pointer transition-colors ${
+                  className={`flex items-center justify-between p-2.5 min-h-11 rounded-xl border cursor-pointer transition-colors ${
                     concerns.weightControl
                       ? 'border-[#0f5238] bg-[#b1f0ce]/25 shadow-sm'
                       : 'border-[#bfc9c1] hover:border-[#0f5238] bg-white'
@@ -349,14 +346,13 @@ export const NutritionProfiler: React.FC<NutritionProfilerProps> = ({
                   <input
                     type="checkbox"
                     checked={concerns.weightControl}
-                    onChange={() => {}}
-                    className="rounded text-[#0f5238] focus:ring-[#0f5238] h-4 w-4 pointer-events-none"
+                    onChange={() => toggleConcern('weightControl')}
+                    className="rounded text-[#0f5238] focus:ring-[#0f5238] h-4 w-4"
                   />
                 </label>
 
                 <label
-                  onClick={() => toggleConcern('urinary')}
-                  className={`flex items-center justify-between p-2.5 rounded-xl border cursor-pointer transition-colors ${
+                  className={`flex items-center justify-between p-2.5 min-h-11 rounded-xl border cursor-pointer transition-colors ${
                     concerns.urinary
                       ? 'border-[#0f5238] bg-[#b1f0ce]/25 shadow-sm'
                       : 'border-[#bfc9c1] hover:border-[#0f5238] bg-white'
@@ -371,8 +367,8 @@ export const NutritionProfiler: React.FC<NutritionProfilerProps> = ({
                   <input
                     type="checkbox"
                     checked={concerns.urinary}
-                    onChange={() => {}}
-                    className="rounded text-[#0f5238] focus:ring-[#0f5238] h-4 w-4 pointer-events-none"
+                    onChange={() => toggleConcern('urinary')}
+                    className="rounded text-[#0f5238] focus:ring-[#0f5238] h-4 w-4"
                   />
                 </label>
               </div>
@@ -388,9 +384,9 @@ export const NutritionProfiler: React.FC<NutritionProfilerProps> = ({
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-[10px] font-bold text-[#0f5238] uppercase tracking-wider bg-white px-2 py-0.5 rounded border border-[#0f5238]/30">
-                    처방 리포트
+                    영양 리포트 (예시)
                   </span>
-                  <span className="text-[11px] text-[#404943]">분석 완료 (일치율 98.2%)</span>
+                  <span className="text-[11px] text-[#404943]">예시 알고리즘 기준 산출</span>
                 </div>
                 <h3 className="text-base lg:text-lg font-bold text-[#121c2a] mt-1">
                   추천 식단: '{recipeTitle}'

@@ -10,7 +10,7 @@ const DEMO_METADATA: Metadata = sampleMetadata({
   slug: 'atelier-noir',
   title: '아틀리에 누아르 (ATELIER NOIR) — K-패션 디자이너 셀렉트샵',
   description:
-    '태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며 주문·결제·상담은 접수되지 않습니다. 4단계 카테고리 필터 HUD, 쇼퍼블 핀이 달린 룩북, 체형별 실측 치수표, 장바구니·위시리스트 드로어를 한 페이지에 담았습니다. 상품명·브랜드·가격은 모두 예시 데이터입니다.',
+    '태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며 주문·결제·상담은 접수되지 않습니다. 카테고리·세부분류·속성을 겹쳐 거르는 필터 HUD, 쇼퍼블 핀이 달린 룩북, 체형별 실측 치수표, 장바구니·위시리스트 드로어를 한 페이지에 담았습니다. 상품명·브랜드·가격은 모두 예시 데이터입니다.',
 });
 
 export function generateMetadata(): Promise<Metadata> {

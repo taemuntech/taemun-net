@@ -1,5 +1,6 @@
 import SampleNotice from '@/components/demo-kit/SampleNotice';
-import React, { useState } from 'react';
+import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
+import React, { useRef, useState } from 'react';
 import { CartItem } from '../types';
 
 interface CartDrawerProps {
@@ -22,6 +23,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onClearCart,
 }) => {
   const [sampleNoticeOpen, setSampleNoticeOpen] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  // Esc 닫기 · 배경 스크롤 잠금 · 포커스 가둠 — 예전에는 셋 다 없어서 드로어 뒤 지면이 계속 스크롤됐다.
+  // SampleNotice 가 떠 있는 동안에는 끈다 — 안내창도 같은 훅을 쓰기 때문에, 둘을 동시에 켜면
+  // 바깥(드로어)의 포커스 가둠이 안내창 버튼을 붙잡고 Esc 한 번에 둘 다 닫힌다.
+  useSampleDialog({ open: isOpen && !sampleNoticeOpen, onClose, dialogRef });
 
   if (!isOpen) return null;
 
@@ -44,20 +51,39 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
         onClick={onClose}
       />
 
-      <div className="fixed top-[var(--sample-bar-h,0px)] bottom-0 right-0 max-w-full flex pl-10">
-        <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col justify-between">
+      <div className="fixed top-[var(--sample-bar-h,0px)] bottom-0 right-0 max-w-full flex pl-6 lg:pl-10">
+        <div
+          ref={dialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="장바구니"
+          tabIndex={-1}
+          className="w-screen max-w-md bg-white shadow-2xl flex flex-col justify-between outline-none"
+        >
           {/* Header */}
           <div className="p-5 border-b border-[#bfc9c1]/60 flex items-center justify-between bg-[#f8f9ff]">
             <div className="flex items-center gap-2">
               <span className="material-symbols-outlined text-[#0f5238] text-xl">shopping_bag</span>
               <h2 className="text-base font-bold text-[#121c2a]">장바구니 ({items.length})</h2>
             </div>
-            <button
-              onClick={onClose}
-              className="p-1.5 rounded-full hover:bg-slate-200 text-[#404943] transition-colors"
-            >
-              <span className="material-symbols-outlined text-xl">close</span>
-            </button>
+            <div className="flex items-center gap-1">
+              {items.length > 0 && (
+                <button
+                  type="button"
+                  onClick={onClearCart}
+                  className="min-h-11 px-3 text-xs font-semibold text-[#707973] hover:text-[#ba1a1a] transition-colors"
+                >
+                  전체 비우기
+                </button>
+              )}
+              <button
+                onClick={onClose}
+                aria-label="장바구니 닫기"
+                className="min-h-11 min-w-11 flex items-center justify-center rounded-full hover:bg-slate-200 text-[#404943] transition-colors"
+              >
+                <span className="material-symbols-outlined text-xl">close</span>
+              </button>
+            </div>
           </div>
 
           {/* Body */}
@@ -108,7 +134,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                             </h4>
                             <button
                               onClick={() => onRemoveItem(item.product.id)}
-                              className="text-[#707973] hover:text-[#ba1a1a] p-0.5"
+                              aria-label="장바구니에서 빼기"
+                              className="text-[#707973] hover:text-[#ba1a1a] min-h-11 min-w-11 flex items-center justify-center shrink-0"
                             >
                               <span className="material-symbols-outlined text-base">delete</span>
                             </button>
@@ -129,7 +156,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                             className="rounded text-[#0f5238] focus:ring-[#0f5238] h-3.5 w-3.5"
                           />
                           <span className="font-bold text-[#0f5238]">
-                            정기구독 신청 (평생 15% 추가할인)
+                            정기구독 신청 (구독 유지 기간 15% 추가할인)
                           </span>
                         </label>
                         {item.isSubscription && (
@@ -144,7 +171,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                         <div className="flex items-center border border-[#bfc9c1] rounded-lg overflow-hidden">
                           <button
                             onClick={() => onUpdateQuantity(item.product.id, -1)}
-                            className="px-2.5 py-1 text-xs hover:bg-slate-100 font-bold"
+                            aria-label="수량 줄이기"
+                            className="min-h-11 min-w-11 text-xs hover:bg-slate-100 font-bold"
                           >
                             -
                           </button>
@@ -153,7 +181,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                           </span>
                           <button
                             onClick={() => onUpdateQuantity(item.product.id, 1)}
-                            className="px-2.5 py-1 text-xs hover:bg-slate-100 font-bold"
+                            aria-label="수량 늘리기"
+                            className="min-h-11 min-w-11 text-xs hover:bg-slate-100 font-bold"
                           >
                             +
                           </button>
@@ -207,20 +236,23 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 </div>
               </div>
 
+              {/* 제출 버튼 바로 위 고지 — 결제 화면은 특히 「눌렀으니 됐겠지」로 읽힌다 */}
+              <p className="text-[11px] text-center text-[#707973] leading-relaxed">
+                샘플 사이트입니다 — 입력하신 내용은 어디에도 전송되지 않습니다.
+              </p>
               <button
+                type="button"
                 onClick={() => setSampleNoticeOpen(true)}
-                className="w-full py-3.5 rounded-full bg-[#0f5238] text-white text-sm font-bold hover:bg-[#2d6a4f] transition-all shadow-md active:scale-95 flex items-center justify-center gap-2"
+                className="w-full py-3.5 min-h-11 rounded-full bg-[#0f5238] text-white text-sm font-bold hover:bg-[#2d6a4f] transition-all shadow-md active:scale-95 flex items-center justify-center gap-2"
               >
                 <span className="material-symbols-outlined text-base">lock</span>
-                <span>주문 결제하기 (토스페이먼츠 안심 결제 (샘플))</span>
+                <span>주문 결제하기 (간편결제 A · 예시 연동)</span>
               </button>
+              {/* 안내를 닫아도 장바구니를 비우지 않는다 — 비우면 「주문이 처리됐다」로 읽힌다.
+                  담은 것은 그대로 두고 안내만 닫는다. */}
               <SampleNotice
                 open={sampleNoticeOpen}
-                onClose={() => {
-                  setSampleNoticeOpen(false);
-                  onClearCart();
-                  onClose();
-                }}
+                onClose={() => setSampleNoticeOpen(false)}
                 slug="paws-tail"
                 featureName="주문 결제 및 정기구독 신청"
                 kind="sample"

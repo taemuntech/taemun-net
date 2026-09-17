@@ -1,26 +1,37 @@
 import React, { useState } from 'react';
 import { HERO_RUNWAY_IMG, LOOKBOOK_PIECES } from '../data/mockData';
 import { Product } from '../types';
+import { useCurrency } from '../currency';
 
 interface HeroEditorialProps {
-  onOpenProductSpec: (product: Partial<Product>) => void;
+  /** 룩북 핀의 VIEW SPEC — 상품 id 로 상세를 연다 */
+  onOpenProductSpec: (productId: number) => void;
   onAddLookSetToCart: () => void;
   onScrollToCatalog: () => void;
+  /** 3-PIECE 세트에 실제로 담기는 상품들 — 목록과 합계를 이 값으로 그린다 */
+  lookSetProducts: Product[];
 }
+
+const LOOK_SET_DISCOUNT = 0.15;
 
 export const HeroEditorial: React.FC<HeroEditorialProps> = ({
   onOpenProductSpec,
   onAddLookSetToCart,
   onScrollToCatalog,
+  lookSetProducts,
 }) => {
   const [activePin, setActivePin] = useState<string | null>(null);
+  const { price } = useCurrency();
 
   const togglePin = (pinId: string) => {
     setActivePin((prev) => (prev === pinId ? null : pinId));
   };
 
+  const lookSetTotal = lookSetProducts.reduce((sum, item) => sum + item.price, 0);
+  const lookSetDiscounted = Math.round(lookSetTotal * (1 - LOOK_SET_DISCOUNT));
+
   return (
-    <section className="relative bg-[#0d0e0f] hairline-b overflow-hidden">
+    <section id="lookbook" className="relative bg-[#0d0e0f] hairline-b overflow-hidden scroll-mt-[calc(var(--sample-bar-h,0px)_+_72px)]">
       <div className="max-w-[1920px] mx-auto grid grid-cols-12">
         {/* Asymmetric Left Span: Editorial Photography with SHOP THE LOOK Pulse Pins */}
         <div className="col-span-12 lg:col-span-8 relative aspect-[16/11] lg:aspect-[1.79/1] hairline-r overflow-hidden group">
@@ -36,7 +47,8 @@ export const HeroEditorial: React.FC<HeroEditorialProps> = ({
           <div className="absolute top-[32%] left-[46%] z-20">
             <button
               onClick={() => togglePin('pin-1')}
-              className="pulse-pin relative w-7 h-7 bg-[#caf300] text-[#171e00] rounded-none flex items-center justify-center font-label-sm font-extrabold shadow-lg cursor-pointer hover:scale-125 transition-transform"
+              className="pulse-pin relative w-11 h-11 bg-[#caf300] text-[#171e00] rounded-none flex items-center justify-center font-label-sm font-extrabold shadow-lg cursor-pointer hover:scale-110 transition-transform"
+              aria-expanded={activePin === 'pin-1'}
               aria-label="01 자켓 아이템 상세 보기"
             >
               <span className="material-symbols-outlined text-[16px]">
@@ -46,32 +58,23 @@ export const HeroEditorial: React.FC<HeroEditorialProps> = ({
 
             {/* Interactive Popover Card */}
             {activePin === 'pin-1' && (
-              <div className="absolute top-9 left-0 w-64 bg-[#292a2b] hairline-all p-3.5 z-30 shadow-2xl animate-in fade-in zoom-in-95 duration-150">
+              <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[min(16rem,calc(100vw-3rem))] bg-[#292a2b] hairline-all p-3.5 z-30 shadow-2xl animate-in fade-in zoom-in-95 duration-150">
                 <div className="text-[#caf300] font-label-sm text-[10px] uppercase mb-1 tracking-wider">
                   01 / LOOK PIECE
                 </div>
                 <div className="font-headline-sm text-sm text-[#ffffff] font-bold">
-                  오버사이즈 울 테일러드 자켓
+                  {LOOKBOOK_PIECES[0].name}
                 </div>
                 <div className="text-xs text-[#8f9378] mt-0.5">
-                  BRAND B (예시) · Virgin Wool 100%
+                  {LOOKBOOK_PIECES[0].brandDetails}
                 </div>
-                <div className="flex items-center justify-between mt-2.5 pt-2 hairline-t">
+                <div className="flex items-center justify-between mt-2.5 pt-2 hairline-t gap-2">
                   <span className="font-label-md text-xs text-[#ffffff] font-bold">
-                    ₩348,000
+                    {price(LOOKBOOK_PIECES[0].price)}
                   </span>
                   <button
-                    onClick={() =>
-                      onOpenProductSpec({
-                        id: 1,
-                        brand: 'BRAND A (예시)',
-                        name: '오버사이즈 울 테일러드 자켓',
-                        price: 348000,
-                        discountRate: '32% OFF',
-                        image: LOOKBOOK_PIECES[0].image,
-                      })
-                    }
-                    className="text-[10px] font-label-sm bg-[#caf300] text-[#171e00] px-2.5 py-1 font-bold hover:bg-[#ffffff] transition-colors"
+                    onClick={() => onOpenProductSpec(LOOKBOOK_PIECES[0].productId)}
+                    className="text-[10px] font-label-sm bg-[#caf300] text-[#171e00] px-2.5 min-h-11 font-bold hover:bg-[#ffffff] transition-colors"
                   >
                     VIEW SPEC
                   </button>
@@ -84,7 +87,8 @@ export const HeroEditorial: React.FC<HeroEditorialProps> = ({
           <div className="absolute top-[68%] left-[49%] z-20">
             <button
               onClick={() => togglePin('pin-2')}
-              className="pulse-pin relative w-7 h-7 bg-[#ffffff] text-[#0c0d0e] rounded-none flex items-center justify-center font-label-sm font-extrabold shadow-lg cursor-pointer hover:scale-125 transition-transform"
+              className="pulse-pin relative w-11 h-11 bg-[#ffffff] text-[#0c0d0e] rounded-none flex items-center justify-center font-label-sm font-extrabold shadow-lg cursor-pointer hover:scale-110 transition-transform"
+              aria-expanded={activePin === 'pin-2'}
               aria-label="02 슬랙스 아이템 상세 보기"
             >
               <span className="material-symbols-outlined text-[16px]">
@@ -94,32 +98,23 @@ export const HeroEditorial: React.FC<HeroEditorialProps> = ({
 
             {/* Interactive Popover Card */}
             {activePin === 'pin-2' && (
-              <div className="absolute bottom-9 left-0 w-64 bg-[#292a2b] hairline-all p-3.5 z-30 shadow-2xl animate-in fade-in zoom-in-95 duration-150">
+              <div className="absolute bottom-12 left-1/2 -translate-x-1/2 w-[min(16rem,calc(100vw-3rem))] bg-[#292a2b] hairline-all p-3.5 z-30 shadow-2xl animate-in fade-in zoom-in-95 duration-150">
                 <div className="text-[#ffffff] font-label-sm text-[10px] uppercase mb-1 tracking-wider">
                   02 / LOOK PIECE
                 </div>
                 <div className="font-headline-sm text-sm text-[#ffffff] font-bold">
-                  플루이드 딥 플리츠 와이드 슬랙스
+                  {LOOKBOOK_PIECES[1].name}
                 </div>
                 <div className="text-xs text-[#8f9378] mt-0.5">
-                  BRAND C (예시) · Tencel Wool
+                  {LOOKBOOK_PIECES[1].brandDetails}
                 </div>
-                <div className="flex items-center justify-between mt-2.5 pt-2 hairline-t">
+                <div className="flex items-center justify-between mt-2.5 pt-2 hairline-t gap-2">
                   <span className="font-label-md text-xs text-[#ffffff] font-bold">
-                    ₩178,000
+                    {price(LOOKBOOK_PIECES[1].price)}
                   </span>
                   <button
-                    onClick={() =>
-                      onOpenProductSpec({
-                        id: 2,
-                        brand: 'BRAND C (예시)',
-                        name: '플루이드 딥 플리츠 와이드 슬랙스',
-                        price: 178000,
-                        discountRate: '15% OFF',
-                        image: LOOKBOOK_PIECES[1].image,
-                      })
-                    }
-                    className="text-[10px] font-label-sm bg-[#ffffff] text-[#0c0d0e] px-2.5 py-1 font-bold hover:bg-[#caf300] transition-colors"
+                    onClick={() => onOpenProductSpec(LOOKBOOK_PIECES[1].productId)}
+                    className="text-[10px] font-label-sm bg-[#ffffff] text-[#0c0d0e] px-2.5 min-h-11 font-bold hover:bg-[#caf300] transition-colors"
                   >
                     VIEW SPEC
                   </button>
@@ -167,30 +162,29 @@ export const HeroEditorial: React.FC<HeroEditorialProps> = ({
               </div>
 
               <div className="space-y-2.5 text-xs">
-                <div className="flex justify-between items-center hairline-b pb-2">
-                  <span className="text-[#e3e2e3]">1. 테일러드 오버 블레이저</span>
-                  <span className="font-label-sm text-[#ffffff]">₩348,000</span>
-                </div>
-                <div className="flex justify-between items-center hairline-b pb-2">
-                  <span className="text-[#e3e2e3]">2. 딥 플리츠 와이드 슬랙스</span>
-                  <span className="font-label-sm text-[#ffffff]">₩178,000</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-[#e3e2e3]">3. 스퀘어토 카프 더비슈즈</span>
-                  <span className="font-label-sm text-[#ffffff]">₩258,000</span>
-                </div>
+                {lookSetProducts.map((item, idx) => (
+                  <div
+                    key={item.id}
+                    className={`flex justify-between items-center gap-3 ${ idx < lookSetProducts.length - 1 ? 'hairline-b pb-2' : '' }`}
+                  >
+                    <span className="text-[#e3e2e3]">
+                      {idx + 1}. {item.name}
+                    </span>
+                    <span className="font-label-sm text-[#ffffff] shrink-0">{price(item.price)}</span>
+                  </div>
+                ))}
               </div>
 
-              <div className="flex justify-between items-baseline mt-4 pt-3 hairline-t">
+              <div className="flex justify-between items-baseline mt-4 pt-3 hairline-t gap-3">
                 <span className="font-label-sm text-[11px] text-[#8f9378] uppercase">
                   TOTAL 3-PIECE SET
                 </span>
-                <div>
+                <div className="text-right">
                   <span className="line-through text-[#8f9378] font-label-sm text-xs mr-2">
-                    ₩784,000
+                    {price(lookSetTotal)}
                   </span>
                   <span className="font-headline-sm text-lg text-[#caf300] font-bold">
-                    ₩666,400
+                    {price(lookSetDiscounted)}
                   </span>
                 </div>
               </div>
@@ -200,13 +194,13 @@ export const HeroEditorial: React.FC<HeroEditorialProps> = ({
           <div className="flex flex-col gap-2.5 pt-2">
             <button
               onClick={onAddLookSetToCart}
-              className="w-full bg-[#caf300] text-[#171e00] py-3.5 px-4 font-label-lg text-xs font-extrabold uppercase tracking-wider hover:bg-[#ffffff] transition-all text-center cursor-pointer shadow-lg active:scale-[0.99]"
+              className="w-full bg-[#caf300] text-[#171e00] min-h-11 py-3.5 px-4 font-label-lg text-xs font-extrabold uppercase tracking-wider hover:bg-[#ffffff] transition-all text-center cursor-pointer shadow-lg active:scale-[0.99]"
             >
               3-PIECE 세트 일괄 장바구니 담기
             </button>
             <button
               onClick={onScrollToCatalog}
-              className="w-full bg-transparent hairline-all text-[#ffffff] py-3 px-4 font-label-lg text-xs tracking-wider uppercase hover:bg-[#1f2021] transition-all text-center cursor-pointer"
+              className="w-full bg-transparent hairline-all text-[#ffffff] min-h-11 py-3 px-4 font-label-lg text-xs tracking-wider uppercase hover:bg-[#1f2021] transition-all text-center cursor-pointer"
             >
               2026 S/S 전체 룩북 카탈로그 열람
             </button>

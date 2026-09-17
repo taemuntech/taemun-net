@@ -23,7 +23,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     lifeStage !== 'all' || clinicalTarget !== 'all' || freeFromFilters.length > 0;
 
   return (
-    <section className="bg-[#eff4ff] border-b border-[#bfc9c1]/60 py-3 px-4 lg:px-8">
+    <section id="filter-bar" className="bg-[#eff4ff] border-b border-[#bfc9c1]/60 py-3 px-4 lg:px-8">
       <div className="max-w-7xl mx-auto flex items-center gap-2 overflow-x-auto custom-scrollbar whitespace-nowrap">
         {/* Badge */}
         <div className="flex items-center gap-1.5 text-xs text-[#0f5238] font-bold bg-[#b1f0ce] px-3 py-1 rounded-full shrink-0 shadow-sm">
@@ -36,7 +36,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
         <button
           onClick={() => onSelectLifeStage(lifeStage === 'adult' ? 'all' : 'adult')}
-          className={`text-xs px-3 py-1 rounded-full shrink-0 transition-colors font-medium ${
+          className={`text-xs px-3 py-1 max-lg:min-h-11 max-lg:px-3.5 inline-flex items-center rounded-full shrink-0 transition-colors font-medium ${
             lifeStage === 'adult'
               ? 'bg-[#0f5238] text-white font-bold shadow-sm'
               : 'bg-white border border-[#bfc9c1] hover:border-[#0f5238] text-[#404943]'
@@ -47,7 +47,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
         <button
           onClick={() => onSelectLifeStage(lifeStage === 'puppy' ? 'all' : 'puppy')}
-          className={`text-xs px-3 py-1 rounded-full shrink-0 transition-colors font-medium ${
+          className={`text-xs px-3 py-1 max-lg:min-h-11 max-lg:px-3.5 inline-flex items-center rounded-full shrink-0 transition-colors font-medium ${
             lifeStage === 'puppy'
               ? 'bg-[#0f5238] text-white font-bold shadow-sm'
               : 'bg-white border border-[#bfc9c1] hover:border-[#0f5238] text-[#404943]'
@@ -58,7 +58,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
         <button
           onClick={() => onSelectLifeStage(lifeStage === 'senior' ? 'all' : 'senior')}
-          className={`text-xs px-3 py-1 rounded-full shrink-0 transition-colors font-medium ${
+          className={`text-xs px-3 py-1 max-lg:min-h-11 max-lg:px-3.5 inline-flex items-center rounded-full shrink-0 transition-colors font-medium ${
             lifeStage === 'senior'
               ? 'bg-[#0f5238] text-white font-bold shadow-sm'
               : 'bg-white border border-[#bfc9c1] hover:border-[#0f5238] text-[#404943]'
@@ -74,7 +74,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
         <button
           onClick={() => onSelectClinicalTarget(clinicalTarget === 'joints' ? 'all' : 'joints')}
-          className={`text-xs px-3 py-1 rounded-full shrink-0 transition-colors flex items-center gap-1 font-medium ${
+          className={`text-xs px-3 py-1 max-lg:min-h-11 max-lg:px-3.5 rounded-full shrink-0 transition-colors flex items-center gap-1 font-medium ${
             clinicalTarget === 'joints'
               ? 'bg-white border border-[#0f5238] text-[#0f5238] font-bold shadow-sm ring-1 ring-[#0f5238]'
               : 'bg-white border border-[#bfc9c1] hover:border-[#0f5238] text-[#404943]'
@@ -86,7 +86,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
         <button
           onClick={() => onSelectClinicalTarget(clinicalTarget === 'allergies' ? 'all' : 'allergies')}
-          className={`text-xs px-3 py-1 rounded-full shrink-0 transition-colors font-medium ${
+          className={`text-xs px-3 py-1 max-lg:min-h-11 max-lg:px-3.5 inline-flex items-center rounded-full shrink-0 transition-colors font-medium ${
             clinicalTarget === 'allergies'
               ? 'bg-white border border-[#0f5238] text-[#0f5238] font-bold shadow-sm ring-1 ring-[#0f5238]'
               : 'bg-white border border-[#bfc9c1] hover:border-[#0f5238] text-[#404943]'
@@ -97,7 +97,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
         <button
           onClick={() => onSelectClinicalTarget(clinicalTarget === 'gut' ? 'all' : 'gut')}
-          className={`text-xs px-3 py-1 rounded-full shrink-0 transition-colors font-medium ${
+          className={`text-xs px-3 py-1 max-lg:min-h-11 max-lg:px-3.5 inline-flex items-center rounded-full shrink-0 transition-colors font-medium ${
             clinicalTarget === 'gut'
               ? 'bg-white border border-[#0f5238] text-[#0f5238] font-bold shadow-sm ring-1 ring-[#0f5238]'
               : 'bg-white border border-[#bfc9c1] hover:border-[#0f5238] text-[#404943]'
@@ -111,7 +111,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         {/* Free-From Chips */}
         <button
           onClick={() => onToggleFreeFrom('no-chicken')}
-          className={`text-xs px-3 py-1 rounded-full shrink-0 font-medium transition-colors ${
+          className={`text-xs px-3 py-1 max-lg:min-h-11 max-lg:px-3.5 inline-flex items-center rounded-full shrink-0 font-medium transition-colors ${
             freeFromFilters.includes('no-chicken')
               ? 'bg-[#835418] text-white font-bold'
               : 'bg-[#ffdcbb] text-[#2b1700] hover:bg-[#faba75]'
@@ -122,7 +122,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 
         <button
           onClick={() => onToggleFreeFrom('grain-free')}
-          className={`text-xs px-3 py-1 rounded-full shrink-0 font-medium transition-colors ${
+          className={`text-xs px-3 py-1 max-lg:min-h-11 max-lg:px-3.5 inline-flex items-center rounded-full shrink-0 font-medium transition-colors ${
             freeFromFilters.includes('grain-free')
               ? 'bg-[#835418] text-white font-bold'
               : 'bg-[#ffdcbb] text-[#2b1700] hover:bg-[#faba75]'
@@ -134,7 +134,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         {isAnyActive && (
           <button
             onClick={onResetFilters}
-            className="text-xs text-[#707973] hover:text-[#0f5238] underline shrink-0 ml-2"
+            className="text-xs text-[#707973] hover:text-[#0f5238] underline shrink-0 ml-2 max-lg:min-h-11 max-lg:px-2 inline-flex items-center"
           >
             초기화
           </button>

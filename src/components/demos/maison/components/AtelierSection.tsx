@@ -13,7 +13,7 @@ export const AtelierSection: React.FC<AtelierSectionProps> = ({
   return (
     <section
       id="atelier"
-      className="py-20 lg:py-24 bg-[#300a10] text-[#ffffff] relative overflow-hidden"
+      className="py-20 lg:py-24 bg-[#300a10] text-[#ffffff] relative overflow-hidden scroll-mt-[calc(var(--sample-bar-h,0px)_+_88px)]"
     >
       {/* Background subtle atmospheric watermark */}
       <div className="absolute -right-20 -bottom-20 w-96 h-96 opacity-5 pointer-events-none rounded-full border-[18px] border-[#735b24]"></div>
@@ -72,7 +72,7 @@ export const AtelierSection: React.FC<AtelierSectionProps> = ({
                     오르몰루 황동 하드웨어 초음파 세척
                   </h4>
                   <p className="font-serif text-[#e9e1dc] text-[14px] leading-relaxed">
-                    원래의 금박과 앤틱 음영을 해치지 않는 비파괴 오가닉 클리닝으로 오리지널 잠금장치와 경첩을 완벽히 정비합니다.
+                    원래의 금박과 앤틱 음영을 해치지 않는 비파괴 오가닉 클리닝으로 오리지널 잠금장치와 경첩을 하나씩 정비합니다.
                   </p>
                 </div>
               </div>
@@ -105,7 +105,7 @@ export const AtelierSection: React.FC<AtelierSectionProps> = ({
               </div>
               <div className="mt-4 flex justify-between items-center text-[11px] text-[#735b24] uppercase tracking-widest font-semibold">
                 <span>Atelier Hannam Conservator Master</span>
-                <span>Restoration Guild Member #382</span>
+                <span>Conservation Studio · Seongsu</span>
               </div>
             </div>
           </div>

@@ -215,11 +215,11 @@ export const KibbleGuide: React.FC<KibbleGuideProps> = ({ onOpenCalculator }) =>
               </div>
             </div>
 
-            <div className="mt-4 flex items-center justify-between pt-2">
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-2 pt-2">
               <span className="text-[11px] text-[#707973]">계량 스쿱(30g 정량) 본품 기본 동봉</span>
               <button
                 onClick={onOpenCalculator}
-                className="text-xs text-[#0f5238] font-bold hover:underline flex items-center gap-1 transition-colors"
+                className="text-xs text-[#0f5238] font-bold hover:underline flex items-center gap-1 transition-colors min-h-11 text-left"
               >
                 <span>내 반려동물 맞춤 급여량 정밀 계산하기</span>
                 <span className="material-symbols-outlined text-xs">arrow_forward</span>

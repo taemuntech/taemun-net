@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { PRODUCTS, FEATURED_SPECIMEN } from '../data/antiqueData';
 import { Product } from '../types';
+import { useOverlay } from '../use-overlay';
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -17,7 +18,7 @@ const QUICK_TAGS = [
   '빅토리안',
   '오르몰루',
   '수은 거울',
-  '마이센',
+  '자기',
   '샹들리에',
   '마호가니',
 ];
@@ -28,6 +29,10 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   onSelectProduct,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
+
+  // ESC 닫기·배경 스크롤 잠금. 훅이라 `if (!isOpen) return null` 보다 먼저 불러야 한다.
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useOverlay(isOpen, onClose, dialogRef);
 
   if (!isOpen) return null;
 
@@ -51,7 +56,12 @@ export const SearchModal: React.FC<SearchModalProps> = ({
     >
       <div
         id="search-modal-container"
-        className="bg-[#fff8f5] border border-[#735b24] max-w-2xl w-full shadow-2xl p-6 lg:p-8 space-y-6"
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="작품 검색"
+        tabIndex={-1}
+        className="bg-[#fff8f5] border border-[#735b24] max-w-2xl w-full shadow-2xl p-6 lg:p-8 space-y-6 outline-none"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center border-b border-[#d6c2c2] pb-4">
@@ -66,7 +76,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-1 text-[#514344] hover:text-[#300a10] cursor-pointer"
+            aria-label="검색 닫기"
+            className="flex min-h-11 min-w-11 shrink-0 items-center justify-center text-[#514344] hover:text-[#300a10] cursor-pointer"
           >
             <span className="material-symbols-outlined text-[24px]">close</span>
           </button>
@@ -94,7 +105,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
               key={tag}
               type="button"
               onClick={() => setSearchTerm(tag)}
-              className="bg-[#f5ece7] hover:bg-[#300a10] hover:text-[#fff8f5] border border-[#d6c2c2] text-[#514344] px-2.5 py-1 text-xs font-serif transition-colors cursor-pointer"
+              className="inline-flex min-h-11 items-center bg-[#f5ece7] hover:bg-[#300a10] hover:text-[#fff8f5] border border-[#d6c2c2] text-[#514344] px-3 text-xs font-serif transition-colors cursor-pointer lg:min-h-0 lg:py-1.5"
             >
               {tag}
             </button>
@@ -110,36 +121,37 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           )}
 
           {results.map((item) => (
-            <div
+            <button
               key={item.id}
+              type="button"
               onClick={() => {
                 onClose();
                 onSelectProduct(item);
               }}
-              className="bg-[#f5ece7] hover:bg-[#fbf2ed] p-3 border border-[#d6c2c2] flex gap-4 items-center cursor-pointer transition-colors"
+              className="w-full text-left bg-[#f5ece7] hover:bg-[#fbf2ed] p-3 border border-[#d6c2c2] flex gap-4 items-center cursor-pointer transition-colors"
             >
-              <div className="w-14 h-14 bg-[#efe6e2] shrink-0 border border-[#d6c2c2]">
+              <span className="block w-14 h-14 bg-[#efe6e2] shrink-0 border border-[#d6c2c2]">
                 <img
                   alt={item.imageAlt}
                   src={item.image}
                   className="w-full h-full object-cover"
                 />
-              </div>
-              <div className="flex-1 min-w-0">
+              </span>
+              <span className="flex-1 min-w-0 block">
                 <span className="text-[10px] uppercase text-[#735b24] font-semibold block">
                   {item.period} · {item.refCode}
                 </span>
-                <h4 className="font-serif text-[15px] text-[#300a10] font-medium truncate">
+                <span className="block font-serif text-[15px] text-[#300a10] font-medium truncate">
                   {item.name}
-                </h4>
-                <p className="text-xs text-[#514344] truncate">{item.materials}</p>
-              </div>
-              <div className="text-right">
+                </span>
+                <span className="block text-xs text-[#514344] truncate">{item.materials}</span>
+              </span>
+              <span className="text-right block">
                 <span className="font-serif font-bold text-[#300a10] text-[15px]">
                   {item.formattedPrice}
                 </span>
-              </div>
-            </div>
+              </span>
+            </button>
           ))}
         </div>
       </div>

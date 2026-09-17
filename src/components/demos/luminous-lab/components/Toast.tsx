@@ -11,7 +11,11 @@ export const Toast: React.FC<ToastProps> = ({ toast, onDismiss }) => {
   if (!toast) return null;
 
   return (
-    <div className="fixed top-20 right-4 z-50 max-w-sm w-full animate-in slide-in-from-top-4 duration-300 pointer-events-auto">
+    <div
+      role="status"
+      aria-live="polite"
+      className="fixed top-24 lg:top-20 left-4 right-4 lg:left-auto z-50 max-w-sm lg:w-full animate-in slide-in-from-top-4 duration-300 pointer-events-auto"
+    >
       <div className="bg-[#141b2b] text-white p-4 rounded-2xl shadow-2xl border border-white/20 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           {toast.type === 'cart' ? (
@@ -27,7 +31,8 @@ export const Toast: React.FC<ToastProps> = ({ toast, onDismiss }) => {
         </div>
         <button
           onClick={onDismiss}
-          className="text-gray-400 hover:text-white p-1 rounded-full shrink-0 cursor-pointer"
+          aria-label="알림 닫기"
+          className="text-gray-400 hover:text-white w-11 h-11 -my-2 -mr-2 flex items-center justify-center rounded-full shrink-0 cursor-pointer"
         >
           <X className="w-4 h-4" />
         </button>

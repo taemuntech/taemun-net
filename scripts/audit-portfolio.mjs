@@ -496,7 +496,7 @@ const FAKE_BUTTON = /(신청|예약|접수|주문|결제|구매)\s*(하기|완�
 // 실적처럼 읽히는 수치. 예전에는 「N건·N명·만족도 N%·ISO NNNN·N주 완성」만 봐서, 기업 랜딩 10종이 실제로 쓰는
 // 수율·감축률·IRR·AUM·설비 용량은 **한 줄도** 걸리지 않았다(실측: FIGURES 로 걸린 줄 0건).
 const FIGURES =
-  /\d{1,3}(?:,\d{3})+\s*(?:건|명|개사|곳|세대)|\d{3,}\s*(?:건|개사|세대)|만족도\s*\d+(?:\.\d+)?\s*%|재구매율\s*\d+|ISO\s*\d{4,5}|\d+\s*(?:주|일|개월)\s*(?:만에\s*)?완성|\d+(?:\.\d+)?\s*%\s*(?:수율|절감|감축|저감|향상|단축|개선|증가|상승|감소|달성)|(?:수율|가동률|정시율|회수율)\s*\d+(?:\.\d+)?\s*%|\b(?:Net\s*)?IRR\b\s*[:=]?\s*\d|\bAUM\b\s*[:=]?\s*\d|\d+(?:\.\d+)?\s*조\s*원/;
+  /\d{1,3}(?:,\d{3})+\s*(?:건|명|개사|곳|세대|개)|\d{3,}\s*(?:건|개사|세대)|\d{2,}\s*개?\s*리뷰|리뷰\s*\d{2,}\s*개|★\s*\d(?:\.\d+)?|별점\s*\d(?:\.\d+)?|만족도\s*\d+(?:\.\d+)?\s*%|재구매율\s*\d+|ISO\s*\d{4,5}|\d+\s*(?:주|일|개월)\s*(?:만에\s*)?완성|\d+(?:\.\d+)?\s*%\s*(?:수율|절감|감축|저감|향상|단축|개선|증가|상승|감소|달성)|(?:수율|가동률|정시율|회수율)\s*\d+(?:\.\d+)?\s*%|\b(?:Net\s*)?IRR\b\s*[:=]?\s*\d|\bAUM\b\s*[:=]?\s*\d|\d+(?:\.\d+)?\s*조\s*원/;
 // 대소문자를 가리지 않는다 — 「GLOBAL NO.1」 은 히어로 배지에서 대문자로 쓰여 소문자 규칙을 그냥 지나갔다(실측).
 // 「1위」·「#1」·「점유율 1위」 같은 순위 주장도 같은 부류라 같이 본다.
 const GUARANTEE = /보장|보증합니다|책임 보증|\bNo\.?\s?1\b|#\s?1\b|넘버원|최고의|무조건|(?<![\d.])1\s*위(?![원험])/i;
@@ -550,6 +550,30 @@ const REAL_ORG_PATTERNS = [
   { re: /미쉐린|미슐랭|\bMichelin\b/i, why: "실존 미식 가이드" },
   { re: /\bMaersk\b|머스크|\bCMA\s?CGM\b/i, why: "실존 선사·인물" },
   { re: /\bBang\s*&\s*Olufsen\b|\bB&O\b|\bBose\b|\bSonos\b|\bDevialet\b/i, why: "실존 오디오 브랜드" },
+  // 2026-09-17 보강 ②(커머스 10종): 이 범주가 통째로 비어 있어서 가장 위험한 데모들이 경고 **0건**으로
+  // 통과했다. 국내 커머스 플랫폼이 카드 설명에 「○○ 스타일」로 박히고, 실존 단체(EWG)가 기능 이름이 되고,
+  // 현존 자기 제조사의 제품이 진품으로 팔리고, 실존 GPU·CPU **제품 라인 이름**이 지어낸 브랜드의 사양표에
+  // 들어와 있었다. 기업 이름만 세면 제품 라인 이름은 한 번도 걸리지 않는다.
+  { re: /무신사|\b29\s?CM\b|마켓컬리|올리브영|다나와|쿠팡|오늘의집|지그재그|에이블리|\bSSG\s?닷컴/i, why: "실존 커머스 플랫폼" },
+  { re: /\bEWG\b|Environmental\s+Working\s+Group/i, why: "실존 환경단체(성분 등급) — 자체 기준이면 「자체 클린 등급」으로" },
+  // 「마이센 양식(Meissen-Style)」·「세브르 지역」처럼 양식·지역 표기는 정직한 쓰임이라 뺀다.
+  { re: /마이센(?!\s*양식)|\bMeissen\b(?!-?\s?Style)|세브르(?!\s*(?:양식|지역))|\bS[èe]vres\b(?!-?\s?Style)/i, why: "현존하는 자기 제조사 — 진품 단정 대신 「○○ 양식(-Style)」으로" },
+  { re: /에르메스|\bHerm[èe]s\b|샤넬|\bChanel\b|루이\s?비통|\bLouis\s?Vuitton\b|구찌|\bGucci\b|프라다|\bPrada\b|롤렉스|\bRolex\b|까르띠에|\bCartier\b|디올|\bDior\b|버킨|\bBirkin\b/i, why: "실존 명품 하우스" },
+  { re: /\bRTX\s?\d{3,4}|\bGTX\s?\d{3,4}|\bGeForce\b|\bRadeon\b|\bRX\s?\d{4}\b|Core\s?Ultra\s?\d|\bRyzen\b|(?<!트)라이젠|\bi[3579]-\d{4,5}\b|\bThunderbolt\s?\d|썬더볼트|\bGDDR6X\b|\bZen\s?\d\b/i, why: "실존 기업의 제품 라인 이름 — 「외장 GPU 16GB」·「USB4 40Gbps」처럼 일반 규격으로" },
+];
+
+/**
+ * 실존 **기준·인증 제도** 이름 — WARN 이다(ERROR 가 아니다).
+ *
+ * 왜 세기를 낮추나: 지어낸 브랜드가 「AAFCO 급여기준 참고 (예시 표기)」처럼 기준 이름을 **참고 표기로** 쓰는 것은
+ * 이 저장소가 인정하는 쓰임이다(실측: paws-tail 은 「인증서를 발급하는 기관이 아닙니다」까지 지면에 적어 뒀다).
+ * 막아야 하는 건 그 표시가 **없는 채로** 인증·등급을 받은 것처럼 읽히는 쪽이라, 앞뒤 2줄에 「예시」가 있으면
+ * 넘어가고 없을 때만 짚는다(FIGURES 와 같은 면제 규칙).
+ */
+const REAL_STANDARD_PATTERNS = [
+  { re: /\bAAFCO\b|\bFEDIAF\b/i, why: "실존 사료 영양기준 단체 — 개별 제품에 인증서를 내지 않습니다" },
+  { re: /유기농\s?인증|무항생제|친환경\s?인증|비건\s?인증|크루얼티\s?프리|Leaping\s?Bunny|\bKC\s?인증/i, why: "실존 인증 제도" },
+  { re: /1\+\+|축산물품질평가원/, why: "정부 공인 축산물 등급" },
 ];
 /** 실존 저널의 진짜 등록 접두사를 쓴 가짜 DOI — 자리표시(00.0000/…)는 걸리지 않는다 */
 const REAL_DOI = /\b10\.\d{4,9}\/[^\s"'`<>]+/;
@@ -605,6 +629,12 @@ function scanCopyForImpersonation(key, textLines, { impersonation = error, repor
       const value = (m[1] ?? m[0]).replace(/[^0-9A-Za-z]/g, "");
       if (/^(\d)\1*$/.test(value)) continue;
       impersonation(key, `${at}: 「${m[0]}」 — ${r.why}. 지우거나 「표기 자리 (예시)」로`);
+    }
+    for (const r of REAL_STANDARD_PATTERNS) {
+      const m = line.match(r.re);
+      if (m && !exemptNear(i)) {
+        report(key, `${at}: ${r.why} 「${m[0]}」 — 그 자리에 「(예시 표기)」를 적거나 제도 이름을 빼세요`);
+      }
     }
     if (FIGURES.test(line) && !exemptNear(i)) {
       report(key, `${at}: 실적·인증·기간 수치 「${line.match(FIGURES)[0]}」 — 샘플엔 쓰지 않거나 **그 수치 옆에** 「예시」라고 적습니다`);

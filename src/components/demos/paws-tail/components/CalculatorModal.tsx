@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
+import React, { useRef, useState } from 'react';
 
 interface CalculatorModalProps {
   isOpen: boolean;
@@ -10,6 +11,9 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({ isOpen, onClos
   const [activity, setActivity] = useState<'low' | 'normal' | 'high'>('normal');
   const [bcs, setBcs] = useState<'lean' | 'ideal' | 'heavy'>('ideal');
   const [mealsPerDay, setMealsPerDay] = useState<number>(2);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useSampleDialog({ open: isOpen, onClose, dialogRef });
 
   if (!isOpen) return null;
 
@@ -30,11 +34,25 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({ isOpen, onClos
   const bagDays = Math.round(1500 / totalGrams);
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-[#bfc9c1]/60 relative text-[#121c2a]">
+    <div
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 backdrop-blur-sm lg:items-center lg:p-4"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="정밀 급여량 계산기"
+        tabIndex={-1}
+        className="bg-white rounded-t-2xl lg:rounded-2xl max-w-lg w-full max-h-[92vh] lg:max-h-[88vh] overflow-y-auto p-6 shadow-2xl border border-[#bfc9c1]/60 relative text-[#121c2a] outline-none"
+      >
         <button
+          type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 text-[#707973] hover:text-[#121c2a] p-1"
+          aria-label="닫기"
+          className="absolute top-3 right-3 text-[#707973] hover:text-[#121c2a] min-h-11 min-w-11 flex items-center justify-center rounded-full hover:bg-slate-100"
         >
           <span className="material-symbols-outlined text-xl">close</span>
         </button>
@@ -45,7 +63,8 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({ isOpen, onClos
         </div>
         <h3 className="text-lg font-bold text-[#121c2a]">반려동물 맞춤 칼로리 &amp; 급여량 산출</h3>
         <p className="text-xs text-[#404943] mt-1 mb-5">
-          반려견의 체중과 활동량, 비만도를 기반으로 과학적인 1회 급여량을 계산합니다.
+          반려견의 체중과 활동량, 비만도를 바탕으로 1회 급여량을 계산합니다. 실제 급여량은 담당
+          수의사와 상의해 정하세요.
         </p>
 
         <div className="space-y-4 text-xs">
@@ -73,7 +92,7 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({ isOpen, onClos
               <button
                 type="button"
                 onClick={() => setActivity('low')}
-                className={`py-2 px-2 rounded-lg border text-center transition-colors ${
+                className={`py-2 px-2 min-h-11 rounded-lg border text-center transition-colors ${
                   activity === 'low'
                     ? 'border-[#0f5238] bg-[#eff4ff] text-[#0f5238] font-bold'
                     : 'border-[#bfc9c1] text-[#404943]'
@@ -84,7 +103,7 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({ isOpen, onClos
               <button
                 type="button"
                 onClick={() => setActivity('normal')}
-                className={`py-2 px-2 rounded-lg border text-center transition-colors ${
+                className={`py-2 px-2 min-h-11 rounded-lg border text-center transition-colors ${
                   activity === 'normal'
                     ? 'border-[#0f5238] bg-[#eff4ff] text-[#0f5238] font-bold'
                     : 'border-[#bfc9c1] text-[#404943]'
@@ -95,7 +114,7 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({ isOpen, onClos
               <button
                 type="button"
                 onClick={() => setActivity('high')}
-                className={`py-2 px-2 rounded-lg border text-center transition-colors ${
+                className={`py-2 px-2 min-h-11 rounded-lg border text-center transition-colors ${
                   activity === 'high'
                     ? 'border-[#0f5238] bg-[#eff4ff] text-[#0f5238] font-bold'
                     : 'border-[#bfc9c1] text-[#404943]'
@@ -113,7 +132,7 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({ isOpen, onClos
               <button
                 type="button"
                 onClick={() => setBcs('lean')}
-                className={`py-2 px-2 rounded-lg border text-center transition-colors ${
+                className={`py-2 px-2 min-h-11 rounded-lg border text-center transition-colors ${
                   bcs === 'lean'
                     ? 'border-[#0f5238] bg-[#eff4ff] text-[#0f5238] font-bold'
                     : 'border-[#bfc9c1] text-[#404943]'
@@ -124,7 +143,7 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({ isOpen, onClos
               <button
                 type="button"
                 onClick={() => setBcs('ideal')}
-                className={`py-2 px-2 rounded-lg border text-center transition-colors ${
+                className={`py-2 px-2 min-h-11 rounded-lg border text-center transition-colors ${
                   bcs === 'ideal'
                     ? 'border-[#0f5238] bg-[#eff4ff] text-[#0f5238] font-bold'
                     : 'border-[#bfc9c1] text-[#404943]'
@@ -135,7 +154,7 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({ isOpen, onClos
               <button
                 type="button"
                 onClick={() => setBcs('heavy')}
-                className={`py-2 px-2 rounded-lg border text-center transition-colors ${
+                className={`py-2 px-2 min-h-11 rounded-lg border text-center transition-colors ${
                   bcs === 'heavy'
                     ? 'border-[#0f5238] bg-[#eff4ff] text-[#0f5238] font-bold'
                     : 'border-[#bfc9c1] text-[#404943]'
@@ -155,7 +174,7 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({ isOpen, onClos
                   key={times}
                   type="button"
                   onClick={() => setMealsPerDay(times)}
-                  className={`py-2 px-2 rounded-lg border text-center transition-colors ${
+                  className={`py-2 px-2 min-h-11 rounded-lg border text-center transition-colors ${
                     mealsPerDay === times
                       ? 'border-[#0f5238] bg-[#eff4ff] text-[#0f5238] font-bold'
                       : 'border-[#bfc9c1] text-[#404943]'
@@ -192,7 +211,7 @@ export const CalculatorModal: React.FC<CalculatorModalProps> = ({ isOpen, onClos
 
           <button
             onClick={onClose}
-            className="w-full py-3 rounded-full bg-[#0f5238] text-white font-bold text-xs hover:bg-[#2d6a4f] shadow-md mt-2"
+            className="w-full py-3 min-h-11 rounded-full bg-[#0f5238] text-white font-bold text-xs hover:bg-[#2d6a4f] shadow-md mt-2"
           >
             확인 완료
           </button>

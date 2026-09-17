@@ -2,7 +2,10 @@ import React from 'react';
 
 export const PillarsSection: React.FC = () => {
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <section
+      id="verde-pillars"
+      className="grid grid-cols-1 lg:grid-cols-3 gap-6 scroll-mt-[calc(var(--sample-bar-h,0px)_+_140px)]"
+    >
       <div className="p-6 bg-surface-container-lowest rounded-xl border border-outline-variant text-left">
         <div className="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary mb-4">
           <span className="material-symbols-outlined text-2xl">verified_user</span>

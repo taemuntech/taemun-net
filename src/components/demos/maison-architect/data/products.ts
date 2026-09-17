@@ -17,8 +17,8 @@ export const PRODUCTS: Product[] = [
     price: 2850000,
     formattedPrice: '₩2,850,000',
     badges: [
-      { text: '수도권 무료설치', type: 'dark' },
-      { text: '베스트셀러', type: 'terracotta' }
+      { text: '수도권 설치 지원', type: 'dark' },
+      { text: '아키텍트 추천', type: 'terracotta' }
     ],
     dimensions: 'W2900 x D1050 x H720',
     highlight: '발수 이지클린',
@@ -30,7 +30,7 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/demo-media/maison-architect/maison-architect-07.jpg',
     detailImage: '/demo-media/maison-architect/maison-architect-03.jpg',
-    description: '유려한 반원형 라운드 실루엣과 오염에 강한 벨기에산 이지클린 부클레 텍스타일. 38kg/m³ 고탄성 HR폼과 E0 친환경 자작나무 골조로 오랜 시간 변함없는 안락함을 선사합니다.'
+    description: '유려한 반원형 라운드 실루엣과 오염에 강한 이지클린 부클레 텍스타일. 38kg/m³ 고탄성 HR폼과 저포름알데히드 자작나무 골조로 오랜 시간 변함없는 안락함을 선사합니다. (사양 표기는 예시)'
   },
   {
     id: 'dining-table',
@@ -42,30 +42,32 @@ export const PRODUCTS: Product[] = [
     price: 1480000,
     formattedPrice: '₩1,480,000',
     badges: [
-      { text: 'FSC 인증 원목', type: 'dark' },
+      { text: '친환경 인증 원목 (예시)', type: 'dark' },
       { text: '친환경 오일 피니시', type: 'neutral' }
     ],
     dimensions: 'W2000 x D900 x H740',
-    highlight: '북미산 FAS 오크',
-    deliveryBadge: '2인 무료설치',
+    highlight: '솔리드 오크 상판',
+    deliveryBadge: '2인 설치 지원',
     colors: [
       { name: '화이트 오크', hex: '#D4C3A3' },
       { name: '스모크드 월넛', hex: '#654321' }
     ],
     image: '/demo-media/maison-architect/maison-architect-08.jpg',
-    description: '32mm 두께 북미산 화이트 오크 솔리드 상판과 부드러운 R20 라운드 엣지 가공. 자연스러운 나뭇결과 덴마크산 친환경 오일 피니시로 마감된 마스터피스.'
+    description: '32mm 두께 화이트 오크 솔리드 상판과 부드러운 R20 라운드 엣지 가공. 자연스러운 나뭇결과 친환경 오일 피니시로 마감된 마스터피스. (사양 표기는 예시)'
   },
   {
     id: 'table',
     name: '트래버틴 로우 오가닉 커피 테이블',
     subtitle: '트래버틴 로우 오가닉 테이블',
+    // 분류 축은 FilterBar 의 「모듈 소파 & 테이블」 탭과 같은 'sofa' 를 쓰되, 카드에 찍히는 이름은
+    // 실제 물건대로 적는다 — 예전에는 커피 테이블 카드에 「모듈 소파」라고 적혀 있었다.
     category: 'sofa',
-    categoryLabel: '모듈 소파',
+    categoryLabel: '리빙 테이블',
     materialTags: ['travertine'],
     price: 980000,
     formattedPrice: '₩980,000',
     badges: [
-      { text: '이탈리아 천연석', type: 'dark' },
+      { text: '천연 트래버틴', type: 'dark' },
       { text: '수작업 혼드 마감', type: 'neutral' }
     ],
     dimensions: 'W1200 x D800 x H320',
@@ -77,12 +79,14 @@ export const PRODUCTS: Product[] = [
     ],
     image: '/demo-media/maison-architect/maison-architect-06.jpg',
     detailImage: '/demo-media/maison-architect/maison-architect-01.jpg',
-    description: '이탈리아 티볼리 채석장에서 채취한 천연 트래버틴의 고유한 기공과 질감을 간직한 비정형 로우 테이블. 숙련된 석재 장인의 혼드 마감으로 오가닉한 온기를 담았습니다.'
+    description: '천연 트래버틴 고유의 기공과 질감을 간직한 비정형 로우 테이블. 숙련된 석재 장인의 혼드 마감으로 오가닉한 온기를 담았습니다. (사양 표기는 예시)'
   },
   {
     id: 'lamp',
     name: '바우하우스 황동 아크 플로어 스탠드',
-    subtitle: '황동 오가닉 페탈 펜던트 램프',
+    // 부제는 이름과 같은 물건을 가리켜야 한다 — 예전 부제는 「펜던트 램프」(천장)인데 이름과
+    // 치수(H1850 x 반경 1200)는 아크 플로어 스탠드(바닥)였다.
+    subtitle: '황동 아크 플로어 스탠드',
     category: 'lighting',
     categoryLabel: '조명 컬렉션',
     materialTags: ['brass'],
@@ -124,7 +128,7 @@ export const FLOORPLAN_PRESETS: Record<number, FloorplanPreset> = {
     badge: '34PY APARTMENT STANDARD LIVING',
     title: '34평형 확장형 거실 배치 가이드',
     roomSize: '4,500 x 4,200 mm',
-    note: '34평형 확장형 거실은 2900mm 모듈 소파 배치 시 양측으로 각각 800mm 이상의 자유로운 생활 동선이 완벽하게 확보됩니다.',
+    note: '34평형 확장형 거실은 2900mm 모듈 소파 배치 시 양측으로 각각 800mm 이상의 자유로운 생활 동선을 잡을 수 있습니다.',
     sofaWidthText: '아틀리에 4인 소파 (2,900mm)',
     sofaBlockWidth: '62%',
     walkwayClearance: '후면 여유 동선: 950mm 확보',

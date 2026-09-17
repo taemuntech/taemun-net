@@ -10,7 +10,7 @@ const DEMO_METADATA: Metadata = sampleMetadata({
   slug: 'maison-de-luxe',
   title: 'MAISON DE LUXE (메종 드 럭스) — 하이엔드 럭셔리 & 명품 부티크 살롱',
   description:
-    '태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며 주문·결제는 접수되지 않습니다. 3단계 정품 감정 검수 레이더, NFC 시리얼 보증서 실시간 조회, 1:1 VIP 살롱 컨시어지 챗 드로어, 안심 예치 결제 및 왁스 실링 패키징 쇼케이스를 한 페이지에 담았습니다.',
+    '태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며 주문·결제는 접수되지 않습니다. 3단계 검수 시스템 소개, 로트 번호로 찾는 검수 이력 조회, 1:1 컨시어지 챗 드로어, 장바구니·주문서 흐름과 왁스 실링 패키징 쇼케이스를 한 페이지에 담았습니다. 등장하는 메종·상품·시리얼은 모두 지어낸 예시입니다.',
 });
 
 export function generateMetadata(): Promise<Metadata> {

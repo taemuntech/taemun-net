@@ -10,6 +10,8 @@ interface HeaderProps {
   onOpenWishlist: () => void;
   onOpenSearch: () => void;
   onNavigateSection: (sectionId: string) => void;
+  /** 입고 아카이브 필터를 걸고 그 구역으로 보낸다 */
+  onSelectCategory: (filterKey: string) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -19,6 +21,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenWishlist,
   onOpenSearch,
   onNavigateSection,
+  onSelectCategory,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -28,13 +31,19 @@ export const Header: React.FC<HeaderProps> = ({
     setMobileMenuOpen(false);
   };
 
+  const handleFilterClick = (e: React.MouseEvent, filterKey: string) => {
+    e.preventDefault();
+    onSelectCategory(filterKey);
+    setMobileMenuOpen(false);
+  };
+
   return (
     <>
       {/* Announcement Marquee Bar */}
       <aside
         id="announcement-banner"
         aria-label="Announcement"
-        className="bg-[#300a10] text-[#ffffff] border-b border-[#4a1e23] text-center py-2.5 px-4 tracking-widest text-[11px] font-label-sm uppercase flex items-center justify-center space-x-3"
+        className="bg-[#300a10] text-[#ffffff] border-b border-[#4a1e23] text-center py-2.5 px-4 max-lg:tracking-[0.06em] lg:tracking-widest text-[11px] font-label-sm uppercase flex items-center justify-center space-x-3"
       >
         <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#735b24]"></span>
         <span className="truncate">{BRAND_INFO.announcement}</span>
@@ -44,13 +53,13 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Main Header Bar */}
       <header
         id="main-header"
-        className="sticky top-0 z-40 bg-[#fff8f5]/95 backdrop-blur-md border-b border-[#d6c2c2] transition-colors duration-200"
+        className="sticky top-[var(--sample-bar-h,0px)] z-40 bg-[#fff8f5]/95 backdrop-blur-md border-b border-[#d6c2c2] transition-colors duration-200"
       >
         <div className="flex justify-between items-center w-full px-4 lg:px-16 max-w-7xl mx-auto h-20">
           {/* Brand Anchor */}
           <a
             id="brand-logo-link"
-            href="#"
+            href="#hero-section"
             onClick={(e) => handleNavClick(e, 'hero')}
             className="flex items-center space-x-3 group text-left cursor-pointer"
           >
@@ -62,7 +71,7 @@ export const Header: React.FC<HeaderProps> = ({
                 {BRAND_INFO.name}
               </span>
               <span className="text-[9px] uppercase tracking-[0.25em] text-[#735b24] font-semibold mt-1">
-                PARIS 1884 · ARCHIVES
+                PARIS · ATELIER ARCHIVES
               </span>
             </div>
           </a>
@@ -79,16 +88,16 @@ export const Header: React.FC<HeaderProps> = ({
             </a>
             <a
               id="nav-link-lighting"
-              href="#furniture"
-              onClick={(e) => handleNavClick(e, 'furniture')}
+              href="#arrivals"
+              onClick={(e) => handleFilterClick(e, 'lighting')}
               className="hover:text-[#300a10] font-medium transition-colors duration-200"
             >
               Lighting
             </a>
             <a
               id="nav-link-objects"
-              href="#furniture"
-              onClick={(e) => handleNavClick(e, 'furniture')}
+              href="#arrivals"
+              onClick={(e) => handleFilterClick(e, 'objects')}
               className="hover:text-[#300a10] font-medium transition-colors duration-200"
             >
               Objects
@@ -112,14 +121,16 @@ export const Header: React.FC<HeaderProps> = ({
           </nav>
 
           {/* Trailing Icon & Primary CTAs */}
-          <div className="flex items-center space-x-3 lg:space-x-5">
+          {/* 모바일에선 아이콘 버튼 4개가 각각 44px 탭 영역이라, 간격이 12px 면 375 에서 헤더가 11px 넘쳤다.
+              간격만 4px 로 좁혀 되돌린다(아이콘 자체는 22px 라 시각적 여백은 충분하다). */}
+          <div className="flex items-center shrink-0 space-x-1 lg:space-x-5">
             {/* Search Icon */}
             <button
               id="btn-header-search"
               aria-label="Search Catalog"
               type="button"
               onClick={onOpenSearch}
-              className="p-2 text-[#514344] hover:text-[#300a10] transition-colors duration-200 flex items-center justify-center cursor-pointer"
+              className="min-h-11 min-w-11 text-[#514344] hover:text-[#300a10] transition-colors duration-200 flex items-center justify-center cursor-pointer"
             >
               <span className="material-symbols-outlined text-[22px]">search</span>
             </button>
@@ -130,13 +141,13 @@ export const Header: React.FC<HeaderProps> = ({
               aria-label="Archival Wishlist"
               type="button"
               onClick={onOpenWishlist}
-              className="p-2 text-[#514344] hover:text-[#300a10] transition-colors duration-200 relative flex items-center justify-center cursor-pointer"
+              className="min-h-11 min-w-11 text-[#514344] hover:text-[#300a10] transition-colors duration-200 relative flex items-center justify-center cursor-pointer"
             >
               <span className="material-symbols-outlined text-[22px]">favorite</span>
               {wishlistCount > 0 && (
                 <span
                   id="wishlist-badge-count"
-                  className="absolute top-1 right-1 w-2 h-2 rounded-full bg-[#735b24]"
+                  className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#735b24]"
                 ></span>
               )}
             </button>
@@ -147,13 +158,13 @@ export const Header: React.FC<HeaderProps> = ({
               aria-label="Acquisition Folio"
               type="button"
               onClick={onOpenCart}
-              className="p-2 text-[#514344] hover:text-[#300a10] transition-colors duration-200 relative flex items-center justify-center cursor-pointer"
+              className="min-h-11 min-w-11 text-[#514344] hover:text-[#300a10] transition-colors duration-200 relative flex items-center justify-center cursor-pointer"
             >
               <span className="material-symbols-outlined text-[22px]">shopping_bag</span>
               {cartCount > 0 && (
                 <span
                   id="cart-badge-count"
-                  className="absolute -top-0.5 -right-0.5 bg-[#300a10] text-[#fff8f5] text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold"
+                  className="absolute top-1 right-1 bg-[#300a10] text-[#fff8f5] text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold"
                 >
                   {cartCount}
                 </span>
@@ -176,7 +187,7 @@ export const Header: React.FC<HeaderProps> = ({
               aria-label="Toggle navigation menu"
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-[#514344] hover:text-[#300a10] cursor-pointer"
+              className="lg:hidden min-h-11 min-w-11 flex items-center justify-center text-[#514344] hover:text-[#300a10] cursor-pointer"
             >
               <span className="material-symbols-outlined text-[26px]">
                 {mobileMenuOpen ? 'close' : 'menu'}
@@ -195,35 +206,35 @@ export const Header: React.FC<HeaderProps> = ({
               <a
                 href="#furniture"
                 onClick={(e) => handleNavClick(e, 'furniture')}
-                className="text-[14px] tracking-wider text-[#300a10] font-semibold py-1.5 border-b border-[#d6c2c2]/40"
+                className="flex min-h-11 items-center text-[14px] tracking-wider text-[#300a10] font-semibold border-b border-[#d6c2c2]/40"
               >
                 Furniture (가구)
               </a>
               <a
-                href="#furniture"
-                onClick={(e) => handleNavClick(e, 'furniture')}
-                className="text-[14px] tracking-wider text-[#514344] font-medium py-1.5 border-b border-[#d6c2c2]/40"
+                href="#arrivals"
+                onClick={(e) => handleFilterClick(e, 'lighting')}
+                className="flex min-h-11 items-center text-[14px] tracking-wider text-[#514344] font-medium border-b border-[#d6c2c2]/40"
               >
-                Lighting (조명 &amp; 미러)
+                Lighting (조명)
               </a>
               <a
-                href="#furniture"
-                onClick={(e) => handleNavClick(e, 'furniture')}
-                className="text-[14px] tracking-wider text-[#514344] font-medium py-1.5 border-b border-[#d6c2c2]/40"
+                href="#arrivals"
+                onClick={(e) => handleFilterClick(e, 'objects')}
+                className="flex min-h-11 items-center text-[14px] tracking-wider text-[#514344] font-medium border-b border-[#d6c2c2]/40"
               >
                 Objects (오브제)
               </a>
               <a
                 href="#curation"
                 onClick={(e) => handleNavClick(e, 'curation')}
-                className="text-[14px] tracking-wider text-[#514344] font-medium py-1.5 border-b border-[#d6c2c2]/40"
+                className="flex min-h-11 items-center text-[14px] tracking-wider text-[#514344] font-medium border-b border-[#d6c2c2]/40"
               >
                 Archives (희귀 아카이브)
               </a>
               <a
                 href="#atelier"
                 onClick={(e) => handleNavClick(e, 'atelier')}
-                className="text-[14px] tracking-wider text-[#514344] font-medium py-1.5 border-b border-[#d6c2c2]/40"
+                className="flex min-h-11 items-center text-[14px] tracking-wider text-[#514344] font-medium border-b border-[#d6c2c2]/40"
               >
                 Atelier (복원 아뜰리에)
               </a>

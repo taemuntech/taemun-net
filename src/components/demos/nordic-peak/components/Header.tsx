@@ -1,5 +1,5 @@
 import React from 'react';
-import { BRAND_LOGO_URL } from '../data/products';
+import { BRAND_LOGO_URL, CATEGORIES, PRODUCTS } from '../data/products';
 
 interface HeaderProps {
   cartCount: number;
@@ -11,6 +11,9 @@ interface HeaderProps {
   onTagClick: (tag: string) => void;
 }
 
+/** 인기 태그 — 누르면 검색 HUD 가 실제로 이 말로 검색한다(죽은 장식이 아니다) */
+const TREND_TAGS = ['지오데식', '5,000mm', '알루미늄 11mm', '티타늄', '실타프'];
+
 export const Header: React.FC<HeaderProps> = ({
   cartCount,
   onOpenCart,
@@ -20,257 +23,180 @@ export const Header: React.FC<HeaderProps> = ({
   onSelectNav,
   onTagClick,
 }) => {
+  const countOf = (key: string) => PRODUCTS.filter((p) => p.category === key).length;
+
   return (
     <>
-      {/* 1. Top Urgent Operational Notification Bar */}
+      {/* 1. 상단 안내 바 — 배송 조건은 「보증」이 아니라 예시 안내로 적는다 */}
       <aside className="bg-tertiary-container text-on-tertiary-container px-4 py-2 border-b border-outline-variant font-label-mono-sm text-label-mono-sm">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2 truncate">
-            <span className="inline-block w-2 h-2 rounded-full bg-tertiary-fixed animate-ping"></span>
-            <span className="font-bold text-on-tertiary tracking-wide">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="inline-block w-2 h-2 rounded-full bg-tertiary-fixed shrink-0"></span>
+            {/* 모바일에서는 짧은 문장을 쓴다 — 긴 문장을 truncate 하면 글자가 잘려 나간다 */}
+            <span className="font-bold tracking-wide shrink-0 lg:hidden">[특급 출고]</span>
+            <span className="font-bold tracking-wide shrink-0 hidden lg:inline">
               [익스페디션 기어 특급 출고]
             </span>
-            <span className="truncate">
-              오후 3시 이전 결제 시 당일 군용 규격 방수 패킹 발송 | 강원·경기 동계 캠핑장 직배송 제휴
+            <span className="lg:hidden">오후 3시 이전 결제분 당일 발송 (예시)</span>
+            <span className="hidden lg:inline">
+              오후 3시 이전 결제 시 당일 방수 패킹 발송 | 강원·경기 동계 캠핑장 직배송 (예시 안내)
             </span>
           </div>
-          <div className="hidden lg:flex items-center gap-4 text-on-surface font-label-mono-sm text-label-mono-sm">
-            <span className="flex items-center gap-1 text-primary">
+          <div className="hidden lg:flex items-center gap-4 shrink-0">
+            <span className="flex items-center gap-1 whitespace-nowrap">
               <span className="material-symbols-outlined" style={{ fontSize: 14 }}>
                 verified_user
               </span>{' '}
-              MIL-SPEC 810G 인증
+              MIL-STD-810G 기준 자체 시험 (예시 표기)
             </span>
-            <span className="text-outline-variant">|</span>
+            <span className="opacity-50">|</span>
             <button
               onClick={() => {
                 const el = document.getElementById('field-service');
                 el?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="hover:underline cursor-pointer text-on-surface"
+              className="hover:underline cursor-pointer whitespace-nowrap"
             >
-              현장 출동 정비소 리스트
+              현장 출동 정비소 안내
             </button>
           </div>
         </div>
       </aside>
 
-      {/* 2. Global Tactical Navigation Header */}
-      <header className="bg-surface sticky top-[var(--sample-bar-h,0px)] z-40 border-b border-outline-variant backdrop-blur-md bg-opacity-95">
-        <div className="max-w-7xl mx-auto px-4 lg:px-6 py-3.5 flex items-center justify-between gap-4">
-          {/* Left: Brand ID */}
-          <div className="flex items-center gap-3">
-            <a
-              className="flex items-center gap-3 group cursor-pointer"
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-            >
-              <img
-                alt="NORDIC PEAK Brand Logo"
-                className="w-10 h-10 object-contain rounded-sm border border-outline-variant group-hover:border-primary transition-colors"
-                src={BRAND_LOGO_URL} referrerPolicy="no-referrer" />
-              <div>
-                <div className="font-headline-sm text-headline-sm font-bold tracking-widest text-on-surface uppercase leading-none">
-                  NORDIC PEAK
-                </div>
-                <div className="font-label-mono-sm text-label-mono-sm text-outline tracking-wider mt-0.5">
-                  TACTICAL OUTDOOR SPEC
-                </div>
-              </div>
-            </a>
-          </div>
+      {/* 2. 전역 내비게이션 */}
+      <header className="bg-surface sticky top-[var(--sample-bar-h,0px)] z-40 border-b border-outline-variant backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 lg:px-6 py-3 lg:py-3.5 flex items-center justify-between gap-3 lg:gap-4">
+          {/* 브랜드 */}
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="flex items-center gap-2 lg:gap-3 group cursor-pointer text-left min-w-0 min-h-11"
+          >
+            <img
+              alt="NORDIC PEAK 브랜드 로고 (가상 브랜드)"
+              className="w-8 h-8 lg:w-10 lg:h-10 object-contain rounded-sm border border-outline-variant group-hover:border-primary transition-colors shrink-0"
+              src={BRAND_LOGO_URL}
+              referrerPolicy="no-referrer"
+            />
+            {/* 좁은 폰에서 로고 글자가 줄바꿈돼 헤더가 4줄이 됐다 — 줄바꿈 대신 줄여서 흘린다 */}
+            <span className="block min-w-0">
+              <span className="block font-headline-sm text-[14px] min-[420px]:text-[15px] lg:text-headline-sm font-bold tracking-wide lg:tracking-widest text-on-surface uppercase leading-none truncate">
+                NORDIC PEAK
+              </span>
+              {/* min-[420px] 는 모바일/웹 경계가 아니라 좁은 폰에서만 부제를 접는 밀도 조정이다 */}
+              <span className="hidden min-[420px]:block font-label-mono-sm text-label-mono-sm text-outline tracking-wider mt-0.5 whitespace-nowrap">
+                TACTICAL OUTDOOR SPEC
+              </span>
+            </span>
+          </button>
 
-          {/* Navigation Links (Desktop lg: Only) */}
-          <nav className="hidden lg:flex items-center gap-6">
-            <button
-              onClick={() => onSelectNav('shelter')}
-              className={`font-label-mono-md text-label-mono-md uppercase pb-1 flex items-center gap-1.5 transition-colors duration-150 cursor-pointer ${
-                activeNav === 'shelter'
-                  ? 'border-b-2 border-tertiary-container text-on-surface font-bold'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              {activeNav === 'shelter' && (
-                <span className="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span>
-              )}
-              텐트/쉘터
-            </button>
-            <button
-              onClick={() => onSelectNav('tarp')}
-              className={`font-label-mono-md text-label-mono-md uppercase pb-1 flex items-center gap-1.5 transition-colors duration-150 cursor-pointer ${
-                activeNav === 'tarp'
-                  ? 'border-b-2 border-tertiary-container text-on-surface font-bold'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              {activeNav === 'tarp' && (
-                <span className="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span>
-              )}
-              타프/익스텐션
-            </button>
-            <button
-              onClick={() => onSelectNav('furniture')}
-              className={`font-label-mono-md text-label-mono-md uppercase pb-1 flex items-center gap-1.5 transition-colors duration-150 cursor-pointer ${
-                activeNav === 'furniture'
-                  ? 'border-b-2 border-tertiary-container text-on-surface font-bold'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              {activeNav === 'furniture' && (
-                <span className="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span>
-              )}
-              퍼니처/체어
-            </button>
-            <button
-              onClick={() => onSelectNav('sleeping')}
-              className={`font-label-mono-md text-label-mono-md uppercase pb-1 flex items-center gap-1.5 transition-colors duration-150 cursor-pointer ${
-                activeNav === 'sleeping'
-                  ? 'border-b-2 border-tertiary-container text-on-surface font-bold'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              슬리핑/침낭
-            </button>
-            <button
-              onClick={() => onSelectNav('cookware')}
-              className={`font-label-mono-md text-label-mono-md uppercase pb-1 flex items-center gap-1.5 transition-colors duration-150 cursor-pointer ${
-                activeNav === 'cookware'
-                  ? 'border-b-2 border-tertiary-container text-on-surface font-bold'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              {activeNav === 'cookware' && (
-                <span className="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span>
-              )}
-              쿡웨어/스토브
-            </button>
-            <button
-              onClick={() => onSelectNav('lighting')}
-              className={`font-label-mono-md text-label-mono-md uppercase pb-1 flex items-center gap-1.5 transition-colors duration-150 cursor-pointer ${
-                activeNav === 'lighting'
-                  ? 'border-b-2 border-tertiary-container text-on-surface font-bold'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              조명/랜턴
-            </button>
-            <button
-              onClick={() => onSelectNav('backpacking')}
-              className={`font-label-mono-md text-label-mono-md uppercase pb-1 flex items-center gap-1.5 transition-colors duration-150 cursor-pointer ${
-                activeNav === 'backpacking'
-                  ? 'border-b-2 border-tertiary-container text-on-surface font-bold'
-                  : 'text-on-surface-variant hover:text-on-surface'
-              }`}
-            >
-              백패킹 기어
-            </button>
+          {/* 분류 메뉴 (lg 이상) — 상품이 실제로 있는 분류만 둔다 */}
+          <nav className="hidden lg:flex items-center gap-5 shrink-0">
+            {CATEGORIES.map((c) => {
+              const active = activeNav === c.key;
+              return (
+                <button
+                  key={c.key}
+                  onClick={() => onSelectNav(c.key)}
+                  aria-pressed={active}
+                  className={`font-label-mono-md text-label-mono-md pb-1 flex items-center gap-1.5 whitespace-nowrap transition-colors duration-150 cursor-pointer ${
+                    active
+                      ? 'border-b-2 border-tertiary-container text-on-surface font-bold'
+                      : 'text-on-surface-variant hover:text-on-surface'
+                  }`}
+                >
+                  {active && <span className="w-1.5 h-1.5 rounded-full bg-tertiary-container"></span>}
+                  {c.label}
+                  <span className="text-outline">({countOf(c.key)})</span>
+                </button>
+              );
+            })}
           </nav>
 
-          {/* Right Action Cluster */}
-          <div className="flex items-center gap-3">
-            {/* Search HUD Trigger (Desktop) */}
+          {/* 우측 동작 묶음 */}
+          <div className="flex items-center gap-2 lg:gap-3 shrink-0">
+            {/* 검색 (lg) */}
             <button
               onClick={onOpenSearch}
-              className="hidden lg:flex items-center bg-surface-container border border-outline-variant px-3 py-1.5 rounded-sm gap-2 w-64 hover:border-outline transition-colors text-left cursor-pointer"
+              className="hidden lg:flex items-center bg-surface-container border border-outline-variant px-3 py-2 rounded-sm gap-2 w-56 hover:border-outline transition-colors text-left cursor-pointer"
             >
-              <span className="material-symbols-outlined text-outline" style={{ fontSize: 16 }}>
+              <span className="material-symbols-outlined text-outline shrink-0" style={{ fontSize: 16 }}>
                 travel_explore
               </span>
-              <span className="font-label-mono-sm text-label-mono-sm text-outline truncate">
-                #지오데식 돔 #내수압 5000mm
+              <span className="font-label-mono-sm text-label-mono-sm text-outline whitespace-nowrap">
+                기어 검색
               </span>
-              <span className="ml-auto font-label-mono-sm text-label-mono-sm bg-surface-container-high px-1 py-0.5 rounded text-primary">
+              <span className="ml-auto font-label-mono-sm text-label-mono-sm bg-surface-container-high px-1.5 py-0.5 rounded text-primary shrink-0">
                 ⌘K
               </span>
             </button>
 
-            {/* Mobile Search button */}
+            {/* 검색 (모바일) */}
             <button
               onClick={onOpenSearch}
-              className="lg:hidden p-2 bg-surface-container border border-outline-variant rounded-sm text-outline hover:text-on-surface"
-              title="검색"
+              aria-label="기어 검색 열기"
+              className="lg:hidden h-11 w-11 flex items-center justify-center bg-surface-container border border-outline-variant rounded-sm text-outline hover:text-on-surface cursor-pointer"
             >
-              <span className="material-symbols-outlined" style={{ fontSize: 18 }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 20 }}>
                 search
               </span>
             </button>
 
-            {/* Telemetry / Dispatch Indicator */}
+            {/* 기상 HUD */}
             <button
               onClick={onOpenWeather}
-              className="flex items-center gap-1.5 bg-surface-container border border-outline-variant px-2.5 py-1.5 rounded-sm hover:bg-surface-container-high transition-colors cursor-pointer"
-              title="필드 텔레메트리 관제"
+              aria-label="필드 기상 관측 HUD 열기"
+              className="h-11 lg:h-auto min-w-11 lg:min-w-0 flex items-center justify-center gap-1.5 bg-surface-container border border-outline-variant px-2.5 lg:py-2 rounded-sm hover:bg-surface-container-high transition-colors cursor-pointer"
+              title="필드 기상 관측 HUD"
             >
-              <span className="material-symbols-outlined text-primary" style={{ fontSize: 18 }}>
+              <span className="material-symbols-outlined text-primary" style={{ fontSize: 20 }}>
                 radar
               </span>
-              <span className="hidden lg:inline font-label-mono-sm text-label-mono-sm text-on-surface">
+              <span className="hidden lg:inline font-label-mono-sm text-label-mono-sm text-on-surface whitespace-nowrap">
                 기상 관측 HUD
               </span>
             </button>
 
-            {/* Cart Action with Count Badge */}
+            {/* 기어백 */}
             <button
               onClick={onOpenCart}
-              className="flex items-center gap-2 bg-primary-container text-on-primary-container px-3 py-1.5 rounded-sm hover:bg-surface-container-highest transition-colors active:scale-95 duration-150 cursor-pointer"
+              aria-label={`기어백 열기 (담긴 장비 ${cartCount}개)`}
+              className="h-11 lg:h-auto flex items-center gap-2 bg-primary-container text-on-primary-container px-3 lg:py-2 rounded-sm hover:bg-surface-container-highest transition-colors active:scale-95 duration-150 cursor-pointer"
             >
-              <span className="material-symbols-outlined text-primary" style={{ fontSize: 18 }}>
+              <span className="material-symbols-outlined text-primary" style={{ fontSize: 20 }}>
                 shopping_bag
               </span>
-              <span className="font-label-mono-md text-label-mono-md font-semibold">기어백</span>
-              <span className="bg-tertiary-container text-on-tertiary font-label-mono-sm text-label-mono-sm font-bold px-1.5 py-0.2 rounded-sm">
+              {/* sm 은 모바일/웹 경계가 아니라 좁은 폰에서만 글자를 접는 밀도 조정이다 */}
+              <span className="hidden sm:inline font-label-mono-md text-label-mono-md font-semibold whitespace-nowrap">
+                기어백
+              </span>
+              <span className="bg-tertiary-container text-on-tertiary font-label-mono-sm text-label-mono-sm font-bold px-1.5 rounded-sm">
                 {cartCount}
               </span>
             </button>
           </div>
         </div>
 
-        {/* Live Tactical Hashtag Ticker Bar (Mobile & Desktop) */}
-        <div className="bg-surface-container-lowest border-t border-outline-variant px-4 lg:px-6 py-1.5 flex items-center overflow-x-auto no-scrollbar gap-3 font-label-mono-sm text-label-mono-sm">
-          <span className="text-primary font-bold whitespace-nowrap flex items-center gap-1">
-            <span className="material-symbols-outlined text-primary" style={{ fontSize: 13 }}>
+        {/* 인기 태그 — 「실시간」이라고 적지 않는다(실제로 집계하지 않는다) */}
+        <div className="bg-surface-container-lowest border-t border-outline-variant px-4 lg:px-6 flex items-center overflow-x-auto no-scrollbar gap-3 font-label-mono-sm text-label-mono-sm">
+          <span className="text-primary font-bold whitespace-nowrap flex items-center gap-1 shrink-0">
+            <span className="material-symbols-outlined" style={{ fontSize: 13 }}>
               bolt
             </span>{' '}
-            실시간 검색 트렌드:
+            인기 검색 태그 (예시):
           </span>
           <div className="flex items-center gap-3 text-outline">
-            <button
-              onClick={() => onTagClick('바르그 4.2')}
-              className="hover:text-on-surface whitespace-nowrap cursor-pointer"
-            >
-              #바르그 4.2 지오데식
-            </button>
-            <span className="text-outline-variant">·</span>
-            <button
-              onClick={() => onTagClick('내수압 5000mm')}
-              className="hover:text-on-surface whitespace-nowrap cursor-pointer"
-            >
-              #내수압 5000mm 립스탑
-            </button>
-            <span className="text-outline-variant">·</span>
-            <button
-              onClick={() => onTagClick('DAC 페더라이트')}
-              className="hover:text-on-surface whitespace-nowrap cursor-pointer"
-            >
-              #DAC 페더라이트 NSL
-            </button>
-            <span className="text-outline-variant">·</span>
-            <button
-              onClick={() => onTagClick('동계')}
-              className="hover:text-on-surface whitespace-nowrap cursor-pointer"
-            >
-              #동계 솔로 돔
-            </button>
-            <span className="text-outline-variant">·</span>
-            <button
-              onClick={() => onTagClick('티타늄')}
-              className="hover:text-on-surface whitespace-nowrap cursor-pointer"
-            >
-              #티타늄 스토브 1200ml
-            </button>
+            {TREND_TAGS.map((tag, i) => (
+              <React.Fragment key={tag}>
+                {i > 0 && <span className="text-outline-variant shrink-0">·</span>}
+                <button
+                  onClick={() => onTagClick(tag)}
+                  className="min-h-11 lg:min-h-0 lg:py-1.5 flex items-center hover:text-on-surface whitespace-nowrap cursor-pointer"
+                >
+                  #{tag}
+                </button>
+              </React.Fragment>
+            ))}
           </div>
         </div>
       </header>

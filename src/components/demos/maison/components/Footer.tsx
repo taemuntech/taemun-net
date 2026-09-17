@@ -5,9 +5,11 @@ import { BRAND_INFO } from '../data/antiqueData';
 
 interface FooterProps {
   onNavigateSection: (sectionId: string) => void;
+  /** 입고 아카이브 필터를 걸고 그 구역으로 보낸다 */
+  onSelectCategory: (filterKey: string) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
+export const Footer: React.FC<FooterProps> = ({ onNavigateSection, onSelectCategory }) => {
   return (
     <footer
       id="main-footer"
@@ -35,8 +37,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
 
             <p className="font-serif text-[14px] text-[#e9e1dc]/80 leading-relaxed max-w-md">
               18~19세기 프랑스 및 영국 오리지널 앤틱 가구, 조명, 예술 공예품을
-              큐레이션하고 보존 복원하는 프리미엄 아카이브 살롱입니다. 모든
-              작품은 검증된 출처 증명서와 보존 등급이 함께 발행됩니다.
+              큐레이션하고 보존 복원하는 아카이브 살롱입니다. 작품마다 전해 오는
+              출처 기록과 보존 상태 소견을 함께 정리해 드립니다.
             </p>
 
             <div className="space-y-1 text-xs text-[#e9e1dc]/70 font-serif pt-2">
@@ -66,7 +68,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
                     e.preventDefault();
                     onNavigateSection('furniture');
                   }}
-                  className="hover:text-[#ffdf9c] transition-colors"
+                  className="inline-flex min-h-11 items-center hover:text-[#ffdf9c] transition-colors lg:min-h-0"
                 >
                   루이 15세 &amp; 16세 가구
                 </a>
@@ -78,45 +80,45 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
                     e.preventDefault();
                     onNavigateSection('furniture');
                   }}
-                  className="hover:text-[#ffdf9c] transition-colors"
+                  className="inline-flex min-h-11 items-center hover:text-[#ffdf9c] transition-colors lg:min-h-0"
                 >
                   빅토리안 &amp; 조지안 서재
                 </a>
               </li>
               <li>
                 <a
-                  href="#lighting"
+                  href="#arrivals"
                   onClick={(e) => {
                     e.preventDefault();
-                    onNavigateSection('lighting');
+                    onSelectCategory('lighting');
                   }}
-                  className="hover:text-[#ffdf9c] transition-colors"
+                  className="inline-flex min-h-11 items-center hover:text-[#ffdf9c] transition-colors lg:min-h-0"
                 >
                   오르몰루 길트 조명 샹들리에
                 </a>
               </li>
               <li>
                 <a
-                  href="#furniture"
+                  href="#arrivals"
                   onClick={(e) => {
                     e.preventDefault();
-                    onNavigateSection('furniture');
+                    onSelectCategory('mirrors');
                   }}
-                  className="hover:text-[#ffdf9c] transition-colors"
+                  className="inline-flex min-h-11 items-center hover:text-[#ffdf9c] transition-colors lg:min-h-0"
                 >
                   루이 필립 길트 수은 거울
                 </a>
               </li>
               <li>
                 <a
-                  href="#objects"
+                  href="#arrivals"
                   onClick={(e) => {
                     e.preventDefault();
-                    onNavigateSection('objects');
+                    onSelectCategory('objects');
                   }}
-                  className="hover:text-[#ffdf9c] transition-colors"
+                  className="inline-flex min-h-11 items-center hover:text-[#ffdf9c] transition-colors lg:min-h-0"
                 >
-                  세브르 &amp; 마이센 포슬린
+                  유럽 자기 &amp; 은제 오브제
                 </a>
               </li>
             </ul>
@@ -135,7 +137,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
                     e.preventDefault();
                     onNavigateSection('atelier');
                   }}
-                  className="hover:text-[#ffdf9c] transition-colors"
+                  className="inline-flex min-h-11 items-center hover:text-[#ffdf9c] transition-colors lg:min-h-0"
                 >
                   전통 셸락 프렌치 폴리싱
                 </a>
@@ -147,7 +149,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
                     e.preventDefault();
                     onNavigateSection('curation');
                   }}
-                  className="hover:text-[#ffdf9c] transition-colors"
+                  className="inline-flex min-h-11 items-center hover:text-[#ffdf9c] transition-colors lg:min-h-0"
                 >
                   해외 옥션 &amp; 귀족가 소장 의뢰
                 </a>
@@ -159,7 +161,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
                     e.preventDefault();
                     onNavigateSection('viewing');
                   }}
-                  className="hover:text-[#ffdf9c] transition-colors"
+                  className="inline-flex min-h-11 items-center hover:text-[#ffdf9c] transition-colors lg:min-h-0"
                 >
                   주거 &amp; 상업 공간 큐레이션
                 </a>
@@ -171,7 +173,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
                     e.preventDefault();
                     onNavigateSection('viewing');
                   }}
-                  className="hover:text-[#ffdf9c] transition-colors"
+                  className="inline-flex min-h-11 items-center hover:text-[#ffdf9c] transition-colors lg:min-h-0"
                 >
                   화이트글러브 전담 배송 설치
                 </a>
@@ -183,9 +185,9 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
                     e.preventDefault();
                     onNavigateSection('curation');
                   }}
-                  className="hover:text-[#ffdf9c] transition-colors"
+                  className="inline-flex min-h-11 items-center hover:text-[#ffdf9c] transition-colors lg:min-h-0"
                 >
-                  공식 감정 및 소장 증명서 발급
+                  소장 이력 정리 및 보존 소견
                 </a>
               </li>
             </ul>
@@ -202,14 +204,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
               </p>
               <p>매주 월요일 정기 휴관</p>
               <p className="text-[#735b24] text-xs pt-1">
-                * 100% 프라이빗 사전 예약제
+                * 전 시간대 사전 예약제
               </p>
             </div>
             <div className="pt-2">
               <button
                 type="button"
                 onClick={() => onNavigateSection('viewing')}
-                className="text-[11px] uppercase tracking-widest text-[#ffdf9c] border-b border-[#735b24] pb-0.5 hover:text-[#ffffff] transition-colors"
+                className="inline-flex min-h-11 items-center text-[11px] uppercase tracking-widest text-[#ffdf9c] border-b border-[#735b24] hover:text-[#ffffff] transition-colors lg:min-h-0 lg:pb-0.5"
               >
                 도슨트 뷰잉 신청하기 &rarr;
               </button>
@@ -222,16 +224,9 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateSection }) => {
           <p>
             &copy; 2026 {BRAND_INFO.name} Paris &amp; Seoul. All Rights Reserved.
           </p>
-          <div className="flex space-x-6">
-            <span className="hover:text-[#e9e1dc] cursor-pointer">
-              Terms of Provenance
-            </span>
-            <span className="hover:text-[#e9e1dc] cursor-pointer">
-              Privacy Policy
-            </span>
-            <span className="hover:text-[#e9e1dc] cursor-pointer">
-              Museum Association Member
-            </span>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-1">
+            <span>Terms of Provenance</span>
+            <span>Privacy Policy</span>
           </div>
         </div>
 

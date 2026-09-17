@@ -30,10 +30,10 @@ export default function MaisonArchitectPageClient({ isEmbed }: Props) {
       ]}
       inquiryUrl="/inquiry?from=maison-architect&industry=commerce"
       specs={[
-        { label: '반응형 규격', value: '단일 lg: 브레이크포인트 모바일 퍼스트 4열/5열 그리드' },
+        { label: '반응형 규격', value: '모바일 1열 → 태블릿 2열 → lg 4열 상품 그리드 (경계는 lg=1024px)' },
         { label: '3D 공간 투어 핫스팟', value: '쇼퍼블 인터랙티브 펄스 핀 & 3-Piece 가구 번들 원클릭 담기' },
         { label: '조도 분위기 시뮬레이터', value: '자연광 5000K 주광색 ↔ 3000K 간접조명 나이트 무드 실시간 전환' },
-        { label: '평형별 배치 시뮬레이터', value: '25평형 / 34평형 아파트 평면도 기반 거실/다이닝 가구 레이아웃 시뮬레이션' },
+        { label: '평형별 배치 시뮬레이터', value: '25 / 34 / 45평형 아파트 평면도 기반 거실 가구 레이아웃 시뮬레이션 (치수는 예시)' },
       ]}
     />
   );

@@ -1,15 +1,65 @@
 import React, { useState, useEffect } from 'react';
+import { QUICK_PILLS } from '../data/mockData';
 
 interface HeaderProps {
   cartCount: number;
   onOpenCart: () => void;
   onOpenAddress: () => void;
   onOpenCategory: () => void;
-  onSelectSearchKeyword: (keyword: string) => void;
-  selectedPill: string;
-  onSelectPill: (pill: string) => void;
+  /** 검색어를 실제로 상품 목록에 건다 — 빈 문자열이면 해제 */
+  searchTerm: string;
+  onSearch: (keyword: string) => void;
   wishlistCount: number;
-  onOpenWishlist: () => void;
+  isWishlistOnly: boolean;
+  onToggleWishlistOnly: () => void;
+  /** 샘플이라 동작하지 않는 자리(로그인 등)에서 공용 안내 모달을 연다 — 브라우저 기본 경고창은 쓰지 않는다 */
+  onOpenNotice: () => void;
+}
+
+/**
+ * 검색창 — 데스크톱 상단과 모바일(1023px 이하) 줄이 **같은 폼**을 쓴다.
+ * 접수 폼이 아니라 화면 안 상품 목록만 거르는 검색이라 입력값은 어디에도 전송되지 않는다.
+ */
+function SearchForm({
+  value,
+  onChange,
+  onSearchSubmit,
+  onClear
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  onSearchSubmit: (e: React.FormEvent) => void;
+  onClear: () => void;
+}) {
+  return (
+    <form role="search" onSubmit={onSearchSubmit} className="relative flex items-center">
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        aria-label="상품 검색"
+        placeholder="한우, 흙당근, 생연어, 사워도우 검색"
+        className="w-full bg-surface-container-low border border-outline-variant rounded-full py-2.5 max-lg:py-3 pl-4 pr-20 text-[13px] placeholder:text-on-surface-variant/60 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all"
+      />
+      {value.trim().length > 0 && (
+        <button
+          type="button"
+          onClick={onClear}
+          aria-label="검색어 지우기"
+          className="absolute right-11 flex h-9 w-9 items-center justify-center rounded-full text-on-surface-variant hover:text-primary transition-colors"
+        >
+          <span className="material-symbols-outlined text-lg">close</span>
+        </button>
+      )}
+      <button
+        type="submit"
+        aria-label="검색"
+        className="absolute right-1 flex h-10 w-10 items-center justify-center rounded-full text-primary hover:text-secondary transition-colors"
+      >
+        <span className="material-symbols-outlined text-2xl">search</span>
+      </button>
+    </form>
+  );
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -17,11 +67,12 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenCart,
   onOpenAddress,
   onOpenCategory,
-  onSelectSearchKeyword,
-  selectedPill,
-  onSelectPill,
+  searchTerm,
+  onSearch,
   wishlistCount,
-  onOpenWishlist
+  isWishlistOnly,
+  onToggleWishlistOnly,
+  onOpenNotice
 }) => {
   // Dawn Countdown Timer State
   const [timeLeft, setTimeLeft] = useState({ hours: 4, minutes: 22, seconds: 11 });
@@ -44,25 +95,26 @@ export const Header: React.FC<HeaderProps> = ({
     return () => clearInterval(timer);
   }, []);
 
+  // 칩·인기어 쪽에서 검색어가 바뀌면 입력창도 따라간다 — 입력창만 옛 글자를 들고 있으면 「검색이 안 먹는다」로 보인다
+  useEffect(() => {
+    setSearchQuery(searchTerm);
+  }, [searchTerm]);
+
   const formatNumber = (num: number) => String(num).padStart(2, '0');
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      onSelectSearchKeyword(searchQuery.trim());
-    }
+    onSearch(searchQuery.trim());
   };
 
-  const quickPills = [
-    { name: '신선정육 (1++)', icon: 'restaurant' },
-    { name: '산지수산 직송', icon: 'set_meal' },
-    { name: '친환경 유기농 채소', icon: 'eco' },
-    { name: '당도보증 프리미엄 과일', icon: 'nutrition' },
-    { name: '아티장 베이커리 & 델리', icon: 'bakery_dining' },
-    { name: '치즈 & 샤퀴테리', icon: 'lunch_dining' },
-    { name: '소믈리에 셀렉션 와인', icon: 'wine_bar' },
-    { name: '레스토랑 간편식(RMR)', icon: 'soup_kitchen' }
-  ];
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    onSearch('');
+  };
+
+  const scrollToSection = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <>
@@ -73,7 +125,8 @@ export const Header: React.FC<HeaderProps> = ({
             <span className="w-1.5 h-1.5 rounded-full bg-on-tertiary-container animate-dawn-pulse"></span>
             새벽배송 마감 임박
           </span>
-          <span className="font-sans text-xs">오늘 밤 11시 전 주문 시, 내일 아침 7시 문 앞 도착!</span>
+          {/* 도착 시각을 단정하지 않는다 — 샘플이 지킬 수 없는 약속이다 */}
+          <span className="font-sans text-xs">오늘 밤 11시 전 주문 시, 내일 아침 7시 전 도착 (예시 안내)</span>
           <span className="font-bold text-secondary-fixed bg-black/25 px-2 py-0.5 rounded tracking-wider flex items-center gap-1">
             <span className="material-symbols-outlined text-sm">schedule</span>
             <span id="dawn-timer">
@@ -88,109 +141,103 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* UTILITY SUB-HEADER */}
       <div className="bg-surface-container-low border-b border-outline-variant text-[13px] text-on-surface-variant">
-        <div className="max-w-7xl mx-auto px-4 lg:px-12 py-1.5 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1 text-[11px] font-mono text-secondary font-medium">
+        <div className="max-w-7xl mx-auto px-4 lg:px-12 py-1.5 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-4 min-w-0">
+            {/* 좁은 화면에서는 오른쪽 두 링크만으로도 가로가 꽉 찬다 — 이 배지까지 두면 줄이 밀려 나간다 */}
+            <span className="hidden lg:flex items-center gap-1 text-[11px] font-mono text-secondary font-medium whitespace-nowrap">
               <span className="material-symbols-outlined text-base">verified</span>
               산지직송 실명제 (예시)
             </span>
             <span className="hidden lg:inline text-outline-variant">|</span>
-            <a href="#coldchain-inspection" className="hidden lg:inline hover:text-primary transition-colors text-xs">
+            <button
+              type="button"
+              onClick={() => scrollToSection('coldchain-inspection')}
+              className="hidden lg:inline hover:text-primary transition-colors text-xs"
+            >
               골든 콜드체인 0~2℃ 여정기록
-            </a>
+            </button>
             <span className="hidden lg:inline text-outline-variant">|</span>
-            <a href="#recipe-section" className="hidden lg:inline hover:text-primary transition-colors text-xs">
+            <button
+              type="button"
+              onClick={() => scrollToSection('recipe-section')}
+              className="hidden lg:inline hover:text-primary transition-colors text-xs"
+            >
               셰프의 파인다이닝 키친
-            </a>
+            </button>
           </div>
-          <div className="flex items-center gap-3 text-xs font-sans">
-            <button onClick={onOpenAddress} className="cursor-pointer hover:text-primary">
+          <div className="flex items-center gap-2 lg:gap-3 text-xs font-sans shrink-0">
+            <button
+              type="button"
+              onClick={onOpenAddress}
+              className="cursor-pointer hover:text-primary whitespace-nowrap inline-flex items-center px-1 max-lg:min-h-11"
+            >
               새벽 배송지역 조회
             </button>
+            {/* 고객센터 번호는 푸터에도 있다 — 좁은 화면에서는 줄이 두 겹으로 접혀 글자가 뭉개지므로 감춘다 */}
+            <span className="hidden lg:inline text-outline-variant">·</span>
+            <span className="hidden lg:inline text-on-surface-variant whitespace-nowrap">고객센터 1588-0000 (예시)</span>
             <span className="text-outline-variant">·</span>
-            <span className="text-on-surface-variant">고객센터 1588-0000 (예시)</span>
-            <span className="text-outline-variant">·</span>
-            <button onClick={() => alert('샘플 사이트입니다 — 로그인·회원가입은 동작하지 않고, 입력하신 내용은 어디에도 전송되지 않습니다.')} className="cursor-pointer hover:text-primary font-medium text-primary">
+            <button
+              type="button"
+              onClick={onOpenNotice}
+              className="cursor-pointer hover:text-primary font-medium text-primary whitespace-nowrap inline-flex items-center px-1 max-lg:min-h-11"
+            >
               로그인 / 회원가입
             </button>
           </div>
         </div>
       </div>
 
-      {/* MAIN APP BAR */}
-      <header className="bg-surface-container-lowest shadow-sm border-b border-outline-variant sticky top-0 z-40">
+      {/* MAIN APP BAR — 공용 샘플 바에 가려지지 않게 top-0 대신 --sample-bar-h 를 쓴다(바가 없으면 0px) */}
+      <header className="bg-surface-container-lowest shadow-sm border-b border-outline-variant sticky top-[var(--sample-bar-h,0px)] z-40">
         <div className="w-full max-w-7xl mx-auto px-4 lg:px-12 flex flex-col">
           {/* Upper Tier: Brand + Search + Actions */}
-          <div className="flex items-center justify-between py-3 gap-4">
-            {/* Brand Logo & Identity */}
-            <a href="#" className="flex items-center gap-3 flex-shrink-0 group">
+          <div className="flex items-center justify-between py-3 gap-3 lg:gap-4">
+            {/* Brand — 빈 앵커 주소는 눌러도 아무 일이 없어 맨 위로 올리는 버튼으로 바꾼다 */}
+            <button
+              type="button"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              aria-label="VERDE GOURMET — 맨 위로"
+              className="flex items-center gap-2 lg:gap-3 min-w-0 group text-left"
+            >
               <img
                 src="/demo-media/verde-gourmet/verde-gourmet-08.png"
                 alt="VERDE GOURMET Brand Logo"
-                className="w-10 h-10 rounded-lg object-contain bg-surface-container-lowest border border-outline-variant p-0.5 shadow-sm group-hover:scale-105 transition-all"
+                className="w-9 h-9 lg:w-10 lg:h-10 shrink-0 rounded-lg object-contain bg-surface-container-lowest border border-outline-variant p-0.5 shadow-sm group-hover:scale-105 transition-all"
               referrerPolicy="no-referrer" />
-              <div className="flex flex-col">
-                <span className="text-2xl lg:text-3xl font-bold text-primary tracking-tight leading-none">
+              <span className="flex flex-col min-w-0">
+                {/* 이 글자가 모바일에서 커서 헤더가 375px 보다 넓어졌고, 브라우저가 지면을 통째로 축소해 글자가 작아졌다 */}
+                <span className="text-lg lg:text-3xl font-bold text-primary tracking-tight leading-none truncate">
                   VERDE GOURMET
                 </span>
-                <span className="text-[11px] font-mono text-secondary tracking-widest mt-0.5 font-bold">
+                <span className="text-[10px] lg:text-[11px] font-mono text-secondary tracking-widest mt-0.5 font-bold truncate">
                   베르데 고메 · 새벽신선
                 </span>
-              </div>
-            </a>
+              </span>
+            </button>
 
             {/* Search Bar with Real-time Keywords */}
             <div className="flex-1 max-w-xl hidden lg:block mx-4">
-              {/* 접수 폼이 아니라 화면 안 카테고리만 바꾸는 검색창 — 입력값은 어디에도 전송되지 않는다 */}
-              <form role="search" onSubmit={handleSearchSubmit} className="relative flex items-center">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="1++ No.9 안심, 제주 유기농 당근, 르방 사워도우 검색"
-                  className="w-full bg-surface-container-low border border-outline-variant rounded-full py-2.5 pl-4 pr-11 text-[13px] placeholder:text-on-surface-variant/60 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-surface-container-lowest transition-all"
-                />
-                <button
-                  type="submit"
-                  aria-label="검색"
-                  className="absolute right-3 text-primary hover:text-secondary transition-colors"
-                >
-                  <span className="material-symbols-outlined text-2xl">search</span>
-                </button>
-              </form>
+              <SearchForm
+                value={searchQuery}
+                onChange={setSearchQuery}
+                onSearchSubmit={handleSearchSubmit}
+                onClear={handleClearSearch}
+              />
               <div className="flex items-center gap-2 mt-1.5 px-2 text-[11px] font-sans text-on-surface-variant overflow-hidden">
                 <span className="text-secondary font-bold flex-shrink-0">인기</span>
-                <button
-                  type="button"
-                  onClick={() => { setSearchQuery('1++ No.9 한우'); onSelectSearchKeyword('1++ No.9 한우'); }}
-                  className="cursor-pointer hover:underline"
-                >
-                  1++ No.9 한우
-                </button>
-                <span className="text-outline-variant">·</span>
-                <button
-                  type="button"
-                  onClick={() => { setSearchQuery('제주 햇당근'); onSelectSearchKeyword('제주 햇당근'); }}
-                  className="cursor-pointer hover:underline"
-                >
-                  제주 햇당근
-                </button>
-                <span className="text-outline-variant">·</span>
-                <button
-                  type="button"
-                  onClick={() => { setSearchQuery('오로라 생연어'); onSelectSearchKeyword('오로라 생연어'); }}
-                  className="cursor-pointer hover:underline"
-                >
-                  오로라 생연어
-                </button>
-                <span className="text-outline-variant">·</span>
-                <button
-                  type="button"
-                  onClick={() => { setSearchQuery('천연발효 사워도우'); onSelectSearchKeyword('천연발효 사워도우'); }}
-                  className="cursor-pointer hover:underline"
-                >
-                  천연발효 사워도우
-                </button>
+                {['마블링 한우', '제주 흙당근', '노르웨이 생연어', '천연발효 사워도우'].map((keyword, idx) => (
+                  <React.Fragment key={keyword}>
+                    {idx > 0 && <span className="text-outline-variant">·</span>}
+                    <button
+                      type="button"
+                      onClick={() => onSearch(keyword)}
+                      className="cursor-pointer hover:underline whitespace-nowrap"
+                    >
+                      {keyword}
+                    </button>
+                  </React.Fragment>
+                ))}
               </div>
             </div>
 
@@ -209,16 +256,22 @@ export const Header: React.FC<HeaderProps> = ({
                 </span>
               </button>
 
-              {/* Wishlist Button */}
+              {/* Wishlist Button — 누르면 찜한 상품만 보여 주는 실제 필터다 */}
               <button
                 type="button"
-                onClick={onOpenWishlist}
-                aria-label="관심상품"
-                className="p-2 text-on-surface-variant hover:text-primary transition-colors relative"
+                onClick={onToggleWishlistOnly}
+                aria-label={isWishlistOnly ? '찜한 상품만 보기 해제' : '찜한 상품만 보기'}
+                aria-pressed={isWishlistOnly}
+                className={`relative flex h-11 w-11 items-center justify-center rounded-full transition-colors ${ isWishlistOnly ? 'bg-error-container text-error' : 'text-on-surface-variant hover:text-primary' }`}
               >
-                <span className="material-symbols-outlined text-2xl">favorite</span>
+                <span
+                  className="material-symbols-outlined text-2xl"
+                  style={{ fontVariationSettings: isWishlistOnly ? "'FILL' 1" : "'FILL' 0" }}
+                >
+                  favorite
+                </span>
                 {wishlistCount > 0 && (
-                  <span className="absolute top-1 right-1 bg-error text-on-error text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  <span className="absolute top-0.5 right-0.5 bg-error text-on-error text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                     {wishlistCount}
                   </span>
                 )}
@@ -229,8 +282,8 @@ export const Header: React.FC<HeaderProps> = ({
                 type="button"
                 onClick={onOpenCart}
                 id="cart-indicator-btn"
-                aria-label="장바구니"
-                className="relative flex items-center gap-2 bg-primary-container text-on-primary px-3.5 py-2 rounded-full hover:bg-secondary transition-all active:scale-95 shadow-sm"
+                aria-label="장바구니 열기"
+                className="relative flex min-h-11 items-center gap-2 bg-primary-container text-on-primary px-3.5 py-2 rounded-full hover:bg-secondary transition-all active:scale-95 shadow-sm"
               >
                 <span className="material-symbols-outlined text-xl">shopping_bag</span>
                 <span className="text-xs font-mono font-bold hidden lg:inline">장바구니</span>
@@ -244,6 +297,16 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
           </div>
 
+          {/* 1023px 이하에는 검색창이 아예 없어 상품을 찾을 방법이 칩뿐이었다 — 같은 폼을 한 줄로 내려 준다 */}
+          <div className="lg:hidden pb-3">
+            <SearchForm
+              value={searchQuery}
+              onChange={setSearchQuery}
+              onSearchSubmit={handleSearchSubmit}
+              onClear={handleClearSearch}
+            />
+          </div>
+
           {/* Lower Tier: Categories & Navigation Links */}
           <nav className="border-t border-outline-variant/60 py-2.5 flex items-center justify-between overflow-x-auto no-scrollbar">
             <div className="flex items-center gap-6 flex-shrink-0">
@@ -251,30 +314,43 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 type="button"
                 onClick={onOpenCategory}
-                className="flex items-center gap-2 text-primary font-bold text-sm hover:text-secondary transition-colors pr-2"
+                className="flex items-center gap-2 text-primary font-bold text-sm hover:text-secondary transition-colors pr-2 max-lg:min-h-11"
               >
                 <span className="material-symbols-outlined">menu</span>
                 <span className="text-sm">카테고리</span>
               </button>
 
-              {/* Navigation Links */}
+              {/* Navigation Links — 전부 이 지면 안에 실제로 있는 구역으로 간다 */}
               <div className="flex items-center gap-5 lg:gap-8">
-                <a href="#best-section" className="text-primary border-b-2 border-primary pb-1 text-sm whitespace-nowrap font-bold">
+                <button
+                  type="button"
+                  onClick={() => scrollToSection('best-section')}
+                  className="text-primary border-b-2 border-primary pb-1 text-sm whitespace-nowrap font-bold inline-flex items-center max-lg:min-h-11"
+                >
                   베스트
-                </a>
-                <a href="#best-section" className="text-on-surface-variant hover:text-primary pb-1 text-sm transition-colors whitespace-nowrap">
-                  신상품
-                </a>
-                <a href="#best-section" className="text-on-surface-variant hover:text-primary pb-1 text-sm transition-colors whitespace-nowrap">
-                  일일 특가
-                </a>
-                <a href="#recipe-section" className="text-on-surface-variant hover:text-primary pb-1 text-sm transition-colors whitespace-nowrap">
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollToSection('recipe-section')}
+                  className="text-on-surface-variant hover:text-primary pb-1 text-sm transition-colors whitespace-nowrap inline-flex items-center max-lg:min-h-11"
+                >
                   셰프의 레시피
-                </a>
-                <a href="#coldchain-inspection" className="text-on-surface-variant hover:text-primary pb-1 text-sm transition-colors whitespace-nowrap flex items-center gap-1">
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollToSection('coldchain-inspection')}
+                  className="text-on-surface-variant hover:text-primary pb-1 text-sm transition-colors whitespace-nowrap inline-flex items-center gap-1 max-lg:min-h-11"
+                >
                   <span className="material-symbols-outlined text-secondary text-sm">ac_unit</span>
                   골든 콜드체인
-                </a>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollToSection('verde-pillars')}
+                  className="text-on-surface-variant hover:text-primary pb-1 text-sm transition-colors whitespace-nowrap inline-flex items-center max-lg:min-h-11"
+                >
+                  교환·환불 안내
+                </button>
               </div>
             </div>
 
@@ -288,17 +364,18 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </header>
 
-      {/* QUICK CATEGORY PILLS BAR */}
+      {/* QUICK CATEGORY PILLS BAR — 칩마다 실제 검색어가 걸리고, 지금 걸린 칩이 진하게 남는다 */}
       <div className="bg-surface-container-low border-b border-outline-variant py-2.5">
         <div className="max-w-7xl mx-auto px-4 lg:px-12 flex items-center gap-2 overflow-x-auto no-scrollbar">
-          {quickPills.map((pill) => {
-            const isActive = selectedPill === pill.name;
+          {QUICK_PILLS.map((pill) => {
+            const isActive = searchTerm === pill.query;
             return (
               <button
                 key={pill.name}
                 type="button"
-                onClick={() => onSelectPill(pill.name)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-medium flex-shrink-0 flex items-center gap-1 transition-all ${ isActive ? 'bg-primary text-on-primary font-bold shadow-sm' : 'bg-surface-container-lowest hover:bg-surface-container text-on-surface-variant border border-outline-variant' }`}
+                aria-pressed={isActive}
+                onClick={() => onSearch(isActive ? '' : pill.query)}
+                className={`px-3.5 py-1.5 max-lg:min-h-11 rounded-full text-xs font-medium flex-shrink-0 flex items-center gap-1 transition-all ${ isActive ? 'bg-primary text-on-primary font-bold shadow-sm' : 'bg-surface-container-lowest hover:bg-surface-container text-on-surface-variant border border-outline-variant' }`}
               >
                 <span className="material-symbols-outlined text-sm">{pill.icon}</span>
                 {pill.name}

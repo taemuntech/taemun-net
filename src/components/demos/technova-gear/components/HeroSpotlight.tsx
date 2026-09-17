@@ -1,6 +1,9 @@
+'use client';
+
 import React, { useState } from 'react';
 import { FlagshipViewTab, PowerMode } from '../types';
-import { SpecFilterState } from './SpecFilterHUD';
+import { computeFlagshipConfig, type SpecFilterState } from '../flagship-config';
+import type { InfoModalContent } from './Modals/InfoModal';
 
 interface HeroSpotlightProps {
   filters: SpecFilterState;
@@ -10,6 +13,7 @@ interface HeroSpotlightProps {
   onOpen3DModal: () => void;
   isCompared: boolean;
   onToggleCompare: () => void;
+  onShowInfo: (content: InfoModalContent) => void;
 }
 
 export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
@@ -20,65 +24,12 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
   onOpen3DModal,
   isCompared,
   onToggleCompare,
+  onShowInfo,
 }) => {
   const [activeTab, setActiveTab] = useState<FlagshipViewTab>('exterior');
 
-  // Dynamic specs based on filter selections
-  const getDynamicSpecs = () => {
-    let price = 2890000;
-    let originalPrice = 3520000;
-    let score = 21500;
-    let gpuName = 'RTX 4080 16GB';
-    let tgpText = '최대 TGP 175W + Dynamic Boost';
-
-    if (filters.gpu === 'RTX 4090') {
-      price = 3490000;
-      originalPrice = 4190000;
-      score = 24800;
-      gpuName = 'RTX 4090 16GB';
-      tgpText = '최대 TGP 175W 풀언락 (OC 모드)';
-    } else if (filters.gpu === '4070 Ti') {
-      price = 2490000;
-      originalPrice = 2990000;
-      score = 17900;
-      gpuName = 'RTX 4070 Ti 12GB';
-      tgpText = '최대 TGP 140W 저소음 고효율';
-    } else if (filters.gpu === 'RX 7900') {
-      price = 2650000;
-      originalPrice = 3190000;
-      score = 19800;
-      gpuName = 'Radeon RX 7900M 16GB';
-      tgpText = '최대 TGP 180W SmartShift';
-    }
-
-    if (filters.ram === '64GB') {
-      price += 250000;
-      originalPrice += 300000;
-    } else if (filters.ram === '16GB') {
-      price -= 120000;
-      originalPrice -= 150000;
-    }
-
-    const cpuName = filters.cpu === 'Ryzen 9 7945HX' ? 'Ryzen 9 7945HX' : 'Core Ultra 9 185H';
-    const cpuDetail = filters.cpu === 'Ryzen 9 7945HX' ? '16코어 32스레드 + 풀 Zen4 고성능' : '16코어 22스레드 + 내장 NPU AI 가속';
-    const panelName = filters.display === '4K Mini-LED 165Hz' ? '16형 4K Mini-LED 165Hz' : filters.display === 'QHD 360Hz' ? '16형 QHD+ 360Hz Fast-IPS' : '16형 2.5K OLED 240Hz';
-
-    const monthlyInstallment = Math.round(price / 24);
-
-    return {
-      price,
-      originalPrice,
-      score,
-      gpuName,
-      tgpText,
-      cpuName,
-      cpuDetail,
-      panelName,
-      monthlyInstallment,
-    };
-  };
-
-  const currentSpecs = getDynamicSpecs();
+  // 구성 계산은 flagship-config.ts 한 곳에만 둔다 — 히어로·대조 매트릭스·주문서가 같은 값을 써야 한다.
+  const currentSpecs = computeFlagshipConfig(filters);
 
   // Segmented meter blocks based on power mode
   const getPowerBlocks = () => {
@@ -110,15 +61,15 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
           <span className="bg-[#ec6a06]/20 text-[#ffb690] border border-[#ffb690]/40 px-2 py-0.5 rounded flex items-center gap-1 font-bold">
             <span className="w-1.5 h-1.5 rounded-full bg-[#ec6a06] animate-ping"></span> 2025 플래그십 리미티드
           </span>
-          <span className="text-[#8c909f] font-mono">SKU: TN-G16-{filters.cpu.replace(/\s+/g, '')}-{filters.gpu.replace(/\s+/g, '')}</span>
+          <span className="text-[#8c909f] font-mono">SKU: {currentSpecs.sku}</span>
           <span className="text-[#8c909f]">|</span>
           <span className="text-[#4cd7f6] flex items-center gap-0.5">
-            <span className="material-symbols-outlined text-[14px]">verified</span> 공장 직배송 정밀 캘리브레이션 완료
+            <span className="material-symbols-outlined text-[14px]">verified</span> 출고 전 화면 캘리브레이션 (예시 표기)
           </span>
         </div>
         <div className="text-xs font-label text-[#8c909f] flex items-center gap-4">
           <span>안전 인증 표기 자리 (예시)</span>
-          <span className="text-[#4cd7f6] font-bold">잔여 수량: 14대 (실시간 재고 연동)</span>
+          <span className="text-[#4cd7f6] font-bold">잔여 수량: 14대 (예시 재고 표기)</span>
         </div>
       </div>
 
@@ -149,7 +100,7 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
               <div className="mt-4 bg-[#181c24] border border-[#424754] rounded-lg p-3 max-w-md">
                 <span className="text-xs font-label text-[#4cd7f6] font-bold block">3D 베이퍼 챔버 분해도 텔레메트리</span>
                 <p className="text-[11px] text-[#c2c6d6] mt-1">
-                  순수 구리 히트스프레더 + 초미세 소결 모세관 구조. 액체 금속(Liquid Metal) 도포로 다이 접촉 열저항 -68% 달성.
+                  순수 구리 히트스프레더 + 초미세 소결 모세관 구조. 액체 금속(Liquid Metal) 도포로 다이 접촉 열저항 -68% (예시 수치).
                 </p>
                 <div className="flex justify-around text-[10px] font-label text-[#8c909f] mt-2 pt-2 border-t border-[#424754]">
                   <span>풍량: 67 CFM (듀얼 팬)</span>
@@ -193,7 +144,7 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
                 <h4 className="text-xs font-label font-bold text-[#dfe2ee]">후면 및 측면 I/O 대역폭 맵</h4>
                 <div className="space-y-1.5 text-left text-xs mt-3 font-label">
                   <div className="flex justify-between bg-[#0a0e16] p-2 rounded border border-[#424754]">
-                    <span className="text-[#4cd7f6]">Thunderbolt™ 4 x2</span>
+                    <span className="text-[#4cd7f6]">USB4 40Gbps x2</span>
                     <span className="text-[#c2c6d6]">40Gbps / 100W PD / eGPU</span>
                   </div>
                   <div className="flex justify-between bg-[#0a0e16] p-2 rounded border border-[#424754]">
@@ -201,8 +152,8 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
                     <span className="text-[#c2c6d6]">48Gbps 4K 144Hz / 8K 60Hz</span>
                   </div>
                   <div className="flex justify-between bg-[#0a0e16] p-2 rounded border border-[#424754]">
-                    <span className="text-[#ffb690]">Killer 2.5G LAN</span>
-                    <span className="text-[#c2c6d6]">E3100G 초저지연 게이밍 NIC</span>
+                    <span className="text-[#ffb690]">2.5G 이더넷</span>
+                    <span className="text-[#c2c6d6]">초저지연 게이밍 NIC</span>
                   </div>
                 </div>
               </div>
@@ -215,16 +166,16 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
               <span className="w-2 h-2 rounded-full bg-[#4cd7f6] animate-pulse"></span>
               <span className="text-[#4cd7f6] font-bold">3D VAPOR CHAMBER COOLING</span>
             </div>
-            <p className="text-[11px] text-[#c2c6d6] mt-0.5">히트파이프 대비 열방출 면적 +340% 향상 (67 CFM 풍량)</p>
+            <p className="text-[11px] text-[#c2c6d6] mt-0.5">히트파이프 대비 열방출 면적 +340% (예시 수치 · 67 CFM 풍량)</p>
           </div>
 
           {/* Benchmark Stamp Badge */}
           <div className="absolute top-4 right-4 z-20 bg-[#262a33]/90 backdrop-blur-md border border-[#ec6a06]/60 rounded px-2.5 py-1 text-right">
-            <span className="text-[10px] text-[#8c909f] block font-label uppercase">3DMARK TIME SPY GRAPHICS</span>
+            <span className="text-[10px] text-[#8c909f] block font-label uppercase">자체 랩 그래픽 점수 (예시)</span>
             <span className="text-lg font-headline font-bold text-[#ec6a06]">
               {currentSpecs.score.toLocaleString()} <span className="text-xs text-[#8c909f]">점</span>
             </span>
-            <span className="text-[10px] text-[#4cd7f6] block font-bold">전 세계 랩탑 상위 1% 공인</span>
+            <span className="text-[10px] text-[#4cd7f6] block font-bold">지어낸 예시 점수 — 실측값이 아닙니다</span>
           </div>
         </div>
 
@@ -232,7 +183,8 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
         <div className="grid grid-cols-4 gap-2">
           <button
             onClick={() => setActiveTab('exterior')}
-            className={`rounded p-1.5 flex flex-col items-center gap-0.5 transition-all ${ activeTab === 'exterior' ? 'bg-[#1c2028] border-2 border-[#4cd7f6] active-glow' : 'bg-[#262a33] border border-[#424754] hover:border-[#adc6ff]' }`}
+            type="button"
+            className={`rounded p-1.5 max-lg:min-h-11 flex flex-col items-center justify-center gap-0.5 transition-all cursor-pointer ${ activeTab === 'exterior' ? 'bg-[#1c2028] border-2 border-[#4cd7f6] active-glow' : 'bg-[#262a33] border border-[#424754] hover:border-[#adc6ff]' }`}
           >
             <span className={`text-[10px] font-label font-bold ${activeTab === 'exterior' ? 'text-[#4cd7f6]' : 'text-[#dfe2ee]'}`}>
               외관 및 OLED
@@ -242,7 +194,8 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
 
           <button
             onClick={() => setActiveTab('vapor')}
-            className={`rounded p-1.5 flex flex-col items-center gap-0.5 transition-all ${ activeTab === 'vapor' ? 'bg-[#1c2028] border-2 border-[#4cd7f6] active-glow' : 'bg-[#262a33] border border-[#424754] hover:border-[#adc6ff]' }`}
+            type="button"
+            className={`rounded p-1.5 max-lg:min-h-11 flex flex-col items-center justify-center gap-0.5 transition-all cursor-pointer ${ activeTab === 'vapor' ? 'bg-[#1c2028] border-2 border-[#4cd7f6] active-glow' : 'bg-[#262a33] border border-[#424754] hover:border-[#adc6ff]' }`}
           >
             <span className={`text-[10px] font-label font-bold ${activeTab === 'vapor' ? 'text-[#4cd7f6]' : 'text-[#dfe2ee]'}`}>
               베이퍼 챔버 분해도
@@ -252,7 +205,8 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
 
           <button
             onClick={() => setActiveTab('switches')}
-            className={`rounded p-1.5 flex flex-col items-center gap-0.5 transition-all ${ activeTab === 'switches' ? 'bg-[#1c2028] border-2 border-[#4cd7f6] active-glow' : 'bg-[#262a33] border border-[#424754] hover:border-[#adc6ff]' }`}
+            type="button"
+            className={`rounded p-1.5 max-lg:min-h-11 flex flex-col items-center justify-center gap-0.5 transition-all cursor-pointer ${ activeTab === 'switches' ? 'bg-[#1c2028] border-2 border-[#4cd7f6] active-glow' : 'bg-[#262a33] border border-[#424754] hover:border-[#adc6ff]' }`}
           >
             <span className={`text-[10px] font-label font-bold ${activeTab === 'switches' ? 'text-[#4cd7f6]' : 'text-[#dfe2ee]'}`}>
               RGB 기계식 스위치
@@ -262,12 +216,13 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
 
           <button
             onClick={() => setActiveTab('ports')}
-            className={`rounded p-1.5 flex flex-col items-center gap-0.5 transition-all ${ activeTab === 'ports' ? 'bg-[#1c2028] border-2 border-[#4cd7f6] active-glow' : 'bg-[#262a33] border border-[#424754] hover:border-[#adc6ff]' }`}
+            type="button"
+            className={`rounded p-1.5 max-lg:min-h-11 flex flex-col items-center justify-center gap-0.5 transition-all cursor-pointer ${ activeTab === 'ports' ? 'bg-[#1c2028] border-2 border-[#4cd7f6] active-glow' : 'bg-[#262a33] border border-[#424754] hover:border-[#adc6ff]' }`}
           >
             <span className={`text-[10px] font-label font-bold ${activeTab === 'ports' ? 'text-[#4cd7f6]' : 'text-[#dfe2ee]'}`}>
               포트 &amp; I/O 맵
             </span>
-            <span className="text-[9px] text-[#8c909f]">TB4 / HDMI 2.1</span>
+            <span className="text-[9px] text-[#8c909f]">USB4 / HDMI 2.1</span>
           </button>
         </div>
       </div>
@@ -297,25 +252,25 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
           <div className="grid grid-cols-2 gap-2 my-3">
             <div className="bg-[#0a0e16] border border-[#424754] rounded p-2 spec-hairline">
               <span className="text-[#8c909f] text-[10px] font-label block uppercase">GPU / POWER LIMIT</span>
-              <span className="text-xs font-bold text-[#4cd7f6] block truncate">{currentSpecs.gpuName}</span>
-              <span className="text-[10px] text-[#8c909f] block truncate">{currentSpecs.tgpText}</span>
+              <span className="text-xs font-bold text-[#4cd7f6] block leading-snug">{currentSpecs.gpuName}</span>
+              <span className="text-[10px] text-[#8c909f] block leading-snug">{currentSpecs.tgpText}</span>
             </div>
 
             <div className="bg-[#0a0e16] border border-[#424754] rounded p-2 spec-hairline">
               <span className="text-[#8c909f] text-[10px] font-label block uppercase">CPU ARCHITECTURE</span>
-              <span className="text-xs font-bold text-[#adc6ff] block truncate">{currentSpecs.cpuName}</span>
-              <span className="text-[10px] text-[#8c909f] block truncate">{currentSpecs.cpuDetail}</span>
+              <span className="text-xs font-bold text-[#adc6ff] block leading-snug">{currentSpecs.cpuName}</span>
+              <span className="text-[10px] text-[#8c909f] block leading-snug">{currentSpecs.cpuDetail}</span>
             </div>
 
             <div className="bg-[#0a0e16] border border-[#424754] rounded p-2 spec-hairline">
               <span className="text-[#8c909f] text-[10px] font-label block uppercase">PANEL TELEMETRY</span>
-              <span className="text-xs font-bold text-[#dfe2ee] block truncate">{currentSpecs.panelName}</span>
+              <span className="text-xs font-bold text-[#dfe2ee] block leading-snug">{currentSpecs.panelName}</span>
               <span className="text-[10px] text-[#8c909f] block">DCI-P3 100%, 0.2ms 응답속도</span>
             </div>
 
             <div className="bg-[#0a0e16] border border-[#424754] rounded p-2 spec-hairline">
               <span className="text-[#8c909f] text-[10px] font-label block uppercase">MEMORY / STORAGE</span>
-              <span className="text-xs font-bold text-[#dfe2ee] block truncate">{filters.ram} 5600MHz</span>
+              <span className="text-xs font-bold text-[#dfe2ee] block leading-snug">{currentSpecs.ramName} 5600MHz</span>
               <span className="text-[10px] text-[#8c909f] block">1TB PCIe 4.0 NVMe (확장슬롯 보유)</span>
             </div>
           </div>
@@ -341,19 +296,22 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
             <div className="flex justify-between text-[10px] font-label text-[#8c909f] mt-1.5">
               <button
                 onClick={() => onPowerModeChange('silent')}
-                className={`transition-colors cursor-pointer ${powerMode === 'silent' ? 'text-[#4cd7f6] font-bold underline' : 'hover:text-[#dfe2ee]'}`}
+                type="button"
+                className={`transition-colors cursor-pointer max-lg:min-h-11 flex items-center ${powerMode === 'silent' ? 'text-[#4cd7f6] font-bold underline' : 'hover:text-[#dfe2ee]'}`}
               >
                 사일런트 (38dB)
               </button>
               <button
                 onClick={() => onPowerModeChange('balanced')}
-                className={`transition-colors cursor-pointer ${powerMode === 'balanced' ? 'text-[#adc6ff] font-bold underline' : 'hover:text-[#dfe2ee]'}`}
+                type="button"
+                className={`transition-colors cursor-pointer max-lg:min-h-11 flex items-center ${powerMode === 'balanced' ? 'text-[#adc6ff] font-bold underline' : 'hover:text-[#dfe2ee]'}`}
               >
                 균형 모드 (44dB)
               </button>
               <button
                 onClick={() => onPowerModeChange('turbo')}
-                className={`transition-colors cursor-pointer ${powerMode === 'turbo' ? 'text-[#ec6a06] font-bold underline' : 'hover:text-[#dfe2ee]'}`}
+                type="button"
+                className={`transition-colors cursor-pointer max-lg:min-h-11 flex items-center ${powerMode === 'turbo' ? 'text-[#ec6a06] font-bold underline' : 'hover:text-[#dfe2ee]'}`}
               >
                 터보 익스트림 (52dB Max)
               </button>
@@ -366,7 +324,7 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
           <div className="flex items-end justify-between">
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[#ec6a06] font-label text-sm font-bold">18% OFF</span>
+                <span className="text-[#ec6a06] font-label text-sm font-bold">{currentSpecs.discountRate}% OFF</span>
                 <span className="text-[#8c909f] line-through text-xs">
                   ₩{currentSpecs.originalPrice.toLocaleString()}
                 </span>
@@ -375,7 +333,7 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
                 <span className="text-2xl font-headline font-bold text-[#dfe2ee]">
                   ₩{currentSpecs.price.toLocaleString()}
                 </span>
-                <span className="text-xs font-label text-[#4cd7f6]">로켓새벽배송</span>
+                <span className="text-xs font-label text-[#4cd7f6]">새벽배송 (예시)</span>
               </div>
             </div>
             <div className="text-right">
@@ -392,8 +350,17 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
               <span className="material-symbols-outlined text-[15px] text-[#4cd7f6]">credit_card</span> 제휴 카드 결제 시 추가 5% 청구할인 (예시 · 최대 10만원)
             </span>
             <button
-              onClick={() => alert('카드사별 혜택 (예시): A사 5% 청구할인, B사 5% 청구할인, C사 24개월 무이자')}
-              className="text-[#8c909f] hover:text-[#dfe2ee] cursor-pointer underline text-[11px]"
+              type="button"
+              onClick={() =>
+                onShowInfo({
+                  title: '제휴 카드 혜택 (예시)',
+                  lines: [
+                    'A사 5% 청구할인 · B사 5% 청구할인 · C사 24개월 무이자 — 모두 지어낸 예시 조건이고 실제 카드사 이름이 아닙니다.',
+                    '실제 운영 시에는 결제대행사·카드사와 맺은 그 달의 행사 조건을 이 자리에 붙입니다.',
+                  ],
+                })
+              }
+              className="text-[#8c909f] hover:text-[#dfe2ee] cursor-pointer underline text-[11px] min-h-11 px-2 -mr-2"
             >
               혜택 확인
             </button>
@@ -405,29 +372,32 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
             <button
               id="btn-instant-buy"
               onClick={onInstantBuy}
+              type="button"
               className="lg:col-span-7 h-11 bg-[#ec6a06] hover:bg-[#ff7a1a] text-[#4a1c00] font-label text-xs font-bold uppercase rounded flex items-center justify-center gap-1.5 transition-all orange-glow active:scale-[0.98] cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[18px]">bolt</span> 즉시 구매하기 (내일 새벽 도착)
+              <span className="material-symbols-outlined text-[18px]">bolt</span> 즉시 구매하기 (주문서 열기)
             </button>
 
             {/* Secondary Precision Action */}
             <button
               id="btn-open-3d-arch"
               onClick={onOpen3DModal}
+              type="button"
               className="lg:col-span-5 h-11 bg-[#262a33] hover:bg-[#31353e] text-[#4cd7f6] border border-[#4cd7f6] rounded font-label text-xs font-bold flex items-center justify-center gap-1 transition-all active:scale-[0.98] cursor-pointer"
             >
               <span className="material-symbols-outlined text-[18px]">view_in_ar</span> 3D 아키텍처 보기
             </button>
           </div>
 
-          <div className="flex items-center justify-between text-[11px] text-[#8c909f] pt-1">
+          <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-[11px] text-[#8c909f] pt-1">
             <span className="flex items-center gap-1">
-              <span className="material-symbols-outlined text-[14px] text-[#4cd7f6]">shield</span> 정품 판매 &amp; 2년 A/S
+              <span className="material-symbols-outlined text-[14px] text-[#4cd7f6]">shield</span> 판매·A/S 조건 표기 자리 (예시)
             </span>
             <button
               id="btn-toggle-compare"
               onClick={onToggleCompare}
-              className={`hover:text-[#adc6ff] flex items-center gap-0.5 text-xs transition-colors cursor-pointer ${ isCompared ? 'text-[#4cd7f6] font-bold' : 'text-[#8c909f]' }`}
+              type="button"
+              className={`hover:text-[#adc6ff] flex items-center gap-0.5 text-xs transition-colors cursor-pointer min-h-11 ${ isCompared ? 'text-[#4cd7f6] font-bold' : 'text-[#8c909f]' }`}
             >
               <span className="material-symbols-outlined text-[14px]">
                 {isCompared ? 'check_circle' : 'add_circle'}

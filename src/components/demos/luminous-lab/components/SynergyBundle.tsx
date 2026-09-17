@@ -29,7 +29,7 @@ export const SynergyBundle: React.FC<SynergyBundleProps> = ({ onAddToCart }) => 
     <section id="bundle-section" className="py-12 bg-[#f9f9ff]">
       <div className="max-w-7xl mx-auto px-4 lg:px-10">
         <div className="dew-glass-tier2 rounded-3xl p-6 lg:p-10 border border-white shadow-xl relative overflow-hidden bg-white">
-          <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-[#85f8c4]/20 rounded-full blur-[80px] pointer-events-none" />
+          <div className="absolute -right-20 -bottom-20 w-80 h-80 max-w-[60vw] bg-[#85f8c4]/20 rounded-full blur-[80px] pointer-events-none" />
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
             {/* Left Narrative Column */}

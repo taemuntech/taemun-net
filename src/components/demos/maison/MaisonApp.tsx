@@ -68,15 +68,19 @@ export default function MaisonApp({ isEmbed = false }: { isEmbed?: boolean } = {
     setWishlistItems((prev) => prev.filter((item) => item.id !== productId));
   };
 
+  // 스크롤은 한 프레임 미룬다 — 모바일 메뉴가 헤더 안(일반 흐름)에 있어서, 닫히면 아래 내용이
+  // 그만큼 위로 당겨진다. 같은 클릭에서 바로 재면 메뉴가 아직 펼쳐진 높이로 재어 300px 가까이 빗나간다.
   const scrollToSection = (sectionId: string) => {
-    if (sectionId === 'hero') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    const elem = document.getElementById(sectionId);
-    if (elem) {
-      elem.scrollIntoView({ behavior: 'smooth' });
-    }
+    requestAnimationFrame(() => {
+      if (sectionId === 'hero') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+      const elem = document.getElementById(sectionId);
+      if (elem) {
+        elem.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
   };
 
   const handleCategorySelect = (categoryKey: string) => {
@@ -95,7 +99,7 @@ export default function MaisonApp({ isEmbed = false }: { isEmbed?: boolean } = {
     <div className="min-h-screen flex flex-col bg-[#fff8f5] text-[#1e1b18] font-sans antialiased selection:bg-[#4a1e23] selection:text-[#fff8f5]">
       {/* 🌟 Taemun Dev Studio Top Floating Demo Bar */}
       {!isEmbed && (
-        <aside aria-label="데모 안내 바" className="sticky top-0 z-[60] bg-gray-950/95 backdrop-blur-md text-white border-b border-gray-800 text-xs py-2 px-4 flex items-center justify-between">
+        <aside aria-label="데모 안내 바" className="sticky top-[var(--sample-bar-h,0px)] z-[60] bg-gray-950/95 backdrop-blur-md text-white border-b border-gray-800 text-xs py-2 px-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link
               href="/portfolio"
@@ -152,6 +156,7 @@ export default function MaisonApp({ isEmbed = false }: { isEmbed?: boolean } = {
         onOpenWishlist={() => setIsWishlistOpen(true)}
         onOpenSearch={() => setIsSearchOpen(true)}
         onNavigateSection={scrollToSection}
+        onSelectCategory={handleCategorySelect}
       />
 
       <main className="flex-1">
@@ -194,7 +199,7 @@ export default function MaisonApp({ isEmbed = false }: { isEmbed?: boolean } = {
       </main>
 
       {/* Global Footer */}
-      <Footer onNavigateSection={scrollToSection} />
+      <Footer onNavigateSection={scrollToSection} onSelectCategory={handleCategorySelect} />
 
       {/* Product Detail Dossier Modal */}
       <ProductDetailModal

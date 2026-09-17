@@ -16,13 +16,16 @@ export const ResidenceStories: React.FC = () => {
           </span>
           <h2 className="font-serif text-[28px] lg:text-[36px] text-[#300a10] mt-2">
             메종 당티크와 함께한 공간들
+            <span className="ml-3 inline-block border border-[#735b24]/60 px-2 py-0.5 align-middle text-[10px] font-sans font-bold uppercase tracking-wider text-[#735b24]">
+              예시 후기
+            </span>
           </h2>
           <p className="font-serif text-[16px] text-[#514344] mt-2">
             시간이 빚어낸 앤틱 마스터피스가 현대의 주거와 부티크 공간 속에 녹아든 순간을 기록합니다.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {RESIDENCE_STORIES.map((story) => (
             <article
               key={story.id}

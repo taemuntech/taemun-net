@@ -48,13 +48,3 @@ export interface FloorplanPreset {
   statWalkway: string;
   statInstallation: string;
 }
-
-export interface ShowroomBookingData {
-  showroom: 'cheongdam' | 'hannam';
-  name: string;
-  phone: string;
-  date: string;
-  time: string;
-  apartmentSize: string;
-  notes?: string;
-}

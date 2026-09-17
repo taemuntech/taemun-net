@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import SampleNotice from '@/components/demo-kit/SampleNotice';
 import { Product } from '../types';
+import { useOverlay } from '../use-overlay';
 
 interface CartFolioDrawerProps {
   isOpen: boolean;
@@ -21,6 +22,11 @@ export const CartFolioDrawer: React.FC<CartFolioDrawerProps> = ({
 }) => {
   // 샘플이라 소장 의뢰를 접수하지 않는다 — 「전달되었습니다」 대신 공용 안내(SampleNotice)를 연다.
   const [isNoticeOpen, setIsNoticeOpen] = useState(false);
+
+  // ESC 닫기·배경 스크롤 잠금. 훅이라 `if (!isOpen) return null` 보다 먼저 불러야 한다.
+  // 위에 겹치는 SampleNotice 가 열려 있는 동안엔 ESC 를 그쪽에 넘긴다.
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useOverlay(isOpen && !isNoticeOpen, onClose, dialogRef);
 
   if (!isOpen) return null;
 
@@ -47,8 +53,12 @@ export const CartFolioDrawer: React.FC<CartFolioDrawerProps> = ({
       >
         <aside
           id="cart-folio-drawer"
-          aria-label="Acquisition Folio"
-          className="bg-[#fff8f5] w-full max-w-md h-full shadow-2xl flex flex-col justify-between border-l border-[#d6c2c2] animate-in slide-in-from-right duration-300"
+          ref={dialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="소장 서류함 (Acquisition Folio)"
+          tabIndex={-1}
+          className="bg-[#fff8f5] w-full max-w-md h-full shadow-2xl flex flex-col justify-between border-l border-[#d6c2c2] animate-in slide-in-from-right duration-300 outline-none"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
@@ -65,7 +75,8 @@ export const CartFolioDrawer: React.FC<CartFolioDrawerProps> = ({
               id="btn-close-cart-drawer"
               type="button"
               onClick={onClose}
-              className="p-1 text-[#514344] hover:text-[#300a10] cursor-pointer"
+              aria-label="소장 희망 서류함 닫기"
+              className="flex min-h-11 min-w-11 shrink-0 items-center justify-center text-[#514344] hover:text-[#300a10] cursor-pointer"
             >
               <span className="material-symbols-outlined text-[24px]">close</span>
             </button>
@@ -112,7 +123,8 @@ export const CartFolioDrawer: React.FC<CartFolioDrawerProps> = ({
                   <button
                     type="button"
                     onClick={() => onRemoveItem(item.id)}
-                    className="text-[#847374] hover:text-[#300a10] p-1.5 cursor-pointer"
+                    className="flex min-h-11 min-w-11 shrink-0 items-center justify-center text-[#847374] hover:text-[#300a10] cursor-pointer"
+                    aria-label={`${item.name} 서류함에서 제거`}
                     title="제거"
                   >
                     <span className="material-symbols-outlined text-[18px]">
@@ -153,7 +165,7 @@ export const CartFolioDrawer: React.FC<CartFolioDrawerProps> = ({
               </button>
 
               <p className="text-[10px] text-[#514344] text-center font-serif">
-                * 메종 당티크의 모든 가구는 단 1점씩만 존재하는 오리지널 희귀품입니다.
+                * 샘플 사이트입니다 — 화면의 작품·가격·합계는 모두 예시이고 결제는 진행되지 않습니다.
               </p>
             </div>
           )}

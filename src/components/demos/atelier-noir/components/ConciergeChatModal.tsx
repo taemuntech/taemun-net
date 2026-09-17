@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
 
 interface ConciergeChatModalProps {
   isOpen: boolean;
@@ -25,6 +26,17 @@ export const ConciergeChatModal: React.FC<ConciergeChatModalProps> = ({
     },
   ]);
   const [inputText, setInputText] = useState('');
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  // Esc 로 닫기 · 배경 스크롤 잠금 · 포커스 가두기
+  useSampleDialog({ open: isOpen, onClose, dialogRef });
+
+  // 새 말풍선이 화면 밖에 쌓이지 않게 항상 마지막으로 내려 준다.
+  useEffect(() => {
+    if (!isOpen) return;
+    bottomRef.current?.scrollIntoView({ block: 'end' });
+  }, [messages, isOpen]);
 
   if (!isOpen) return null;
 
@@ -70,10 +82,19 @@ export const ConciergeChatModal: React.FC<ConciergeChatModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 lg:p-4" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-end lg:items-center justify-center lg:p-4"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
       <div
-        className="bg-[#1b1c1d] hairline-all max-w-lg w-full h-[600px] max-h-[90vh] flex flex-col justify-between relative shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="1:1 VIP 패션 컨시어지 (샘플 자동응답)"
+        tabIndex={-1}
+        className="bg-[#1b1c1d] hairline-all max-w-lg w-full h-[600px] max-h-[90vh] flex flex-col justify-between relative shadow-2xl outline-none"
       >
         {/* Header */}
         <div className="p-4 bg-[#1f2021] hairline-b flex items-center justify-between">
@@ -93,7 +114,7 @@ export const ConciergeChatModal: React.FC<ConciergeChatModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="text-[#e3e2e3] hover:text-[#caf300] p-1"
+            className="text-[#e3e2e3] hover:text-[#caf300] w-11 h-11 flex items-center justify-center shrink-0 cursor-pointer"
             aria-label="닫기"
           >
             <span className="material-symbols-outlined text-[24px]">close</span>
@@ -117,6 +138,7 @@ export const ConciergeChatModal: React.FC<ConciergeChatModalProps> = ({
               </span>
             </div>
           ))}
+          <div ref={bottomRef} />
         </div>
 
         {/* Quick Prompts */}
@@ -125,7 +147,7 @@ export const ConciergeChatModal: React.FC<ConciergeChatModalProps> = ({
             <button
               key={idx}
               onClick={() => handleSend(q)}
-              className="whitespace-nowrap px-2.5 py-1 text-[11px] font-label-sm text-[#8f9378] hairline-all bg-[#1b1c1d] hover:text-[#caf300] hover:border-[#caf300] shrink-0"
+              className="whitespace-nowrap px-2.5 min-h-11 text-[11px] font-label-sm text-[#8f9378] hairline-all bg-[#1b1c1d] hover:text-[#caf300] hover:border-[#caf300] shrink-0 cursor-pointer"
             >
               {q}
             </button>
@@ -151,11 +173,12 @@ export const ConciergeChatModal: React.FC<ConciergeChatModalProps> = ({
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               placeholder="체형, 실측 치수, 스타일링 질문을 입력하세요..."
-              className="flex-1 bg-[#121314] hairline-all px-3 py-2 text-xs text-[#ffffff] focus:outline-none focus:border-[#caf300]"
+              className="flex-1 min-w-0 bg-[#121314] hairline-all px-3 min-h-11 text-xs text-[#ffffff] focus:outline-none focus:border-[#caf300]"
+              aria-label="컨시어지에게 보낼 내용"
             />
             <button
               type="submit"
-              className="bg-[#caf300] text-[#171e00] px-4 py-2 text-xs font-bold uppercase hover:bg-[#ffffff] transition-colors shrink-0"
+              className="bg-[#caf300] text-[#171e00] px-4 min-h-11 text-xs font-bold uppercase hover:bg-[#ffffff] transition-colors shrink-0 cursor-pointer"
             >
               전송
             </button>

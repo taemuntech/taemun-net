@@ -44,7 +44,7 @@ export const ReservationSection: React.FC = () => {
   return (
     <section
       id="viewing"
-      className="py-16 lg:py-24 bg-[#fff8f5] border-b border-[#d6c2c2]"
+      className="py-16 lg:py-24 bg-[#fff8f5] border-b border-[#d6c2c2] scroll-mt-[calc(var(--sample-bar-h,0px)_+_88px)]"
     >
       <div className="max-w-7xl mx-auto px-4 lg:px-16">
         <div className="text-center max-w-2xl mx-auto mb-14">
@@ -76,7 +76,7 @@ export const ReservationSection: React.FC = () => {
                     예약자 전용 살롱 프라이빗 대관
                   </strong>
                   <span>
-                    동시간대 오직 1팀만을 단독으로 모셔 조용하고 프라이빗한 관람을 보장합니다.
+                    동시간대 한 팀만 모시는 단독 관람으로 운영합니다.
                   </span>
                 </div>
               </li>
@@ -89,7 +89,7 @@ export const ReservationSection: React.FC = () => {
                     웰컴 티 &amp; 페어링 살롱 서비스
                   </strong>
                   <span>
-                    파리 마리아쥬 프레르(Mariage Frères) 앤틱 찻잔 티 세레모니와 함께합니다.
+                    앤틱 찻잔에 내어 드리는 티 세레모니와 함께합니다.
                   </span>
                 </div>
               </li>

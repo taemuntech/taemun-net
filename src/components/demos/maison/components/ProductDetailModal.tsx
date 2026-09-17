@@ -1,7 +1,8 @@
 "use client";
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { Product } from '../types';
+import { useOverlay } from '../use-overlay';
 
 interface ProductDetailModalProps {
   product: Product | null;
@@ -22,21 +23,32 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   isInCart,
   onReserveViewing,
 }) => {
+  // ESC 닫기·배경 스크롤 잠금. 훅이라 `if (!product) return null` 보다 먼저 불러야 한다.
+  const dialogRef = useRef<HTMLDivElement>(null);
+  // ESC 닫기 · 배경 스크롤 잠금 · 포커스 가두기·복귀
+  useOverlay(product !== null, onClose, dialogRef);
+
   if (!product) return null;
 
   return (
     <div
       id="product-detail-modal-backdrop"
-      className="fixed inset-0 z-50 bg-[#14190e]/75 backdrop-blur-xs flex items-center justify-center p-3 lg:p-6 animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 bg-[#14190e]/75 backdrop-blur-xs flex items-end justify-center p-0 lg:items-center lg:p-6 animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div
         id="product-detail-modal-container"
-        className="bg-[#fff8f5] border border-[#735b24] max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl relative"
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="작품 상세"
+        tabIndex={-1}
+        className="bg-[#fff8f5] border border-[#735b24] max-w-4xl w-full max-h-[88vh] overflow-y-auto shadow-2xl relative rounded-t-2xl lg:max-h-[92vh] lg:rounded-none animate-in slide-in-from-bottom-6 duration-300 lg:animate-none outline-none"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top bar with close */}
-        <div className="sticky top-0 bg-[#fff8f5]/95 backdrop-blur-sm px-6 py-4 border-b border-[#d6c2c2] flex justify-between items-center z-10">
+        <div className="sticky top-0 bg-[#fff8f5]/95 backdrop-blur-sm px-4 py-3 lg:px-6 lg:py-4 border-b border-[#d6c2c2] flex justify-between items-center z-10">
+          <span aria-hidden="true" className="absolute left-1/2 top-1.5 h-1 w-10 -translate-x-1/2 rounded-full bg-[#d6c2c2] lg:hidden"></span>
           <div className="flex items-center space-x-2">
             <span className="w-2 h-2 rounded-full bg-[#735b24]"></span>
             <span className="text-[11px] uppercase tracking-[0.2em] text-[#735b24] font-bold">
@@ -47,7 +59,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             id="btn-close-product-modal"
             type="button"
             onClick={onClose}
-            className="p-1.5 text-[#514344] hover:text-[#300a10] transition-colors cursor-pointer"
+            aria-label="작품 상세 닫기"
+            className="flex min-h-11 min-w-11 shrink-0 items-center justify-center text-[#514344] hover:text-[#300a10] transition-colors cursor-pointer"
           >
             <span className="material-symbols-outlined text-[24px]">close</span>
           </button>
@@ -95,7 +108,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               </p>
 
               {/* Technical Specifications Table */}
-              <div className="border-y border-[#d6c2c2] py-3 space-y-2.5 font-serif text-[14px]">
+              <div className="border-y border-[#d6c2c2] py-3 space-y-2.5 font-serif text-[14px] [&>div]:gap-4 [&_span:first-child]:shrink-0">
                 <div className="flex justify-between">
                   <span className="text-[#514344]">시대 및 산지</span>
                   <span className="font-medium text-[#1e1b18] text-right">

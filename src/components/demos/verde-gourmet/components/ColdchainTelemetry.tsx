@@ -1,4 +1,5 @@
 import React from 'react';
+import { TELEMETRY_STEPS } from '../data/mockData';
 
 interface ColdchainTelemetryProps {
   onOpenReportModal: () => void;
@@ -10,7 +11,7 @@ export const ColdchainTelemetry: React.FC<ColdchainTelemetryProps> = ({
   return (
     <section
       id="coldchain-inspection"
-      className="bg-surface-container-lowest rounded-2xl border border-outline-variant p-6 lg:p-8 shadow-sm"
+      className="bg-surface-container-lowest rounded-2xl border border-outline-variant p-6 lg:p-8 shadow-sm scroll-mt-[calc(var(--sample-bar-h,0px)_+_140px)]"
     >
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-outline-variant">
         <div>
@@ -74,51 +75,23 @@ export const ColdchainTelemetry: React.FC<ColdchainTelemetryProps> = ({
               운송 전 구간 무경계 저온 데이터 (0~2℃)
             </h3>
 
-            {/* Process Step Cards */}
+            {/* Process Step Cards — 검증서 모달과 **같은 데이터**를 쓴다(따로 적어 두면 한쪽만 고쳐져 갈라진다) */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-              <div className="bg-surface-container-lowest p-3 rounded-lg border border-outline-variant hover:border-secondary/50 transition-colors">
-                <div className="flex items-center justify-between text-[11px] font-mono text-outline mb-1">
-                  <span>STEP 01</span>
-                  <span className="text-secondary font-mono font-bold">0.8℃</span>
+              {TELEMETRY_STEPS.map((step) => (
+                <div
+                  key={step.step}
+                  className={`p-3 rounded-lg border transition-colors hover:border-secondary/50 ${ step.status === 'ready' ? 'bg-secondary-container/40 border-secondary/40' : 'bg-surface-container-lowest border-outline-variant' }`}
+                >
+                  <div className="flex items-center justify-between gap-1 text-[11px] font-mono text-outline mb-1">
+                    <span>{step.step}</span>
+                    <span className="text-secondary font-mono font-bold whitespace-nowrap">{step.temp}</span>
+                  </div>
+                  <div className="font-bold text-primary text-xs">{step.title}</div>
+                  <div className="text-[11px] text-on-surface-variant mt-1 leading-snug">
+                    {step.description}
+                  </div>
                 </div>
-                <div className="font-bold text-primary text-xs">산지 출하시설</div>
-                <div className="text-[11px] text-on-surface-variant mt-1 leading-snug">
-                  진공 스킨팩 직후 저온 챔버 입고
-                </div>
-              </div>
-
-              <div className="bg-surface-container-lowest p-3 rounded-lg border border-outline-variant hover:border-secondary/50 transition-colors">
-                <div className="flex items-center justify-between text-[11px] font-mono text-outline mb-1">
-                  <span>STEP 02</span>
-                  <span className="text-secondary font-mono font-bold">1.2℃</span>
-                </div>
-                <div className="font-bold text-primary text-xs">냉장 탑차 이동</div>
-                <div className="text-[11px] text-on-surface-variant mt-1 leading-snug">
-                  차량 내부 GPS 온도 트래커 연동
-                </div>
-              </div>
-
-              <div className="bg-surface-container-lowest p-3 rounded-lg border border-outline-variant hover:border-secondary/50 transition-colors">
-                <div className="flex items-center justify-between text-[11px] font-mono text-outline mb-1">
-                  <span>STEP 03</span>
-                  <span className="text-secondary font-mono font-bold">1.0℃</span>
-                </div>
-                <div className="font-bold text-primary text-xs">곤지암 물류허브</div>
-                <div className="text-[11px] text-on-surface-variant mt-1 leading-snug">
-                  풀콜드 실내 피킹 &amp; 포장 구역
-                </div>
-              </div>
-
-              <div className="bg-surface-container-lowest p-3 rounded-lg border border-outline-variant bg-surface-container-low/50 hover:border-secondary/50 transition-colors">
-                <div className="flex items-center justify-between text-[11px] font-mono text-outline mb-1">
-                  <span>STEP 04</span>
-                  <span className="text-secondary font-mono font-bold">0.5℃ 유지</span>
-                </div>
-                <div className="font-bold text-primary text-xs">고객 문 앞 도착</div>
-                <div className="text-[11px] text-on-surface-variant mt-1 leading-snug">
-                  새벽 07:00 전 보냉백 인도 완료
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
@@ -131,9 +104,9 @@ export const ColdchainTelemetry: React.FC<ColdchainTelemetryProps> = ({
             <button
               type="button"
               onClick={onOpenReportModal}
-              className="text-secondary font-bold hover:underline flex items-center gap-1 font-mono text-xs cursor-pointer"
+              className="text-secondary font-bold hover:underline inline-flex min-h-11 items-center gap-1 font-mono text-xs cursor-pointer"
             >
-              이력번호 전문 조회하기
+              단계별 기록 전문 보기 (예시)
               <span className="material-symbols-outlined text-sm">open_in_new</span>
             </button>
           </div>

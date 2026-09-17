@@ -12,7 +12,7 @@ import { DeliveryAndReviews } from './components/DeliveryAndReviews';
 import { Footer } from './components/Footer';
 import { CartDrawer } from './components/CartDrawer';
 import { PRODUCTS } from './data';
-import { CartItem, EngravingConfig, Product } from './types';
+import { CartItem, CategoryKey, EngravingConfig, Product } from './types';
 
 interface ArtisanGiftAppProps {
   isEmbed?: boolean;
@@ -39,7 +39,11 @@ export default function ArtisanGiftApp({ isEmbed }: ArtisanGiftAppProps = {}) {
   ]);
 
   const [isCartOpen, setIsCartOpen] = useState(false);
+  // 헤더 카테고리 메뉴와 컬렉션 필터가 같은 값을 본다 — 메뉴를 누르면 목록이 실제로 바뀐다
+  const [activeCategory, setActiveCategory] = useState<CategoryKey>('all');
   const [favorites, setFavorites] = useState<string[]>(['product-1', 'product-3']);
+  // 머리말 하트와 컬렉션의 「찜한 작품 N」 칩이 같은 값을 본다.
+  const [onlyFavorites, setOnlyFavorites] = useState(false);
   const [sampleNoticeOpen, setSampleNoticeOpen] = useState(false);
   const [sampleActionName, setSampleActionName] = useState('주문 결제 및 예약');
 
@@ -104,6 +108,15 @@ export default function ArtisanGiftApp({ isEmbed }: ArtisanGiftAppProps = {}) {
     setSampleNoticeOpen(true);
   };
 
+  /**
+   * 머리말 하트 — 컬렉션의 「찜한 작품」 필터를 켜고 그 구역으로 데려간다.
+   * 예전에는 배지에 「찜 2」가 떠 있는데 누르면 「샘플입니다」 안내창만 떴다. 되는 기능을 안 되는 척했다.
+   */
+  const handleShowFavorites = () => {
+    setOnlyFavorites(true);
+    document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#FAF7F2] text-[#3e1c06] selection:bg-[#f6b998] selection:text-[#3e1c06]">
       {/* 1. Top Notice Announcement Bar */}
@@ -111,10 +124,12 @@ export default function ArtisanGiftApp({ isEmbed }: ArtisanGiftAppProps = {}) {
 
       {/* 2. Primary Navigation Header */}
       <Header
+        activeCategory={activeCategory}
+        onSelectCategory={setActiveCategory}
         favoritesCount={favorites.length}
         cartCount={cartItems.reduce((acc, i) => acc + i.quantity, 0)}
         onOpenCart={() => setIsCartOpen(true)}
-        onOpenFavorites={() => handleOpenNotice('관심 작품 목록 조회')}
+        onOpenFavorites={handleShowFavorites}
         onOpenConcierge={() => handleOpenNotice('1:1 비스포크 장인 컨시어지 상담')}
         onOpenProfile={() => handleOpenNotice('회원 등급 및 마이페이지 조회')}
       />
@@ -128,17 +143,21 @@ export default function ArtisanGiftApp({ isEmbed }: ArtisanGiftAppProps = {}) {
 
         {/* 5. Masterpiece Collection 4-Column Product Grid */}
         <ProductCollection
+          activeCategory={activeCategory}
+          onChangeCategory={setActiveCategory}
           favorites={favorites}
           onToggleFavorite={handleToggleFavorite}
           onOrderProduct={handleOrderProduct}
-          onKakaoGift={(product, packId) => handleOpenNotice(`${product.name} 카카오톡 선물하기`)}
+          onGiftLink={(product) => handleOpenNotice(`${product.name} 선물 링크 보내기`)}
+          onlyFavorites={onlyFavorites}
+          onChangeOnlyFavorites={setOnlyFavorites}
         />
 
         {/* 6. Traditional Bojagi Gift Wrapping Knot Lookbook */}
         <BojagiLookbook />
 
         {/* 7. Scheduled Delivery Reservation & Real Unboxing Reviews */}
-        <DeliveryAndReviews onOpenDatePicker={() => handleOpenNotice('기념일 안심 예약 배송일 지정')} />
+        <DeliveryAndReviews />
       </main>
 
       {/* 8. Heritage Certified Footer */}

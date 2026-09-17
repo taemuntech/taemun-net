@@ -1,5 +1,8 @@
-import React from 'react';
-import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight, Zap, CheckCircle2 } from 'lucide-react';
+'use client';
+
+import React, { useRef } from 'react';
+import { X, Plus, Minus, Trash2, ShoppingBag, Zap, CheckCircle2 } from 'lucide-react';
+import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
 import { CartItem } from '../types';
 
 interface CartDrawerProps {
@@ -19,6 +22,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onRemoveItem,
   onCheckout,
 }) => {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  // Esc·포커스 가둠·배경 스크롤 잠금 (배경 클릭 닫기는 아래 onMouseDown)
+  useSampleDialog({ open: isOpen, onClose, dialogRef, initialFocusRef: closeRef });
+
   if (!isOpen) return null;
 
   const FREE_SHIPPING_THRESHOLD = 30000;
@@ -32,11 +41,19 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   const remainingForFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/50 backdrop-blur-xs transition-opacity animate-in fade-in duration-200">
+    <div
+      className="fixed inset-0 z-50 flex justify-end bg-black/50 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
       <div
-        className="w-full max-w-md bg-white h-full shadow-2xl flex flex-col justify-between border-l border-gray-200 animate-in slide-in-from-right duration-300"
+        ref={dialogRef}
+        className="w-full max-w-md bg-white h-full shadow-2xl flex flex-col justify-between border-l border-gray-200 animate-in slide-in-from-right duration-300 outline-none"
         role="dialog"
+        aria-modal="true"
         aria-label="장바구니"
+        tabIndex={-1}
       >
         {/* Header */}
         <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-[#f9f9ff]">
@@ -47,8 +64,11 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             </h3>
           </div>
           <button
+            ref={closeRef}
+            type="button"
             onClick={onClose}
-            className="p-1 text-gray-500 hover:text-[#141b2b] rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
+            aria-label="장바구니 닫기"
+            className="w-11 h-11 -mr-2 flex items-center justify-center text-gray-500 hover:text-[#141b2b] rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -89,7 +109,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               </p>
               <button
                 onClick={onClose}
-                className="mt-4 px-4 py-2 bg-[#006948] text-white text-xs font-bold rounded-full"
+                className="mt-4 px-5 min-h-11 bg-[#006948] text-white text-xs font-bold rounded-full cursor-pointer hover:bg-[#00855d] transition-colors"
               >
                 베스트 상품 둘러보기
               </button>
@@ -113,7 +133,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       </h4>
                       <button
                         onClick={() => onRemoveItem(item.id)}
-                        className="text-gray-400 hover:text-[#ae2f34] p-0.5"
+                        aria-label={`${item.name} 삭제`}
+                        className="text-gray-400 hover:text-[#ae2f34] w-11 h-11 -mt-2 -mr-2 shrink-0 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -128,14 +149,16 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       <button
                         onClick={() => onUpdateQuantity(item.id, -1)}
                         disabled={item.quantity <= 1}
-                        className="px-2 py-1 text-gray-600 hover:bg-gray-200 disabled:opacity-30"
+                        aria-label="수량 줄이기"
+                        className="w-11 h-11 lg:w-8 lg:h-8 flex items-center justify-center text-gray-600 hover:bg-gray-200 disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
                       >
                         <Minus className="w-3 h-3" />
                       </button>
                       <span className="px-2 font-bold text-gray-800">{item.quantity}</span>
                       <button
                         onClick={() => onUpdateQuantity(item.id, 1)}
-                        className="px-2 py-1 text-gray-600 hover:bg-gray-200"
+                        aria-label="수량 늘리기"
+                        className="w-11 h-11 lg:w-8 lg:h-8 flex items-center justify-center text-gray-600 hover:bg-gray-200 cursor-pointer"
                       >
                         <Plus className="w-3 h-3" />
                       </button>
@@ -168,7 +191,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 </div>
               )}
               <div className="flex justify-between">
-                <span>배송비 (당일배송)</span>
+                <span>배송비 (당일배송 · 예시)</span>
                 <span className="font-semibold text-[#141b2b]">
                   {shippingFee === 0 ? (
                     <span className="text-[#006948] font-bold">무료 (3만원 이상)</span>
@@ -192,7 +215,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               className="w-full h-12 bg-[#006948] hover:bg-[#00855d] active:scale-[0.98] text-white rounded-full font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#006948]/20 transition-all cursor-pointer"
             >
               <Zap className="w-4 h-4 fill-white" />
-              총 {items.reduce((acc, i) => acc + i.quantity, 0)}개 상품 주문하기 (당일배송)
+              총 {items.reduce((acc, i) => acc + i.quantity, 0)}개 상품 주문하기
             </button>
           </div>
         )}

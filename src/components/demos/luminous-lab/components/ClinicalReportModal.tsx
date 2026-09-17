@@ -1,5 +1,8 @@
-import React from 'react';
+'use client';
+
+import React, { useRef } from 'react';
 import { X, FileText, CheckCircle2, Award } from 'lucide-react';
+import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
 
 interface ClinicalReportModalProps {
   isOpen: boolean;
@@ -7,19 +10,38 @@ interface ClinicalReportModalProps {
 }
 
 export const ClinicalReportModal: React.FC<ClinicalReportModalProps> = ({ isOpen, onClose }) => {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  useSampleDialog({ open: isOpen, onClose, dialogRef, initialFocusRef: closeRef });
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl border border-white space-y-5 animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+    <div
+      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-end lg:items-center justify-center lg:p-4 animate-in fade-in duration-200"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="인체적용시험 임상 리포트 (예시)"
+        tabIndex={-1}
+        className="bg-white rounded-t-3xl lg:rounded-3xl lg:max-w-xl w-full p-6 shadow-2xl border border-white space-y-5 outline-none animate-in slide-in-from-bottom lg:zoom-in-95 duration-200 max-h-[85vh] lg:max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between pb-3 border-b border-gray-100">
           <div className="flex items-center gap-2">
             <FileText className="w-6 h-6 text-[#006948]" />
             <h3 className="text-lg font-bold text-[#141b2b]">인체적용시험 임상 리포트 (예시)</h3>
           </div>
           <button
+            ref={closeRef}
+            type="button"
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-700 p-1 rounded-full cursor-pointer"
+            aria-label="임상 리포트 닫기"
+            className="w-11 h-11 -mr-2 shrink-0 flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-full cursor-pointer transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -90,7 +112,7 @@ export const ClinicalReportModal: React.FC<ClinicalReportModalProps> = ({ isOpen
 
         <button
           onClick={onClose}
-          className="w-full h-11 bg-[#006948] hover:bg-[#00855d] text-white font-bold text-xs rounded-full flex items-center justify-center cursor-pointer transition-all"
+          className="w-full h-12 bg-[#006948] hover:bg-[#00855d] text-white font-bold text-xs rounded-full flex items-center justify-center cursor-pointer transition-all"
         >
           임상 리포트 확인 완료
         </button>

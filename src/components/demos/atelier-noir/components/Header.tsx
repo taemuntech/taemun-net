@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { LOGO_IMG, TRENDING_KEYWORDS } from '../data/mockData';
+import { CURRENCY_LABEL, SAMPLE_RATES, useCurrency, type CurrencyCode } from '../currency';
 
 interface HeaderProps {
   wishlistCount: number;
@@ -11,6 +12,7 @@ interface HeaderProps {
   onSearch: (query: string) => void;
   activeNav: string;
   setActiveNav: (nav: string) => void;
+  onGoHome: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -23,12 +25,26 @@ export const Header: React.FC<HeaderProps> = ({
   onSearch,
   activeNav,
   setActiveNav,
+  onGoHome,
 }) => {
   const [tickerIndex, setTickerIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
-  const [currency, setCurrency] = useState<'KRW' | 'USD' | 'EUR'>('KRW');
+  const { currency, setCurrency } = useCurrency();
   const [showCurrencyDropdown, setShowCurrencyDropdown] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const currencyBoxRef = useRef<HTMLDivElement>(null);
+
+  // 통화 드롭다운은 바깥을 누르면 닫힌다 — 열어 둔 채로 다른 곳을 눌러도 그대로 떠 있었다.
+  useEffect(() => {
+    if (!showCurrencyDropdown) return;
+    const onPointerDown = (e: MouseEvent) => {
+      if (currencyBoxRef.current && !currencyBoxRef.current.contains(e.target as Node)) {
+        setShowCurrencyDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', onPointerDown);
+    return () => document.removeEventListener('mousedown', onPointerDown);
+  }, [showCurrencyDropdown]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -45,10 +61,11 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[#0c0d0e]/90 backdrop-blur-md hairline-b">
+    // 공용 샘플 바에 가려지지 않게 top-0 대신 --sample-bar-h 를 쓴다 — 바가 없으면 0px 라 화면은 그대로다.
+    <header className="sticky top-[var(--sample-bar-h,0px)] z-50 bg-[#0c0d0e]/90 backdrop-blur-md hairline-b">
       {/* 1. TOP UTILITY BAR */}
-      <div className="bg-[#0d0e0f] hairline-b px-4 lg:px-6 py-1 text-[#8f9378] font-label-sm text-[11px]">
-        <div className="max-w-[1920px] mx-auto flex justify-between items-center tracking-wider">
+      <div className="bg-[#0d0e0f] hairline-b px-4 lg:px-6 max-lg:py-0 lg:py-1 text-[#8f9378] font-label-sm text-[11px]">
+        <div className="max-w-[1920px] mx-auto flex justify-between items-center tracking-wider max-lg:min-h-11">
           <div className="flex items-center space-x-3 lg:space-x-6 overflow-x-auto no-scrollbar py-0.5">
             <span className="inline-flex items-center gap-1.5 text-[#caf300] shrink-0 font-medium">
               <span className="w-1.5 h-1.5 bg-[#caf300] inline-block"></span>
@@ -57,21 +74,21 @@ export const Header: React.FC<HeaderProps> = ({
             <span className="hidden lg:inline text-[#343536]">/</span>
             <button
               onClick={onOpenTracking}
-              className="hover:text-[#ffffff] transition-colors shrink-0 text-left"
+              className="hover:text-[#ffffff] transition-colors shrink-0 text-left inline-flex items-center max-lg:min-h-11"
             >
               배송조회
             </button>
             <span className="text-[#343536]">/</span>
             <a
               href="#ranking"
-              className="hover:text-[#ffffff] transition-colors shrink-0"
+              className="hover:text-[#ffffff] transition-colors shrink-0 inline-flex items-center max-lg:min-h-11"
             >
               에디토리얼 매거진
             </a>
             <span className="text-[#343536]">/</span>
             <button
               onClick={onOpenConcierge}
-              className="hover:text-[#ffffff] transition-colors shrink-0"
+              className="hover:text-[#ffffff] transition-colors shrink-0 inline-flex items-center max-lg:min-h-11"
             >
               신규 브랜드 입점신청
             </button>
@@ -82,39 +99,36 @@ export const Header: React.FC<HeaderProps> = ({
               고객센터 1588-0000 (예시) (10:00 - 18:00)
             </span>
             <span className="hidden lg:inline text-[#343536]">/</span>
-            <div className="relative">
+            <div className="relative" ref={currencyBoxRef}>
               <button
                 onClick={() => setShowCurrencyDropdown(!showCurrencyDropdown)}
-                className="flex items-center gap-1 hover:text-[#ffffff] transition-colors font-label-sm text-[11px]"
+                aria-haspopup="listbox"
+                aria-expanded={showCurrencyDropdown}
+                className="flex items-center gap-1 hover:text-[#ffffff] transition-colors font-label-sm text-[11px] max-lg:min-h-11"
               >
-                <span>
-                  {currency === 'KRW' && '🇰🇷 KR / KRW (₩)'}
-                  {currency === 'USD' && '🇺🇸 US / USD ($)'}
-                  {currency === 'EUR' && '🇪🇺 EU / EUR (€)'}
-                </span>
+                <span>{CURRENCY_LABEL[currency]}</span>
                 <span className="material-symbols-outlined text-[14px]">expand_more</span>
               </button>
 
               {showCurrencyDropdown && (
-                <div className="absolute right-0 mt-1 w-36 bg-[#1b1c1d] hairline-all p-1 z-50 shadow-2xl text-[11px]">
-                  <button
-                    onClick={() => { setCurrency('KRW'); setShowCurrencyDropdown(false); }}
-                    className="w-full text-left px-2 py-1.5 hover:bg-[#292a2b] hover:text-[#caf300]"
-                  >
-                    🇰🇷 KRW (₩)
-                  </button>
-                  <button
-                    onClick={() => { setCurrency('USD'); setShowCurrencyDropdown(false); }}
-                    className="w-full text-left px-2 py-1.5 hover:bg-[#292a2b] hover:text-[#caf300]"
-                  >
-                    🇺🇸 USD ($)
-                  </button>
-                  <button
-                    onClick={() => { setCurrency('EUR'); setShowCurrencyDropdown(false); }}
-                    className="w-full text-left px-2 py-1.5 hover:bg-[#292a2b] hover:text-[#caf300]"
-                  >
-                    🇪🇺 EUR (€)
-                  </button>
+                <div role="listbox" className="absolute right-0 mt-1 w-56 bg-[#1b1c1d] hairline-all p-1 z-50 shadow-2xl text-[11px]">
+                  {(['KRW', 'USD', 'EUR'] as CurrencyCode[]).map((code) => (
+                    <button
+                      key={code}
+                      role="option"
+                      aria-selected={currency === code}
+                      onClick={() => { setCurrency(code); setShowCurrencyDropdown(false); }}
+                      className={`w-full text-left px-2 min-h-11 flex items-center gap-2 hover:bg-[#292a2b] hover:text-[#caf300] ${ currency === code ? 'text-[#caf300] font-bold' : '' }`}
+                    >
+                      <span>{CURRENCY_LABEL[code]}</span>
+                      {code !== 'KRW' && (
+                        <span className="ml-auto text-[#8f9378] shrink-0">1 = ₩{SAMPLE_RATES[code].toLocaleString('ko-KR')}</span>
+                      )}
+                    </button>
+                  ))}
+                  <p className="px-2 py-1.5 text-[10px] text-[#8f9378] leading-snug">
+                    예시 환율입니다 — 고시 환율이 아니고, 이 샘플에서는 결제도 이루어지지 않습니다.
+                  </p>
                 </div>
               )}
             </div>
@@ -127,7 +141,12 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center justify-between py-3 lg:py-4 gap-4 lg:gap-6">
           {/* Brand Identity & Logo */}
           <div className="flex items-center gap-4">
-            <a href="#" className="flex items-center gap-3 group">
+            <button
+              type="button"
+              onClick={onGoHome}
+              className="flex items-center gap-3 group text-left cursor-pointer"
+              aria-label="아틀리에 누아르 홈 — 맨 위로"
+            >
               <img
                 src={LOGO_IMG}
                 alt="ATELIER NOIR Brand Logo"
@@ -136,7 +155,7 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="font-display-hero text-xl lg:text-2xl font-extrabold tracking-tighter text-[#ffffff] uppercase">
                 ATELIER NOIR
               </span>
-            </a>
+            </button>
             <span className="hidden lg:inline-block font-label-sm text-[10px] text-[#8f9378] px-2 py-0.5 border border-[#444932]">
               SEOUL / PARIS
             </span>
@@ -150,7 +169,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <button
                   key={nav}
                   onClick={() => setActiveNav(nav)}
-                  className={`transition-colors duration-150 relative py-1 ${ isActive ? 'text-[#ffffff] font-bold border-b border-[#caf300]' : 'text-[#c5c9ac] font-medium hover:text-[#caf300]' } ${nav === 'SALE' ? 'flex items-center gap-1.5' : ''}`}
+                  className={`transition-colors duration-150 relative py-1 min-h-11 ${ isActive ? 'text-[#ffffff] font-bold border-b border-[#caf300]' : 'text-[#c5c9ac] font-medium hover:text-[#caf300]' } ${nav === 'SALE' ? 'flex items-center gap-1.5' : ''}`}
                 >
                   <span>{nav}</span>
                   {nav === 'SALE' && (
@@ -186,7 +205,8 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center space-x-4 lg:space-x-5 font-label-lg text-xs">
             <button
               onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
-              className="lg:hidden text-[#e3e2e3] hover:text-[#caf300] transition-colors"
+              className="lg:hidden text-[#e3e2e3] hover:text-[#caf300] transition-colors flex items-center justify-center min-w-11 min-h-11 -m-2"
+              aria-expanded={mobileSearchOpen}
               aria-label="모바일 검색"
             >
               <span className="material-symbols-outlined">search</span>
@@ -194,7 +214,7 @@ export const Header: React.FC<HeaderProps> = ({
 
             <button
               onClick={onOpenWishlist}
-              className="flex items-center gap-1 text-[#e3e2e3] hover:text-[#caf300] transition-colors group"
+              className="flex items-center gap-1 text-[#e3e2e3] hover:text-[#caf300] transition-colors group min-h-11 px-1 -mx-1"
               title="위시리스트"
             >
               <span className={`material-symbols-outlined group-hover:scale-110 transition-transform ${wishlistCount > 0 ? 'text-[#ffb4ab]' : ''}`}>
@@ -207,7 +227,7 @@ export const Header: React.FC<HeaderProps> = ({
 
             <button
               onClick={onOpenConcierge}
-              className="hidden lg:flex items-center gap-1 text-[#e3e2e3] hover:text-[#caf300] transition-colors"
+              className="hidden lg:flex items-center gap-1 text-[#e3e2e3] hover:text-[#caf300] transition-colors min-h-11"
               title="마이페이지 / VIP 컨시어지"
             >
               <span className="material-symbols-outlined text-[20px]">person</span>
@@ -216,7 +236,7 @@ export const Header: React.FC<HeaderProps> = ({
 
             <button
               onClick={onOpenCart}
-              className="flex items-center gap-2 bg-[#caf300] text-[#171e00] px-3.5 py-1.5 hover:bg-[#ffffff] hover:text-[#171e00] transition-all font-bold cursor-pointer"
+              className="flex items-center gap-2 bg-[#caf300] text-[#171e00] px-3.5 py-1.5 min-h-11 hover:bg-[#ffffff] hover:text-[#171e00] transition-all font-bold cursor-pointer"
             >
               <span className="material-symbols-outlined text-[16px]">shopping_bag</span>
               <span className="tracking-wider">BAG ({cartCount})</span>
@@ -237,7 +257,7 @@ export const Header: React.FC<HeaderProps> = ({
                 className="w-full bg-transparent text-[#ffffff] text-sm focus:outline-none placeholder:text-[#8f9378]"
                 autoFocus
               />
-              <button type="submit" className="text-xs text-[#caf300] font-bold ml-2">검색</button>
+              <button type="submit" className="text-xs text-[#caf300] font-bold ml-2 min-h-11 px-2">검색</button>
             </form>
           </div>
         )}

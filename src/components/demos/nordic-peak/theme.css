@@ -1,0 +1,184 @@
+/*
+ * 노르딕 피크 샘플 전용 색·글자 토큰.
+ *
+ * 왜 이 파일이 생겼나(실측 2026-09-17): 이 샘플은 화면 전체를 `bg-surface-container`·`text-on-surface`·
+ * `font-headline-sm` 같은 머티리얼 3 토큰 이름으로 짜 놨는데, 저장소 어디에도 그 토큰 정의가 없었다
+ * (globals.css 에 @theme 이 없고, tailwind 설정 파일도 없다). Tailwind 는 모르는 이름을 그냥 버리므로
+ * 클래스가 **전부 무효**였고, 실제 화면은 흰 바탕에 검은 글자·검은 실선만 남은 맨 문서로 렌더됐다
+ * (.qa/nordic-peak/1440.png — 히어로 사진 위 글자가 안 읽히는 것도 어두운 덮개 클래스가 죽어서였다).
+ *
+ * 공용 파일(globals.css)은 내 담당이 아니고, 같은 증상인 데모가 3종 더 있어(prime-vision-eye-clinic ·
+ * stella-orbital · verde-gourmet) 전역에 한 벌을 박으면 네 데모가 같은 색이 된다. 그래서 정의를
+ * **이 샘플 폴더 안에, #np-root 아래로만** 둔다. 클래스 이름은 한 글자도 바꾸지 않아 디자인 원본이 그대로 산다.
+ *
+ * 나중에 저장소에 공용 토큰 체계가 생기면 이 파일을 지우고 그쪽으로 옮기면 된다.
+ */
+
+#np-root {
+  --np-background: #090d12;
+  --np-surface: #0e141b;
+  --np-surface-container-lowest: #0a0f15;
+  --np-surface-container-low: #121922;
+  --np-surface-container: #18202a;
+  --np-surface-container-high: #212b36;
+  --np-surface-container-highest: #2b3744;
+
+  --np-on-surface: #e7edf3;
+  --np-on-surface-variant: #b2bec9;
+  --np-outline: #8593a0;
+  --np-outline-variant: #2f3b48;
+
+  --np-primary: #a7d26b;
+  --np-on-primary: #17250b;
+  --np-primary-container: #1d2a15;
+  --np-on-primary-container: #cde7a4;
+
+  --np-secondary: #74c7da;
+
+  /* 경고·CTA 계열. container 는 밝은 앰버라 그 위 글자(on-tertiary)는 어둡다 */
+  --np-tertiary: #e09a4a;
+  --np-tertiary-container: #f0b472;
+  --np-tertiary-fixed: #6b3a0e;
+  --np-on-tertiary: #2b1705;
+  --np-on-tertiary-container: #2b1705;
+
+  --np-sans: "Inter", system-ui, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --np-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", "Roboto Mono", Menlo, monospace;
+
+  background-color: var(--np-background);
+  color: var(--np-on-surface);
+  font-family: var(--np-sans);
+}
+
+/* ───────── 배경색 ───────── */
+#np-root .bg-background { background-color: var(--np-background); }
+#np-root .bg-surface { background-color: var(--np-surface); }
+#np-root .bg-surface-container { background-color: var(--np-surface-container); }
+#np-root .bg-surface-container\/90 { background-color: color-mix(in srgb, var(--np-surface-container) 90%, transparent); }
+#np-root .bg-surface-container-low { background-color: var(--np-surface-container-low); }
+#np-root .bg-surface-container-lowest { background-color: var(--np-surface-container-lowest); }
+#np-root .bg-surface-container-high { background-color: var(--np-surface-container-high); }
+#np-root .bg-surface-container-highest { background-color: var(--np-surface-container-highest); }
+#np-root .bg-outline-variant { background-color: var(--np-outline-variant); }
+#np-root .bg-primary { background-color: var(--np-primary); }
+#np-root .bg-primary-container { background-color: var(--np-primary-container); }
+#np-root .bg-secondary { background-color: var(--np-secondary); }
+#np-root .bg-tertiary { background-color: var(--np-tertiary); }
+#np-root .bg-tertiary-container { background-color: var(--np-tertiary-container); }
+#np-root .bg-tertiary-fixed { background-color: var(--np-tertiary-fixed); }
+
+/* ───────── 글자색 ───────── */
+#np-root .text-on-surface { color: var(--np-on-surface); }
+#np-root .text-on-surface-variant { color: var(--np-on-surface-variant); }
+#np-root .text-outline { color: var(--np-outline); }
+#np-root .text-outline-variant { color: var(--np-outline-variant); }
+#np-root .text-primary { color: var(--np-primary); }
+#np-root .text-on-primary { color: var(--np-on-primary); }
+#np-root .text-on-primary-container { color: var(--np-on-primary-container); }
+#np-root .text-secondary { color: var(--np-secondary); }
+#np-root .text-tertiary { color: var(--np-tertiary); }
+#np-root .text-on-tertiary { color: var(--np-on-tertiary); }
+#np-root .text-on-tertiary-container { color: var(--np-on-tertiary-container); }
+#np-root .placeholder\:text-outline::placeholder { color: var(--np-outline); }
+
+/* ───────── 테두리 ───────── */
+#np-root .border-outline { border-color: var(--np-outline); }
+#np-root .border-outline-variant { border-color: var(--np-outline-variant); }
+#np-root .border-primary { border-color: var(--np-primary); }
+#np-root .border-tertiary { border-color: var(--np-tertiary); }
+#np-root .border-tertiary-container { border-color: var(--np-tertiary-container); }
+#np-root .divide-outline-variant > :not(:last-child),
+#np-root .divide-outline-variant > * + * { border-color: var(--np-outline-variant); }
+
+/* ───────── 상태 변형 (기본형보다 뒤에 두어야 이긴다) ───────── */
+#np-root .hover\:bg-surface-container:hover { background-color: var(--np-surface-container); }
+#np-root .hover\:bg-surface-container-high:hover { background-color: var(--np-surface-container-high); }
+#np-root .hover\:bg-surface-container-highest:hover { background-color: var(--np-surface-container-highest); }
+#np-root .hover\:bg-tertiary:hover { background-color: var(--np-tertiary); }
+#np-root .hover\:text-on-surface:hover { color: var(--np-on-surface); }
+#np-root .hover\:text-primary:hover { color: var(--np-primary); }
+#np-root .hover\:text-tertiary:hover { color: var(--np-tertiary); }
+#np-root .hover\:border-outline:hover { border-color: var(--np-outline); }
+#np-root .hover\:border-outline-variant:hover { border-color: var(--np-outline-variant); }
+#np-root .hover\:border-primary:hover { border-color: var(--np-primary); }
+#np-root .hover\:border-secondary:hover { border-color: var(--np-secondary); }
+#np-root .hover\:border-tertiary:hover { border-color: var(--np-tertiary); }
+#np-root .focus\:border-primary:focus { border-color: var(--np-primary); }
+#np-root .group:hover .group-hover\:border-primary { border-color: var(--np-primary); }
+
+/* ───────── 글자 크기·서체 ───────── */
+#np-root .font-body-lg,
+#np-root .font-body-md,
+#np-root .font-body-sm,
+#np-root .font-headline-lg,
+#np-root .font-headline-lg-mobile,
+#np-root .font-headline-md,
+#np-root .font-headline-sm { font-family: var(--np-sans); }
+#np-root .font-label-mono-md,
+#np-root .font-label-mono-sm { font-family: var(--np-mono); }
+
+#np-root .text-body-lg { font-size: 16px; line-height: 1.7; }
+#np-root .text-body-md { font-size: 14px; line-height: 1.7; }
+#np-root .text-body-sm { font-size: 12.5px; line-height: 1.6; }
+#np-root .text-headline-sm { font-size: 17px; line-height: 1.35; }
+#np-root .text-headline-md { font-size: 24px; line-height: 1.3; }
+#np-root .text-headline-lg { font-size: 30px; line-height: 1.2; }
+#np-root .text-headline-lg-mobile { font-size: 25px; line-height: 1.25; }
+#np-root .text-label-mono-md { font-size: 12px; line-height: 1.5; letter-spacing: 0.03em; }
+#np-root .text-label-mono-sm { font-size: 11px; line-height: 1.5; letter-spacing: 0.04em; }
+
+@media (min-width: 1024px) {
+  #np-root .lg\:font-display-hero { font-family: var(--np-sans); }
+  #np-root .lg\:text-display-hero { font-size: 42px; line-height: 1.12; }
+  #np-root .lg\:text-headline-sm { font-size: 17px; line-height: 1.35; }
+}
+
+/* ───────── 설계도 모눈 ───────── */
+#np-root .blueprint-grid {
+  background-size: 28px 28px;
+  background-image:
+    linear-gradient(to right, rgba(167, 210, 107, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(167, 210, 107, 0.07) 1px, transparent 1px);
+}
+
+/* 풍속 슬라이더 — 기본 높이가 너무 얇아 손가락으로 잡기 어렵다 */
+#np-root input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+#np-root input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--np-surface-container-highest);
+}
+#np-root input[type="range"]::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--np-surface-container-highest);
+}
+#np-root input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -7px;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--np-tertiary);
+  border: 2px solid var(--np-surface-container-lowest);
+  cursor: pointer;
+}
+#np-root input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--np-tertiary);
+  border: 2px solid var(--np-surface-container-lowest);
+  cursor: pointer;
+}
+
+/* 선택 영역 색 */
+#np-root ::selection {
+  background: var(--np-tertiary-container);
+  color: var(--np-on-tertiary);
+}

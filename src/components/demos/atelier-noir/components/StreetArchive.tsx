@@ -1,15 +1,27 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { STREET_SNAPS } from '../data/mockData';
-import { StreetSnap, Product } from '../types';
+import { StreetSnap } from '../types';
+import { useCurrency } from '../currency';
+import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
 
 interface StreetArchiveProps {
-  onOpenProductModalByName: (name: string, price?: number) => void;
+  /** 착용 아이템의 상세보기 — 상품 id 로 연다 */
+  onOpenProductModalById: (productId: number) => void;
 }
 
 export const StreetArchive: React.FC<StreetArchiveProps> = ({
-  onOpenProductModalByName,
+  onOpenProductModalById,
 }) => {
   const [selectedSnap, setSelectedSnap] = useState<StreetSnap | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const { price } = useCurrency();
+
+  // Esc 로 닫기 · 배경 스크롤 잠금 — 예전엔 X 버튼으로만 닫혔다.
+  useSampleDialog({
+    open: selectedSnap !== null,
+    onClose: () => setSelectedSnap(null),
+    dialogRef,
+  });
 
   return (
     <section className="py-12 lg:py-16 bg-[#1b1c1d] hairline-t hairline-b">
@@ -28,7 +40,7 @@ export const StreetArchive: React.FC<StreetArchiveProps> = ({
             </h2>
           </div>
           <p className="font-body-sm text-xs lg:text-sm text-[#8f9378] max-w-md leading-relaxed">
-            아틀리에 누아르 크루가 착용한 성수동, 한남동, 도산공원 일대의 스트릿 룩북입니다. 인물·착용 정보는 모두 예시 데이터입니다.
+            아틀리에 누아르 크루가 착용한 성수동, 한남동, 도산공원 일대의 스트릿 룩북입니다. 인물·착용 정보는 모두 예시 데이터이고 실제 인물이 아닙니다.
           </p>
         </div>
 
@@ -37,19 +49,23 @@ export const StreetArchive: React.FC<StreetArchiveProps> = ({
           {STREET_SNAPS.map((snap) => (
             <div
               key={snap.id}
-              className="group relative hairline-all overflow-hidden bg-[#121314] cursor-pointer"
-              onClick={() => setSelectedSnap(snap)}
+              className="group relative hairline-all overflow-hidden bg-[#121314]"
             >
-              <div className="aspect-[3/4] overflow-hidden">
+              <button
+                type="button"
+                onClick={() => setSelectedSnap(snap)}
+                aria-label={`${snap.title} 착용 상품 보기`}
+                className="block w-full aspect-[3/4] overflow-hidden cursor-pointer"
+              >
                 <img
                   src={snap.image}
                   alt={snap.altText}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 referrerPolicy="no-referrer" />
-              </div>
+              </button>
 
               {/* Gradient Scrim */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0e0f] via-transparent to-transparent opacity-90"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0d0e0f] via-transparent to-transparent opacity-90 pointer-events-none"></div>
 
               {/* Bottom Card Content */}
               <div className="absolute bottom-0 inset-x-0 p-4">
@@ -65,13 +81,11 @@ export const StreetArchive: React.FC<StreetArchiveProps> = ({
                     {snap.curator} ({snap.bodySpec})
                   </span>
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedSnap(snap);
-                    }}
-                    className="text-[#ffffff] hover:text-[#caf300] transition-colors font-medium flex items-center"
+                    onClick={() => setSelectedSnap(snap)}
+                    className="text-[#ffffff] hover:text-[#caf300] transition-colors font-medium flex items-center min-h-11 px-1 cursor-pointer"
+                    aria-label={`${snap.title} 착용 상품 ${snap.taggedProducts.length}개 보기`}
                   >
-                    착용상품 ({snap.taggedCount}) &gt;
+                    착용상품 ({snap.taggedProducts.length}) &gt;
                   </button>
                 </div>
               </div>
@@ -81,11 +95,23 @@ export const StreetArchive: React.FC<StreetArchiveProps> = ({
 
         {/* Tagged Products Modal / Dialog */}
         {selectedSnap && (
-          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-[#1b1c1d] hairline-all max-w-lg w-full p-6 relative">
+          <div
+            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-end lg:items-center justify-center lg:p-4 overflow-y-auto"
+            onMouseDown={(e) => {
+              if (e.target === e.currentTarget) setSelectedSnap(null);
+            }}
+          >
+            <div
+              ref={dialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label={selectedSnap.title}
+              tabIndex={-1}
+              className="bg-[#1b1c1d] hairline-all max-w-lg w-full max-h-[92vh] overflow-y-auto p-6 relative outline-none"
+            >
               <button
                 onClick={() => setSelectedSnap(null)}
-                className="absolute top-4 right-4 text-[#e3e2e3] hover:text-[#caf300] p-1"
+                className="absolute top-3 right-3 w-11 h-11 flex items-center justify-center text-[#e3e2e3] hover:text-[#caf300] cursor-pointer"
                 aria-label="닫기"
               >
                 <span className="material-symbols-outlined text-[24px]">close</span>
@@ -110,24 +136,25 @@ export const StreetArchive: React.FC<StreetArchiveProps> = ({
                 {selectedSnap.taggedProducts.map((item, idx) => (
                   <div
                     key={idx}
-                    className="p-3 bg-[#1f2021] hairline-all flex items-center justify-between hover:border-[#caf300] transition-colors"
+                    className="p-3 bg-[#1f2021] hairline-all flex flex-wrap items-center justify-between gap-2 hover:border-[#caf300] transition-colors"
                   >
-                    <div>
+                    <div className="min-w-0">
                       <span className="inline-block font-label-sm text-[10px] text-[#caf300] bg-[#0d0e0f] px-1.5 py-0.5 mr-2">
                         {item.tag}
                       </span>
                       <span className="text-xs font-medium text-[#ffffff]">{item.name}</span>
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 shrink-0">
                       <span className="font-label-sm text-xs text-[#caf300] font-bold">
-                        ₩{item.price.toLocaleString()}
+                        {price(item.price)}
                       </span>
                       <button
                         onClick={() => {
                           setSelectedSnap(null);
-                          onOpenProductModalByName(item.name, item.price);
+                          onOpenProductModalById(item.productId);
                         }}
-                        className="text-[11px] font-label-sm bg-[#caf300] text-[#171e00] px-2 py-0.5 font-bold hover:bg-[#ffffff]"
+                        className="text-[11px] font-label-sm bg-[#caf300] text-[#171e00] px-2.5 min-h-11 font-bold hover:bg-[#ffffff] cursor-pointer"
+                        aria-label={`${item.name} 상세 보기`}
                       >
                         상세보기
                       </button>
@@ -138,7 +165,7 @@ export const StreetArchive: React.FC<StreetArchiveProps> = ({
 
               <button
                 onClick={() => setSelectedSnap(null)}
-                className="w-full py-2.5 bg-[#292a2b] hover:bg-[#343536] text-[#ffffff] font-label-sm text-xs tracking-wider uppercase transition-colors"
+                className="w-full min-h-11 py-2.5 bg-[#292a2b] hover:bg-[#343536] text-[#ffffff] font-label-sm text-xs tracking-wider uppercase transition-colors cursor-pointer"
               >
                 닫기
               </button>

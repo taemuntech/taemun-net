@@ -1,17 +1,47 @@
-import React, { useState } from 'react';
+'use client';
+
+import React, { useMemo, useState } from 'react';
 import { COMPARISON_MODELS } from '../data/hardwareData';
 import { ComparisonModel } from '../types';
+import type { FlagshipConfig } from '../flagship-config';
 
 interface ComparisonMatrixProps {
+  currentConfig: FlagshipConfig;
   onSelectModel: (model: ComparisonModel) => void;
   onInstantBuy: () => void;
 }
 
 export const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({
+  currentConfig,
   onSelectModel,
   onInstantBuy,
 }) => {
   const [showExtendedRows, setShowExtendedRows] = useState(false);
+
+  /**
+   * 「현재 선택 제품」 칸은 위 구성기에서 고른 값을 그대로 쓴다.
+   *
+   * 예전에는 이 칸이 data 파일의 고정 문자열(₩2,890,000)이라, 구성기에서 GPU 를 올리면 히어로는
+   * ₩3,490,000 인데 바로 아래 이 칸은 ₩2,890,000 이었다 — 한 지면에 같은 모델의 가격이 두 개 떴고,
+   * 이 칸의 「선택 모델 구매하기」를 누르면 주문서에는 또 다른 값이 찍혔다.
+   */
+  const models = useMemo<ComparisonModel[]>(
+    () =>
+      COMPARISON_MODELS.map((m) =>
+        m.isCurrent
+          ? {
+              ...m,
+              price: `₩${currentConfig.price.toLocaleString()}`,
+              cpu: currentConfig.cpuName,
+              cpuDetail: currentConfig.cpuDetail,
+              gpu: `${currentConfig.gpuName} · ${currentConfig.tgpText}`,
+              display: currentConfig.panelName,
+              timeSpy: `${currentConfig.score.toLocaleString()} pts`,
+            }
+          : m,
+      ),
+    [currentConfig],
+  );
 
   return (
     <section id="telemetry-matrix-section" className="flex flex-col gap-3">
@@ -21,20 +51,21 @@ export const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-[#4cd7f6]">data_thresholding</span>
             <h2 className="text-lg lg:text-xl font-headline font-bold text-[#dfe2ee]">
-              실시간 하드웨어 텔레메트리 대조 매트릭스
+              하드웨어 스펙 대조 매트릭스
             </h2>
           </div>
           <p className="text-xs text-[#8c909f] mt-0.5">
-            자체 테스트 랩 실측 예시 데이터 — 벤치마크, 쿨링 부하, 포트 규격 다차원 비교 분석
+            자체 테스트 랩 예시 데이터 — 지어낸 값이며 실제 측정 결과가 아닙니다
           </p>
         </div>
 
         <div className="flex items-center gap-3 font-label text-xs">
-          <span className="text-[#8c909f]">선택 모델: 3대 대조 중</span>
+          <span className="text-[#8c909f]">선택 모델: {models.length}대 대조 중</span>
           <button
             id="btn-toggle-matrix-rows"
+            type="button"
             onClick={() => setShowExtendedRows(!showExtendedRows)}
-            className="px-3 py-1 rounded bg-[#262a33] text-[#4cd7f6] border border-[#424754] hover:border-[#4cd7f6] transition-all cursor-pointer"
+            className="px-3 min-h-11 rounded bg-[#262a33] text-[#4cd7f6] border border-[#424754] hover:border-[#4cd7f6] transition-all cursor-pointer"
           >
             {showExtendedRows ? '기본 항목만 보기 (-2)' : '비교 항목 변경 (+2)'}
           </button>
@@ -47,7 +78,7 @@ export const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({
           <thead>
             <tr className="bg-[#0a0e16] border-b border-[#424754]">
               <th className="p-4 font-label text-xs text-[#8c909f] w-44">검증 파라미터</th>
-              {COMPARISON_MODELS.map((model) => (
+              {models.map((model) => (
                 <th
                   key={model.id}
                   className={`p-4 border-l border-[#424754]/60 w-1/3 relative ${ model.isCurrent ? 'bg-[#1c2028]/60' : '' }`}
@@ -71,6 +102,11 @@ export const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({
                   >
                     {model.price}
                   </div>
+                  {model.isCurrent && (
+                    <div className="text-[10px] text-[#8c909f] font-normal mt-0.5">
+                      위 구성기에서 고른 구성 기준
+                    </div>
+                  )}
                 </th>
               ))}
             </tr>
@@ -82,7 +118,7 @@ export const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({
               <td className="p-4 font-label text-[#8c909f] flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-[15px]">memory</span> 프로세서 (CPU)
               </td>
-              {COMPARISON_MODELS.map((m) => (
+              {models.map((m) => (
                 <td
                   key={m.id}
                   className={`p-4 border-l border-[#424754]/60 ${m.isCurrent ? 'bg-[#1c2028]/20' : ''}`}
@@ -100,7 +136,7 @@ export const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({
               <td className="p-4 font-label text-[#8c909f] flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-[15px]">developer_board</span> 그래픽 (GPU / TGP)
               </td>
-              {COMPARISON_MODELS.map((m) => (
+              {models.map((m) => (
                 <td
                   key={m.id}
                   className={`p-4 border-l border-[#424754]/60 ${m.isCurrent ? 'bg-[#1c2028]/20' : ''}`}
@@ -128,7 +164,7 @@ export const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({
               <td className="p-4 font-label text-[#8c909f] flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-[15px]">tv</span> 패널 &amp; 주사율
               </td>
-              {COMPARISON_MODELS.map((m) => (
+              {models.map((m) => (
                 <td
                   key={m.id}
                   className={`p-4 border-l border-[#424754]/60 ${ m.isCurrent ? 'bg-[#1c2028]/20 font-semibold' : '' }`}
@@ -148,7 +184,7 @@ export const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({
               <td className="p-4 font-label text-[#8c909f] flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-[15px]">mode_fan</span> 쿨링 아키텍처
               </td>
-              {COMPARISON_MODELS.map((m) => (
+              {models.map((m) => (
                 <td
                   key={m.id}
                   className={`p-4 border-l border-[#424754]/60 ${m.isCurrent ? 'bg-[#1c2028]/20' : ''}`}
@@ -163,12 +199,12 @@ export const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({
               ))}
             </tr>
 
-            {/* Thunderbolt & IO Ports */}
+            {/* USB4 & IO Ports */}
             <tr className="hover:bg-[#1c2028] transition-colors">
               <td className="p-4 font-label text-[#8c909f] flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-[15px]">cable</span> I/O &amp; 확장성
               </td>
-              {COMPARISON_MODELS.map((m) => (
+              {models.map((m) => (
                 <td
                   key={m.id}
                   className={`p-4 border-l border-[#424754]/60 text-[#dfe2ee] ${ m.isCurrent ? 'bg-[#1c2028]/20' : '' }`}
@@ -183,7 +219,7 @@ export const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({
               <td className="p-4 font-label text-[#8c909f] flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-[15px]">battery_charging_full</span> 무게 / 배터리용량
               </td>
-              {COMPARISON_MODELS.map((m) => (
+              {models.map((m) => (
                 <td
                   key={m.id}
                   className={`p-4 border-l border-[#424754]/60 text-[#dfe2ee] ${ m.isCurrent ? 'bg-[#1c2028]/20 font-bold' : '' }`}
@@ -201,13 +237,13 @@ export const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({
                     <span className="material-symbols-outlined text-[15px]">headphones</span> 오디오 DAC &amp; 사운드
                   </td>
                   <td className="p-4 border-l border-[#424754]/60 bg-[#1c2028]/20 text-[#4cd7f6]">
-                    ESS SABRE 9218 (384kHz/32bit) Hi-Fi 쿼드 DAC
+                    쿼드 Hi-Fi DAC (384kHz/32bit)
                   </td>
                   <td className="p-4 border-l border-[#424754]/60 text-[#c2c6d6]">
-                    Realtek ALC298 HD 오디오 (DTS:X Ultra)
+                    HD 오디오 코덱 + 서라운드 음향 처리
                   </td>
                   <td className="p-4 border-l border-[#424754]/60 text-[#adc6ff]">
-                    ESS SABRE 9281A PRO + Hi-Res Gold 인증
+                    프로급 Hi-Fi DAC + 고해상도 음원 재생
                   </td>
                 </tr>
                 <tr className="hover:bg-[#1c2028] transition-colors bg-[#0a0e16]/30">
@@ -227,10 +263,10 @@ export const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({
               </>
             )}
 
-            {/* 3DMark Benchmark Index */}
+            {/* 그래픽 벤치 점수 행 — 실존 벤치마크 제품 이름을 지어낸 점수에 붙이지 않는다 */}
             <tr className="bg-[#0a0e16]">
-              <td className="p-4 font-label text-xs text-[#8c909f]">3DMARK Time Spy</td>
-              {COMPARISON_MODELS.map((m) => (
+              <td className="p-4 font-label text-xs text-[#8c909f]">자체 랩 그래픽 점수 (예시)</td>
+              {models.map((m) => (
                 <td
                   key={m.id}
                   className={`p-4 border-l border-[#424754]/60 ${m.isCurrent ? 'bg-[#1c2028]/40' : ''}`}
@@ -252,7 +288,8 @@ export const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({
                 <button
                   id="btn-matrix-buy-current"
                   onClick={onInstantBuy}
-                  className="w-full py-2 bg-[#ec6a06] hover:bg-[#ff7a1a] text-[#4a1c00] font-label text-xs rounded font-bold transition-all orange-glow cursor-pointer"
+                  type="button"
+                  className="w-full min-h-11 bg-[#ec6a06] hover:bg-[#ff7a1a] text-[#4a1c00] font-label text-xs rounded font-bold transition-all orange-glow cursor-pointer"
                 >
                   선택 모델 구매하기
                 </button>
@@ -260,8 +297,9 @@ export const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({
               <td className="p-4 border-l border-[#424754]/60">
                 <button
                   id="btn-matrix-view-aero"
-                  onClick={() => onSelectModel(COMPARISON_MODELS[1])}
-                  className="w-full py-2 bg-[#262a33] hover:bg-[#31353e] text-[#dfe2ee] font-label text-xs rounded border border-[#424754] transition-all cursor-pointer"
+                  onClick={() => onSelectModel(models[1])}
+                  type="button"
+                  className="w-full min-h-11 bg-[#262a33] hover:bg-[#31353e] text-[#dfe2ee] font-label text-xs rounded border border-[#424754] transition-all cursor-pointer"
                 >
                   에어로 14 상세보기
                 </button>
@@ -269,8 +307,9 @@ export const ComparisonMatrix: React.FC<ComparisonMatrixProps> = ({
               <td className="p-4 border-l border-[#424754]/60">
                 <button
                   id="btn-matrix-view-quantum"
-                  onClick={() => onSelectModel(COMPARISON_MODELS[2])}
-                  className="w-full py-2 bg-[#262a33] hover:bg-[#31353e] text-[#dfe2ee] font-label text-xs rounded border border-[#424754] transition-all cursor-pointer"
+                  onClick={() => onSelectModel(models[2])}
+                  type="button"
+                  className="w-full min-h-11 bg-[#262a33] hover:bg-[#31353e] text-[#dfe2ee] font-label text-xs rounded border border-[#424754] transition-all cursor-pointer"
                 >
                   퀀텀 워크스테이션 보기
                 </button>

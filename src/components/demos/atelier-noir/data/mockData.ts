@@ -8,8 +8,9 @@ export const LOOKBOOK_PIECES: LookPiece[] = [
   {
     id: 'look-piece-1',
     pieceNumber: '01',
-    name: '오버사이즈 울 테일러드 자켓',
-    brandDetails: 'BRAND B (예시) · Virgin Wool 100%',
+    productId: 1,
+    name: '오버사이즈 울 캐시미어 더블 블레이저',
+    brandDetails: 'BRAND A (예시) · Virgin Wool 100%',
     price: 348000,
     discountRate: '32% OFF',
     position: { top: '32%', left: '46%' },
@@ -18,10 +19,11 @@ export const LOOKBOOK_PIECES: LookPiece[] = [
   {
     id: 'look-piece-2',
     pieceNumber: '02',
+    productId: 2,
     name: '플루이드 딥 플리츠 와이드 슬랙스',
-    brandDetails: 'BRAND C (예시) · Tencel Wool',
-    price: 178000,
-    discountRate: '15% OFF',
+    brandDetails: 'BRAND B (예시) · Tencel Wool',
+    price: 289000,
+    discountRate: '25% OFF',
     position: { top: '68%', left: '49%' },
     image: '/demo-media/atelier-noir/atelier-noir-13.jpg',
   },
@@ -42,6 +44,7 @@ export const PRODUCTS: Product[] = [
     altText: '오버사이즈 블랙 울 캐시미어 더블 블레이저 룩북',
     colors: ['#0C0D0E', '#27272A'],
     category: '아우터 (OUTER)',
+    subCategory: '오버사이즈 더블 블레이저',
     fit: '오버핏 (OVERSIZED)',
     fabric: '100% VIRGIN WOOL',
     isWishlisted: true,
@@ -72,6 +75,7 @@ export const PRODUCTS: Product[] = [
     altText: '차콜 그레이 딥 플리츠 와이드 플루이드 트라우저',
     colors: ['#1F2021', '#E3E2E3', '#3B4228'],
     category: '하의 (BOTTOMS)',
+    subCategory: '와이드 플리츠 슬랙스',
     fit: '와이드 테이퍼드',
     fabric: 'Tencel Wool Blend',
     isWishlisted: false,
@@ -87,6 +91,7 @@ export const PRODUCTS: Product[] = [
     rank: '03',
     brand: 'BRAND C (예시)',
     name: '5.0 테크니컬 아시메트릭 윈드브레이커',
+    subCategory: '테크니컬 윈드브레이커',
     price: 420000,
     originalPrice: 515000,
     discountRate: '18% OFF',
@@ -100,12 +105,18 @@ export const PRODUCTS: Product[] = [
     fabric: 'High Density Technical Nylon',
     isWishlisted: false,
     modelSpec: '182cm / 70kg, L 착용',
+    measurements: [
+      { size: 'M (95-100)', shoulder: '53 cm', chest: '60 cm', sleeve: '64 cm', length: '72 cm', stock: '재고 5개' },
+      { size: 'L (100-105)', shoulder: '55 cm', chest: '63 cm', sleeve: '66 cm', length: '74 cm', isModelSize: true, stock: '추천 사이즈' },
+      { size: 'XL (105-110)', shoulder: '57 cm', chest: '66 cm', sleeve: '68 cm', length: '76 cm', stock: '재고 2개' },
+    ],
   },
   {
     id: 4,
     rank: '04',
     brand: 'BRAND D (예시)',
     name: '베이비 알파카 립 라운드넥 니트',
+    subCategory: '알파카 라운드넥 니트',
     price: 245000,
     originalPrice: 306000,
     discountRate: '20% OFF',
@@ -118,12 +129,19 @@ export const PRODUCTS: Product[] = [
     fit: '루즈핏',
     fabric: 'Baby Alpaca 80% Wool 20%',
     isWishlisted: false,
+    modelSpec: '175cm / 62kg, M 착용 (루즈하게 떨어지는 핏)',
+    measurements: [
+      { size: 'S (90-95)', shoulder: '46 cm', chest: '52 cm', sleeve: '58 cm', length: '64 cm', stock: '재고 6개' },
+      { size: 'M (95-100)', shoulder: '48 cm', chest: '55 cm', sleeve: '60 cm', length: '66 cm', isModelSize: true, stock: '추천 사이즈' },
+      { size: 'L (100-105)', shoulder: '50 cm', chest: '58 cm', sleeve: '62 cm', length: '68 cm', stock: '재고 3개' },
+    ],
   },
   {
     id: 5,
     rank: '05',
     brand: 'BRAND E (예시)',
     name: '비건 카프스킨 오버사이즈 라이더스 자켓',
+    subCategory: '비건 카프스킨 라이더스',
     price: 398000,
     originalPrice: 663000,
     discountRate: '40% OFF',
@@ -136,12 +154,19 @@ export const PRODUCTS: Product[] = [
     fit: '오버핏 (OVERSIZED)',
     fabric: 'CALFSKIN LEATHER',
     isWishlisted: false,
+    modelSpec: '183cm / 72kg, L 착용 (어깨가 한 뼘 떨어지는 오버핏)',
+    measurements: [
+      { size: 'M (95-100)', shoulder: '51 cm', chest: '58 cm', sleeve: '62 cm', length: '65 cm', stock: '재고 2개' },
+      { size: 'L (100-105)', shoulder: '53 cm', chest: '61 cm', sleeve: '64 cm', length: '67 cm', isModelSize: true, stock: '추천 사이즈' },
+      { size: 'XL (105-110)', shoulder: '55 cm', chest: '64 cm', sleeve: '66 cm', length: '69 cm', stock: '품절임박' },
+    ],
   },
   {
     id: 6,
     rank: '06',
     brand: 'BRAND F (예시)',
     name: '라글란 오버핏 발마칸 울 코트',
+    subCategory: '라글란 발마칸 코트',
     price: 680000,
     originalPrice: 800000,
     discountRate: '15% OFF',
@@ -154,12 +179,19 @@ export const PRODUCTS: Product[] = [
     fit: '오버핏 (OVERSIZED)',
     fabric: '100% VIRGIN WOOL',
     isWishlisted: false,
+    modelSpec: '186cm / 74kg, L 착용 (발목까지 떨어지는 롱 기장)',
+    measurements: [
+      { size: 'M (95-100)', shoulder: '54 cm', chest: '63 cm', sleeve: '64 cm', length: '112 cm', stock: '재고 2개' },
+      { size: 'L (100-105)', shoulder: '56 cm', chest: '66 cm', sleeve: '66 cm', length: '115 cm', isModelSize: true, stock: '추천 사이즈' },
+      { size: 'XL (105-110)', shoulder: '58 cm', chest: '69 cm', sleeve: '68 cm', length: '118 cm', stock: '재고 1개' },
+    ],
   },
   {
     id: 7,
     rank: '07',
     brand: 'BRAND G (예시)',
     name: '스퀘어토 카프스킨 더비슈즈',
+    subCategory: '스퀘어토 더비슈즈',
     price: 520000,
     originalPrice: 578000,
     discountRate: '10% OFF',
@@ -172,12 +204,15 @@ export const PRODUCTS: Product[] = [
     fit: '레귤러',
     fabric: 'Box Calf Leather',
     isWishlisted: false,
+    modelSpec: '평소 265mm 착용 · 볼이 넓으면 한 치수 위를 권합니다 (예시 안내)',
+    sizeOptions: ['250 (EU 39)', '260 (EU 41)', '270 (EU 42)', '280 (EU 44)'],
   },
   {
     id: 8,
     rank: '08',
     brand: 'BRAND H (예시)',
     name: '지오메트릭 카프 레더 토트백',
+    subCategory: '구조적 레더 토트백',
     price: 790000,
     originalPrice: 1098000,
     discountRate: '28% OFF',
@@ -190,6 +225,8 @@ export const PRODUCTS: Product[] = [
     fit: '원사이즈',
     fabric: 'CALFSKIN LEATHER',
     isWishlisted: false,
+    modelSpec: '가로 34cm · 세로 28cm · 폭 12cm, 13인치 노트북 수납 (예시 수치)',
+    sizeOptions: ['ONE SIZE'],
   },
 ];
 
@@ -204,9 +241,9 @@ export const STREET_SNAPS: StreetSnap[] = [
     image: '/demo-media/atelier-noir/atelier-noir-09.jpg',
     altText: '성수동 스트릿 오버핏 블레이저 룩',
     taggedProducts: [
-      { name: 'BRAND A (예시) 오버핏 블레이저', price: 348000, tag: 'OUTER' },
-      { name: 'BRAND B (예시) 테이퍼드 슬랙스', price: 289000, tag: 'BOTTOM' },
-      { name: 'BRAND G (예시) 카프 더비슈즈', price: 520000, tag: 'FOOTWEAR' },
+      { productId: 1, name: 'BRAND A (예시) 오버핏 블레이저', price: 348000, tag: 'OUTER' },
+      { productId: 2, name: 'BRAND B (예시) 테이퍼드 슬랙스', price: 289000, tag: 'BOTTOM' },
+      { productId: 7, name: 'BRAND G (예시) 카프 더비슈즈', price: 520000, tag: 'FOOTWEAR' },
     ],
   },
   {
@@ -219,8 +256,8 @@ export const STREET_SNAPS: StreetSnap[] = [
     image: '/demo-media/atelier-noir/atelier-noir-02.jpg',
     altText: '한남동 카페거리 발마칸 코트 룩',
     taggedProducts: [
-      { name: 'BRAND F (예시) 라글란 발마칸 코트', price: 680000, tag: 'OUTER' },
-      { name: 'BRAND D (예시) 베이비 알파카 니트', price: 245000, tag: 'TOP' },
+      { productId: 6, name: 'BRAND F (예시) 라글란 발마칸 코트', price: 680000, tag: 'OUTER' },
+      { productId: 4, name: 'BRAND D (예시) 베이비 알파카 니트', price: 245000, tag: 'TOP' },
     ],
   },
   {
@@ -233,10 +270,10 @@ export const STREET_SNAPS: StreetSnap[] = [
     image: '/demo-media/atelier-noir/atelier-noir-18.jpg',
     altText: '도산공원 플래그십 스토어 테일러드 앙상블',
     taggedProducts: [
-      { name: 'BRAND A (예시) 더블 브레스티드 자켓', price: 348000, tag: 'OUTER' },
-      { name: 'BRAND B (예시) 와이드 플리츠 슬랙스', price: 289000, tag: 'BOTTOM' },
-      { name: 'BRAND H (예시) 레더 토트백', price: 790000, tag: 'BAG' },
-      { name: '스퀘어토 미니멀 로퍼', price: 430000, tag: 'FOOTWEAR' },
+      { productId: 1, name: 'BRAND A (예시) 더블 브레스티드 자켓', price: 348000, tag: 'OUTER' },
+      { productId: 2, name: 'BRAND B (예시) 와이드 플리츠 슬랙스', price: 289000, tag: 'BOTTOM' },
+      { productId: 8, name: 'BRAND H (예시) 레더 토트백', price: 790000, tag: 'BAG' },
+      { productId: 7, name: 'BRAND G (예시) 스퀘어토 더비슈즈', price: 520000, tag: 'FOOTWEAR' },
     ],
   },
   {
@@ -249,9 +286,9 @@ export const STREET_SNAPS: StreetSnap[] = [
     image: '/demo-media/atelier-noir/atelier-noir-07.jpg',
     altText: '성수 연무장길 비건 레더 라이더스 룩',
     taggedProducts: [
-      { name: 'BRAND E (예시) 비건 레더 자켓', price: 398000, tag: 'OUTER' },
-      { name: 'BRAND C (예시) 5.0 테크니컬 팬츠', price: 380000, tag: 'BOTTOM' },
-      { name: 'BRAND G (예시) 청키 더비슈즈', price: 520000, tag: 'FOOTWEAR' },
+      { productId: 5, name: 'BRAND E (예시) 비건 레더 자켓', price: 398000, tag: 'OUTER' },
+      { productId: 2, name: 'BRAND B (예시) 와이드 테이퍼드 슬랙스', price: 289000, tag: 'BOTTOM' },
+      { productId: 7, name: 'BRAND G (예시) 스퀘어토 더비슈즈', price: 520000, tag: 'FOOTWEAR' },
     ],
   },
 ];
@@ -271,15 +308,32 @@ export const INITIAL_CART: CartItem[] = [
   {
     id: 'cart-2',
     productId: 2,
-    brand: 'BRAND C (예시)',
+    brand: 'BRAND B (예시)',
     name: '플루이드 딥 플리츠 와이드 슬랙스',
     selectedColor: 'Dark Charcoal',
-    selectedSize: 'M (48)',
-    price: 178000,
+    selectedSize: '48 (M)',
+    price: 289000,
     image: '/demo-media/atelier-noir/atelier-noir-15.jpg',
     quantity: 1,
   },
 ];
+
+// 필터 HUD 의 컬러 칩과 상품 상세의 컬러 선택이 같은 표를 쓴다 —
+// 전에는 상세에서 고른 색이 '#0C0D0E' 같은 16진값 그대로 장바구니에 찍혔다.
+export const COLOR_OPTIONS: { name: string; hex: string }[] = [
+  { name: 'Noir Black', hex: '#0C0D0E' },
+  { name: 'Dark Charcoal', hex: '#27272A' },
+  { name: 'Chalk White', hex: '#F4F4F5' },
+  { name: 'Raw Olive', hex: '#3B4228' },
+  { name: 'Charcoal Ink', hex: '#1F2021' },
+  { name: 'Stone Grey', hex: '#71717A' },
+  { name: 'Chalk Ivory', hex: '#E3E2E3' },
+];
+
+export function colorNameOf(hex: string): string {
+  const found = COLOR_OPTIONS.find((c) => c.hex.toLowerCase() === hex.toLowerCase());
+  return found ? found.name : hex;
+}
 
 export const TRENDING_KEYWORDS = [
   '1. 오버핏 발마칸 코트',

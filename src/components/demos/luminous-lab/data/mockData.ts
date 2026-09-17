@@ -7,7 +7,7 @@ export const HERO_PRODUCT = {
   name: '8중 저분자 히알루론산 & 엑소좀 시카 — 무너진 장벽 48시간 밀착 리페어',
   brandLabel: 'LUMINOUS LAB CLINICAL INTENSIVE',
   subTitle: '단독 리필 기획 세트 (시카 엑소좀 수분 앰플 본품 50ml + 에코 리필 파우치 50ml 증정)',
-  description: '정제수 대신 병풀잎수 78%와 마이크로 엑소좀 공법을 적용하여 깊은 속당김을 3초 만에 진정시키고, 유수분 밸런스를 즉각 복원하는 고효능 더마 앰플입니다.',
+  description: '정제수 대신 병풀잎수 78%와 마이크로 엑소좀 공법을 적용해, 바르는 순간 산뜻하게 스며들며 속당기는 느낌 없이 유수분 밸런스를 정돈해 주는 더마 앰플입니다.',
   price: 28800,
   originalPrice: 45000,
   discountRate: 35,
@@ -140,9 +140,9 @@ export const REVIEWS: CustomerReview[] = [
     author: '김*희 님',
     avatarText: '수부',
     skinProfile: '수부지 / 20대 후반',
-    verifiedBadge: '자사몰 실구매 인증 (예시)',
+    verifiedBadge: '예시 후기',
     rating: 5,
-    comment: '"피부과 레이저 시술 받고 나서 붉은기가 진짜 심했는데, 이 시카 앰플 3일 바르고 붉은기 다 가라앉았어요. 끈적거리지 않고 피부 속까지 수분이 꽉 차는 느낌입니다."',
+    comment: '"환절기만 되면 얼굴이 화끈거리는 느낌이 들어서 순한 걸 찾다가 써봤어요. 끈적거리지 않고 발림성이 부드러워서 아침저녁으로 계속 손이 갑니다. 수분이 꽉 차는 느낌이 좋아요."',
     purchasedOption: '시카 엑소좀 수분 앰플 50ml + 리필 기획',
   },
   {
@@ -150,7 +150,7 @@ export const REVIEWS: CustomerReview[] = [
     author: '박*준 님',
     avatarText: '민감',
     skinProfile: '민감성 / 트러블 / 30대 초반',
-    verifiedBadge: '체험단 인증 (예시)',
+    verifiedBadge: '예시 후기',
     rating: 5,
     comment: '"리뷰 평점이 좋길래 반신반의하면서 샀는데 전성분 등급이 높아서 그런지 눈시림이나 트러블 전혀 안 생겨요. 환절기마다 턱 쪽에 각질 일어났는데 장벽 크림이랑 같이 쓰니까 속당김 끝!"',
     purchasedOption: '앰플 & 100시간 크림 듀오 세트',
@@ -160,7 +160,7 @@ export const REVIEWS: CustomerReview[] = [
     author: '이*연 님',
     avatarText: '극건',
     skinProfile: '극건성 / 30대 중반',
-    verifiedBadge: '자체 평가단 (예시)',
+    verifiedBadge: '예시 후기',
     rating: 5,
     comment: '"향료 전혀 안 들어가서 무향인 점이 너무 안심되고 마음에 들어요. 메이크업 전에 얇게 두 번 레이어링하면 물광 파데 바른 것처럼 은은한 속광이 하루종일 유지됩니다."',
     purchasedOption: '시카 엑소좀 수분 앰플 50ml',
@@ -177,7 +177,7 @@ export const CAUTIONARY_INGREDIENTS = [
 ];
 
 export const SKIN_COMPATIBILITY = [
-  { type: '지성/트러블성 (피지 조절 및 진정)', percent: 100, label: '적합 100 (예시)' },
+  { type: '지성/트러블성 (피지 조절 및 진정)', percent: 98, label: '적합 98.0 (예시)' },
   { type: '민감성 피부 (저자극 시험)', percent: 99.8, label: '적합 99.8 (예시)' },
   { type: '건성 피부 (속수분 채움)', percent: 97.4, label: '적합 97.4 (예시)' },
 ];

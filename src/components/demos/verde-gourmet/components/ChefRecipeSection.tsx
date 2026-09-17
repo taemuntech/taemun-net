@@ -29,19 +29,17 @@ export const ChefRecipeSection: React.FC<ChefRecipeSectionProps> = ({
   const bundleDiscount = hasBundleDiscount ? Math.round(originalTotal * 0.1) : 0;
   const finalPrice = originalTotal - bundleDiscount;
 
+  // alert() 는 이 저장소에서 쓰지 않는다 — 0종이면 버튼을 잠그고 그 자리에 이유를 적는다
   const handleAddBundle = () => {
     const selected = ingredients.filter(i => i.checked);
-    if (selected.length === 0) {
-      alert('최소 1개 이상의 재료를 선택해주세요.');
-      return;
-    }
+    if (selected.length === 0) return;
     onAddRecipeBundle(selected, finalPrice);
   };
 
   return (
     <section
       id="recipe-section"
-      className="bg-surface-container-low rounded-2xl p-6 lg:p-8 border border-outline-variant"
+      className="bg-surface-container-low rounded-2xl p-6 lg:p-8 border border-outline-variant scroll-mt-[calc(var(--sample-bar-h,0px)_+_140px)]"
     >
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-6">
         <div>
@@ -74,7 +72,7 @@ export const ChefRecipeSection: React.FC<ChefRecipeSectionProps> = ({
             alt="시그니처 셰프의 지중해식 로스트 한우 채끝 & 구운 토마토 타르타르"
             className="w-full h-full object-cover"
           referrerPolicy="no-referrer" />
-          <div className="absolute bottom-3 left-3 right-3 bg-surface-container-lowest/90 backdrop-blur p-3 rounded-lg border border-outline-variant flex items-center justify-between">
+          <div className="absolute bottom-3 left-3 right-3 bg-surface-container-lowest/90 backdrop-blur p-3 rounded-lg border border-outline-variant flex flex-col lg:flex-row lg:items-center justify-between gap-0.5 lg:gap-2">
             <span className="text-xs font-bold text-primary">셰프 ○○○ (예시) 감수 꿀팁</span>
             <span className="text-[12px] text-secondary font-medium">고기는 굽기 30분 전 상온 보관 권장</span>
           </div>
@@ -98,14 +96,14 @@ export const ChefRecipeSection: React.FC<ChefRecipeSectionProps> = ({
                 key={ing.id}
                 className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors ${ ing.checked ? 'border-secondary/50 bg-surface-container-low/80' : 'border-outline-variant bg-surface-container-lowest opacity-75' }`}
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 min-w-0">
                   <input
                     type="checkbox"
                     checked={ing.checked}
                     onChange={() => toggleIngredient(ing.id)}
-                    className="rounded border-outline text-secondary focus:ring-secondary w-4 h-4 cursor-pointer accent-secondary"
+                    className="rounded border-outline text-secondary focus:ring-secondary w-5 h-5 shrink-0 cursor-pointer accent-secondary"
                   />
-                  <div>
+                  <div className="min-w-0">
                     <span className="text-xs lg:text-sm font-bold text-primary block">
                       {ing.name}
                     </span>
@@ -125,7 +123,9 @@ export const ChefRecipeSection: React.FC<ChefRecipeSectionProps> = ({
           <div className="pt-4 border-t border-outline-variant flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
             <div>
               <div className="text-[12px] text-outline">
-                {hasBundleDiscount ? (
+                {selectedCount === 0 ? (
+                  <>담을 재료를 한 가지 이상 선택해 주세요.</>
+                ) : hasBundleDiscount ? (
                   <>정상가 ₩{originalTotal.toLocaleString('ko-KR')} ➔ 10% 레시피 번들 할인 적용</>
                 ) : (
                   <>2종 이상 선택 시 10% 번들 할인이 적용됩니다.</>
@@ -139,10 +139,11 @@ export const ChefRecipeSection: React.FC<ChefRecipeSectionProps> = ({
             <button
               type="button"
               onClick={handleAddBundle}
-              className="w-full lg:w-auto bg-primary text-on-primary hover:bg-secondary px-6 py-3.5 rounded-lg text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-sm transition-all active:scale-95"
+              disabled={selectedCount === 0}
+              className="w-full lg:w-auto min-h-11 bg-primary text-on-primary hover:bg-secondary px-6 py-3.5 rounded-lg text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-sm transition-all active:scale-95 disabled:cursor-not-allowed disabled:bg-surface-container-highest disabled:text-outline disabled:shadow-none"
             >
               <span className="material-symbols-outlined text-lg">shopping_bag</span>
-              레시피 재료 {selectedCount}종 한 번에 담기
+              {selectedCount === 0 ? '재료를 선택해 주세요' : `레시피 재료 ${selectedCount}종 한 번에 담기`}
             </button>
           </div>
         </div>

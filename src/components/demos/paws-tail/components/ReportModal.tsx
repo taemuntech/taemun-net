@@ -1,4 +1,5 @@
-import React from 'react';
+import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
+import React, { useRef } from 'react';
 import { ProfilerState } from '../types';
 
 interface ReportModalProps {
@@ -14,6 +15,10 @@ export const ReportModal: React.FC<ReportModalProps> = ({
   profilerState,
   dailyGrams,
 }) => {
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useSampleDialog({ open: isOpen && profilerState !== null, onClose, dialogRef });
+
   if (!isOpen || !profilerState) return null;
 
   const morningGrams = Math.round(dailyGrams / 2);
@@ -21,11 +26,25 @@ export const ReportModal: React.FC<ReportModalProps> = ({
   const scoops = (dailyGrams / 30).toFixed(1);
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl max-w-2xl w-full p-6 lg:p-8 shadow-2xl border border-[#bfc9c1]/60 relative text-[#121c2a]">
+    <div
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 backdrop-blur-sm lg:items-center lg:p-4"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="영양 리포트"
+        tabIndex={-1}
+        className="bg-white rounded-t-2xl lg:rounded-2xl max-w-2xl w-full max-h-[92vh] lg:max-h-[88vh] overflow-y-auto p-6 lg:p-8 shadow-2xl border border-[#bfc9c1]/60 relative text-[#121c2a] outline-none"
+      >
         <button
+          type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 text-[#707973] hover:text-[#121c2a] p-1 print:hidden"
+          aria-label="닫기"
+          className="absolute top-3 right-3 text-[#707973] hover:text-[#121c2a] min-h-11 min-w-11 flex items-center justify-center rounded-full hover:bg-slate-100 print:hidden"
         >
           <span className="material-symbols-outlined text-xl">close</span>
         </button>
@@ -39,14 +58,14 @@ export const ReportModal: React.FC<ReportModalProps> = ({
                   PAWS &amp; TAIL VET
                 </span>
                 <span className="text-[10px] bg-[#b1f0ce] text-[#0f5238] px-2 py-0.5 rounded font-bold">
-                  공식 처방 리포트
+                  영양 리포트 (예시)
                 </span>
               </div>
-              <p className="text-xs text-[#404943] mt-0.5">수의학 임상영양연구소 (예시) 처방전</p>
+              <p className="text-xs text-[#404943] mt-0.5">수의학 임상영양연구소 (예시) 급여 안내서</p>
             </div>
             <div className="text-right text-[11px] text-[#707973] font-mono">
-              <p>DOC NO: VET-2025-0982</p>
-              <p>DATE: 2025. 09. 17</p>
+              <p>DOC NO: 표기 자리 (예시)</p>
+              <p>DATE: 표기 자리 (예시)</p>
             </div>
           </div>
         </div>
@@ -79,7 +98,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
         <div className="space-y-4 mb-6 text-xs">
           <h4 className="font-bold text-sm text-[#0f5238] flex items-center gap-1.5 border-b pb-1">
             <span className="material-symbols-outlined text-base">nutrition</span>
-            <span>1일 정량 급여 처방 (RER/DER 환산)</span>
+            <span>1일 정량 급여 안내 (RER/DER 환산)</span>
           </h4>
 
           <div className="grid grid-cols-3 gap-3 text-center">
@@ -138,23 +157,30 @@ export const ReportModal: React.FC<ReportModalProps> = ({
               <p className="text-[10px] text-[#707973]">수의과대학 임상영양학 외래 (예시) / 면허 표기 자리 (예시)</p>
             </div>
           </div>
-          <div className="w-12 h-12 rounded-full border-2 border-[#ba1a1a] text-[#ba1a1a] flex items-center justify-center font-serif text-[10px] font-bold rotate-[-12deg]">
-            검증완료
+          <div className="w-12 h-12 rounded-full border-2 border-[#ba1a1a] text-[#ba1a1a] flex items-center justify-center font-serif text-[10px] font-bold rotate-[-12deg] text-center leading-tight">
+            예시
+            <br />
+            문서
           </div>
         </div>
 
+        <p className="pt-4 text-[11px] leading-relaxed text-[#707973] print:text-[#707973]">
+          가상 브랜드 샘플의 예시 문서입니다. 실제 처방전이 아니며 급여량은 담당 수의사와 상의해
+          정하세요.
+        </p>
+
         {/* Actions */}
-        <div className="flex gap-3 pt-6 print:hidden">
+        <div className="flex gap-3 pt-4 print:hidden">
           <button
             onClick={() => window.print()}
-            className="flex-1 py-3 rounded-full bg-[#0f5238] text-white text-xs font-bold hover:bg-[#2d6a4f] shadow-md flex items-center justify-center gap-1.5"
+            className="flex-1 py-3 min-h-11 rounded-full bg-[#0f5238] text-white text-xs font-bold hover:bg-[#2d6a4f] shadow-md flex items-center justify-center gap-1.5"
           >
             <span className="material-symbols-outlined text-base">print</span>
             <span>리포트 인쇄 / PDF 저장</span>
           </button>
           <button
             onClick={onClose}
-            className="px-6 py-3 rounded-full border border-[#bfc9c1] text-[#404943] text-xs font-bold hover:bg-slate-50"
+            className="px-6 py-3 min-h-11 rounded-full border border-[#bfc9c1] text-[#404943] text-xs font-bold hover:bg-slate-50"
           >
             닫기
           </button>

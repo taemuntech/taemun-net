@@ -20,9 +20,19 @@ export interface Product {
   dosageTip?: string;
   isPopular?: boolean;
   allergySafe?: boolean;
-  lifeStage?: string;
-  clinicalTarget?: string;
+  /** 필터바 「생애주기」 칩과 맞물린다 — 값이 없으면 그 상품은 생애주기 필터에서 영원히 걸러진다 */
+  lifeStage?: LifeStage;
+  /** 필터바 「임상 기능」 칩과 맞물린다 */
+  clinicalTarget?: ClinicalTarget;
+  /** 「그레인프리」 칩 — 태그 문자열이 아니라 이 값으로 판정한다 */
+  grainFree?: boolean;
+  /** 「닭고기 제외」 칩 */
+  chickenFree?: boolean;
 }
+
+/** 'all' 은 필터 상태에만 쓰고 상품에는 쓰지 않는다 */
+export type LifeStage = 'puppy' | 'adult' | 'senior' | 'allStage';
+export type ClinicalTarget = 'joints' | 'allergies' | 'gut' | 'urinary';
 
 export interface CartItem {
   product: Product;
