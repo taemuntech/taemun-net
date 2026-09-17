@@ -327,6 +327,27 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       '견적 결과 연동 1:1 현장 실측 및 상담 예약 모달',
     ],
   },
+  {
+    id: 'stay-jeju',
+    title: '소소재 제주 (SOSOJAE JEJU) 독채 스테이 & 호스피탈리티',
+    client: '가상 브랜드 샘플 — 실제 업체가 아닙니다 (제주 애월 독채 스테이 설정)',
+    category: 'interior',
+    categoryName: '인테리어 · 호스피탈리티',
+    summary: '비움과 여백, 제주의 시간과 돌담이 머무는 프라이빗 독채 스테이 시공 포트폴리오',
+    description: '제주 애월의 바다와 오름을 품은 프라이빗 독채 스테이의 공식 웹사이트입니다. Day/Sunset/Night 시간대별 서커디언 조명 연출과 색온도 제어, 안채 다도실과 노천 히노끼탕 360 공간 투어 핀 핫스팟, 제주 현무암·100년 편백·규조토 등 4대 자연 물성 아카이브를 담았습니다.',
+    thumbnailUrl: '/portfolio/stay-jeju/desktop.png',
+    liveDemoUrl: '/demo/stay-jeju',
+    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Circadian Lighting HUD', 'Spatial Zone Hotspots', 'Jeju Tactile Archive'],
+    period: '2주',
+    year: '2026',
+    badge: '실물 라이브 데모',
+    highlights: [
+      'Day/Sunset/Night 3대 시간대별 자연광 & 앰비언트 조명 시뮬레이터',
+      '안채 다도 라운지, 노천 히노끼탕, 별빛 침실 인터랙티브 핀 핫스팟',
+      '제주 현무암, 100년 편백, 규조토 미장, 감물 린넨 촉각 물성 아카이브',
+      '독채 대관 및 스테이 공간 건축 설계 1:1 상담 예약 모달',
+    ],
+  },
 
   // ─── 03. 건축 (Architecture) ─────────────────────────────────
   {
