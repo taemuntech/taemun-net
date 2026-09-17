@@ -1607,5 +1607,27 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       '단계별 영재 로보틱스 & 피지컬 컴퓨팅 커리큘럼 및 1:1 공학 적성 체험 예약 위저드',
     ],
   },
+  {
+    id: 'codex-tech-bootcamp',
+    title: '코덱스 아카데미 풀스택 & AI 테크 캠프',
+    client: '가상 브랜드 샘플 — 실제 업체가 아닙니다 (IT 부트캠프 설정)',
+    category: 'education',
+    categoryName: '학원 · 코딩/테크 아카데미',
+    summary: '실시간 npm test & docker compose 터미널 CLI 샌드박스 & 16주 Git 커밋 잔디 뷰어',
+    description: '대규모 분산 시스템 아키텍처와 최신 생성형 AI RAG 파이프라인을 교육하는 IT 부트캠프 공식 웹사이트입니다. 실시간 npm test 및 docker compose 명령어를 실행할 수 있는 인터랙티브 CLI 터미널 샌드박스, 16주간의 Git 커밋 잔디(Heatmap) 인터랙션, 실제 론칭 SaaS 프로젝트 쇼케이스, 1:1 코딩테스트 및 사전 역량 진단 위저드를 제공합니다.',
+    thumbnailUrl: '/portfolio/codex-tech-bootcamp/desktop.png',
+    liveDemoUrl: '/demo/codex-tech-bootcamp',
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Interactive CLI Terminal', 'Git Commit Heatmap Engine'],
+    period: '2주',
+    year: '2026',
+    badge: '실물 라이브 데모',
+    highlights: [
+      '실시간 npm test / docker compose 명령어 실행 인터랙티브 CLI 터미널 샌드박스',
+      '16주간 7x16 그리드 Git 커밋 잔디(Heatmap) 및 일자별 PR 로그 인터랙션',
+      'CRDT 협업 보드 및 하이브리드 RAG AI 비서 등 실제 프로덕션 SaaS 쇼케이스',
+      '1:1 코딩테스트 및 이력서/GitHub 사전 역량 진단 신청 위저드',
+    ],
+  },
 ];
+
 
