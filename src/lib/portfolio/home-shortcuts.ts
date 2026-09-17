@@ -105,6 +105,15 @@ const SHORTCUTS: readonly (HomeShortcut & { slug?: string })[] = [
     className:
       "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold transition-all shrink-0 self-start lg:self-end",
   },
+  {
+    // 학원/교육은 따로 뜨는 화면이 없어 그 분류에 **남아 있는 첫 카드**를 모달로 연다.
+    categoryId: "education",
+    action: "firstProject",
+    label: "학원 · 교육 아카이브",
+    icon: "play",
+    className:
+      "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-50 hover:bg-sky-100 text-sky-900 border border-sky-200 text-xs font-bold transition-all shrink-0 self-start lg:self-end cursor-pointer",
+  },
 ];
 
 /** 지금 목록에 실리는 작업물에 붙은 바로가기만 남긴다(내려간 것은 주소·이름째로 빠진다) */

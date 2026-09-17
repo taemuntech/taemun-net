@@ -5,7 +5,8 @@ export type GalleryCategoryId =
   | 'interior'
   | 'architecture'
   | 'saas'
-  | 'manufacturing';
+  | 'manufacturing'
+  | 'education';
 
 export interface GalleryCategoryMeta {
   id: GalleryCategoryId;
@@ -90,6 +91,14 @@ export const GALLERY_CATEGORIES: GalleryCategoryMeta[] = [
     engName: 'Manufacturing & Smart Factory',
     description: '수기 엑셀 장부를 실시간 통계 관리도(SPC), 수율 워터폴 분석, 4단계 로트 계보 역추적 시스템으로 디지털 전환한 엔터프라이즈 솔루션입니다.',
     badge: '정밀 제조 데이터',
+  },
+  {
+    id: 'education',
+    number: '08',
+    name: '학원 · 교육 · 에듀테크 & 아카데미',
+    engName: 'Education & Elite Academy',
+    description: '대치동 최상위권 입시학원부터 주니어 어학원, 미대입시, 실무 코딩 테크 부트캠프까지. 합격생 아카이브와 원생·학부모 실시간 상담 및 레벨테스트 신청 솔루션입니다.',
+    badge: '원생 유치 · 합격 아카이브',
   },
 ];
 
@@ -1178,6 +1187,87 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       '얼굴 부위별(이마·턱끝·팔자) 3D 입체 윤곽 시술 효과 가이드',
       '알레르기·멍·붓기 최소화 캐뉼라 시술 노하우 소개',
       '프라이빗 100% 예약제 및 익명 카카오 비밀 상담 위젯',
+    ],
+  },
+  // ─── 08. 학원 · 교육 (Education & Elite Academy) ──────────────────
+  {
+    id: 'daechi-prestige-academy',
+    title: '대치 프레스티지 의치약한 입시학원',
+    client: '대치동 의치약한 전문 입시학원',
+    category: 'education',
+    categoryName: '학원 · 최상위권 입시',
+    summary: '의치약한 입시 전문, 수능 킬러문항 심층 분석 및 1:1 학습 로드맵',
+    description: '대치동 최상위권 수험생을 위한 의치약학 계열 전문 입시학원 공식 웹사이트입니다. 연도별 의치약한 합격자 데이터베이스, 킬러 문항 대비 커리큘럼 아카이브, 심층 입학 진단 테스트 온라인 신청 시스템을 제공합니다.',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80',
+    techStack: ['Next.js 16', 'TypeScript', 'Tailwind CSS v4', 'Level Test Engine'],
+    period: '2주',
+    year: '2026',
+    badge: '의치약한 합격관',
+    highlights: [
+      '연도별 의치약학 계열 합격자 및 성적 향상 인터랙티브 아카이브',
+      '과목별 킬러 문항 핀셋 분석 및 시기별 커리큘럼 로드맵',
+      '온라인 입학 레벨테스트 예약 및 성적표 분석 시스템',
+      '학부모 전용 주간 학습 리포트 및 모바일 출결 연동',
+    ],
+  },
+  {
+    id: 'veritas-junior-english',
+    title: '베리타스 주니어 프레스티지 어학원',
+    client: '영유 연계 프리미엄 주니어 영어몰입 아카데미',
+    category: 'education',
+    categoryName: '학원 · 주니어 어학원',
+    summary: '원어민 전담 몰입 토론, 미국 교과서 기반 ESL & 북클럽 라이브러리',
+    description: '유치부 및 초등 저학년 대상 원어민 몰입 영어 교육을 제공하는 프리미엄 어학원 웹사이트입니다. 렉사일(Lexile) 지수 기반 온라인 북클럽 도서관, 스피킹 비디오 포트폴리오 갤러리, 체험 수업 신청 위젯을 갖추었습니다.',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80',
+    techStack: ['Next.js', 'React', 'Tailwind CSS', 'Lexile Book Club'],
+    period: '2주',
+    year: '2025',
+    badge: '원어민 전담 몰입',
+    highlights: [
+      '미국 사립학교 정규 커리큘럼 및 렉사일 레벨별 원서 라이브러리',
+      '원생 프레젠테이션 & 스피치 비디오 포트폴리오 쇼케이스',
+      '1:1 원어민 인터뷰 진단 평가 및 체험수업 실시간 예약',
+      '수업 활동 사진 앨범 및 알림장 안전 보안 뷰어',
+    ],
+  },
+  {
+    id: 'atelier-beaux-arts',
+    title: '아틀리에 보자르 파인아트 & 미대입시',
+    client: '서울대·홍익대·한예종 전문 미술·디자인 아카데미',
+    category: 'education',
+    categoryName: '학원 · 미대입시/미술',
+    summary: '명문 미대 실기 합격작 3D 갤러리 & 드로잉 실기 평가 시스템',
+    description: '순수미술 및 디자인 명문대 실기 전문 미술학원 웹사이트입니다. 고해상도 합격작 및 평소작 큐레이션 갤러리, 주요 대학별 실기 기출문제 분석집, 실기 성향 1:1 온라인 심층 상담 창구를 지원합니다.',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80',
+    techStack: ['Next.js', 'Tailwind CSS', 'Virtual Art Gallery', 'TypeScript'],
+    period: '2주',
+    year: '2025',
+    badge: '명문 미대 실기',
+    highlights: [
+      '연도별 서울대·홍익대·한예종 실기 합격작 고화질 큐레이션',
+      '기초디자인·소묘·발상과표현 대학별 기출 분석 리포트',
+      '학생별 개인 실기 포트폴리오 디지털 아카이빙',
+      '주말 실기 평가회 및 교수평가 원클릭 예약 신청',
+    ],
+  },
+  {
+    id: 'codex-tech-bootcamp',
+    title: '코덱스 아카데미 풀스택 & AI 테크 캠프',
+    client: 'IT 기업 취업 연계 실무 풀스택·AI 부트캠프',
+    category: 'education',
+    categoryName: '학원 · 코딩/테크 아카데미',
+    summary: '실무 프로젝트 기반 풀스택·AI 엔지니어링 집중 코스 & 기업 채용 연계',
+    description: '비전공자 및 주니어 개발자를 위한 실무 중심 소프트웨어 엔지니어링 부트캠프 웹사이트입니다. 기수별 팀 프로젝트 쇼케이스, 커리큘럼 실시간 프리뷰, 코딩 테스트 사전 모의평가 및 수강 신청 시스템을 제공합니다.',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80',
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Coding Sandbox'],
+    period: '3주',
+    year: '2026',
+    badge: '실무 프로젝트 특화',
+    highlights: [
+      '기수별 현업 수준 풀스택 & AI 웹 서비스 론칭 쇼케이스',
+      'Git 커밋 잔디 및 과제 리뷰 러닝 대시보드',
+      'IT 유니콘·빅테크 현직자 1:1 코드 리뷰 멘토링 매칭',
+      '국비지원 K-디지털 및 취업 연계 기업 파트너십 안내',
     ],
   },
 ];
