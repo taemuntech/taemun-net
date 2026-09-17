@@ -314,6 +314,16 @@ export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
     iconKey: "sparkles",
   },
   {
+    slug: "the-noble-dermatology",
+    label: "더 노블 청담 피부과",
+    mobileLabel: "더 노블 청담 피부과 (THE NOBLE)",
+    badge: "메디컬 02",
+    description: "정품인증 & 1인 프라이빗 안티에이징",
+    mobileDescription: "정품인증 & 1인실 안티에이징 데모",
+    tone: "emerald",
+    iconKey: "sparkles",
+  },
+  {
     slug: "maison",
     label: "메종 당티크 (Maison)",
     badge: "D2C 살롱",
