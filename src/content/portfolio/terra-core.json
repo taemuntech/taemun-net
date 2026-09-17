@@ -1,0 +1,25 @@
+{
+  "slug": "terra-core",
+  "kind": "sample",
+  "industry": "civil",
+  "title": "테라코어 지중 엔지니어링",
+  "subtitle": "대심도 지하 80m TBM 터널 & 메가 토목 관제 샘플",
+  "summary": "가상 토목 엔지니어링 브랜드 「테라코어」로 제작한 지중·해저 메가 토목 인프라 웹사이트 샘플입니다. 지상 0m부터 지하 80m 대심도 암반까지 스크롤 시 깊이와 지압이 연동되는 수직 심도 텔레메트리 HUD, 14.2m 대구경 쉴드 TBM 커터헤드 굴착 인터랙션, 도심 지하철부터 해저 침매터널까지 4대 지층 단면 핫스팟, 초고강도 세그먼트 라이닝 토목 자재 아카이브를 담았습니다.",
+  "features": [
+    "지상 0m부터 지하 80m까지 스크롤 연동 수직 심도 및 지압(bar) 텔레메트리 HUD",
+    "14.2m 대구경 쉴드 TBM(터널보링머신) 회전 커터헤드 및 굴착 분해도 인터랙션",
+    "4대 지층 특화 단면(도심 지하철·언더피닝·고속철 터널·해저 침매터널) 핫스팟 투어",
+    "세그먼트 라이닝 콘크리트, 차수 그라우트, 록볼트 지반 보강 신소재 아카이브",
+    "SampleNotice 기반 대심도 토목 기술 제안 및 타당성 검토 의뢰 모달"
+  ],
+  "techStack": [
+    "Next.js 16",
+    "React 19",
+    "TypeScript",
+    "Tailwind CSS v4",
+    "Subterranean Strata HUD",
+    "TBM Cutterhead 3D View"
+  ],
+  "liveUrl": "/demo/terra-core",
+  "createdAt": "2026-09-17"
+}

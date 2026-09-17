@@ -57,6 +57,22 @@ AI 스튜디오 이미지 주소(`lh3.googleusercontent.com/...`)를 그냥 받�
 이미 저장소에 들어온 것을 한꺼번에 고치려면 `node scripts/upgrade-images.mjs --apply`.
 검사가 **긴 변 1024px 미만**이면 경고합니다(로고·아이콘·가로 띠는 자동으로 빠집니다).
 
+### 9) 미디어(이미지·영상) **무단 다운로드 원천 차단** (필수 강령)
+우리가 정성스럽게 제작한 이미지와 영상은 **무단 우클릭 저장, 드래그 파일 복제, 브라우저 일괄 저장이 전면 차단**되어야 합니다.
+- **전역 자동 방어**: `(site)/layout.tsx`와 `(demos)/layout.tsx`에 `<MediaProtectionGuard />`가 설치되어 있어 `img, video, canvas, picture`의 우클릭(`contextmenu`) 및 드래그(`dragstart`), `Ctrl+S`가 기본으로 차단됩니다.
+- **비디오 작성 규격**: 새 컴포넌트에 `<video>` 태그를 삽입할 때는 반드시 아래 방어 속성을 기본으로 명시합니다:
+  ```tsx
+  <video
+    autoPlay loop muted playsInline
+    controlsList="nodownload noplaybackrate"
+    disablePictureInPicture
+    onContextMenu={(e) => e.preventDefault()}
+    className="..."
+    src="..."
+  />
+  ```
+- **직다운로드 링크 노출 금지**: 버튼이나 앵커 태그에 미디어 파일의 직접 다운로드(`download` 속성)를 제공하지 않습니다.
+
 > 📄 **실제로 무엇이 나왔는지**는 `docs/DEMO_DEFECT_PATTERNS.md` 에 모아 뒀습니다 — 데모 20종을 전수로
 > 재고 고친 기록입니다. 특히 「기계가 못 잡는 것」(눌러도 안 되는 단추 · 무엇을 눌러도 같은 모달 ·
 > 데이터 자기모순 · 업종별 법)은 그 문서에만 있습니다.

@@ -122,7 +122,10 @@ export function HeroSection({ onOpenVideoModal }: HeroSectionProps) {
  loop
  muted
  playsInline
- className="w-full h-full object-cover"
+ controlsList="nodownload noplaybackrate"
+ disablePictureInPicture
+ onContextMenu={(e) => e.preventDefault()}
+ className="w-full h-full object-cover scale-[1.05] origin-top-left"
  src="/portfolio/nexus-robotics/cleanroom-fleet.mp4"
  />
  {/* Hairline Crosshairs & Measurement Overlay */}
