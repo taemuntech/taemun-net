@@ -57,6 +57,10 @@ AI 스튜디오 이미지 주소(`lh3.googleusercontent.com/...`)를 그냥 받�
 이미 저장소에 들어온 것을 한꺼번에 고치려면 `node scripts/upgrade-images.mjs --apply`.
 검사가 **긴 변 1024px 미만**이면 경고합니다(로고·아이콘·가로 띠는 자동으로 빠집니다).
 
+> 📄 **실제로 무엇이 나왔는지**는 `docs/DEMO_DEFECT_PATTERNS.md` 에 모아 뒀습니다 — 데모 20종을 전수로
+> 재고 고친 기록입니다. 특히 「기계가 못 잡는 것」(눌러도 안 되는 단추 · 무엇을 눌러도 같은 모달 ·
+> 데이터 자기모순 · 업종별 법)은 그 문서에만 있습니다.
+
 ### 올리기 전 한 줄
 ```bash
 node scripts/audit-portfolio.mjs     # ERROR 0 이어야 합니다 (위 3·4·5·6 을 기계가 봅니다)
