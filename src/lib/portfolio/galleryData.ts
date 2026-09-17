@@ -306,6 +306,27 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       '공간별 파노라마 360 가상 투어 뷰어 연동',
     ],
   },
+  {
+    id: 'seongsu-showroom',
+    title: '아틀리에 무드 성수 (플래그십 쇼룸 & 상업 인테리어)',
+    client: '공간 브랜딩 & 상업 인테리어 스튜디오',
+    category: 'interior',
+    categoryName: '인테리어 · 상업공간',
+    summary: '원초적 물성과 현대적 구조가 공존하는 3층 규모 성수 플래그십 쇼룸 웹사이트',
+    description: '붉은 벽돌과 노출 콘크리트, 브러시드 스테인리스와 천연 원석이 조화를 이루는 상업 인테리어 스튜디오의 공식 웹사이트입니다. 3층 층별 조닝 인터랙션 핀 핫스팟, 5대 하이엔드 자재 스펙 아카이브, 업종·규모별 실시간 공간 견적 시뮬레이터 시스템을 탑재했습니다.',
+    thumbnailUrl: '/demo-media/gallery/seongsu-flagship-showroom-01.avif',
+    liveDemoUrl: '/demo/seongsu-showroom',
+    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Interactive Zoning HUD', 'Material Archive', 'Space Estimator'],
+    period: '2주',
+    year: '2025',
+    badge: '실물 라이브 데모',
+    highlights: [
+      '3층 층별 조닝 인터랙티브 핫스팟 & 시공 공법 뷰어',
+      '5대 하이엔드 건축·인테리어 자재 스펙 아카이브',
+      '업종/면적/무드별 실시간 공간 견적 시뮬레이터',
+      '견적 결과 연동 1:1 현장 실측 및 상담 예약 모달',
+    ],
+  },
 
   // ─── 03. 건축 (Architecture) ─────────────────────────────────
   {
