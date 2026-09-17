@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import Script from "next/script";
 import "../globals.css";
+import MediaProtectionGuard from "@/components/MediaProtectionGuard";
 import DemoDisclaimer from "@/components/demo-kit/DemoDisclaimer";
 import { DEMO_GONE_PATH, DEMO_SLUG_HEADER, decideDemoAccess } from "@/lib/portfolio/gate";
 
@@ -90,6 +91,7 @@ export default async function DemosRootLayout({
         )}
       </head>
       <body className="antialiased bg-white text-gray-900 min-h-screen">
+        <MediaProtectionGuard />
         <DemoDisclaimer isProposal={isProposal} slug={access.slug} />
         {children}
       </body>

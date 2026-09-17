@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { SITE_OG_IMAGES } from "@/lib/site-og";
+import MediaProtectionGuard from "@/components/MediaProtectionGuard";
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -122,6 +123,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased bg-white text-zinc-900 min-h-screen selection:bg-zinc-900 selection:text-white">
+        <MediaProtectionGuard />
         {children}
       </body>
     </html>

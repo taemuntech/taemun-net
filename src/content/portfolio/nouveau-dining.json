@@ -1,0 +1,18 @@
+{
+  "slug": "nouveau-dining",
+  "kind": "sample",
+  "industry": "interior",
+  "title": "누보 다이닝",
+  "subtitle": "성수·청담 F&B 카페 & 파인다이닝 인테리어 샘플",
+  "summary": "가상 F&B 공간 브랜드 「누보 다이닝」으로 제작한 프렌치 모던 비스트로 & 감성 카페 인테리어 웹사이트 샘플입니다. 오픈 셰프 카운터 바, 어번 온실 테라스, 르 시엘 프라이빗 룸 핫스팟 투어와 3단계 시간대별 조도(Lux) 시뮬레이션, 이탈리안 테라조와 황동 마감재 아카이브를 담았습니다.",
+  "features": [
+    "3대 특화 조닝(오픈 키친 바·글래스하우스 테라스·VIP 살롱) 핀 핫스팟 투어",
+    "자연광 브런치부터 미드나잇 캔들까지 3단계 조도(Lux/Kelvin) 시뮬레이터",
+    "이탈리안 테라조, 브러시드 새틴 황동, 프렌치 린넨 등 촉각적 마감재 아카이브",
+    "동선 효율성과 고객 체류 시간을 극대화한 F&B 공간 철학",
+    "SampleNotice 기반 가상 F&B 시공 실측 상담 신청 모달"
+  ],
+  "techStack": ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS v4"],
+  "liveUrl": "/demo/nouveau-dining",
+  "createdAt": "2026-09-17"
+}

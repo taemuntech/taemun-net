@@ -249,6 +249,22 @@
   box-shadow: 0 0 20px -2px rgba(6, 182, 212, 0.25);
 }
 
+/* ==========================================================================
+   🔒 TAEMUN MEDIA ASSET PROTECTION (미디어 자산 불법 다운로드/드래그 원천 차단)
+   ========================================================================== */
+img, video, canvas, picture, [data-protect-media] {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  -webkit-touch-callout: none;
+}
+
 
 
 

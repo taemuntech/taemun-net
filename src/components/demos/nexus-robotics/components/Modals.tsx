@@ -65,6 +65,9 @@ export function VideoModal({ isOpen, onClose }: VideoModalProps) {
  autoPlay
  loop
  playsInline
+ controlsList="nodownload noplaybackrate"
+ disablePictureInPicture
+ onContextMenu={(e) => e.preventDefault()}
  className="w-full h-full object-contain bg-black"
  src="/portfolio/nexus-robotics/cleanroom-fleet.mp4"
  />

@@ -122,6 +122,9 @@ export function HeroSection({ onOpenVideoModal }: HeroSectionProps) {
  loop
  muted
  playsInline
+ controlsList="nodownload noplaybackrate"
+ disablePictureInPicture
+ onContextMenu={(e) => e.preventDefault()}
  className="w-full h-full object-cover"
  src="/portfolio/nexus-robotics/cleanroom-fleet.mp4"
  />
