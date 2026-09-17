@@ -123,20 +123,20 @@ export const BeforeAfterGallery: React.FC = () => {
         </div>
 
         {/* Interactive Before/After Split Viewer Container */}
-        <div className="bg-[#ffffff] rounded-3xl p-6 lg:p-8 shadow-[0_12px_40px_rgba(114,91,56,0.06)] border border-[#d1c5b8]/30 flex flex-col gap-6">
-          {/* Viewer Viewport */}
+        <div className="bg-[#ffffff] rounded-3xl p-6 lg:p-10 shadow-[0_12px_40px_rgba(114,91,56,0.06)] border border-[#d1c5b8]/30 flex flex-col gap-6 items-center">
+          {/* Viewer Viewport with natural 3:4 portrait ratio */}
           <div
             ref={containerRef}
             onMouseDown={onMouseDown}
             onTouchStart={onTouchStart}
-            className="relative w-full h-[380px] lg:h-[480px] lg:h-[560px] rounded-2xl overflow-hidden select-none cursor-ew-resize bg-[#ebe7e4] border border-[#d1c5b8]/40"
+            className="relative w-full max-w-[560px] aspect-[3/4] rounded-2xl overflow-hidden select-none cursor-ew-resize bg-[#f4f1ee] border border-[#d1c5b8]/40 shadow-inner"
           >
-            {/* After Image Layer (Background) */}
+            {/* After Image Layer (Full Background) */}
             <div className="absolute inset-0 w-full h-full">
               <img
                 src={currentCase.afterImg}
                 alt={`${currentCase.title} 수술 후`}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-center pointer-events-none"
                 draggable={false}
               />
               <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-full text-[#fdf9f5] text-[12px] font-medium shadow-md">
@@ -144,24 +144,19 @@ export const BeforeAfterGallery: React.FC = () => {
               </div>
             </div>
 
-            {/* Before Image Layer (Clipped via splitPos %) */}
+            {/* Before Image Layer (Clipped via CSS clip-path for 100% pixel-perfect sync without JS delay) */}
             <div
-              className="absolute inset-0 h-full overflow-hidden"
-              style={{ width: `${splitPos}%` }}
+              className="absolute inset-0 w-full h-full pointer-events-none"
+              style={{
+                clipPath: `inset(0 ${100 - splitPos}% 0 0)`
+              }}
             >
-              <div
-                className="h-full relative"
-                style={{
-                  width: containerRef.current ? `${containerRef.current.clientWidth}px` : '100vw'
-                }}
-              >
-                <img
-                  src={currentCase.beforeImg}
-                  alt={`${currentCase.title} 수술 전`}
-                  className="w-full h-full object-cover"
-                  draggable={false}
-                />
-              </div>
+              <img
+                src={currentCase.beforeImg}
+                alt={`${currentCase.title} 수술 전`}
+                className="w-full h-full object-cover object-center pointer-events-none"
+                draggable={false}
+              />
               <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-full text-[#fdf9f5] text-[12px] font-medium shadow-md">
                 수술 전 (Before)
               </div>
@@ -169,17 +164,17 @@ export const BeforeAfterGallery: React.FC = () => {
 
             {/* Divider Handle */}
             <div
-              className="absolute top-0 bottom-0 w-1 bg-[#c5a880] shadow-[0_0_12px_rgba(0,0,0,0.4)] pointer-events-none"
+              className="absolute top-0 bottom-0 w-0.5 bg-[#c5a880] shadow-[0_0_12px_rgba(0,0,0,0.4)] pointer-events-none"
               style={{ left: `${splitPos}%` }}
             >
-              <div className="absolute top-1/2 -translate-y-1/2 -left-4 w-9 h-9 rounded-full bg-[#fdf9f5] shadow-xl flex items-center justify-center text-[#725b38] border border-[#c5a880]">
+              <div className="absolute top-1/2 -translate-y-1/2 -left-4.5 w-9 h-9 rounded-full bg-[#fdf9f5] shadow-xl flex items-center justify-center text-[#725b38] border border-[#c5a880]">
                 <span className="material-symbols-outlined text-[20px]">swap_horiz</span>
               </div>
             </div>
           </div>
 
           {/* Controls & Case Meta Info */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-2 border-b border-[#f1ede9] pb-6">
+          <div className="w-full flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-2 border-b border-[#f1ede9] pb-6">
             {/* Quick Snap View Buttons */}
             <div className="flex items-center gap-2">
               <button
@@ -209,7 +204,7 @@ export const BeforeAfterGallery: React.FC = () => {
             </div>
 
             {/* Dynamic Case Narrative */}
-            <div className="flex flex-col lg:items-end">
+            <div className="flex flex-col lg:items-end break-keep">
               <span className="font-serif text-[18px] font-semibold text-[#1c1c19]">
                 {currentCase.title}
               </span>
@@ -220,22 +215,22 @@ export const BeforeAfterGallery: React.FC = () => {
           </div>
 
           {/* Procedure Key Highlights */}
-          <div className="flex flex-wrap items-center justify-between gap-3 text-[12px]">
+          <div className="w-full flex flex-wrap items-center justify-between gap-3 text-[12px]">
             <div className="flex flex-wrap gap-2">
               {currentCase.keyPoints.map((point, idx) => (
-                <span key={idx} className="px-3 py-1 rounded-full bg-[#f7f3ef] text-[#725b38] font-medium flex items-center gap-1 border border-[#c5a880]/30">
+                <span key={idx} className="px-3 py-1 rounded-full bg-[#f7f3ef] text-[#725b38] font-medium flex items-center gap-1 border border-[#c5a880]/30 break-keep">
                   <span className="material-symbols-outlined text-[14px]">check</span>
                   <span>{point}</span>
                 </span>
               ))}
             </div>
-            <div className="text-[#4d463c] font-medium">
+            <div className="text-[#4d463c] font-medium break-keep">
               예상 회복 기간: <span className="text-[#725b38] font-semibold">{currentCase.recoveryPeriod}</span>
             </div>
           </div>
 
           {/* Medical Disclaimer Badge */}
-          <div className="p-3.5 rounded-xl bg-[#f1ede9]/70 text-center text-[12px] text-[#4d463c] leading-relaxed border border-[#d1c5b8]/30">
+          <div className="w-full p-3.5 rounded-xl bg-[#f1ede9]/70 text-center text-[12px] text-[#4d463c] leading-relaxed border border-[#d1c5b8]/30 break-keep">
             ※ 상기 비포&amp;애프터 사진은 동일 환자의 동의하에 동일한 조명 및 각도에서 촬영된 실제 임상 증례이며, 개인의 체질에 따라 회복 기간 및 출혈·염증 등의 합병증 발생에 차이가 있을 수 있습니다.
           </div>
         </div>
