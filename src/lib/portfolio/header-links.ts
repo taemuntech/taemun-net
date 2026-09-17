@@ -344,6 +344,16 @@ export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
     iconKey: "sparkles",
   },
   {
+    slug: "boncho-hospital",
+    label: "본초 통합한방병원",
+    mobileLabel: "본초 통합한방병원 (BONCHO)",
+    badge: "메디컬 05",
+    description: "의·한의 협진 80병상 & 암면역·수술재활센터",
+    mobileDescription: "암면역·수술재활 & 1인실 스위트 데모",
+    tone: "emerald",
+    iconKey: "sparkles",
+  },
+  {
     slug: "maison",
     label: "메종 당티크 (Maison)",
     badge: "D2C 살롱",
