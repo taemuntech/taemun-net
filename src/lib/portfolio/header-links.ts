@@ -304,6 +304,16 @@ export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
     iconKey: "shoppingBag",
   },
   {
+    slug: "cheongdam-arte-dental",
+    label: "청담 아르떼 치과",
+    mobileLabel: "청담 아르떼 치과 (ARTE DENTAL)",
+    badge: "메디컬 01",
+    description: "3D 네비게이션 임플란트 & 심미치과",
+    mobileDescription: "임플란트 & 심미치과 데모",
+    tone: "gold",
+    iconKey: "sparkles",
+  },
+  {
     slug: "maison",
     label: "메종 당티크 (Maison)",
     badge: "D2C 살롱",
