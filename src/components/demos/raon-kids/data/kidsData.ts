@@ -1,0 +1,96 @@
+import { KidsZone, KidsMaterial } from '../types';
+
+export const KIDS_ZONES: KidsZone[] = [
+  {
+    id: 'water-clay',
+    name: '워터 & 클레이 오감 촉각 아트 아틀리에',
+    engName: 'Sensory Water & Clay Studio',
+    tag: 'ZONE 01 · 오감 창의 아틀리에',
+    description: '어린이의 눈높이에 맞춘 라운드 테라조 수로와 천연 옹기 점토 작업대로 구성된 촉각 발달 공간입니다. 미끄럼 방지 방수 바닥재를 시공했습니다.',
+    safetyPoints: [
+      '낙상 방지 논슬립 마이크로토핑 방수 바닥 (예시)',
+      '모서리 R150mm 이상 라운드 곡선 설계',
+      '친환경 미온수 순환 자동 정화 시스템',
+      '어린이 인체치수 맞춤 52cm 세면 수전대',
+    ],
+    image: '/portfolio/raon-kids/raon-02.jpg',
+  },
+  {
+    id: 'play-pavilion',
+    name: '유기적 곡면 자작나무 실내 놀이 파빌리온',
+    engName: 'Organic Birch Play Pavilion',
+    tag: 'ZONE 02 · 대근육 신체 놀이존',
+    description: '핀란드산 무절 자작나무로 직접 제작한 복층형 실내 놀이터입니다. 유아의 대근육 발달을 돕는 완만한 경사로와 원형 숨바꼭질 창문이 특징입니다.',
+    safetyPoints: [
+      '어린이 놀이시설 안전기준 충족 설계 (예시)',
+      '친환경 무독성 천연 오일스테인 마감',
+      '40mm 두께 충격 흡수 고탄성 안전 매트',
+      '손 끼임 방지 곡면 슬라이드 및 그물망 가드',
+    ],
+    image: '/portfolio/raon-kids/raon-03.jpg',
+  },
+  {
+    id: 'parent-lounge',
+    name: '통창 뷰 부모 전용 감성 커피 & 북 살롱',
+    engName: 'Parent Coffee & Design Book Salon',
+    tag: 'ZONE 03 · 부모 힐링 라운지',
+    description: '아이들의 활동 모습을 안전하게 시야에 담으면서, 부모님은 프리미엄 드립 커피와 아트 북을 즐길 수 있는 차음 글라스 독립 라운지입니다.',
+    safetyPoints: [
+      '저반사 고투명 안전 접합 강화유리 시공',
+      '부모와 아이 간 즉각적 시선 교감 통창 구조',
+      '포근한 오트밀 부클레 모듈러 소파 완비',
+      '스마트 공기질 모니터링 디스플레이 장착',
+    ],
+    image: '/portfolio/raon-kids/raon-04.jpg',
+  },
+];
+
+export const KIDS_MATERIALS: KidsMaterial[] = [
+  {
+    id: 'mat-1',
+    name: '핀란드산 친환경 무절 자작나무 집성목',
+    engName: 'Finnish Birch Plywood (E0)',
+    category: '목재 마감재',
+    origin: '핀란드 FSC 인증 산림 지속가능 벌채목',
+    specs: '두께 18mm / 포름알데히드 E0 등급 (예시)',
+    description: '유럽 친환경 등급을 획득한 최고급 자작나무로, 표면 결이 매끄럽고 모서리 라운딩 가공 시 거스러미가 전혀 발생하지 않는 안전한 목재입니다.',
+    safetyCert: '국제 삼림관리협의회 FSC 인증 (예시 표기)',
+  },
+  {
+    id: 'mat-2',
+    name: '천연 압축 충격 완화 코르크 타일',
+    engName: 'Compressed Acoustic Cork Tile',
+    category: '바닥 및 벽체',
+    origin: '포르투갈산 천연 코르크 참나무 수피',
+    specs: '두께 12mm / 충격 흡수율 42% (예시)',
+    description: '아이가 넘어져도 충격을 부드럽게 완화해 주는 천연 식물성 바닥재로, 층간 소음을 획기적으로 차단하고 항균 기능이 뛰어납니다.',
+  },
+  {
+    id: 'mat-3',
+    name: '유기농 무독성 천연 점토 테라코타 블록',
+    engName: 'Natural Terracotta Clay Block',
+    category: '벽체 마감재',
+    origin: '국내 무형광 무독성 백토 및 황토 배합',
+    specs: '두께 25mm 다공질 자연 건조',
+    description: '인공 안료를 넣지 않고 흙 본연의 포근한 살구빛과 오트밀 색을 띠는 친환경 마감재로, 공간의 습도를 자연적으로 조절합니다.',
+  },
+  {
+    id: 'mat-4',
+    name: '친환경 제로-VOC 라임 미장 페인트',
+    engName: 'Zero-VOC Mineral Lime Paint',
+    category: '도료 및 미장',
+    origin: '유럽 친환경 수용성 천연 미네랄',
+    specs: '유기화합물 방출량 0.01mg/㎡h 미만 (예시)',
+    description: '새집증후군 유발 물질을 일체 배제한 친환경 광물 도료로, 아이들의 호흡기 건강을 안전하게 보호합니다.',
+    safetyCert: '친환경 실내건축자재 안심 인증 (예시 표기)',
+  },
+  {
+    id: 'mat-5',
+    name: '재생 PET 흡음 감성 컬러 펠트',
+    engName: 'Recycled PET Acoustic Soft Felt',
+    category: '벽체 흡음재',
+    origin: '무독성 난연 인증 재생 펠트 섬유',
+    specs: '두께 9mm / 파스텔 민트 & 버터 컬러',
+    description: '아이들의 웃음소리와 실내 울림을 부드럽게 흡수하여 차분하고 포근한 음향 환경을 조성하는 부드러운 패브릭 마감재입니다.',
+  },
+];
