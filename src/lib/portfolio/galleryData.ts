@@ -1649,7 +1649,29 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       '1:1 프라이빗 입시 진단 및 학업 성취도 심층 상담 신청 위저드',
     ],
   },
+  {
+    id: 'leet-cpa',
+    title: '렉스 로스쿨 LEET & CPA 고시관',
+    client: '가상 브랜드 샘플 — 실제 업체가 아닙니다 (전문직 고시학원 설정)',
+    category: 'education',
+    categoryName: '학원 · 로스쿨LEET/CPA고시',
+    summary: '추리논증·언어이해 킬러 문항 핀셋 해체 Lab & 목표 로스쿨별 LEET 요구 표준점수 계산기',
+    description: '법학전문대학원(로스쿨 LEET) 및 공인회계사(CPA) 전문 고시 아카데미 공식 웹사이트입니다. 킬러 문항 오답 함정(Trap) 핀셋 해체 Lab, 학점(GPA) 및 토익 성적 입력 시 목표 로스쿨 군별 요구 LEET 표준점수 환산 시뮬레이터, 최상위 로스쿨 합격자 포트폴리오 아카이브, 1:1 합격 가능성 진단 위저드를 제공합니다.',
+    thumbnailUrl: '/portfolio/leet-cpa/desktop.png',
+    liveDemoUrl: '/demo/leet-cpa',
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'LEET Pinset Dissection Lab', 'Standard Score Simulator'],
+    period: '2주',
+    year: '2026',
+    badge: '실물 라이브 데모',
+    highlights: [
+      '추리논증·언어이해 킬러 문항 오답 함정(Trap) 비율 핀셋 해체 Lab',
+      'GPA 및 공인영어 성적 연동 목표 로스쿨 군별 LEET 표준점수 계산기 HUD',
+      'S대(예시)·K대(예시) 로스쿨 및 공인회계사(CPA) 동차 합격생 수기 아카이브(예시)',
+      '1:1 합격 가능성 정밀 진단 및 서면 정성평가 입학 상담 신청 위저드',
+    ],
+  },
 ];
+
 
 
 
