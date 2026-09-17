@@ -1,0 +1,139 @@
+"use client";
+
+import React, { useState } from 'react';
+import SampleNotice from '@/components/demo-kit/SampleNotice';
+import { Header } from './components/Header';
+import { HeroSection } from './components/HeroSection';
+import { ImplantSection } from './components/ImplantSection';
+import { VeneerSection } from './components/VeneerSection';
+import { FacultySection } from './components/FacultySection';
+import { TechSection } from './components/TechSection';
+import { BookingSection } from './components/BookingSection';
+import { LocationSection } from './components/LocationSection';
+import { Footer } from './components/Footer';
+import { ClinicTourModal } from './components/ClinicTourModal';
+import { PhilosophyModal } from './components/PhilosophyModal';
+import { BookingModal } from './components/BookingModal';
+import { FloatingActions } from './components/FloatingActions';
+import { Language, BookingFormData } from './types';
+
+interface CheongdamArteDentalAppProps {
+  isEmbed?: boolean;
+}
+
+export default function CheongdamArteDentalApp({ isEmbed }: CheongdamArteDentalAppProps = {}) {
+  const [language, setLanguage] = useState<Language>('KR');
+  const [isClinicTourOpen, setIsClinicTourOpen] = useState(false);
+  const [isPhilosophyOpen, setIsPhilosophyOpen] = useState(false);
+  const [confirmedBooking, setConfirmedBooking] = useState<BookingFormData | null>(null);
+  const [sampleNoticeOpen, setSampleNoticeOpen] = useState(false);
+  const [sampleActionName, setSampleActionName] = useState('VIP 진료 예약 및 사전 문진');
+
+  const scrollToBooking = () => {
+    const el = document.getElementById('booking-section');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToImplant = () => {
+    const el = document.getElementById('navigation-section');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleCompleteBooking = (data: BookingFormData) => {
+    setConfirmedBooking(data);
+    setSampleActionName('VIP 진료 예약 신청');
+    setSampleNoticeOpen(true);
+  };
+
+  const handleOpenNotice = (action: string) => {
+    setSampleActionName(action);
+    setSampleNoticeOpen(true);
+  };
+
+  return (
+    <div className="min-h-screen bg-[#faf9f6] text-[#1a1c1a] font-sans selection:bg-[#ffdea5] selection:text-[#261900] flex flex-col">
+      {/* Sticky Header with Navigation and Language Switcher */}
+      <Header
+        language={language}
+        onLanguageChange={setLanguage}
+        onOpenClinicTour={() => setIsClinicTourOpen(true)}
+        onOpenPhilosophy={() => setIsPhilosophyOpen(true)}
+        onNavigateToBooking={scrollToBooking}
+      />
+
+      {/* Main Content Area */}
+      <main className="flex-1 pt-20 lg:pt-28">
+        {/* 1. Hero Section with Luxury Suite Showcase and 4 Stats Cards */}
+        <HeroSection
+          onNavigateToBooking={scrollToBooking}
+          onNavigateToImplant={scrollToImplant}
+          onOpenClinicTour={() => setIsClinicTourOpen(true)}
+        />
+
+        {/* 2. 3D Digital Navigation Implant Section with Comparative Toggle */}
+        <ImplantSection />
+
+        {/* 3. Bespoke Aesthetic Veneers Section with Draggable Before/After Slider */}
+        <VeneerSection />
+
+        {/* 4. Faculty & Certified Specialists Section */}
+        <FacultySection />
+
+        {/* 5. Painless & Safe System 4-Tech Section */}
+        <TechSection />
+
+        {/* 6. Concierge Reservation Form with Sensitivity / Fear Pre-Screening */}
+        <BookingSection
+          onCompleteBooking={handleCompleteBooking}
+        />
+
+        {/* 7. Chic Cheongdam Location, Map, and Valet Parking */}
+        <LocationSection />
+      </main>
+
+      {/* Footer */}
+      <Footer
+        onOpenPhilosophy={() => setIsPhilosophyOpen(true)}
+        onOpenClinicTour={() => setIsClinicTourOpen(true)}
+        onGoToBooking={scrollToBooking}
+      />
+
+      {/* Interactive Modals */}
+      <ClinicTourModal
+        isOpen={isClinicTourOpen}
+        onClose={() => setIsClinicTourOpen(false)}
+        onBookTour={scrollToBooking}
+      />
+
+      <PhilosophyModal
+        isOpen={isPhilosophyOpen}
+        onClose={() => setIsPhilosophyOpen(false)}
+        onGoToBooking={scrollToBooking}
+      />
+
+      <BookingModal
+        bookingData={confirmedBooking}
+        onClose={() => setConfirmedBooking(null)}
+      />
+
+      {/* Floating Quick CTA and Top-scroll Button */}
+      <FloatingActions
+        onGoToBooking={scrollToBooking}
+      />
+
+      {/* 태문 안전 결제 및 샘플 고지 모달 */}
+      <SampleNotice
+        open={sampleNoticeOpen}
+        onClose={() => setSampleNoticeOpen(false)}
+        slug="cheongdam-arte-dental"
+        featureName={sampleActionName}
+        kind="sample"
+        industry="corporate"
+      />
+    </div>
+  );
+}

@@ -43,6 +43,7 @@ import {
   Briefcase,
   Monitor,
   Stethoscope,
+  GraduationCap,
 } from "lucide-react";
 
 /**
@@ -106,6 +107,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
     architecture: false,
     saas: false,
     manufacturing: false,
+    education: false,
   });
 
   // State for project detail modal
@@ -135,6 +137,8 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
         return <Briefcase className="w-4 h-4 text-blue-700" />;
       case "medical":
         return <Stethoscope className="w-4 h-4 text-teal-700" />;
+      case "education":
+        return <GraduationCap className="w-4 h-4 text-sky-700" />;
     }
   };
 

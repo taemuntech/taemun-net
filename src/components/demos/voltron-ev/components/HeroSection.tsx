@@ -214,10 +214,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         >
           {/* Cleanroom Rig Base Visual Image */}
           <div className="relative w-full aspect-[16/9] max-h-[720px] overflow-hidden">
-            <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuH9dhKEGOXl9MUS1-15lZbD4svmbG6pkN0tXJsQB5cLosabyyekdX6Mrw74JD4U4zqRKJZw87--7ry_hmFPDEHiRgjjrvVDAIa4n-F1YKb6tks3OnGrtmhf4MgZQQk8hEWveISYYxEYqYfrxm10t4ArOyp5P4KhqgoePRDYOqdlOduTh1aZLq5j17bBGbAvW4qRlJPSWMjNNEYfS2kkPXEPN4204kOB9bnpudWwHeE9rpeOy_O34E"
-              alt="VOLTRON 800V Powertrain Cleanroom Test Rig and SiC Inverter Telemetry HUD"
-              referrerPolicy="no-referrer"
+            <video
+              src="/portfolio/voltron-ev/powertrain-rig.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              poster="https://lh3.googleusercontent.com/aida-public/AB6AXuDuH9dhKEGOXl9MUS1-15lZbD4svmbG6pkN0tXJsQB5cLosabyyekdX6Mrw74JD4U4zqRKJZw87--7ry_hmFPDEHiRgjjrvVDAIa4n-F1YKb6tks3OnGrtmhf4MgZQQk8hEWveISYYxEYqYfrxm10t4ArOyp5P4KhqgoePRDYOqdlOduTh1aZLq5j17bBGbAvW4qRlJPSWMjNNEYfS2kkPXEPN4204kOB9bnpudWwHeE9rpeOy_O34E"
               className="w-full h-full object-cover object-center filter contrast-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0b0e13] via-transparent to-[#0b0e13]/40 pointer-events-none" />
