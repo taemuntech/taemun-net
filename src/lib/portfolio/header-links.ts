@@ -284,6 +284,16 @@ export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
     iconKey: "compass",
   },
   {
+    slug: "paws-tail",
+    label: "포우즈 앤 테일",
+    mobileLabel: "포우즈 앤 테일 (PAWS & TAIL VET)",
+    badge: "쇼핑몰 08",
+    description: "반려동물 임상영양 & 맞춤 처방식 커머스",
+    mobileDescription: "반려동물 임상영양 & 맞춤 처방식 데모",
+    tone: "emerald",
+    iconKey: "activity",
+  },
+  {
     slug: "maison",
     label: "메종 당티크 (Maison)",
     badge: "D2C 살롱",
