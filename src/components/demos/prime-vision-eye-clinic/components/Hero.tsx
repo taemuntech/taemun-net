@@ -103,10 +103,10 @@ export const Hero: React.FC<HeroProps> = ({ language, onNavigate }) => {
             <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl bg-surface-container-low p-3">
               <div className="relative w-full h-[360px] lg:h-[400px] rounded-xl overflow-hidden">
                 <img
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgCUz0_mLF5SZi_bMi9to1x2Aqjtr7EdtUigxEQG-zAVWCFoCN_sfcM39nVZpQ-Ct3qLq_d_nt_Y67u3-Drr-0J_aeoUMtSMapPzhjSN1kUwicYPZqvnzogrRyTlHH4DVBJwSn_uWgVEDzhixB7rR59TQZnVLZMSYbCmPtOPgW25OEMyWHDO_sFA7t3D5_1muA2G0ag-jNc60V8DliZxg4q_w-Ji5dtWshus7UL1TFm2pir7g1UBTxMQ"
-                  alt="High-tech Carl Zeiss laser eye surgery room with VisuMax 800 femtosecond laser"
+                  src="/portfolio/prime-vision-eye-clinic/eye-exam-friendly.jpg"
+                  alt="프라임 스마트 아이 안과 세극등 정밀 안종합검진 및 시력교정 상담"
                   className="w-full h-full object-cover"
-                 referrerPolicy="no-referrer" />
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-transparent to-transparent pointer-events-none"></div>
 
                 {/* Floating Top HUD Badges */}

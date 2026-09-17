@@ -1127,7 +1127,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     categoryName: '병의원 · 안과/시력교정',
     summary: '스마일프로 7초 레이저 시술 안내, 각막 두께·동공 크기별 시력교정술 적합도 계산기',
     description: '스마일프로, 라섹, 안내렌즈삽입술(ICL), 다초점 인공수정체 백내장 수술을 중점 집도하는 전문 안과의원 웹사이트입니다. 50여 가지 정밀 안구 종합검진 절차 소개, 내 눈에 맞는 시력교정술 인터랙티브 추천 시뮬레이터, 의료진의 수술 누적 건수 및 학회 연구 실적을 신뢰감 있게 구성했습니다.',
-    thumbnailUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBgCUz0_mLF5SZi_bMi9to1x2Aqjtr7EdtUigxEQG-zAVWCFoCN_sfcM39nVZpQ-Ct3qLq_d_nt_Y67u3-Drr-0J_aeoUMtSMapPzhjSN1kUwicYPZqvnzogrRyTlHH4DVBJwSn_uWgVEDzhixB7rR59TQZnVLZMSYbCmPtOPgW25OEMyWHDO_sFA7t3D5_1muA2G0ag-jNc60V8DliZxg4q_w-Ji5dtWshus7UL1TFm2pir7g1UBTxMQ',
+    thumbnailUrl: '/portfolio/prime-vision-eye-clinic/eye-exam-friendly.jpg',
     liveDemoUrl: '/demo/prime-vision-eye-clinic',
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'SMILE Pro 7s Simulator', 'IOL Vision Viewer'],
     period: '2주',
