@@ -324,6 +324,16 @@ export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
     iconKey: "sparkles",
   },
   {
+    slug: "prime-vision-eye-clinic",
+    label: "프라임 스마트 아이 안과",
+    mobileLabel: "프라임 스마트 아이 안과 (PRIME VISION)",
+    badge: "메디컬 03",
+    description: "스마일프로 7초 & 노안백내장 센터",
+    mobileDescription: "스마일프로 & 백내장 데모",
+    tone: "cyan",
+    iconKey: "sparkles",
+  },
+  {
     slug: "maison",
     label: "메종 당티크 (Maison)",
     badge: "D2C 살롱",
