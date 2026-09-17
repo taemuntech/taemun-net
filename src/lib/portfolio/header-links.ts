@@ -354,6 +354,16 @@ export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
     iconKey: "sparkles",
   },
   {
+    slug: "onsaemiro-plastic-surgery",
+    label: "온새미로 성형외과",
+    mobileLabel: "온새미로 성형외과 (ONSAEMIRO)",
+    badge: "메디컬 06",
+    description: "순우리말 자연미 & 1:1:0.8 안면 황금비율 센터",
+    mobileDescription: "황금비율 시뮬레이터 & 비포애프터 듀얼 슬라이더 데모",
+    tone: "gold",
+    iconKey: "sparkles",
+  },
+  {
     slug: "maison",
     label: "메종 당티크 (Maison)",
     badge: "D2C 살롱",
