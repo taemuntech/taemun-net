@@ -144,7 +144,7 @@ export const ConsultationSection: React.FC = () => {
                   사업장 소재지 및 희망 공급 개시일
                 </label>
               </div>
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="font-mono text-xs text-[#6d7a77] block mb-1.5">
                     고객사 주 사업장 위치
@@ -193,7 +193,7 @@ export const ConsultationSection: React.FC = () => {
                   기업 및 담당자 실무 정보
                 </label>
               </div>
-              <div className="grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="font-mono text-xs text-[#6d7a77] block mb-1.5">
                     기업명 (법인명)
@@ -242,7 +242,7 @@ export const ConsultationSection: React.FC = () => {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="official@company.com"
+                    placeholder="contact@example.com"
                     className="w-full h-11 px-3 rounded-lg border border-[#bcc9c6]/50 bg-white text-[#0b1c30] focus:outline-none focus:border-[#00685f] focus:ring-1 focus:ring-[#00685f] text-sm"
                   />
                 </div>
@@ -259,7 +259,7 @@ export const ConsultationSection: React.FC = () => {
                   onChange={(e) => setNdaAccepted(e.target.checked)}
                   className="mt-1 rounded text-[#00685f] focus:ring-[#00685f] h-4 w-4"
                 />
-                <span className="text-xs ] text-[#3d4947] leading-relaxed">
+                <span className="text-xs text-[#3d4947] leading-relaxed [word-break:keep-all]">
                   [필수] 기술 보안 및 상호 비밀유지(NDA) 약관에 동의합니다. 제출된 전력 사용량 및 공장 인프라 정보는 에너지 기술 타당성 검토 목적으로만 보호됩니다.
                 </span>
               </label>

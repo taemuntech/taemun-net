@@ -66,9 +66,9 @@ export const RfpSection: React.FC<RfpSectionProps> = ({ prefilledPlanNote }) => 
               </div>
               <div className="text-base font-bold text-white mb-2">Transocean Global Commercial HQ</div>
               <div className="font-mono text-xs text-[#c3c6d7] space-y-1">
-                <div className="flex items-center space-x-2">
-                  <Phone className="w-3.5 h-3.5 text-[#ffb693]" />
-                  <span>Busan: 000-0000-0000 • Rotterdam: 00-000-0000 (예시)</span>
+                <div className="flex items-start gap-2">
+                  <Phone className="w-3.5 h-3.5 shrink-0 mt-0.5 text-[#ffb693]" />
+                  <span className="break-words">Busan: 000-0000-0000 • Rotterdam: 00-000-0000 (예시)</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Mail className="w-3.5 h-3.5 text-[#ffb693]" />
@@ -85,7 +85,7 @@ export const RfpSection: React.FC<RfpSectionProps> = ({ prefilledPlanNote }) => 
           {/* Right Column: Multi-Step Interactive Form */}
           <div className="lg:col-span-7 bg-[#132033] border border-[#434655]/40 rounded-lg p-5 lg:p-8 shadow-xl">
             {prefilledPlanNote && (
-              <div className="mb-4 p-3 rounded bg-blue-950/60 border border-[#2563eb]/50 text-xs font-mono text-[#b4c5ff]">
+              <div className="mb-4 p-3 rounded bg-blue-950/60 border border-[#2563eb]/50 text-xs font-mono text-[#b4c5ff] break-words">
                 <span className="font-bold">Prefilled Simulator Quote: </span>
                 <span>{prefilledPlanNote}</span>
               </div>
@@ -97,7 +97,7 @@ export const RfpSection: React.FC<RfpSectionProps> = ({ prefilledPlanNote }) => 
                   <label className="font-mono text-xs text-[#8d90a0] uppercase block mb-2 font-semibold">
                     1. Shipment Scope &amp; Equipment Type
                   </label>
-                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     {[
                       { id: 'fcl', label: 'FCL (Dry 20/40)' },
                       { id: 'reefer', label: 'Cold Chain Reefer' },
@@ -106,7 +106,7 @@ export const RfpSection: React.FC<RfpSectionProps> = ({ prefilledPlanNote }) => 
                     ].map((item) => (
                       <label
                         key={item.id}
-                        className={`flex items-center space-x-2 p-2.5 rounded border cursor-pointer text-xs transition-colors ${ scopeType === item.id ? 'bg-[#1d2a3e] border-[#2563eb] text-white font-semibold' : 'bg-[#0e1c2f] border-[#434655]/40 text-[#c3c6d7] hover:border-[#b4c5ff]' }`}
+                        className={`flex items-center space-x-2 px-2.5 min-h-11 rounded border cursor-pointer text-xs transition-colors ${ scopeType === item.id ? 'bg-[#1d2a3e] border-[#2563eb] text-white font-semibold' : 'bg-[#0e1c2f] border-[#434655]/40 text-[#c3c6d7] hover:border-[#b4c5ff]' }`}
                       >
                         <input
                           type="radio"
@@ -122,7 +122,7 @@ export const RfpSection: React.FC<RfpSectionProps> = ({ prefilledPlanNote }) => 
                 </div>
 
                 {/* Step 2: Trade Lane & Volume */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="font-mono text-xs text-[#8d90a0] uppercase block mb-1 font-semibold">
                       2. Primary Trade Lane Corridor
@@ -130,7 +130,7 @@ export const RfpSection: React.FC<RfpSectionProps> = ({ prefilledPlanNote }) => 
                     <select
                       value={corridor}
                       onChange={(e) => setCorridor(e.target.value)}
-                      className="w-full bg-[#0e1c2f] border border-[#434655]/50 rounded p-2.5 text-xs text-white focus:border-[#2563eb] focus:outline-none"
+                      className="w-full bg-[#0e1c2f] border border-[#434655]/50 rounded px-2.5 min-h-11 text-xs text-white focus:border-[#2563eb] focus:outline-none"
                     >
                       <option>Asia - Northern Europe (Busan/Shanghai -&gt; Rotterdam/Hamburg)</option>
                       <option>Trans-Pacific US West Coast (Busan -&gt; LA/Long Beach)</option>
@@ -147,7 +147,7 @@ export const RfpSection: React.FC<RfpSectionProps> = ({ prefilledPlanNote }) => 
                     <select
                       value={volume}
                       onChange={(e) => setVolume(e.target.value)}
-                      className="w-full bg-[#0e1c2f] border border-[#434655]/50 rounded p-2.5 text-xs text-white focus:border-[#2563eb] focus:outline-none"
+                      className="w-full bg-[#0e1c2f] border border-[#434655]/50 rounded px-2.5 min-h-11 text-xs text-white focus:border-[#2563eb] focus:outline-none"
                     >
                       <option>500 - 2,500 TEU / Year</option>
                       <option>2,500 - 10,000 TEU / Year</option>
@@ -158,7 +158,7 @@ export const RfpSection: React.FC<RfpSectionProps> = ({ prefilledPlanNote }) => 
                 </div>
 
                 {/* Step 3: Company & Contact */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="font-mono text-xs text-[#8d90a0] uppercase block mb-1 font-semibold">
                       Corporate Entity / Brand
@@ -169,7 +169,7 @@ export const RfpSection: React.FC<RfpSectionProps> = ({ prefilledPlanNote }) => 
                       placeholder="예: A물류 / B상사"
                       value={company}
                       onChange={(e) => setCompany(e.target.value)}
-                      className="w-full bg-[#0e1c2f] border border-[#434655]/50 rounded p-2.5 text-xs text-white focus:border-[#2563eb] focus:outline-none placeholder:text-[#8d90a0]"
+                      className="w-full bg-[#0e1c2f] border border-[#434655]/50 rounded px-2.5 min-h-11 text-xs text-white focus:border-[#2563eb] focus:outline-none placeholder:text-[#8d90a0]"
                     />
                   </div>
 
@@ -183,14 +183,14 @@ export const RfpSection: React.FC<RfpSectionProps> = ({ prefilledPlanNote }) => 
                       placeholder="corporate.scm@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full bg-[#0e1c2f] border border-[#434655]/50 rounded p-2.5 text-xs text-white focus:border-[#2563eb] focus:outline-none placeholder:text-[#8d90a0]"
+                      className="w-full bg-[#0e1c2f] border border-[#434655]/50 rounded px-2.5 min-h-11 text-xs text-white focus:border-[#2563eb] focus:outline-none placeholder:text-[#8d90a0]"
                     />
                   </div>
                 </div>
 
                 {/* Step 4: NDA & Integration Checkbox */}
                 <div className="space-y-2 pt-1">
-                  <label className="flex items-start space-x-2 cursor-pointer text-xs text-[#c3c6d7]">
+                  <label className="flex items-start gap-2 cursor-pointer py-1.5 text-xs text-[#c3c6d7] [word-break:keep-all]">
                     <input
                       type="checkbox"
                       checked={ndaAgreed}
@@ -200,7 +200,7 @@ export const RfpSection: React.FC<RfpSectionProps> = ({ prefilledPlanNote }) => 
                     <span>I require an executed Corporate Non-Disclosure Agreement (Mutual NDA) prior to sharing freight lane volumes.</span>
                   </label>
 
-                  <label className="flex items-start space-x-2 cursor-pointer text-xs text-[#c3c6d7]">
+                  <label className="flex items-start gap-2 cursor-pointer py-1.5 text-xs text-[#c3c6d7] [word-break:keep-all]">
                     <input
                       type="checkbox"
                       checked={apiDocRequested}
@@ -223,8 +223,9 @@ export const RfpSection: React.FC<RfpSectionProps> = ({ prefilledPlanNote }) => 
                     id="rfp-submit-btn"
                     className="w-full bg-[#fe6b00] text-white py-3.5 rounded-lg font-mono text-xs font-bold uppercase tracking-wider hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center space-x-2 shadow-xl hover:shadow-orange-500/20"
                   >
-                    <Send className="w-4 h-4" />
-                    <span>Dispatch Formal Enterprise RFQ to Commercial Directorate</span>
+                    <Send className="w-4 h-4 shrink-0" />
+                    <span className="hidden sm:inline">Dispatch Formal Enterprise RFQ to Commercial Directorate</span>
+                    <span className="sm:hidden">엔터프라이즈 RFQ 보내기</span>
                   </button>
                 </div>
               </form>

@@ -1,27 +1,22 @@
 import React from 'react';
-import { BRAND_LOGO_URL } from '../data/mockData';
+import { BrandMark } from './BrandMark';
 
 export const Footer: React.FC = () => {
   return (
     <footer className="bg-[#020e21] border-t border-[#434655]/30 w-full px-4 lg:px-8 py-12">
       <div className="max-w-7xl mx-auto">
         {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 pb-10 border-b border-[#434655]/30">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pb-10 border-b border-[#434655]/30">
           {/* Col 1: Brand & Identity */}
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
-              <img
-                alt="TRANSOCEAN GLOBAL SCM Brand Logo"
-                referrerPolicy="no-referrer"
-                className="w-8 h-8 object-contain rounded border border-[#434655]/40 bg-[#0e1c2f] p-0.5"
-                src={BRAND_LOGO_URL}
-              />
+              <BrandMark className="w-8 h-8 shrink-0 rounded" />
               <span className="text-base font-bold text-white tracking-tight">
                 TRANSOCEAN GLOBAL SCM
               </span>
             </div>
             <p className="text-xs text-[#c3c6d7] leading-relaxed">
-              World-class autonomous container vessel operation, artificial intelligence port terminal infrastructure, and decarbonized intermodal supply chain orchestration.
+자율운항 컨테이너선 운영, AI 항만 터미널 인프라, 탈탄소 복합운송 공급망 오케스트레이션을 한 화면에 담은 가상 브랜드 구성입니다.
             </p>
 
             {/* Certifications Badges */}
@@ -77,24 +72,22 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs text-[#c3c6d7]">
               <li>
-                <a href="#automationSection" className="hover:text-white hover:underline transition-all">
-                  Maritime Compliance Protocols
+                <a href="#automationSection" className="inline-flex min-h-11 items-center hover:text-white hover:underline transition-all">
+                  Maritime Compliance Protocols &rarr; 자동화 기술 구역
                 </a>
               </li>
               <li>
-                <a href="#trackingSection" className="hover:text-white hover:underline transition-all">
-                  EDI Telemetry Node Status
+                <a href="#trackingSection" className="inline-flex min-h-11 items-center hover:text-white hover:underline transition-all">
+                  EDI Telemetry Node Status &rarr; 화물 추적 HUD
                 </a>
               </li>
               <li>
-                <a href="#rfpSection" className="hover:text-white hover:underline transition-all">
-                  Marine Privacy &amp; Cyber Policies
+                <a href="#rateSimulator" className="inline-flex min-h-11 items-center hover:text-white hover:underline transition-all">
+                  BAF · Scope-3 산식 &rarr; 운임 시뮬레이터
                 </a>
               </li>
-              <li>
-                <a href="#rfpSection" className="hover:text-white hover:underline transition-all">
-                  Terms of Global Carriage (Incoterms 2020)
-                </a>
+              <li className="text-[#8d90a0] leading-relaxed">
+                약관·개인정보처리방침은 샘플이라 문서가 없습니다 — 실제 사이트에서는 이 자리에 들어갑니다.
               </li>
             </ul>
           </div>
@@ -117,7 +110,7 @@ export const Footer: React.FC = () => {
                 <span className="text-[#8d90a0]">AIS LEO Latency:</span>
                 <span className="text-[#b4c5ff] font-semibold">48 ms</span>
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-2">
                 <span className="text-[#8d90a0]">Active Tracked Units:</span>
                 <span className="text-white font-semibold">1,850,214 TEU</span>
               </div>
@@ -134,9 +127,9 @@ export const Footer: React.FC = () => {
         {/* Bottom Disclaimers */}
         <div className="pt-4 flex flex-col lg:flex-row justify-between items-center text-[#8d90a0] font-mono text-xs gap-3">
           <p className="text-center lg:text-left">
-            &copy; 2025 Transocean Global SCM (가상 브랜드). 태문 DEV STUDIO 샘플 화면입니다.
+            &copy; 2026 Transocean Global SCM (가상 브랜드). 태문 DEV STUDIO 샘플 화면입니다.
           </p>
-          <div className="flex flex-wrap justify-center space-x-4">
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1">
             <span>B/L STANDARD: TOCU-2025 (예시)</span>
             <span className="text-[#b4c5ff]">KOREA • NETHERLANDS • SINGAPORE • USA</span>
           </div>

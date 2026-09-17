@@ -86,10 +86,10 @@ export const PILLARS = [
   {
     code: 'PILLAR 01 • SILICON INTERPOSER',
     title: 'Sub-5µm Fine Pitch Silicon Interposer',
-    desc: 'HBM4 인터페이스 규격에 정합하는 5µm 초미세 배선 피치(Line/Space 2/2µm)와 TSV 관통 전극을 통해 다이 간 4.8 TB/s의 폭발적인 대역폭을 손실 없이 전송합니다.',
+    desc: 'HBM4 인터페이스 규격에 정합하는 5µm 초미세 배선 피치(Line/Space 2/2µm)와 TSV 관통 전극을 통해 다이 간 4.8 TB/s(예시 수치) 수준의 대역폭 전송을 목표로 합니다.',
     bullets: [
-      '기생 커패시턴스 0.05pF/mm 이하 억제',
-      'TSV 밀도: 10,000 vias / mm² 초고집적',
+      '기생 커패시턴스 0.05pF/mm 이하 억제 (예시 수치)',
+      'TSV 밀도: 10,000 vias / mm² 초고집적 (예시 수치)',
       '4배 레티클(Reticle) 크기 대면적 스티칭 공정',
     ],
     actionText: '인터포저 기술 백서 다운로드',
@@ -99,11 +99,11 @@ export const PILLARS = [
   {
     code: 'PILLAR 02 • NEXT-GEN GLASS CORE',
     title: 'Ultra-Flat Glass Substrate Core',
-    desc: '기존 유기 기판(FC-BGA)의 치명적 한계인 휨 현상을 50% 이상 저감하며, 120×120mm 이상의 초대형 AI 칩셋 환경에서도 표면 평탄도 0.1µm 이하를 목표 사양(예시)으로 합니다.',
+    desc: '기존 유기 기판(FC-BGA)의 치명적 한계인 휨 현상을 50% 이상 저감(예시 수치)하는 것을 목표로 하며, 120×120mm 이상의 초대형 AI 칩셋 환경에서도 표면 평탄도 0.1µm 이하를 목표 사양(예시)으로 합니다.',
     bullets: [
       'TGV (Through Glass Via) 종횡비 10:1',
-      '고주파 전송 유전 손실률(Loss Tangent) 1/3 단축',
-      '강성 계수 3배 향상으로 다이 크랙 방지',
+      '고주파 전송 유전 손실률(Loss Tangent) 1/3 단축 (예시 수치)',
+      '강성 계수 3배 향상 (예시 수치) — 다이 크랙 억제',
     ],
     actionText: '글래스 코어 양산 데이터 검토',
     icon: 'view_in_ar',
@@ -112,10 +112,10 @@ export const PILLARS = [
   {
     code: 'PILLAR 03 • WAFER-TO-WAFER',
     title: 'Hybrid Bonding Direct Cu-Cu',
-    desc: '솔더 범프를 완전히 배제한 원자 단위 Cu-Cu 직접 접합(Direct Bond Interconnect) 기술로 배선 밀도를 10배 끌어올리고, 접속 저항을 0.01Ω 이하로 극소화합니다.',
+    desc: '솔더 범프를 완전히 배제한 원자 단위 Cu-Cu 직접 접합(Direct Bond Interconnect) 기술로 배선 밀도를 10배 높이고 접속 저항을 0.01Ω 이하로 낮추는 것을 목표 사양(예시 수치)으로 합니다.',
     bullets: [
-      '범프리스 초미세 피치: 서브 9µm 인터커넥트',
-      '에너지 소비(pJ/bit) 기존 대비 75% 절감',
+      '범프리스 초미세 피치: 서브 9µm 인터커넥트 (예시 수치)',
+      '에너지 소비(pJ/bit) 기존 대비 75% 절감 (예시 수치)',
       'Die-to-Wafer / Wafer-to-Wafer 전 공정 지원',
     ],
     actionText: '하이브리드 본딩 수율 분석 요청',
@@ -124,25 +124,27 @@ export const PILLARS = [
   },
 ];
 
+// 실존 파운드리 제휴 프로그램(OIP·SAFE)·표준화 단체(SEMI)·인증 규격(ISO 9001/14001)의 이름을
+// 지어낸 회사에 붙이지 않는다 — 가상 표기 + 「(예시)」로만 적는다(2026-09-17).
 export const CERTIFICATIONS = [
   {
-    title: 'OIP 파트너 (예시)',
-    desc: 'Open Innovation Platform 인증',
+    title: '설계 생태계 파트너 (예시)',
+    desc: '파운드리 PDK 협력 프로그램 (예시 표기)',
     color: 'text-[#00288e]',
   },
   {
-    title: 'SAFE 파트너 (예시)',
-    desc: 'Advanced Packaging 파트너',
+    title: '첨단 패키징 파트너 (예시)',
+    desc: '패키징 공급망 협력 등급 (예시 표기)',
     color: 'text-[#00687a]',
   },
   {
-    title: 'SEMI Global',
-    desc: '국제 반도체 표준 규격 준수',
+    title: '국제 표준 준수 (예시)',
+    desc: '반도체 장비·재료 표준 규격 기준',
     color: 'text-[#0b1c30]',
   },
   {
-    title: 'ISO 9001/14001',
-    desc: '반도체 품질·환경 인증 팹',
+    title: '품질·환경 경영 인증 (예시)',
+    desc: '팹 품질·환경 경영 체계 (예시 표기)',
     color: 'text-[#00563a]',
   },
 ];
@@ -163,8 +165,8 @@ export const INSPECTION_STEPS = [
   {
     step: '03',
     title: '1,000사이클 극저온-고온 열충격 검증',
-    desc: '-65℃에서 +150℃를 오가는 극단적 가혹 환경 테스트를 통과하여 접합 계면의 균열 및 박리를 원천 차단합니다.',
-    badge: 'MIL-STD-883 Validated',
+    desc: '-65℃에서 +150℃를 오가는 가혹 환경 사이클로 접합 계면의 균열·박리 발생 여부를 확인하는 검증 절차입니다.',
+    badge: '가혹 온도 사이클 검증 (예시)',
   },
   {
     step: '04',
@@ -176,6 +178,6 @@ export const INSPECTION_STEPS = [
     step: '05',
     title: '클린룸 Class 1 이물 파티클 광학 자동 판별',
     desc: 'AI 비전 기반 결함 검출 엔진이 나노 스케일 미세 잔여물 및 파티클을 0.1초 내 감지하는 검사 구성 예시입니다.',
-    badge: 'Zero-Particle Cleanliness',
+    badge: 'Class 1 청정도 기준 (예시)',
   },
 ];

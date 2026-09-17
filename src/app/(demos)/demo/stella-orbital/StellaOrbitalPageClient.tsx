@@ -24,7 +24,7 @@ export default function StellaOrbitalPageClient({ isEmbed }: Props) {
         'Tailwind CSS v4',
         'TypeScript',
         'Multi-Sensor Radar Explorer',
-        'Live Constellation Telemetry',
+        'Constellation Telemetry HUD',
         'Planetary Analytics Suite',
       ]}
       inquiryUrl="/inquiry?from=stella-orbital"
@@ -32,7 +32,7 @@ export default function StellaOrbitalPageClient({ isEmbed }: Props) {
         { label: '반응형 규격', value: 'PC(와이드) · 태블릿 · 모바일 단일 lg: 브레이크포인트 규격' },
         { label: '센서 스위트 익스플로러', value: '0.3m 광학(EO) · X-Band SAR · 초분광/열적외선 3대 센서 인터랙티브 비교 뷰어' },
         { label: '위성 촬영 의뢰 위저드', value: '관심 영역(AOI) 지정, 전천후 센서 선택, Cloud GeoTIFF 즉시 발주 플로우' },
-        { label: '군집 텔레메트리 HUD', value: '48기 LEO 위성 실시간 다운링크(10Gbps OISL) 및 90분 재방문 주기 인포그래픽' },
+        { label: '군집 텔레메트리 HUD', value: '32기 LEO 위성 다운링크(10Gbps OISL) 및 90분 재방문 주기 인포그래픽 (예시 수치)' },
       ]}
     />
   );

@@ -47,17 +47,17 @@ export const PartneringWizard: React.FC = () => {
   };
 
   return (
-    <section className="py-24 bg-[#eff4ff]/60 border-t border-[#c4c5d5]/30" id="wizard">
+    <section className="scroll-mt-[calc(5rem+var(--sample-bar-h,0px))] py-24 bg-[#eff4ff]/60 border-t border-[#c4c5d5]/30" id="wizard">
       <div className="max-w-4xl mx-auto px-6 lg:px-12">
         <div className="text-center mb-12">
           <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-[#1e40af] text-white text-[12px] font-code-mono font-bold mb-3 shadow-xs">
             <Handshake className="w-4 h-4" />
             <span>CONFIDENTIAL BD DATA ROOM ACCESS</span>
           </div>
-          <h2 className="text-[32px] lg:text-[40px] font-bold text-[#0b1c30] tracking-tight">
+          <h2 className="text-[28px] lg:text-[40px] font-bold text-[#0b1c30] tracking-tight [word-break:keep-all]">
             글로벌 파트너링 및 기술수출(L/O) 신청
           </h2>
-          <p className="text-[16px] text-[#444653] mt-2">
+          <p className="text-[16px] text-[#444653] mt-2 [word-break:keep-all]">
             비공개 가상 데이터룸(VDR) 열람 및 전문 BD 실무팀과의 1:1 라이선싱 미팅을 신청하십시오.
           </p>
         </div>
@@ -65,7 +65,8 @@ export const PartneringWizard: React.FC = () => {
         {/* 4-Step Wizard Container */}
         <div className="bg-white rounded-xl border border-[#c4c5d5]/40 shadow-sm p-8 lg:p-10">
           {/* Step Indicators */}
-          <div className="grid grid-cols-4 gap-2 mb-8 border-b border-[#c4c5d5]/30 pb-6 text-center font-code-mono text-[12px]">
+          {/* 375px 에서 4칸이 「01. 관심 파 / 이프라인」 처럼 글자 단위로 접히던 자리 — 모바일은 2칸씩 */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-2 gap-y-3 mb-8 border-b border-[#c4c5d5]/30 pb-6 text-center font-code-mono text-[11px] lg:text-[12px] [word-break:keep-all]">
             <div className={`pb-2 ${formData.targetPipelines.length > 0 ? 'text-[#00288e] font-bold border-b-2 border-[#00288e]' : 'text-[#757684]'}`}>
               01. 관심 파이프라인
             </div>
@@ -86,9 +87,9 @@ export const PartneringWizard: React.FC = () => {
                 <label className="block text-[15px] text-[#0b1c30] font-bold">
                   1단계: 기술이전(L/O) 또는 협력 관심 파이프라인 선택 <span className="text-red-600">*</span>
                 </label>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <label
-                    className={`flex items-center space-x-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
+                    className={`flex min-h-11 items-center space-x-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
                       formData.targetPipelines.includes('CB-101')
                         ? 'border-[#1e40af] bg-[#eff4ff]'
                         : 'border-[#c4c5d5]/50 hover:bg-[#eff4ff]/50'
@@ -111,7 +112,7 @@ export const PartneringWizard: React.FC = () => {
                   </label>
 
                   <label
-                    className={`flex items-center space-x-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
+                    className={`flex min-h-11 items-center space-x-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
                       formData.targetPipelines.includes('CB-204')
                         ? 'border-[#1e40af] bg-[#eff4ff]'
                         : 'border-[#c4c5d5]/50 hover:bg-[#eff4ff]/50'
@@ -134,7 +135,7 @@ export const PartneringWizard: React.FC = () => {
                   </label>
 
                   <label
-                    className={`flex items-center space-x-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
+                    className={`flex min-h-11 items-center space-x-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
                       formData.targetPipelines.includes('CB-308')
                         ? 'border-[#1e40af] bg-[#eff4ff]'
                         : 'border-[#c4c5d5]/50 hover:bg-[#eff4ff]/50'
@@ -157,7 +158,7 @@ export const PartneringWizard: React.FC = () => {
                   </label>
 
                   <label
-                    className={`flex items-center space-x-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
+                    className={`flex min-h-11 items-center space-x-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
                       formData.targetPipelines.includes('PROTEA-AI')
                         ? 'border-[#1e40af] bg-[#eff4ff]'
                         : 'border-[#c4c5d5]/50 hover:bg-[#eff4ff]/50'
@@ -186,9 +187,9 @@ export const PartneringWizard: React.FC = () => {
                 <label className="block text-[15px] text-[#0b1c30] font-bold">
                   2단계: 파트너링 제휴 유형 <span className="text-red-600">*</span>
                 </label>
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <label
-                    className={`flex items-center space-x-2.5 p-3 rounded-lg border cursor-pointer transition-all ${
+                    className={`flex min-h-11 items-center space-x-2.5 p-3 rounded-lg border cursor-pointer transition-all ${
                       formData.partnershipType === 'LO'
                         ? 'border-[#1e40af] bg-[#eff4ff]'
                         : 'border-[#c4c5d5]/50 hover:bg-[#eff4ff]/50'
@@ -206,7 +207,7 @@ export const PartneringWizard: React.FC = () => {
                   </label>
 
                   <label
-                    className={`flex items-center space-x-2.5 p-3 rounded-lg border cursor-pointer transition-all ${
+                    className={`flex min-h-11 items-center space-x-2.5 p-3 rounded-lg border cursor-pointer transition-all ${
                       formData.partnershipType === 'CODEV'
                         ? 'border-[#1e40af] bg-[#eff4ff]'
                         : 'border-[#c4c5d5]/50 hover:bg-[#eff4ff]/50'
@@ -224,7 +225,7 @@ export const PartneringWizard: React.FC = () => {
                   </label>
 
                   <label
-                    className={`flex items-center space-x-2.5 p-3 rounded-lg border cursor-pointer transition-all ${
+                    className={`flex min-h-11 items-center space-x-2.5 p-3 rounded-lg border cursor-pointer transition-all ${
                       formData.partnershipType === 'CDMO'
                         ? 'border-[#1e40af] bg-[#eff4ff]'
                         : 'border-[#c4c5d5]/50 hover:bg-[#eff4ff]/50'
@@ -248,7 +249,7 @@ export const PartneringWizard: React.FC = () => {
                 <label className="block text-[15px] text-[#0b1c30] font-bold">
                   3단계: 기관 및 신청 담당자 정보 <span className="text-red-600">*</span>
                 </label>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <span className="block text-[12px] text-[#444653] mb-1 font-medium">
                       소속 기업 / 투자기관명
@@ -259,7 +260,7 @@ export const PartneringWizard: React.FC = () => {
                       placeholder="예: 글로벌 제약사 · 바이오 투자기관"
                       value={formData.companyName}
                       onChange={e => setFormData({ ...formData, companyName: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-[#c4c5d5]/60 focus:border-[#1e40af] focus:ring-1 focus:ring-[#1e40af] text-[14px] outline-hidden"
+                      className="w-full min-h-11 px-3.5 py-2.5 rounded-lg border border-[#c4c5d5]/60 focus:border-[#1e40af] focus:ring-1 focus:ring-[#1e40af] text-[14px] outline-hidden"
                     />
                   </div>
                   <div>
@@ -272,7 +273,7 @@ export const PartneringWizard: React.FC = () => {
                       placeholder="예: Global Business Development (BD)"
                       value={formData.department}
                       onChange={e => setFormData({ ...formData, department: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-[#c4c5d5]/60 focus:border-[#1e40af] focus:ring-1 focus:ring-[#1e40af] text-[14px] outline-hidden"
+                      className="w-full min-h-11 px-3.5 py-2.5 rounded-lg border border-[#c4c5d5]/60 focus:border-[#1e40af] focus:ring-1 focus:ring-[#1e40af] text-[14px] outline-hidden"
                     />
                   </div>
                   <div>
@@ -285,7 +286,7 @@ export const PartneringWizard: React.FC = () => {
                       placeholder="예: 홍길동 상무 / Managing Director"
                       value={formData.contactName}
                       onChange={e => setFormData({ ...formData, contactName: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-[#c4c5d5]/60 focus:border-[#1e40af] focus:ring-1 focus:ring-[#1e40af] text-[14px] outline-hidden"
+                      className="w-full min-h-11 px-3.5 py-2.5 rounded-lg border border-[#c4c5d5]/60 focus:border-[#1e40af] focus:ring-1 focus:ring-[#1e40af] text-[14px] outline-hidden"
                     />
                   </div>
                   <div>
@@ -298,7 +299,7 @@ export const PartneringWizard: React.FC = () => {
                       placeholder="name@example.com"
                       value={formData.contactEmail}
                       onChange={e => setFormData({ ...formData, contactEmail: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-[#c4c5d5]/60 focus:border-[#1e40af] focus:ring-1 focus:ring-[#1e40af] text-[14px] outline-hidden"
+                      className="w-full min-h-11 px-3.5 py-2.5 rounded-lg border border-[#c4c5d5]/60 focus:border-[#1e40af] focus:ring-1 focus:ring-[#1e40af] text-[14px] outline-hidden"
                     />
                   </div>
                 </div>
@@ -306,7 +307,7 @@ export const PartneringWizard: React.FC = () => {
 
               {/* Step 4: NDA / CDA Check */}
               <div className="p-4 rounded-xl bg-[#eff4ff]/60 border border-[#c4c5d5]/40 space-y-3">
-                <label className="flex items-start space-x-3 cursor-pointer">
+                <label className="flex items-start space-x-3 cursor-pointer py-1">
                   <input
                     type="checkbox"
                     required
@@ -316,7 +317,7 @@ export const PartneringWizard: React.FC = () => {
                   />
                   <div className="text-[13px] text-[#444653] leading-relaxed">
                     <strong className="text-[#0b1c30] font-semibold">[필수] 상호 기밀유지협약(CDA/NDA) 동의 및 VDR 보안 감사 규정 준수:</strong>{' '}
-                    열람 신청 시 제공되는 CB-101/204의 3상 전임상 원천 데이터 및 제조공정(CMC) 문서는 미공개 핵심 기술자산으로, 내부 검토 목적 외 제3자 배포 및 무단 유출이 엄격히 금지됩니다.
+                    실제 서비스라면 VDR 로 제공되는 전임상 원천 데이터·제조공정(CMC) 문서에 적용될 기밀 조항을 보여 주는 예시 문구입니다. 이 샘플에서는 어떤 자료도 제공되지 않습니다.
                   </div>
                 </label>
               </div>

@@ -10,9 +10,9 @@ export const STRATEGY_PILLARS: StrategyPillar[] = [
     pillarNumber: 'PILLAR 01',
     tag: '플래그십 바이아웃 (Buyout)',
     title: '경영권 인수 및 밸류업 프로그램 (Flagship Buyout)',
-    thesis: '대한민국 및 아시아의 독보적 시장 지배력을 보유한 중견 제조, 첨단 헬스케어 강소기업의 경영권을 100% 또는 과반 인수합니다. 이후 전담 오퍼레이션 파트너가 상주하여 디지털 트랜스포메이션, 글로벌 공급망 다변화, 볼트온(Bolt-on) M&A를 실행해 기업가치를 비약적으로 개선합니다.',
-    ticket: '₩1,000억 ~ ₩2,500억 원 (단독 또는 컨소시엄)',
-    targetIrr: '22% ~ 28% Net IRR',
+    thesis: '대한민국 및 아시아에서 확고한 시장 지위를 가진 중견 제조, 첨단 헬스케어 강소기업의 경영권을 100% 또는 과반 인수합니다. 이후 전담 오퍼레이션 파트너가 상주하여 디지털 트랜스포메이션, 글로벌 공급망 다변화, 볼트온(Bolt-on) M&A를 실행해 기업가치 개선을 목표로 하는 설정입니다.',
+    ticket: '₩1,000억 ~ ₩2,500억 원 (예시 · 단독 또는 컨소시엄)',
+    targetIrr: '22% ~ 28% 목표 Net IRR (예시)',
     moic: '3.2x ~ 4.0x',
     levers: [
       '원가 구조 혁신 & ERP 현대화',
@@ -27,8 +27,8 @@ export const STRATEGY_PILLARS: StrategyPillar[] = [
     tag: '딥테크 그로쓰 (Tech Growth)',
     title: '피지컬 AI & 초격차 딥테크 (Tech Growth Equity)',
     thesis: '글로벌 상용화 전환점에 도달한 원천기술(차세대 HBM 인터포저, 자율주행 AMR 로보틱스, 우주항공 광학)을 보유한 스케일업 유니콘에 집중 투자합니다. 기술적 실사(Due Diligence)는 박사급 테크 파트너가 직접 주도하며 글로벌 테크 빅테크와의 납품 파트너십을 연결합니다.',
-    ticket: '₩300억 ~ ₩800억 원 (Series B/C/Pre-IPO 리드)',
-    targetIrr: '26% ~ 35% Net IRR',
+    ticket: '₩300억 ~ ₩800억 원 (예시 · Series B/C/Pre-IPO 리드)',
+    targetIrr: '26% ~ 35% 목표 Net IRR (예시)',
     moic: '3.5x ~ 5.0x',
     levers: [
       '미국/EU 글로벌 특허 포트폴리오 구축',
@@ -42,9 +42,9 @@ export const STRATEGY_PILLARS: StrategyPillar[] = [
     pillarNumber: 'PILLAR 03',
     tag: '크로스보더 인프라 (Infra & ESG)',
     title: '크로스보더 인프라 & ESG 에너지 (Cross-Border Infra)',
-    thesis: '하이퍼스케일 AI 데이터센터 전력망, 신재생 에너지 변전소, 청정수소 공급망 등 장기 현금흐름이 기대되는 핵심 기반시설 자산에 투자합니다. 장기 PPA 계약 및 물가연동 인덱스를 통해 하방 변동성을 줄이는 구조를 설계합니다.',
-    ticket: '₩800억 ~ ₩2,000억 원',
-    targetIrr: '14% ~ 18% Net IRR (안정적 연간 배당 8%+)',
+    thesis: '하이퍼스케일 AI 데이터센터 전력망, 신재생 에너지 변전소, 청정수소 공급망 등 장기 현금흐름이 기대되는 핵심 기반시설 자산에 투자하는 설정입니다. 장기 PPA 계약 및 물가연동 인덱스를 통해 하방 변동성을 줄이는 구조를 설계합니다.',
+    ticket: '₩800억 ~ ₩2,000억 원 (예시)',
+    targetIrr: '14% ~ 18% 목표 Net IRR (연 배당 8% 내외 가정 · 예시)',
     moic: '2.0x ~ 2.5x',
     levers: [
       '물가연동 장기 오프테이크(PPA) 계약',
@@ -58,9 +58,9 @@ export const STRATEGY_PILLARS: StrategyPillar[] = [
     pillarNumber: 'PILLAR 04',
     tag: '스페셜 시츄에이션 (Private Credit)',
     title: '스페셜 시츄에이션 & 사모 대출 (Private Credit)',
-    thesis: '기업의 일시적 유동성 경색, 지배구조 개편, 메자닌 전환사채(CB/BW) 및 우량 담보부 사모대출에 투자하여 시장 변동성과 무관하게 확정적 계약 수익을 추구합니다. 담보인정비율(LTV 40% 이하)을 기준으로 원금 보존 가능성을 높이는 구조를 지향합니다.',
-    ticket: '₩500억 ~ ₩1,500억 원',
-    targetIrr: '12% ~ 16% 확정형 수익률',
+    thesis: '기업의 일시적 유동성 경색, 지배구조 개편, 메자닌 전환사채(CB/BW) 및 우량 담보부 사모대출에 투자하여 시장 변동성의 영향을 줄인 계약 기반 수익을 추구하는 설정입니다. 담보인정비율(LTV 40% 이하)을 기준으로 원금 보존 가능성을 높이는 구조를 지향합니다.',
+    ticket: '₩500억 ~ ₩1,500억 원 (예시)',
+    targetIrr: '12% ~ 16% 목표 수익률 (예시 · 확정 수익 아님)',
     moic: '1.6x ~ 2.0x',
     levers: [
       '1순위 부동산 및 핵심 지분 질권 설정',
@@ -85,7 +85,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     categories: ['unicorn', 'deeptech'],
     ticketSize: 'Series C 리드 (₩750억)',
     targetMoic: '4.6x',
-    esgRating: 'AA+ (Zero Hazardous Emissions)',
+    esgRating: 'AA+ (Low-Emission Operations)',
     fullThesis: '국내·해외 증시 동시 상장 준비 단계, 첨단 패키징 소재 장기 공급 계약 체결 (예시 설정).'
   },
   {
@@ -165,7 +165,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     categories: ['unicorn', 'deeptech'],
     ticketSize: 'Pre-IPO 라운드 리드 (₩500억)',
     targetMoic: '2.9x (Unrealized)',
-    esgRating: 'AAA (Zero Incident Automation)',
+    esgRating: 'AAA (Safety-First Automation)',
     fullThesis: '반도체·배터리 클린룸 무인 운반 로봇 글로벌 납품 확대 (예시 설정).'
   }
 ];

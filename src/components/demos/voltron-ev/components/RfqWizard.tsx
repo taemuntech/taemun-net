@@ -53,20 +53,20 @@ export const RfqWizard: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-8" id="rfq-form">
             {/* Step 1: Vehicle Segment */}
             <div className="space-y-3">
-              <div className="flex items-center justify-between border-b border-[#3b494c]/30 pb-2">
+              <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-[#3b494c]/30 pb-2">
                 <span className="font-display text-sm font-bold text-[#c3f5ff] flex items-center gap-2">
-                  <span className="w-5 h-5 rounded-full bg-[#00e5ff] text-[#0b0e13] flex items-center justify-center text-xs font-bold">
+                  <span className="w-5 h-5 shrink-0 rounded-full bg-[#00e5ff] text-[#0b0e13] flex items-center justify-center text-xs font-bold">
                     1
                   </span>
                   TARGET VEHICLE PLATFORM SEGMENT
                 </span>
-                <span className="font-code text-[11px] text-[#849396]">REQUIRED</span>
+                <span className="font-code text-[11px] text-[#849396] whitespace-nowrap">REQUIRED</span>
               </div>
 
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 font-code text-xs">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 font-code text-xs">
                 {/* Hypercar */}
                 <label
-                  className={`cursor-pointer p-3 rounded bg-[#1d2025] border flex flex-col items-center gap-2 text-center transition-all ${ formData.vehicleSegment === 'hypercar' ? 'border-[#00e5ff] shadow-[0_0_12px_rgba(0,229,255,0.25)] text-[#00e5ff]' : 'border-[#3b494c]/50 text-[#bac9cc] hover:border-[#00e5ff]' }`}
+                  className={`relative cursor-pointer p-3 rounded bg-[#1d2025] border flex flex-col items-center justify-start gap-2 text-center transition-all has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[#00e5ff] ${ formData.vehicleSegment === 'hypercar' ? 'border-[#00e5ff] shadow-[0_0_12px_rgba(0,229,255,0.25)] text-[#00e5ff]' : 'border-[#3b494c]/50 text-[#bac9cc] hover:border-[#00e5ff]' }`}
                 >
                   <input
                     type="radio"
@@ -74,7 +74,7 @@ export const RfqWizard: React.FC = () => {
                     value="hypercar"
                     checked={formData.vehicleSegment === 'hypercar'}
                     onChange={() => setFormData(f => ({ ...f, vehicleSegment: 'hypercar' }))}
-                    className="hidden"
+                    className="sr-only"
                   />
                   <Trophy
                     className={`w-6 h-6 ${ formData.vehicleSegment === 'hypercar' ? 'text-[#00e5ff]' : 'text-[#849396]' }`}
@@ -85,7 +85,7 @@ export const RfqWizard: React.FC = () => {
 
                 {/* Premium Sedan/SUV */}
                 <label
-                  className={`cursor-pointer p-3 rounded bg-[#1d2025] border flex flex-col items-center gap-2 text-center transition-all ${ formData.vehicleSegment === 'passenger_d' ? 'border-[#00e5ff] shadow-[0_0_12px_rgba(0,229,255,0.25)] text-[#00e5ff]' : 'border-[#3b494c]/50 text-[#bac9cc] hover:border-[#00e5ff]' }`}
+                  className={`relative cursor-pointer p-3 rounded bg-[#1d2025] border flex flex-col items-center justify-start gap-2 text-center transition-all has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[#00e5ff] ${ formData.vehicleSegment === 'passenger_d' ? 'border-[#00e5ff] shadow-[0_0_12px_rgba(0,229,255,0.25)] text-[#00e5ff]' : 'border-[#3b494c]/50 text-[#bac9cc] hover:border-[#00e5ff]' }`}
                 >
                   <input
                     type="radio"
@@ -93,7 +93,7 @@ export const RfqWizard: React.FC = () => {
                     value="passenger_d"
                     checked={formData.vehicleSegment === 'passenger_d'}
                     onChange={() => setFormData(f => ({ ...f, vehicleSegment: 'passenger_d' }))}
-                    className="hidden"
+                    className="sr-only"
                   />
                   <Car
                     className={`w-6 h-6 ${ formData.vehicleSegment === 'passenger_d' ? 'text-[#00e5ff]' : 'text-[#849396]' }`}
@@ -104,7 +104,7 @@ export const RfqWizard: React.FC = () => {
 
                 {/* Heavy Commercial */}
                 <label
-                  className={`cursor-pointer p-3 rounded bg-[#1d2025] border flex flex-col items-center gap-2 text-center transition-all ${ formData.vehicleSegment === 'commercial' ? 'border-[#00e5ff] shadow-[0_0_12px_rgba(0,229,255,0.25)] text-[#00e5ff]' : 'border-[#3b494c]/50 text-[#bac9cc] hover:border-[#00e5ff]' }`}
+                  className={`relative cursor-pointer p-3 rounded bg-[#1d2025] border flex flex-col items-center justify-start gap-2 text-center transition-all has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[#00e5ff] ${ formData.vehicleSegment === 'commercial' ? 'border-[#00e5ff] shadow-[0_0_12px_rgba(0,229,255,0.25)] text-[#00e5ff]' : 'border-[#3b494c]/50 text-[#bac9cc] hover:border-[#00e5ff]' }`}
                 >
                   <input
                     type="radio"
@@ -112,7 +112,7 @@ export const RfqWizard: React.FC = () => {
                     value="commercial"
                     checked={formData.vehicleSegment === 'commercial'}
                     onChange={() => setFormData(f => ({ ...f, vehicleSegment: 'commercial' }))}
-                    className="hidden"
+                    className="sr-only"
                   />
                   <Truck
                     className={`w-6 h-6 ${ formData.vehicleSegment === 'commercial' ? 'text-[#00e5ff]' : 'text-[#849396]' }`}
@@ -123,7 +123,7 @@ export const RfqWizard: React.FC = () => {
 
                 {/* eVTOL Aerospace */}
                 <label
-                  className={`cursor-pointer p-3 rounded bg-[#1d2025] border flex flex-col items-center gap-2 text-center transition-all ${ formData.vehicleSegment === 'evtol' ? 'border-[#00e5ff] shadow-[0_0_12px_rgba(0,229,255,0.25)] text-[#00e5ff]' : 'border-[#3b494c]/50 text-[#bac9cc] hover:border-[#00e5ff]' }`}
+                  className={`relative cursor-pointer p-3 rounded bg-[#1d2025] border flex flex-col items-center justify-start gap-2 text-center transition-all has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[#00e5ff] ${ formData.vehicleSegment === 'evtol' ? 'border-[#00e5ff] shadow-[0_0_12px_rgba(0,229,255,0.25)] text-[#00e5ff]' : 'border-[#3b494c]/50 text-[#bac9cc] hover:border-[#00e5ff]' }`}
                 >
                   <input
                     type="radio"
@@ -131,7 +131,7 @@ export const RfqWizard: React.FC = () => {
                     value="evtol"
                     checked={formData.vehicleSegment === 'evtol'}
                     onChange={() => setFormData(f => ({ ...f, vehicleSegment: 'evtol' }))}
-                    className="hidden"
+                    className="sr-only"
                   />
                   <Plane
                     className={`w-6 h-6 ${ formData.vehicleSegment === 'evtol' ? 'text-[#00e5ff]' : 'text-[#849396]' }`}
@@ -144,19 +144,19 @@ export const RfqWizard: React.FC = () => {
 
             {/* Step 2: System Architecture */}
             <div className="space-y-3">
-              <div className="flex items-center justify-between border-b border-[#3b494c]/30 pb-2">
+              <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-[#3b494c]/30 pb-2">
                 <span className="font-display text-sm font-bold text-[#c3f5ff] flex items-center gap-2">
-                  <span className="w-5 h-5 rounded-full bg-[#00e5ff] text-[#0b0e13] flex items-center justify-center text-xs font-bold">
+                  <span className="w-5 h-5 shrink-0 rounded-full bg-[#00e5ff] text-[#0b0e13] flex items-center justify-center text-xs font-bold">
                     2
                   </span>
                   POWERTRAIN TOPOLOGY &amp; BUS ARCHITECTURE
                 </span>
-                <span className="font-code text-[11px] text-[#849396]">REQUIRED</span>
+                <span className="font-code text-[11px] text-[#849396] whitespace-nowrap">REQUIRED</span>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 font-code text-xs">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 font-code text-xs">
                 <label
-                  className={`p-3 rounded bg-[#1d2025] border transition-all cursor-pointer ${ formData.topology === '800v_pure' ? 'border-[#00e5ff] shadow-[0_0_10px_rgba(0,229,255,0.2)]' : 'border-[#3b494c]/50 hover:border-[#00e5ff]' }`}
+                  className={`p-3 rounded bg-[#1d2025] border transition-all cursor-pointer has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[#00e5ff] ${ formData.topology === '800v_pure' ? 'border-[#00e5ff] shadow-[0_0_10px_rgba(0,229,255,0.2)]' : 'border-[#3b494c]/50 hover:border-[#00e5ff]' }`}
                 >
                   <div className="flex items-center gap-2">
                     <input
@@ -175,7 +175,7 @@ export const RfqWizard: React.FC = () => {
                 </label>
 
                 <label
-                  className={`p-3 rounded bg-[#1d2025] border transition-all cursor-pointer ${ formData.topology === 'hybrid_boost' ? 'border-[#00e5ff] shadow-[0_0_10px_rgba(0,229,255,0.2)]' : 'border-[#3b494c]/50 hover:border-[#00e5ff]' }`}
+                  className={`p-3 rounded bg-[#1d2025] border transition-all cursor-pointer has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[#00e5ff] ${ formData.topology === 'hybrid_boost' ? 'border-[#00e5ff] shadow-[0_0_10px_rgba(0,229,255,0.2)]' : 'border-[#3b494c]/50 hover:border-[#00e5ff]' }`}
                 >
                   <div className="flex items-center gap-2">
                     <input
@@ -194,7 +194,7 @@ export const RfqWizard: React.FC = () => {
                 </label>
 
                 <label
-                  className={`p-3 rounded bg-[#1d2025] border transition-all cursor-pointer ${ formData.topology === 'custom_sic' ? 'border-[#00e5ff] shadow-[0_0_10px_rgba(0,229,255,0.2)]' : 'border-[#3b494c]/50 hover:border-[#00e5ff]' }`}
+                  className={`p-3 rounded bg-[#1d2025] border transition-all cursor-pointer has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[#00e5ff] ${ formData.topology === 'custom_sic' ? 'border-[#00e5ff] shadow-[0_0_10px_rgba(0,229,255,0.2)]' : 'border-[#3b494c]/50 hover:border-[#00e5ff]' }`}
                 >
                   <div className="flex items-center gap-2">
                     <input
@@ -216,19 +216,19 @@ export const RfqWizard: React.FC = () => {
 
             {/* Step 3: Target SOP */}
             <div className="space-y-3">
-              <div className="flex items-center justify-between border-b border-[#3b494c]/30 pb-2">
+              <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-[#3b494c]/30 pb-2">
                 <span className="font-display text-sm font-bold text-[#c3f5ff] flex items-center gap-2">
-                  <span className="w-5 h-5 rounded-full bg-[#00e5ff] text-[#0b0e13] flex items-center justify-center text-xs font-bold">
+                  <span className="w-5 h-5 shrink-0 rounded-full bg-[#00e5ff] text-[#0b0e13] flex items-center justify-center text-xs font-bold">
                     3
                   </span>
                   PROJECT SOP (START OF PRODUCTION) TIMELINE
                 </span>
-                <span className="font-code text-[11px] text-[#849396]">REQUIRED</span>
+                <span className="font-code text-[11px] text-[#849396] whitespace-nowrap">REQUIRED</span>
               </div>
 
-              <div className="grid grid-cols-3 gap-3 font-code text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-code text-xs">
                 <label
-                  className={`p-2.5 rounded bg-[#1d2025] border transition-all cursor-pointer text-center ${ formData.sopTimeline === '2026_q2' ? 'border-[#00e5ff] text-[#00e5ff] shadow-[0_0_10px_rgba(0,229,255,0.2)]' : 'border-[#3b494c]/40 text-[#bac9cc] hover:border-[#00e5ff]' }`}
+                  className={`flex items-center justify-center gap-1.5 min-h-11 p-2.5 rounded bg-[#1d2025] border transition-all cursor-pointer text-center has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[#00e5ff] ${ formData.sopTimeline === '2026_q2' ? 'border-[#00e5ff] text-[#00e5ff] shadow-[0_0_10px_rgba(0,229,255,0.2)]' : 'border-[#3b494c]/40 text-[#bac9cc] hover:border-[#00e5ff]' }`}
                 >
                   <input
                     type="radio"
@@ -242,7 +242,7 @@ export const RfqWizard: React.FC = () => {
                 </label>
 
                 <label
-                  className={`p-2.5 rounded bg-[#1d2025] border transition-all cursor-pointer text-center ${ formData.sopTimeline === '2027' ? 'border-[#00e5ff] text-[#00e5ff] shadow-[0_0_10px_rgba(0,229,255,0.2)]' : 'border-[#3b494c]/40 text-[#bac9cc] hover:border-[#00e5ff]' }`}
+                  className={`flex items-center justify-center gap-1.5 min-h-11 p-2.5 rounded bg-[#1d2025] border transition-all cursor-pointer text-center has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[#00e5ff] ${ formData.sopTimeline === '2027' ? 'border-[#00e5ff] text-[#00e5ff] shadow-[0_0_10px_rgba(0,229,255,0.2)]' : 'border-[#3b494c]/40 text-[#bac9cc] hover:border-[#00e5ff]' }`}
                 >
                   <input
                     type="radio"
@@ -256,7 +256,7 @@ export const RfqWizard: React.FC = () => {
                 </label>
 
                 <label
-                  className={`p-2.5 rounded bg-[#1d2025] border transition-all cursor-pointer text-center ${ formData.sopTimeline === '2028_beyond' ? 'border-[#00e5ff] text-[#00e5ff] shadow-[0_0_10px_rgba(0,229,255,0.2)]' : 'border-[#3b494c]/40 text-[#bac9cc] hover:border-[#00e5ff]' }`}
+                  className={`flex items-center justify-center gap-1.5 min-h-11 p-2.5 rounded bg-[#1d2025] border transition-all cursor-pointer text-center has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-[#00e5ff] ${ formData.sopTimeline === '2028_beyond' ? 'border-[#00e5ff] text-[#00e5ff] shadow-[0_0_10px_rgba(0,229,255,0.2)]' : 'border-[#3b494c]/40 text-[#bac9cc] hover:border-[#00e5ff]' }`}
                 >
                   <input
                     type="radio"
@@ -273,19 +273,19 @@ export const RfqWizard: React.FC = () => {
 
             {/* Step 4: Contact & Secure Dispatch */}
             <div className="space-y-3">
-              <div className="flex items-center justify-between border-b border-[#3b494c]/30 pb-2">
+              <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b border-[#3b494c]/30 pb-2">
                 <span className="font-display text-sm font-bold text-[#c3f5ff] flex items-center gap-2">
-                  <span className="w-5 h-5 rounded-full bg-[#00e5ff] text-[#0b0e13] flex items-center justify-center text-xs font-bold">
+                  <span className="w-5 h-5 shrink-0 rounded-full bg-[#00e5ff] text-[#0b0e13] flex items-center justify-center text-xs font-bold">
                     4
                   </span>
                   LEAD SYSTEMS ARCHITECT DISPATCH &amp; CREDENTIALS
                 </span>
-                <span className="font-code text-[11px] text-[#5be9ad] flex items-center gap-1 font-bold">
+                <span className="font-code text-[11px] text-[#5be9ad] flex items-center gap-1 font-bold whitespace-nowrap">
                   <Lock className="w-3 h-3 text-[#5be9ad]" /> ENCRYPTED
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block font-code text-xs text-[#849396] mb-1">
                     PRIMARY CONTACT NAME &amp; TITLE
@@ -297,7 +297,7 @@ export const RfqWizard: React.FC = () => {
                     value={formData.contactName}
                     onChange={e => setFormData(f => ({ ...f, contactName: e.target.value }))}
                     placeholder="예) 홍길동 // Head of HV Propulsion (예시)"
-                    className="w-full bg-[#1d2025] border border-[#3b494c]/60 rounded px-3 py-2 text-xs font-code text-[#e1e2ea] focus:outline-none focus:border-[#00e5ff]"
+                    className="w-full min-h-11 bg-[#1d2025] border border-[#3b494c]/60 rounded px-3 py-2 text-[16px] lg:text-xs font-code text-[#e1e2ea] focus:outline-none focus:border-[#00e5ff]"
                   />
                 </div>
 
@@ -312,7 +312,7 @@ export const RfqWizard: React.FC = () => {
                     value={formData.corporateEmail}
                     onChange={e => setFormData(f => ({ ...f, corporateEmail: e.target.value }))}
                     placeholder="contact@example.com"
-                    className="w-full bg-[#1d2025] border border-[#3b494c]/60 rounded px-3 py-2 text-xs font-code text-[#e1e2ea] focus:outline-none focus:border-[#00e5ff]"
+                    className="w-full min-h-11 bg-[#1d2025] border border-[#3b494c]/60 rounded px-3 py-2 text-[16px] lg:text-xs font-code text-[#e1e2ea] focus:outline-none focus:border-[#00e5ff]"
                   />
                 </div>
               </div>
@@ -327,7 +327,7 @@ export const RfqWizard: React.FC = () => {
                   value={formData.specNotes}
                   onChange={e => setFormData(f => ({ ...f, specNotes: e.target.value }))}
                   placeholder="Specify estimated annual unit volume (e.g. 25,000 units/year), peak torque vectors, and any custom bus geometry requirements..."
-                  className="w-full bg-[#1d2025] border border-[#3b494c]/60 rounded px-3 py-2 text-xs font-code text-[#e1e2ea] focus:outline-none focus:border-[#00e5ff]"
+                  className="w-full min-h-11 bg-[#1d2025] border border-[#3b494c]/60 rounded px-3 py-2 text-[16px] lg:text-xs font-code text-[#e1e2ea] focus:outline-none focus:border-[#00e5ff]"
                 />
               </div>
             </div>

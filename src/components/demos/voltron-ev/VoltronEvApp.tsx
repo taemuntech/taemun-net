@@ -38,13 +38,14 @@ export default function VoltronEvApp({ isEmbed = false }: VoltronEvAppProps) {
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // 한글 제목이 낱말 한가운데서 쪼개지던 자리(「차세/대」·「패키/징」) — 이 데모 안의 제목에 keep-all 을 한 번에 건다
   return (
-    <div className="bg-[#0b0e13] text-[#e1e2ea] min-h-screen relative flex flex-col font-sans selection:bg-[#00e5ff] selection:text-[#001f24]">
+    <div className="bg-[#0b0e13] text-[#e1e2ea] min-h-screen relative flex flex-col font-sans selection:bg-[#00e5ff] selection:text-[#001f24] [&_h1]:break-keep [&_h2]:break-keep [&_h3]:break-keep">
       {/* 🌟 Taemun Dev Studio Top Floating Demo Bar */}
       {!isEmbed && (
         <aside
           aria-label="데모 안내 바"
-          className="sticky top-0 z-[60] bg-zinc-950/95 backdrop-blur-md text-white border-b border-zinc-800 text-xs py-2 px-4 flex items-center justify-between"
+          className="sticky top-[var(--sample-bar-h,0px)] z-[60] bg-zinc-950/95 backdrop-blur-md text-white border-b border-zinc-800 text-xs py-2 px-4 flex items-center justify-between"
         >
           <div className="flex items-center gap-3">
             <Link

@@ -1,5 +1,5 @@
 import React from 'react';
-import { LOGO_URL } from './TopNavBar';
+import { LOGO_URL, NAV_LINKS } from './TopNavBar';
 
 export default function Footer() {
   return (
@@ -31,27 +31,23 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Middle Row: Institutional Links */}
-        <div className="flex flex-wrap gap-y-3 gap-x-8 text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
-          <a className="hover:text-primary transition-colors duration-150" href="#compliance">
-            수출통제 준수
-          </a>
-          <a className="hover:text-primary transition-colors duration-150" href="#licenses">
-            Satellite Radio Licenses
-          </a>
-          <a className="hover:text-primary transition-colors duration-150" href="#soc">
-            Space Operations Centers
-          </a>
-          <a className="hover:text-primary transition-colors duration-150" href="#privacy">
-            Privacy Policy
-          </a>
-          <a className="hover:text-primary transition-colors duration-150" href="#security">
-            Security Architecture
-          </a>
-          <a className="hover:text-primary transition-colors duration-150" href="#status">
-            System Status
-          </a>
-        </div>
+        {/* Middle Row: 지면에 실재하는 섹션으로만 건다
+            (예전엔 #compliance·#licenses·#soc·#privacy·#security·#status 여섯 개가 모두 대상 없는
+             앵커라 눌러도 아무 데도 가지 않았다. 샘플이라 붙일 문서가 없으므로 섹션 안내로 바꾼다.) */}
+        <nav
+          aria-label="사이트 섹션 바로가기"
+          className="flex flex-wrap gap-y-1 gap-x-8 text-xs font-semibold uppercase tracking-wider text-on-surface-variant"
+        >
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.href}
+              className="inline-flex items-center min-h-11 hover:text-primary transition-colors duration-150"
+              href={link.href}
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
 
         {/* Space Operations Hubs Metadata */}
         <div className="font-code-mono text-xs text-on-surface-variant flex flex-wrap gap-y-2 gap-x-6">
@@ -72,7 +68,7 @@ export default function Footer() {
 
         {/* Copyright Notice */}
         <div className="pt-4 text-xs text-on-surface-variant/80 border-t border-outline-variant/40 leading-relaxed">
-          © 2025 STELLA ORBITAL SYSTEMS INC. ALL RIGHTS RESERVED. EXPORT COMPLIANCE & RADIO LICENSE 표기 자리 (예시). SPACE OPS HUBS: DAEJEON (SOC-1) • SINGAPORE (SOC-2) • LUXEMBOURG (SOC-3).
+          © 2026 STELLA ORBITAL SYSTEMS INC. ALL RIGHTS RESERVED. EXPORT COMPLIANCE & RADIO LICENSE 표기 자리 (예시). SPACE OPS HUBS: DAEJEON (SOC-1) • SINGAPORE (SOC-2) • LUXEMBOURG (SOC-3).
         </div>
       </div>
     </footer>

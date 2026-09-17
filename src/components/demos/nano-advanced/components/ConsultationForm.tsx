@@ -55,7 +55,7 @@ export const ConsultationForm: React.FC = () => {
   ];
 
   return (
-    <section className="py-16 lg:py-24 bg-white border-b border-[#c4c5d5]/30" id="technical-request">
+    <section className="scroll-mt-20 py-16 lg:py-24 bg-white border-b border-[#c4c5d5]/30" id="technical-request">
       <div className="max-w-4xl mx-auto px-4 lg:px-8">
         <div className="text-center mb-12">
           <div className="text-xs font-bold text-[#00288e] uppercase tracking-widest mb-2 font-mono">
@@ -88,7 +88,7 @@ export const ConsultationForm: React.FC = () => {
             <label className="block text-base text-[#0b1c30] font-bold mb-3">
               Step 1. 목표 반도체 적용 분야
             </label>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {sectors.map((sec) => {
                 const isSelected = sector === sec;
                 return (
@@ -102,7 +102,7 @@ export const ConsultationForm: React.FC = () => {
                       value={sec}
                       checked={isSelected}
                       onChange={() => setSector(sec)}
-                      className="text-[#00288e] focus:ring-[#00288e] h-4 w-4 accent-[#00288e]"
+                      className="text-[#00288e] focus:ring-[#00288e] h-5 w-5 accent-[#00288e]"
                     />
                     <span className="text-xs font-semibold text-[#0b1c30]">{sec}</span>
                   </label>
@@ -116,7 +116,7 @@ export const ConsultationForm: React.FC = () => {
             <label className="block text-base text-[#0b1c30] font-bold mb-3">
               Step 2. 검토 희망 패키징 솔루션 공법
             </label>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {solutionOptions.map((sol) => {
                 const isChecked = solutions.includes(sol);
                 return (
@@ -128,7 +128,7 @@ export const ConsultationForm: React.FC = () => {
                       type="checkbox"
                       checked={isChecked}
                       onChange={() => toggleSolution(sol)}
-                      className="rounded text-[#00288e] focus:ring-[#00288e] h-4 w-4 accent-[#00288e]"
+                      className="rounded text-[#00288e] focus:ring-[#00288e] h-5 w-5 accent-[#00288e]"
                     />
                     <span className="text-xs font-semibold text-[#0b1c30]">{sol}</span>
                   </label>
@@ -142,7 +142,7 @@ export const ConsultationForm: React.FC = () => {
             <label className="block text-base text-[#0b1c30] font-bold mb-3">
               Step 3. 기업 및 기술 담당자 정보
             </label>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-semibold text-[#444653] mb-1.5">
                   회사명 / 기관명 *
@@ -211,7 +211,7 @@ export const ConsultationForm: React.FC = () => {
                 required
                 checked={ndaAgreed}
                 onChange={(e) => setNdaAgreed(e.target.checked)}
-                className="mt-1 rounded text-[#00288e] focus:ring-[#00288e] h-4 w-4 accent-[#00288e]"
+                className="mt-1 rounded text-[#00288e] focus:ring-[#00288e] h-5 w-5 accent-[#00288e]"
               />
               <span className="text-xs text-[#444653] leading-relaxed">
                 [필수] 기술 미팅 및 엔지니어링 샘플 교환을 위한{' '}
@@ -234,7 +234,7 @@ export const ConsultationForm: React.FC = () => {
             className="w-full bg-[#00288e] hover:bg-[#1e40af] text-white py-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.99] cursor-pointer"
           >
             <Send className="w-4 h-4 shrink-0" />
-            <span>엔지니어링 테크니컬 미팅 및 평가 샘플 발송 요청</span>
+            <span>엔지니어링 테크니컬 미팅 및 평가 샘플 신청</span>
           </button>
         </form>
       </div>

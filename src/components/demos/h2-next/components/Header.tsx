@@ -10,6 +10,8 @@ export const Header: React.FC<HeaderProps> = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('vision');
+  // 로고는 외부 호스트 직접 참조라 차단·만료되면 깨진 그림이 뜬다 — 그때는 글자 마크로 대신한다.
+  const [logoFailed, setLogoFailed] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,17 +56,28 @@ export const Header: React.FC<HeaderProps> = () => {
         <a
           id="brand-logo-anchor"
           aria-label="H2 NEXT 홈"
-          className="flex items-center gap-2 group"
+          className="flex min-w-0 items-center gap-2 py-2 group"
           href="#vision"
         >
-          <img
-            id="brand-logo-img"
-            alt="H2 NEXT Brand Logo"
-            className="h-10 w-10 object-contain rounded-lg p-0.5 bg-white border border-[#bcc9c6]/40 group-hover:scale-105 transition-transform duration-200"
-            src={LOGO_URL}
-          />
+          {logoFailed ? (
+            <span
+              aria-hidden="true"
+              className="h-10 w-10 shrink-0 rounded-lg bg-white border border-[#bcc9c6]/40 flex items-center justify-center text-[13px] font-bold text-[#00685f]"
+            >
+              H2
+            </span>
+          ) : (
+            <img
+              id="brand-logo-img"
+              alt="H2 NEXT Brand Logo"
+              className="h-10 w-10 shrink-0 object-contain rounded-lg p-0.5 bg-white border border-[#bcc9c6]/40 group-hover:scale-105 transition-transform duration-200"
+              src={LOGO_URL}
+              referrerPolicy="no-referrer"
+              onError={() => setLogoFailed(true)}
+            />
+          )}
           <div className="flex flex-col">
-            <span className="text-xl font-bold tracking-tight text-[#00685f] leading-none">
+            <span className="text-xl font-bold tracking-tight text-[#00685f] leading-none whitespace-nowrap">
               H2 NEXT
             </span>
             <span className="text-[10px] font-mono text-[#6d7a77] tracking-wider mt-1 hidden lg:block">
@@ -74,7 +87,9 @@ export const Header: React.FC<HeaderProps> = () => {
         </a>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-7">
+        {/* 가로 메뉴가 처음 나타나는 1024~1279 구간이 가장 빡빡하다(기준선은 375·768·1440 만 쟀다).
+            그 구간만 글자·간격을 줄이고, 1280 이상은 원래 값(gap-7 · 15px)으로 되돌린다. */}
+        <nav className="hidden lg:flex items-center gap-4 xl:gap-7">
           {navLinks.map((link) => {
             const isActive = activeSection === link.id;
             return (
@@ -82,7 +97,7 @@ export const Header: React.FC<HeaderProps> = () => {
                 key={link.id}
                 id={`nav-${link.id}`}
                 href={link.href}
-                className={`text-[15px] font-semibold transition-all pb-1 ${
+                className={`text-[13px] xl:text-[15px] font-semibold whitespace-nowrap transition-all pb-1 ${
                   isActive
                     ? 'text-[#00685f] border-b-2 border-[#00685f]'
                     : 'text-[#3d4947] hover:text-[#00685f]'
@@ -95,22 +110,28 @@ export const Header: React.FC<HeaderProps> = () => {
         </nav>
 
         {/* Trailing Primary Action */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 lg:gap-3">
+          {/* 폭 예외(sm=640): lg 미만을 한 덩어리로 다루면 375 에서 이 버튼이 로고 글자를 덮는다.
+              모바일/웹 구분이 아니라 머리띠가 물리적으로 안 들어가는 폭의 문제라 sm 으로 끊고,
+              감춘 구간은 햄버거 서랍 안에 같은 버튼이 그대로 있다(죽은 자리 아님). */}
           <a
             id="cta-header-ppa"
-            className="inline-flex items-center gap-2 bg-[#00685f] hover:bg-[#008378] text-white text-sm font-semibold px-4 py-2.5 rounded-lg shadow-sm hover:shadow transition-all duration-200 active:scale-95 whitespace-nowrap"
+            className="hidden sm:inline-flex items-center gap-2 bg-[#00685f] hover:bg-[#008378] text-white text-sm font-semibold px-4 py-2.5 rounded-lg shadow-sm hover:shadow transition-all duration-200 active:scale-95 whitespace-nowrap"
             href="#consultation"
           >
-            <span>RE100 전력 PPA 제휴 문의</span>
-            <ArrowRight className="w-4 h-4" />
+            <span className="xl:hidden">PPA 제휴 문의</span>
+            <span className="hidden xl:inline">RE100 전력 PPA 제휴 문의</span>
+            <ArrowRight className="w-4 h-4 flex-shrink-0" />
           </a>
 
-          {/* Mobile menu hamburger */}
+          {/* Mobile menu hamburger — 탭 대상 44px */}
           <button
             id="mobile-menu-toggle"
-            aria-label="모바일 메뉴 열기"
+            type="button"
+            aria-label={mobileMenuOpen ? '모바일 메뉴 닫기' : '모바일 메뉴 열기'}
+            aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-lg text-[#0b1c30] hover:bg-slate-100 lg:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-lg text-[#0b1c30] hover:bg-slate-100 lg:hidden cursor-pointer"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -125,7 +146,7 @@ export const Header: React.FC<HeaderProps> = () => {
               key={link.id}
               href={link.href}
               onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 text-base font-semibold text-[#0b1c30] hover:text-[#00685f]"
+              className="block py-3 text-base font-semibold text-[#0b1c30] hover:text-[#00685f]"
             >
               {link.label}
             </a>
@@ -134,7 +155,7 @@ export const Header: React.FC<HeaderProps> = () => {
             <a
               href="#consultation"
               onClick={() => setMobileMenuOpen(false)}
-              className="block w-full text-center bg-[#00685f] text-white py-2.5 rounded-lg font-semibold"
+              className="block w-full text-center bg-[#00685f] text-white py-3 rounded-lg font-semibold"
             >
               RE100 전력 PPA 제휴 문의
             </a>

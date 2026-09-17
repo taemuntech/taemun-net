@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, PlayCircle, Cpu } from 'lucide-react';
+import { ArrowRight, Layers, Cpu } from 'lucide-react';
 import { HERO_WAFER_IMAGE } from '../data/packagingData';
 
 interface HeroSectionProps {
@@ -12,7 +12,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onOpenExplodedView,
 }) => {
   return (
-    <section className="relative pt-12 pb-16 lg:pt-20 lg:pb-24 overflow-hidden cleanroom-grid border-b border-[#c4c5d5]/30">
+    <section
+      id="hero"
+      className="relative scroll-mt-20 pt-12 pb-16 lg:pt-20 lg:pb-24 overflow-hidden cleanroom-grid border-b border-[#c4c5d5]/30"
+    >
       <div className="max-w-7xl mx-auto px-4 lg:px-8 relative z-10">
         {/* Status Pill Indicator */}
         <div className="inline-flex items-center gap-x-2.5 px-3 py-1 bg-white border border-[#c4c5d5]/60 rounded-full shadow-[0_1px_2px_rgba(15,23,42,0.05)] mb-6">
@@ -21,7 +24,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00288e]"></span>
           </span>
           <span className="font-mono text-[11px] text-[#444653] tracking-wider uppercase font-semibold">
-            GLOBAL PACKAGING FOUNDRY ALLIANCE • SUB-5μm ULTRA-FINE RDL QUALIFIED
+            GLOBAL PACKAGING FOUNDRY ALLIANCE • SUB-5μm ULTRA-FINE RDL QUALIFIED (예시 표기)
           </span>
         </div>
 
@@ -44,7 +47,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </p>
 
             {/* Action Buttons */}
-            <div className="flex flex-col lg:flex-row items-stretch gap-3.5 w-full lg:w-auto mb-10">
+            {/* md 는 태블릿 카드 밀도 조정용 — 모바일/웹 경계는 저장소 규칙대로 lg 를 유지한다 */}
+            <div className="flex flex-col md:flex-row items-stretch gap-3.5 w-full lg:w-auto mb-10">
               <button
                 onClick={onOpenWhitepaper}
                 className="bg-[#00288e] hover:bg-[#1e40af] text-white text-sm font-semibold px-6 py-3.5 rounded-lg shadow-sm transition-all duration-150 active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
@@ -59,58 +63,63 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 className="bg-white hover:bg-[#eff4ff] text-[#0b1c30] border border-[#c4c5d5]/80 text-sm font-semibold px-6 py-3.5 rounded-lg shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-all duration-150 active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
                 type="button"
               >
-                <PlayCircle className="w-5 h-5 text-[#00687a] shrink-0" />
-                <span>3D 이종 패키징 구조 분해도 영상</span>
+                <Layers className="w-5 h-5 text-[#00687a] shrink-0" />
+                <span>3D 이종 패키징 구조 분해도 열기</span>
               </button>
             </div>
 
-            {/* Nano-Precision Trust Metrics Bar */}
-            <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-3 pt-6 border-t border-[#c4c5d5]/30">
-              <div className="p-3 bg-white rounded-lg border border-[#c4c5d5]/40 shadow-xs">
-                <div className="text-[11px] font-bold text-[#757684] uppercase tracking-wider mb-1">
-                  최소 배선 피치
-                </div>
-                <div className="text-xl text-[#00288e] font-extrabold tracking-tight">
-                  5 µm
-                </div>
-                <div className="font-mono text-[11px] text-[#444653] font-medium">
-                  L/S 2/2µm High-Yield
-                </div>
+            {/* Nano-Precision Trust Metrics Bar — 실적처럼 읽히는 네 수치라 구역 머리에 예시 배지를 단다 */}
+            <div className="w-full pt-6 border-t border-[#c4c5d5]/30">
+              <div className="mb-3 inline-flex items-center rounded-full border border-[#c4c5d5]/60 bg-white px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-[#757684]">
+                아래 네 수치는 모두 예시 수치입니다
               </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="p-3 bg-white rounded-lg border border-[#c4c5d5]/40 shadow-xs">
+                  <div className="text-[11px] font-bold text-[#757684] uppercase tracking-wider mb-1">
+                    최소 배선 피치
+                  </div>
+                  <div className="text-xl text-[#00288e] font-extrabold tracking-tight">
+                    5 µm
+                  </div>
+                  <div className="font-mono text-[11px] text-[#444653] font-medium">
+                    L/S 2/2µm 목표 사양
+                  </div>
+                </div>
 
-              <div className="p-3 bg-white rounded-lg border border-[#c4c5d5]/40 shadow-xs">
-                <div className="text-[11px] font-bold text-[#757684] uppercase tracking-wider mb-1">
-                  CTE 열팽창계수
+                <div className="p-3 bg-white rounded-lg border border-[#c4c5d5]/40 shadow-xs">
+                  <div className="text-[11px] font-bold text-[#757684] uppercase tracking-wider mb-1">
+                    CTE 열팽창계수
+                  </div>
+                  <div className="text-xl text-[#0b1c30] font-extrabold tracking-tight">
+                    3.2 ppm/K
+                  </div>
+                  <div className="font-mono text-[11px] text-[#444653] font-medium">
+                    Silicon Matched Low-Strain
+                  </div>
                 </div>
-                <div className="text-xl text-[#0b1c30] font-extrabold tracking-tight">
-                  3.2 ppm/K
-                </div>
-                <div className="font-mono text-[11px] text-[#444653] font-medium">
-                  Silicon Matched Zero-Strain
-                </div>
-              </div>
 
-              <div className="p-3 bg-white rounded-lg border border-[#c4c5d5]/40 shadow-xs">
-                <div className="text-[11px] font-bold text-[#757684] uppercase tracking-wider mb-1">
-                  대면적 양산 수율
+                <div className="p-3 bg-white rounded-lg border border-[#c4c5d5]/40 shadow-xs">
+                  <div className="text-[11px] font-bold text-[#757684] uppercase tracking-wider mb-1">
+                    대면적 양산 수율
+                  </div>
+                  <div className="text-xl text-[#00563a] font-extrabold tracking-tight">
+                    99.85%
+                  </div>
+                  <div className="font-mono text-[11px] text-[#444653] font-medium">
+                    Class 1 팹 목표 수율 (예시)
+                  </div>
                 </div>
-                <div className="text-xl text-[#00563a] font-extrabold tracking-tight">
-                  99.85%
-                </div>
-                <div className="font-mono text-[11px] text-[#444653] font-medium">
-                  Class 1 Fab Certified
-                </div>
-              </div>
 
-              <div className="p-3 bg-white rounded-lg border border-[#c4c5d5]/40 shadow-xs">
-                <div className="text-[11px] font-bold text-[#757684] uppercase tracking-wider mb-1">
-                  공급 레퍼런스
-                </div>
-                <div className="text-xl text-[#0b1c30] font-extrabold tracking-tight">
-                  14 BigTech
-                </div>
-                <div className="font-mono text-[11px] text-[#444653] font-medium">
-                  Global AI Accelerator
+                <div className="p-3 bg-white rounded-lg border border-[#c4c5d5]/40 shadow-xs">
+                  <div className="text-[11px] font-bold text-[#757684] uppercase tracking-wider mb-1">
+                    공급 레퍼런스
+                  </div>
+                  <div className="text-xl text-[#0b1c30] font-extrabold tracking-tight">
+                    14곳
+                  </div>
+                  <div className="font-mono text-[11px] text-[#444653] font-medium">
+                    AI 가속기 고객사 (예시)
+                  </div>
                 </div>
               </div>
             </div>

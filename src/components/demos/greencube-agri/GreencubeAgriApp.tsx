@@ -14,6 +14,7 @@ import { Footer } from './components/Footer';
 import { TelemetryModal } from './components/TelemetryModal';
 import { FacilityTourModal } from './components/FacilityTourModal';
 import { DocModal } from './components/DocModal';
+import { QuotePrefill } from './types';
 
 interface GreencubeAgriAppProps {
   isEmbed?: boolean;
@@ -23,21 +24,26 @@ export default function GreencubeAgriApp({ isEmbed = false }: GreencubeAgriAppPr
   const [telemetryOpen, setTelemetryOpen] = useState(false);
   const [tourOpen, setTourOpen] = useState(false);
   const [docTitle, setDocTitle] = useState<string | null>(null);
+  // 계산기의 「이 조건으로 견적 요청」이 B2B 폼을 실제로 채우게 한다 — 예전엔 값을 받고도 버리고 스크롤만 했다.
+  const [quotePrefill, setQuotePrefill] = useState<QuotePrefill | null>(null);
 
   const handleQuoteRequested = (size: number, cropName: string, annualTonnes: number) => {
+    setQuotePrefill({ stamp: Date.now(), footprintPyung: size, cropName, annualTonnes });
     const b2bSection = document.getElementById('b2b-contract');
     if (b2bSection) {
       b2bSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
+  // 한글 제목이 낱말 한가운데서 쪼개지던 자리(「차세/대」·「패키/징」) — 이 데모 안의 제목에 keep-all 을 한 번에 건다
   return (
-    <div className="min-h-screen flex flex-col bg-[#faf8ff] text-[#131b2e] font-sans selection:bg-[#006948] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#faf8ff] text-[#131b2e] font-sans selection:bg-[#006948] selection:text-white [&_h1]:break-keep [&_h2]:break-keep [&_h3]:break-keep">
       {/* 🌟 Taemun Dev Studio Top Floating Demo Bar */}
       {!isEmbed && (
         <aside
           aria-label="데모 안내 바"
-          className="sticky top-0 z-[60] bg-zinc-950/95 backdrop-blur-md text-white border-b border-zinc-800 text-xs py-2 px-4 flex items-center justify-between"
+          // 공용 샘플 바(44px)에 가려지지 않게 top-0 대신 --sample-bar-h 를 쓴다 — 바가 없으면 0px 라 화면은 그대로다.
+          className="sticky top-[var(--sample-bar-h,0px)] z-[60] bg-zinc-950/95 backdrop-blur-md text-white border-b border-zinc-800 text-xs py-2 px-4 flex items-center justify-between"
         >
           <div className="flex items-center gap-3">
             <Link
@@ -89,7 +95,7 @@ export default function GreencubeAgriApp({ isEmbed = false }: GreencubeAgriAppPr
         <ColdChainSection />
 
         {/* 6. Turnkey Engineering & B2B Inquiry Form */}
-        <B2BInquirySection />
+        <B2BInquirySection prefill={quotePrefill} />
       </main>
 
       {/* 7. Footer */}

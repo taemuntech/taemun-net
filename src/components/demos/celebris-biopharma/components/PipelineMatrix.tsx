@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
-import { CheckCircle2, FileText, ExternalLink } from 'lucide-react';
+import { CheckCircle2, FileText } from 'lucide-react';
 import { PIPELINE_DATA } from '../data/mockData';
 import { PipelineCategory, PipelineItem } from '../types';
 
 interface PipelineMatrixProps {
   onSelectProtocol: (item: PipelineItem) => void;
 }
+
+/** 거르개 탭 — 눌렀을 때 몇 건이 남는지 라벨에 같이 적는다(걸렀는데 화면이 안 변한 것처럼 보이지 않게) */
+const CATEGORY_TABS: Array<{ id: PipelineCategory; label: string }> = [
+  { id: 'all', label: '전체 파이프라인 (All)' },
+  { id: 'tpd', label: 'TPD-PROTAC 분해제' },
+  { id: 'adc', label: 'Next-Gen ADC 접합체' },
+  { id: 'bispecific', label: '면역항암 이중항체' },
+];
+
+const countFor = (category: PipelineCategory) =>
+  category === 'all' ? PIPELINE_DATA.length : PIPELINE_DATA.filter(item => item.category === category).length;
 
 export const PipelineMatrix: React.FC<PipelineMatrixProps> = ({ onSelectProtocol }) => {
   const [activeCategory, setActiveCategory] = useState<PipelineCategory>('all');
@@ -16,7 +27,7 @@ export const PipelineMatrix: React.FC<PipelineMatrixProps> = ({ onSelectProtocol
   });
 
   return (
-    <section className="py-24 bg-[#eff4ff]/60 border-y border-[#c4c5d5]/30" id="pipeline">
+    <section className="scroll-mt-[calc(5rem+var(--sample-bar-h,0px))] py-24 bg-[#eff4ff]/60 border-y border-[#c4c5d5]/30" id="pipeline">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12">
           <div>
@@ -42,47 +53,30 @@ export const PipelineMatrix: React.FC<PipelineMatrixProps> = ({ onSelectProtocol
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex flex-wrap gap-2 mb-8" id="pipelineTabs">
-          <button
-            className={`px-4 py-2 rounded-lg text-[13px] font-semibold transition-all cursor-pointer ${
-              activeCategory === 'all'
-                ? 'bg-[#1e40af] text-white shadow-xs'
-                : 'bg-white border border-[#c4c5d5]/50 text-[#0b1c30] hover:bg-[#eff4ff]'
-            }`}
-            onClick={() => setActiveCategory('all')}
-          >
-            전체 파이프라인 (All)
-          </button>
-          <button
-            className={`px-4 py-2 rounded-lg text-[13px] font-medium transition-all cursor-pointer ${
-              activeCategory === 'tpd'
-                ? 'bg-[#1e40af] text-white shadow-xs font-semibold'
-                : 'bg-white border border-[#c4c5d5]/50 text-[#0b1c30] hover:bg-[#eff4ff]'
-            }`}
-            onClick={() => setActiveCategory('tpd')}
-          >
-            TPD-PROTAC 분해제
-          </button>
-          <button
-            className={`px-4 py-2 rounded-lg text-[13px] font-medium transition-all cursor-pointer ${
-              activeCategory === 'adc'
-                ? 'bg-[#1e40af] text-white shadow-xs font-semibold'
-                : 'bg-white border border-[#c4c5d5]/50 text-[#0b1c30] hover:bg-[#eff4ff]'
-            }`}
-            onClick={() => setActiveCategory('adc')}
-          >
-            Next-Gen ADC 접합체
-          </button>
-          <button
-            className={`px-4 py-2 rounded-lg text-[13px] font-medium transition-all cursor-pointer ${
-              activeCategory === 'bispecific'
-                ? 'bg-[#1e40af] text-white shadow-xs font-semibold'
-                : 'bg-white border border-[#c4c5d5]/50 text-[#0b1c30] hover:bg-[#eff4ff]'
-            }`}
-            onClick={() => setActiveCategory('bispecific')}
-          >
-            면역항암 이중항체
-          </button>
+        <div className="flex flex-wrap gap-2 mb-8" id="pipelineTabs" role="tablist" aria-label="파이프라인 분류">
+          {CATEGORY_TABS.map(tab => {
+            const isActive = activeCategory === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                onClick={() => setActiveCategory(tab.id)}
+                /* 탭이 38px 이라 손가락으로 누르기 작았다 — 44px 로 올린다 */
+                className={`min-h-11 px-4 py-2 rounded-lg text-[13px] transition-all cursor-pointer ${
+                  isActive
+                    ? 'bg-[#1e40af] text-white shadow-xs font-semibold'
+                    : 'bg-white border border-[#c4c5d5]/50 text-[#0b1c30] hover:bg-[#eff4ff] font-medium'
+                }`}
+              >
+                {tab.label}
+                <span className={`ml-1.5 font-code-mono text-[11px] ${isActive ? 'text-white/80' : 'text-[#757684]'}`}>
+                  {countFor(tab.id)}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
         {/* Pipeline Matrix Container */}
@@ -136,7 +130,7 @@ export const PipelineMatrix: React.FC<PipelineMatrixProps> = ({ onSelectProtocol
                 <div className="lg:col-span-5">
                   <div className="space-y-1.5">
                     {/* Phase Labels */}
-                    <div className="grid grid-cols-5 gap-1 text-[11px] font-code-mono text-center">
+                    <div className="grid grid-cols-5 gap-1 text-[10px] lg:text-[11px] font-code-mono text-center leading-tight [word-break:keep-all]">
                       {phases.map((p, idx) => {
                         const isCurrent = idx === item.activePhaseIndex;
                         return (
@@ -186,7 +180,8 @@ export const PipelineMatrix: React.FC<PipelineMatrixProps> = ({ onSelectProtocol
                     </div>
 
                     {/* Phase Highlights Text */}
-                    <div className="flex justify-between items-center text-[11px] font-code-mono text-[#757684]">
+                    {/* 두 문구가 한 줄에 맞부딪혀 잘리던 자리 — 좁으면 줄을 바꾸고 낱말 단위로만 끊는다 */}
+                    <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-0.5 text-[11px] font-code-mono text-[#757684] [word-break:keep-all]">
                       <span className="text-[#00563a] font-semibold">{item.highlightStatus}</span>
                       <span>{item.subStatus}</span>
                     </div>
@@ -197,7 +192,8 @@ export const PipelineMatrix: React.FC<PipelineMatrixProps> = ({ onSelectProtocol
                 <div className="lg:col-span-2 flex lg:justify-end items-center space-x-2">
                   <button
                     onClick={() => onSelectProtocol(item)}
-                    className="px-3 py-1.5 rounded-lg border border-[#c4c5d5]/60 text-[12px] font-semibold text-[#00288e] hover:bg-[#eff4ff] transition flex items-center space-x-1 cursor-pointer"
+                    aria-label={`${item.code} 임상 프로토콜 요약 열기`}
+                    className="min-h-11 px-3.5 py-1.5 rounded-lg border border-[#c4c5d5]/60 text-[12px] font-semibold text-[#00288e] hover:bg-[#eff4ff] transition flex items-center space-x-1 cursor-pointer"
                   >
                     <FileText className="w-3.5 h-3.5" />
                     <span>Protocol</span>

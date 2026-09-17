@@ -22,7 +22,8 @@ export const ColdChainSection: React.FC = () => {
         </div>
 
         {/* 4-Step Cold-Chain Process Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-16">
+        {/* 모바일/웹 경계는 그대로 lg 다. md 는 태블릿(768)에서 4단계가 한 장씩 늘어지던 걸 2열로 접는 중간 단계일 뿐이다. */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-12 lg:mb-16">
           {COLD_CHAIN_STEPS.map((stepItem, index) => {
             let stepBadgeBg = 'bg-[#006948]/10 text-[#006948]';
             let iconColor = 'text-[#006948]';
@@ -57,7 +58,7 @@ export const ColdChainSection: React.FC = () => {
                   <h4 className="font-headline text-base lg:text-lg font-semibold text-[#131b2e] mb-2">
                     {stepItem.title}
                   </h4>
-                  <p className="font-body text-xs lg:text-sm text-[#3d4a42] leading-relaxed">
+                  <p className="font-body text-xs lg:text-sm text-[#3d4a42] leading-relaxed [word-break:keep-all]">
                     {stepItem.description}
                   </p>
                 </div>
@@ -82,10 +83,10 @@ export const ColdChainSection: React.FC = () => {
                 <span className={`material-symbols-outlined text-3xl mb-1 ${tier.color}`}>
                   {tier.icon}
                 </span>
-                <span className="font-mono text-[11px] lg:text-[12px] font-bold text-[#131b2e] mt-1">
+                <span className="font-mono text-[11px] lg:text-[12px] font-bold text-[#131b2e] mt-1 break-words">
                   {tier.title}
                 </span>
-                <span className="font-body text-[11px] lg:text-xs text-[#3d4a42] mt-0.5">
+                <span className="font-body text-[11px] lg:text-xs text-[#3d4a42] mt-0.5 [word-break:keep-all]">
                   {tier.subtitle}
                 </span>
               </div>

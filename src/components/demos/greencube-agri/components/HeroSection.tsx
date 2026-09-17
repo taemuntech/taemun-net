@@ -38,11 +38,11 @@ export const HeroSection: React.FC = () => {
               </span>{' '}
               Biospheres.
             </h1>
-            <p className="mt-4 font-headline text-xl lg:text-2xl text-[#3d4a42] font-medium">
-              기후 위기를 극복하는 100% 무농약 클린룸 AI 수직 스마트팜
+            <p className="mt-4 font-headline text-xl lg:text-2xl text-[#3d4a42] font-medium [word-break:keep-all]">
+              기후 변화에 흔들리지 않는 무농약 클린룸 AI 수직 스마트팜
             </p>
-            <p className="mt-3 font-body text-base lg:text-lg text-[#3d4a42] max-w-3xl leading-relaxed">
-              365일 기후 변화와 병충해 걱정 없는 밀폐형 바이오스피어에서 초정밀 AI 에어로포닉스 분무 재배와 맞춤형 분광 제어로 최상의 영양 밀도를 구현합니다.
+            <p className="mt-3 font-body text-base lg:text-lg text-[#3d4a42] max-w-3xl leading-relaxed [word-break:keep-all]">
+              365일 기후 변화와 병충해에서 분리된 밀폐형 바이오스피어에서 초정밀 AI 에어로포닉스 분무 재배와 맞춤형 분광 제어로 높은 영양 밀도를 목표로 설계한 구성입니다.
             </p>
 
             {/* CTA Row */}
@@ -70,8 +70,14 @@ export const HeroSection: React.FC = () => {
               <span className="font-mono text-[10px] uppercase text-[#6d7a72] font-bold tracking-wider">
                 BIOSYSTEM TELEMETRY
               </span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-[#006948]/10 text-[#006948] font-bold">
-                ONLINE
+              {/* 아래 네 줄은 설비 규격처럼 읽히는 값이라 구역 머리에 예시 표시를 단다 */}
+              <span className="flex items-center gap-1.5 shrink-0">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-[#6d7a72]/10 text-[#6d7a72] font-bold">
+                  예시 수치
+                </span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-[#006948]/10 text-[#006948] font-bold">
+                  ONLINE
+                </span>
               </span>
             </div>
             <div className="space-y-3 font-mono text-[12px]">
@@ -181,14 +187,15 @@ export const HeroSection: React.FC = () => {
           </div>
         </div>
 
-        {/* 3 Key Sustainability Stats Banner */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="p-6 rounded-xl bg-white border border-[#bccac0]/40 hover:border-[#006948] transition-all shadow-2xs">
+        {/* 3 Key Sustainability Stats Banner
+            모바일/웹 경계는 그대로 lg 다. md 는 태블릿(768)에서 카드 셋이 한 장씩 늘어지던 걸 3열로 접는 중간 단계일 뿐이다. */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+          <div className="p-5 lg:p-6 rounded-xl bg-white border border-[#bccac0]/40 hover:border-[#006948] transition-all shadow-2xs">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-10 h-10 rounded-lg bg-[#006948]/10 text-[#006948] flex items-center justify-center">
                 <span className="material-symbols-outlined text-xl">water</span>
               </div>
-              <span className="font-headline text-2xl lg:text-3xl font-bold text-[#131b2e]">
+              <span className="font-headline text-2xl md:text-lg lg:text-3xl font-bold text-[#131b2e] [word-break:keep-all]">
                 95% Water Saved
               </span>
             </div>
@@ -197,12 +204,12 @@ export const HeroSection: React.FC = () => {
             </p>
           </div>
 
-          <div className="p-6 rounded-xl bg-white border border-[#bccac0]/40 hover:border-[#006948] transition-all shadow-2xs">
+          <div className="p-5 lg:p-6 rounded-xl bg-white border border-[#bccac0]/40 hover:border-[#006948] transition-all shadow-2xs">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-10 h-10 rounded-lg bg-[#00687a]/10 text-[#00687a] flex items-center justify-center">
                 <span className="material-symbols-outlined text-xl">layers</span>
               </div>
-              <span className="font-headline text-2xl lg:text-3xl font-bold text-[#131b2e]">
+              <span className="font-headline text-2xl md:text-lg lg:text-3xl font-bold text-[#131b2e] [word-break:keep-all]">
                 40x Yield Per Sqm
               </span>
             </div>
@@ -211,17 +218,17 @@ export const HeroSection: React.FC = () => {
             </p>
           </div>
 
-          <div className="p-6 rounded-xl bg-white border border-[#bccac0]/40 hover:border-[#006948] transition-all shadow-2xs">
+          <div className="p-5 lg:p-6 rounded-xl bg-white border border-[#bccac0]/40 hover:border-[#006948] transition-all shadow-2xs">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-10 h-10 rounded-lg bg-[#006947]/10 text-[#006947] flex items-center justify-center">
                 <span className="material-symbols-outlined text-xl">shield</span>
               </div>
-              <span className="font-headline text-2xl lg:text-3xl font-bold text-[#131b2e]">
+              <span className="font-headline text-2xl md:text-lg lg:text-3xl font-bold text-[#131b2e] [word-break:keep-all]">
                 Zero Weather Impact
               </span>
             </div>
-            <p className="font-body text-sm text-[#3d4a42] leading-relaxed">
-              혹서기, 혹한기, 가뭄, 장마 및 미세먼지와 완벽히 차단된 양압 클린룸에서 365일 규격화된 고품질 원료를 정시 공급합니다.
+            <p className="font-body text-sm text-[#3d4a42] leading-relaxed [word-break:keep-all]">
+              혹서기, 혹한기, 가뭄, 장마 및 미세먼지와 분리된 양압 클린룸에서 365일 규격화된 원료를 정시 공급하도록 설계한 운영 구성입니다.
             </p>
           </div>
         </div>

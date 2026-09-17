@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TRADE_ROUTES } from '../data/mockData';
-import { Ship, Plane, CheckCircle, ArrowRight, ShieldAlert, Sparkles } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 
 interface RateSimulatorProps {
   onLockRateClick: (planName: string, quoteDetails: string) => void;
@@ -55,7 +55,7 @@ export const RateSimulator: React.FC<RateSimulatorProps> = ({ onLockRateClick })
               <label className="font-mono text-xs text-[#8d90a0] uppercase block mb-2 font-semibold">
                 Trade Corridor Route
               </label>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 {TRADE_ROUTES.map((route) => {
                   const isActive = route.id === selectedRouteId;
                   return (
@@ -97,31 +97,36 @@ export const RateSimulator: React.FC<RateSimulatorProps> = ({ onLockRateClick })
                   setVolume(parseInt(e.target.value));
                   setLockedNotice(null);
                 }}
-                className="w-full accent-[#2563eb] h-2 bg-[#28354a] rounded-lg cursor-pointer"
+                className="w-full accent-[#2563eb] h-3 lg:h-2 bg-[#28354a] rounded-lg cursor-pointer"
               />
-              <div className="flex justify-between font-mono text-[11px] text-[#8d90a0] mt-1.5">
-                <span>1 TEU (Single Box)</span>
-                <span>50 TEU (Block Stowage)</span>
-                <span>100 TEU (Enterprise Charter)</span>
+              <div className="flex justify-between gap-2 font-mono text-[10px] lg:text-[11px] text-[#8d90a0] mt-1.5">
+                <span>1 TEU</span>
+                <span className="hidden sm:inline">50 TEU (Block Stowage)</span>
+                <span className="sm:hidden">50 TEU</span>
+                <span className="text-right">100 TEU<span className="hidden sm:inline"> (Enterprise Charter)</span></span>
               </div>
             </div>
           </div>
 
           {lockedNotice && (
-            <div className="mb-6 p-3 bg-blue-950/60 border border-[#2563eb]/50 rounded-lg text-xs font-mono text-[#b4c5ff] flex items-center justify-between">
-              <span>{lockedNotice}</span>
-              <a href="#rfpSection" className="text-white underline hover:text-[#ffb693] font-bold ml-2">
+            <div className="mb-6 p-3 bg-blue-950/60 border border-[#2563eb]/50 rounded-lg text-xs font-mono text-[#b4c5ff] flex flex-col sm:flex-row sm:items-center gap-2 justify-between">
+              <span className="break-words">{lockedNotice}</span>
+              <a
+                href="#rfpSection"
+                className="text-white underline hover:text-[#ffb693] font-bold whitespace-nowrap inline-flex items-center max-lg:min-h-11 sm:ml-2"
+              >
                 Go to RFP &rarr;
               </a>
             </div>
           )}
 
           {/* 3 Comparison Cards */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+          {/* 운임 3안은 나란히 놓고 비교하는 게 이 구역의 요점이라, 모바일/웹 경계(lg)가 아니라 md(768)부터 3열로 편다 */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 mb-6">
             {/* Mode 1: Smart Ocean Freight */}
             <div className="bg-[#1d2a3e] border-2 border-[#2563eb] rounded-lg p-5 relative flex flex-col justify-between shadow-lg">
-              <div className="absolute -top-3 right-4 bg-[#2563eb] text-white font-mono text-[10px] font-bold px-2.5 py-0.5 rounded uppercase tracking-wider shadow">
-                ESG Optimal &amp; Highest Value
+              <div className="absolute -top-3 right-3 left-3 sm:left-auto bg-[#2563eb] text-white font-mono text-[10px] font-bold px-2.5 py-0.5 rounded uppercase tracking-wider shadow text-center sm:text-left">
+                ESG 우선 · 탄소 최소 (예시 기준)
               </div>
 
               <div>
@@ -162,7 +167,7 @@ export const RateSimulator: React.FC<RateSimulatorProps> = ({ onLockRateClick })
                 <button
                   id="lock-ocean-rate-btn"
                   onClick={() => handleSelectPlan('Smart Ocean Freight', oceanCost, oceanDays, oceanCarbon)}
-                  className="w-full bg-[#2563eb] text-white font-mono text-xs font-bold uppercase py-2.5 rounded hover:bg-[#1d4ed8] transition-colors text-center block shadow"
+                  className="w-full bg-[#2563eb] text-white font-mono text-xs font-bold uppercase min-h-11 rounded hover:bg-[#1d4ed8] transition-colors text-center block shadow"
                 >
                   Lock in Contract Spot Rate
                 </button>
@@ -209,7 +214,7 @@ export const RateSimulator: React.FC<RateSimulatorProps> = ({ onLockRateClick })
                 <button
                   id="lock-sea-air-rate-btn"
                   onClick={() => handleSelectPlan('Sea-Air Multimodal', seaAirCost, seaAirDays, seaAirCarbon)}
-                  className="w-full bg-[#1d2a3e] border border-[#434655]/50 text-white font-mono text-xs uppercase py-2.5 rounded hover:border-[#2563eb] transition-colors text-center block"
+                  className="w-full bg-[#1d2a3e] border border-[#434655]/50 text-white font-mono text-xs uppercase min-h-11 rounded hover:border-[#2563eb] transition-colors text-center block"
                 >
                   Request Sea-Air Schedule
                 </button>
@@ -256,7 +261,7 @@ export const RateSimulator: React.FC<RateSimulatorProps> = ({ onLockRateClick })
                 <button
                   id="lock-air-rate-btn"
                   onClick={() => handleSelectPlan('Express Air Cargo', airCost, airDays, airCarbon)}
-                  className="w-full bg-[#1d2a3e] border border-[#434655]/50 text-white font-mono text-xs uppercase py-2.5 rounded hover:border-[#2563eb] transition-colors text-center block"
+                  className="w-full bg-[#1d2a3e] border border-[#434655]/50 text-white font-mono text-xs uppercase min-h-11 rounded hover:border-[#2563eb] transition-colors text-center block"
                 >
                   Contact Air Charter Desk
                 </button>
@@ -270,7 +275,7 @@ export const RateSimulator: React.FC<RateSimulatorProps> = ({ onLockRateClick })
               <CheckCircle className="w-4 h-4 text-[#ffb693] shrink-0" />
               <span>All ocean rates include BAF (Bunker Adjustment Factor) and low-sulfur bio-methanol credits. (예시 산식)</span>
             </div>
-            <div className="text-[#b4c5ff] font-semibold whitespace-nowrap">
+            <div className="text-[#b4c5ff] font-semibold text-center lg:text-right">
               예시 견적 — 실제 계약 운임이 아닙니다
             </div>
           </div>

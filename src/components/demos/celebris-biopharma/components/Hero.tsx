@@ -21,7 +21,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenMoAModal, onOpenDeckModal }) =
   }, []);
 
   return (
-    <section className="pt-32 pb-20 cleanroom-grid relative overflow-hidden">
+    <section className="pt-28 lg:pt-32 pb-16 lg:pb-20 cleanroom-grid relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Status Chip */}
         <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-white border border-[#c4c5d5]/50 shadow-xs mb-6">
@@ -37,12 +37,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenMoAModal, onOpenDeckModal }) =
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Hero Copy */}
           <div className="lg:col-span-7 space-y-6">
-            <h1 className="text-[36px] ] lg:text-[54px] font-bold text-[#0b1c30] leading-[1.18] tracking-tight">
+            <h1 className="text-[32px] lg:text-[54px] font-bold text-[#0b1c30] leading-[1.18] tracking-tight [word-break:keep-all]">
               분자 표적의 정밀 분해로 여는<br />
               <span className="text-[#1e40af]">난치성 암 치료의 새로운 패러다임</span>
             </h1>
-            <p className="text-[16px] ] text-[#444653] max-w-2xl leading-relaxed">
-              자체 AI 신약 발굴 엔진 <strong className="text-[#0b1c30] font-semibold">'PROTEA-AI'</strong>를 통한 차세대 표적 단백질 분해제(TPD) 및 고효율 다중특이성 ADC 파이프라인. 글로벌 탑티어 제약사 기술이전(L/O) 및 글로벌 5개국 임상 2상이 순항 중입니다.
+            <p className="text-[16px] text-[#444653] max-w-2xl leading-relaxed [word-break:keep-all]">
+              자체 AI 신약 발굴 엔진 <strong className="text-[#0b1c30] font-semibold">'PROTEA-AI'</strong>를 통한 차세대 표적 단백질 분해제(TPD) 및 고효율 다중특이성 ADC 파이프라인. 글로벌 제약사 기술이전(L/O)과 다국가 임상 2상을 설정으로 구성한 예시 지면입니다.
             </p>
 
             <div className="flex flex-col lg:flex-row gap-4 pt-2">
@@ -88,7 +88,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenMoAModal, onOpenDeckModal }) =
                     <span>LIVE TELEMETRY</span>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-2 text-[11px] font-code-mono text-[#444653]">
+                {/* 375px 에서 두 칸이 각각 두 줄로 접히던 자리 — 모바일은 한 줄에 하나씩 */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-1 lg:gap-2 text-[11px] font-code-mono text-[#444653]">
                   <div>2,000L S.U.B.: <span className="text-[#0b1c30] font-semibold">Active (pH {phLevel})</span></div>
                   <div>Particulate: <span className="text-[#005236] font-semibold">ISO Class 5 ({particleCount} pt/m³)</span></div>
                 </div>
@@ -98,23 +99,30 @@ export const Hero: React.FC<HeroProps> = ({ onOpenMoAModal, onOpenDeckModal }) =
         </div>
 
         {/* Institutional Trust Metrics Bar */}
-        <div className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-6">
-          {TRUST_METRICS.map((metric, idx) => (
-            <div
-              key={idx}
-              className="bg-white p-6 rounded-xl border border-[#c4c5d5]/40 shadow-xs hover:border-[#b8c4ff] hover:shadow-sm transition-all"
-            >
-              <div className="text-[11px] font-code-mono text-[#757684] mb-1 font-medium tracking-wide">
-                {metric.label}
+        <div className="mt-16">
+          {/* 실적처럼 읽히는 숫자 막대라 머리에 「예시」 배지를 한 개 단다 */}
+          <p className="mb-4 inline-flex items-center rounded-md bg-white border border-[#c4c5d5]/50 px-3 py-1.5 text-[12px] text-[#444653] [word-break:keep-all]">
+            아래 특허·기술이전·시설 지표는 화면 구성용 예시 수치입니다.
+          </p>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+            {TRUST_METRICS.map((metric, idx) => (
+              <div
+                key={idx}
+                className="bg-white p-5 lg:p-6 rounded-xl border border-[#c4c5d5]/40 shadow-xs hover:border-[#b8c4ff] hover:shadow-sm transition-all"
+              >
+                <div className="text-[11px] font-code-mono text-[#757684] mb-1 font-medium tracking-wide">
+                  {metric.label}
+                </div>
+                {/* 375px 에서 「12,000평」·「4종 임상」이 글자 단위로 쪼개져 「평」·「상」만 남던 자리 — 모바일에서 글자를 줄이고 낱말 단위로만 끊는다 */}
+                <div className={`text-[20px] lg:text-[30px] font-bold ${metric.colorClass} mb-1 tracking-tight [word-break:keep-all]`}>
+                  {metric.value}
+                </div>
+                <div className="text-[13px] text-[#444653] [word-break:keep-all]">
+                  {metric.subtext}
+                </div>
               </div>
-              <div className={`text-[30px] font-bold ${metric.colorClass} mb-1 tracking-tight`}>
-                {metric.value}
-              </div>
-              <div className="text-[13px] text-[#444653]">
-                {metric.subtext}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

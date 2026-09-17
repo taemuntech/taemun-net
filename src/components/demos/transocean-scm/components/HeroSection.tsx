@@ -1,6 +1,6 @@
 import React from 'react';
-import { HERO_SHIP_URL } from '../data/mockData';
-import { ShieldCheck, Compass, DollarSign, Network, CheckCircle2, Leaf, Sliders, Scale } from 'lucide-react';
+import { HeroPortScene } from './HeroPortScene';
+import { DollarSign, Network, CheckCircle2, Leaf } from 'lucide-react';
 
 interface HeroSectionProps {
   onTrackClick: () => void;
@@ -48,7 +48,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onTrackClick, onSimula
           </div>
 
           {/* Quick Action CTA Box */}
-          <div className="lg:col-span-4 flex flex-col space-y-3">
+          <div className="lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
             <button
               id="hero-track-btn"
               onClick={onTrackClick}
@@ -67,7 +67,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onTrackClick, onSimula
               <span>Simulate Freight &amp; ESG Rates</span>
             </button>
 
-            <div className="font-mono text-[11px] text-[#8d90a0] text-center flex items-center justify-center space-x-2">
+            <div className="sm:col-span-2 lg:col-span-1 font-mono text-[11px] text-[#8d90a0] text-center flex items-center justify-center space-x-2">
               <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400" />
               <span>ANSI X12 &amp; UN/EDIFACT API v4.2 Ready (예시)</span>
             </div>
@@ -77,13 +77,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onTrackClick, onSimula
         {/* Hero Cinematic Visual with Live Telemetry HUD */}
         <div className="relative rounded-lg overflow-hidden border border-[#434655]/40 shadow-2xl bg-[#132033]">
           {/* Primary Maritime Hero Image */}
-          <div className="relative w-full h-[360px] lg:h-[580px]">
-            <img
-              alt="Transocean Autonomous Mega Container Ship navigating deep sea channel"
-              referrerPolicy="no-referrer"
-              className="w-full h-full object-cover"
-              src={HERO_SHIP_URL}
-            />
+          <div className="relative w-full h-[300px] sm:h-[420px] lg:h-[580px]">
+            <HeroPortScene className="w-full h-full block" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#061426] via-transparent to-[#061426]/40" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#061426]/70 via-transparent to-[#061426]/70" />
 
@@ -92,13 +87,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onTrackClick, onSimula
           </div>
 
           {/* Vessel Telemetry HUD Overlay (Top-Left) */}
-          <div className="absolute top-3 left-3 max-w-xs bg-[#132033]/90 backdrop-blur-md border border-[#434655]/60 rounded-lg p-3 lg:p-4 text-[#d6e3fe] shadow-xl">
-            <div className="flex items-center justify-between pb-1.5 border-b border-[#434655]/30 mb-2">
+          <div className="absolute top-3 left-3 w-[calc(100%-1.5rem)] max-w-xs bg-[#132033]/90 backdrop-blur-md border border-[#434655]/60 rounded-lg p-3 lg:p-4 text-[#d6e3fe] shadow-xl">
+            <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-1 pb-1.5 border-b border-[#434655]/30 mb-2">
               <span className="font-mono text-[11px] text-[#ffb693] uppercase flex items-center space-x-1.5 font-semibold">
                 <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span>VESSEL TELEMETRY ACTIVE</span>
               </span>
-              <span className="font-mono text-xs text-[#b4c5ff]">VESSEL ID 0000000 (예시)</span>
+              <span className="font-mono text-[11px] text-[#b4c5ff] whitespace-nowrap">VESSEL ID 0000000 (예시)</span>
             </div>
 
             <h3 className="text-base lg:text-lg font-bold text-white mb-0.5">MV TRANSOCEAN TITAN</h3>
@@ -121,7 +116,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onTrackClick, onSimula
               </div>
               <div>
                 <span className="text-[#8d90a0] text-[10px] block">LEO LINK</span>
-                <span className="text-[#b4c5ff] font-semibold">100% LEO Sat Mesh</span>
+                <span className="text-[#b4c5ff] font-semibold">LEO Sat Mesh 연결</span>
               </div>
             </div>
           </div>
@@ -148,10 +143,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onTrackClick, onSimula
           <div className="absolute bottom-4 right-4 hidden lg:flex items-center space-x-3 bg-[#0e1c2f]/95 backdrop-blur-md border border-[#434655]/60 p-3 rounded-lg shadow-xl">
             <div className="text-right">
               <span className="font-mono text-[10px] text-[#8d90a0] uppercase block">
-                DYNAMIC BAY STOWAGE
+                DYNAMIC BAY STOWAGE (예시 수치)
               </span>
               <span className="font-mono text-xs font-bold text-emerald-400">
-                99.82% METACENTRIC HEIGHT (GM) NOMINAL
+                METACENTRIC HEIGHT (GM) 99.82% NOMINAL
               </span>
             </div>
             <div className="w-10 h-10 rounded border border-emerald-500/40 bg-emerald-950/40 flex items-center justify-center text-emerald-400">
@@ -161,7 +156,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onTrackClick, onSimula
         </div>
 
         {/* 4-Column High-Impact Telemetry Metrics Bar */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
           <div className="bg-[#132033] border border-[#434655]/30 p-4 rounded-lg hover:border-[#2563eb]/60 transition-all">
             <div className="flex items-center justify-between mb-1">
               <span className="font-mono text-[11px] uppercase text-[#8d90a0]">

@@ -25,13 +25,13 @@ export default function NexusRoboticsPageClient({ isEmbed }: Props) {
         'TypeScript',
         'Fleet Digital Twin HUD',
         'Interactive ROI Calculator',
-        'Cleanroom ISO Class 1 Spec',
+        'Cleanroom Class 1 대응 표기 (예시)',
       ]}
       inquiryUrl="/inquiry?from=nexus-robotics"
       specs={[
         { label: '반응형 규격', value: 'PC(와이드) · 태블릿 · 모바일 단일 lg: 브레이크포인트 규격' },
-        { label: '디지털 트윈 HUD', value: '실시간 148노드 팹 관제 맵 & 교착(Deadlock) 0% 라우팅' },
-        { label: 'ROI 시뮬레이터', value: '면적/교대 인력별 연간 절감액 & 손익분기 회수 개월 실시간 계산' },
+        { label: '디지털 트윈 HUD', value: '148노드 팹 관제 맵 구성 & 교착(Deadlock) 회피 라우팅 (예시 데이터)' },
+        { label: 'ROI 시뮬레이터', value: '면적/교대 인력별 연간 절감액 & 회수 개월 즉시 계산 (예시 산출식)' },
         { label: '클린룸 규격', value: '클린룸 등급 표기(예시 수치), 무진동 마그네틱 휠 & 밀폐 섀시' },
       ]}
     />

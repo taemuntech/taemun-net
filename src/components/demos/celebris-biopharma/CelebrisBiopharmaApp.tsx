@@ -32,8 +32,9 @@ export default function CelebrisBiopharmaApp({ isEmbed = false }: CelebrisBiopha
     }
   };
 
+  // 한글 제목이 낱말 한가운데서 쪼개지던 자리(「차세/대」·「패키/징」) — 이 데모 안의 제목에 keep-all 을 한 번에 건다
   return (
-    <div className="min-h-screen bg-[#f8f9ff] text-[#0b1c30] flex flex-col selection:bg-[#1e40af] selection:text-white font-sans">
+    <div className="min-h-screen bg-[#f8f9ff] text-[#0b1c30] flex flex-col selection:bg-[#1e40af] selection:text-white font-sans [&_h1]:break-keep [&_h2]:break-keep [&_h3]:break-keep">
       {/* 🌟 Taemun Dev Studio Top Floating Demo Bar */}
       {!isEmbed && (
         <aside
@@ -69,7 +70,8 @@ export default function CelebrisBiopharmaApp({ isEmbed = false }: CelebrisBiopha
       <Header onOpenDeckModal={() => setDeckModalOpen(true)} />
 
       {/* Main Content Area */}
-      <main className="flex-1 w-full pt-16">
+      {/* 헤더가 h-20(80px) 고정인데 여백이 pt-16(64px) 이라 16px 이 헤더 밑에 깔려 있었다 */}
+      <main className="flex-1 w-full pt-20">
         {/* Hero Section */}
         <Hero
           onOpenMoAModal={() => setMoaModalOpen(true)}

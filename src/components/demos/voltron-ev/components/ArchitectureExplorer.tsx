@@ -143,22 +143,23 @@ export const ArchitectureExplorer: React.FC = () => {
               className={`hud-bracket p-7 rounded-lg bg-[#191c21] border border-[#3b494c]/40 transition-all flex flex-col justify-between shadow-xl ${ comp.colorTheme === 'cyan' ? 'hover:border-[#00e5ff]/70' : comp.colorTheme === 'purple' ? 'hover:border-[#b4c5ff]/70' : 'hover:border-[#5be9ad]/70' }`}
             >
               <div>
-                <div className="flex items-center justify-between border-b border-[#3b494c]/30 pb-3 mb-5">
+                <div className="flex items-center justify-between gap-2 border-b border-[#3b494c]/30 pb-3 mb-5">
                   <span
-                    className={`font-code text-xs font-bold ${ comp.colorTheme === 'cyan' ? 'text-[#00e5ff]' : comp.colorTheme === 'purple' ? 'text-[#b4c5ff]' : 'text-[#5be9ad]' }`}
+                    className={`font-code text-xs font-bold whitespace-nowrap ${ comp.colorTheme === 'cyan' ? 'text-[#00e5ff]' : comp.colorTheme === 'purple' ? 'text-[#b4c5ff]' : 'text-[#5be9ad]' }`}
                   >
                     // {comp.code}
                   </span>
                   <span
-                    className={`px-2 py-0.5 rounded text-[10px] font-code border ${ comp.colorTheme === 'cyan' ? 'bg-[#00e5ff]/20 text-[#00e5ff] border-[#00e5ff]/40' : comp.colorTheme === 'purple' ? 'bg-[#b4c5ff]/20 text-[#b4c5ff] border-[#b4c5ff]/40' : 'bg-[#5be9ad]/20 text-[#5be9ad] border-[#5be9ad]/40' }`}
+                    className={`px-2 py-0.5 rounded text-[10px] font-code border whitespace-nowrap shrink-0 ${ comp.colorTheme === 'cyan' ? 'bg-[#00e5ff]/20 text-[#00e5ff] border-[#00e5ff]/40' : comp.colorTheme === 'purple' ? 'bg-[#b4c5ff]/20 text-[#b4c5ff] border-[#b4c5ff]/40' : 'bg-[#5be9ad]/20 text-[#5be9ad] border-[#5be9ad]/40' }`}
                   >
                     {comp.badge}
                   </span>
                 </div>
 
-                <div className="flex items-center gap-3 mb-3">
+                {/* 제목이 2~3줄이면 items-center 가 아이콘을 가운데로 띄워 어긋나 보였다 — 위로 맞춘다 */}
+                <div className="flex items-start gap-3 mb-3">
                   <div
-                    className={`p-2 rounded bg-[#1d2025] ${ comp.colorTheme === 'cyan' ? 'text-[#00e5ff]' : comp.colorTheme === 'purple' ? 'text-[#b4c5ff]' : 'text-[#5be9ad]' }`}
+                    className={`p-2 shrink-0 rounded bg-[#1d2025] ${ comp.colorTheme === 'cyan' ? 'text-[#00e5ff]' : comp.colorTheme === 'purple' ? 'text-[#b4c5ff]' : 'text-[#5be9ad]' }`}
                   >
                     {comp.icon === 'cpu' ? (
                       <Cpu className="w-6 h-6" />
@@ -168,7 +169,7 @@ export const ArchitectureExplorer: React.FC = () => {
                       <Gauge className="w-6 h-6" />
                     )}
                   </div>
-                  <h3 className="font-display text-lg font-bold text-[#e1e2ea]">
+                  <h3 className="font-display text-lg font-bold text-[#e1e2ea] min-w-0">
                     {comp.title}
                   </h3>
                 </div>
@@ -182,11 +183,11 @@ export const ArchitectureExplorer: React.FC = () => {
                   {comp.specs.map((s, idx) => (
                     <div
                       key={idx}
-                      className="flex justify-between py-1 border-b border-[#3b494c]/10"
+                      className="flex justify-between gap-3 py-1 border-b border-[#3b494c]/10"
                     >
-                      <span className="text-[#849396]">{s.label}</span>
+                      <span className="text-[#849396] shrink-0">{s.label}</span>
                       <span
-                        className={`font-bold ${ s.highlight ? s.color : 'text-[#e1e2ea]' }`}
+                        className={`font-bold text-right ${ s.highlight ? s.color : 'text-[#e1e2ea]' }`}
                       >
                         {s.value}
                       </span>
@@ -195,15 +196,17 @@ export const ArchitectureExplorer: React.FC = () => {
                 </div>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-[#3b494c]/30 flex items-center justify-between">
+              <div className="mt-6 pt-4 border-t border-[#3b494c]/30 flex items-center justify-between gap-3">
                 <span className="font-code text-xs text-[#849396]">{comp.footerTag}</span>
+                {/* 탭 대상이 116×16 이었다 — 보이는 글자는 그대로 두고 눌리는 높이만 44px 로 */}
                 <button
                   id={`btn-view-${comp.id}`}
                   onClick={() => setSelectedComp(comp)}
-                  className={`text-xs font-display flex items-center gap-1 font-bold cursor-pointer group hover:underline ${ comp.colorTheme === 'cyan' ? 'text-[#00e5ff]' : comp.colorTheme === 'purple' ? 'text-[#b4c5ff]' : 'text-[#5be9ad]' }`}
+                  aria-haspopup="dialog"
+                  className={`text-xs font-display flex items-center justify-end gap-1 font-bold cursor-pointer group hover:underline whitespace-nowrap shrink-0 min-h-11 lg:min-h-0 -my-3 lg:my-0 px-1 ${ comp.colorTheme === 'cyan' ? 'text-[#00e5ff]' : comp.colorTheme === 'purple' ? 'text-[#b4c5ff]' : 'text-[#5be9ad]' }`}
                 >
                   {comp.actionText}
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5 shrink-0 group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
             </div>

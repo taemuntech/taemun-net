@@ -4,6 +4,18 @@ import React, { useState, useId } from 'react';
 import SampleNotice from '@/components/demo-kit/SampleNotice';
 import { Sliders, Info, Download } from './Icons';
 
+// 슬라이더 — 트랙은 8px 로 얇게 두되 입력 요소 자체를 44px 높이로 키워 손가락으로 잡히게 한다.
+// (저장소의 nexus-robotics·voltron-ev 산출기와 같은 방식)
+const RANGE_BASE =
+  'w-full h-11 appearance-none bg-transparent cursor-pointer ' +
+  '[&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-runnable-track]:rounded-lg [&::-webkit-slider-runnable-track]:bg-[#e5eeff] ' +
+  '[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:-mt-1.5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:shadow ' +
+  '[&::-moz-range-track]:h-2 [&::-moz-range-track]:rounded-lg [&::-moz-range-track]:bg-[#e5eeff] ' +
+  '[&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:rounded-full';
+
+const RANGE_PRIMARY = `${RANGE_BASE} [&::-webkit-slider-thumb]:bg-[#00685f] [&::-moz-range-thumb]:bg-[#00685f]`;
+const RANGE_SECONDARY = `${RANGE_BASE} [&::-webkit-slider-thumb]:bg-[#006398] [&::-moz-range-thumb]:bg-[#006398]`;
+
 export const CalculatorSection: React.FC = () => {
   // 샘플이라 제안서 파일을 만들지 않는다 — 「다운로드되었습니다」 대신 공용 안내(SampleNotice)를 연다.
   const [isNoticeOpen, setIsNoticeOpen] = useState(false);
@@ -61,11 +73,15 @@ export const CalculatorSection: React.FC = () => {
           <div className="lg:col-span-7 bg-white rounded-2xl border border-[#bcc9c6]/50 p-6 lg:p-8 shadow-xs space-y-6">
             {/* Slider 1: Power Consumption */}
             <div>
-              <div className="flex justify-between items-center mb-2">
-                <label htmlFor={powerInputId} className="text-sm lg:text-base font-semibold text-[#0b1c30]">
+              {/* 라벨과 값이 375 에서 서로를 밀어 값이 두 줄로 쪼개지던 자리 — 좁은 폭에서는 위아래로 */}
+              <div className="flex flex-col gap-1 mb-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+                <label
+                  htmlFor={powerInputId}
+                  className="text-sm lg:text-base font-semibold text-[#0b1c30] [word-break:keep-all]"
+                >
                   고객사 연간 산업용 전력 사용량 (MWh)
                 </label>
-                <div className="font-mono text-lg lg:text-xl text-[#00685f] font-bold">
+                <div className="font-mono text-lg lg:text-xl text-[#00685f] font-bold whitespace-nowrap">
                   <span>{power.toLocaleString()}</span>{' '}
                   <span className="text-xs font-medium text-[#3d4947]">MWh/년</span>
                 </div>
@@ -78,22 +94,26 @@ export const CalculatorSection: React.FC = () => {
                 step="500"
                 value={power}
                 onChange={(e) => setPower(Number(e.target.value))}
-                className="w-full h-2 bg-[#e5eeff] rounded-lg appearance-none cursor-pointer accent-[#00685f]"
+                className={RANGE_PRIMARY}
               />
-              <div className="flex justify-between font-mono text-[11px] text-[#6d7a77] mt-1.5">
-                <span>1,000 MWh (중견 연구소)</span>
-                <span>50,000 MWh</span>
-                <span>100,000 MWh (대형 반도체/화학단지)</span>
+              {/* 눈금 설명은 좁은 폭에서 양끝만 — 가운데까지 넣으면 세 덩이가 서로 겹쳐 읽히지 않는다 */}
+              <div className="flex justify-between gap-3 font-mono text-[11px] text-[#6d7a77] mt-1.5">
+                <span className="[word-break:keep-all]">1,000 MWh (중견 연구소)</span>
+                <span className="hidden lg:inline">50,000 MWh</span>
+                <span className="text-right [word-break:keep-all]">100,000 MWh (대형 반도체/화학단지)</span>
               </div>
             </div>
 
             {/* Slider 2: Target Year */}
             <div>
-              <div className="flex justify-between items-center mb-2">
-                <label htmlFor={yearInputId} className="text-sm lg:text-base font-semibold text-[#0b1c30]">
+              <div className="flex flex-col gap-1 mb-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+                <label
+                  htmlFor={yearInputId}
+                  className="text-sm lg:text-base font-semibold text-[#0b1c30] [word-break:keep-all]"
+                >
                   전력 조달 목표 연도 (RE100 Target)
                 </label>
-                <div className="font-mono text-lg lg:text-xl text-[#006398] font-bold">
+                <div className="font-mono text-lg lg:text-xl text-[#006398] font-bold whitespace-nowrap">
                   <span>{year}</span>{' '}
                   <span className="text-xs font-medium text-[#3d4947]">년 목표</span>
                 </div>
@@ -106,24 +126,28 @@ export const CalculatorSection: React.FC = () => {
                 step="1"
                 value={year}
                 onChange={(e) => setYear(Number(e.target.value))}
-                className="w-full h-2 bg-[#e5eeff] rounded-lg appearance-none cursor-pointer accent-[#006398]"
+                className={RANGE_SECONDARY}
               />
-              <div className="flex justify-between font-mono text-[11px] text-[#6d7a77] mt-1.5">
-                <span>2026 (조기 달성)</span>
-                <span>2027</span>
-                <span>2028</span>
-                <span>2029</span>
-                <span>2030 (글로벌 규제 기준)</span>
+              {/* 좁은 폭에서는 가운데 연도 3개가 「2027202820292030」 으로 붙어 버려 양끝만 남긴다 */}
+              <div className="flex justify-between gap-3 font-mono text-[11px] text-[#6d7a77] mt-1.5">
+                <span className="[word-break:keep-all]">2026 (조기 달성)</span>
+                <span className="hidden lg:inline">2027</span>
+                <span className="hidden lg:inline">2028</span>
+                <span className="hidden lg:inline">2029</span>
+                <span className="text-right [word-break:keep-all]">2030 (글로벌 규제 기준)</span>
               </div>
             </div>
 
             {/* Slider 3: Mobility Transition */}
             <div>
-              <div className="flex justify-between items-center mb-2">
-                <label htmlFor={truckInputId} className="text-sm lg:text-base font-semibold text-[#0b1c30]">
+              <div className="flex flex-col gap-1 mb-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+                <label
+                  htmlFor={truckInputId}
+                  className="text-sm lg:text-base font-semibold text-[#0b1c30] [word-break:keep-all]"
+                >
                   수소 모빌리티(통근버스 / 물류 트럭) 전환 대수
                 </label>
-                <div className="font-mono text-lg lg:text-xl text-[#00685f] font-bold">
+                <div className="font-mono text-lg lg:text-xl text-[#00685f] font-bold whitespace-nowrap">
                   <span>{trucks}</span>{' '}
                   <span className="text-xs font-medium text-[#3d4947]">대</span>
                 </div>
@@ -136,19 +160,19 @@ export const CalculatorSection: React.FC = () => {
                 step="1"
                 value={trucks}
                 onChange={(e) => setTrucks(Number(e.target.value))}
-                className="w-full h-2 bg-[#e5eeff] rounded-lg appearance-none cursor-pointer accent-[#00685f]"
+                className={RANGE_PRIMARY}
               />
-              <div className="flex justify-between font-mono text-[11px] text-[#6d7a77] mt-1.5">
-                <span>0대 (전력 전용)</span>
-                <span>25대</span>
-                <span>50대 (대규모 플릿 풀 전환)</span>
+              <div className="flex justify-between gap-3 font-mono text-[11px] text-[#6d7a77] mt-1.5">
+                <span className="[word-break:keep-all]">0대 (전력 전용)</span>
+                <span className="hidden lg:inline">25대</span>
+                <span className="text-right [word-break:keep-all]">50대 (대규모 플릿 풀 전환)</span>
               </div>
             </div>
 
             {/* Benchmark Reference Callout */}
             <div className="p-4 rounded-xl bg-[#eff4ff] border border-[#bcc9c6]/30 flex items-start gap-3">
               <Info className="w-5 h-5 text-[#006398] flex-shrink-0 mt-0.5" />
-              <p className="text-xs ] text-[#3d4947] leading-relaxed">
+              <p className="text-xs text-[#3d4947] leading-relaxed [word-break:keep-all]">
                 화면 구성을 보여 주기 위한 예시 산출식입니다. 배출권 단가·요금 비교 값은 모두 예시 수치이며 실제 계획·거래 단가가 아닙니다.
               </p>
             </div>
@@ -213,21 +237,21 @@ export const CalculatorSection: React.FC = () => {
                   맞춤형 PPA 추천 청정에너지 믹스
                 </span>
                 <div className="space-y-1.5 font-mono text-xs">
-                  <div className="flex justify-between">
-                    <span className="text-[#3d4947]">서남해 1.2GW 해상풍력 (기저부하)</span>
-                    <span id="mixWind" className="font-bold text-[#0b1c30]">
+                  <div className="flex justify-between gap-3">
+                    <span className="text-[#3d4947] [word-break:keep-all]">서남해 1.2GW 해상풍력 (기저부하)</span>
+                    <span id="mixWind" className="font-bold text-[#0b1c30] whitespace-nowrap">
                       {mixWind}
                     </span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#3d4947]">필바라 수소·연료전지 (피크제어)</span>
-                    <span id="mixH2" className="font-bold text-[#0b1c30]">
+                  <div className="flex justify-between gap-3">
+                    <span className="text-[#3d4947] [word-break:keep-all]">필바라 수소·연료전지 (피크제어)</span>
+                    <span id="mixH2" className="font-bold text-[#0b1c30] whitespace-nowrap">
                       {mixH2}
                     </span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-[#3d4947]">온사이트 태양광 루프탑 연계</span>
-                    <span id="mixSolar" className="font-bold text-[#0b1c30]">
+                  <div className="flex justify-between gap-3">
+                    <span className="text-[#3d4947] [word-break:keep-all]">온사이트 태양광 루프탑 연계</span>
+                    <span id="mixSolar" className="font-bold text-[#0b1c30] whitespace-nowrap">
                       {mixSolar}
                     </span>
                   </div>
@@ -243,10 +267,10 @@ export const CalculatorSection: React.FC = () => {
                 onClick={handleDownload}
                 className="w-full inline-flex items-center justify-center gap-2 bg-[#00685f] hover:bg-[#008378] text-white font-semibold py-3.5 px-4 rounded-xl shadow-md hover:shadow transition-all duration-200 active:scale-95 cursor-pointer text-sm lg:text-base"
               >
-                <Download className="w-5 h-5" />
-                <span>우리 기업 맞춤형 RE100 제안서 PDF 받기</span>
+                <Download className="w-5 h-5 flex-shrink-0" />
+                <span className="[word-break:keep-all]">우리 기업 맞춤형 RE100 제안서 PDF 받기</span>
               </button>
-              <span className="font-mono text-[11px] text-[#6d7a77] text-center block mt-2">
+              <span className="font-mono text-[11px] text-[#6d7a77] text-center block mt-2 [word-break:keep-all]">
                 샘플 화면이라 실제 파일은 만들어지지 않습니다 — 버튼 동작만 보여 드립니다
               </span>
             </div>

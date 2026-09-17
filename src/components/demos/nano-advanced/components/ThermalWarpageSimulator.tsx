@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle2, FileText, Sparkles } from 'lucide-react';
+import { CheckCircle2, FileText } from 'lucide-react';
 import { SimSettings } from '../types';
 
 interface ThermalWarpageSimulatorProps {
@@ -40,7 +40,7 @@ export const ThermalWarpageSimulator: React.FC<ThermalWarpageSimulatorProps> = (
   };
 
   return (
-    <section className="py-16 lg:py-24 bg-white border-b border-[#c4c5d5]/30" id="interposer-spec">
+    <section className="scroll-mt-20 py-16 lg:py-24 bg-white border-b border-[#c4c5d5]/30" id="interposer-spec">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="bg-[#eff4ff] rounded-2xl border border-[#c4c5d5]/50 p-6 lg:p-12">
           {/* Header */}
@@ -53,14 +53,15 @@ export const ThermalWarpageSimulator: React.FC<ThermalWarpageSimulatorProps> = (
                 AI 칩셋 패키지 발열 &amp; 휨(Warpage) 실시간 시뮬레이터
               </h2>
               <p className="text-sm text-[#444653] mt-1.5 leading-relaxed">
-                목표 가속기 칩셋의 크기, HBM 적재 스택, TDP 소비전력을 설정하여 최적의 패키징 공법과
-                예상 변형량을 즉시 산출하십시오.
+                목표 가속기 칩셋의 크기, HBM 적재 스택, TDP 소비전력을 설정하면 추천 패키징 공법과
+                예상 변형량을 화면에서 바로 계산해 보여 줍니다. 산출값은 모두 예시 수치입니다.
               </p>
             </div>
 
-            <div className="bg-white px-3 py-2 rounded-lg border border-[#c4c5d5]/40 flex items-center gap-2 font-mono text-xs text-[#0b1c30] shadow-xs shrink-0">
-              <span className="w-2 h-2 rounded-full bg-[#00288e] animate-pulse"></span>
-              <span>CALCULATOR ENGINE: FEA ANSYS 2026.1 EMBEDDED</span>
+            {/* 실존 해석 소프트웨어(ANSYS) 이름을 탑재했다고 적지 않는다 — 화면에서 도는 건 근사식이다(2026-09-17) */}
+            <div className="bg-white px-3 py-2 rounded-lg border border-[#c4c5d5]/40 flex items-center gap-2 font-mono text-xs text-[#0b1c30] shadow-xs lg:shrink-0">
+              <span className="w-2 h-2 rounded-full bg-[#00288e] animate-pulse shrink-0"></span>
+              <span className="break-words">CALCULATOR ENGINE: 근사식 기반 예시 산출</span>
             </div>
           </div>
 
@@ -72,7 +73,7 @@ export const ThermalWarpageSimulator: React.FC<ThermalWarpageSimulatorProps> = (
                 <label className="block text-sm font-semibold text-[#0b1c30] mb-2">
                   패키지 기판 사이즈 (Package Size Dimension)
                 </label>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                   {[
                     { label: '50×50mm', val: 50 },
                     { label: '75×75mm', val: 75 },
@@ -85,7 +86,7 @@ export const ThermalWarpageSimulator: React.FC<ThermalWarpageSimulatorProps> = (
                         key={dim.val}
                         onClick={() => setPkgDim(dim.val)}
                         type="button"
-                        className={`p-3 text-center rounded-lg font-mono text-sm font-semibold active:scale-[0.98] transition-all cursor-pointer ${ isSelected ? 'border-2 border-[#00288e] bg-[#00288e] text-white shadow-xs' : 'border border-[#c4c5d5]/60 bg-white hover:bg-[#eff4ff] text-[#0b1c30]' }`}
+                        className={`flex min-h-11 items-center justify-center p-3 text-center rounded-lg font-mono text-sm font-semibold active:scale-[0.98] transition-all cursor-pointer ${ isSelected ? 'border-2 border-[#00288e] bg-[#00288e] text-white shadow-xs' : 'border border-[#c4c5d5]/60 bg-white hover:bg-[#eff4ff] text-[#0b1c30]' }`}
                       >
                         {dim.label}
                       </button>
@@ -99,7 +100,7 @@ export const ThermalWarpageSimulator: React.FC<ThermalWarpageSimulatorProps> = (
                 <label className="block text-sm font-semibold text-[#0b1c30] mb-2">
                   HBM 메모리 통합 적재 구성 (HBM Integration)
                 </label>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                   {[
                     { label: '4-Hi (4개)', count: 4 },
                     { label: '8-Hi (8개)', count: 8 },
@@ -112,7 +113,7 @@ export const ThermalWarpageSimulator: React.FC<ThermalWarpageSimulatorProps> = (
                         key={hbm.count}
                         onClick={() => setHbmCount(hbm.count)}
                         type="button"
-                        className={`p-3 text-center rounded-lg font-mono text-xs font-semibold active:scale-[0.98] transition-all cursor-pointer ${ isSelected ? 'border-2 border-[#00288e] bg-[#00288e] text-white shadow-xs' : 'border border-[#c4c5d5]/60 bg-white hover:bg-[#eff4ff] text-[#0b1c30]' }`}
+                        className={`flex min-h-11 items-center justify-center p-3 text-center rounded-lg font-mono text-xs font-semibold active:scale-[0.98] transition-all cursor-pointer ${ isSelected ? 'border-2 border-[#00288e] bg-[#00288e] text-white shadow-xs' : 'border border-[#c4c5d5]/60 bg-white hover:bg-[#eff4ff] text-[#0b1c30]' }`}
                       >
                         {hbm.label}
                       </button>
@@ -123,7 +124,7 @@ export const ThermalWarpageSimulator: React.FC<ThermalWarpageSimulatorProps> = (
 
               {/* Control 3: TDP Slider */}
               <div>
-                <div className="flex justify-between items-center mb-2">
+                <div className="flex flex-wrap justify-between items-center gap-x-3 gap-y-1 mb-2">
                   <label htmlFor="tdpSlider" className="text-sm font-semibold text-[#0b1c30]">
                     총 칩셋 소비전력 TDP (Thermal Design Power)
                   </label>
@@ -131,6 +132,7 @@ export const ThermalWarpageSimulator: React.FC<ThermalWarpageSimulatorProps> = (
                     {tdp} W
                   </span>
                 </div>
+                {/* box-content + 세로 패딩으로 트랙 모양은 그대로 두고 손가락 표적만 44px 로 키운다 */}
                 <input
                   id="tdpSlider"
                   type="range"
@@ -138,13 +140,14 @@ export const ThermalWarpageSimulator: React.FC<ThermalWarpageSimulatorProps> = (
                   max="1500"
                   step="50"
                   value={tdp}
+                  aria-label="총 칩셋 소비전력 TDP (W)"
                   onChange={(e) => setTdp(parseInt(e.target.value, 10))}
-                  className="w-full h-2 bg-[#c4c5d5]/40 rounded-lg appearance-none cursor-pointer accent-[#00288e]"
+                  className="w-full h-11 -my-[18px] bg-transparent bg-[linear-gradient(to_right,rgba(196,197,213,0.55),rgba(196,197,213,0.55))] bg-[length:100%_8px] bg-center bg-no-repeat appearance-none cursor-pointer accent-[#00288e]"
                 />
-                <div className="flex justify-between font-mono text-[11px] text-[#757684] mt-1.5">
+                <div className="flex justify-between gap-2 font-mono text-[11px] text-[#757684] mt-1.5">
                   <span>300W (Edge HPC)</span>
-                  <span>900W (Datacenter)</span>
-                  <span>1500W (Ultra Supercluster)</span>
+                  <span className="hidden md:inline">900W (Datacenter)</span>
+                  <span className="text-right">1500W (Ultra Supercluster)</span>
                 </div>
               </div>
             </div>
@@ -169,7 +172,7 @@ export const ThermalWarpageSimulator: React.FC<ThermalWarpageSimulatorProps> = (
                     {bandwidthStr}
                   </div>
                   <div className="text-[12px] text-[#757684] mt-0.5">
-                    HBM4 채널당 1.2 TB/s 고주파 무손실 라우팅 기반
+                    HBM4 채널당 1.2 TB/s 고주파 저손실 라우팅 기준 (예시 산출)
                   </div>
                 </div>
 
@@ -178,16 +181,16 @@ export const ThermalWarpageSimulator: React.FC<ThermalWarpageSimulatorProps> = (
                   <div className="text-xs text-[#444653]">
                     예상 열 팽창 변형 휨 (Substrate Warpage)
                   </div>
-                  <div className="flex items-baseline gap-2 mt-0.5">
+                  <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 mt-0.5">
                     <div className="text-2xl font-extrabold text-[#0b1c30]">
                       {warpageStr}
                     </div>
                     <span className="text-emerald-600 font-mono text-xs font-semibold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                      JEDEC 엄격 규격 (&lt;30µm) 통과
+                      사내 관리 기준 (&lt;30µm) 이내 · 예시
                     </span>
                   </div>
                   <div className="text-[12px] text-[#757684] mt-0.5">
-                    유리기판 코어 적층 시 유기 기판 대비 휨 58% 감소 산출
+                    유리기판 코어 적층 시 유기 기판 대비 휨 58% 감소 가정 (예시 산출)
                   </div>
                 </div>
 
@@ -197,7 +200,7 @@ export const ThermalWarpageSimulator: React.FC<ThermalWarpageSimulatorProps> = (
                     추천 최적 기판 솔루션 (Recommended Packaging)
                   </div>
                   <div className="bg-[#eff4ff] px-4 py-3 rounded-lg border border-[#c4c5d5]/40 text-sm font-bold text-[#00288e] flex items-center justify-between gap-2">
-                    <span className="leading-snug">{recommendedSolution}</span>
+                    <span className="leading-snug break-words">{recommendedSolution}</span>
                     <CheckCircle2 className="w-5 h-5 text-[#00288e] shrink-0" />
                   </div>
                 </div>
@@ -210,7 +213,7 @@ export const ThermalWarpageSimulator: React.FC<ThermalWarpageSimulatorProps> = (
                     className="w-full bg-[#00288e] hover:bg-[#1e40af] text-white py-3.5 px-4 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition-colors active:scale-[0.98] shadow-xs cursor-pointer"
                   >
                     <FileText className="w-4 h-4 shrink-0" />
-                    <span>우리 칩 맞춤형 패키징 설계안(PDF) 생성 및 발송</span>
+                    <span>우리 칩 맞춤형 패키징 설계안 요약 보기</span>
                   </button>
                 </div>
               </div>

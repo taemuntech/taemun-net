@@ -32,7 +32,7 @@ export const PlatformPillars: React.FC<PlatformPillarsProps> = ({
   };
 
   return (
-    <section className="py-16 lg:py-24 bg-[#f8f9ff] border-b border-[#c4c5d5]/30" id="solutions">
+    <section className="scroll-mt-20 py-16 lg:py-24 bg-[#f8f9ff] border-b border-[#c4c5d5]/30" id="solutions">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="max-w-3xl mb-12">
           <div className="text-xs font-bold text-[#00288e] uppercase tracking-widest mb-2 font-mono">
@@ -47,7 +47,8 @@ export const PlatformPillars: React.FC<PlatformPillarsProps> = ({
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* 태블릿(768)은 2단, 데스크톱은 3단 — 768 에서 카드가 한 줄로 늘어지던 자리 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {PILLARS.map((pillar, idx) => {
             const isFirst = idx === 0;
             const isSecond = idx === 1;
@@ -97,7 +98,7 @@ export const PlatformPillars: React.FC<PlatformPillarsProps> = ({
                 <button
                   type="button"
                   onClick={() => handlePillarAction(idx)}
-                  className={`${accentColor} font-semibold text-xs flex items-center gap-1.5 hover:underline cursor-pointer text-left`}
+                  className={`${accentColor} min-h-11 font-semibold text-xs flex items-center gap-1.5 hover:underline cursor-pointer text-left`}
                 >
                   <span>{pillar.actionText}</span>
                   <ArrowUpRight className="w-4 h-4 shrink-0" />

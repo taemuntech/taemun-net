@@ -48,14 +48,25 @@ export const SpectrumMatrix: React.FC = () => {
               }
 
               return (
+                // 제목(h3)을 품고 있어 button 으로는 못 바꾼다 — 역할·키보드 조작만 버튼과 같게 준다.
+                // 예전엔 onClick 만 있어 키보드로는 고를 수 없었다.
                 <div
                   key={mode.id}
+                  role="button"
+                  tabIndex={0}
+                  aria-pressed={isSelected}
                   onClick={() => setSelectedId(mode.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setSelectedId(mode.id);
+                    }
+                  }}
                   className={`cursor-pointer p-6 rounded-xl bg-white transition-all duration-200 ${borderClass}`}
                 >
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-3">
-                      <span className={`w-3 h-3 rounded-full ring-4 ${ringColor}`}></span>
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <span className={`w-3 h-3 shrink-0 rounded-full ring-4 ${ringColor}`}></span>
                       <span
                         className="font-mono text-[12px] font-bold"
                         style={{ color: mode.colorHex }}
@@ -72,7 +83,7 @@ export const SpectrumMatrix: React.FC = () => {
                   <h3 className="font-headline text-base lg:text-lg font-semibold text-[#131b2e] mb-1">
                     {mode.title}
                   </h3>
-                  <p className="font-body text-sm text-[#3d4a42] leading-relaxed">
+                  <p className="font-body text-sm text-[#3d4a42] leading-relaxed [word-break:keep-all]">
                     {mode.description}
                   </p>
                 </div>
@@ -105,7 +116,7 @@ export const SpectrumMatrix: React.FC = () => {
               <div className="space-y-6">
                 {/* 1: Photosynthesis Rate */}
                 <div>
-                  <div className="flex justify-between items-center font-mono text-[12px] mb-2">
+                  <div className="flex flex-wrap justify-between items-center gap-x-2 gap-y-1 font-mono text-[11px] lg:text-[12px] mb-2">
                     <span className="text-[#131b2e] flex items-center gap-1.5 font-bold">
                       <span className="material-symbols-outlined text-sm text-[#006948]">speed</span>{' '}
                       광합성 반응 속도 (Photosynthesis Rate)
@@ -124,7 +135,7 @@ export const SpectrumMatrix: React.FC = () => {
 
                 {/* 2: Nutrient Density */}
                 <div>
-                  <div className="flex justify-between items-center font-mono text-[12px] mb-2">
+                  <div className="flex flex-wrap justify-between items-center gap-x-2 gap-y-1 font-mono text-[11px] lg:text-[12px] mb-2">
                     <span className="text-[#131b2e] flex items-center gap-1.5 font-bold">
                       <span className="material-symbols-outlined text-sm text-[#00687a]">biotech</span>{' '}
                       영양 밀도 지수 (Nutrient Density Score)
@@ -143,7 +154,7 @@ export const SpectrumMatrix: React.FC = () => {
 
                 {/* 3: Crisp Texture Index */}
                 <div>
-                  <div className="flex justify-between items-center font-mono text-[12px] mb-2">
+                  <div className="flex flex-wrap justify-between items-center gap-x-2 gap-y-1 font-mono text-[11px] lg:text-[12px] mb-2">
                     <span className="text-[#131b2e] flex items-center gap-1.5 font-bold">
                       <span className="material-symbols-outlined text-sm text-[#00855b]">nutrition</span>{' '}
                       식감 및 엽육 두께 (Crisp Texture Index)
@@ -168,7 +179,7 @@ export const SpectrumMatrix: React.FC = () => {
                 </span>
                 <div className="h-6 w-full rounded-md bg-gradient-to-r from-blue-600 via-emerald-500 via-amber-400 to-red-600 relative flex items-center shadow-inner">
                   <div
-                    className="absolute w-4 h-8 bg-white rounded border-2 border-[#131b2e] shadow-md -top-1 transition-all duration-500 ease-out cursor-pointer"
+                    className="absolute w-4 h-8 bg-white rounded border-2 border-[#131b2e] shadow-md -top-1 transition-all duration-500 ease-out pointer-events-none"
                     style={{ left: activeMode.markerPercent }}
                     title={`현재 포커스 파장: ${activeMode.peakNm}`}
                   ></div>
@@ -176,14 +187,18 @@ export const SpectrumMatrix: React.FC = () => {
                 <div className="flex justify-between text-[10px] font-mono text-[#6d7a72] mt-2">
                   <span>400nm (UV)</span>
                   <span>450nm (Blue)</span>
-                  <span>520nm (Green)</span>
+                  {/* 좁은 화면에서는 눈금 5개가 서로 붙어 읽히지 않는다 — 양 끝과 가운데만 남긴다 */}
+                  <span className="hidden sm:inline">520nm (Green)</span>
                   <span>660nm (Red)</span>
-                  <span>730nm (Far-Red)</span>
+                  <span className="hidden sm:inline">730nm (Far-Red)</span>
                 </div>
+                <p className="mt-2 text-[10px] font-mono text-[#6d7a72]">
+                  왼쪽에서 분광 모드를 고르면 표식이 그 파장으로 옮겨 갑니다.
+                </p>
               </div>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-[#bccac0]/20 flex items-center justify-between text-[11px] font-mono text-[#6d7a72]">
+            <div className="mt-6 pt-4 border-t border-[#bccac0]/20 flex flex-col gap-1 lg:flex-row lg:items-center lg:justify-between text-[11px] font-mono text-[#6d7a72]">
               <span>알고리즘: Bio-Adaptive Pulse Light (BAPL)</span>
               <span className="text-[#006948] font-bold">에너지 효율 38% 개선 (예시 수치)</span>
             </div>

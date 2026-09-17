@@ -50,8 +50,9 @@ export default function NanoAdvancedApp({ isEmbed = false }: NanoAdvancedAppProp
     setIsReportOpen(true);
   };
 
+  // 한글 제목이 낱말 한가운데서 쪼개지던 자리(「차세/대」·「패키/징」) — 이 데모 안의 제목에 keep-all 을 한 번에 건다
   return (
-    <div className="min-h-screen bg-[#f8f9ff] text-[#0b1c30] flex flex-col font-sans selection:bg-[#00288e] selection:text-white">
+    <div className="min-h-screen bg-[#f8f9ff] text-[#0b1c30] flex flex-col font-sans selection:bg-[#00288e] selection:text-white [&_h1]:break-keep [&_h2]:break-keep [&_h3]:break-keep">
       {/* 상단 태문 표시(로고·갤러리·제작 문의)는 기기 전환 툴바(DevicePreviewFrame)가 맡는다 — 화면 안에 따로 두지 않는다 */}
 
       {/* 1. Header Navigation */}

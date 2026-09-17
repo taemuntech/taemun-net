@@ -20,6 +20,18 @@ export function ConsultationWizardSection() {
  // 샘플이라 실사·PoC 신청을 받지 않는다 — 가짜 접수 번호·「24시간 내 연락」 대신 공용 안내(SampleNotice)만 연다.
  const [isNoticeOpen, setIsNoticeOpen] = useState(false);
 
+ // 예전에는 1번만 파랗고 2·3·4는 무엇을 채워도 영원히 회색이었다(죽은 장식).
+ // 각 칸을 그 구간의 입력값으로 판정해 실제로 따라가게 한다.
+ const filled = (value: string) => value.trim() !== '';
+ const step2Done = filled(formData.targetProcess) && filled(formData.dailyVolume);
+ const step3Done = filled(formData.companyName) && filled(formData.contactName) && filled(formData.email);
+ const steps = [
+ { label: '팹 환경 선택', done: filled(formData.fabEnv) },
+ { label: '이송 공정 사양', done: step2Done },
+ { label: '담당자 정보', done: step3Done },
+ { label: 'NDA & 접수', done: step2Done && step3Done && formData.ndaAgreed },
+ ];
+
  const handleSubmit = (e: FormEvent) => {
  e.preventDefault();
  setIsNoticeOpen(true);
@@ -36,8 +48,8 @@ export function ConsultationWizardSection() {
  };
 
  return (
- <section className="py-20 bg-slate-50 border-b border-slate-200" id="consultation-wizard">
- <div className="max-w-[1200px] mx-auto px-6 lg:px-12">
+ <section className="py-14 lg:py-20 bg-slate-50 border-b border-slate-200" id="consultation-wizard">
+ <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-12">
  <div className="text-center max-w-2xl mx-auto mb-10">
  <div className="inline-flex items-center gap-2 mb-2">
  <span className="h-2 w-2 rounded bg-blue-600" />
@@ -45,42 +57,34 @@ export function ConsultationWizardSection() {
  FAST TECHNICAL ONBOARDING
  </span>
  </div>
- <h2 className="text-2xl lg:text-4xl font-extrabold text-slate-900 tracking-tight">
+ <h2 className="text-2xl lg:text-4xl font-extrabold text-slate-900 tracking-tight [word-break:keep-all]">
  현장 엔지니어링 실사 & PoC 신청
  </h2>
- <p className="text-sm lg:text-base text-slate-600 mt-2 leading-relaxed">
+ <p className="text-sm lg:text-base text-slate-600 mt-2 leading-relaxed [word-break:keep-all]">
  NEXUS 수석 로보틱스 솔루션 아키텍트가 귀사 클린룸 팹의 평면도를 분석하고 맞춤 설계를 제안합니다.
  </p>
  </div>
 
  {/* 4-Step Pure White Wizard Card */}
- <div className="bg-white rounded-lg border border-slate-200 p-6 lg:p-10 shadow-sm">
- {/* Step Indicator */}
+ <div className="bg-white rounded-lg border border-slate-200 p-5 sm:p-6 lg:p-10 shadow-sm">
+ {/* Step Indicator — 입력 상태를 따라간다 */}
  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 pb-6 border-b border-slate-200 text-center">
- <div className="flex flex-col items-center">
- <span className="w-7 h-7 rounded-full bg-blue-600 text-white font-mono text-xs flex items-center justify-center font-bold mb-1">
- 1
+ {steps.map((step, idx) => (
+ <div key={step.label} className="flex flex-col items-center">
+ <span
+ aria-hidden="true"
+ className={`w-7 h-7 rounded-full font-mono text-xs flex items-center justify-center font-bold mb-1 transition-colors ${
+ step.done ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600'
+ }`}
+ >
+ {idx + 1}
  </span>
- <span className="text-xs font-mono font-bold text-slate-900">팹 환경 선택</span>
- </div>
- <div className="flex flex-col items-center">
- <span className="w-7 h-7 rounded-full bg-slate-100 text-slate-600 font-mono text-xs flex items-center justify-center font-bold mb-1">
- 2
+ <span className={`text-xs font-mono ${step.done ? 'font-bold text-slate-900' : 'text-slate-500'}`}>
+ {step.label}
  </span>
- <span className="text-xs font-mono text-slate-500">이송 공정 사양</span>
+ <span className="sr-only">{step.done ? '작성 완료' : '작성 전'}</span>
  </div>
- <div className="flex flex-col items-center">
- <span className="w-7 h-7 rounded-full bg-slate-100 text-slate-600 font-mono text-xs flex items-center justify-center font-bold mb-1">
- 3
- </span>
- <span className="text-xs font-mono text-slate-500">담당자 정보</span>
- </div>
- <div className="flex flex-col items-center">
- <span className="w-7 h-7 rounded-full bg-slate-100 text-slate-600 font-mono text-xs flex items-center justify-center font-bold mb-1">
- 4
- </span>
- <span className="text-xs font-mono text-slate-500">NDA & 접수</span>
- </div>
+ ))}
  </div>
 
  {/* Form Body */}
@@ -90,9 +94,9 @@ export function ConsultationWizardSection() {
  <label className="block text-sm font-semibold text-slate-900 mb-3">
  1. 구축 희망 클린룸 환경 규격
  </label>
- <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+ <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-3">
  <label
- className={`p-3.5 rounded border cursor-pointer flex items-center gap-3 transition-colors ${
+ className={`p-3.5 min-h-12 rounded border cursor-pointer flex items-center gap-3 transition-colors ${
  formData.fabEnv === 'semi'
  ? 'border-blue-600 bg-blue-50/50'
  : 'border-slate-200 hover:border-slate-300 bg-white'
@@ -104,15 +108,15 @@ export function ConsultationWizardSection() {
  value="semi"
  checked={formData.fabEnv === 'semi'}
  onChange={(e) => setFormData({ ...formData, fabEnv: e.target.value })}
- className="text-blue-600 focus:ring-blue-500"
+ className="h-5 w-5 shrink-0 text-blue-600 focus:ring-blue-500"
  />
- <span className="text-xs font-medium text-slate-800">
+ <span className="text-xs font-medium text-slate-800 [word-break:keep-all]">
  반도체 클린룸 (Class 1-100)
  </span>
  </label>
 
  <label
- className={`p-3.5 rounded border cursor-pointer flex items-center gap-3 transition-colors ${
+ className={`p-3.5 min-h-12 rounded border cursor-pointer flex items-center gap-3 transition-colors ${
  formData.fabEnv === 'battery'
  ? 'border-blue-600 bg-blue-50/50'
  : 'border-slate-200 hover:border-slate-300 bg-white'
@@ -124,15 +128,15 @@ export function ConsultationWizardSection() {
  value="battery"
  checked={formData.fabEnv === 'battery'}
  onChange={(e) => setFormData({ ...formData, fabEnv: e.target.value })}
- className="text-blue-600 focus:ring-blue-500"
+ className="h-5 w-5 shrink-0 text-blue-600 focus:ring-blue-500"
  />
- <span className="text-xs font-medium text-slate-800">
+ <span className="text-xs font-medium text-slate-800 [word-break:keep-all]">
  2차전지 드라이룸 (-50℃ 노점)
  </span>
  </label>
 
  <label
- className={`p-3.5 rounded border cursor-pointer flex items-center gap-3 transition-colors ${
+ className={`p-3.5 min-h-12 rounded border cursor-pointer flex items-center gap-3 transition-colors ${
  formData.fabEnv === 'bio'
  ? 'border-blue-600 bg-blue-50/50'
  : 'border-slate-200 hover:border-slate-300 bg-white'
@@ -144,15 +148,15 @@ export function ConsultationWizardSection() {
  value="bio"
  checked={formData.fabEnv === 'bio'}
  onChange={(e) => setFormData({ ...formData, fabEnv: e.target.value })}
- className="text-blue-600 focus:ring-blue-500"
+ className="h-5 w-5 shrink-0 text-blue-600 focus:ring-blue-500"
  />
- <span className="text-xs font-medium text-slate-800">
+ <span className="text-xs font-medium text-slate-800 [word-break:keep-all]">
  바이오·제약 무균실 (GMP)
  </span>
  </label>
 
  <label
- className={`p-3.5 rounded border cursor-pointer flex items-center gap-3 transition-colors ${
+ className={`p-3.5 min-h-12 rounded border cursor-pointer flex items-center gap-3 transition-colors ${
  formData.fabEnv === 'precision'
  ? 'border-blue-600 bg-blue-50/50'
  : 'border-slate-200 hover:border-slate-300 bg-white'
@@ -164,9 +168,9 @@ export function ConsultationWizardSection() {
  value="precision"
  checked={formData.fabEnv === 'precision'}
  onChange={(e) => setFormData({ ...formData, fabEnv: e.target.value })}
- className="text-blue-600 focus:ring-blue-500"
+ className="h-5 w-5 shrink-0 text-blue-600 focus:ring-blue-500"
  />
- <span className="text-xs font-medium text-slate-800">
+ <span className="text-xs font-medium text-slate-800 [word-break:keep-all]">
  고정밀 디스플레이/스마트 팩토리
  </span>
  </label>
@@ -189,7 +193,7 @@ export function ConsultationWizardSection() {
  placeholder="예: 300mm FOUP 베이 간 무인 자동 반송"
  value={formData.targetProcess}
  onChange={(e) => setFormData({ ...formData, targetProcess: e.target.value })}
- className="w-full h-10 px-3 rounded border border-slate-200 text-xs text-slate-900 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
+ className="w-full h-11 px-3 rounded border border-slate-200 text-sm text-slate-900 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
  />
  </div>
  <div>
@@ -206,13 +210,13 @@ export function ConsultationWizardSection() {
  placeholder="예: 약 1,200 카세트 / Day"
  value={formData.dailyVolume}
  onChange={(e) => setFormData({ ...formData, dailyVolume: e.target.value })}
- className="w-full h-10 px-3 rounded border border-slate-200 text-xs text-slate-900 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
+ className="w-full h-11 px-3 rounded border border-slate-200 text-sm text-slate-900 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
  />
  </div>
  </div>
 
  {/* Step 3: Contact Details */}
- <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+ <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-4">
  <div>
  <label
  htmlFor="input-company"
@@ -227,7 +231,7 @@ export function ConsultationWizardSection() {
  placeholder="회사명 입력"
  value={formData.companyName}
  onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
- className="w-full h-10 px-3 rounded border border-slate-200 text-xs text-slate-900 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
+ className="w-full h-11 px-3 rounded border border-slate-200 text-sm text-slate-900 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
  />
  </div>
  <div>
@@ -244,7 +248,7 @@ export function ConsultationWizardSection() {
  placeholder="홍길동 수석연구원"
  value={formData.contactName}
  onChange={(e) => setFormData({ ...formData, contactName: e.target.value })}
- className="w-full h-10 px-3 rounded border border-slate-200 text-xs text-slate-900 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
+ className="w-full h-11 px-3 rounded border border-slate-200 text-sm text-slate-900 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
  />
  </div>
  <div>
@@ -261,7 +265,7 @@ export function ConsultationWizardSection() {
  placeholder="name@example.com"
  value={formData.email}
  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
- className="w-full h-10 px-3 rounded border border-slate-200 text-xs text-slate-900 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
+ className="w-full h-11 px-3 rounded border border-slate-200 text-sm text-slate-900 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
  />
  </div>
  <div>
@@ -278,19 +282,19 @@ export function ConsultationWizardSection() {
  placeholder="010-0000-0000"
  value={formData.phone}
  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
- className="w-full h-10 px-3 rounded border border-slate-200 text-xs text-slate-900 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
+ className="w-full h-11 px-3 rounded border border-slate-200 text-sm text-slate-900 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 outline-none"
  />
  </div>
  </div>
 
  {/* Step 4: NDA Checkbox */}
  <div className="pt-2">
- <label className="flex items-center gap-2 text-xs text-slate-800 cursor-pointer">
+ <label className="flex items-start gap-2.5 min-h-11 py-1 text-xs text-slate-800 cursor-pointer [word-break:keep-all]">
  <input
  type="checkbox"
  checked={formData.ndaAgreed}
  onChange={(e) => setFormData({ ...formData, ndaAgreed: e.target.checked })}
- className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+ className="h-5 w-5 shrink-0 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
  />
  <span>
  [보안 필수] 미팅 전 사전 표준 비밀유지협약(NDA) 체결을 희망합니다. (도면 및 레이아웃 보호)
@@ -307,7 +311,7 @@ export function ConsultationWizardSection() {
  <div className="pt-4 flex flex-wrap items-center justify-end gap-4">
  <button
  type="submit"
- className="px-8 py-3.5 rounded bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-colors flex items-center gap-2 shadow-sm cursor-pointer"
+ className="w-full sm:w-auto px-8 py-3.5 min-h-12 rounded bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer [word-break:keep-all]"
  >
  <span>엔지니어링 기술 검토 및 방문 실사 신청</span>
  <Send className="w-4 h-4" />

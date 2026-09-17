@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import { PORT_HUBS } from '../data/mockData';
 import { PortHub } from '../types';
-import { X, Radio, Activity, Wind, Anchor, Clock } from 'lucide-react';
+import { X, Radio } from 'lucide-react';
+import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
 
 interface PortRadarModalProps {
   isOpen: boolean;
@@ -15,40 +16,67 @@ export const PortRadarModal: React.FC<PortRadarModalProps> = ({
   selectedHubId,
 }) => {
   const [activeHubId, setActiveHubId] = useState<string>(selectedHubId || 'krpus');
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const titleId = useId();
+
+  // Esc · 배경 스크롤 잠금 · 포커스 순환 — 샘플 공용 훅(SampleNotice 와 같은 것)을 재사용한다
+  useSampleDialog({ open: isOpen, onClose, dialogRef, initialFocusRef: closeRef });
+
+  // 열 때마다 누른 항만으로 맞춘다 — useState 초기값은 첫 마운트에만 쓰여서,
+  // 전에는 티커에서 다른 항만을 눌러도 처음 연 항만이 그대로 떠 있었다.
+  useEffect(() => {
+    if (isOpen && selectedHubId) setActiveHubId(selectedHubId);
+  }, [isOpen, selectedHubId]);
 
   if (!isOpen) return null;
 
   const currentHub: PortHub = PORT_HUBS.find(h => h.id === activeHubId) || PORT_HUBS[0];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-[#132033] border border-[#2563eb]/50 rounded-xl w-full max-w-4xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+    <div
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-sm animate-fadeIn"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        className="bg-[#132033] border border-[#2563eb]/50 rounded-t-xl sm:rounded-xl w-full max-w-4xl overflow-hidden shadow-2xl outline-none flex flex-col max-h-[92vh] sm:max-h-[90vh]"
+      >
         {/* Modal Header */}
-        <div className="bg-[#0e1c2f] px-6 py-4 border-b border-[#434655]/40 flex justify-between items-center">
-          <div className="flex items-center space-x-2">
-            <span className="inline-block w-2.5 h-2.5 rounded-full bg-[#fe6b00] animate-ping" />
-            <Radio className="w-5 h-5 text-[#fe6b00]" />
-            <h3 className="text-lg font-bold text-white font-mono uppercase">
+        <div className="bg-[#0e1c2f] px-4 lg:px-6 py-3 lg:py-4 border-b border-[#434655]/40 flex justify-between items-center gap-3">
+          <div className="flex items-center space-x-2 min-w-0">
+            <span className="inline-block w-2.5 h-2.5 shrink-0 rounded-full bg-[#fe6b00] animate-ping" />
+            <Radio className="w-5 h-5 shrink-0 text-[#fe6b00]" />
+            <h3 id={titleId} className="text-sm lg:text-lg font-bold text-white font-mono uppercase truncate">
               Global AIS Port Congestion Radar
             </h3>
           </div>
           <button
+            ref={closeRef}
             onClick={onClose}
-            className="p-1 rounded text-[#8d90a0] hover:text-white hover:bg-[#1d2a3e] transition-colors"
+            aria-label="레이더 닫기"
+            className="w-11 h-11 shrink-0 flex items-center justify-center rounded text-[#8d90a0] hover:text-white hover:bg-[#1d2a3e] transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 overflow-y-auto space-y-6">
+        <div className="p-4 lg:p-6 overflow-y-auto space-y-6">
           {/* Port Hub Selector Tabs */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {PORT_HUBS.map((hub) => (
               <button
                 key={hub.id}
                 onClick={() => setActiveHubId(hub.id)}
-                className={`p-3 rounded border text-left transition-all font-mono ${ activeHubId === hub.id ? 'bg-[#2563eb] text-white border-[#3b82f6] shadow-md' : 'bg-[#0e1c2f] text-[#c3c6d7] border-[#434655]/40 hover:border-[#b4c5ff]' }`}
+                aria-pressed={activeHubId === hub.id}
+                className={`min-h-11 p-3 rounded border text-left transition-all font-mono ${ activeHubId === hub.id ? 'bg-[#2563eb] text-white border-[#3b82f6] shadow-md' : 'bg-[#0e1c2f] text-[#c3c6d7] border-[#434655]/40 hover:border-[#b4c5ff]' }`}
               >
                 <div className="text-xs font-bold">{hub.code}</div>
                 <div className="text-[11px] truncate">{hub.name.split(' ')[0]}</div>
@@ -58,7 +86,7 @@ export const PortRadarModal: React.FC<PortRadarModalProps> = ({
           </div>
 
           {/* Selected Port Radar Dashboard */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:[&>*:first-child]:col-span-2">
             {/* Main Radar Screen Simulation */}
             <div className="bg-[#020e21] rounded-lg border border-[#434655]/40 p-4 relative overflow-hidden h-64 flex flex-col justify-between">
               {/* Radar Rings Background */}
@@ -81,22 +109,22 @@ export const PortRadarModal: React.FC<PortRadarModalProps> = ({
                 <span className="text-[8px] text-black font-bold">3</span>
               </div>
 
-              <div className="relative z-10 flex justify-between items-start">
-                <div>
+              <div className="relative z-10 flex justify-between items-start gap-2">
+                <div className="min-w-0">
                   <span className="font-mono text-[11px] text-[#ffb693] uppercase font-bold">
                     AIS Live Feed: {currentHub.name}
                   </span>
                   <div className="font-mono text-xs text-[#8d90a0]">Geo-Coordinates: {currentHub.coordinates}</div>
                 </div>
-                <div className="px-2 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-400 font-mono text-xs">
-                  SATELLITE SYNC: 100%
+                <div className="px-2 py-0.5 shrink-0 rounded bg-emerald-950/70 border border-emerald-500/40 text-emerald-400 font-mono text-[11px] whitespace-nowrap">
+                  SATELLITE SYNC OK
                 </div>
               </div>
 
-              <div className="relative z-10 font-mono text-xs text-[#c3c6d7] bg-[#0e1c2f]/80 p-2.5 rounded border border-[#434655]/40 flex justify-between">
-                <span>Vessels Anchored in Roadstead: <strong>14</strong></span>
-                <span>Active Berths: <strong>32 / 34</strong></span>
-                <span>Weather: <strong>Sea State 2 (Calm)</strong></span>
+              <div className="relative z-10 font-mono text-[11px] lg:text-xs text-[#c3c6d7] bg-[#0e1c2f]/80 p-2.5 rounded border border-[#434655]/40 flex flex-wrap gap-x-4 gap-y-1 justify-between">
+                <span>Anchored: <strong>{currentHub.anchoredVessels}</strong></span>
+                <span>Active Berths: <strong>{currentHub.berthsActive}</strong></span>
+                <span>Weather: <strong>{currentHub.seaState}</strong></span>
               </div>
             </div>
 
@@ -137,13 +165,13 @@ export const PortRadarModal: React.FC<PortRadarModalProps> = ({
         </div>
 
         {/* Modal Footer */}
-        <div className="bg-[#0e1c2f] px-6 py-3 border-t border-[#434655]/40 flex justify-between items-center">
-          <span className="font-mono text-xs text-[#8d90a0]">
+        <div className="bg-[#0e1c2f] px-4 lg:px-6 py-3 border-t border-[#434655]/40 flex flex-wrap gap-3 justify-between items-center">
+          <span className="font-mono text-[11px] lg:text-xs text-[#8d90a0]">
             Feed refreshed every 15s via AIS LEO Mesh (예시 데이터)
           </span>
           <button
             onClick={onClose}
-            className="bg-[#2563eb] text-white px-5 py-1.5 rounded font-mono text-xs font-bold uppercase hover:bg-[#1d4ed8] transition-colors"
+            className="bg-[#2563eb] text-white px-5 min-h-11 rounded font-mono text-xs font-bold uppercase hover:bg-[#1d4ed8] transition-colors"
           >
             Close Radar
           </button>

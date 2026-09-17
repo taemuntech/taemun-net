@@ -23,8 +23,8 @@ export default function AtlasResortPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        '360 Villa Suite Explorer',
-        'Dynamic Season Calculator',
+        'Villa Suite Explorer',
+        'Stay Estimate Calculator',
         'Gastronomy Showcase',
         'VIP Charter Gate',
       ]}
