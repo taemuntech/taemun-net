@@ -264,6 +264,16 @@ export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
     iconKey: "boxes",
   },
   {
+    slug: "maison-de-luxe",
+    label: "메종 드 럭스",
+    mobileLabel: "메종 드 럭스 (MAISON DE LUXE)",
+    badge: "쇼핑몰 06",
+    description: "하이엔드 럭셔리 & 명품 부티크 살롱 커머스",
+    mobileDescription: "하이엔드 럭셔리 & 명품 부티크 데모",
+    tone: "amber",
+    iconKey: "crown",
+  },
+  {
     slug: "maison",
     label: "메종 당티크 (Maison)",
     badge: "D2C 살롱",

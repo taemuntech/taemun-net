@@ -98,7 +98,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenShowroomModal }) => {
                   개인정보처리방침
                 </span>
               </li>
-              <li className="text-[#4d4542]">에스크로 결제 안심 시스템 (가상 데모)</li>
+              <li className="text-[#4d4542]">안심 예치 결제 안심 시스템 (가상 데모)</li>
               <li>
                 <span className="text-[#4d4542] hover:text-[#100e0d] cursor-pointer">
                   사업자 정보 확인
@@ -110,7 +110,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenShowroomModal }) => {
 
         {/* Bottom Copyright Row */}
         <div className="pt-8 border-t border-[#d0c4c0]/30 flex flex-col lg:flex-row items-center justify-between gap-4 text-[11px] text-[#7f7571]">
-          <p>© 2026 MAISON ARCHITECT (가상 브랜드 샘플). ALL RIGHTS RESERVED. 에스크로 결제 안심 시스템 (가상 데모).</p>
+          <p>© 2026 MAISON ARCHITECT (가상 브랜드 샘플). ALL RIGHTS RESERVED. 안심 예치 결제 안심 시스템 (가상 데모).</p>
           <p>
             대표자: 김아키 | 사업자등록번호: 000-00-00000 (예시) | 통신판매업신고 표기 자리 (예시)
           </p>
