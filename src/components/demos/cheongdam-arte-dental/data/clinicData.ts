@@ -1,15 +1,15 @@
 import { ComparisonData, DoctorProfile, VeneerCase, ClinicFacility } from '../types';
 
 export const CLINIC_IMAGES = {
-  logo: "https://lh3.googleusercontent.com/aida/AEtjO1VV_uxY-JKxQ1TZx3BGQdp2sA7_OiBSfj5sujYr0FPIhXUrOtYTJmlJwKcRuYiHGS4vo7Ue8_yf2jOO6PrHVcT487CIAX26QmPZhhGV0kZG0l6NDpWbwg3DNC2uUMdHdVz8xOJ2D_rCg55BBXNgAZGBF-E-z-Apn94ECazoWphFtjtxXmI07YndpENyBQOOFs9WMFbvKbkYCdcq7TYKAcFP2KivvsZJzgrAVWyMoc3WjOB5_oWzlOAVPL5C",
-  heroSuite: "https://lh3.googleusercontent.com/aida-public/AB6AXuB-X9k4vk-36meVnLJVQ8it1FwyLdPvckcIcF8I-zxOee-R_yJ77M395LEYijQJsaL9TvLll2tcJOIXcsIKtwbN2NXBaM8osuVIWwz96R2Zhs95kO0qBoWuJsW-iwrl6LsOdrzqUfMEiQVhPbkwyi_urUZtTowoKHUy_-SEa1u-J1EkUliKPKxdZl2PyFTGD6acApjc_6ApLYFo7VUvBQQuRWD6a8CdidoPYnGICgxH79yKbMvsdE_zmA",
-  veneerAfter: "https://lh3.googleusercontent.com/aida-public/AB6AXuAu6ZWI9Pc5-IewCMh6lIbQ4vx4ou4DeONZu4T4VmoVikp6D9Y3qWrzttbXSRKm33TiJ2DSaDKssDuQLHPofR9FpSDI3HVc-uRreJKQqaDYUYHrwSN-FeA_uXxGRfn4Vm97HjsN9zZTcjzDWt5n-L6LR7jvlPT3gWEKszjwsNKHi2itTskU75O8vDizhfxyeCFCTgvk_i0j2d50bHndE-CaDx-w-rPMMrJ4j8AwiZ4wJbCgrgjP435vdQ",
-  veneerBefore: "https://lh3.googleusercontent.com/aida-public/AB6AXuCV45VQn10lU_sa7LhSxcYZek4tABV6TgpKmHmTgjtzh9l2rhCNx7e_IHxzFx8tvC8nd_o-ZSfplJ2mEzWtgqshDbLgScMNCZmnLbz-RMCHKQwDC53pIagET61tC4CecUqqPoTfJ5DqqESULSbG8h8fSXl9y7xx-sTTDniFmJxu51GWPrGl95YpuIaEe_WVOiyAMEozu1QW8yHxo_BTsOIdh-Adh6K00rardc9F2agohC9Vel8574yoyw",
-  drMin: "https://lh3.googleusercontent.com/aida-public/AB6AXuDSIqeNJavGh5jrmNXnrE7A2_tBNKDztUsBmDPZZRX51uQdGvW2ZNg6JGLP5fXrcRynz7L4toVSkl2uaNVcwvrv3IAxWTH4QChsWr1kHS2F0xbPr1YNmWLDCXwVekKcX9iFTTpBqnaDbleSySH0k2fmq9Jabn5aidMHSIlTzm8edAKBUvFoGsz5y97rvwVmBhXS5zi-6FPGTRD7VvExecHpPTdSn9PPdeae0DgswXuYLOqY0fq5z8_ikw",
-  drMinThumb: "https://lh3.googleusercontent.com/aida-public/AB6AXuD0pMHkshYlHpfXPgMtmMMtvkhRNQvansiiKgOfTS5rxCYTGJxMh4FqA5QfEcB1dpsM0QsGJy4gSRRTylSY-6mL-BbkLGut59bKxRbo-6pDZUqmAZ2PpUEqoHzmrODvexRiElw0XTDVaAVO1o9uRoOrRsWA6Mn-2hoz6BUlTlXTbU-0xIlALDdtP1p2i2ogsZS4TeJbINx3SbBsjjIMAwdiSAZt-1ztHhkv5LvN3RsSbLEjjEBJHmOdCw",
-  drJeong: "https://lh3.googleusercontent.com/aida-public/AB6AXuCRCGnNOMdRszvGv1-ym7-FyGYnFgvADlXxz_LRtU9ioFnfSfi4X4l-68osGiRMdQ5Oy0QVScGhB_2gcU_ofgxou-fICWnG1R5wTgmxHTimPAv7zgVrdl1lDJ_aPrVsG58x3Y2imqo53hXq5JD0PpNtR2AdgnzfnYmMrj8a7tP3nXHtEfylVUBCwtAAIRWbi6pGeTKvCKh5jZneFtQiJA3Q4DQauO4rExZd_6mtfFKSC6BKsBzW66X2Rw",
-  drJeongThumb: "https://lh3.googleusercontent.com/aida-public/AB6AXuA9ljPPZxVBUaTqYQjym7_pIP5ooNvrnu4ZX1QQaagRru1DlAhxT7ENqAYUdzUijCfaKZCithtK9n1m5HV2lkqaAeMQZRIBYh4oHLS56HM0Zxs1uIz4P-cxSIFLBxsYMFgZpShyYOjVlkpu7j0ni6aXvyLNUiG48ZU5iX_HTHCs-iIBGoz-MK1_6-etIOQM1Js6QLsgqqWQdxxtA4cX1_FgXjjowwi_EpmXEo2Lthe8KWubZ9MRNV_uOw",
-  mapBackground: "https://lh3.googleusercontent.com/aida-public/AB6AXuBf2ytGUHW-cPH9t1mxyILqb78220KaRUj655l9g2l2HQCtKfXl09pJXgKIoiC2Lefkp8jG_p8ezovy8Te0jH4cwsK_3xpNRf_bFfaQijyM0kVr8f9BObWC0LpLQ31YLft4HSUpMsa9pYjJYEPoCQ2aTQYUgRBBVIJV9J569Fyt_prulrkZae3UP43PnbtTrYrbd5yMDHICHBWffY6v5ARd8eiLlGkuyAYtuyg8Clz2tA2VH1HIqd0U9Q"
+  logo: "/demo-media/cheongdam-arte-dental/cheongdam-arte-dental-10.png",
+  heroSuite: "/demo-media/cheongdam-arte-dental/cheongdam-arte-dental-04.jpg",
+  veneerAfter: "/demo-media/cheongdam-arte-dental/cheongdam-arte-dental-03.jpg",
+  veneerBefore: "/demo-media/cheongdam-arte-dental/cheongdam-arte-dental-07.jpg",
+  drMin: "/demo-media/cheongdam-arte-dental/cheongdam-arte-dental-09.jpg",
+  drMinThumb: "/demo-media/cheongdam-arte-dental/cheongdam-arte-dental-08.jpg",
+  drJeong: "/demo-media/cheongdam-arte-dental/cheongdam-arte-dental-06.jpg",
+  drJeongThumb: "/demo-media/cheongdam-arte-dental/cheongdam-arte-dental-02.jpg",
+  mapBackground: "/demo-media/cheongdam-arte-dental/cheongdam-arte-dental-05.png"
 };
 
 export const COMPARISON_DATA: Record<'arte' | 'conv', ComparisonData> = {

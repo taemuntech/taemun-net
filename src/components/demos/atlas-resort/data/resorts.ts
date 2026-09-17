@@ -53,7 +53,7 @@ export const VILLAS: Villa[] = [
       '24시간 전담 버틀러 팀',
     ],
     pricePerNight: 2800000,
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCozZMbR8Jj_DCUr1G4KdKVhg1Km_XGNvRaUqLuPu1pyq5_u_xxpiDZlJYY1PGXfrGXYtT0AKi7u15kfplSs9hcWE313IyFJ-XxojYYraGXG7RFMWyd3w5qtNjgFbAaP2ZQJBzK82r4iXoJoxpEofko7qgLzgGqIzZLTOEsoED8JYjzwIxmp9G_xzo6fLvLK32BlvV441TGya_7B7TDAftUK5JzVyU7hB6PTjj0m6l20UREWjnFy99X',
+    imageUrl: '/demo-media/atlas-resort/atlas-resort-06.jpg',
     alt: 'Expansive ultra-luxury cliffside private villa overlooking serene ocean waters',
     // 원본 사진 왼쪽 위와 아래쪽에 다른 브랜드 이름(The Azure Cliff Villa)·달러 요금이 박혀 있다.
     // 화면 문구와 어긋나는 가짜 정보라 위쪽 기준으로 확대해 그 부분을 잘라낸다.
@@ -81,7 +81,7 @@ export const VILLAS: Villa[] = [
       '전속 셰프 & 수석 버틀러',
     ],
     pricePerNight: 5500000,
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC-pbD78mrAzMulIOP365IEy8njLYyMjpGxOXrVzhfn_uBswxJHUwihQdm54G21enhleWmhfo8vRHQgjFD35xUwZEKzNpM6LM0MmHL0_cA9nudaEMd7irvEEd4eY9qJ9jRPfISNHTiBtWG7n1zmNaK-GJsYyXgcDxvlCGhVFHxr5qLmwZdxkPsFZh8yy5irN413WCIFle9Qu59aRHRQBjQ9B5r4Z1Sq-y6-sTOhIWz1RrEuyO4DzC2r',
+    imageUrl: '/demo-media/atlas-resort/atlas-resort-04.jpg',
     alt: 'Ultra-spacious editorial architectural presidential estate in ancient Gotjawal forest of Jeju',
   },
   {
@@ -106,7 +106,7 @@ export const VILLAS: Villa[] = [
       '전담 웰니스 컨시어지',
     ],
     pricePerNight: 2100000,
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCuQ1u9yt3Is1In_FuTL1-u1oEz_F2nmGF1RuoNKauWBVTpHRaOHkWlLJn3BZ6pmU7ffcaDJvTmI8JWLj7y1Gi0r4odsgjrlQFLaoFgF8t3q0sSo2ye2Gx0lBcFA3D09tb5mQqbY6FG2DUxxirbZzE9zpZ2ON1Xycpknhm_GFVePvIMUIZ3JCCZha3wdtA9wP3Ny7EjoaCxk6fa74sG5wl6jZAoGMvUJbWkqUOjkXZEpgoYEKLpEL7p',
+    imageUrl: '/demo-media/atlas-resort/atlas-resort-07.jpg',
     alt: 'Exclusive luxury tropical sanctuary in Ubud Bali perched above lush river valley jungle canopy',
   },
 ];
@@ -151,7 +151,7 @@ export const PILLARS: ExperiencePillar[] = [
       label2: '프라이빗 다이닝',
       val2: '인빌라 전속 셰프 서빙',
     },
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuANmm2AdHfG7MzSVBILnNDogKKvYYXbkGipKncMYqigj_rGsV6K5w0JOn3jYrogvMkQx-3z71ipBpO8tQA7BTWb6NbIvDss_6EYCbh6D-rDb81H_Gqu0r9QKOVoYYzLr8bKqXUUrpgG1Ku4fvYWxG_DiHfLk75akdKAhDHpdFT2C9HbLbPWa9DEkFBFxfxicn6v9-OMsePSowI_xtmKL71AuLT6xPXD6_Zh0sRleSpBDMWvoaBPbSsP',
+    imageUrl: '/demo-media/atlas-resort/atlas-resort-01.jpg',
     alt: 'Exquisite minimalist fine dining plate in luxury resort',
   },
   {
@@ -166,7 +166,7 @@ export const PILLARS: ExperiencePillar[] = [
       label2: '테라피 구성',
       val2: '사운드 배스 & 아유르베다',
     },
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBnVUHG5R-4vN9HyWxsBaYdeybyERwvdqVRzxSs6e6DK0gsrhk_BxXz3w8W6yAE6Ib2q9wLx-lc8R9JnEE_8uj4I9uDqrt3Y8IDrL1XbRa9VlTlCjaMPq6Y1XeZp0NL49i0br3LVC3ww-SyPQCVDDSA0yeYkONv-7fg8ZWbYJttIZdV-C_dWCkzIgKZ3MOpHaXz6nlBdjrAbK_V4MBlHBDyd6t65p8TaTfBzG_tk_Hio-dAngeFTU6m',
+    imageUrl: '/demo-media/atlas-resort/atlas-resort-03.jpg',
     alt: 'Minimalist private luxury spa pavilion with steaming hot spring water bath carved from natural grey granite stone',
   },
   {
@@ -181,10 +181,10 @@ export const PILLARS: ExperiencePillar[] = [
       label2: '진행 방식',
       val2: '프라이빗 1:1 진행',
     },
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCd1p1XYJqcYwhYD724vlWV93VA7VJ9EeCDzOrFEDZRi5r-h3dn_a8bOiZy30QxpEshtD_XL4BPMXTcyBIlxY3AusRY6ZudbcRC0Q4HlHy6yMS7w-ReIuMK1M1JJPMw6lrQ4SN8yJ3i-s0NZcA2gpzZtuBCCsvUkXCsU6DNPOwbVEsfg7HUTa9w7NY2VXpQYNQ6Jv1uzUeRbGxiyIBJKBCzFdYFbEJ62BoT3My1V19-0KjXRhcXEOqg',
+    imageUrl: '/demo-media/atlas-resort/atlas-resort-05.jpg',
     alt: 'An exclusive private yacht sailing into the sunset along tranquil emerald coastal cliffs',
   },
 ];
 
 export const HERO_BG_URL =
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuAUIvUCsJX6H1AibZsMmrS90iFdaon3IS0GbYX5yfZc6IJ-Jkic54Oo15DKvebVbb5qzTwayFujn-MTBjvzJwp4MZfY5xr_LHaQUr0V7RMB5qwR0k1LEGKOYteTldjMzcu8JIFl_wqXH-tA260pcistWUuSU2KFNpigO8_O9CQAdheF-1S0zuYawO2XwbekvP9QSnl2rRxub6_qdxFq_BSSwQuNUGIkmRMmq0Sm_d91Aw9X7lLuWvBu';
+  '/demo-media/atlas-resort/atlas-resort-02.jpg';

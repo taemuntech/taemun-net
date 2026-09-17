@@ -63,7 +63,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <img
             alt="GREENCUBE AGRI-TECH Brand Logo"
             className="w-10 h-10 shrink-0 object-contain rounded-lg border border-[#bccac0]/40 p-0.5 bg-white shadow-xs group-hover:border-[#006948] transition-colors"
-            src="https://lh3.googleusercontent.com/aida/AEtjO1UPJFEO7mdvmQW-F6jZ_TPyvDxg4oW4QXpPXQdhxB5SN82tVMKwyP7HzxgLgi7ND3Vqgz2sIAORnDO6EhzBUXoqSM4hDriyqn8dWrD-sfczEg-NGrNGVxwyhanqsoIu1VJmCoQVESQjfTmfFT-6pdEXKrhdaYQe4RW7_4fA-dQj5Kf-GBLjo6Fq10V61PT45TKRLG0lxWJc7akNr5n7UgUMuG6xlxI_uUv86b3QTuHcD7BK-2VztiDGBt4"
+            src="/demo-media/greencube-agri/greencube-agri-02.png"
             referrerPolicy="no-referrer"
           />
           {/* 375 에서 "GREENCUBE AGRI-TECH" 가 두 줄로 쪼개지고 "수직스마트팜" 이 낱자로 끊겼다 —

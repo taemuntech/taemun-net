@@ -118,7 +118,7 @@ export default function VerdeGourmetApp({ isEmbed = false }: { isEmbed?: boolean
       unitPrice: '레시피 번들 특가 10% OFF',
       rating: 5.0,
       reviewCount: 420,
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAH7Q06UVbORwGe3H_irfIVFMfyNHpHDrudkQITCRqQblQMFHCRsujeYrVH7s35QbzD67FjjQl4cF9Y4V6bWlumVtHqJVvgv_VvJuuyi7Z-NwkTka5Rf_xaGqSFKerRGZBJW1nkQNiC6agShNE1jsAieA6wRyj85701lB5EtseyRo9hrwkQuZvTMG5RTdhUTdNgRktoj7Jo34beQQrEGhmy4Uc862Vm7_1A4S6-GgLQdwSjSqvufIZp',
+      image: '/demo-media/verde-gourmet/verde-gourmet-02.jpg',
       category: 'all',
       description: '지중해식 로스트 한우 채끝 & 구운 토마토 타르타르 레시피에 필요한 모든 필수 식재료 세트.'
     };

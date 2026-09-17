@@ -14,7 +14,7 @@ export const Hero: React.FC<HeroProps> = ({ currentLang, onOpenBrochure }) => {
       {/* Cleanroom Background Overlay with Gradient Vignette */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYWWRQL8TrOm6uhYUSENCtpc_flRXvG7tpaU04gam55xIYwlqOc5Bjzo_uqYhCwrrkUT5Opn3HsWSYHQ496EnRKjOI0NIIpH1NklHQkN-1iU2OWkkJF2rqlXQx0CGdpoGgGpdKcLb0Aw1wdEbv0uxHzg94ocoxLaZL9RxCwL_gh0S7zLo5Kr7KXGsHCYtSTiLDDXSrDj7xusKsYCQgPItrE2nGLQzBpEW4aiOfqZyqxyzXUFB8F6oN"
+          src="/portfolio/hysfa/hysfa-01.jpg"
           alt="Cleanroom Robotic Automation"
           referrerPolicy="no-referrer"
           className="w-full h-full object-cover object-center opacity-35 scale-105 transform motion-safe:transition-transform motion-safe:duration-1000"

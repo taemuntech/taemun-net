@@ -1,8 +1,8 @@
 import { StrategyPillar, PortfolioItem, LeaderProfile } from '../types';
 
-export const CREST_LOGO_URL = 'https://lh3.googleusercontent.com/aida/AEtjO1VBUUQPXxLIpEYWHCpwmJno0nZU0hgHZy6vd8aoS8xDobgiS6cOhr73eIi4qoGI3pq3Z6DKTyIM2ooXjxepVgux0IVdJWYholTa-iegdc8z1BIXaektwFfkzr73TAtzf05lUbOKMAP1JsDK0iHdDkEfGk9FQoxwzYBkpvSf4D1wc2oUhtxHOQnmmI2C5RnRiWVk23zBNCielhmsjd3Wsbhk00wNlNkhbgWnImNov6A3KJqIkvpb-G0fJzA';
+export const CREST_LOGO_URL = '/demo-media/apex-partners/apex-partners-02.png';
 
-export const BOARDROOM_IMG_URL = 'https://lh3.googleusercontent.com/aida-public/AB6AXuCe68hJkQbw3iNmUtaebjkqXeO060iE8Wo98SB-sxwQT03Q_rb8tTYuhBDmAsUkFL2feqfv13g7HliVuFDY_kR5rmZj6nJ34Mxf-2zs5vNUXQBwICKmSoR0OP8jzTrhmEvqg-XVSPx5nS0RZ2TK0_04ie3Cu9w0iA_53haUrDJI6Z0LPhu3EZWOn-IuGLIXBImWSV-CFBvl-I8rbDE2HWoWORpAugUSA6m6ewU52zVg5ekoWQrbHEIh';
+export const BOARDROOM_IMG_URL = '/demo-media/apex-partners/apex-partners-01.jpg';
 
 export const STRATEGY_PILLARS: StrategyPillar[] = [
   {

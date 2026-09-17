@@ -81,7 +81,7 @@ export const LensSimulator: React.FC<LensSimulatorProps> = ({ language, onNaviga
 
             <div className="relative h-60 w-full overflow-hidden bg-on-surface">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJAsckvWpgRJUwYgT1pRmj6_PPuU6C_6mCvaFLcyS-iDtcXdgNImFSk2Fab0TOZNKdqxm30cYADawuBCiv90SO9dyb6mmaBkTpC1_abQaewgQDAhZYZh-PaOu4Fb3mTBQzIX21sLwcoRvzsf32NWa8ztncH5p3N6cbEyjJPQ7AlIEONp7PmQJoNlmIk29OPI_UVvFpTim-9BRiXooKDnQIm6GuePa2SSjviFS6mc7Ly19pKTFB7-xL2Q"
+                src="/demo-media/prime-vision-eye-clinic/prime-vision-eye-clinic-03.jpg"
                 alt="Near distance simulation smartphone screen text"
                 className={`w-full h-full object-cover transition-all duration-500 ${
                   lensMode === 'mono' ? 'blur-md opacity-80' : lensMode === 'edof' ? 'blur-[1.5px]' : 'blur-0'
@@ -111,7 +111,7 @@ export const LensSimulator: React.FC<LensSimulatorProps> = ({ language, onNaviga
 
             <div className="relative h-60 w-full overflow-hidden bg-on-surface">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBq0LY4usbAd_-knLQztPGMPME5byh98HZoifuwPrFHkRSOLAuNSKLOZCaMhDsvykNddPY8nZOo1kgkuEgrUEz0RZY3xr_pF-bv1YNMeVwChAUGqA6JCjPfOk-ARFs0Q4fs5TMEKRGCEeSkCgrvVo_hVQYBYHPS5AG-1iXXAw9-LTST1lLFuSSsoy-hfGwr5_cNGmxlcahVqABwAlAUumzFMkOU4DrUzF6pWwbEjqX4YWIk945xCtYBXQ"
+                src="/demo-media/prime-vision-eye-clinic/prime-vision-eye-clinic-05.jpg"
                 alt="Intermediate distance desktop and instrument dashboard"
                 className={`w-full h-full object-cover transition-all duration-500 ${
                   lensMode === 'mono' ? 'blur-[3px]' : 'blur-0'
@@ -141,7 +141,7 @@ export const LensSimulator: React.FC<LensSimulatorProps> = ({ language, onNaviga
 
             <div className="relative h-60 w-full overflow-hidden bg-on-surface">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAs3CI-SIW-kPxAeV4vUmFOtxTY5AAyPIUn_3IKglFrthtQ5fvSelaHlz70dZCqhADCPNakqurZWb5P9bjv5BySep588ntYUUuTt6w3Q9pGfr5rvJ8zMdcWmt-kxuQhMbB5kY1pzPNtcnEPw4O0hLPksf17bKpPN3JAKFVghU5HKFh4D3Flq7obCUXJYHeCXA7ZrohDCgXrhj3eEYdq0fleZ-Dr5ddYCIK3Yb5-7BGLwmluVnXSICHmUQ"
+                src="/demo-media/prime-vision-eye-clinic/prime-vision-eye-clinic-01.jpg"
                 alt="Far distance night driving road signs"
                 className="w-full h-full object-cover transition-all duration-500 blur-0"
                referrerPolicy="no-referrer" />

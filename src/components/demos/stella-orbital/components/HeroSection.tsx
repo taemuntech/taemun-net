@@ -7,7 +7,7 @@ interface HeroSectionProps {
   onScrollToTasking: () => void;
 }
 
-export const HERO_SATELLITE_IMG = "https://lh3.googleusercontent.com/aida-public/AB6AXuCSsol02qzwW-iBV_wGuzm3MYvvHeuDYXGxR4eyaKXd7YyZzQO_jJHJaNJOgAdwJ2VujKPSV9pz76tsqkKNHwE6PBgvu2AZZltQhVXEOQ-enkNzKQlYlpn2ezYQSenLWXNlFRRKWRBw-YQDr3mR6y41hrfVhh7w0ppPjParKC6B23qJmiUeXyUZnW11wGJWgOs0Gxe8ASU7dSUDZJtQBxvUuxhGCMXlTc9gxi-1Xhbolv4eTzU8ys_p";
+export const HERO_SATELLITE_IMG = "/demo-media/stella-orbital/stella-orbital-04.jpg";
 
 /** 히어로 하단 신뢰 지표 — 가상 브랜드라 전부 예시 수치다(구역 머리에 배지 한 개로 표시). */
 const CORE_STATS: ReadonlyArray<{ label: string; value: string; note: string; valueClass: string }> = [

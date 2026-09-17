@@ -63,7 +63,7 @@ export const Header: React.FC<HeaderProps> = ({
             <a href="#" className="flex items-center gap-2.5">
               <img alt="PAWS & TAIL VET Brand Logo"
                 className="w-10 h-10 object-contain rounded-lg shadow-sm"
-                src="https://lh3.googleusercontent.com/aida/AEtjO1WkzvjWwX0HVi4Nv4amqCwWMB_UunDRpLacMQSCnkkv1IW8iW4SPvU2CiSHqIhah5jK11lWDSFY_eE-a95r09gJ-NJL5yGU8MTX925n_P_4-f0tm3vCa4uhcMZktnHTpRCL45aAuu_4XeH34grRQCW2W6jSiGE61Pj52G5h0zCK_lcfJ276ft2zsGb-HPeUnAgid9cf_ETDpoDQWyEp7ChByNBFgQKyKnwrO-2gzlk129KDMCVy7hxrKtM"
+                src="/demo-media/paws-tail/paws-tail-10.png"
                referrerPolicy="no-referrer"/>
               <div className="flex flex-col text-left">
                 <span className="text-xl lg:text-2xl font-bold text-[#0f5238] tracking-tight leading-none">

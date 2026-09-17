@@ -144,7 +144,7 @@ export const MarkVuShowcase: React.FC = () => {
                 {/* Visualization Canvas Simulation with Dynamic Spectral Filter */}
                 <div className="relative h-72 lg:h-80 rounded-lg overflow-hidden bg-[#00110b] mb-4 flex items-center justify-center group">
                   <img
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPxyO1DluqQbiTEA9gD99Od3p5_65uHHIk8gmuZuWok0kfeYBVBi5SK4vLuNhqqeWAnWnJUeUcR1RF9PVTRzMMw7it4t1cyZI1gbeslp0Oiks2AMnHMScm8e9y4un6Zmbxs36gqMBRjVgAKFsQftcq6MSJevB7QIVzwJVW1h0FZCBoRFMsKK4uLXjO0ZblLPXYCcsWfw5yZ2wiPjgt58xgjEObi-JazZNftbIIFKuPOuIco_t7kwbrFQ"
+                    src="/demo-media/the-noble-dermatology/the-noble-dermatology-02.jpg"
                     alt="High precision medical dermatology facial skin analysis scan in Seoul Cheongdam clinic."
                     style={{ filter: currentSpectrum.filterStyle }}
                     className="w-full h-full object-cover opacity-90 transition-all duration-700 ease-out"

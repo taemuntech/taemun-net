@@ -12,7 +12,7 @@ interface TopNavBarProps {
   onScrollToTasking: () => void;
 }
 
-export const LOGO_URL = "https://lh3.googleusercontent.com/aida/AEtjO1XPaPOHBIoNMumt7W26j6Vl-aVmJaEGIqeQmtBMa_DafToocNI39En9Xk-_u4bBsTiZ5cNJYM3FuqEWpOYt8ZqolPUShU-R4KLY963dsczxG-jgJ3uNOlJpipQjHz0ZeN5d0JNtXlk9BUCz-I62oP1CIjGDk8OwO_i409R_ZS3GL6cCMLrkMe5ZPB0YQYEbIJMQFFkqgWHFHVEPf6YUxJsz-uliW5gjts3hOsh9AvL8fFTNWm98Y1DHKA";
+export const LOGO_URL = "/demo-media/stella-orbital/stella-orbital-05.png";
 
 /** 지면에 실재하는 섹션만 건다 — 대상 없는 앵커는 눌러도 아무 데도 가지 않으므로 두지 않는다. */
 export const NAV_LINKS: ReadonlyArray<{ href: string; label: string }> = [

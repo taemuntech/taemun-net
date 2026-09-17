@@ -1,14 +1,14 @@
 import { BodyRegion, RegionQuizData, TechnologyItem, DoctorProfile, RehabEquipment } from '../types';
 
 export const CLINIC_IMAGES = {
-  logo: 'https://lh3.googleusercontent.com/aida/AEtjO1V7gxPwQ4hDGnOc8wsiKZDONbNlOX91LkN9ESN1uMANKslJM3-_Hg03sOXuIn6k3wRMMj6STT2Gn4UFyLbj3pM1vU09ADVbN_-T60FaJduV6JVhJhlJ4OVUg72mFsPbOJcojiD25hJh7qvA3R15V-Z6dLXVtg8dmMi20W56kYfFqtBkTZFZ_MjSjPLt83g6zm_8SSVmgnC2fmnnB_7UvNj4oiM6d9lBJngDOVxSR-BkYL1H4XN2kNaAj_Su',
-  interior: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCBOuQPGlTh6MEQ3jWYxZxyUqq5_ZZ9K2ixPxlgY0Yi91Nz9u7ku_JFbPcoumji79uFvJe7o7k4PSSDPAjHeHswJeU5cxs3wOoKXqCP2HD0aIyD9-EXx0RipkkXuoztYpTGIBcH-W5Yr-BCruZqxD-xZqIv7DNY2QVO4gfC75dnszD5a5STLHVMk09X0L2xU0SWs_waya-NOR62sb_x1Gi6nefRMOyWQuetMaAI6Gog46bjIcQ2b7FVFg',
-  sling: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCnZsoAHAqgXnbmDrgqXDnybgqpxqDTDHQ_LsyAFugGmpZ63Cd7Xm6Ot1DrClHUqx7hVpG9dk3YhPrkw1lA_Nx0xHE_EvkkrZ-bFZG9vTuiVkhFpLCWtiamZqlT8dNzAaigZRw9TknLJixgtJlLXUv2VF77piq-QRemscuEIQjopFZIWufge8QcRAUs-koFeoXVsqE74WumX-yulgIQICMFYLiOJG-JmX9lcKz9zlRAyielH-gxJH0caw',
-  spineMt: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBXmZeXe-HcKkAVPKLPoSYtskAHDFKUZC9Yt5LwqpmAlXd1Qlkj7PgMsxxbLhL2yAZfhlKvr8tZL9VUH3vuAZaqYOWMC8UDMxrJJ98cCv78ueoxpWc8vS2HsDpho2gOlHj8C46ENwvhtMH8e-8PuEF1iC1b2uQtIU26dKPjHQaOzJETo1iwZBet_jK6fxu_t8isflBEH-miwsa9eEmO6vmt-OQ6smlVQS-ZPh_YkD5EQmG_kG7h_ySWxg',
-  pilates: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC6pSWs5pF0JOAyJKqT1Dgj35CHe8-JqYauun2kAjGxBA2qUFkVNM-jomTogdtkilttLJySGDHSgOCgHIocm5p0uabs9TZJnaUxAxTXRSc8wysOTlrAgrLhtQ93T5y5nWYns06fLGNPdbK_RsHDlTSLoR9BmzumU0UYrONT3C2xf8Cm0ngUEzjmhvGxoNyo-uV2XeNaHYkzbLT6v2C0XYsJVRVrYOD8hPHGK-WP88a6cS4PvOA9RlhrhQ',
-  doctorPark: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDeZ1iWb16nRPrYyekOX0ChN8xX6Kmv4J97rutaVl7kh6B5pHbxtZQOF6f46lUiMl6vDWMgcdP20rO64tzaMC5a2J_6kGFub50Nsy_8OqVjJiHZhbB92mwK7QObxHRhkVA7EgKzTAq6XnTLhqQN9kVnstsYdPqAIP7dEgvrDtFHJnjekICClapEHwi5DpVSu4fiKtUqwdCl_n9bKXD-4tc5hA3A2I88217GObi8hEVYSgH8uQIYRzRCfw',
-  doctorChoi: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCnrIZvjy2mnXHGoF-CQzYmERVPUeWFIHBwfqtAy5it15S0yD7iEVdFKwRH3yCVSSOOpfVU37YxVOduzH4XubgWxeoSk4noiDy4AJevNuksw_rIaX4SFJ15SzrJ6eFyiuPWJQVgUHftRWoYj_DSvNNPlAT8KEzEChNtRk9BygsrMzUTeSW5OedTmghgI2R2hKi6HwJ3onvaPEX1-EVJJ9Dtiy79bx8MRDBXFqJjYz25jAxZQR24mGd9VA',
-  map: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD_pWlk8PjsNZyCx5kNAN_Guy40WJVnCXN7LbUIfStPlkL9bWnNFVNf4Yw26OwjhDAdAgR07jS9MDmGJBgYtrS26L4bSYovGHG_NMgmLQPwlNEPehxJWBw1DalV6R4z5RheJK9RdzHZdqSBF9__1hcOwETviNpcld43QFkotOEB7S8gRzizD6s_LV_y7N7gUt22QHSGuLdrxT7Yx0k4_ef57KvPvzJKH13byJUKHcRIAogIo3m1ZxwC7A',
+  logo: '/demo-media/seoul-barun-orthopedics/seoul-barun-orthopedics-09.png',
+  interior: '/demo-media/seoul-barun-orthopedics/seoul-barun-orthopedics-04.jpg',
+  sling: '/demo-media/seoul-barun-orthopedics/seoul-barun-orthopedics-05.jpg',
+  spineMt: '/demo-media/seoul-barun-orthopedics/seoul-barun-orthopedics-02.jpg',
+  pilates: '/demo-media/seoul-barun-orthopedics/seoul-barun-orthopedics-03.jpg',
+  doctorPark: '/demo-media/seoul-barun-orthopedics/seoul-barun-orthopedics-08.jpg',
+  doctorChoi: '/demo-media/seoul-barun-orthopedics/seoul-barun-orthopedics-06.jpg',
+  map: '/demo-media/seoul-barun-orthopedics/seoul-barun-orthopedics-07.png',
 };
 
 export const INITIAL_QUIZ_DATA: Record<BodyRegion, RegionQuizData> = {

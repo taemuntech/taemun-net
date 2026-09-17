@@ -2,19 +2,19 @@ import { Project } from '../types';
 
 export const HERO_IMAGES = {
   main: {
-    url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBxbZsJCYvATDbXKudBTO_0bt5LiQWcDGHdB1-hYVJJnamMtHyJ9FUerrjWuoNSjzrEoxmElNZRYgSRYsEbfxuniv4rs5GIrrbCx7KUsSi4wR6Q_9Hfrau8VWdXMj-b2D3TdY0iA99aBqaNCZAVsw22LQ_wxPV7nafuW1y3_4ywgtW-lJ9Xpzua7e7uN2czEuvNDxJV_Sr86vc6UwLAu5aIq44bflk3YjQGpNiQ703bBY2R6pLkEWNb',
+    url: '/demo-media/atelier-vaucluse/atelier-vaucluse-02.jpg',
     alt: 'Sunlit minimal living room interior designed by Atelier Vaucluse with travertine stone low coffee table, textured limewash plaster beige walls, minimalist custom white oak joinery, natural woven linen curtains',
     label: 'Residence Private Sanctuary — Hannam',
     description: '빛과 여백이 공존하는 한남 프라이빗 레지던스 메인 리빙룸',
   },
   detail1: {
-    url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC_UZopJ0wuu7sasecsKEcZ6NtYhTBv4T7hiFVyvozUiRRjFZwD8qsYCqcdgl0FtjyRmbPT1qfB7_Pi_p0cCf4GG1ZWyKda2kXea_NsgPkB3jPWKgQNRX21fCqTiLGUZIRH-KzzuHIk9hf6kr4TPqe3j1qZaseqC5DSeag_CaD6gNxWsijHWsjhTf9ZNngapiNAB6GSl0bPzlB_g4nYHESoDKs8hzdrCQmH8NUYHyW_99v0GGixcNel',
+    url: '/demo-media/atelier-vaucluse/atelier-vaucluse-04.jpg',
     alt: 'Architectural detail shot of honed warm beige travertine stone counter touching tactile hand-applied lime plaster wall',
     label: 'Material Composition 01',
     description: '베이지 트래버틴과 천연 미장 회벽의 맞춤 조인트 디테일',
   },
   detail2: {
-    url: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCMTFE5cCte1Bs6l-7pDlYVBPS1ZoZYUV9mDL_DwJsaMDYBMnudZ-Pu4QcAHMnXbA4tVxTIs0QNgTXWheBPfkW12y-jlqxjhmD9WKwQ90Ae9RBf4B9ytGHXM3OnJkfTlJIr1bjaWRaBCgkzIOqVUQFzG760bgn_HqzUYj0Gq9NFyq4av-AEdVMfO6-jkQh_B9aR0_5FBMQbdllL_ln86kMR75Wf-bk2WI4Hksr4Lta7MZ9cZvgZrtfW',
+    url: '/demo-media/atelier-vaucluse/atelier-vaucluse-03.jpg',
     alt: 'Minimalist high-end dining area with large monolithic pale oak dining table, sculptural bronze pendant lighting suspended in calm negative space',
     label: 'Spatial Perspective 02',
     description: '단단한 참나무 테이블과 조형적 펜던트 조명이 만드는 다이닝 여백',
@@ -32,7 +32,7 @@ export const PROJECTS: Project[] = [
     year: '2024',
     area: '72평',
     imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDTLcnuCkDatRqNrBpYy4ZyAGkKZJGfsTeMSjc_aLvASQtgnDGqUKqX98pOmU1EVNntHHsKIbd8qw3blYgomM-PoTT4IrLO1noZoT2yvM1GevpDjuWbX3V2_5sENeOsKS_2bv0e8i0XZ1RfWe7zmvFu-U3xsTsTMMNYe6AeSBpTdJ2MZ0EmWYCEiY_oBDXD4ngRqUOke4F1dTfwj1BkCemA1Tw8f0p-K5vVhSSJWoB7fLF0BWF3zvug',
+      '/demo-media/atelier-vaucluse/atelier-vaucluse-06.jpg',
     imageAlt:
       'Editorial photograph of Hannam Villa Residence interior, master bathroom and bedroom with micro-cement walls, freestanding fluted stone bathtub, warm indirect LED linear lighting',
     description:
@@ -41,7 +41,7 @@ export const PROJECTS: Project[] = [
     keyFeatures: ['오픈 컨셉 마스터 바스룸', '자연 채광을 끌어들인 테라스 연계', '선과 면이 일치하는 무몰딩 마감'],
     clientReview: '공간에 들어서는 순간 일상의 번잡함이 사라지고 고요한 안식을 느낍니다. 세심한 시공 감리에 감사드립니다.',
     galleryImages: [
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDTLcnuCkDatRqNrBpYy4ZyAGkKZJGfsTeMSjc_aLvASQtgnDGqUKqX98pOmU1EVNntHHsKIbd8qw3blYgomM-PoTT4IrLO1noZoT2yvM1GevpDjuWbX3V2_5sENeOsKS_2bv0e8i0XZ1RfWe7zmvFu-U3xsTsTMMNYe6AeSBpTdJ2MZ0EmWYCEiY_oBDXD4ngRqUOke4F1dTfwj1BkCemA1Tw8f0p-K5vVhSSJWoB7fLF0BWF3zvug',
+      '/demo-media/atelier-vaucluse/atelier-vaucluse-06.jpg',
       HERO_IMAGES.main.url,
       HERO_IMAGES.detail1.url,
     ],
@@ -56,7 +56,7 @@ export const PROJECTS: Project[] = [
     year: '2024',
     area: '110평',
     imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDZjUx41lJZ_gpQQPpa9PnMmn-mGzCxpeGCZ-iXpscCkTk4mX2-5el-7fkM3h2ma61Fk7K51lL5B7QqwkjCJDmNmKCJbYeYyjnQfW0PTTZ0Lhai_tdQRu7gPD9C6IPihSdSdMX_B4_PKV3Ryshyj3YSvXhtKUyzYWC45dmM1anHVHtqJxiExvVu-4nvx2tnbCTESlHHgZApH5UR9sWy2Af2gHfWyg4Sb9_m9m9ysYG4WZVt95YvywuR',
+      '/demo-media/atelier-vaucluse/atelier-vaucluse-07.jpg',
     imageAlt:
       'Editorial photograph of Seongsu Flagship Showroom interior with architectural brutalist raw concrete pillars paired with dark smoked timber displays, museum-grade spotlights',
     description:
@@ -65,7 +65,7 @@ export const PROJECTS: Project[] = [
     keyFeatures: ['조형적 보이드 동선 계획', '모듈형 전시 집기 설계', '음향 반사를 제어한 패브릭 흡음 천장'],
     clientReview: '작품과 브랜드의 정체성이 공간을 통해 명확하게 전달되어 방문 고객들의 찬사가 이어지고 있습니다.',
     galleryImages: [
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDZjUx41lJZ_gpQQPpa9PnMmn-mGzCxpeGCZ-iXpscCkTk4mX2-5el-7fkM3h2ma61Fk7K51lL5B7QqwkjCJDmNmKCJbYeYyjnQfW0PTTZ0Lhai_tdQRu7gPD9C6IPihSdSdMX_B4_PKV3Ryshyj3YSvXhtKUyzYWC45dmM1anHVHtqJxiExvVu-4nvx2tnbCTESlHHgZApH5UR9sWy2Af2gHfWyg4Sb9_m9m9ysYG4WZVt95YvywuR',
+      '/demo-media/atelier-vaucluse/atelier-vaucluse-07.jpg',
       HERO_IMAGES.detail2.url,
       HERO_IMAGES.detail1.url,
     ],
@@ -80,7 +80,7 @@ export const PROJECTS: Project[] = [
     year: '2023',
     area: '95평',
     imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuCqW6F9Tq4Itj7Oph8-YbcLec_zg1f1ttw3m6AxlRitHpjLwcvuT5LZ8cwe_65eoNC3IPKu3d2EMejLFepNGiigrDb3nbz-87N0gjR5q3Jf599P5rYR6cPQhDTW1Kls8w0rZwPynMGvVeqmDzC6kiC-CaZpxPVwtbXjgcV-nKk_x4js3Cm4YeyeKDfZw1Mqlu3e38JMxQPvSPz6QgynXISu0I7BKxf_MGZESOQNm5dDy2ZpC5mc_TKD',
+      '/demo-media/atelier-vaucluse/atelier-vaucluse-05.jpg',
     imageAlt:
       'Editorial photograph of Pyeongchang House spacious living lounge with double-height ceiling, large charcoal granite fireplace feature wall, floor-to-ceiling glass framing snowy pine trees',
     description:
@@ -89,7 +89,7 @@ export const PROJECTS: Project[] = [
     keyFeatures: ['더블 하이트 오픈 천장', '사계절 중정 뷰 포인트 설계', '통합 스마트 홈 사운드 & 조도 제어'],
     clientReview: '집 전체가 마치 미술관 같으면서도 가족들의 일상이 따뜻하게 감싸지는 최고의 주거 공간이 완성되었습니다.',
     galleryImages: [
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuCqW6F9Tq4Itj7Oph8-YbcLec_zg1f1ttw3m6AxlRitHpjLwcvuT5LZ8cwe_65eoNC3IPKu3d2EMejLFepNGiigrDb3nbz-87N0gjR5q3Jf599P5rYR6cPQhDTW1Kls8w0rZwPynMGvVeqmDzC6kiC-CaZpxPVwtbXjgcV-nKk_x4js3Cm4YeyeKDfZw1Mqlu3e38JMxQPvSPz6QgynXISu0I7BKxf_MGZESOQNm5dDy2ZpC5mc_TKD',
+      '/demo-media/atelier-vaucluse/atelier-vaucluse-05.jpg',
       HERO_IMAGES.main.url,
       HERO_IMAGES.detail2.url,
     ],

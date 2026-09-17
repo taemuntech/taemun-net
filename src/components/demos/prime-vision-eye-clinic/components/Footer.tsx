@@ -42,7 +42,7 @@ export const Footer: React.FC<FooterProps> = ({ language }) => {
             <div className="lg:col-span-5 flex flex-col gap-3">
               <div className="flex items-center gap-2">
                 <img
-                  src="https://lh3.googleusercontent.com/aida/AEtjO1UcsLi0Iukay6aZ5VBpaymqF5sVkpP0rtPPxrfvzLfVzm3ThaWxHlzE5r3gDet38VdD0YJdE-U8Zpe2aE7QRa-4rZ72yXeG8aG_VUZX-YTLu8_7vE0B5rQ3hYMkR18N3W4zDg1kXWvr1PWrH44EPcjJCgWEPPuhcVqERZQLnbGk38Et_3i4WyC2HfLjhPctI8dve8s3txthiRPxZKjksD_moXOoWlbCrTIN7aezDgyIzlUO9Wr_9cNr2v0S"
+                  src="/demo-media/prime-vision-eye-clinic/prime-vision-eye-clinic-07.png"
                   alt="Prime Vision Eye Clinic Logo"
                   className="h-6 w-auto object-contain"
                  referrerPolicy="no-referrer" />

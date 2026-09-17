@@ -1,16 +1,16 @@
 import { ProjectItem, MaterialSpecimen } from '../types';
 
 export const BRAND_LOGO_URL =
-  'https://lh3.googleusercontent.com/aida/AEtjO1WWemXGW3gHvd1Keg2_QDHTo8Ayh99zm4ftYVFhjquyqnJLWoian54nWUcXQTYckb_-WTZ_wet1Y0i923gaxxYTHBdbNXiT0k1BJJkC8T6goMj5FI8XB7KsO95G4I7Mc1YzMvveaTeg6R-Y29Fh07onPnRm8kioMA7jDpybDXaI8jvYWNf4zN0APDyAdF4M9oZnSwy_1j9_BgIrOoGwQYP1iSYeJaz7WG-IgAEei0_63UWZBCZb9qseWbU';
+  '/demo-media/haus-space/haus-space-12.png';
 
 export const HERO_IMAGE_URL =
-  'https://lh3.googleusercontent.com/aida/AEtjO1XGR_Bx2jLYPXfyoJu2AmpSaqS46c4eJrniE7XvunobPDMZVPXqQ9arfmun2srujieKw9yOzMoubYJgjQpW-zFZp_cEDIY4owxiaGIbnTyUy8o7kI-7rRICttuF-JaOmadAgDuKdG_MU-3fCM3swepo9jCvjphW1lf1G1jsr-Gd_ieD1PMeJAMxz5cj6_e_Ld_c3NcVBBuZPdkLUAj-stnaI-UHrQ6xj9ftmu6gw0frdzoQC4j6G-CSpf4';
+  '/demo-media/haus-space/haus-space-13.jpg';
 
 export const BEFORE_AFTER_DATA = {
   afterImage:
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuAQhXdEQQTaQc6Y8W3_DUpjs7bdWTC0QsZhaU433gECDjy_iVtiL2qL_pvKYAcqPlYi2zqm4yFtudvpUpZB0ZKoEOyXvHmtlRJMwRtPnI5brEugniwYh7B-mF2aMvQljbPRqIzaqUGMXUmVy6wOFx2qHfMaQa6DDvGBSMjrH5atStXh6jZWAa35bWlAmzT-Pr9e2KBuErzBa2oYgjXqZOEajG_ZNQEptLvJdQGMYOwtuDRruSkgLQGXEuVyjHxbxKZDgA',
+    '/demo-media/haus-space/haus-space-02.png',
   beforeImage:
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuAh2Q7SN5qUHc_1o4tnMNC356iVVOg31BpJZY0j_1myGsfacwnfVkwn3i676McYNPGV5N8ocgaBxvEyl35700o_nKANmwl9gwavItrh7752ZrEZ8BUWxszGUGU-ejCB3QWwU5uUo5EwkYcZwNrNdJQZohzR3BYz0Rq5ogLM0HNkc797pMOiato8b2FwyWp5oF0zHKYLH6w1xh0yqyn_n9Kd-KLBy75w8LBysrybSmihcF6i0IrugIL9',
+    '/demo-media/haus-space/haus-space-04.jpg',
   title: '도심 하이엔드 펜트하우스(예시) 주거 공간 아카이브',
   badge: '주거공간 • 2025 완공',
   client: '하이엔드 프라이빗 인테리어 랩',
@@ -63,7 +63,7 @@ export const PROJECTS: ProjectItem[] = [
       '트래버틴 대리석과 월넛 원목을 맞춤 시공하여 시간이 흐를수록 깊이를 더하는 주거 공간. 개방형 중정과 연계된 이중 층고 구조.',
     materialsUsed: 'Travertine, Walnut, Rimadesio Sliding',
     image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuCV4G-ZpiWZ8pm7lIw49EKSAZCN-HZPvL4zFKyKzeDI4DHBw376qPwEsKvsAq60ged8T9cnXq1A_2NYtUFrXPrRIh7hmWj1o5DSIgW5XLneffZj-aylHNTyYycLSegcFHFMVs2ptB1E3Y8q92xSgEN8T-M0YoH83uPFWNtvRA3-hxWblkGVH4VO8Q3WA4-RT9aK8oo5BYSXUEM1hMLip6H1Za5LEMcjxmBvbq4N4W_DJgTemJBNI0cT',
+      '/demo-media/haus-space/haus-space-10.jpg',
     features: [
       '6m 보이드 천장과 연계된 360도 남향 채광 유입',
       '이탈리아 리마데시오(Rimadesio) 슬라이딩 도어 전면 시공',
@@ -89,7 +89,7 @@ export const PROJECTS: ProjectItem[] = [
       '곡면 미학과 유럽산 미장 마감재를 활용하여 도심 속 온전한 몰입과 치유를 선사하는 VIP 전용 메디컬 스파 공간.',
     materialsUsed: 'Microcement, Fluted Glass, Acoustic Plaster',
     image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuAmvG-cYlbOXonNTjOadXEQ0YVlyUbamAhskUSkbgyfRgvFFXtePvWSvLbeve7Wf7QnI1CCWuEpt4TldRRULw-Gf-60xJgBNzhXkkSsTZV-HvqhCDUV8fTbO9rpSXYv7xygS9m2mUkZ8XqM5h548nbDeE2P1wiiPO9FGLOAEQ--hsv7VqKuNFWdKrcgeekrf9v4p9ivRPMQQrtwkvp52alVey9sYkUiglQ1r26r9g2ewknQ9o0LqkaA',
+      '/demo-media/haus-space/haus-space-05.jpg',
     features: [
       '유기적 곡면 파티션으로 동선의 프라이버시 극대화',
       '음향 흡음 미장재를 통한 잔향 시간 0.4초 제어',
@@ -115,7 +115,7 @@ export const PROJECTS: ProjectItem[] = [
       '성수의 붉은 벽돌 질감과 현대적 미니멀리즘의 조화. 유연한 협업 공간과 프라이빗 포커스 룸을 유기적으로 배치.',
     materialsUsed: 'Architectural Concrete, White Oak, Steel Glazing',
     image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuD9fc1oLtmX_3lnxbsetu94zft9ujao4-KCPXFusb5SevtVLUkajRpAL7HbuZhoCYQ7iI253nurKtp07olXz_f2I0M-4-nRqtr3Zg9VqxyOapRK_PtgurKmsaYBTlXjUE7k63kBlYjIPRdT-PaDF-yWzR-CehoRoRAL8HgDTXXm7lZaeY8Mnsurc6kNo33M92qMZIElvTo730OpVCxVizQjpeWHx24EPn3UGRBcpcZ_3Y69ov-55qGZ',
+      '/demo-media/haus-space/haus-space-11.jpg',
     features: [
       '오픈형 워크스테이션과 8개의 독립 방음 미팅 부스',
       '인더스트리얼 노출 콘크리트와 따뜻한 화이트 오크의 대조',
@@ -141,7 +141,7 @@ export const PROJECTS: ProjectItem[] = [
       '북악산의 사계절을 품은 마당 정원 파노라마 뷰와 현대식 중정을 설계하여 자연과 건축이 호흡하는 독립 주거.',
     materialsUsed: 'Reynaers Aluminium, Smoked Oak, Granite Patio',
     image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuCNnIDThZHfMO_wZ4tvcWjlaIqPC1E_y1dG1qQWBK3j8j55-HyfIFkyi_TVwUpvil_rKZGeT49hoBTllzcmFu2W-7Yj4rSFUkgBAKY4NyJRmbrYu8DSzC6OMhnWdph6o67Jz7UW82KTfa9DlnWmPHEzOSbFy9iNTbrCeVDLykALWo7eY8g52p2NkDIf0WGd-5G_Y-ntcgn6j0-QuLHq9umE123K0UkVQrycSEybRZqEBFhy5lPsMOub',
+      '/demo-media/haus-space/haus-space-09.jpg',
     features: [
       '북악산 풍경을 프레임하는 벨기에 레이너스 3중 시스템 창호',
       '자연 화강석 파티오와 연결된 일본식 이끼 중정 정원',
@@ -165,7 +165,7 @@ export const MATERIALS: MaterialSpecimen[] = [
       '독일 친환경 천연 오일로 마감된 240mm 초광폭 원목. 습도 변화에 강하며 발끝에 닿는 온화한 질감을 선사합니다.',
     origin: 'Bavaria, Germany',
     image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuATv0UqVVfmZto8qohykEMb4n-R8GXxChVNS2x_udi0Y8TAV_jSCG84pjCoagwvpM5SQDvlv1wDv-Ia1d6iUoj64Tcv785tP8e9g_2WGFGQ7vpjz97q3M4N41zO0pHZ1ZcbCv2E60-YJJl6tscZzKx3LCo3GXI8UaK4VNfYQmb13jE8I6wmNDIl4GiJkX3t5Eq2pdohQXyqa-SIuWPwTfZQmKEJ0VJnq9c9okq_BUrNv4HDzag-zP3c',
+      '/demo-media/haus-space/haus-space-03.jpg',
     specsDetails: {
       grade: 'Select & Better Grade',
       finish: 'Natural Matte Hardwax Oil',
@@ -181,7 +181,7 @@ export const MATERIALS: MaterialSpecimen[] = [
       '로마 고전 건축의 품격을 담은 혼드 마감. 특유의 기공과 자연스러운 층상 구조가 실내에 안락한 조형미를 부여합니다.',
     origin: 'Tivoli, Italy',
     image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuCLqCyfLrxLo3Kb-m8lIGJmZyxpPtSkGoXlEKG42hqo5zayCnSxcYqHaHbFpZRDoY1daJVhJKvMX_j0_ESYKZ1sRaa-GLmFLWqsVjDwN4D9zJXXN38fsRH7uKNuOvWhJtPx8a58N11XPLgp_GBRjKh7j2gnvNrfn1H4yrvlZ10M3a5sv1lmRaYZSYIfMQj96rny737ho0NGnfTAWnctv9m3YFxtuCv3uR29FZ0E4UZJfW7a8U9lw2o5',
+      '/demo-media/haus-space/haus-space-08.jpg',
     specsDetails: {
       grade: 'Extra Prima Navona Vein Cut',
       finish: 'Honed & Filled (수작업 기공 메움)',
@@ -197,7 +197,7 @@ export const MATERIALS: MaterialSpecimen[] = [
       '프레임 두께 25mm의 극한 슬림 라인. 외부 풍경을 완벽한 한 폭의 회화처럼 내부로 끌어들이는 최고급 시스템 창호.',
     origin: 'Belgium / Switzerland',
     image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuB4ARAzD8iYp6y00j7fD9TRqW3o-HSrnFm6WMkxLrnKhccHbREUnP6ZA_MvZTD3ZLrGqoUPjToHXzj_DFwjC12zB87h6Exep2YDz3bpSCLuCtbJ41rtvL4Ps537TYf9g5A-3c1DoRHTWvjP-iamGyCmkI6GOxwn8Z5rqDmcZwVCj4xdGuH-UstuvnDgzULUCpAsoEDg-v22ZsShEuB8E7ouIAW_iObO8ZEoyCI3DkzW_GYV2Zg8QgdW',
+      '/demo-media/haus-space/haus-space-07.jpg',
     specsDetails: {
       grade: 'Hi-Finity Triple Low-E Glass',
       finish: 'Deep Bronze Anodized Hard Anodizing',
@@ -213,7 +213,7 @@ export const MATERIALS: MaterialSpecimen[] = [
       '눈부심이 없는 다크 라이트 기술과 연색성 Ra 98 이상의 고감도 LED. 밤의 공간을 갤러리처럼 연출하는 프리미엄 조명.',
     origin: 'Specs: Viabizzuno & Occhio',
     image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuAsCCkdWz6wn27m3WxkfYe_HO4DL9_Qk2xLH3JP1upZCyjK-WUXRtsb0clcCbe6hqoHaQ3Ac0hjM5oaM4iuWYcdqDosyqAVK6bXpxP0ovj0AnvC4-2Di1dEj2hrSfhsCpQZVMILtFtha1PsDbBZxvcNjF0uhJtQMEopyR30crZNoJWopmgAAZeCjxEuMSJ5PJk10asd8E6mCMrkSJIEYnQrKVWyM_d9SUTZD1nGRHLU6dBIU4s_yCIz',
+      '/demo-media/haus-space/haus-space-06.jpg',
     specsDetails: {
       grade: 'Museum Optical Grade CRI 98+',
       finish: 'Burnished Brass & Knurled Metal',

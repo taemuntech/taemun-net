@@ -329,13 +329,16 @@ const STALE_HARD_MS = 20_000;
 /**
  * 공개 화면(홈·포트폴리오·문의)이 쓰는 읽기.
  *
- * - 캐시가 **읽기 실패**를 담고 있으면 그대로 돌려준다. 다시 읽지 않는다 — 실패는 fail-closed 판정이라
- *   안전한 쪽이고, 여기서 한 번 더 읽으면 느린 DB 에서 한 장이 타임아웃 4초를 두 번 먹는다.
- * - 캐시가 성공이어도 **20초보다 낡았으면 버리고 지금 값을 읽는다**(위 STALE_HARD_MS 주석).
+ * - 캐시가 **읽기 실패**를 담고 있어도 20초 안쪽이면 그대로 돌려준다 — 실패는 fail-closed 판정이라
+ *   안전한 쪽이고, 곧바로 한 번 더 읽으면 느린 DB 에서 한 장이 타임아웃 4초를 두 번 먹는다.
+ * - 성공이든 실패든 **20초보다 낡았으면 버리고 지금 값을 읽는다**(위 STALE_HARD_MS 주석).
+ *   실패에도 같은 잣대를 대는 이유(실측 2026-09-17): 기한 없는 실패가 다음 프로세스로 새어, 찬 시작 뒤
+ *   **첫 요청 한 번**이 제안 시안의 첫 이미지에 404·0바이트를 내줬다(같은 주소를 바로 다시 부르면 200).
+ *   앞서는 그 자리가 촬영 썸네일 2장뿐이었지만 지금은 시안 본문 이미지가 이 게이트 뒤에 있다 —
+ *   영업 링크를 처음 여는 사람에게 그 한 번이 그대로 보인다. 낡은 실패는 지금 값으로 다시 판정한다.
  */
 export async function getState(): Promise<StateSnapshot> {
   const cached = await readStateCached();
-  if (!cached.ok) return cached;
   if (Date.now() - cached.fetchedAt > STALE_HARD_MS) return readStateForRequest();
   return cached;
 }

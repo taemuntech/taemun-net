@@ -14,7 +14,7 @@ export const PRODUCTS: Product[] = [
     badge: 'BEST SELLER',
     specHighlight: '압축 체적 18L',
     imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuD1Sn5i5aao214YinIoU7iwbGtbb8XNC82L1YfEvHenyi0YxdyddTbNWQ651Qkrr3twV1UVM9KeS4DIiHpJx1WWLFv6YMAz0xLc6RW3ksS6Cfs7pu6gEQcfOzXC5hCk2HhRyH4I8k468Blk4MSRQEndEAN2isEif6LrOIA3Hkbl8e7uqz_oSbvEyym0kJzgcDgiSTAk8oLIwnNeKd68ZRygKHVssKV29SbqjVGwYJ2ED4mkV7hbiaU4',
+      '/demo-media/nordic-peak/nordic-peak-04.jpg',
     imageAlt: '바르그 4.2 지오데식 돔 텐트',
     specs: [
       { label: '원단 내수압:', value: '5,000mm H₂O' },
@@ -41,7 +41,7 @@ export const PRODUCTS: Product[] = [
     weightTag: '1.4kg FEATHER-TARP',
     badge: 'SIL/PU 차광',
     imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuBMzymY8nURy_79JiR5yvTqIEoN-jnqDugf-3y6KJ-nsypXZN-BSJaHANylhYzY5EBEgZmtyF7Ahp6-2gYNoWKC6sZVcR9uP1006XUiwRpgF6j4tq_HxvugAaq7xpQM7tcONY8RQ8OgXZedDUr2Juyjg-aPTZVW4k-mrpsMLy1R0_oBSKkan7qdhKxim4SIxkWW9-nWg4ZZLRyF-XVsAm-dYgiyHtvs4RfphDnsduDSKNGKiH0xZTds',
+      '/demo-media/nordic-peak/nordic-peak-03.jpg',
     imageAlt: '에기르 헥사 옥타 실타프 5.0',
     specs: [
       { label: '원단 내수압:', value: '4,000mm 양면 실리콘' },
@@ -68,7 +68,7 @@ export const PRODUCTS: Product[] = [
     weightTag: '1,020g ULTRA-CHAIR',
     badge: '허리 지지 인체공학',
     imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDzIh-tJ22GLmungGY96fW49xPb43oWrPfnWfE8PoArwgxYhrGM0xrsFxzvbNofz64KIeUzBV8CYHW89VH_6tYa7h7AMGvO1nlrxqt47NFSMK4pTglOl83iKUZVXsMz0Y1lqtHbz51OyXiWGBdGDGW_pj1feKrQJROBVKY4BIf7s71FIch2i-SNkOaDv5XPqM3uJiWYawAA_z_3L2pCgbRZaaQv4-tQLhOcjM5_-D-_4jCLBiOik9Vy',
+      '/demo-media/nordic-peak/nordic-peak-05.jpg',
     imageAlt: '발할라 택티컬 하이백 체어',
     specs: [
       { label: '최대 지지하중:', value: '150 kg 공인 인증' },
@@ -95,7 +95,7 @@ export const PRODUCTS: Product[] = [
     weightTag: '230g GRADE-1 TITANIUM',
     badge: '초경량 순수 티타늄',
     imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuAtkvkbOH6R9RwsrR1jiCZBhnWrOjPDF2pHfoHlT7JpdvfjEUlYtsHAM2nLdc2Zhlbdkl6wybV5fea14g3rEQx8mIyjqYIOgHds7eazTEk33yepj2pGhjnRgte4zmBWgHST9OfViXD5ubKfoc60YZEYHoyuVjnOLgQlck8zYHhDwWWN4Mf0HMgmzeUS2z9uXvF4H5s8Y9aFxHFJNaaCpHChzScwaWO5wGq6RDHjVmx7dfxZsxSkt9UA',
+      '/demo-media/nordic-peak/nordic-peak-01.jpg',
     imageAlt: '미드가르드 티타늄 1,200ml 콤보',
     specs: [
       { label: '소재 등급:', value: 'Grade 1 순수 티타늄' },
@@ -113,7 +113,7 @@ export const PRODUCTS: Product[] = [
 ];
 
 export const BRAND_LOGO_URL =
-  'https://lh3.googleusercontent.com/aida/AEtjO1XQwLA0wnGvph9xSSb0ilYR_OPbrv0h8FTMj5GHFjBC_GOv8WSTrh7G9kOWSt5AuLmXyiI7h-WfiGNyDEapLLmcprfZ4T_E_31zVJPgdsyYxaSRG2YyPFLcDZBVK6OPcuw5XT42GteuYvKEwrpZU1a-8s77WwSOeNG41EFJhzRCZNsQUA2lqiUtFbJ8Y4kmI7zVyNb0mfzcqA4SA_xhNpDaLKEFt8O7UpHCRxQ8kFnx4LG5Src3a0uwjOc';
+  '/demo-media/nordic-peak/nordic-peak-06.png';
 
 export const HERO_BG_IMAGE =
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuBMeXCq2Hyj_BZoOENwBSRxvMTF8x1zQ5r72lt2KJJWJlkaWqDev4-O0yjeobSBQYV_qftasqjVF9TuxzgPB0HRcWyZ5wUG8aosySaf69hnNwViKd0RgqlRBm95EsEmOEse19Y_iJh80Y_nSHUoQ_6cvA47glF5GPmm7nzXzw12bKNBPtAG_QOStmLCPDW_OBvJHlMyPdyyTXIlZ8B5XqiJOu8rRkqCpKT11xQ3m4c23ULsj6Hpznsk';
+  '/demo-media/nordic-peak/nordic-peak-02.jpg';

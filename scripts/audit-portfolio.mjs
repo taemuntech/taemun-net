@@ -79,6 +79,8 @@ if (argv.includes("--help") || argv.includes("-h")) {
   - 실존 기관·기업·매체 이름 · 실존 저널 접두사를 쓴 DOI · 조회 가능한 식별번호(사업자등록번호·종목코드·등록번호·면허번호)
     → kind=sample(가상 브랜드)에서 ERROR, kind=proposal(그 회사 자신의 정보)에서는 WARN
   - 데모가 참조하는 /public 파일이 proxy 의 matcher 밖(내려도 그대로 열린다 — 태문 자체 자산 /images·/fonts 는 제외)
+    · kind=sample 이 **자기** /demo-media/<자기 slug>/ 에 둔 이미지는 면제(일부러 게이트 밖 — CDN 이 바로 내준다)
+    · kind=proposal 은 면제 없음 — /demo-media/ 에 두면 그대로 ERROR (private-assets/portfolio/<slug>/ 로)
   - kind=sample 데모의 기기 전환 툴바 client= 에 가상 브랜드 표시가 없음(툴바가 「클라이언트: …」로 찍는다)
   - 폼인데 SampleNotice 를 렌더하지 않음(같은 샘플의 다른 파일이 열어도 — onSubmit 을 props 로 받는 폼만 WARN)
   - SampleNotice 의 open 상태를 true 로 만드는 setter 호출이 없음
@@ -622,6 +624,24 @@ function scanCopyForImpersonation(key, textLines, { impersonation = error, repor
  * 그 외의 파일(데모가 들고 온 영상·스크린샷)은 matcher 안에 있어야 한다 — 없으면 내려도 그대로 열린다.
  */
 const SITE_OWNED_PUBLIC_PREFIXES = ["/images/", "/fonts/", "/favicon"];
+
+/**
+ * 가상 브랜드 샘플(kind=sample)이 **자기** 이미지를 두는 자리 — public/demo-media/<자기 slug>/.
+ *
+ * 일부러 게이트 밖에 둔다. 지어낸 브랜드라 내려도 이미지가 남아 곤란할 일이 없고, 이 앞자리는
+ * proxy matcher 밖이라 CDN 이 바로 내준다. 한 데모에 이미지가 30장인데 전부 /api/asset 을 거치면
+ * 지면이 느려지고 함수 호출이 장당 한 번씩 난다(실측 2026-09-17: 이 자리 212장·8.49MB).
+ *
+ * ⚠️ **실존 업체 제안 시안(kind=proposal)에는 면제가 없다.** 회사 이름이 걸린 시안은 항의가 오면
+ *    이미지까지 같이 404 가 돼야 하므로 private-assets/portfolio/<slug>/ 에 두고 /portfolio/<slug>/ 로
+ *    참조한다. 아래 검사는 proposal 에서 이 앞자리도 그대로 ERROR 를 낸다.
+ *    (실측 2026-09-17: sample 을 private 로 내리면 주소는 307 인데 /demo-media/ 이미지는 200 으로 남았고,
+ *     proposal 을 private 로 내리니 /portfolio/<slug>/ 이미지가 5장 다 404 였다. 그 차이가 이 규칙의 근거다.)
+ * **남의 slug 폴더는 면제하지 않는다** — 자기 폴더만 쓴다(면제를 앞자리로만 주면 제안 시안 이미지를
+ * /demo-media/ 아무 데나 두고 빠져나갈 길이 생긴다).
+ */
+const SAMPLE_MEDIA_PREFIX = "/demo-media/";
+
 /** 데모 소스에 적힌 정적 파일 주소 */
 const PUBLIC_ASSET_REF = /["'`](\/[a-z0-9][a-z0-9._-]*(?:\/[a-z0-9][a-z0-9._-]*)+\.(?:mp4|webm|mov|png|jpe?g|webp|avif|gif|svg|pdf|ico))["'`]/gi;
 
@@ -636,6 +656,89 @@ const PROXY_MATCHER_PREFIXES = (() => {
     return null;
   }
 })();
+
+/**
+ * protected-assets.ts 의 COMPANY_ASSET_OWNERS(업체 원본 이미지 폴더 → 작업물 slug)를 읽는다.
+ * 이 스크립트는 .ts 를 import 할 수 없어 글자로 읽는다 — 못 읽으면 null 이고, 부르는 쪽은
+ * 「첫 칸이 곧 slug」라는 느슨한 규칙으로 물러선다(없는 규칙을 지어내 거짓 ERROR 를 내지 않으려고).
+ */
+const COMPANY_ASSET_OWNERS = (() => {
+  try {
+    const src = stripComments(fs.readFileSync(path.join(ROOT, "src", "lib", "portfolio", "protected-assets.ts"), "utf8"));
+    const block = /COMPANY_ASSET_OWNERS\s*:\s*Record<[^>]*>\s*=\s*\{([^}]*)\}/.exec(src);
+    if (!block) return null;
+    const out = {};
+    for (const m of block[1].matchAll(/["']?([A-Za-z0-9._-]+)["']?\s*:\s*["']([^"']+)["']/g)) out[m[1]] = m[2];
+    return out;
+  } catch {
+    return null;
+  }
+})();
+
+/**
+ * 홈 갤러리 카드(galleryData.ts)의 썸네일이 **kind 에 맞는 자리**에 있는가.
+ *
+ * 왜 따로 도나: 자리 검사(scanFile)는 데모 **폴더**만 돈다. 카드 썸네일은 이 파일 한 곳에 모여 있어
+ * 그 검사에 한 번도 걸리지 않았다 — 제안 시안 썸네일을 /demo-media/ 에 두어도 「ERROR 0 · exit 0」이
+ * 나온다(실측 2026-09-17: 제안 시안 3장이 규칙에 맞은 건 기계가 막아서가 아니라 손으로 맞춰서였다).
+ *
+ * 판정 기준은 카드 JSON 의 kind 다(화면 검사와 같은 잣대):
+ * - **proposal** — 실존 업체 이름이 걸린 시안이라 썸네일도 상태를 따라야 한다. /portfolio/<slug>/ 또는
+ *   그 시안의 업체 폴더(COMPANY_ASSET_OWNERS)만 허용하고, proxy matcher 밖이면 ERROR.
+ * - **그 외(sample·service·카탈로그 카드)** — 지어낸 브랜드라 내려도 곤란할 일이 없다. /demo-media/ 와
+ *   태문 자체 자산(/images/ 등)이 제자리고, 게이트 안에 두면 장당 함수 호출이 나므로 WARN 만 남긴다.
+ */
+function scanGalleryThumbnails(key, gsrc) {
+  const lineOf = lineIndexer(gsrc);
+  const kindOf = new Map(cards.map((c) => [c.slug, c.item?.kind]));
+  const arrStart = gsrc.indexOf("GALLERY_PROJECTS");
+  if (arrStart < 0) return;
+  const region = gsrc.slice(arrStart);
+  const starts = [...region.matchAll(/^ {2}\{\r?$/gm)].map((m) => m.index); // CRLF 저장본에서도 카드 경계를 찾는다
+  for (let i = 0; i < starts.length; i += 1) {
+    const chunk = region.slice(starts[i], starts[i + 1] ?? region.length);
+    const tm = /thumbnailUrl\s*:\s*["'`]([^"'`]+)["'`]/.exec(chunk);
+    if (!tm) continue;
+    const url = tm[1];
+    const at = `${lineOf(arrStart + starts[i] + tm.index)}행`;
+    const live = /liveDemoUrl\s*:\s*["'`]([^"'`]+)["'`]/.exec(chunk)?.[1] ?? "";
+    const slug = live.startsWith("/demo/") ? live.slice("/demo/".length).replace(/[/?#].*$/, "") : "";
+    const kind = slug ? kindOf.get(slug) : undefined;
+
+    if (/^https?:\/\//i.test(url)) {
+      // 데모 소스 쪽과 같은 이유의 경고다 — 남의 호스트라 만료되면 홈 첫 화면이 예고 없이 빈다(실측: 404 2건).
+      warn(key, `${at}: 썸네일이 외부 호스트 직접 참조입니다 「${url.slice(0, 80)}」 — 내려받아 ${kind === "proposal" ? `private-assets/portfolio/${slug}/` : "public/demo-media/"} 로 옮기세요`);
+      continue;
+    }
+    if (!url.startsWith("/")) continue;
+
+    if (kind === "proposal") {
+      const first = url.split("/").filter(Boolean)[0] ?? "";
+      const ownedFolder = COMPANY_ASSET_OWNERS ? COMPANY_ASSET_OWNERS[first] === slug : first === slug;
+      const inOwnPortfolio = url.startsWith(`/portfolio/${slug}/`);
+      const gated = !PROXY_MATCHER_PREFIXES || PROXY_MATCHER_PREFIXES.some((p) => url.startsWith(p));
+      if (!(inOwnPortfolio || ownedFolder) || !gated) {
+        error(
+          key,
+          `${at}: kind=proposal 인 「${slug}」 의 썸네일이 「${url}」 입니다 — 실존 업체 시안이라 항의가 오면 이미지도 같이 404 가 돼야 합니다. ` +
+            `private-assets/portfolio/${slug}/ 에 두고 주소를 /portfolio/${slug}/<파일> 로 바꾸세요(업체 원본 이미지 폴더를 쓰면 protected-assets.ts 의 COMPANY_ASSET_OWNERS 와 proxy matcher 에 한 줄씩 추가)`,
+        );
+      }
+      continue;
+    }
+
+    if (SITE_OWNED_PUBLIC_PREFIXES.some((p) => url.startsWith(p))) continue; // 태문 자체 자산(로고·목업)
+    if (url.startsWith(SAMPLE_MEDIA_PREFIX)) continue;
+    if (PROXY_MATCHER_PREFIXES?.some((p) => url.startsWith(p))) {
+      warn(
+        key,
+        `${at}: 가상 브랜드 카드인데 썸네일 「${url}」 이 게이트(proxy matcher) 안에 있습니다 — 내려도 곤란할 일이 없는 이미지라 장당 함수 호출만 더 납니다. public/demo-media/${slug || "gallery"}/ 로 옮기는 편이 빠릅니다`,
+      );
+      continue;
+    }
+    warn(key, `${at}: 썸네일 「${url}」 이 정해진 자리 밖입니다 — 가상 브랜드 카드 썸네일은 public/demo-media/ 아래에 둡니다`);
+  }
+}
 
 const buttonTexts = (src) =>
   [...src.matchAll(/<button\b(?:=>|[^>])*>([\s\S]*?)<\/button>/g)].map((m) => ({
@@ -903,11 +1006,15 @@ function scanFile(full, { isPage, slug, card, slugRendersNotice, kind }) {
   // ── 데모가 들고 온 정적 파일이 게이트 밖에 있는가 ──
   // 데모를 내려도 그 데모의 영상·스크린샷이 200 으로 그대로 열리면 내린 의미가 없다(실측: /videos/*.mp4).
   // 판정 기준은 proxy 의 config.matcher 다 — 거기 안 걸린 주소는 상태를 아예 안 본다.
+  // kind 는 카드에서 온다 — 못 읽으면 가장 엄한 쪽(proposal)으로 다룬다(gate.ts·/api/asset 과 같은 규칙).
+  const assetKind = kind ?? card?.kind ?? "proposal";
   if (PROXY_MATCHER_PREFIXES) {
     for (const m of src.matchAll(PUBLIC_ASSET_REF)) {
       const url = m[1];
       if (SITE_OWNED_PUBLIC_PREFIXES.some((p) => url.startsWith(p))) continue; // 태문 자체 자산(로고·폰트)은 남아야 한다
       if (PROXY_MATCHER_PREFIXES.some((p) => url.startsWith(p))) continue;
+      // 가상 브랜드 샘플이 자기 폴더에 둔 이미지는 면제 (위 SAMPLE_MEDIA_PREFIX 주석 — proposal 은 면제 없음)
+      if (assetKind !== "proposal" && url.startsWith(`${SAMPLE_MEDIA_PREFIX}${slug}/`)) continue;
       error(
         key,
         `${lineOf(m.index)}행: 「${url}」 는 proxy 의 matcher 밖입니다 — 이 데모를 내려도 파일은 200 으로 열립니다. ` +
@@ -1089,8 +1196,11 @@ const GALLERY_DATA_SEVERITY = "warn";
   const galleryFile = path.join(ROOT, "src", "lib", "portfolio", "galleryData.ts");
   if (fs.existsSync(galleryFile)) {
     const sev = GALLERY_DATA_SEVERITY === "error" ? error : warn;
-    const textLines = stripCommentsForText(fs.readFileSync(galleryFile, "utf8")).split(/\r?\n/);
-    scanCopyForImpersonation(`갤러리 카드 ${rel(galleryFile)}`, textLines, { impersonation: sev, report: sev });
+    const gsrc = fs.readFileSync(galleryFile, "utf8");
+    const textLines = stripCommentsForText(gsrc).split(/\r?\n/);
+    const galleryKey = `갤러리 카드 ${rel(galleryFile)}`;
+    scanCopyForImpersonation(galleryKey, textLines, { impersonation: sev, report: sev });
+    scanGalleryThumbnails(galleryKey, gsrc);
   }
 }
 

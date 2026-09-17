@@ -9,7 +9,7 @@ export const Footer: React.FC = () => {
           <div className="lg:col-span-5 space-y-3">
             <div className="flex items-center gap-3">
               <img
-                src="https://lh3.googleusercontent.com/aida/AEtjO1VmxE1YrHr6FSfXDIw14QsD1V3JIe0Ck4q3cfeFVfd4EbLtTBx7_KadPpwjs0q1KHmbRMpjVCfbhWsZOT2tv0EPXTdBRIOhEnhS5jvTk55yKbi-kook61H20rogooepq7PkV_QfZtyE2BbpjP-ve486vVVQOYKRcagqCyo2ljD2yhnvudc8Ssbr1972RWC-7QWDitjVDML6VeY1kSbqkn6RMgUa1TPZbMXG8_udOA90Slp6SrdSPIaSkpw"
+                src="/demo-media/verde-gourmet/verde-gourmet-08.png"
                 alt="VERDE GOURMET Brand Logo"
                 className="w-8 h-8 rounded object-contain"
               referrerPolicy="no-referrer" />

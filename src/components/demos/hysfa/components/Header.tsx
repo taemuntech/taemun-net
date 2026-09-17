@@ -58,7 +58,7 @@ export const Header: React.FC<HeaderProps> = ({
           id="header-logo-link"
         >
           <img
-            src="https://lh3.googleusercontent.com/aida/AEtjO1VoD4MqABsrMBYBo4Yu339j1jjM1U5HrQlEzz4QN50zYzjdhtFGrSztOLgc5S0rt28pObEgUfkvXWajWlddUK31QyWl145T7hRTLzC6P8bauylv0S1CRwxcoDDIDqzBbfx-hkCt86rPHlILtd4CrUnXgsHvtfcOvaoII3Ja09cuNSvetnwf84Pj6VYISsqOsE_fUV72og6gUP0gKwMw6ZooEy_O6xKJ-rewn_NzO_NZc6dUOjVRhvHsShE"
+            src="/portfolio/hysfa/hysfa-02.png"
             alt="HANYANGSYSTEM Logo"
             referrerPolicy="no-referrer"
             className="h-10 w-auto object-contain transition-transform duration-200 group-hover:scale-105"

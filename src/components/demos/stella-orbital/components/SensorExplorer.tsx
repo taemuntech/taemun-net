@@ -21,8 +21,8 @@ const SENSOR_IMAGE_CROP: React.CSSProperties = {
   transformOrigin: 'right center',
 };
 
-export const SENSOR_DISPLAY_IMG = "https://lh3.googleusercontent.com/aida-public/AB6AXuC4KA1dVMfjVmnCBnY3opYcfhDjf6FMDgrM_fmflYxg7r2SZKB3r5LLIuX2XlMLFbjEGuTjYT6CgiP1J8ws3e0wDKbvKZZ0NsVC08I1ov5EpFTVww2uGzmgoZkUOxisrhw7X8l34OVk1Gx8B9rGEOa2FnyXNGm02-E5LlC5-CvJfInsDpckzbEXiAF-AJTpJb9bgYI5KunR5EKB6WrNj1SG_XTxvsxdA6eWzEs-PIATYa6_pJQaaaHz";
-export const SENSOR_HYPER_IMG = "https://lh3.googleusercontent.com/aida-public/AB6AXuAONxcUKaLT_msE-aP-YygIZmLyxk60RldiVGDw2i4rmsRKToTwfYmY1TcWlmnGqnSGKrlVAExUUTRMFBQbic0GAU-Fr0hMENLyeeLtQszl4b2AN9rcFkhBDlBmugxuvQUsoBR9iJhEBnBQK7bGxsevjWFLscjCbois_4jc732Jm2m68ubxSIvrM9Cua4TDAwavEVWwuQPJ1dEywYldL1aVLH_x5L2M96YVXl-lqEor9SK3PLZksUBk";
+export const SENSOR_DISPLAY_IMG = "/demo-media/stella-orbital/stella-orbital-03.jpg";
+export const SENSOR_HYPER_IMG = "/demo-media/stella-orbital/stella-orbital-02.jpg";
 
 const SENSOR_MODES: Record<SensorModeKey, SensorSpec> = {
   optical: {

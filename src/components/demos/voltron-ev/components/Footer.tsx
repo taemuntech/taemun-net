@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
           <div className="flex items-center gap-3">
             <div className="w-6 h-6 rounded border border-[#00e5ff]/40 p-0.5 bg-[#1d2025]">
               <img
-                src="https://lh3.googleusercontent.com/aida/AEtjO1Vfapt3CAgxnMQ5fSg-h_yZdJQOjQiRF3FYJvRx9sRg16uGwVJ9hzT3XgtCKxbyWON1K3Tcy4ewnGBKyoVkzZp99aP5Vwd8CrEoiWQUch8Qdn6MYbpoAI3x29LlTPM1_Mpj8zD7CMBfB4rD7JFZTbGSYPlXdlPcRTQTMy1NNB6snxpIx99ohMowlH4hsbfQ_5CSKL4sLkwNia7jMdta5W7_2P1CXZqyz7c5F2eTWJqJQvmPEUKXlnIa5w"
+                src="/demo-media/voltron-ev/voltron-ev-02.png"
                 alt="VOLTRON Logo"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-contain"

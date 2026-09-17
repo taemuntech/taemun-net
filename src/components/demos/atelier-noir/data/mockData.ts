@@ -1,8 +1,8 @@
 import { Product, StreetSnap, LookPiece, CartItem } from '../types';
 
-export const LOGO_IMG = 'https://lh3.googleusercontent.com/aida/AEtjO1ViHAzv9fJKHryeTycJMfsSLsSkUpe77ogA6OpnFfBQuxZSRrzkjidGvwm6uAB9iJSGSjGuaO5ZBK7oW7fLeGE3ah4OnWFGk_U4g8gJrrqlyCArdIVvV4fUttzOlKStQ9jom8n5__EJUJ2vMhkr-ks22Ss9xp3lgvJ42GFQbc2u5M8HLoqiOaMRQWOu-AZGV9jevhlWStsnNRtjpTd1aHZTN8g8B1fdii2mn1dt9qC6xQP2IxF6Z6c7Te8';
+export const LOGO_IMG = '/demo-media/atelier-noir/atelier-noir-21.png';
 
-export const HERO_RUNWAY_IMG = 'https://lh3.googleusercontent.com/aida-public/AB6AXuD-dtknuyBxqWqoDO2WD5FfQSpKwSH3JcoXFfAlz77N0EPzdYvqlW9kDhoOKa79Al96jiKqTjgI4N58kLtTAP61nClqAAMkeX-a6z-tbbA2rJnNn5Y98J2GL_fTDkKk82bl-dSi1AE6bZKmpT31jeq7XBZvnJh-vLV9dJxEHrdB-FHp-8EpJxL6U2TIYTkMIBY4HjXhsOXPf54kxhewQNxTWvwT6Xbv48nGYQJqoroRGVXeUCmrNLW3';
+export const HERO_RUNWAY_IMG = '/demo-media/atelier-noir/atelier-noir-12.jpg';
 
 export const LOOKBOOK_PIECES: LookPiece[] = [
   {
@@ -13,7 +13,7 @@ export const LOOKBOOK_PIECES: LookPiece[] = [
     price: 348000,
     discountRate: '32% OFF',
     position: { top: '32%', left: '46%' },
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAA-UqSOib9rZFMGqzvN1XQ4egoFdSF6Hcy8n7X7iFwrpvs0LrDm-jktA6kwMDwwaH0tmUElqWn4xRSf7EmO7tML21DdM9N_uQG_q8n6i7BZ0zay0l46HD49NcvzfVEkF8boKV3gakMhK6JRhjoOn34gAjIfGcJYPe0dwgvagb6HG14Snos6ml9OIah2qdyccYMpwLXHU4TtMCGcaTN0vq9Yl8R2OFfgxRz_mGAubWeCV09iAOcBPW0',
+    image: '/demo-media/atelier-noir/atelier-noir-01.jpg',
   },
   {
     id: 'look-piece-2',
@@ -23,7 +23,7 @@ export const LOOKBOOK_PIECES: LookPiece[] = [
     price: 178000,
     discountRate: '15% OFF',
     position: { top: '68%', left: '49%' },
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD4hzLTOxEbHfDezxco-Ukebd-hrW8ampocQnMor2RhbB2G7fkB8j7BPWmWpijYPd9GPtiWiRZIW4tdpZ3W6uI-leaCHj7Olbn_uBO13sK2AbYYT_7xZ0iV_bMBIsDqBJzMpj97J7ctUjlOFhjm8ciAYGe_WYGbfYz43rDxu9n_WvgJcwiaKPhrDrlu7P29vaIfoHj0J5dwr2hP7fjpkrKYfMBnzB760oJs9xcSRrL57nfHcdZHm3YM',
+    image: '/demo-media/atelier-noir/atelier-noir-13.jpg',
   },
 ];
 
@@ -38,7 +38,7 @@ export const PRODUCTS: Product[] = [
     discountRate: '32% OFF',
     badge: '오늘출발 (14:00 마감)',
     badgeType: 'primary',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAA-UqSOib9rZFMGqzvN1XQ4egoFdSF6Hcy8n7X7iFwrpvs0LrDm-jktA6kwMDwwaH0tmUElqWn4xRSf7EmO7tML21DdM9N_uQG_q8n6i7BZ0zay0l46HD49NcvzfVEkF8boKV3gakMhK6JRhjoOn34gAjIfGcJYPe0dwgvagb6HG14Snos6ml9OIah2qdyccYMpwLXHU4TtMCGcaTN0vq9Yl8R2OFfgxRz_mGAubWeCV09iAOcBPW0',
+    image: '/demo-media/atelier-noir/atelier-noir-01.jpg',
     altText: '오버사이즈 블랙 울 캐시미어 더블 블레이저 룩북',
     colors: ['#0C0D0E', '#27272A'],
     category: '아우터 (OUTER)',
@@ -52,10 +52,10 @@ export const PRODUCTS: Product[] = [
       { size: 'XL (105-110)', shoulder: '56 cm', chest: '65 cm', sleeve: '67 cm', length: '80 cm', stock: '품절임박' },
     ],
     thumbnails: [
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuBIKa9ooLaP9VVxih9kneXUrlq0OnPuyS9Xx34o6Mm2Ok9KXYARMRg1T41Z4p3O7lLtbEAOS1RmJxv2jnPF4Hy3tIcHzSVsGR3DRhTA7zJQE0XLocSn8jAAD0LU7WTtVa3fyK06WX98nFdogAueBJuQhPwiQ_yE7roBZAqhWZ-f0V_7NneKrP9rkfi3AwjpY-qV58tU9rq_sudf1qDM2KcUxA3lnRILx9hdnVT2svsP60ah2BZJv6Uw',
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDE0p3rlPqKlwPw7V0lTWkn4UxMtnRZqs3jgWM2xEMCMy_yAijFU0vGZWdpuXcnkOv5Sx00UAUC-kmbBywdCZ3UOj8XYKKVCNsICB2PbEbHDBmBbLzo8TozgwHcJ71rZsuCMcax6_ELa-6MVGD2zX-cL09ghHoKZHTecekq3ar2P7cZWjpnKOETI1eisUoMFc2gCo99jPh5dyOe_Jb_Kutt0-EdHOIFHLqdvLN81-oXCGz7sh19btmL',
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDnDZBOhkaFpLVDJJxC0wYUUAKui9V6AyMOkDbt1QBN-S_6dFAU-eyDkGpGHwN6hp0Se7K0D2U9XhxVxJBlGVQTZXj7x5NBgXKpWu1LPP16SC1jZALHvCxgc64ZOgc-Mmlj57M4gXrQFMdINCkU73nhdhcGEMk9ffzbXsyKoOTqdujia4r9h2LguVHS0JjbkTjT4o_CwgxuYr5jykUYuHdNIvV6iv0h9s_vFndWUKIV4rOCCrlcIV3K',
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuArV8Pno5ETDwgDQTkLZSLvyWXqydUVSF9C8XGs6TfYE2u8Cic3CIAqw0x0_CVoxg5emU1DLoUegbCBVQJI-mEIznP9gXtcvMH8iR0RUDwWbdLxedaOcBwr5D16bQKMuYXN965AQeH1hgUXTR6a8lfmIbqbg30spbBCHZ5H9BVN_kujPmFA4uW4sEoshx_Wj2q9aJhqJzduHXugpRXLJj8Ui78sPnPNnbCo8sGZCK351bAgEoypHxV6',
+      '/demo-media/atelier-noir/atelier-noir-08.jpg',
+      '/demo-media/atelier-noir/atelier-noir-14.jpg',
+      '/demo-media/atelier-noir/atelier-noir-19.jpg',
+      '/demo-media/atelier-noir/atelier-noir-04.jpg',
     ],
   },
   {
@@ -68,7 +68,7 @@ export const PRODUCTS: Product[] = [
     discountRate: '25% OFF',
     badge: '무료반품 안심케어',
     badgeType: 'outline',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD4hzLTOxEbHfDezxco-Ukebd-hrW8ampocQnMor2RhbB2G7fkB8j7BPWmWpijYPd9GPtiWiRZIW4tdpZ3W6uI-leaCHj7Olbn_uBO13sK2AbYYT_7xZ0iV_bMBIsDqBJzMpj97J7ctUjlOFhjm8ciAYGe_WYGbfYz43rDxu9n_WvgJcwiaKPhrDrlu7P29vaIfoHj0J5dwr2hP7fjpkrKYfMBnzB760oJs9xcSRrL57nfHcdZHm3YM',
+    image: '/demo-media/atelier-noir/atelier-noir-13.jpg',
     altText: '차콜 그레이 딥 플리츠 와이드 플루이드 트라우저',
     colors: ['#1F2021', '#E3E2E3', '#3B4228'],
     category: '하의 (BOTTOMS)',
@@ -92,7 +92,7 @@ export const PRODUCTS: Product[] = [
     discountRate: '18% OFF',
     badge: 'EXCLUSIVE DROP',
     badgeType: 'primary',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB1htQ8jUTfeVOxbvFI16X4s2fb2-cOtUS49n-qmb0V4s7Lcwhu3QARZbDxeyV-2cXSRnhh_DbkI2uXeMa98T9F3G7R1YhUczUUOfmVYBWZS2mkqYYmYSQIrhMYGRLDU4Tg981oGChnZxcKZSMx8zaC7JBm4xVMZJsEC0skMFqJatncLgDajEJVXWtzm3EVthJ5_rD5FAu2K8ZHSYK9Cxupm61EDWR2hu0uR4qa1lqxrx6xT-lij-8t',
+    image: '/demo-media/atelier-noir/atelier-noir-05.jpg',
     altText: '미래지향적 테크니컬 아시메트릭 나일론 윈드브레이커',
     colors: ['#0C0D0E'],
     category: '아우터 (OUTER)',
@@ -111,7 +111,7 @@ export const PRODUCTS: Product[] = [
     discountRate: '20% OFF',
     badge: '오늘출발 (14:00 마감)',
     badgeType: 'primary',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBpYT4L4RvUb1-QoILsyLrmJD6ppOaKNDdWg_rJfafhWzgC8IdmLJdaOkB8X58mVblpbJHd1850Th0g4ZNQskhzlQjCm5YyW4BdJVvOz14L9QVR9gytzmyx2IGDQqzZo8XCTc5e-X3FtO0o6G_SjLgPqkZQKzamojvWWQlz6HBOg-xIaCtIanNgmYS-CaRXYCwL7udY6lZjFGQySDsBdhEcqFHPHy5rGA-LmD_2y2p9TX1QVniTLnSs',
+    image: '/demo-media/atelier-noir/atelier-noir-10.jpg',
     altText: '아이보리 베이비 알파카 립 니트',
     colors: ['#E3E2E3', '#71717A'],
     category: '상의 (TOPS)',
@@ -129,7 +129,7 @@ export const PRODUCTS: Product[] = [
     discountRate: '40% OFF',
     badge: '무료반품 안심케어',
     badgeType: 'outline',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDTwVcEJkMuBMVNslNnOKzG30qNVmjvqNGaA5ec1ru2BC3P9UnbadeYyEDM-fLmBV7-CLKpLpIuFQnDQoxpoZ82DFlSbpyOPGp56aHJWKcr0zabXzJ54VuS8bsxB9H6_apMAEJzw5gegDqnoFAvOR45fsX2XeW6GY_GJ9muGgYCBJrz2JA13WjLxX26Ww-oMWDSIMOusquKO1tLFCzyfuqCHZKGJOEOabsMjVFQRsvjwTvrPrs9fk9o',
+    image: '/demo-media/atelier-noir/atelier-noir-16.jpg',
     altText: '블랙 비건 레더 오버사이즈 라이더스 자켓',
     colors: ['#0C0D0E'],
     category: '아우터 (OUTER)',
@@ -147,7 +147,7 @@ export const PRODUCTS: Product[] = [
     discountRate: '15% OFF',
     badge: '단독 200점 리미티드',
     badgeType: 'primary',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB87FrfDuQGThl4_KP9H1ZmRBaMYhqeX-E7mQ5b3QSmPC-OFuVq_gIBMzgKOgYiN_SjCsjrYFZukxsctgR1UVF6hRUfmCTadcJxllhiG1L4DTu2McPLBkkBNgq1OltZ-qIRoVRngtUf3MfPkf7x41jVKjuKNlZx8GhvEbkfgax0ZYLvWup11NQkNAlG3VmxsZBx65ccf8azARolDNCIRg-FUgKq1HtcN6xuGEHqrvXHG7OwNhftEjvl',
+    image: '/demo-media/atelier-noir/atelier-noir-06.jpg',
     altText: '포레스트 올리브 라글란 발마칸 울 코트',
     colors: ['#3B4228', '#0C0D0E'],
     category: '아우터 (OUTER)',
@@ -165,7 +165,7 @@ export const PRODUCTS: Product[] = [
     discountRate: '10% OFF',
     badge: '무료 교환/반품 안내',
     badgeType: 'outline',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAfoARWt9XUh0bz7NsrcHamydqBxr2xZdlBjLD25VokoNbFwGr_emc2on4Fst-eBUzidJIPjfMn3LEqRxcs2vaSwgZpF8qOGzBEuYIo95eiDZ89JVf_Zyv6KJse9TU5Gskav3eybgtqfuhM2KTv-tXex5OnA5ZMs9oq_dRFSAE5E8WqVmsHigHIcULq97C3tKqpDCw-2z2o7DXgnboGlVLr8luOXFUJlHSuANqXyFG0FbAGlJPod6NR',
+    image: '/demo-media/atelier-noir/atelier-noir-03.jpg',
     altText: '스퀘어토 블랙 박스 카프 레더 더비슈즈',
     colors: ['#0C0D0E'],
     category: '슈즈 (FOOTWEAR)',
@@ -183,7 +183,7 @@ export const PRODUCTS: Product[] = [
     discountRate: '28% OFF',
     badge: 'EXCLUSIVE',
     badgeType: 'primary',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCmNWR_o0pvtmUWQwdTv5pB67QQlQl0-Q2gKGnqZf-igMm-98F3OGCo1Q3_AOwu79wkPchKXU1mtxU9xPdcWjgqCjoRXVucP82UTM4oxfFXJnq2-LfS1nkNUsQq0U4fWpge9OFWrYWzpHpxZYLsC0uBmboCKp1ougpK0BEbXG5hMjfdZNPEtIsP44Mse1QiMitQv52qdQzW7TYPIYSLNhORi3b34ULJ-fp_VcSGISNt7U0lYcSaV89t',
+    image: '/demo-media/atelier-noir/atelier-noir-11.jpg',
     altText: '구조적인 매트 블랙 지오메트릭 카프 레더 토트백',
     colors: ['#0C0D0E', '#27272A'],
     category: '잡화/가방',
@@ -201,7 +201,7 @@ export const STREET_SNAPS: StreetSnap[] = [
     curator: '크루 A (예시)',
     bodySpec: '184cm / 72kg',
     taggedCount: 3,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBeFShhIaZk9ODfzJVseO2T0rtOmwBozGdj9-4maWru4FagM-ivDkb052v4w0k2mt5QIKgcqrQKPf_5hZ1QN9ptoRn9JCx_qXxZJiIhD4wDgLpTlL7QLE6C7XXkla64GQt-x_ef1mEttPvBQPZOcDS_GEFelMD18TcipoRhnWCvinPkKGgMVVc3owClvgBYDZ4sRDubwoo9DMEJeNVdVX3taeCre76p-xl6SoGHZ9L0U-c4WlzNIZjC',
+    image: '/demo-media/atelier-noir/atelier-noir-09.jpg',
     altText: '성수동 스트릿 오버핏 블레이저 룩',
     taggedProducts: [
       { name: 'BRAND A (예시) 오버핏 블레이저', price: 348000, tag: 'OUTER' },
@@ -216,7 +216,7 @@ export const STREET_SNAPS: StreetSnap[] = [
     curator: '크루 B (예시)',
     bodySpec: '178cm / 68kg',
     taggedCount: 2,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAdnMpSUtk-W33DKAzLRqYgIH3YCEICXbCBYvXZkA_HgtTr-ir1ViGvGaSnQG9tIRtAre1CP8TEPeMP-EwUjhZF-WlAXauTZJbTKYnoOY-uPGfuoUWWvLTIXgJAJQflZFVLhxMBlCDJonj5KIHlikYe-HTusVItQi1zNDFZSztDKotYryHJMO4NnbAwTJRHrCCQgTkb4PnUMFvwEOoD618iaIFlhoOT0_lr__ZchR5LhJCk3vraD1nQ',
+    image: '/demo-media/atelier-noir/atelier-noir-02.jpg',
     altText: '한남동 카페거리 발마칸 코트 룩',
     taggedProducts: [
       { name: 'BRAND F (예시) 라글란 발마칸 코트', price: 680000, tag: 'OUTER' },
@@ -230,7 +230,7 @@ export const STREET_SNAPS: StreetSnap[] = [
     curator: '크루 C (예시)',
     bodySpec: '171cm / 50kg',
     taggedCount: 4,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDhZxQelb1oRmajQfg_ch0NFr-SWeZCKzvDlvIwE3hRdIoq4QcXASRluox7Uag5YFA4jyNWDYyK5ogLlPgOuBXa70hFE1L7GdauUFG0D7hB_DLz-MTQHMz-zXvS8H-f9CVy-z7a1ErU7ZmCU9p2rtBuok8ECyu189wxo4gqCyrjUkbzcHeIXZNZmBTTTokRotEvkkuKxExd0inTg3ORHlIxnUGlXzdZu1SgBmABco7RjutpcSWdLHvq',
+    image: '/demo-media/atelier-noir/atelier-noir-18.jpg',
     altText: '도산공원 플래그십 스토어 테일러드 앙상블',
     taggedProducts: [
       { name: 'BRAND A (예시) 더블 브레스티드 자켓', price: 348000, tag: 'OUTER' },
@@ -246,7 +246,7 @@ export const STREET_SNAPS: StreetSnap[] = [
     curator: '크루 D (예시)',
     bodySpec: '182cm / 70kg',
     taggedCount: 3,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB96yljT1dJK5gB-Rld05IczvcVBGx06ns1ZRZaRu2zdJBQiFydQsHD-Ux1ux9YeQ2UT4CZCYn6XijmWVasgHJWljUnNu2l79NAYG_egWZjp8ZsQa1jYRv8dh4JwJRpqmKG1ai5f5aP8dz7Y-3_j1L8xxKGjnCeUmP9Cu19oOY1l7ObJHHjnhZ8i5sMOYxBO6Nmb8LR4kib5VdCZD1-z_pu2HDGdR2idm7Gsol2ZE2tWwi7FiJ7N49Q',
+    image: '/demo-media/atelier-noir/atelier-noir-07.jpg',
     altText: '성수 연무장길 비건 레더 라이더스 룩',
     taggedProducts: [
       { name: 'BRAND E (예시) 비건 레더 자켓', price: 398000, tag: 'OUTER' },
@@ -265,7 +265,7 @@ export const INITIAL_CART: CartItem[] = [
     selectedColor: 'Noir Black',
     selectedSize: 'L (100-105)',
     price: 348000,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDq34sh3TutHh8TbptnAVv7TOJvUR_mRN5LKtwUyM6fHMcMGYjzbU9F9Qv4bWL5wNkj1c6BZSasSXGROZxer3cTs9q8Y4tWD8TdwK44dchjLFKHSH_QuH_Z4dBfOio9zZmbfbUmwMr4GhVSYui-UdE6VTQfCtKabXjGaJARgkgZCQhXO4Sk7EZBxGA4LuwUy0zNcb_zpFoUInxNdPsSF-dyyiQVCrTA7SfasOkg_VPBM-kTspY4_nwz',
+    image: '/demo-media/atelier-noir/atelier-noir-20.jpg',
     quantity: 1,
   },
   {
@@ -276,7 +276,7 @@ export const INITIAL_CART: CartItem[] = [
     selectedColor: 'Dark Charcoal',
     selectedSize: 'M (48)',
     price: 178000,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDMc-1w1m4rgRbYSamAhpiSxDe_HfaMUJ4fuA_GnUC7-T4kDREN9b1456_k24Fx_RJhKYHyCJ616XHTWOlEtCvKEw2uxXqB4qO9W9shCXlZgkfVbYi5w3nrmBDcivxaQ6Hj2exg5i2ZYOBcGFiw73ClMr-LF2GKEwsM1ewezC4BniF0DDxcddt-F7Qm-Aly_C2yfp5abUB4ewq7rXm7wEfQRK403cqBuvG6Pqud7ptmwKi4CsmVT7ZR',
+    image: '/demo-media/atelier-noir/atelier-noir-15.jpg',
     quantity: 1,
   },
 ];

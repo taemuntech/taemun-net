@@ -18,7 +18,7 @@ export const Footer: React.FC<FooterProps> = ({ currentLang, onOpenPrivacy, onOp
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
               <img
-                src="https://lh3.googleusercontent.com/aida/AEtjO1VoD4MqABsrMBYBo4Yu339j1jjM1U5HrQlEzz4QN50zYzjdhtFGrSztOLgc5S0rt28pObEgUfkvXWajWlddUK31QyWl145T7hRTLzC6P8bauylv0S1CRwxcoDDIDqzBbfx-hkCt86rPHlILtd4CrUnXgsHvtfcOvaoII3Ja09cuNSvetnwf84Pj6VYISsqOsE_fUV72og6gUP0gKwMw6ZooEy_O6xKJ-rewn_NzO_NZc6dUOjVRhvHsShE"
+                src="/portfolio/hysfa/hysfa-02.png"
                 alt="HANYANGSYSTEM Logo"
                 referrerPolicy="no-referrer"
                 className="h-9 w-auto object-contain brightness-0 invert"

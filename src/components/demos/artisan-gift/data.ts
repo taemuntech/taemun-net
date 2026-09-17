@@ -1,10 +1,10 @@
 import { BojagiLookbookItem, Product, Review } from './types';
 
 export const LOGO_URL =
-  'https://lh3.googleusercontent.com/aida/AEtjO1WeNP13zHlnEQCeHLL2Kab8d_Bqk_-q7MBbkvlIE0FwtimJqHxR_3SO-1JabQHiJwg9sYDe63EA8hlPffoDdEfHRPmMW8Jw2XHrDFfmG50j9Hk-1CxAe3QRycGGn5I88PRdRrk-qcQlhUgaq3lpBIidjHqiGYQPcgkUdrKYS9AuANNxHTsMX-RWFGojJayHxw-KgddBZmE4k5h8VdJiJbY664yjVGLUm6rXHxUZqZFdDh5fQlO7mvIJXA';
+  '/demo-media/artisan-gift/artisan-gift-10.png';
 
 export const MASTER_ARTISAN_HERO_IMAGE =
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuALvhuvG3FQMhax7SnffycXqs-Urihqq3sEIoo6_q4g_WKucBoeMeMJweI9b0fDqwGOxK58uzjqqtEHZmgnDt2ICrqCsF0ATVMLzoIQrth30m4SWRi7Ize4dq_YUE046vCN-s0pcWAkEomFA2Z0fegAiqIqhMn56A8uhqoyc6v2oWXNJ2A38xslIgzF2Km11jCwEH3hZFSncz64ECCjenuVEbGvKTVDGugQZA0UJG26zqDfi9Zl2Bw-';
+  '/demo-media/artisan-gift/artisan-gift-02.jpg';
 
 export const PRODUCTS: Product[] = [
   {
@@ -19,7 +19,7 @@ export const PRODUCTS: Product[] = [
     price: 89000,
     shippingText: '무료 배송',
     image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDGG2N8NAMlxjWaHUUDS-sCTrS_UpHEaRTudItBZ-YW0GfuK7K_28QiTPJkdP04nR8vFezRgZBJBbwABLyZS_u9-VEQ08vSacd_58DItbmReEh7KtT8kATyz89a9GvAt2VPKNtaqnTaOfjgoAJRS_HPwswUj6JV6DkxkkFJ0QNAbNp1eAaXZMQI9jjDpbztLHTbkZX_Z2ORHD1VURcgzIy2HikSy0vBpQoBVY1qe2DdxfvQgn5o9jTY',
+      '/demo-media/artisan-gift/artisan-gift-06.jpg',
     packagingOptions: [
       { id: 'pack-1-1', name: '기본 단자 포장 (무료)', price: 0 },
       { id: 'pack-1-2', name: '연꽃 실크 보자기 (+₩5,000)', price: 5000 },
@@ -38,7 +38,7 @@ export const PRODUCTS: Product[] = [
     price: 145000,
     shippingText: '안심 특송',
     image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDXIyUIuMK9xSZpqbjNWfffYwdK-ld_iKTCf5LSM-ajd8lOoDA9s1V-g2v25c_Esjq2htkqDSiZzitJ_ZjAWA41UhxPta8WMlxd3hYiQUiiqqZjB7CLg2dCF1lLtCoeEVYmb2WF_RLxkg2H41HhkqtKHByXhZy0Q5l1HZSvHAytaSX8ZyZg13YwVUauefPgoIWcCKTWTkTUxBWLd0-g9PJ_eDL-ybQqGmy8BXFSyvhw6dvQbiBeLNoY',
+      '/demo-media/artisan-gift/artisan-gift-08.jpg',
     packagingOptions: [
       { id: 'pack-2-1', name: '오동나무 상자 기본 포장 (무료)', price: 0 },
       { id: 'pack-2-2', name: '수국 비단 보자기 매듭 (+₩5,000)', price: 5000 },
@@ -57,7 +57,7 @@ export const PRODUCTS: Product[] = [
     price: 118000,
     shippingText: '무료 각인',
     image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuAqYXVdTbrl_4qAakWjJIznzJnYGTs7Q8Ps0-fetopnaOpzOYTDXQhvXcei_P9ZCzbMUflI7iY-kB9nKwqMw3xzUnnttCjIGYXD_CVZelpZm3wv-MDJ_g2s-Och8jonWuBGpOXEJWl6NkwZ0Wbqi-nsRk03BeVDtZQ7o0Fjl9gqIAbdznP1Q3hriqdEMplFZZKXSLbkaOchvQS8U6DD6FvPwv7qk5C9TFYER1H3o2QSuK5jZ81Qd8e-',
+      '/demo-media/artisan-gift/artisan-gift-03.jpg',
     packagingOptions: [
       { id: 'pack-3-1', name: '한지 지함 포장 (무료)', price: 0 },
       { id: 'pack-3-2', name: '단아한 마 보자기 매듭 (+₩5,000)', price: 5000 },
@@ -76,7 +76,7 @@ export const PRODUCTS: Product[] = [
     price: 54000,
     shippingText: '당일 발송',
     image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuABj7mVDm0moEuPOvtU-eFMoZqDdskwfxKXlyHubJynpJo8gqQfJYKc7kHL4q8_E7wneGx3nS0gRh7h4K4xHqhvYNU_hxUC2e8TFRBggTeYHmfdlsjAlKEOWQJWU3trfjHHoFUPI8aT_vLTU-WU4SSgbYmplHB7uMqPRzoWuEac00sFJ6aKAOB_jSvUq_Jet_4Sy8Q45sLViEQUiOjJlgOXKwFdjZrFgsO-IdXSmKAE9sKGaFbMzkvM',
+      '/demo-media/artisan-gift/artisan-gift-01.jpg',
     packagingOptions: [
       { id: 'pack-4-1', name: '은은한 옥색 비단 (기본 포함)', price: 0 },
       { id: 'pack-4-2', name: '단아한 연분홍 명주 비단 (+₩3,000)', price: 3000 },
@@ -98,7 +98,7 @@ export const BOJAGI_LOOKBOOK: BojagiLookbookItem[] = [
     priceTag: '선택 옵션 (+₩5,000)',
     isPremium: false,
     image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuBhF-B8lzng0TtIfYFIq_X5ZzCbafKXOgxZ9sqEn07FViiyuWHKKmnnDbEjq-v6dx5BmGujB4gynu0Dw7Uude6Ry9ldqYHC_V_o2rFTIf1NVgFFwe_MwOYu6_PIb5F5gWmyuHD05MgEiNtfrbV6gOWtFs0HEs9ZA6W0jT3ZyY1q_4xFA0-X430CSMMhlgUPFK-2ZTtKdo-VozV-5D2SeXhZYX8X6TwQQILGC6tEXNdTEcrSXugF4ugw',
+      '/demo-media/artisan-gift/artisan-gift-05.jpg',
   },
   {
     id: 'style-02',
@@ -112,7 +112,7 @@ export const BOJAGI_LOOKBOOK: BojagiLookbookItem[] = [
     priceTag: '선택 옵션 (+₩5,000)',
     isPremium: false,
     image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDq-_paraMYAlYfoBxMaDFDeqPp58UFHHIp00Z2tlfSQCT0RXHNipw2F5qMo931wq0OZbFpKEZO9HWoROvw5V44eVRJLyj8tVotjVve1U7Wir59iaDYOPDG5b7VUhJH-jqdoFZq2jhAWV3Ufnmad_Hy_GOUzDG1byCbR-iEUTGAGSp23dIQNXnwgdY3k4bIBpgdl1YIdDZtE-Lm33-W7rodMuwuxWlGB9tH6erXVMbXeAgsf3T0fntM',
+      '/demo-media/artisan-gift/artisan-gift-09.jpg',
   },
   {
     id: 'style-03',
@@ -126,7 +126,7 @@ export const BOJAGI_LOOKBOOK: BojagiLookbookItem[] = [
     priceTag: '프리미엄 (+₩10,000)',
     isPremium: true,
     image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuBTdCKGga_q4bxm3scOQkYkBcVhdaVj5Q9WprSv3cjoLjb-CP5TeViuOWypYq6aZkvXPukaNC1fA23rht48lsZHaKiqmxeGZL6nCEzp6qVTpuqIUvhSaKbPQYrql8UjEd5e-irsWd2c8qtekLZFi4w5TFw1DX91zN2HtMzH-HzjKgIkCSR1hO9Q8JG6GzXwC2dfLFjHJQp3lU14JL1u3PHquDGOcswbUEpzRu_mtguRnUtVcVHfmdUI',
+      '/demo-media/artisan-gift/artisan-gift-04.jpg',
   },
   {
     id: 'style-04',
@@ -140,7 +140,7 @@ export const BOJAGI_LOOKBOOK: BojagiLookbookItem[] = [
     priceTag: '프리미엄 (+₩10,000)',
     isPremium: true,
     image:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDP7IGGsq2PgRtak9ggh4_mf8X7Uxf7FvDbNdl-ckraGjVgf9cWdKeQWzgUy1tQpIKXj84bIqHV2hCPNsHru2VuVNfNNIRFFrahLw5-43bG1oHxlfzu4N3Ww-7ZN4DFO7onp_gemDlbspeQyFXtW443SOIivL1VSBf6EW8XxWai93HPTexns84u0EdUZ5WkHJhGPAD_mbnKyTpvMOrDjhgj8EnexzduFaa3E_gHYQMupQOvJYAjFotv',
+      '/demo-media/artisan-gift/artisan-gift-07.jpg',
   },
 ];
 

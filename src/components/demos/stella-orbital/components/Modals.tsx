@@ -11,7 +11,7 @@ interface ModalsProps {
   onClose: () => void;
 }
 
-export const VIEWER_SPECTRAL_IMG = "https://lh3.googleusercontent.com/aida-public/AB6AXuAONxcUKaLT_msE-aP-YygIZmLyxk60RldiVGDw2i4rmsRKToTwfYmY1TcWlmnGqnSGKrlVAExUUTRMFBQbic0GAU-Fr0hMENLyeeLtQszl4b2AN9rcFkhBDlBmugxuvQUsoBR9iJhEBnBQK7bGxsevjWFLscjCbois_4jc732Jm2m68ubxSIvrM9Cua4TDAwavEVWwuQPJ1dEywYldL1aVLH_x5L2M96YVXl-lqEor9SK3PLZksUBk";
+export const VIEWER_SPECTRAL_IMG = "/demo-media/stella-orbital/stella-orbital-02.jpg";
 
 // 밴드를 고르면 미리보기 표현·판독 줄·반사도가 함께 바뀐다 — 예전에는 네 칸 모두 같은 화면이었다.
 const SPECTRAL_BANDS: ReadonlyArray<SpectralBand> = [

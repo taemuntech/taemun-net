@@ -134,7 +134,7 @@ export const DOCTORS: Doctor[] = [
     role: '대표원장 • 피부과 전문의',
     roleEn: 'Chief Dermatologist',
     specialty: '리프팅 마스터',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBE0aUUacV7pUXHq982lD5DmNFD3MWwhkYfKAltjgOnwgXbEGzSe99volchhotqw3z8ezgTevt8vgAnVRK8zO6pnkAUiVfwxScGIXJ0WP-y4mu4-KnfjyXNguScGkTzVQFpFuTxAbGNo3jogAqgycppdg2T_64SzyMLX0aQraTVhOOvIQD51OrVWco10b_-UEyQxrXxnCvciI2lhG7mIneTWUhOfYtqiNr9usxCQF0om_QZMURA1Yl9iA',
+    image: '/demo-media/the-noble-dermatology/the-noble-dermatology-03.jpg',
     credentials: [
       '국내 명문 A대학(예시) 의과대학 졸업 및 동 대학원 의학석사',
       '국내 명문 A대학(예시)병원 피부과 전문의 & 외래교수',
@@ -150,7 +150,7 @@ export const DOCTORS: Doctor[] = [
     role: '원장 • 피부과 전문의',
     roleEn: 'Director of Aesthetic Dermatology',
     specialty: '스킨부스터',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC9ksp-JtQk0REtIp-Svv8mRjCIHzRDZY_jOw6sVg6VbKFJ03JVVlxYnIittyoPapvYM4pjLYt6PCmvfxTuXg2RUtOU03z9VKDxUwQiYHf3F9IOYfASvU8WLWuskrPd1tHRn9163biDJ653cGy5F5IQC0Dfhp1l0mP0SALXcIz0qB4Pf-PyT5uNFp7EynsoKow8kX2tQ5cPKyylHM0VtZ4Ie0S1OHpZLtCvaa1DGifLFi034-4wmO9lZA',
+    image: '/demo-media/the-noble-dermatology/the-noble-dermatology-04.jpg',
     credentials: [
       '국내 명문 A대학(예시) 의과대학 졸업',
       '분당국내 명문 A대학(예시)병원 피부과 전임의',
@@ -166,7 +166,7 @@ export const DOCTORS: Doctor[] = [
     role: '원장 • 피부과 전문의',
     roleEn: 'Director of Laser & Pigmentation',
     specialty: '색소/레이저',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCsjDJmWlDeU6H_ZsbMALQWq7XnjNBTgSYnkTlarEBNes4LHtfq297iY5DnpGG8NcfbcazSm49XcsbFBSh__T6MwHx6fKhnNz-kAU6xn9Mwwr2NWD8vWCwrKgfuOeLL_KlC278a46uG5AFA3UxZWpVH9Uuek2T3HPU0daE1LhJLo3KoVFY7TJZGUKVhfvH_rQ8eGE9ho9ay0u-hD2KN9PWHE568cLF3Cxq0IM2mz9JtqzF2TvxHmc52FA',
+    image: '/demo-media/the-noble-dermatology/the-noble-dermatology-06.jpg',
     credentials: [
       '국내 명문 A대학(예시) 의과대학 졸업',
       '국내 명문 A대학(예시)병원 피부과 임상강사',

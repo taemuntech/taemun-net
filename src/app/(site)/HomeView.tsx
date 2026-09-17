@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type SyntheticEvent } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import FloatingChatWidget from "@/components/FloatingChatWidget";
@@ -68,6 +68,17 @@ export type HomeViewProps = {
   /** 분류 머리의 바로가기 버튼 — 서버가 「공개」인 것만 걸러서 준다. 내려간 시안은 배열에 없다 */
   shortcuts?: readonly HomeShortcut[];
 };
+
+/**
+ * 썸네일 주소가 죽었을 때(외부 CDN 만료·파일 누락) 깨진 이미지 아이콘 대신 빈 타일만 남긴다.
+ *
+ * ⚠️ **카드 격자와 카드 모달이 같은 주소(thumbnailUrl)를 두 번 그린다.** 한쪽만 막으면 격자는 멀쩡한데
+ *    카드를 눌러 연 모달에서 16:10 크기로 깨진 채 보인다(실측 2026-09-17: 죽은 주소 1건이 두 자리에 나왔다).
+ *    그래서 처리를 이 한 함수에 두고 두 곳이 같이 쓴다 — 자리가 늘면 여기에 붙인다.
+ */
+function hideBrokenThumbnail(e: SyntheticEvent<HTMLImageElement>) {
+  e.currentTarget.style.visibility = "hidden";
+}
 
 /**
  * 작업물 성격 표시 — 카드 썸네일과 모달 이미지 귀퉁이에 붙는 작은 표.
@@ -373,6 +384,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                       <img
                         src={project.thumbnailUrl}
                         alt={project.title}
+                        onError={hideBrokenThumbnail}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         loading="lazy"
                       />
@@ -675,6 +687,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                 <img
                   src={selectedProject.thumbnailUrl}
                   alt={selectedProject.title}
+                  onError={hideBrokenThumbnail}
                   className="w-full h-full object-cover"
                 />
                 {selectedProject.badge && (

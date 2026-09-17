@@ -1,8 +1,8 @@
 import { PipelineItem, SabAdvisor, Publication } from '../types';
 
-export const LOGO_IMG_URL = "https://lh3.googleusercontent.com/aida/AEtjO1VDEon11kBziXiMb5a0f27WvMFwNfxX0jiKmHMKPfpGsnhwJuxHbZivibPgrFFOCGL0wXRv4nPjdKYdyL_GP5WcGiHtwOmn38llnJddPSSjlnU2YLiNKzLwjZUmlmC-WfKjDYLe_E52I8VK1pUPVv5OoWMgQvBKwBMI8ogEVPG333dLlh6Uq6BZJ6VIWto7PtS1bW36YUxAaGyKnXAEuFHeFs-BSCi9Vs4fSX6EUx7USw88p0jDA3SHYA";
+export const LOGO_IMG_URL = "/demo-media/celebris-biopharma/celebris-biopharma-03.png";
 
-export const CLEANROOM_IMG_URL = "https://lh3.googleusercontent.com/aida-public/AB6AXuBe97IvD3tZ5kr3Yc4Tfny1FiKRxLpBrS59MFc2QrdYOTlyQtzDrK1d1j5-_XfoJCHF7eA8HuSHBKU5gmKyqXGyPro5BtIIh3DwqCgWtgFUpckAXBAnkkyQ52IE4t84At3zpvrMWlcQx5rSWDXezBE0NXtT_5DCbsTLOpbSG4kgS9W-mx7eKdwVWaZ5TJAvheb-bZgt5Fn8rSq8P5X64kBOGmsx_kO15R8yo7fSp1KgB02Y1plsH7N0";
+export const CLEANROOM_IMG_URL = "/demo-media/celebris-biopharma/celebris-biopharma-02.jpg";
 
 // 전부 지어낸 수치다 — 지면(Hero)에서 이 막대 머리에 「예시 수치」 배지를 한 개 단다.
 export const TRUST_METRICS = [

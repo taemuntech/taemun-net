@@ -92,7 +92,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 <img
                   className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700 ease-out"
                   alt="Exquisite ultra-luxury dermatology private VIP treatment suite in Cheongdam Seoul."
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuACCpNzkGl2zGA1PXlUoeM9eUuqDeJ74sQSdDhYSeYL2k7sgUnli2bT5HUtjqJQiwaNCW6g5qOeiRWIQVLnK_5JVB8lZhlcmKqwmiWpzQprQIavPj0bTqEnh7xthcwO7oc7rQYXurQD-jAxR0qZMCtadcSE6nlmta4Ba9HZdp3KZ6ZQFLEV4frRoondEynpCfa7vmQnchA-zPDXg5IiAQyfdPL0TiboeUePE0QwG1_tdwIf_TS0D9R9Vg"
+                  src="/demo-media/the-noble-dermatology/the-noble-dermatology-01.jpg"
                  referrerPolicy="no-referrer" />
 
                 {/* Gradient Scrim for Readability */}

@@ -132,7 +132,7 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
           {activeTab === 'exterior' && (
             <img
               id="flagship-hero-image"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQmUTO6vNGKFnwR1u48WuybiPEv61cgB5UDN0SqLZXP8MGirv1h8y0SB8dUnivkNjPPa0bhbn35FtSkmPCueKLqc0_PwvmnyWb73dUvMMSae9W4USpnYdd_PFHfzKwI3IX75Zl1NZ5ua3jsWpuhVfNwN7hMk42ruHIADZcVKe3FQXARNoMPWVhoJYw64tsBJb6YoWTQG-K0UDTSy-LfHqJpIUbG-6l2C4hB402-8zJHCU3pJrbDy-5"
+              src="/demo-media/technova-gear/technova-gear-02.jpg"
               alt="TECHNOVA TITAN 16 PRO G-EDITION 랩탑 실물 렌더링"
               className="w-full h-auto max-h-[380px] lg:max-h-[420px] object-contain transition-transform duration-500 group-hover:scale-[1.02] z-10"
             referrerPolicy="no-referrer" />

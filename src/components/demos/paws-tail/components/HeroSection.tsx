@@ -115,7 +115,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartSubscription })
             <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/3] lg:aspect-auto">
               <img className="w-full h-full object-cover"
                 alt="A golden retriever dog and a calm British shorthair cat sitting together attentively beside a modern ceramic pet bowl overflowing with fresh raw salmon chunks, vibrant blueberries, diced orange carrots, fresh parsley, and natural functional kibbles in a sunlit warm minimalist living room with soft cream and sage green home accents."
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3zNaunxI7rRtLoqhzMZM7Scw7YtYgPxFQ1N6yL_gAyWqBsqCBL2TYngpwROY8-NHzo7kDUZP0iA780asv5cupS5l5TuTFJXCN6K4cIjI7zORUDZdDFZCGLCDnSo8o_rpvvO9d-PUs-ObjTmeT00ejvunNoResQmlbnv5gd-H32Z7jJZeKLsw0FlcGJni4DYvxcVVuq8zWTWizFu8TmMsDqybqA3SbvabGUaYv4HdA5Hu-swaEOGqF"
+                src="/demo-media/paws-tail/paws-tail-06.jpg"
                referrerPolicy="no-referrer"/>
               <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md p-3.5 rounded-xl border border-[#bfc9c1]/60 flex items-center justify-between shadow-lg">
                 <div>

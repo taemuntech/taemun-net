@@ -15,7 +15,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         {/* Hero Visual Image Box */}
         <div className="lg:col-span-7 relative min-h-[320px] lg:min-h-[480px]">
           <img
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEf3ZosH7VA_CZj6-z9mBH8g0NyQkR4t7Mz-bAZECtfHGU3gn6Ed5Iy6WgjuFI3qNvJDnlgDfSdq_eBnxyY17jb7H7Y5kbEGL_v7HUErOOySMVTxe6rxfOBkt5DwnqsKNQbAiOlRTwnmmW588xYD83qE8jEVC37joEuw_ikOPuue4cAwMoXqQKv0WzLjlZdhfP_SyH03B7Yop-4T8xYlrF8k8YPgwH6h1_JR5VJd0LX3_5wcE6Gz9C"
+            src="/demo-media/verde-gourmet/verde-gourmet-05.jpg"
             alt="횡성 1++ No.9 채끝등심과 제주 햇당근, 신선한 식재료가 우드 도마 위에 놓인 고메 테이블 연출"
             className="w-full h-full object-cover"
           referrerPolicy="no-referrer" />

@@ -31,7 +31,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDocModal }) => {
             <img
               alt="GREENCUBE AGRI-TECH Brand Logo"
               className="w-9 h-9 object-contain rounded border border-[#bccac0]/40 p-0.5 bg-white"
-              src="https://lh3.googleusercontent.com/aida/AEtjO1UPJFEO7mdvmQW-F6jZ_TPyvDxg4oW4QXpPXQdhxB5SN82tVMKwyP7HzxgLgi7ND3Vqgz2sIAORnDO6EhzBUXoqSM4hDriyqn8dWrD-sfczEg-NGrNGVxwyhanqsoIu1VJmCoQVESQjfTmfFT-6pdEXKrhdaYQe4RW7_4fA-dQj5Kf-GBLjo6Fq10V61PT45TKRLG0lxWJc7akNr5n7UgUMuG6xlxI_uUv86b3QTuHcD7BK-2VztiDGBt4"
+              src="/demo-media/greencube-agri/greencube-agri-02.png"
               referrerPolicy="no-referrer"
             />
             <div>

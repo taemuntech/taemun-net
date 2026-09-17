@@ -35,7 +35,7 @@ export const ClinicalReviews: React.FC<ClinicalReviewsProps> = ({ reviews }) => 
           <div className="w-24 h-24 lg:w-32 lg:h-32 rounded-full overflow-hidden shrink-0 border-4 border-[#b1f0ce] shadow-md">
             <img className="w-full h-full object-cover"
               alt="Professional portrait of a Korean veterinary clinical nutritionist"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuC09RBxRio09EM9OxNqzMl5FBBxe9pWKfoEsAyjHswS4rqVJmJLJB7GwtLUPvdxYnsN0WSdJHJxG1hSgLCr6tqFJfLCTQZmZkawDNv3Idxqo1DHPePsQTuss7Q_Bdu_tiN9p3ePhh3vu-qfqgHASbs654AieY1iBRpizJ6QjMZkTSuJ42eOkPAteodF9bX9akeuezkvDm3Bgzn27ytg0Jj4zuBXb2QQOJMDVHPGeBVwUToEfeNF7uld"
+              src="/demo-media/paws-tail/paws-tail-05.jpg"
              referrerPolicy="no-referrer"/>
           </div>
 

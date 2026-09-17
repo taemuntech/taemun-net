@@ -67,7 +67,7 @@ export const PrivateSuiteTour: React.FC<PrivateSuiteTourProps> = ({ onOpenBookin
               <img
                 className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
                 alt="High luxury private medical powder room in Cheongdam dermatology clinic."
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCizbs2a45vFAQlF8Hm2WHGUOLDXFeSHFr7jsGg5W-LTyrul3I6R8ajZL9MQ6kv3pE1GJL254_Lo9OdDP0ZPylE1Fqwxe_6KfT5mkOda1I5Vicp0C1knDUy-29Be2rMpEqj3ZacmtvgbvLLuKVt0jb72XMQ3pT6femt_yQYXSlswd8vrKcp1htllgpPaPEkyznQCP8q0i9ltW2xfDk5c7f1sJnxcadgHLZ775hywG4S0o9d2ertAY-y9A"
+                src="/demo-media/the-noble-dermatology/the-noble-dermatology-05.jpg"
                referrerPolicy="no-referrer" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#00110b]/80 via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6 right-6 text-[#ffffff]">

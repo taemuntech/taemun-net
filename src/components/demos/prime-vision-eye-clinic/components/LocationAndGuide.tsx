@@ -107,7 +107,7 @@ export const LocationAndGuide: React.FC<LocationAndGuideProps> = ({ language }) 
           <div className="lg:col-span-6 bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm flex flex-col border border-surface-container/50">
             <div className="relative w-full h-[320px] lg:h-[380px] bg-surface-container overflow-hidden">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtDhTcHrdiYHLA8-AJLTse7MhFfIm7U1XvaRcS9dHIuMux7oU3nJuyL6cLx48ynvttRRsUZtbKopvT3dzMFGtJrPz0_6PsPXAfoJTsycOFxM7CpeFkB2ham305hbXFTxlG5gXQsLcHCcGUUVRrogIg7V_PihZzHMceBpttTSYie6GUiZ_IGaJrUdretqZY6wU0Tc9J0SnSxDUDMOfUDxsxxBad5qe-NibcvYI6NJ6XJzZrIvAEyhqxWw"
+                src="/demo-media/prime-vision-eye-clinic/prime-vision-eye-clinic-02.png"
                 alt="Map of Gangnam Station Exit 1 Prime Medical Tower"
                 className="w-full h-full object-cover"
                referrerPolicy="no-referrer" />

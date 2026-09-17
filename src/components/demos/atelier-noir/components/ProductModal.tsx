@@ -34,10 +34,10 @@ export const ProductModal: React.FC<ProductModalProps> = ({
 
   const defaultThumbnails = [
     product.image,
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuDE0p3rlPqKlwPw7V0lTWkn4UxMtnRZqs3jgWM2xEMCMy_yAijFU0vGZWdpuXcnkOv5Sx00UAUC-kmbBywdCZ3UOj8XYKKVCNsICB2PbEbHDBmBbLzo8TozgwHcJ71rZsuCMcax6_ELa-6MVGD2zX-cL09ghHoKZHTecekq3ar2P7cZWjpnKOETI1eisUoMFc2gCo99jPh5dyOe_Jb_Kutt0-EdHOIFHLqdvLN81-oXCGz7sh19btmL',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuDnDZBOhkaFpLVDJJxC0wYUUAKui9V6AyMOkDbt1QBN-S_6dFAU-eyDkGpGHwN6hp0Se7K0D2U9XhxVxJBlGVQTZXj7x5NBgXKpWu1LPP16SC1jZALHvCxgc64ZOgc-Mmlj57M4gXrQFMdINCkU73nhdhcGEMk9ffzbXsyKoOTqdujia4r9h2LguVHS0JjbkTjT4o_CwgxuYr5jykUYuHdNIvV6iv0h9s_vFndWUKIV4rOCCrlcIV3K',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuArV8Pno5ETDwgDQTkLZSLvyWXqydUVSF9C8XGs6TfYE2u8Cic3CIAqw0x0_CVoxg5emU1DLoUegbCBVQJI-mEIznP9gXtcvMH8iR0RUDwWbdLxedaOcBwr5D16bQKMuYXN965AQeH1hgUXTR6a8lfmIbqbg30spbBCHZ5H9BVN_kujPmFA4uW4sEoshx_Wj2q9aJhqJzduHXugpRXLJj8Ui78sPnPNnbCo8sGZCK351bAgEoypHxV6',
-    'https://lh3.googleusercontent.com/aida-public/AB6AXuDeTJv3X1iduas21wljGtdxcWUvkbbeZCIXuFFtexeP922E1wB21nScHm3wmnRbIO_jUfjv1Uhvcs5uDB1ruPYiXepyoxJxj9vKv5QoHOUvxvbPtB5WvVpOdt0j5NP0FrpPU-H4eC----XOEUbFmsi713kMvomBGZN5a5Ym4mKddfae4IGvAileeLdid59-iwVSVOHze37CvOPIlGj2WTEKX2EcvHlVnvJwb0iJN82IxeKphOL1PSFw',
+    '/demo-media/atelier-noir/atelier-noir-14.jpg',
+    '/demo-media/atelier-noir/atelier-noir-19.jpg',
+    '/demo-media/atelier-noir/atelier-noir-04.jpg',
+    '/demo-media/atelier-noir/atelier-noir-17.jpg',
   ];
 
   const galleryImages = product.thumbnails && product.thumbnails.length > 0 ? product.thumbnails : defaultThumbnails;

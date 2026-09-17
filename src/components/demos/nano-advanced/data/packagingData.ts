@@ -6,10 +6,10 @@ export const SAMPLE_SLUG = 'nano-advanced';
 export const SAMPLE_INDUSTRY: IndustryKey = 'corporate';
 
 export const LOGO_URL =
-  'https://lh3.googleusercontent.com/aida/AEtjO1Xad06wDMonnkAjtGVp8KmHZ-5wSr4vWy1HawYJ3vIvI7fSUGMn1umktxHeG7umXRncb3DCGw7QHACVO_oLniLapSKU8OX-vrsxuhVY5bgMdQ50iZJ-Jxe_WrLXhO1tLexZMi1jl1k08Jk2ePb63hHl8-d3pXO7j5wm4HGnpppvGly1HBLWYvzwSKdW1HlqqIlOImwG62XJkdGKK3-o6DbXXE2opaHA43BEs_30ONzUhiYJJddJ8wZW0Q';
+  '/demo-media/nano-advanced/nano-advanced-03.png';
 
 export const HERO_WAFER_IMAGE =
-  'https://lh3.googleusercontent.com/aida-public/AB6AXuArheP-3UGGs4_vt7ioU63acGsr_qDfsQ-DBqDNXZnWBPkoZACRWN069Lhp_B9K27JYuvwp5v10KPE1ZztMNNSRyKpad0Vu1hhEI8j7arrBIun-KTrzzLTmacPMrshavMLzlMWCyaOoACs3Nrs0Wzq7gmdd5H5kyT_1eRW7KyHyPCinecLFoV5yCWMzvNeqBzVgYk_frQrFvEoXt3aMk_JzHz1xQQMfyGDzpqsxROBT8g6ckY-ZmkD6';
+  '/demo-media/nano-advanced/nano-advanced-02.jpg';
 
 export const LAYERS: LayerData[] = [
   {

@@ -1,10 +1,10 @@
 import { Product, FloorplanPreset } from '../types';
 
-export const BRAND_LOGO_URL = 'https://lh3.googleusercontent.com/aida/AEtjO1Uhlw6oK5r23rhUYZKdZdUm3roZQ7lZSEA_8CD2DktUqRRVMFeHiY-pS_6ZS6oaDQguiYloHvMkdSc-eCF9WARWfEPJap7vC3jpvscmI5anL_Us-dPZ3Lbojqdxid4YKyGzD_jCUJkSG4EvXgf8ug6oi1_ASEkq7yDniQBTpw5q4MsS3HD2yoEwE5uC4cRBVWZFqQceQIo5UhVKpGHAgzao8WMJGiJaphnMlRYCge6ACOgQOJKjm7taYno';
+export const BRAND_LOGO_URL = '/demo-media/maison-architect/maison-architect-10.png';
 
-export const ROOM_HERO_IMAGE = 'https://lh3.googleusercontent.com/aida-public/AB6AXuBvvwzPLMTY6ROK4-IOF-ravzK5sUfOa-mXm6ZDXGV3SZ9XS7tskbj-NP9QZZQ59Tb4gsIxjciRD6x1t8NWA2Cmv0NhJ_z1PmeWIIGD1326o6tTLxV1XM2zmviOzwbPWnKsNt8qEDmtbRfYWh8Y8qfOnelcALtmevW89j915C3PiWSOs6fyaosBVolYpwgClYyccljyQlu4UgQC6_Dh7QE0dNqjB9fzj8xNM9Kx4aLEI-xSTVU0dUNa';
+export const ROOM_HERO_IMAGE = '/demo-media/maison-architect/maison-architect-04.jpg';
 
-export const SHOWROOM_IMAGE = 'https://lh3.googleusercontent.com/aida-public/AB6AXuDx02RxjtxLcYqlw5VpMvhIOIXOHTVtn3whh7zRNtrM56mSgQBihzrqSUyiiQhM88P31y8DTlBuu-VgQsK3ScIW3f3YHKoPMHtoKLTdcLfv5YQvLz2SP077TRKJdnqFad_fC3UnO6jEbHSZuw8JXt3nh1l65sp_Wqw_Y1lXTSg_Y7LH9F9mLaz1JW0tiLzMWzjwpP_Z5C2CHQthyCBfjDkeA80TbdJzGoEUrXv1hp7gliZqIPT_kD4Q';
+export const SHOWROOM_IMAGE = '/demo-media/maison-architect/maison-architect-09.jpg';
 
 export const PRODUCTS: Product[] = [
   {
@@ -28,8 +28,8 @@ export const PRODUCTS: Product[] = [
       { name: '오트밀 그레이', hex: '#8C847E' },
       { name: '차콜 앤트러사이트', hex: '#262322' }
     ],
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDlUNPKz-RY3e-lZAtrbaPAonjk_qRHTwRNa4ssygKxSTqhs8ccLLLSnEtDQPgM7yGnug2utuEkA7uJS_UNQIJ8mOi1Qaw7yRYKUfSOYLkkfaIks_am183lat4d4W94FDFt5jo64c4spPFGxyFCsEXP-fFlanwc9RCFlkvJlbPZWs3WIOOBknQPGTrnx4uw_YAQ6V-KkqKmqwtZvM0cPdN7dooVPBZ5b8twJ_U-VX2nklkD3nAEkk2K',
-    detailImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBbZrLtSLrED1zA2Ykw8EmIKkKVXKCsCmkdUAK90PtbNly4noFLFzUnBqnVwq2nkTwN1HKsO_36LpCJvKPiyARVLEkcpXrSG56Oazg52QyRH3CMg_eJqWvn7mNMgl2ybVkEKl7IxSwk6e-XRWWVy715V5pvzhnVcIQircboJEaGMeX2fEUVLfRM4fBa3wHZVhZ4fSWs-47OdIzOc-w7J2TadQOAOv7hstvvf3YiDTie3Glnv_LzO-G2',
+    image: '/demo-media/maison-architect/maison-architect-07.jpg',
+    detailImage: '/demo-media/maison-architect/maison-architect-03.jpg',
     description: '유려한 반원형 라운드 실루엣과 오염에 강한 벨기에산 이지클린 부클레 텍스타일. 38kg/m³ 고탄성 HR폼과 E0 친환경 자작나무 골조로 오랜 시간 변함없는 안락함을 선사합니다.'
   },
   {
@@ -52,7 +52,7 @@ export const PRODUCTS: Product[] = [
       { name: '화이트 오크', hex: '#D4C3A3' },
       { name: '스모크드 월넛', hex: '#654321' }
     ],
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDq57iHXjYTepxgKMdVv4AAueLLHcxeXZ3QWanjs5LOaDCYnDD3lTd08fLMqzOXgpvuda_fOm6dcCc610PscoE99a4l-2aSuKB-22cpHFm0wVdJ2v2tNu3sug1F2BmacqQfVU99s8zEFy8gs0LQEoDrv_aSSSaVVPcUvyMNQM5fOlJTNsfQaoW7EFAUu2pXPdzmUVriQKG-VNpaJfoBZ9bXskuYRJoFS_NYZQV9cMsVYfGCofwlT9KV',
+    image: '/demo-media/maison-architect/maison-architect-08.jpg',
     description: '32mm 두께 북미산 화이트 오크 솔리드 상판과 부드러운 R20 라운드 엣지 가공. 자연스러운 나뭇결과 덴마크산 친환경 오일 피니시로 마감된 마스터피스.'
   },
   {
@@ -75,8 +75,8 @@ export const PRODUCTS: Product[] = [
       { name: '로마노 트래버틴', hex: '#E2DACB' },
       { name: '노체 트래버틴', hex: '#CFC3B0' }
     ],
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCWd-uEORJkgc48TRxVOocX-q2oVVY5Siphp_ERDaj47LGijDATxmBQHMvzN83if7E0sTWiPS__ErY8qN4Dp6zIRxdM8K8XR0DrCd8zhauSw1oreSlL5ut9LBQVRRJWpQSarOdH1VsO1bfeDIZR1udRQ31xAzYkx5YnrUqT67IcCrHGer5ArMQUhZdGwF8npvSZkRfu3_wQtkOF5AXRwCnCGczD6IOQhrzf3GDlvOmuIWq8sugzn5AB',
-    detailImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA8l9jj2DhNOgtJJihNnQd8i1r1x8lwyDFJtMrdTZj1X8sEkCdPREkOjn_4IfOKbs5NI1xA-GRnFV6TrNLNe5xgon0P6r614748RdeRe97BWvlDe-xew47wMNyQ6fAfVl8UaAR_iglpknQyer690tKr1rzq35-9d45NffWd8UPs2gkk9cP1KKt7kfdl4pqz16tYBNF5f5x9n_X-YGVZ7ik53YbM5DL75AF05xcaCwcWBxDgDHVZEaXG',
+    image: '/demo-media/maison-architect/maison-architect-06.jpg',
+    detailImage: '/demo-media/maison-architect/maison-architect-01.jpg',
     description: '이탈리아 티볼리 채석장에서 채취한 천연 트래버틴의 고유한 기공과 질감을 간직한 비정형 로우 테이블. 숙련된 석재 장인의 혼드 마감으로 오가닉한 온기를 담았습니다.'
   },
   {
@@ -99,8 +99,8 @@ export const PRODUCTS: Product[] = [
       { name: '새틴 솔리드 브라스', hex: '#C5A059' },
       { name: '앤틱 매트 블랙', hex: '#1F1B17' }
     ],
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC-eX89RxkSfdZvJoJC83nN4zQpUIVEpYcz5cwrIbkVt7wdCM2Zs_LDADHb53s4CYs3pUgJk_02Lii3hFQQWoUEQv1k-AkxTzxtqPiqUDR1GplwOjxqOKd5GksHqYh6sHWGF-DgYWa1v3i7EahZZc_E9lFQoJRY5uu7KKxs2sSfJXVD_4IXkieLgpd_rxEHCEYHJbAkqZY2z-5CTv-PWEfkTl_J787F5qBTFqMB07zzXXMvC4_hnr3g',
-    detailImage: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAzsSbKXzO7b0pdJUmCbn46r5zSQwHWooNKJ3HrbpmAuziiSve96P8XQSQV2YxoZIIJwy3_ILOnvoPVUwzyfmLkqywVoo1gLrB8eJW9x36zJ2xdntflDsbL8YYutd_027eCM8lyf10xQpzgv7sfoiNxhRk1tqUMn2I0oyNmbhajPsAdq4gONznHTKvZ7nF1QrlNsRda_sJ7k42FRvVxDWcbzfVis-Kz6kmpUBqWZA1ZBDU9GgUftKZl',
+    image: '/demo-media/maison-architect/maison-architect-05.jpg',
+    detailImage: '/demo-media/maison-architect/maison-architect-02.jpg',
     description: '스핀 폴리싱된 원목 베이스와 유려한 황동 아치 프레임의 간접 무드 램프. 3000K의 부드러운 온백색 빛으로 거실 구석구석을 감싸 안습니다.'
   }
 ];

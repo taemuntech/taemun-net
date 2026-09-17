@@ -33,7 +33,7 @@ export const MedicalFaculty: React.FC<MedicalFacultyProps> = ({ language, onSele
           <div className="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col lg:flex-row border border-surface-container/50">
             <div className="w-full lg:w-5/12 h-72 lg:h-auto relative overflow-hidden bg-surface-container">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBW02phcCSLH-kjl9ANs72OKfyH1j3J2EUXK6yG04hEOBEwsGocuBdfPELXS3tPicdeK-5jluKCIOgM58aOP-vpEfynYQN-8sEAerd_B6yqKyPqwucwpDdNmmfASAMMjerqOgWcTZl7aCOOyn7JI3uW0Fc6z7icnypMfuZlyApghrZJB-KabL5n55DLvHHFXuuRofGqXb3GzIL-IrG92maWzSaE4hg4_M5RHU-XnlA0NQcRCngGtwfRYA"
+                src="/demo-media/prime-vision-eye-clinic/prime-vision-eye-clinic-04.jpg"
                 alt="Dr. Hyunwoo Kang - Chief Cornea & Refractive Surgeon"
                 className="w-full h-full object-cover object-top"
                referrerPolicy="no-referrer" />
@@ -92,7 +92,7 @@ export const MedicalFaculty: React.FC<MedicalFacultyProps> = ({ language, onSele
           <div className="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col lg:flex-row border border-surface-container/50">
             <div className="w-full lg:w-5/12 h-72 lg:h-auto relative overflow-hidden bg-surface-container">
               <img
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmKQ1tRAWEJfwRdGbAgPybdRoHbfTBiXHduhQg0zWXfF933COW41rPZNbhTRQUpwyMJmWRrXjDxmojka4s09PYrdm66quNPwVbBFrYL5-0TTgOsbF_eyWhvBVVSkJUgquKYll1BRqQ_oY-c30noJvojid_B39IxmLgRjWSxrPjveRRWjFfgmZt-bq_7NLZcn78iklLvmVKp68-_xxin3o-DKiOsIywTQGU8IjZosSe26tWvKXv6Vlj5w"
+                src="/demo-media/prime-vision-eye-clinic/prime-vision-eye-clinic-06.jpg"
                 alt="Dr. Sohee Yoon - Chief Cataract & Retinal Specialist"
                 className="w-full h-full object-cover object-top"
                referrerPolicy="no-referrer" />

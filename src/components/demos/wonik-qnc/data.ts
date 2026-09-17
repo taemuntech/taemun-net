@@ -10,7 +10,7 @@ import {
 } from './types';
 
 export const LOGO_URL =
-  'https://lh3.googleusercontent.com/aida/AEtjO1VVc68zDenv9A5zgOxL0pfm3Z1lLkpoTqdxb3nUlvQKIGR1a8wtblKnpMDE0sInjJ74X5yU45QFjVUDlfsnJm1-A_307UmDcWHrKbLkNCKgffWsfeNDaBuXhQAup_Tq0cA58FMH5n1iqFbwOOb4KjwvakWe_1pAflCaKDqJP5MfblJDUFr5pRbahIuyQitKjmGQXZDWAK0XmPIuOOkMgOWVtHONLm1jP9ZGU1jbMTU9fv3USsOD0pELhHw';
+  '/portfolio/wonik-qnc/wonik-qnc-05.png';
 
 export const NAV_ITEMS: NavItem[] = [
   { label: '회사소개', href: '#company' },
@@ -31,7 +31,7 @@ export const VIDEOS: VideoItem[] = [
     badge: '40th ANNIVERSARY SPECIAL FILM',
     isUhd: true,
     posterUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDgg1CFsX4Rlv7v8iswdosWchI-qMhyrD7vwnGmzOaR6P-3sCJD0XKtk3YCJebSRHSgrWQfTr1SQN79YTb7LobEF40hJaWrjcIyvbZyuxBi30x9cCYDsUv2XQsfpBCr_QHZ5qK1L1koYU4K9vg0r_8xrlGh9lhAfNHaUpRpM5KhGQ8Rfl3EBfuB-BbnFEs5Y1dunYaSmlNz5v4jkAwBK8m09fzboo4jrX0KCGkod1YWjeDPjqdaShEl',
+      '/portfolio/wonik-qnc/wonik-qnc-04.jpg',
     description:
       '1984년 창립 이래 반도체 쿼츠웨어 국산화의 신화를 쓰고 글로벌 1위에 오르기까지, 원익큐앤씨가 고객과 함께 걸어온 40년의 열정과 혁신 기술을 생생하게 담아냈습니다.',
     chapterText: '초기 국산화 도전기 · 글로벌 M&A 도약 · 차세대 나노 소재 연구',
@@ -44,7 +44,7 @@ export const VIDEOS: VideoItem[] = [
     category: 'BRAND FILM',
     badge: 'BRAND FILM',
     posterUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuCJHbg9b6BVQkMomNNffDnJrgOcb8gA6inOIjAeP4TX9CzQ2SkiessDf25b5XMcqkUQFuUQBDGM8YAUvxeiy0onbZLDu1k4nuvyv1Tgs756Winj37GPWys_NLf7iDtn4hhwHTnXWPttIBbCE8Qs5QMVnCgO2Vm-eEcjZZ7zpzKORXTNIeqE3HQDOnVpc-3VDtgWTgZvesmbpfgED96MPHxSZuYWQTHoIvzJ9aKhsk6F-NMUDv_xEvea',
+      '/portfolio/wonik-qnc/wonik-qnc-03.jpg',
     description:
       '최첨단 반도체 패브리케이션에 공급되는 초고순도 쿼츠웨어 제조 라인, 정밀 세라믹 소결 공정, 첨단 세정 시스템의 실제 구동 화면을 소개합니다.',
     chapterText: '쿼츠 · 세라믹 · 세정 · 옵틱',
@@ -57,7 +57,7 @@ export const VIDEOS: VideoItem[] = [
     category: 'HIGHLIGHT CLIP',
     badge: 'ROBOTICS AUTOMATION',
     posterUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuCJHbg9b6BVQkMomNNffDnJrgOcb8gA6inOIjAeP4TX9CzQ2SkiessDf25b5XMcqkUQFuUQBDGM8YAUvxeiy0onbZLDu1k4nuvyv1Tgs756Winj37GPWys_NLf7iDtn4hhwHTnXWPttIBbCE8Qs5QMVnCgO2Vm-eEcjZZ7zpzKORXTNIeqE3HQDOnVpc-3VDtgWTgZvesmbpfgED96MPHxSZuYWQTHoIvzJ9aKhsk6F-NMUDv_xEvea',
+      '/portfolio/wonik-qnc/wonik-qnc-03.jpg',
     description:
       '초정밀 레이저 측정 및 6축 다관절 로봇 자동 열가공으로 웨이퍼 치수 공차 오차 0.01mm 미만을 구현하는 최첨단 설비 클립입니다.',
     chapterText: '자동 열가공 · 비전 치수 검사 · 클린룸 패키징',
@@ -70,7 +70,7 @@ export const VIDEOS: VideoItem[] = [
     category: 'HIGHLIGHT CLIP',
     badge: 'ADVANCED R&D',
     posterUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuC2YGxUeBmw52ZsaHgLeK7qjJ05HKC4VSDKBwYE1VpWvb9N1iNoHeRec_YvBLTlq4RDU3QE5dhV3tJ0_gQEZ8CjUMagQC13Ovy23LudeB5ALwK09ftzkBkORaMq8GLF1xonLVJEevq_2XkVAgjuMpn4KmvxGglxjRAZPKwi9OErsU74M8_TLirReziFzZXCqYfeza_-aMtIgMgg8cc7xLt2eqFjQC7j__HlspxlapgAIHezJl1D__WC',
+      '/portfolio/wonik-qnc/wonik-qnc-02.jpg',
     description:
       '불소/염소계 플라즈마 식각 분위기에서 고순도 SiC 및 알루미나 세라믹의 내구성과 내식성을 비교 검증하는 실험 영상입니다.',
     chapterText: '플라즈마 노출 시편 분석 · 내마모성 측정',
@@ -86,7 +86,7 @@ export const BUSINESS_DIVISIONS: BusinessDivision[] = [
     tag: 'GLOBAL NO.1',
     tagColor: 'bg-[#0052cc]',
     imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuCJHbg9b6BVQkMomNNffDnJrgOcb8gA6inOIjAeP4TX9CzQ2SkiessDf25b5XMcqkUQFuUQBDGM8YAUvxeiy0onbZLDu1k4nuvyv1Tgs756Winj37GPWys_NLf7iDtn4hhwHTnXWPttIBbCE8Qs5QMVnCgO2Vm-eEcjZZ7zpzKORXTNIeqE3HQDOnVpc-3VDtgWTgZvesmbpfgED96MPHxSZuYWQTHoIvzJ9aKhsk6F-NMUDv_xEvea',
+      '/portfolio/wonik-qnc/wonik-qnc-03.jpg',
     description:
       '세계적인 기술력으로 반도체 웨이퍼 식각, 확산 공정에 필수적인 고순도 Quartz Ware를 제조하는 글로벌 리딩 브랜드입니다.',
     subCategory: 'Diffusion / Etch Tube',
@@ -104,7 +104,7 @@ export const BUSINESS_DIVISIONS: BusinessDivision[] = [
     tag: 'PRECISION SINTERING',
     tagColor: 'bg-[#006187]',
     imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuC2YGxUeBmw52ZsaHgLeK7qjJ05HKC4VSDKBwYE1VpWvb9N1iNoHeRec_YvBLTlq4RDU3QE5dhV3tJ0_gQEZ8CjUMagQC13Ovy23LudeB5ALwK09ftzkBkORaMq8GLF1xonLVJEevq_2XkVAgjuMpn4KmvxGglxjRAZPKwi9OErsU74M8_TLirReziFzZXCqYfeza_-aMtIgMgg8cc7xLt2eqFjQC7j__HlspxlapgAIHezJl1D__WC',
+      '/portfolio/wonik-qnc/wonik-qnc-02.jpg',
     description:
       '축적된 가공 및 소결 기술로 초고온·고내식성 환경을 견디는 첨단 파인 세라믹 소재를 공급하여 공정 안정성을 확보합니다.',
     subCategory: 'Al2O3 / SiC Ring',
@@ -122,7 +122,7 @@ export const BUSINESS_DIVISIONS: BusinessDivision[] = [
     tag: 'SUB-MICRON CLEANING',
     tagColor: 'bg-[#515f78]',
     imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuBAehzPsRm2xbeaT38aotXRbCvzR8WfuWk63r6Z78436R6Wio8-AcqmmbYvIMwQAkzcDA-feO-ICWPKfNc5Kg9FDD5zRSeu7_h3lZzRnj7UrNxrYIBbqmlWTn7lbpos3d6bKK93N8UdGdjNxqFzxWEYgzx_i4EyTOZ05rCe-VYruQiq0wNU3GcrJpFrLmDFujBF5hv3GsHoHf6TATAv1EXaKO-dz3GltRr8pR_jJdq6vQdFiVvJ3Ae2',
+      '/portfolio/wonik-qnc/wonik-qnc-01.jpg',
     description:
       '반도체, 디스플레이 핵심 장비 부품의 초정밀 오염물질 제거 및 나노 표면 코팅 기술로 부품 수명을 획기적으로 연장합니다.',
     subCategory: 'Plasma Spray Coating',

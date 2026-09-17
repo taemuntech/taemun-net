@@ -70,7 +70,7 @@ export const ChefRecipeSection: React.FC<ChefRecipeSectionProps> = ({
         {/* Recipe Showcase Image */}
         <div className="lg:col-span-5 relative rounded-xl overflow-hidden shadow-sm aspect-[4/3] bg-surface-container">
           <img
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAH7Q06UVbORwGe3H_irfIVFMfyNHpHDrudkQITCRqQblQMFHCRsujeYrVH7s35QbzD67FjjQl4cF9Y4V6bWlumVtHqJVvgv_VvJuuyi7Z-NwkTka5Rf_xaGqSFKerRGZBJW1nkQNiC6agShNE1jsAieA6wRyj85701lB5EtseyRo9hrwkQuZvTMG5RTdhUTdNgRktoj7Jo34beQQrEGhmy4Uc862Vm7_1A4S6-GgLQdwSjSqvufIZp"
+            src="/demo-media/verde-gourmet/verde-gourmet-02.jpg"
             alt="시그니처 셰프의 지중해식 로스트 한우 채끝 & 구운 토마토 타르타르"
             className="w-full h-full object-cover"
           referrerPolicy="no-referrer" />

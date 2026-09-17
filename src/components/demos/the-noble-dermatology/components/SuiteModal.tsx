@@ -35,7 +35,7 @@ export const SuiteModal: React.FC<SuiteModalProps> = ({ isOpen, onClose, onOpenB
           {/* Main Visual Image Banner */}
           <div className="relative h-64 lg:h-72 rounded-xl overflow-hidden shadow-md">
             <img
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuACCpNzkGl2zGA1PXlUoeM9eUuqDeJ74sQSdDhYSeYL2k7sgUnli2bT5HUtjqJQiwaNCW6g5qOeiRWIQVLnK_5JVB8lZhlcmKqwmiWpzQprQIavPj0bTqEnh7xthcwO7oc7rQYXurQD-jAxR0qZMCtadcSE6nlmta4Ba9HZdp3KZ6ZQFLEV4frRoondEynpCfa7vmQnchA-zPDXg5IiAQyfdPL0TiboeUePE0QwG1_tdwIf_TS0D9R9Vg"
+              src="/demo-media/the-noble-dermatology/the-noble-dermatology-01.jpg"
               alt="Luxury VIP Suite"
               className="w-full h-full object-cover"
              referrerPolicy="no-referrer" />

@@ -10,11 +10,11 @@ export const BRAND_INFO = {
   announcement:
     "PARIS · LONDON · FLORENCE DIRECT · 100% CERTIFIED AUTHENTIC",
   logoUrl:
-    "https://lh3.googleusercontent.com/aida/AEtjO1VZlkjlXohzPlyYto1_W62UHwvmiOnT-7yl1s0B5ppQvbkqfv91xfYBTLkq8pmSTLPOIJqan6kufHHMLPVgavGRjfzno1hvUCGLFwnSy8cYhsQmdLUogq2cF0JQL1e5k_lHmOswXUJItQzxsd7jLReoSKQWP4pLrZhTdJEfDbOkfXUFqO1nnnZSYJVwWn71YXLCWyAYmEF3KrDWZsalGy3TDuAgwW-B90aJYXzlh81IkalBE6U3A0ckaQ",
+    "/demo-media/maison/maison-17.png",
   heroImageUrl:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuDG3U71UG2sag7nQaN1upmn1zWrQnzXY02ruI2hGXrq5TDNvU83YgjmO_yG9EDVJ7xhY2EkfmHOVVmonJNe_5iwO--N2OsB04DWSzfOthE8_wQz290_uVqWmBJu_rUTdObJKyPQtGO2qxMdySwi7bP0m0S6vfDbP8goS6g4nrqNwum0CCuMMRi4J9hWqNyNcUOn3DrGhT5828Av6L2H7ztIwtUaA2RS9Aq9EcgUgNhJkDse-o3NLHj5",
+    "/demo-media/maison/maison-13.jpg",
   atelierImageUrl:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuAtbmnIB-OJIfF9KjdI_t6DowxkBmcJIaG_nujcijO0Us7keypTUWkavk-JZh21-5H99_Gox3OrEsRRyMWg09yIDN9FK1X_tIZs8crMNaS-kTRFtML1uEKRXMOhB74Uzn2rGYZrhRtsikvm98bayXs5CShEMRnV2ZVFWEFlkzP2B6d1L9ssS08t80Yl7ITZGZB-FlejJAwhj6gBZUYW-BDuxyZM6lgKqUytPSyKG6nVOJr2p4VfvvJE",
+    "/demo-media/maison/maison-04.jpg",
   contact: {
     address: "서울특별시 용산구 한남대로 24길 18, 메종 당티크 살롱 (사전예약제)",
     atelier: "서울특별시 성동구 성수이로 14길 8, 당티크 복원연구소",
@@ -44,7 +44,7 @@ export const FEATURED_SPECIMEN: Product = {
   description:
     "유려한 곡선의 봉베(Bombé) 바디와 화려한 루즈 그리요트 대리석이 결합된 18세기 프랑스 로코코의 정점입니다. 손으로 직접 조각한 아칸서스 잎사귀 오르몰루 마운트와 300년의 세월이 스민 깊은 목재 결이 공간에 압도적인 품격을 선사합니다.",
   image:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuB8hvFRZ_2YBabb72tjfp4SP3OpNE4wCZmKE9QXRJaudYk9e3_dYWnxv3fpnKz0gTz1lf-LBIu0YP962RbCaOxuJ7e56egyRIB0ERDrsJHdIaeFYvUwtWjdouaJt_G8rWqaKQvzQepVnHNSmbZ0aumx20lZTjenNYQr0Z1daslgAeLS-bSCTU5FQe7OppwT-Zf_9UQ9FAl21qHAbCoCjUj4HWrir-7u7uKSSknWUkKP4_cAE0wal2P1",
+    "/demo-media/maison/maison-05.jpg",
   imageAlt: "18세기 프랑스 루이 15세 오리지널 월넛 코모드",
   featured: true,
 };
@@ -57,7 +57,7 @@ export const CATEGORIES: CategoryItem[] = [
     specimens: "42 Specimens",
     filterKey: "french",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDvN08a0MBW1IdHp7hkmM-Q5FASnsVdE-nAJKP9IFIzro5UAXPudmtmEVemCj01D48G1NwmDPOS22eXzXb6W3o4gFPZJT6QnRqEooN33dllLCkQvTZD7EhsziEQtmhK2LSVqF25gLPRu5CqzscscihwKPE4bqK6Vtk02A1nX05-Uy1Fw_Ao1vClOwhgftvZusYW0fAvRykAW1rgxxEfGKI7kVd4Nq1VSFEnh2-Lh5mB5P1suyC4XtQZ",
+      "/demo-media/maison/maison-16.jpg",
     imageAlt: "French 18th-century antique bureau plat writing desk",
   },
   {
@@ -67,7 +67,7 @@ export const CATEGORIES: CategoryItem[] = [
     specimens: "28 Specimens",
     filterKey: "lighting",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCplZPfLiw6JwBjjXvAbtXI5yI-GND6N3gXQz1y7j1WRenx0k8m7AJ4GW7YDAgeIiSsDFiDnQO6vCUptm4Tbcnxg6H3Kx5eLARV-9NJVRXIcc-__HFp9Hc3v-zLtALP1s3yzPzpBqhNZGADxFowQ3BDB2wSVhmMB5EQUc-5PuzrneFaRX5B0bTPLisvxhZ3hQHfL1_0aD7aFCyPVqcg17cGuH54hPHIFbDP6mCCIS-HuadaB5m7fAJf",
+      "/demo-media/maison/maison-12.jpg",
     imageAlt: "Antique French gilt bronze ormolu chandelier and sconces",
   },
   {
@@ -77,7 +77,7 @@ export const CATEGORIES: CategoryItem[] = [
     specimens: "19 Specimens",
     filterKey: "french",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCTk0OQzR8woSzKTkTVc1eR62c-oeezOxMaDrFUq8inDZcy06mk13OTm6EALnUQcJGeiixGTo1wjJ89ftjDBAFUtMTJOiYcxEONLCB2RNaZdTppVyc7MkG3CuwAvPFFY7soQgt_7W3075CG-4_YPUv-BDAzGuVlteRxT0NwiUm7qJtnqlOUo6SYsMvxFer2t38O2R1190hP4taBWTGbO8xObRzX8lGB8dJ6qK211_hPiu3Y1qxg6Djk",
+      "/demo-media/maison/maison-08.jpg",
     imageAlt: "19th-century French Rococo gold gilded pier mirror",
   },
   {
@@ -87,7 +87,7 @@ export const CATEGORIES: CategoryItem[] = [
     specimens: "54 Specimens",
     filterKey: "objects",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAagFjW4WMJl-jQw3TlVEXG3gf6hZ4yVCd1gs5Q-Vp4_INodSyQ7VmghY5tulqu9xSMc0ceylYJ8hhV5BLjbHSFLkfRHPvupB4pZlyOPGjJYIgVzL6VX6AwCAEZZYl5siIYYsCnDr2R7z6vjXzapqKwi3EPrmKIJjEi17X8CdlDsFUrouvOAniazs47-U6aM6HeyOSAQPWkQB8QeXZSmLbfGO7Wsqf8mDMDSltTdw0Lm38KYEbPbZk0",
+      "/demo-media/maison/maison-03.jpg",
     imageAlt: "Antique Sèvres porcelain vase and sterling silverware",
   },
 ];
@@ -112,7 +112,7 @@ export const PRODUCTS: Product[] = [
     description:
       "프랑스 제2제정기의 화려하면서도 안락한 살롱 문화를 상징하는 암체어. 리옹산 실크 벨벳의 에메랄드 그린 빛깔과 흑단에 가까운 파티나를 머금은 프렌치 월넛의 조각 디테일이 돋보입니다.",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCbUOvRAUdEMuAh3CVPCFvzlbaiqLMMIJ7oZNFab_f4gd7ZNEov6v4MIOs7l3sZTQ9uDBdXZRwi0YXlJkcsaGnFo_KuAq59FKjRnl6FnG0pcb5BhZcfh3gIVm5lNkJiRT_7BOK6PklC1gdQHH-irC0jysPeE9WRTmQkJQLadyUoYrOoRq8sJZA_6RxIY6gElWy-43NZTIQvtXRryWZjMyfKB-Yws_jKNZk3CqrpvenRft3zd1PodfvE",
+      "/demo-media/maison/maison-09.jpg",
     imageAlt: "나폴레옹 3세 에메랄드 벨벳 파퇴유",
   },
   {
@@ -134,7 +134,7 @@ export const PRODUCTS: Product[] = [
     description:
       "프랑스 혁명 직후 디렉투아르 양식의 절제된 고전주의 미학을 담은 벽부등 브라켓 1조. 순금 수은 아말감 도금 특유의 깊은 광택과 섬세한 월계수 잎 문양이 아름답습니다.",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAXaEgdx_GjD_Tb-Qgf8a1YfzpZTd_rV_hDr9r1Iu_2rcDfoABUG0ILdjTafM98Y04_EoeiVVK0h2Ezvcb5fG7Wrw1ciGDQ5auC3N4-ZXocCxIp6VE5s1zrbEkonswNXh-ssf1aEbhrHr9pPztGyYzIfCVMDplGD_gahZQFlPEV1q-ZB5k6chrMluRQqKrd_suyZ47PuhNF5TOvkY-xef8QvfLl4mf_Da0B3or-kVaZt_r-lEBi8y8N",
+      "/demo-media/maison/maison-02.jpg",
     imageAlt: "디렉투아르 길트 브론즈 촛대형 브라켓 (1조)",
   },
   {
@@ -156,7 +156,7 @@ export const PRODUCTS: Product[] = [
     description:
       "빅토리아 시대 특유의 버 월넛 나무혹 무늬가 대칭으로 펼쳐진 트윈 페데스탈 서재 책상. 상판에는 금박 롤러로 음각된 숲빛 가죽 패드가 정갈하게 유지되어 있습니다.",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDs4ZRLHL6UcEyGIwgrNSjS8vbWMxFa0iJNnk8vA1_Vd1yAgfDHosfqKAQIPmRuvjcWfIB6rEuE-JRhYVTnfEke1fnSNG9JkKeQHd3Ya1JwZhj59Vl3ELXlBvM3SsqXQXzVWX642ax4aw01Yaj5pCGMDQ6c0ODyI7WgLEeic2ZuMXXyFTGDdFT4caHFkkLS1TGHnV62CX27OKWeyDNX2X9CPtuwqBvdMrbKFwIEdkehMWlM0Nf2Mldb",
+      "/demo-media/maison/maison-15.jpg",
     imageAlt: "빅토리안 버 월넛 트윈 페데스탈 데스크",
   },
   {
@@ -178,7 +178,7 @@ export const PRODUCTS: Product[] = [
     description:
       "둥근 상단 모서리와 정교한 진주 비딩 문양이 특징인 루이 필립 시대 거울. 백 년이 넘는 세월에 걸쳐 형성된 수은 유리 특유의 몽환적인 반사와 금박의 세월감이 감탄을 자아냅니다.",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuA2yA6QhaoSVmbkR4BfOUae3GQ_eoUh50iI_unQBihipJ2UfkcHtjb58bPM36ZuRKm-gxneTT5hNkbE52WwqkPdY80Xa2Iu0rLVEjE5yLGUGnpce7fmjepvny8sbq4JLuSaXTrBP660uM2Bxu5sDAZuelscdaK2UbOmd1HSHSYFKrAivci_BwpwVejVSo8p-86FyLvIXY5JKlROtAnOyNJVpt9IimwT-QmwByhNROYBZ8TDCoklQW6Q",
+      "/demo-media/maison/maison-01.jpg",
     imageAlt: "루이 필립 길트 리프 오리지널 수은 거울",
   },
   {
@@ -200,7 +200,7 @@ export const PRODUCTS: Product[] = [
     description:
       "유럽 자기의 자존심 독일 마이센의 19세기 대표작. 테두리의 오픈워크 격자 투조 세공과 중앙에 손으로 붓터치한 야생화 부케, 번니싱 기법의 순금 채색이 우아한 테이블 장식을 완성합니다.",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBHUlYL9sWrmNHPndJ5npri_DHkyrqFI_LrqUIvQJMXwG3rCG7ujK4VKiovWJngNff81hfMZvHVLp2PWUQf-vPOTt3VqnkeXR8xsWLYZ1BheMr6UVrGl6OXjEU_WF39uTnXAEJ7aXn-C6YFm8eUxZbtQhq5F-g62DjjjDBKAUbK8ss69C7LgPqcBNPP1UvSwQf-Bdjiadp0odvOhJVvaphxJKiUq2eLSwZ8gDVGaw2_H89hf5E90LDR",
+      "/demo-media/maison/maison-06.jpg",
     imageAlt: "마이센 핸드페인팅 플로럴 길트 센터피스",
   },
   {
@@ -222,7 +222,7 @@ export const PRODUCTS: Product[] = [
     description:
       "귀족들의 디너 파티에서 차가운 와인을 서빙하기 위해 제작된 리젠시 양식의 셀러렛. 불꽃이 피어오르는 듯한 플레임 마호가니 결의 농밀함과 절제된 사브르 레그 라인이 탁월합니다.",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuC3oY5QtX_zzK91YsgZAOZOHqZFEhJ1cXK3qqzPAx2r-vjfYstGYXQLz7eEeZcSLgC-FEznXaHRxgw4PPQ_f4vZbjw7XiNGYVEfX5WzRxsnvigixaQdrQ3XD9o8GNm5kaM1FfbniMSwbWlBPZB9RwLoADEr0eYYkaF4ocL4OJAInfghRZUgljCgto6e9Nx3C0_rdtR7sj6m2sTvYfrtd5Awg5YYPgoEId8g0lekpf6MrAASHB7tYN32",
+      "/demo-media/maison/maison-07.jpg",
     imageAlt: "리젠시 플레임 마호가니 와인 셀러렛",
   },
   // Additional specimens for "전체 84개 작품 더보기"
@@ -245,7 +245,7 @@ export const PRODUCTS: Product[] = [
     description:
       "기하학적 무늬로 얇은 원목을 모자이크하듯 상감한 파케트리 기법과 우아한 카브리올레 레그가 감탄을 자아내는 로코코 서재용 집무 책상입니다.",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDvN08a0MBW1IdHp7hkmM-Q5FASnsVdE-nAJKP9IFIzro5UAXPudmtmEVemCj01D48G1NwmDPOS22eXzXb6W3o4gFPZJT6QnRqEooN33dllLCkQvTZD7EhsziEQtmhK2LSVqF25gLPRu5CqzscscihwKPE4bqK6Vtk02A1nX05-Uy1Fw_Ao1vClOwhgftvZusYW0fAvRykAW1rgxxEfGKI7kVd4Nq1VSFEnh2-Lh5mB5P1suyC4XtQZ",
+      "/demo-media/maison/maison-16.jpg",
     imageAlt: "루이 15세 로코코 뷔로 플라",
   },
   {
@@ -267,7 +267,7 @@ export const PRODUCTS: Product[] = [
     description:
       "빛을 굴절시키는 섬세한 크리스탈 프리즘 드롭과 중후한 길트 브론즈 암이 만들어내는 클래식한 조명의 정점.",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCplZPfLiw6JwBjjXvAbtXI5yI-GND6N3gXQz1y7j1WRenx0k8m7AJ4GW7YDAgeIiSsDFiDnQO6vCUptm4Tbcnxg6H3Kx5eLARV-9NJVRXIcc-__HFp9Hc3v-zLtALP1s3yzPzpBqhNZGADxFowQ3BDB2wSVhmMB5EQUc-5PuzrneFaRX5B0bTPLisvxhZ3hQHfL1_0aD7aFCyPVqcg17cGuH54hPHIFbDP6mCCIS-HuadaB5m7fAJf",
+      "/demo-media/maison/maison-12.jpg",
     imageAlt: "프렌치 오르몰루 & 바카라 크리스탈 샹들리에",
   },
   {
@@ -289,7 +289,7 @@ export const PRODUCTS: Product[] = [
     description:
       "깊은 밤하늘을 연상시키는 블뢰 드 루아(Bleu de Roi) 코발트 컬러 위에 궁정 연인들의 정경을 섬세하게 담아낸 마스터피스입니다.",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAagFjW4WMJl-jQw3TlVEXG3gf6hZ4yVCd1gs5Q-Vp4_INodSyQ7VmghY5tulqu9xSMc0ceylYJ8hhV5BLjbHSFLkfRHPvupB4pZlyOPGjJYIgVzL6VX6AwCAEZZYl5siIYYsCnDr2R7z6vjXzapqKwi3EPrmKIJjEi17X8CdlDsFUrouvOAniazs47-U6aM6HeyOSAQPWkQB8QeXZSmLbfGO7Wsqf8mDMDSltTdw0Lm38KYEbPbZk0",
+      "/demo-media/maison/maison-03.jpg",
     imageAlt: "세브르 왕립 도자기 공방 길트 핸들 우른 화병",
   },
 ];
@@ -298,7 +298,7 @@ export const RESIDENCE_STORIES: ResidenceStory[] = [
   {
     id: "story-1",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuColewW_Q_NqCM-0mFTsTxtdVz7dPoonaexbldeHWmvCAwrCCTlGUDlVFtMZLA91951Xywv7Sg5WUrlRf_HCIvQIqNafCOCO_RdanW4t-9ZOxKfDlqnRhZJQAJ3yK8dM7QnOXZka9DWHBtRovqNHx2JgpbP7HrhOTKqENexXvBHqOmKzGDXDJeqUc4k2L1G_olT5OhBSoIMCxsS3h2mVOAxUPAVg56_o-FtLfxNBoxPTi0jFR64Qdk1",
+      "/demo-media/maison/maison-11.jpg",
     imageAlt: "Modern minimalist penthouse living room with French Louis XV commode",
     quote:
       "모던한 구조의 신축 펜트하우스에 메종 당티크의 18세기 코모드를 들이자마자 공간의 중심축이 묵직하게 완성되었습니다. 목재의 깊은 결과 황동의 은은한 광택은 그 어떤 현대 가구도 흉내 낼 수 없더군요.",
@@ -309,7 +309,7 @@ export const RESIDENCE_STORIES: ResidenceStory[] = [
   {
     id: "story-2",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuChHXPQnauZoYsyHp5gOF3OtDJY0TfhU59RQjtbofxIUuephzzgcXEB9dH04k8hSjvKJbrb46TpPW37pQ9914NApoS3U0oL-f90tpC0HpZJrd7j1WdGRKnXeiyymQoeYH3MCRJF7-wuSDB4M-4uE63ceNfRcic9os6H5_42C7XltzlRiPJMVSVFW7Dqx-VAXlj71b8psZnbcJ20NA98qZXyUoyriTGW3c8JE0TKs9rtalvEua6W_RT8",
+      "/demo-media/maison/maison-10.jpg",
     imageAlt: "Private law office executive study with Victorian desk",
     quote:
       "빅토리안 버 월넛 데스크는 단순한 집기를 넘어 저의 철학과 업무에 대한 깊은 경외감을 전달합니다. 프랑스와 영국의 검증된 증빙 문서가 함께 전달되어 더욱 신뢰가 갔습니다.",
@@ -320,7 +320,7 @@ export const RESIDENCE_STORIES: ResidenceStory[] = [
   {
     id: "story-3",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDrya97ECPG_SXQ93LT2pVz8qEwDnPF6kztWBlx6swXgU0NTxtxeSSeK49B38GLzYvPJ_pbEsZdG-8k7zvJSk43AeFDysjMGHN1vgeHv3si8ckCOGuFsDKtRne5o390Cz1Oo6eKeVcpSUa4Ls8kBzP5kWvy-1e8xRZV5ZAJMnmK5vqE2nmYBdOJeIQaJpk-rR02uBrWA5B24GEkOzjWCcCt8Nd3mbCe3naloocNA2oh-P4xugTcC2IM",
+      "/demo-media/maison/maison-14.jpg",
     imageAlt: "Boutique heritage hotel reception salon with chandelier and pier mirror",
     quote:
       "호텔 로비의 샹들리에와 루이 필립 거울은 투숙객들에게 가장 사랑받는 포토 스팟이 되었습니다. 화이트글러브 운송부터 설치까지 세심하게 관리해 주신 아틀리에 팀에 깊이 감사드립니다.",

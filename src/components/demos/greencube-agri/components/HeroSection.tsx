@@ -106,7 +106,7 @@ export const HeroSection: React.FC = () => {
           <img
             alt="Cleanroom AI Vertical Farm Biosphere with scientists in protective gear inspecting hydroponic racks"
             className="w-full h-[400px] lg:h-[620px] object-cover"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAy43GOmTnr2T8zFUP4t4l8gCmRafBwVHRK3QC-R1sXlbby4-Do0Lf8ukKqlomkfQAD5cbaUdcxYvgJDQmowqHJMVj9qzPoHLLLbBPemx3bKkBiqjbiThMAlGOPuGE7IHPNxwGF89JD5MhkkOO45WCnvM7WhI8BwrXvtiP-iBBoPNCwmdSYpic-KmPyNzNcUloj7YW8lJShKrggigr_z1sGhFae9hCMuGm3YcpXobqGHbUTjvfiqIa9"
+            src="/demo-media/greencube-agri/greencube-agri-01.jpg"
             referrerPolicy="no-referrer"
           />
 

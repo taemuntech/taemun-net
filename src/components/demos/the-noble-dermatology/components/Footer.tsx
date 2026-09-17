@@ -10,7 +10,7 @@ export const Footer: React.FC = () => {
           <div className="lg:col-span-5">
             <div className="flex items-center gap-3 mb-4">
               <img
-                src="https://lh3.googleusercontent.com/aida/AEtjO1XotcY4wk8Alj-m2RaDxAvug3k6p5BEHeS84aXw7SzXYw5ISSC6rEaov_Kz2cVtpopYkAlLszOgPyuUu7kuXwFjlyIPPbV6GaxOu5qXOcPhsEt77OKK471Eyr0z__L9RqZSjSaAAFpgqHXabRh6mREZ1J2kH_sjI-qmrmUE__VpU-R-GCXh9vbH0KrKAejENFR86VHY9SkR8BI0VzkkZ95AeTpvn3672RJuxogpbJj7aoVqoUb6w0sLgjs1"
+                src="/demo-media/the-noble-dermatology/the-noble-dermatology-07.png"
                 alt="The Noble Cheongdam Logo"
                 className="h-8 w-auto invert brightness-200"
                referrerPolicy="no-referrer" />

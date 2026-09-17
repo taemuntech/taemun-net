@@ -10,7 +10,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     subtitle: 'Ultra 9 185H / RTX 4080 / OLED 240Hz / 32GB',
     tag: 'TGP 175W',
     tagColor: 'secondary',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAQmUTO6vNGKFnwR1u48WuybiPEv61cgB5UDN0SqLZXP8MGirv1h8y0SB8dUnivkNjPPa0bhbn35FtSkmPCueKLqc0_PwvmnyWb73dUvMMSae9W4USpnYdd_PFHfzKwI3IX75Zl1NZ5ua3jsWpuhVfNwN7hMk42ruHIADZcVKe3FQXARNoMPWVhoJYw64tsBJb6YoWTQG-K0UDTSy-LfHqJpIUbG-6l2C4hB402-8zJHCU3pJrbDy-5',
+    image: '/demo-media/technova-gear/technova-gear-02.jpg',
     originalPrice: 3520000,
     discountPrice: 2890000,
     discountRate: 18,
@@ -38,7 +38,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     subtitle: '퀀텀닷 3세대 / 0.03ms GtG / DP 2.1 UHBR20',
     tag: '0.03ms 응답',
     tagColor: 'primary',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCtHkJHg344YJUoxjSWr83kPRGx6J2zqldpUb832rJ6yDWZCISys9B9s8fRfzfLDqqLOTRzfbCD35Oh6ZlJaqeU0xg6xcVQPk-G7m8yYi_ZdLeKUZTxyHotXzRdx_yD2De2FdiX-MnnT2R9OFAucEcQE3oMV7U7Gz5GLxJWLKX8Zs-VqcNMt7Mpei2uEDXA3CQhA9TXXyqwZVIJkSCqX2sEn7AHlaOHAy-3N_R60Sy1dfXzlDr1Z8Tl',
+    image: '/demo-media/technova-gear/technova-gear-04.jpg',
     originalPrice: 1640000,
     discountPrice: 1390000,
     discountRate: 15,
@@ -60,7 +60,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     subtitle: '자석축 홀센서 0.02mm 스트로크 조절 / 무선 2.4G',
     tag: '8000Hz 폴링',
     tagColor: 'tertiary',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBA7i5KR31sD2cPyVspypZ95ovbwVdv6EkO7411zcrWnR-aeIH_WD_HH0CdjbfR8LNXb96AwZI25Qbrjj_xMRvMd46m8jQtjlo-A5UHBTLOKEm5ZjI41qhVe8Gm7CeFsYD3F2co4vMJ-JgMeMOeRy9DR0poz3P1-IjaS7DDqJBLXF_hgFQ2I5sbrJf8JiVdLj9tGES4ltnpk1Jq7MhxS1uO_TNSdSp_RxCm_VpwjJlJyA6m6lx0mFIS',
+    image: '/demo-media/technova-gear/technova-gear-03.jpg',
     originalPrice: 320000,
     discountPrice: 249000,
     discountRate: 22,
@@ -81,7 +81,7 @@ export const INITIAL_PRODUCTS: HardwareProduct[] = [
     subtitle: '90mm 평판 자계형 드라이버 / 24bit 96kHz 무손실',
     tag: '플래너 마그네틱',
     tagColor: 'secondary',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDI0jBz5LXhKXKUTPMDhC3VUGgnyCowov-TqN0HxyP8XPhZ65T7ocVKvQnCPCEgNtPw7uzldngyUaTcIbvE6tR24aJ5mNYGRND2UKBjJFBGguflul2ZwX3LxEAXM7s1w3-DkmAd4TJNLzvb_R_MY4vmT_5yov60R3PRDqLY0nUMK2qAkCI8MceKnwQBEbcRkGHiU3OknPofXKYNS2bffL1-OzWLVuduVcLYvvXMIQY691mWIckndQlA',
+    image: '/demo-media/technova-gear/technova-gear-05.jpg',
     originalPrice: 489000,
     discountPrice: 429000,
     discountRate: 12,
@@ -161,4 +161,4 @@ export const COMPARISON_MODELS: ComparisonModel[] = [
   }
 ];
 
-export const BRAND_LOGO_URL = 'https://lh3.googleusercontent.com/aida/AEtjO1XFuaKoXGAZXsOFkQSv4Zbktd2fj-Ds8sCVhU1rD91pE7CQi93U7T0ULqetr1ocXVRpwLO5GoL5AfuDX59_nGwZFj3WWe5vgj8aTvgMFD5LRtu8DrkcS1OX-g5gRXQ1fwWBGvupqpozLyKBbsVxNAMRJjia4om14iNbRsQIs4UpH-C0Ccq4k6ALmUFM9kV5urom7hYlFDpRkVDiCSTmreztnLMI-HIUj8R0O7w_g17_cRt6k7jkesqYGQQ';
+export const BRAND_LOGO_URL = '/demo-media/technova-gear/technova-gear-06.png';

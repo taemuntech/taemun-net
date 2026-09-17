@@ -1,0 +1,23 @@
+# Vercel CLI 로 이 트리에서 바로 배포할 때(`vercel` / `vercel --prebuilt`) **올리지 않을 것**.
+#
+# 왜 필요한가(실측 2026-09-17): 이 파일이 없으면 Vercel 은 .gitignore 를 대신 본다 — 즉 로컬 QA 산출물
+# .qa/(241MB)가 배포에 안 실리는 근거가 그 대체 규칙 하나뿐이었다. next.config 의 함수 추적은
+# process.cwd() 를 타고 public/ 을 통째로 /portfolio·/admin·/api/asset 함수에 넣는데, public/demo-media/
+# (8.49MB)가 늘면서 여유가 더 줄었다. 추적에 .qa 까지 딸려 들어가면 /portfolio 가 182MB 로 불어
+# 함수 상한 250MB 에 닿는다(.qa 를 뺀 같은 빌드는 64MB).
+#
+# ⚠️ .vercelignore 가 생기면 .gitignore 대체 규칙은 **더 이상 적용되지 않는다** — .gitignore 에 있던 항목을
+#    여기에 다시 적는다. 새 무거운 폴더를 .gitignore 에 넣을 때 이 파일에도 같이 넣을 것.
+# ⚠️ **private-assets/ 는 절대 넣지 않는다.** next.config 의 outputFileTracingIncludes 가 /api/asset 함수에
+#    일부러 싣는 파일이다(제안 시안 이미지). 빼면 운영에서만 그 이미지가 전부 404 가 된다.
+
+node_modules
+.next
+out
+build
+.DS_Store
+*.pem
+.env*.local
+tsconfig.tsbuildinfo
+.tmp-gaon/
+.qa/

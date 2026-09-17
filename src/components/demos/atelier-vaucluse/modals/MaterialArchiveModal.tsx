@@ -50,7 +50,7 @@ const MATERIALS_DATA = [
       '줄눈(Grout) 없는 3mm 박막 미장 시스템으로 바닥과 벽체가 하나로 이어지는 모놀리식(Monolithic) 공간감을 연출합니다.',
     usage: '마스터 바스룸, 주방 바닥, 테라스 전환부',
     imageUrl:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuDTLcnuCkDatRqNrBpYy4ZyAGkKZJGfsTeMSjc_aLvASQtgnDGqUKqX98pOmU1EVNntHHsKIbd8qw3blYgomM-PoTT4IrLO1noZoT2yvM1GevpDjuWbX3V2_5sENeOsKS_2bv0e8i0XZ1RfWe7zmvFu-U3xsTsTMMNYe6AeSBpTdJ2MZ0EmWYCEiY_oBDXD4ngRqUOke4F1dTfwj1BkCemA1Tw8f0p-K5vVhSSJWoB7fLF0BWF3zvug',
+      '/demo-media/atelier-vaucluse/atelier-vaucluse-06.jpg',
   },
 ];
 

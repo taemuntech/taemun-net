@@ -37,7 +37,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({
           ? '반도체 전/후공정에서 웨이퍼 손상을 제로화하는 고속 고정밀 반송 로봇, 커스텀 EFEM(Equipment Front End Module), 클린룸 자동화 물류 시스템을 자체 설계 및 제작합니다. 극저진동 서보 드라이브와 Class 10 청정 환경을 충족합니다.'
           : 'Custom EFEM, high-speed wafer transfer robots, and cleanroom automated guided logistics designed to eliminate wafer stress, particulate generation, and cycle micro-delays.',
       image:
-        'https://lh3.googleusercontent.com/aida-public/AB6AXuDYWWRQL8TrOm6uhYUSENCtpc_flRXvG7tpaU04gam55xIYwlqOc5Bjzo_uqYhCwrrkUT5Opn3HsWSYHQ496EnRKjOI0NIIpH1NklHQkN-1iU2OWkkJF2rqlXQx0CGdpoGgGpdKcLb0Aw1wdEbv0uxHzg94ocoxLaZL9RxCwL_gh0S7zLo5Kr7KXGsHCYtSTiLDDXSrDj7xusKsYCQgPItrE2nGLQzBpEW4aiOfqZyqxyzXUFB8F6oN',
+        '/portfolio/hysfa/hysfa-01.jpg',
       specs: [
         { label: currentLang === 'KR' ? '반복 위치 정밀도' : 'Repeatability', value: '±0.02 mm' },
         { label: currentLang === 'KR' ? '적용 웨이퍼 규격' : 'Wafer Sizes', value: '200mm (8") / 300mm (12")' },
@@ -58,7 +58,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({
           ? '초고순도(UHP) 반도체 특수가스를 안정적으로 웨이퍼 챔버로 공급하는 전자동 가스 캐비닛, VMB(Valve Manifold Box), 스크러버 연동 배관 및 가스 누출 긴급 자동 차단 시스템을 공급합니다.'
           : 'Fully automated UHP gas delivery cabinets, multi-channel Valve Manifold Boxes (VMB), and fast-acting emergency shutdown manifolds conforming to stringent SEMI S2/S8 standards.',
       image:
-        'https://lh3.googleusercontent.com/aida/AEtjO1WCBpGVAHb5_-iReMeC1zV47SPzYE54GIsoZPddWvxxbemUbV7NJRCvq1dRIYIszxgFMLknUIJaUpnvJtaXTOluj2dIw3DYxV0O8GTQYqYCqH-MTdC_VuvyXy640fGhsumA-7oIw-aD9WxfA3PscsKqSmlTvMkpgmYt4ocqQG9kxny81pvqwMR2KjIUWgN7fOAj28jr2xNhCuBLlbe4hB4Pa3HKG9nN2yTFxs-wuuDVCIkOTxm_vng9pi0',
+        '/portfolio/hysfa/hysfa-03.jpg',
       specs: [
         { label: currentLang === 'KR' ? '누출 허용 기준' : 'Helium Leak Rate', value: '1x10⁻⁹ mbar·l/s' },
         { label: currentLang === 'KR' ? '내부 표면 조도' : 'Internal Roughness', value: 'Ra ≤ 0.13 µm (EP grade)' },
@@ -79,7 +79,7 @@ export const DetailModal: React.FC<DetailModalProps> = ({
           ? '반도체 팹 라인 내 모든 장비의 상태를 초당 수천 개 파라미터로 실시간 수집 및 시각화하며, SECS/GEM 및 EDA(Interface-A) 프로토콜을 통해 상위 공정 MES와 매끄럽게 통신합니다.'
           : 'High-speed telemetry collection, predictive diagnostics, SCADA supervision, and bidirectional SECS/GEM protocol integration for seamless fab operations.',
       image:
-        'https://lh3.googleusercontent.com/aida-public/AB6AXuDYWWRQL8TrOm6uhYUSENCtpc_flRXvG7tpaU04gam55xIYwlqOc5Bjzo_uqYhCwrrkUT5Opn3HsWSYHQ496EnRKjOI0NIIpH1NklHQkN-1iU2OWkkJF2rqlXQx0CGdpoGgGpdKcLb0Aw1wdEbv0uxHzg94ocoxLaZL9RxCwL_gh0S7zLo5Kr7KXGsHCYtSTiLDDXSrDj7xusKsYCQgPItrE2nGLQzBpEW4aiOfqZyqxyzXUFB8F6oN',
+        '/portfolio/hysfa/hysfa-01.jpg',
       specs: [
         { label: currentLang === 'KR' ? '통신 프로토콜' : 'Protocols', value: 'SECS-I, HSMS, SECS-II, GEM' },
         { label: currentLang === 'KR' ? '데이터 샘플링 속도' : 'Telemetry Latency', value: '< 10 ms Real-time' },

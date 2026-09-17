@@ -1,6 +1,6 @@
 import { Product, CustomerReview } from '../types';
 
-export const BRAND_LOGO_URL = 'https://lh3.googleusercontent.com/aida/AEtjO1W08XPbktuT-OB2-XOAWUxKfHRHzyinx2fEIS6IcLqIIqzM9UqGqOQlNgngkDlfZE_MeitvOmp-bsm7UvrqZCU0bWksol0RmmxrfOW_obaYNKRL7VQMokxgU_YIp3rQ2-D_uGZIoD2WzMQvhVianuFFDcLQhzMM4uFtwmTAUmvdj4u5AmeQ06U71WNy8xIsxcGhuNQDPABMO32FtV2wJfskTr_QN-9BlPyB97U84aDVkDI2w0qKaXmI8mU';
+export const BRAND_LOGO_URL = '/demo-media/luminous-lab/luminous-lab-09.png';
 
 export const HERO_PRODUCT = {
   id: 'hero-cica-ampoule',
@@ -12,7 +12,7 @@ export const HERO_PRODUCT = {
   originalPrice: 45000,
   discountRate: 35,
   stockWarning: '한정수량 500개 (예시)',
-  imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBVQzCmv5D1bCtJ25ji92DEOFctm30DST32vxIPM4m_hhPCiNpasaM31MqxyQ_yPjLP-asGEZC0jDusWAB35jCeMv-CRdUtVKswetkY8LkmITxioxmtDspYN5tsZo1E7agPQnR7ZWfKPuHqQgr5UmFqNo6N4peMsnaVrSG8mLeks65IEGh35ipMuSb8Nm6bcWraimDzcS3IPZbNr-CI1v9A-reoBHOGKzaBGKr4Tzy8WaUqZt2wzesn',
+  imageUrl: '/demo-media/luminous-lab/luminous-lab-03.jpg',
   imageAlt: 'CICA+ Hydrating Serum with Droplet Splash Editorial',
   clinicalStats: [
     { label: '속수분 개선 (예시)', value: '+240.8%' },
@@ -33,7 +33,7 @@ export const RANKING_PRODUCTS: Product[] = [
     discountRate: 30,
     rating: 4.9,
     reviewCount: 4120,
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD5u1gk20DqL0E8MhWCjaBAHFa-2vx-7zjvT-MA1wk3VvfFnXeM_yVmdYnfY8w_FPyQ6ZiQQLQGP_RVutrCXNW8Bx-zK3OAi-fHkEsdGvDRz1IsYSw8Ppg8XWmXuEUVAVlXOFcWIJwWw_DsirvO4pMXyzL6ZCawDLTXycdo-Egy2LX3OMSpLDN-K00ufe8LvDOiddIYmLzNqBCeXGbdAOE3cRv9guB0AP9rvFt1YQKhXIhXTWlrVeC7',
+    imageUrl: '/demo-media/luminous-lab/luminous-lab-06.jpg',
     imageAlt: 'CICA Ampoule with glass dropper',
     badges: ['수부지 추천', '엑소좀 시카'],
     clinicalHighlight: {
@@ -57,7 +57,7 @@ export const RANKING_PRODUCTS: Product[] = [
     discountRate: 25,
     rating: 4.8,
     reviewCount: 2890,
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBay1xOBNxWnzFf7gObSZPT6sePtSIILSYPB-Klvh4_Uocb5Zf7DwQtMZJk_IXzRcEdtrCmNX3fxet9UKL88I7BFUuWTg0OhpbRiNPS8nco0uBNk0IQdqxobvDK_b-lRgxwWI6Dvpse5tJWx1xfDBZeK0yI66sM-k9MnbD9NCp2JZLEZMDUfRXGiremt3hULpev4Cct4a92qtCYf_nkxiNyg9OsulBDdotKP8537ckLgKKkJPmgQXTh',
+    imageUrl: '/demo-media/luminous-lab/luminous-lab-04.jpg',
     imageAlt: 'Barrier repair cream jar with rich texture',
     badges: ['보습지속 100h', '세라마이드 NP'],
     clinicalHighlight: {
@@ -81,7 +81,7 @@ export const RANKING_PRODUCTS: Product[] = [
     discountRate: 30,
     rating: 4.9,
     reviewCount: 1950,
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDvgpf-b6oaPtUSmi57IUNfavubLpc6KdS1W-iihAAlUBNXFViWcSjc316HNePv8DqHtpNWTC5epXZSCYuWLiTX-ZgcziG4PzMBnxMEozXZeJZH8SA7iHWbXWV-tz4WAah-OLFNzf6S3Aq3D26Lfy0jGFKSNARQNxTrfJe4rN7NrpGMeO5PVys3tSa8D4mEYuaKXSu-ARpCwykK8kMWFrz-xwdpuFk_BYv6e3OYnUzdM-bA1eNyIVAi',
+    imageUrl: '/demo-media/luminous-lab/luminous-lab-08.jpg',
     imageAlt: 'Micro zinc mineral sunscreen tube',
     badges: ['논나노 징크', 'SPF50+ PA++++'],
     clinicalHighlight: {
@@ -105,7 +105,7 @@ export const RANKING_PRODUCTS: Product[] = [
     discountRate: 20,
     rating: 4.8,
     reviewCount: 1430,
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAtMBoZvJwUxj8macghiAopYVVz7taGWAHH-AKHXexm6Esw4BKIUqzP7UMnCzPPwTZaO7vdWqC2g8PXTGfMR1L9HlaUspGgP7BH9Wz3ENanw0i0SMTsSSoXoc4w1TW4_df1WPfMQbaQbJtJm8M3LnA-aysnmCzhFh5uIfQSGsoKWUyTzQ8MvHjWv0alw18RciEGu2BR0d3VUmvTsvoNLz6JnXmTVOAL-Cy30urehJygChfTYaQ4SxZM',
+    imageUrl: '/demo-media/luminous-lab/luminous-lab-02.jpg',
     imageAlt: 'Retinol liposome ampoule amber bottle',
     badges: ['순수 레티놀 0.1%', '리포좀 안정화'],
     clinicalHighlight: {
@@ -126,8 +126,8 @@ export const SYNERGY_BUNDLE = {
   subBadge: 'CLINICAL SYNERGY SET (10% 추가 할인)',
   description: "속수분을 깊숙이 충전하는 '시카 엑소좀 앰플'과 겉수분을 샐 틈 없이 잠그는 '장벽 리페어 크림'을 함께 사용할 때 피부 수분 손실량(TEWL)이 42.8% 추가 감소했습니다. (예시 수치)",
   items: ['단독 앰플 50ml', '리페어 크림 80ml'],
-  thumb1: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDBGWXvWzjAhVnHUzoIgsfP-TsY63eDef0L9rE4By5vixFhe3vgFcASzmUO7-M5yK0A5ysey0BJ6x8pejaBaww5AFXW_6BSYplD-UYyrpTjDo8IEVzdAj-PZ5xPAJxJf5EvqXKfrQZvPYdlbEgXPmSNzNloV198uKvl8PDA8_pYBLuUvk79RG-fVf9tPJubHQwLA-ZrW8pNmCaKFscpN6VBI-fpDQr-5EbE2j3IJK_NcgSUMKj1pnNy',
-  thumb2: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCeT_oWjnW3AQ_YNWXFTv6Tt6FWP8NuMtDegjhWwpz3wl6rNcdx7zqsqVCrd3ZSW3TQSNBbN7bUKVgRu40KyYQrBt0-Ly9XKH7LhpR2wQ0MK19I-DLaCI-Q0F10tfQ9t0j5og7E9QnLzEDDay_Wzcz5Azpsu-YkiSPaTUNdzEnIK9jYirMMWn-gBjD7ACMt7YscJfJo5Qnu637aHcZTwEnQLNv7G9IpSE7e6qvAQmFJHUweYT_gppef',
+  thumb1: '/demo-media/luminous-lab/luminous-lab-07.jpg',
+  thumb2: '/demo-media/luminous-lab/luminous-lab-05.jpg',
   price: 43900,
   originalPrice: 75000,
   discountRate: 42,

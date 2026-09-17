@@ -32,7 +32,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({ onOpenTelemetryHud, onOpen
         >
           <div className="relative shrink-0 flex items-center justify-center w-9 h-9 lg:w-10 lg:h-10 rounded border border-[#00e5ff]/40 bg-[#1d2025] p-1 shadow-[0_0_12px_rgba(0,229,255,0.2)] group-hover:border-[#00e5ff] transition-all">
             <img
-              src="https://lh3.googleusercontent.com/aida/AEtjO1Vfapt3CAgxnMQ5fSg-h_yZdJQOjQiRF3FYJvRx9sRg16uGwVJ9hzT3XgtCKxbyWON1K3Tcy4ewnGBKyoVkzZp99aP5Vwd8CrEoiWQUch8Qdn6MYbpoAI3x29LlTPM1_Mpj8zD7CMBfB4rD7JFZTbGSYPlXdlPcRTQTMy1NNB6snxpIx99ohMowlH4hsbfQ_5CSKL4sLkwNia7jMdta5W7_2P1CXZqyz7c5F2eTWJqJQvmPEUKXlnIa5w"
+              src="/demo-media/voltron-ev/voltron-ev-02.png"
               alt="VOLTRON ADVANCED EV Logo"
               referrerPolicy="no-referrer"
               className="w-full h-full object-contain"

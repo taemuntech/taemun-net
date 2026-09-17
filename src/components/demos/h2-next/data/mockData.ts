@@ -2,9 +2,9 @@
 // 실존 인증기관·검증기관·공시기관 이름과 조회 가능한 인증번호는 넣지 않습니다(전부 「(예시)」 자리표시).
 import { HubData, PillarData, TrustMetric, ESGCertificate } from '../types';
 
-export const LOGO_URL = "https://lh3.googleusercontent.com/aida/AEtjO1VNkRe81i-hNTBDinLSEhmFjnQz6AF6aKTQCR8SNtL5f65pZIdau0bAv_rRf4ZBmouIOxnYt1mPkqpKGrMU0rdT-ACs73lsGN7JY6LxjWqpWwsnpxNwrzfDkoezuS89q_Ml3AbRF-JBx-ViU_ObOdbRDAzGm0zOR9vE0Bnw8kUWmmgfqO7DO1hpepx9-ttIiCM2mvsKdB2uQoJ4QJD9ZYWA-e-5P8dDmK2_-B9o2qZiAeVnS0VIuFQFJXw";
+export const LOGO_URL = "/demo-media/h2-next/h2-next-03.png";
 
-export const HERO_IMAGE_URL = "https://lh3.googleusercontent.com/aida-public/AB6AXuAnwSShzqfLiCnrMznNVngbjIjWv86Jes6NSnaP2wBxLNtLCoTnt2Cqp8R_xgNObGngMM0JT2XpH9-zVD6icXETJIzgJwNKEyVdhijWwxc1un3GRJfrYGQwskN6AF7t0fv-ZqdDF28KVP3_GcDAJcGxMeHX57IPWHIKww1B247mE-B66N9FpNWqTjZG0ziZHawolnejiW45C5N4wICUQ5xa4UMq_963xsF72Qt3pZhaK6xFjhwwuoNo";
+export const HERO_IMAGE_URL = "/demo-media/h2-next/h2-next-02.jpg";
 
 export const TRUST_METRICS: TrustMetric[] = [
   {
