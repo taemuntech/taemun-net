@@ -57,42 +57,42 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               </span>
             </div>
 
-            <h1 className="font-serif text-[38px] lg:text-[46px] lg:text-[54px] text-[#102a20] tracking-tight leading-[1.18]">
+            <h1 className="font-serif text-[26px] lg:text-[46px] text-[#102a20] tracking-tight leading-[1.25] break-keep">
               비움과 채움의 치유 미학 —<br />
               <span className="text-[#75593c] italic font-serif">의·한의 통합 80병상</span><br />
               본초 한방병원
             </h1>
 
-            <p className="text-[16px] text-[#424844] leading-relaxed max-w-[560px]">
+            <p className="text-[14px] lg:text-[16px] text-[#424844] leading-relaxed max-w-[560px] break-keep">
               대학병원급 고주파 온열암치료(Oncothermia 13.56MHz) 및 고용량 면역주사와 KFDA hGMP 인증 친환경 맞춤 본초 탕약의 과학적 융합. 히노끼 향 가득한 호텔식 프라이빗 입원실에서 편안한 회복을 선사합니다.
             </p>
 
-            <div className="flex flex-wrap items-center gap-3 pt-2">
+            <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-2.5 lg:gap-3 pt-2">
               <button
                 onClick={onOpenBooking}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg bg-[#102a20] text-white text-[14px] font-semibold shadow-md hover:bg-[#264035] active:scale-98 transition-all cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-5 lg:px-6 py-3.5 rounded-lg bg-[#102a20] text-white text-[14px] font-semibold shadow-md hover:bg-[#264035] active:scale-98 transition-all cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[20px]">calendar_month</span>
-                <span>실시간 입원 상담 및 예약</span>
+                <span className="break-keep">입원 상담 및 예약 신청</span>
               </button>
 
               <button
                 onClick={onOpenTour}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg bg-white text-[#75593c] text-[14px] font-semibold shadow-sm border border-[#e3e2e0] hover:bg-[#f4f3f0] active:scale-98 transition-all cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-5 lg:px-6 py-3.5 rounded-lg bg-white text-[#75593c] text-[14px] font-semibold shadow-sm border border-[#e3e2e0] hover:bg-[#f4f3f0] active:scale-98 transition-all cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[20px]">view_in_ar</span>
-                <span>360° VIP 입원실 둘러보기</span>
+                <span className="break-keep">360° VIP 입원실 둘러보기</span>
               </button>
             </div>
 
             {/* Quick Hospital Stats Bar */}
-            <div className="pt-2 grid grid-cols-3 gap-4 bg-[#f4f3f0] p-4 rounded-xl shadow-sm border border-[#e9e8e5]">
+            <div className="pt-2 grid grid-cols-3 gap-2 lg:gap-4 bg-[#f4f3f0] p-3.5 lg:p-4 rounded-xl shadow-sm border border-[#e9e8e5] break-keep">
               <div>
-                <div className="text-[12px] text-[#75593c] font-medium">의·한의 복수면허</div>
-                <div className="font-serif text-[22px] text-[#102a20] font-semibold">1:1 협진</div>
+                <div className="text-[11px] lg:text-[12px] text-[#75593c] font-medium">의·한의 복수면허</div>
+                <div className="font-serif text-[18px] lg:text-[22px] text-[#102a20] font-semibold">1:1 협진</div>
               </div>
               <div>
-                <div className="text-[12px] text-[#75593c] font-medium">전 병상 모션베드</div>
+                <div className="text-[11px] lg:text-[12px] text-[#75593c] font-medium">전 병상 모션베드</div>
                 <div className="font-serif text-[22px] text-[#102a20] font-semibold">80 Beds</div>
               </div>
               <div>

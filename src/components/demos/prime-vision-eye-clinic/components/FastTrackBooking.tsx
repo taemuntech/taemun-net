@@ -77,14 +77,14 @@ export const FastTrackBooking: React.FC<FastTrackBookingProps> = ({
     <section id="fast-track-section" className="w-full py-20 bg-surface">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section Header */}
-        <div className="max-w-3xl mb-12">
+        <div className="max-w-3xl mb-10 lg:mb-12 break-keep">
           <span className="px-3.5 py-1.5 rounded-full bg-primary-fixed text-primary font-label-caps text-[11px] font-bold">
             SAME-DAY PRECISION CARE
           </span>
-          <h2 className="font-headline-xl text-[30px] lg:text-[38px] text-on-surface font-extrabold tracking-tight mt-3">
+          <h2 className="font-headline-xl text-[26px] lg:text-[38px] text-on-surface font-extrabold tracking-tight mt-3 leading-snug">
             {language === 'KR' ? '1-Day 원데이 당일 검사 · 수술 신청' : '1-Day Fast-Track Same-Day Exam & Surgery'}
           </h2>
-          <p className="font-body-lg text-[15px] lg:text-[17px] text-on-surface-variant mt-2 leading-relaxed">
+          <p className="font-body-lg text-[14px] lg:text-[17px] text-on-surface-variant mt-2 leading-relaxed">
             {language === 'KR'
               ? '바쁜 직장인, 대학생, 군인을 위한 오전 50단계 정밀검진 후 오후 맞춤 수술 및 당일 귀가 프로그램. 전담 코디네이터가 1:1로 신속히 예약을 확정해 드립니다.'
               : 'Designed for professionals, students, and military: Morning 50-step comprehensive diagnostic exam followed by afternoon customized surgery and same-day recovery.'}

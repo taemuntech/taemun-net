@@ -70,25 +70,25 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSafetyModal, onOpenReserva
       </div>
 
       {/* Main navigation container */}
-      <div className="h-20 max-w-[1320px] mx-auto px-6 lg:px-10 flex items-center justify-between gap-6">
+      <div className="h-18 lg:h-20 max-w-[1320px] mx-auto px-4 lg:px-10 flex items-center justify-between gap-4 lg:gap-6">
         {/* Brand identity */}
-        <div className="flex items-center gap-3.5 shrink-0">
+        <div className="flex items-center gap-2.5 lg:gap-3.5 shrink-0">
           <button 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="flex items-center gap-3 group text-left cursor-pointer"
+            className="flex items-center gap-2.5 lg:gap-3 group text-left cursor-pointer"
           >
             <div className="relative flex items-center justify-center">
               <img
                 src={CLINIC_IMAGES.logoProfile}
                 alt="온새미로 로고"
-                className="w-9 h-9 rounded-full object-cover shadow-[0_0_12px_rgba(197,168,128,0.35)] ring-1 ring-[#c5a880]/40 group-hover:scale-105 transition-transform"
+                className="w-8 h-8 lg:w-9 lg:h-9 rounded-full object-cover shadow-[0_0_12px_rgba(197,168,128,0.35)] ring-1 ring-[#c5a880]/40 group-hover:scale-105 transition-transform"
               />
             </div>
             <div className="flex flex-col">
-              <span className="font-serif text-[22px] leading-tight tracking-tight text-[#1c1c19] group-hover:text-[#725b38] transition-colors font-medium">
+              <span className="font-serif text-[18px] lg:text-[22px] leading-tight tracking-tight text-[#1c1c19] group-hover:text-[#725b38] transition-colors font-medium">
                 온새미로
               </span>
-              <span className="text-[10px] uppercase tracking-[0.14em] text-[#4d463c] font-medium">
+              <span className="text-[9px] lg:text-[10px] uppercase tracking-[0.14em] text-[#4d463c] font-medium">
                 Aesthetic &amp; Plastic Surgery
               </span>
             </div>
@@ -96,10 +96,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSafetyModal, onOpenReserva
         </div>
 
         {/* Desktop Nav Links */}
-        <nav className="hidden xl:flex items-center gap-7">
+        <nav className="hidden lg:flex items-center gap-4 lg:gap-6">
           <button
             onClick={() => scrollTo('philosophy')}
-            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer ${
+            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer whitespace-nowrap ${
               activeSection === 'philosophy' ? 'text-[#725b38] font-semibold border-b-2 border-[#725b38]' : 'text-[#4d463c] hover:text-[#1c1c19]'
             }`}
           >
@@ -107,7 +107,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSafetyModal, onOpenReserva
           </button>
           <button
             onClick={() => scrollTo('proportion-hud')}
-            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer flex items-center gap-1 ${
+            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer flex items-center gap-1 whitespace-nowrap ${
               activeSection === 'proportion-hud' ? 'text-[#725b38] font-semibold border-b-2 border-[#725b38]' : 'text-[#4d463c] hover:text-[#1c1c19]'
             }`}
           >
@@ -116,7 +116,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSafetyModal, onOpenReserva
           </button>
           <button
             onClick={() => scrollTo('before-after-cases')}
-            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer ${
+            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer whitespace-nowrap ${
               activeSection === 'before-after-cases' ? 'text-[#725b38] font-semibold border-b-2 border-[#725b38]' : 'text-[#4d463c] hover:text-[#1c1c19]'
             }`}
           >
@@ -124,7 +124,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSafetyModal, onOpenReserva
           </button>
           <button
             onClick={() => scrollTo('safety-declaration')}
-            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer ${
+            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer whitespace-nowrap ${
               activeSection === 'safety-declaration' ? 'text-[#725b38] font-semibold border-b-2 border-[#725b38]' : 'text-[#4d463c] hover:text-[#1c1c19]'
             }`}
           >
@@ -132,7 +132,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSafetyModal, onOpenReserva
           </button>
           <button
             onClick={() => scrollTo('vip-recovery-care')}
-            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer ${
+            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer whitespace-nowrap ${
               activeSection === 'vip-recovery-care' ? 'text-[#725b38] font-semibold border-b-2 border-[#725b38]' : 'text-[#4d463c] hover:text-[#1c1c19]'
             }`}
           >
@@ -140,7 +140,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSafetyModal, onOpenReserva
           </button>
           <button
             onClick={() => scrollTo('medical-directors')}
-            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer ${
+            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer whitespace-nowrap ${
               activeSection === 'medical-directors' ? 'text-[#725b38] font-semibold border-b-2 border-[#725b38]' : 'text-[#4d463c] hover:text-[#1c1c19]'
             }`}
           >
@@ -148,7 +148,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSafetyModal, onOpenReserva
           </button>
           <button
             onClick={() => scrollTo('location-concierge')}
-            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer ${
+            className={`text-[13px] tracking-tight transition-colors py-1 cursor-pointer whitespace-nowrap ${
               activeSection === 'location-concierge' ? 'text-[#725b38] font-semibold border-b-2 border-[#725b38]' : 'text-[#4d463c] hover:text-[#1c1c19]'
             }`}
           >
@@ -157,7 +157,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSafetyModal, onOpenReserva
         </nav>
 
         {/* Header Actions */}
-        <div className="flex items-center gap-4 shrink-0">
+        <div className="flex items-center gap-2 lg:gap-4 shrink-0">
           {/* VIP Private Phone */}
           <div className="hidden lg:flex flex-col items-end text-right">
             <span className="text-[11px] uppercase tracking-wider text-[#4d463c]">
@@ -165,7 +165,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSafetyModal, onOpenReserva
             </span>
             <a
               href="tel:02-0000-0000"
-              className="text-[16px] text-[#725b38] tracking-tight font-semibold hover:text-[#1c1c19] transition-colors"
+              className="text-[15px] text-[#725b38] tracking-tight font-semibold hover:text-[#1c1c19] transition-colors"
             >
               02-0000-0000
             </a>
@@ -183,16 +183,17 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSafetyModal, onOpenReserva
           {/* Signature VIP Booking Button */}
           <button
             onClick={onOpenReservation}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#1A1817] text-[#fdf9f5] text-[12px] font-semibold tracking-wider shadow-[0_4px_20px_rgba(197,168,128,0.22)] hover:bg-[#2E2A27] hover:shadow-[0_4px_24px_rgba(197,168,128,0.36)] transition-all duration-300 cursor-pointer"
+            className="inline-flex items-center gap-1.5 lg:gap-2 px-3.5 lg:px-5 py-2 lg:py-2.5 rounded-full bg-[#1A1817] text-[#fdf9f5] text-[12px] font-semibold tracking-wider shadow-[0_4px_20px_rgba(197,168,128,0.22)] hover:bg-[#2E2A27] hover:shadow-[0_4px_24px_rgba(197,168,128,0.36)] transition-all duration-300 cursor-pointer"
           >
-            <span className="material-symbols-outlined text-[18px] text-[#fedeb2]">calendar_month</span>
-            <span className="whitespace-nowrap">프라이빗 1:1 상담 예약</span>
+            <span className="material-symbols-outlined text-[16px] lg:text-[18px] text-[#fedeb2]">calendar_month</span>
+            <span className="lg:hidden whitespace-nowrap">1:1 상담 예약</span>
+            <span className="hidden lg:inline whitespace-nowrap">프라이빗 1:1 상담 예약</span>
           </button>
 
           {/* Mobile hamburger menu toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="xl:hidden p-2 rounded-xl text-[#1c1c19] hover:bg-[#ebe7e4] transition-colors cursor-pointer"
+            className="lg:hidden p-2 rounded-xl text-[#1c1c19] hover:bg-[#ebe7e4] transition-colors cursor-pointer"
             aria-label="메뉴 열기"
           >
             <span className="material-symbols-outlined text-[24px]">
@@ -204,7 +205,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSafetyModal, onOpenReserva
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-[#fdf9f5] border-t border-[#d1c5b8]/30 px-6 py-5 shadow-xl">
+        <div className="lg:hidden bg-[#fdf9f5] border-t border-[#d1c5b8]/30 px-6 py-5 shadow-xl break-keep">
           <div className="flex flex-col gap-3">
             <button
               onClick={() => scrollTo('philosophy')}

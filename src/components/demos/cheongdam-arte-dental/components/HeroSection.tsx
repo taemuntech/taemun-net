@@ -28,38 +28,38 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="absolute top-80 right-[-100px] w-96 h-96 bg-[#cce5ff]/30 rounded-full blur-3xl pointer-events-none -z-0" />
 
       {/* Hero Container */}
-      <section className="relative z-10 max-w-7xl mx-auto px-4 lg:px-6 lg:px-12 pt-12 pb-16 lg:pt-16 lg:pb-24">
+      <section className="relative z-10 max-w-7xl mx-auto px-4 lg:px-8 pt-8 pb-14 lg:pt-16 lg:pb-24">
         {/* Prestige Micro-Badge */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#f4f3f1] shadow-sm mb-8 border border-[#d1c5b4]/40">
-          <span className="w-2 h-2 rounded-full bg-[#775a19] animate-pulse" />
-          <span className="text-[11px] text-[#1a1c1a] tracking-widest uppercase font-semibold">
+        <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 lg:px-4 lg:py-2 rounded-full bg-[#f4f3f1] shadow-sm mb-6 lg:mb-8 border border-[#d1c5b4]/40">
+          <span className="w-2 h-2 rounded-full bg-[#775a19] animate-pulse shrink-0" />
+          <span className="text-[11px] lg:text-xs text-[#1a1c1a] tracking-wider uppercase font-semibold break-keep">
             CHEF-D'ŒUVRE OF DIGITAL DENTISTRY • 청담동 명품 진료
           </span>
         </div>
 
         {/* Hero Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
           {/* Left Hero Content */}
           <div className="lg:col-span-7 flex flex-col items-start space-y-6">
-            <h1 className="font-serif text-4xl lg:text-5xl lg:text-[54px] text-[#1a1c1a] tracking-tight leading-[1.18] font-medium">
+            <h1 className="font-serif text-[28px] lg:text-[50px] text-[#1a1c1a] tracking-tight leading-[1.25] font-medium break-keep">
               디지털 정밀함에<br />
-              <span className="italic font-normal bg-gradient-to-r from-[#775a19] via-[#c5a059] to-[#775a19] bg-clip-text text-transparent">
+              <span className="italic font-normal text-[#775a19]">
                 예술적 심미를 더하다
               </span><br />
               청담 아르떼 치과
             </h1>
 
-            <p className="text-[#4e4639] text-base lg:text-[17px] max-w-2xl leading-relaxed font-sans">
+            <p className="text-[#4e4639] text-[15px] lg:text-[17px] max-w-2xl leading-relaxed font-sans break-keep">
               보건복지부 인증 구강악안면외과 &amp; 치과보철과 전문의 2인 심층 협진 체제.<br className="hidden lg:inline" />
               3D 컴퓨터 모의수술로 오차 0.1mm 미만 식립에 도전하는 1-Day 네비게이션 임플란트와
               자연 법랑질의 투명도를 온전히 재현하는 미세 삭제 예술 라미네이트를 경험하세요.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 lg:gap-4 pt-2 w-full lg:w-auto">
               <button
                 onClick={onNavigateToBooking}
-                className="inline-flex items-center gap-2.5 px-7 py-4 rounded-full bg-[#1a1c1a] text-white text-sm font-semibold tracking-wide shadow-xl hover:bg-[#775a19] transition-all duration-300 transform hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 lg:px-7 lg:py-4 rounded-full bg-[#1a1c1a] text-white text-sm font-semibold tracking-wide shadow-xl hover:bg-[#775a19] transition-all duration-300 transform hover:-translate-y-0.5"
               >
                 <span>실시간 비대면 문진 &amp; 예약</span>
                 <Calendar className="w-4 h-4 text-[#ffdea5]" />
@@ -67,7 +67,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               
               <button
                 onClick={onNavigateToImplant}
-                className="inline-flex items-center gap-2 px-6 py-4 rounded-full bg-[#f4f3f1] text-[#1a1c1a] text-sm font-semibold tracking-wide shadow-sm hover:bg-[#e9e8e5] border border-[#d1c5b4]/50 transition-all"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 lg:py-4 rounded-full bg-[#f4f3f1] text-[#1a1c1a] text-sm font-semibold tracking-wide shadow-sm hover:bg-[#e9e8e5] border border-[#d1c5b4]/50 transition-all"
               >
                 <Box className="w-4 h-4 text-[#775a19]" />
                 <span>1:1 디지털 진단 시스템</span>
@@ -75,13 +75,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
 
             {/* Trust Badges Row */}
-            <div className="pt-4 flex flex-wrap items-center gap-6 text-[#4e4639] text-xs font-semibold">
+            <div className="pt-2 lg:pt-4 flex flex-col lg:flex-row items-start lg:items-center gap-3 lg:gap-6 text-[#4e4639] text-xs font-semibold break-keep">
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-[#775a19]" />
+                <ShieldCheck className="w-4 h-4 lg:w-5 lg:h-5 text-[#775a19] shrink-0" />
                 <span>스위스 Straumann &amp; Osstem 정품 공인 클리닉</span>
               </div>
               <div className="flex items-center gap-2">
-                <Wind className="w-5 h-5 text-[#006398]" />
+                <Wind className="w-4 h-4 lg:w-5 lg:h-5 text-[#006398] shrink-0" />
                 <span>전 좌석 단독 1인 VIP 음압/양압 멸균룸</span>
               </div>
             </div>

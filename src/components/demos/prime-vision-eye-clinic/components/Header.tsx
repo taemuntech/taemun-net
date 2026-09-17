@@ -33,35 +33,35 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center gap-space-md overflow-hidden">
             <a
               href="#fast-track-section"
-              className="flex items-center gap-space-xs font-label-numeric font-semibold text-primary hover:underline"
+              className="flex items-center gap-space-xs font-label-numeric font-semibold text-primary hover:underline shrink-0"
             >
               <span className="material-symbols-outlined text-[16px]">call</span>
               <span>02-0000-0000</span>
             </a>
-            <div className="hidden lg:flex items-center gap-space-xs text-on-surface-variant">
-              <span className="material-symbols-outlined text-[15px] text-tertiary">schedule</span>
-              <span>
+            <div className="hidden lg:flex items-center gap-space-xs text-on-surface-variant truncate">
+              <span className="material-symbols-outlined text-[15px] text-tertiary shrink-0">schedule</span>
+              <span className="truncate">
                 {language === 'KR'
                   ? '평일 09:30~18:30 (금 야간 20:30) | 토 09:00~16:00'
                   : 'Mon-Thu 09:30~18:30 (Fri Night 20:30) | Sat 09:00~16:00'}
               </span>
             </div>
-            <div className="hidden xl:flex items-center gap-space-xs text-on-surface-variant">
-              <span className="material-symbols-outlined text-[15px] text-primary">pin_drop</span>
+            <div className="hidden lg:flex items-center gap-space-xs text-on-surface-variant truncate">
+              <span className="material-symbols-outlined text-[15px] text-primary shrink-0">pin_drop</span>
               <span className="truncate">
                 {language === 'KR'
-                  ? '강남역 1번 출구 테헤란로 124 프라임 메디컬 타워 4-7F'
-                  : 'Gangnam Station Exit 1, Teheran-ro 124, 4-7F'}
+                  ? '강남역 1번 출구 테헤란로 124 프라임 타워'
+                  : 'Gangnam Station Exit 1, Teheran-ro 124'}
               </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-space-md">
+          <div className="flex items-center gap-space-md shrink-0">
             <div className="flex items-center gap-space-xs">
               <button
                 type="button"
                 onClick={() => onLanguageChange('KR')}
-                className={`font-label-caps text-[11px] px-1.5 py-0.5 rounded ${
+                className={`font-label-caps text-[11px] px-1.5 py-0.5 rounded cursor-pointer ${
                   language === 'KR' ? 'text-primary font-bold bg-primary-fixed/40' : 'text-on-surface-variant hover:text-primary'
                 }`}
               >
@@ -71,7 +71,7 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 type="button"
                 onClick={() => onLanguageChange('EN')}
-                className={`font-label-caps text-[11px] px-1.5 py-0.5 rounded ${
+                className={`font-label-caps text-[11px] px-1.5 py-0.5 rounded cursor-pointer ${
                   language === 'EN' ? 'text-primary font-bold bg-primary-fixed/40' : 'text-on-surface-variant hover:text-primary'
                 }`}
               >
@@ -87,24 +87,25 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Main Navbar */}
-      <div className="bg-surface/90 backdrop-blur-xl h-20 border-b border-surface-container/30">
-        <div className="h-20 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between gap-space-md">
+      <div className="bg-surface/95 backdrop-blur-xl h-18 lg:h-20 border-b border-surface-container/30">
+        <div className="h-18 lg:h-20 max-w-7xl mx-auto px-4 lg:px-12 flex items-center justify-between gap-3 lg:gap-space-md">
           {/* Logo */}
           <button
             type="button"
             onClick={() => onNavigate('hero-section')}
-            className="flex items-center gap-space-md shrink-0 text-left cursor-pointer focus:outline-none"
+            className="flex items-center gap-2.5 lg:gap-space-md shrink-0 text-left cursor-pointer focus:outline-none"
           >
             <img
               src="/demo-media/prime-vision-eye-clinic/prime-vision-eye-clinic-07.png"
               alt="Prime Vision Eye Clinic Logo"
-              className="h-8 w-auto object-contain"
-             referrerPolicy="no-referrer" />
+              className="h-7 lg:h-8 w-auto object-contain"
+              referrerPolicy="no-referrer"
+            />
             <div className="flex flex-col">
-              <span className="font-headline-sm text-[18px] font-bold text-on-surface leading-tight tracking-tight">
+              <span className="font-headline-sm text-[16px] lg:text-[18px] font-bold text-on-surface leading-tight tracking-tight">
                 PRIME VISION
               </span>
-              <span className="font-label-caps text-[11px] text-secondary font-semibold">
+              <span className="font-label-caps text-[10px] lg:text-[11px] text-secondary font-semibold">
                 {language === 'KR' ? '프라임 스마트 아이 안과' : 'Precision Ophthalmic Center'}
               </span>
             </div>
@@ -119,7 +120,7 @@ export const Header: React.FC<HeaderProps> = ({
                   key={link.id}
                   type="button"
                   onClick={() => onNavigate(link.id)}
-                  className={`px-3 py-2 rounded-lg transition-colors font-body-sm text-[14px] ${
+                  className={`px-3 py-2 rounded-lg transition-colors font-body-sm text-[14px] cursor-pointer whitespace-nowrap ${
                     isActive
                       ? 'bg-primary-container text-on-primary-container font-semibold shadow-sm'
                       : 'text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-medium'
@@ -132,7 +133,7 @@ export const Header: React.FC<HeaderProps> = ({
           </nav>
 
           {/* Right Action & CTA */}
-          <div className="flex items-center gap-space-sm shrink-0">
+          <div className="flex items-center gap-2 lg:gap-space-sm shrink-0">
             <div className="hidden lg:flex flex-col text-right pr-2">
               <span className="font-label-caps text-[11px] text-on-surface-variant">
                 {language === 'KR' ? '빠른 수술 문의' : 'Direct Call'}
@@ -145,10 +146,11 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={() => onNavigate('fast-track-section')}
-              className="animate-pulse-subtle flex items-center gap-space-xs bg-primary-container text-on-primary-container font-headline-sm text-[13px] lg:text-[14px] px-3.5 lg:px-space-md py-2.5 rounded-full shadow-[0_4px_12px_rgba(14,165,233,0.25)] hover:bg-primary hover:text-on-primary transition-all font-semibold active:scale-[0.98]"
+              className="animate-pulse-subtle flex items-center gap-1.5 lg:gap-space-xs bg-primary-container text-on-primary-container font-headline-sm text-[12px] lg:text-[14px] px-3 lg:px-space-md py-2 lg:py-2.5 rounded-full shadow-[0_4px_12px_rgba(14,165,233,0.25)] hover:bg-primary hover:text-on-primary transition-all font-semibold active:scale-[0.98] cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[18px]">calendar_today</span>
-              <span className="whitespace-nowrap">
+              <span className="material-symbols-outlined text-[16px] lg:text-[18px]">calendar_today</span>
+              <span className="lg:hidden whitespace-nowrap">당일 검사·수술</span>
+              <span className="hidden lg:inline whitespace-nowrap">
                 {language === 'KR' ? '원데이 당일 검사·수술' : '1-Day Fast-Track'}
               </span>
             </button>
@@ -157,7 +159,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
+              className="lg:hidden p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface cursor-pointer"
               aria-label="Toggle navigation menu"
             >
               <span className="material-symbols-outlined text-[24px]">
@@ -169,7 +171,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-surface-container-lowest border-b border-surface-container px-6 py-4 shadow-xl flex flex-col gap-2">
+          <div className="lg:hidden bg-surface-container-lowest border-b border-surface-container px-6 py-4 shadow-xl flex flex-col gap-1.5 break-keep">
             {navLinks.map((link) => (
               <button
                 key={link.id}
@@ -178,7 +180,7 @@ export const Header: React.FC<HeaderProps> = ({
                   onNavigate(link.id);
                   setMobileMenuOpen(false);
                 }}
-                className="text-left py-2.5 px-3 rounded-lg text-[15px] font-medium text-on-surface hover:bg-surface-container-low transition-colors"
+                className="text-left py-2.5 px-3 rounded-lg text-[15px] font-medium text-on-surface hover:bg-surface-container-low transition-colors cursor-pointer"
               >
                 {link.label}
               </button>

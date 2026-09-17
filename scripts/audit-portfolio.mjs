@@ -1311,9 +1311,10 @@ for (const f of siteCopyFiles) {
 // 그 사이로 실존 호텔·해운·오디오·미식 가이드 브랜드가 카드 설명에 박힌 채 「ERROR 0」이 나왔다(실측 2026-09-17).
 // SITE_COPY_RULES(실시간·100% 같은 태문 자기 목소리 규칙)는 여기 걸지 않는다 — 데모 기능 설명이라 뜻이 다르다.
 //
-// ⚠️ 지금은 WARN 이다. 이 파일은 아라(다른 에이전트) 담당이라 가온이 고칠 수 없는데 ERROR 로 두면 게이트가
-//    빨간불이 되어 **전원의 커밋이 막힌다**. 아라가 카드 문구를 고치면 아래 값을 "error" 로 올릴 것.
-const GALLERY_DATA_SEVERITY = "warn";
+// 2026-09-17: 카드 문구를 전부 정리해 이 파일이 깨끗해졌으므로 ERROR 로 올렸다(그 전에는 WARN — 고칠 수
+//    없는 남의 파일을 빨간불로 두면 전원의 커밋이 막히기 때문). 새 카드에 실존 기업·브랜드·인증 이름이
+//    들어오면 여기서 막힌다. 되돌리지 말고 카드 문구를 고칠 것.
+const GALLERY_DATA_SEVERITY = "error";
 {
   const galleryFile = path.join(ROOT, "src", "lib", "portfolio", "galleryData.ts");
   if (fs.existsSync(galleryFile)) {

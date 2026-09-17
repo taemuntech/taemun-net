@@ -88,7 +88,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking, onSelectNav }) =>
             src={CLINIC_IMAGES.logo}
            referrerPolicy="no-referrer" />
           <div className="flex flex-col">
-            <span className="text-[17px] lg:text-[19px] font-bold text-[#1A1C1A] tracking-tight leading-tight">
+            <span className="text-[15px] lg:text-[19px] font-bold text-[#1A1C1A] tracking-tight leading-tight whitespace-nowrap">
               서울 바른마디 척추관절 정형외과
             </span>
             <span className="text-[10px] lg:text-[11px] text-[#6F7A6E] tracking-wider uppercase font-medium">
@@ -98,7 +98,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking, onSelectNav }) =>
         </a>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden xl:flex items-center gap-1 p-1 bg-white rounded-xl shadow-[0_1px_3px_rgba(30,41,59,0.04)] border border-[#E9E8E5]">
+        <nav className="hidden lg:flex items-center gap-0.5 p-1 bg-white rounded-xl shadow-[0_1px_3px_rgba(30,41,59,0.04)] border border-[#E9E8E5]">
           {navItems.map((item) => {
             const isActive = activeNav === item.id;
             return (
@@ -106,7 +106,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking, onSelectNav }) =>
                 key={item.id}
                 href={`#${item.id}`}
                 onClick={(e) => handleNavClick(item.id, e)}
-                className={`px-3.5 py-2 rounded-lg text-sm font-semibold transition-all ${
+                className={`px-3 py-2 rounded-lg text-xs lg:text-sm font-semibold transition-all whitespace-nowrap ${
                   isActive
                     ? 'bg-[#15803D] text-white shadow-sm'
                     : 'text-[#3F493F] hover:text-[#1A1C1A] hover:bg-[#F4F3F1]'
@@ -119,30 +119,30 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking, onSelectNav }) =>
         </nav>
 
         {/* Fast-Track CTA & User button */}
-        <div className="flex items-center gap-2 lg:gap-3">
+        <div className="flex items-center gap-2 lg:gap-3 shrink-0">
           <button
             onClick={() => onOpenBooking()}
-            className="relative inline-flex items-center gap-1.5 px-3.5 lg:px-5 h-11 lg:h-12 bg-[#00652C] hover:bg-[#15803D] text-white text-xs lg:text-sm font-bold rounded-xl shadow-[0_4px_16px_rgba(21,128,61,0.25)] transition-all cursor-pointer transform hover:-translate-y-0.5"
+            className="relative inline-flex items-center gap-1.5 px-3 lg:px-5 h-10 lg:h-12 bg-[#00652C] hover:bg-[#15803D] text-white text-xs lg:text-sm font-bold rounded-xl shadow-[0_4px_16px_rgba(21,128,61,0.25)] transition-all cursor-pointer transform hover:-translate-y-0.5 whitespace-nowrap"
           >
-            <span className="material-symbols-outlined text-[18px] lg:text-[20px] text-white">bolt</span>
-            <span>당일 진료·MRI 예약 (Fast-Track)</span>
+            <span className="material-symbols-outlined text-[16px] lg:text-[20px] text-white">bolt</span>
+            <span><span className="lg:hidden">당일 MRI 예약</span><span className="hidden lg:inline">당일 진료·MRI 예약 (Fast-Track)</span></span>
           </button>
 
           <a
             href="#fast-track-booking"
             title="전화 문의"
-            className="w-10 h-10 lg:w-11 lg:h-11 rounded-full bg-[#00652C] text-white flex items-center justify-center hover:bg-[#15803D] transition-colors shadow-sm"
+            className="w-9 h-9 lg:w-11 lg:h-11 rounded-full bg-[#00652C] text-white flex items-center justify-center hover:bg-[#15803D] transition-colors shadow-sm shrink-0"
           >
-            <span className="material-symbols-outlined text-[20px]">person</span>
+            <span className="material-symbols-outlined text-[18px] lg:text-[20px]">person</span>
           </a>
 
           {/* Mobile menu button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="xl:hidden w-10 h-10 rounded-xl bg-white border border-[#E9E8E5] text-[#1A1C1A] flex items-center justify-center cursor-pointer"
+            className="lg:hidden w-9 h-9 lg:w-10 lg:h-10 rounded-xl bg-white border border-[#E9E8E5] text-[#1A1C1A] flex items-center justify-center cursor-pointer shrink-0"
             aria-label="Toggle navigation"
           >
-            <span className="material-symbols-outlined text-[22px]">
+            <span className="material-symbols-outlined text-[20px] lg:text-[22px]">
               {mobileMenuOpen ? 'close' : 'menu'}
             </span>
           </button>
@@ -151,7 +151,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking, onSelectNav }) =>
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-white border-b border-[#E9E8E5] px-6 py-4 space-y-2 shadow-lg animate-in slide-in-from-top duration-200">
+        <div className="lg:hidden bg-white border-b border-[#E9E8E5] px-6 py-4 space-y-2 shadow-lg animate-in slide-in-from-top duration-200">
           <div className="text-xs font-semibold text-[#6F7A6E] pb-1 uppercase tracking-wider">
             진료 및 센터 바로가기
           </div>

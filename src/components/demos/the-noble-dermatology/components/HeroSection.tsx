@@ -31,22 +31,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column: Typographic Monument */}
           <div className="lg:col-span-7 flex flex-col justify-center">
-            <h1 className="font-serif text-3xl lg:text-5xl lg:text-[56px] text-[#00110b] tracking-tight leading-[1.2] mb-6">
+            <h1 className="font-serif text-[28px] lg:text-[52px] text-[#00110b] tracking-tight leading-[1.22] mb-5 lg:mb-6 break-keep">
               시간의 흐름 위에<br />
               <span className="italic font-normal text-[#745a2a]">본연의 우아함</span>을 더하다<br />
               피부과 전문의 1:1 맞춤 안티에이징
             </h1>
 
-            <p className="text-base lg:text-lg text-[#424845] max-w-xl leading-relaxed mb-8">
+            <p className="text-[15px] lg:text-lg text-[#424845] max-w-xl leading-relaxed mb-6 lg:mb-8 break-keep">
               국내 명문대(예시) 의대 출신 보건복지부 인증 피부과 전문의 3인 협진. 고객 대면 정품 인증 팁 즉석 개봉 및 전 과정 1인 독립 VIP 프라이빗 스위트 케어로 완벽한 안식과 정밀한 탄력 리프팅을 완성합니다.
             </p>
 
             {/* Action CTA Group */}
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 lg:gap-4 w-full lg:w-auto">
               <button
                 type="button"
                 onClick={onOpenBooking}
-                className="inline-flex items-center gap-2 px-6 lg:px-8 py-4 rounded-lg bg-[#0d2820] text-[#ffffff] font-semibold text-sm lg:text-base shadow-xl hover:bg-[#00110b] transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95"
+                className="inline-flex items-center justify-center gap-2 px-6 lg:px-8 py-3.5 lg:py-4 rounded-lg bg-[#0d2820] text-[#ffffff] font-semibold text-sm lg:text-base shadow-xl hover:bg-[#00110b] transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95"
               >
                 <Calendar className="w-4 h-4 text-[#ffdea7]" />
                 <span>1:1 프라이빗 VIP 예약</span>
@@ -56,7 +56,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <button
                 type="button"
                 onClick={onExploreMarkVu}
-                className="inline-flex items-center gap-2 px-5 lg:px-6 py-4 rounded-lg bg-[#ffffff] text-[#00110b] font-semibold text-sm lg:text-base border border-[#eae8e5] shadow-sm hover:bg-[#efeeeb] transition-all duration-300 active:scale-95"
+                className="inline-flex items-center justify-center gap-2 px-5 lg:px-6 py-3.5 lg:py-4 rounded-lg bg-[#ffffff] text-[#00110b] font-semibold text-sm lg:text-base border border-[#eae8e5] shadow-sm hover:bg-[#efeeeb] transition-all duration-300 active:scale-95"
               >
                 <Sparkles className="w-4 h-4 text-[#745a2a]" />
                 <span>마크뷰 4광원 입체 진단 체험</span>
@@ -64,7 +64,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
 
             {/* Official Partner Endorsement Ribbon */}
-            <div className="mt-8 pt-6 border-t border-[#eae8e5]/60 flex flex-wrap items-center gap-y-3 gap-x-6 text-xs text-[#424845]">
+            <div className="mt-6 lg:mt-8 pt-5 lg:pt-6 border-t border-[#eae8e5]/60 flex flex-wrap items-center gap-y-2.5 gap-x-4 lg:gap-x-6 text-xs text-[#424845] break-keep">
               <span className="flex items-center gap-1.5 text-[#00110b] font-medium">
                 <Verified className="w-4 h-4 text-[#745a2a] shrink-0" />
                 Solta Medical 써마지® FLX 공식 인증의원

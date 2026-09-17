@@ -100,69 +100,69 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking, lang, setLang }) 
         </a>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden xl:flex items-center gap-6 text-sm font-medium">
+        <nav className="hidden lg:flex items-center gap-4 lg:gap-5 text-sm font-medium">
           <button
             type="button"
             onClick={() => scrollToSection('philosophy')}
-            className="text-[#424845] hover:text-[#00110b] py-2 tracking-wide transition-colors"
+            className="text-[#424845] hover:text-[#00110b] py-2 tracking-wide transition-colors whitespace-nowrap"
           >
             의원 철학
           </button>
           <button
             type="button"
             onClick={() => scrollToSection('dermatologists')}
-            className="text-[#424845] hover:text-[#00110b] py-2 tracking-wide transition-colors"
+            className="text-[#424845] hover:text-[#00110b] py-2 tracking-wide transition-colors whitespace-nowrap"
           >
             전문의 소개
           </button>
           <button
             type="button"
             onClick={() => scrollToSection('signature-lifting')}
-            className="text-[#424845] hover:text-[#00110b] py-2 tracking-wide transition-colors"
+            className="text-[#424845] hover:text-[#00110b] py-2 tracking-wide transition-colors whitespace-nowrap"
           >
             시그니처 리프팅
           </button>
           <button
             type="button"
             onClick={() => scrollToSection('mark-vu-section')}
-            className="text-[#424845] hover:text-[#00110b] py-2 tracking-wide transition-colors"
+            className="text-[#424845] hover:text-[#00110b] py-2 tracking-wide transition-colors whitespace-nowrap"
           >
             마크뷰 정밀 진단
           </button>
           <button
             type="button"
             onClick={() => scrollToSection('private-suites')}
-            className="text-[#424845] hover:text-[#00110b] py-2 tracking-wide transition-colors"
+            className="text-[#424845] hover:text-[#00110b] py-2 tracking-wide transition-colors whitespace-nowrap"
           >
             1인 프라이빗 룸
           </button>
           <button
             type="button"
             onClick={() => scrollToSection('genuine-verification')}
-            className="text-[#424845] hover:text-[#00110b] py-2 tracking-wide transition-colors"
+            className="text-[#424845] hover:text-[#00110b] py-2 tracking-wide transition-colors whitespace-nowrap"
           >
             정품 인증 센터
           </button>
         </nav>
 
         {/* Action Button & VIP Icon */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-2 lg:gap-3 shrink-0">
           <button
             type="button"
             onClick={onOpenBooking}
-            className="relative inline-flex items-center justify-center gap-2 px-4 lg:px-6 py-2.5 rounded-lg bg-[#00110b] text-[#ffffff] text-xs lg:text-sm font-semibold tracking-wider shadow-[0_4px_20px_-4px_rgba(13,40,32,0.2)] hover:bg-[#0d2820] active:scale-95 transition-all duration-300"
+            className="relative inline-flex items-center justify-center gap-1.5 lg:gap-2 px-3.5 lg:px-6 py-2 lg:py-2.5 rounded-lg bg-[#00110b] text-[#ffffff] text-xs lg:text-sm font-semibold tracking-wider shadow-[0_4px_20px_-4px_rgba(13,40,32,0.2)] hover:bg-[#0d2820] active:scale-95 transition-all duration-300"
           >
-            <Calendar className="w-4 h-4 text-[#fedb9e]" />
-            <span>1:1 프라이빗 예약</span>
+            <Calendar className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-[#fedb9e]" />
+            <span><span className="lg:hidden">1:1 예약</span><span className="hidden lg:inline">1:1 프라이빗 예약</span></span>
           </button>
 
           <button
             type="button"
             onClick={onOpenBooking}
             aria-label="VIP Account"
-            className="w-9 h-9 rounded-full bg-[#00110b] flex items-center justify-center text-[#ffffff] hover:bg-[#0d2820] transition-colors shrink-0"
+            className="w-8 h-8 lg:w-9 lg:h-9 rounded-full bg-[#00110b] flex items-center justify-center text-[#ffffff] hover:bg-[#0d2820] transition-colors shrink-0"
           >
-            <User className="w-4 h-4" />
+            <User className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
           </button>
 
           {/* Mobile hamburger button */}
@@ -170,7 +170,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking, lang, setLang }) 
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle Navigation Menu"
-            className="xl:hidden p-2 rounded-lg text-[#00110b] hover:bg-[#eae8e5] transition-colors"
+            className="lg:hidden p-2 rounded-lg text-[#00110b] hover:bg-[#eae8e5] transition-colors"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -179,7 +179,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking, lang, setLang }) 
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-[#fbf9f6] border-b border-[#eae8e5] px-6 py-5 shadow-xl animate-in slide-in-from-top-2 duration-200">
+        <div className="lg:hidden bg-[#fbf9f6] border-b border-[#eae8e5] px-6 py-5 shadow-xl animate-in slide-in-from-top-2 duration-200">
           <div className="flex flex-col space-y-3 font-medium text-[#1b1c1a]">
             <button
               type="button"

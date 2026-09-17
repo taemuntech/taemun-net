@@ -2,11 +2,15 @@ import { BeforeAfterCase, RoadmapStage, DoctorProfile } from '../types';
 
 export const CLINIC_IMAGES = {
   logoProfile: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-11.png',
-  heroModel: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-07.jpg',
+  heroModel: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-hero.png',
   philosophyNatural: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-05.jpg',
   philosophySuture: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-08.jpg',
-  eyeAfter: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-04.jpg',
-  eyeBefore: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-10.jpg',
+  eyeAfter: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-eye-after.png',
+  eyeBefore: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-eye-before.png',
+  noseAfter: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-nose-after.png',
+  noseBefore: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-nose-before.png',
+  liftAfter: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-lift-after.png',
+  liftBefore: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-lift-before.png',
   recoverySuite: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-02.jpg',
   doctorKang: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-01.jpg',
   doctorYoon: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-06.jpg',
@@ -32,8 +36,8 @@ export const BEFORE_AFTER_CASES: Record<string, BeforeAfterCase> = {
     title: '무보형물 비중격 자가연골 코성형 (직반버선 라인)',
     subtitle: '실리콘 이물감 없는 자가 생체 조직 재건',
     desc: '실리콘 이물질 없이 자가 비중격 연골로만 코끝을 세워 비순각 98도 자연스러움 도출',
-    beforeImg: CLINIC_IMAGES.philosophyNatural,
-    afterImg: CLINIC_IMAGES.heroModel,
+    beforeImg: CLINIC_IMAGES.noseBefore,
+    afterImg: CLINIC_IMAGES.noseAfter,
     recoveryPeriod: '7일 (부목 및 테이핑 제거)',
     keyPoints: ['보형물 비침 및 염증 우려 영구 배제', '비순각 98° 여성스러운 곡선미', '콧볼 미세 축소 병행']
   },
@@ -43,8 +47,8 @@ export const BEFORE_AFTER_CASES: Record<string, BeforeAfterCase> = {
     title: '미니 SMAS 안면거상 + 심부볼 정밀 리프팅',
     subtitle: '귀 뒤 헤어라인 미세 절개선으로 흉터 눈에 띄지 않게 배치',
     desc: '귀 뒤 미세 절개선으로 흉터 은폐, 처진 턱선과 팔자주름을 근막층부터 2중 견인',
-    beforeImg: CLINIC_IMAGES.eyeBefore,
-    afterImg: CLINIC_IMAGES.philosophyNatural,
+    beforeImg: CLINIC_IMAGES.liftBefore,
+    afterImg: CLINIC_IMAGES.liftAfter,
     recoveryPeriod: '5~7일 (일상생활 복귀)',
     keyPoints: ['피부 표면이 아닌 SMAS 근막층 박리', '팔자주름 및 이중턱 동시 개선', '자연스러운 귀 형태 보존']
   }

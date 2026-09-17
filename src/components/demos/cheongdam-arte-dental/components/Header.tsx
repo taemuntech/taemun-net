@@ -114,10 +114,10 @@ export const Header: React.FC<HeaderProps> = ({
         </a>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden xl:flex items-center gap-1">
+        <nav className="hidden lg:flex items-center gap-1">
           <button
             onClick={() => { setActiveSection('philosophy'); onOpenPhilosophy(); }}
-            className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-all ${
+            className={`px-3 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer whitespace-nowrap ${
               activeSection === 'philosophy' 
                 ? 'bg-[#c5a059] text-white shadow-sm' 
                 : 'text-[#4e4639] hover:text-[#1a1c1a] hover:bg-[#efeeeb]'
@@ -127,7 +127,7 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
           <button
             onClick={() => scrollToSection('faculty-section', 'faculty')}
-            className={`px-3.5 py-2 text-xs font-medium rounded-lg transition-all ${
+            className={`px-3 py-2 text-xs font-medium rounded-lg transition-all cursor-pointer whitespace-nowrap ${
               activeSection === 'faculty' 
                 ? 'bg-[#c5a059] text-white shadow-sm' 
                 : 'text-[#4e4639] hover:text-[#1a1c1a] hover:bg-[#efeeeb]'
@@ -137,17 +137,17 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
           <button
             onClick={() => scrollToSection('navigation-section', 'digital-implant')}
-            className={`px-3.5 py-2 text-xs font-medium rounded-lg transition-all ${
+            className={`px-3 py-2 text-xs font-medium rounded-lg transition-all cursor-pointer whitespace-nowrap ${
               activeSection === 'digital-implant' 
                 ? 'bg-[#c5a059] text-white shadow-sm' 
                 : 'text-[#4e4639] hover:text-[#1a1c1a] hover:bg-[#efeeeb]'
             }`}
           >
-            디지털 네비게이션 임플란트
+            디지털 임플란트
           </button>
           <button
             onClick={() => scrollToSection('veneer-section', 'aesthetic-veneer')}
-            className={`px-3.5 py-2 text-xs font-medium rounded-lg transition-all ${
+            className={`px-3 py-2 text-xs font-medium rounded-lg transition-all cursor-pointer whitespace-nowrap ${
               activeSection === 'aesthetic-veneer' 
                 ? 'bg-[#c5a059] text-white shadow-sm' 
                 : 'text-[#4e4639] hover:text-[#1a1c1a] hover:bg-[#efeeeb]'
@@ -157,7 +157,7 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
           <button
             onClick={() => scrollToSection('painless-section', 'painless-tech')}
-            className={`px-3.5 py-2 text-xs font-medium rounded-lg transition-all ${
+            className={`px-3 py-2 text-xs font-medium rounded-lg transition-all cursor-pointer whitespace-nowrap ${
               activeSection === 'painless-tech' 
                 ? 'bg-[#c5a059] text-white shadow-sm' 
                 : 'text-[#4e4639] hover:text-[#1a1c1a] hover:bg-[#efeeeb]'
@@ -167,7 +167,7 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
           <button
             onClick={() => { setActiveSection('clinic-tour'); onOpenClinicTour(); }}
-            className={`px-3.5 py-2 text-xs font-medium rounded-lg transition-all ${
+            className={`px-3 py-2 text-xs font-medium rounded-lg transition-all cursor-pointer whitespace-nowrap ${
               activeSection === 'clinic-tour' 
                 ? 'bg-[#c5a059] text-white shadow-sm' 
                 : 'text-[#4e4639] hover:text-[#1a1c1a] hover:bg-[#efeeeb]'
@@ -177,7 +177,7 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
           <button
             onClick={() => scrollToSection('booking-section', 'online-booking')}
-            className={`px-3.5 py-2 text-xs font-medium rounded-lg transition-all ${
+            className={`px-3 py-2 text-xs font-medium rounded-lg transition-all cursor-pointer whitespace-nowrap ${
               activeSection === 'online-booking' 
                 ? 'bg-[#c5a059] text-white shadow-sm' 
                 : 'text-[#4e4639] hover:text-[#1a1c1a] hover:bg-[#efeeeb]'
@@ -188,17 +188,17 @@ export const Header: React.FC<HeaderProps> = ({
         </nav>
 
         {/* Action Button & Mobile Menu Trigger */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 lg:gap-3">
           <button
             onClick={onNavigateToBooking}
-            className="hidden lg:inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-gradient-to-r from-[#c5a059] to-[#775a19] text-white text-xs font-semibold tracking-wider shadow-[0_4px_20px_rgba(197,160,89,0.35)] hover:shadow-[0_6px_24px_rgba(197,160,89,0.5)] transition-all transform hover:-translate-y-0.5"
+            className="hidden lg:inline-flex items-center justify-center px-4 lg:px-5 py-2.5 rounded-full bg-gradient-to-r from-[#c5a059] to-[#775a19] text-white text-xs font-semibold tracking-wider shadow-[0_4px_20px_rgba(197,160,89,0.35)] hover:shadow-[0_6px_24px_rgba(197,160,89,0.5)] transition-all transform hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
           >
-            실시간 상담·예약
+            상담 및 예약 신청
           </button>
           
           <button 
             onClick={onNavigateToBooking}
-            className="w-8 h-8 rounded-full bg-[#775a19] flex items-center justify-center text-white hover:bg-[#c5a059] transition-colors"
+            className="w-8 h-8 rounded-full bg-[#775a19] flex items-center justify-center text-white hover:bg-[#c5a059] transition-colors cursor-pointer"
             title="VIP 환자 리셉션"
           >
             <User className="w-4 h-4" />
@@ -206,7 +206,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="xl:hidden p-2 rounded-lg text-[#1a1c1a] hover:bg-[#efeeeb] transition-colors"
+            className="lg:hidden p-2 rounded-lg text-[#1a1c1a] hover:bg-[#efeeeb] transition-colors cursor-pointer"
             aria-label="메뉴 열기"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -216,7 +216,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-[#faf9f6] border-b border-[#d1c5b4]/40 px-6 py-5 shadow-2xl space-y-3">
+        <div className="lg:hidden bg-[#faf9f6] border-b border-[#d1c5b4]/40 px-6 py-5 shadow-2xl space-y-3 break-keep">
           <div className="flex items-center justify-between pb-3 border-b border-[#d1c5b4]/30">
             <span className="text-xs font-semibold text-[#775a19]">진료 과목 & 안내</span>
             <div className="flex items-center gap-2 text-xs">
