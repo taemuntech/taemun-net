@@ -274,6 +274,16 @@ export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
     iconKey: "crown",
   },
   {
+    slug: "nordic-peak",
+    label: "노르딕 피크",
+    mobileLabel: "노르딕 피크 (NORDIC PEAK)",
+    badge: "쇼핑몰 07",
+    description: "테크니컬 아웃도어 & 익스페디션 기어 커머스",
+    mobileDescription: "테크니컬 아웃도어 & 캠핑 기어 데모",
+    tone: "teal",
+    iconKey: "compass",
+  },
+  {
     slug: "maison",
     label: "메종 당티크 (Maison)",
     badge: "D2C 살롱",
