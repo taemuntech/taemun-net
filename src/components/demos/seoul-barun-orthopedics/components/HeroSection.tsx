@@ -35,7 +35,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <span className="text-[12px] lg:text-[13px] text-[#00652C] tracking-widest uppercase font-bold block">
                 Orthopedic &amp; Spine Biomechanics Institute
               </span>
-              <h1 className="text-3xl lg:text-4xl lg:text-[44px] font-bold text-[#1A1C1A] tracking-tight leading-[1.25] lg:leading-[1.22]">
+              <h1 className="text-[26px] lg:text-[44px] font-bold text-[#1A1C1A] tracking-tight leading-[1.3] lg:leading-[1.22] break-keep">
                 칼을 대지 않는 <br className="hidden lg:inline" />
                 <span className="text-[#00652C] underline decoration-[#00652C]/30 underline-offset-8">
                   비수술 우선 원칙
@@ -45,33 +45,33 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               </h1>
             </div>
 
-            <p className="text-base lg:text-lg text-[#3F493F] max-w-2xl leading-relaxed">
+            <p className="text-[15px] lg:text-lg text-[#3F493F] max-w-2xl leading-relaxed break-keep">
               과잉진료 없는 대학병원 교수 출신 정형외과 전문의 2인 진료 체계. 
               정밀 초음파·C-Arm 유도 신경재생술, 독일 1.5T MRI 당일 판독 원스톱, 
               그리고 100평 전용 물리도수운동치료센터가 하나의 맞춤형 치료 플랜으로 완성됩니다.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-3 pt-1">
+            <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-2.5 lg:gap-3 pt-1 w-full lg:w-auto">
               <button
                 onClick={onScrollToQuiz}
-                className="h-12 px-6 rounded-xl bg-[#00652C] text-white text-sm lg:text-base font-bold inline-flex items-center gap-2 shadow-[0_4px_16px_rgba(0,101,44,0.22)] hover:bg-[#15803D] transition-all cursor-pointer transform hover:-translate-y-0.5"
+                className="h-11 lg:h-12 px-5 lg:px-6 rounded-xl bg-[#00652C] text-white text-sm lg:text-base font-bold inline-flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(0,101,44,0.22)] hover:bg-[#15803D] transition-all cursor-pointer transform hover:-translate-y-0.5"
               >
                 <span className="material-symbols-outlined text-[20px]">stethoscope</span>
-                <span>5대 부위 통증 자가진단 시작</span>
+                <span>5대 부위 통증 자가진단</span>
               </button>
 
               <button
                 onClick={onScrollToBooking}
-                className="h-12 px-6 rounded-xl bg-[#E3E2E0] text-[#1A1C1A] text-sm lg:text-base font-bold inline-flex items-center gap-2 hover:bg-[#D5E0F8] transition-all cursor-pointer"
+                className="h-11 lg:h-12 px-5 lg:px-6 rounded-xl bg-[#E3E2E0] text-[#1A1C1A] text-sm lg:text-base font-bold inline-flex items-center justify-center gap-2 hover:bg-[#D5E0F8] transition-all cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[20px] text-[#007D73]">flash_on</span>
-                <span>당일 1.5T MRI 원스톱 예약</span>
+                <span>당일 1.5T MRI 예약</span>
               </button>
 
               <button
                 onClick={onScrollToRehab}
-                className="h-12 px-5 rounded-xl bg-white text-[#545F73] text-sm lg:text-base font-semibold inline-flex items-center gap-2 shadow-sm border border-[#E9E8E5] hover:text-[#1A1C1A] hover:bg-[#F4F3F1] transition-all cursor-pointer"
+                className="h-11 lg:h-12 px-4 lg:px-5 rounded-xl bg-white text-[#545F73] text-sm lg:text-base font-semibold inline-flex items-center justify-center gap-2 shadow-sm border border-[#E9E8E5] hover:text-[#1A1C1A] hover:bg-[#F4F3F1] transition-all cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[18px]">sports_gymnastics</span>
                 <span>1:1 도수재활 상담</span>
@@ -79,7 +79,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
 
             {/* Micro Medical Proof Badges */}
-            <div className="flex flex-wrap items-center gap-4 lg:gap-6 pt-2 text-[#545F73] text-xs lg:text-sm font-medium">
+            <div className="flex flex-wrap items-center gap-3 lg:gap-6 pt-2 text-[#545F73] text-xs lg:text-sm font-medium break-keep">
               <div className="flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-[#00652C] text-[18px]">verified</span>
                 <span>보건복지부 인증 정형외과 전문의</span>

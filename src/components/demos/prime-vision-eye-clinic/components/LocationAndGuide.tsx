@@ -10,16 +10,16 @@ export const LocationAndGuide: React.FC<LocationAndGuideProps> = ({ language }) 
     <section id="location-guide" className="w-full py-20 bg-surface-container-low">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section Header */}
-        <div className="max-w-3xl mb-12">
+        <div className="max-w-3xl mb-10 lg:mb-12 break-keep">
           <span className="px-3.5 py-1.5 rounded-full bg-primary-fixed text-primary font-label-caps text-[11px] font-bold">
             LOCATION &amp; CONSULTATION HOURS
           </span>
-          <h2 className="font-headline-xl text-[30px] lg:text-[38px] text-on-surface font-extrabold tracking-tight mt-3">
+          <h2 className="font-headline-xl text-[26px] lg:text-[38px] text-on-surface font-extrabold tracking-tight mt-3 leading-snug">
             {language === 'KR'
               ? '강남역 1번 출구 도보 1분 오시는 길 & 진료시간'
               : 'Location & Consultation Hours'}
           </h2>
-          <p className="font-body-lg text-[15px] lg:text-[17px] text-on-surface-variant mt-2 leading-relaxed">
+          <p className="font-body-lg text-[14px] lg:text-[17px] text-on-surface-variant mt-2 leading-relaxed">
             {language === 'KR'
               ? '역삼·강남 테헤란로의 중심, 쾌적하고 품격 있는 프라이빗 메디컬 라운지에서 대학병원급 프리미엄 아이케어를 경험하세요.'
               : 'Located at Gangnam Station Exit 1, Teheran-ro 124, Prime Medical Tower 4-7F.'}
@@ -27,7 +27,7 @@ export const LocationAndGuide: React.FC<LocationAndGuideProps> = ({ language }) 
         </div>
 
         {/* 2-Column Info & Map Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch break-keep">
           {/* Detailed Info Card (6 Cols) */}
           <div className="lg:col-span-6 bg-surface-container-lowest p-6 lg:p-8 rounded-2xl shadow-sm flex flex-col justify-between border border-surface-container/50">
             <div className="space-y-6">

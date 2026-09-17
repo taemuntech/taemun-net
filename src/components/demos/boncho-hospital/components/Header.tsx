@@ -87,28 +87,28 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden xl:flex items-center gap-1.5 lg:gap-2">
+        <nav className="hidden lg:flex items-center gap-1 lg:gap-2">
           <button
             onClick={() => scrollToSection('hospital-philosophy')}
-            className="px-3.5 py-2 text-[14px] font-semibold text-[#102a20] hover:bg-[#efeeeb] rounded-lg transition-colors"
+            className="px-3.5 py-2 text-[14px] font-semibold text-[#102a20] hover:bg-[#efeeeb] rounded-lg transition-colors whitespace-nowrap"
           >
             병원 철학
           </button>
           <button
             onClick={() => scrollToSection('specialized-centers')}
-            className="px-3.5 py-2 text-[14px] font-medium text-[#424844] hover:text-[#102a20] hover:bg-[#efeeeb] rounded-lg transition-colors"
+            className="px-3.5 py-2 text-[14px] font-medium text-[#424844] hover:text-[#102a20] hover:bg-[#efeeeb] rounded-lg transition-colors whitespace-nowrap"
           >
             암면역 집중센터
           </button>
           <button
             onClick={() => scrollToSection('suites-section')}
-            className="px-3.5 py-2 text-[14px] font-medium text-[#424844] hover:text-[#102a20] hover:bg-[#efeeeb] rounded-lg transition-colors"
+            className="px-3.5 py-2 text-[14px] font-medium text-[#424844] hover:text-[#102a20] hover:bg-[#efeeeb] rounded-lg transition-colors whitespace-nowrap"
           >
             360° VIP 입원실
           </button>
           <button
             onClick={() => scrollToSection('smart-decoction-lab')}
-            className="px-3.5 py-2 text-[14px] font-medium text-[#424844] hover:text-[#102a20] hover:bg-[#efeeeb] rounded-lg transition-colors"
+            className="px-3.5 py-2 text-[14px] font-medium text-[#424844] hover:text-[#102a20] hover:bg-[#efeeeb] rounded-lg transition-colors whitespace-nowrap"
           >
             스마트 청정 탕전실
           </button>
@@ -116,39 +116,39 @@ export const Header: React.FC<HeaderProps> = ({
             onClick={() => {
               scrollToSection('specialized-centers');
             }}
-            className="px-3.5 py-2 text-[14px] font-medium text-[#424844] hover:text-[#102a20] hover:bg-[#efeeeb] rounded-lg transition-colors"
+            className="px-3.5 py-2 text-[14px] font-medium text-[#424844] hover:text-[#102a20] hover:bg-[#efeeeb] rounded-lg transition-colors whitespace-nowrap"
           >
             교통사고·수술재활
           </button>
           <button
             onClick={onOpenBedStatus}
-            className="px-3.5 py-2 text-[14px] font-medium text-[#424844] hover:text-[#102a20] hover:bg-[#efeeeb] rounded-lg transition-colors flex items-center gap-1.5"
+            className="px-3.5 py-2 text-[14px] font-medium text-[#424844] hover:text-[#102a20] hover:bg-[#efeeeb] rounded-lg transition-colors flex items-center gap-1.5 whitespace-nowrap"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[#102a20]"></span>
-            <span>입원실 실시간 조회</span>
+            <span>입원실 현황</span>
           </button>
         </nav>
 
         {/* Right CTA Actions */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-2 lg:gap-3 shrink-0">
           <a
             className="hidden lg:flex flex-col items-end text-right px-2"
             href="tel:02-0000-0000"
           >
             <span className="text-[11px] font-medium text-[#75593c]">전화 직통상담</span>
-            <span className="text-[16px] font-bold text-[#102a20] tracking-tight">02-0000-0000</span>
+            <span className="text-[15px] font-bold text-[#102a20] tracking-tight">02-0000-0000</span>
           </a>
 
           <button
             onClick={onOpenBooking}
-            className="inline-flex items-center justify-center px-4 py-2.5 rounded-lg bg-[#102a20] text-white text-[13px] font-semibold shadow-[0_4px_16px_rgba(16,42,32,0.18)] hover:bg-[#264035] active:scale-95 transition-all cursor-pointer"
+            className="inline-flex items-center justify-center px-3.5 lg:px-4 py-2 lg:py-2.5 rounded-lg bg-[#102a20] text-white text-[12px] lg:text-[13px] font-semibold shadow-[0_4px_16px_rgba(16,42,32,0.18)] hover:bg-[#264035] active:scale-95 transition-all cursor-pointer whitespace-nowrap"
           >
             <span>입원·외래 간편예약</span>
           </button>
 
           <button
             onClick={onOpenTour}
-            className="hidden lg:flex w-9 h-9 rounded-lg border border-[#c2c8c3] text-[#102a20] hover:bg-[#efeeeb] items-center justify-center transition-colors"
+            className="hidden lg:flex w-9 h-9 rounded-lg border border-[#c2c8c3] text-[#102a20] hover:bg-[#efeeeb] items-center justify-center transition-colors cursor-pointer"
             title="360° 가상 투어"
           >
             <span className="material-symbols-outlined text-[19px]">view_in_ar</span>
@@ -157,7 +157,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Mobile hamburger menu toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="xl:hidden w-9 h-9 rounded-lg bg-[#efeeeb] text-[#102a20] flex items-center justify-center"
+            className="lg:hidden w-9 h-9 rounded-lg bg-[#efeeeb] text-[#102a20] flex items-center justify-center cursor-pointer"
             aria-label="Toggle Navigation Menu"
           >
             <span className="material-symbols-outlined text-[22px]">
@@ -169,7 +169,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-[#faf9f6] border-b border-[#e3e2e0] px-4 py-4 space-y-2 shadow-lg animate-in fade-in duration-200">
+        <div className="lg:hidden bg-[#faf9f6] border-b border-[#e3e2e0] px-4 py-4 space-y-2 shadow-lg animate-in fade-in duration-200 break-keep">
           <button
             onClick={() => scrollToSection('hospital-philosophy')}
             className="w-full text-left px-3 py-2.5 rounded-lg font-medium text-[#102a20] hover:bg-[#efeeeb]"

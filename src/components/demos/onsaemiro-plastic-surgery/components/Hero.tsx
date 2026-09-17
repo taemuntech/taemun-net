@@ -24,52 +24,52 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToHUD, onScrollToReservation
               <span>압구정 프라이빗 에스테틱 메디컬 살롱</span>
             </div>
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2.5 lg:gap-3 break-keep">
               <span className="text-[11px] uppercase tracking-[0.2em] text-[#725b38] font-bold">
                 ONSAEMIRO AESTHETIC &amp; PLASTIC SURGERY
               </span>
-              <h1 className="font-serif text-[34px] lg:text-[42px] lg:text-[46px] lg:leading-[52px] lg:leading-[58px] text-[#1c1c19] tracking-tight">
+              <h1 className="font-serif text-[26px] lg:text-[44px] text-[#1c1c19] tracking-tight leading-[1.25] break-keep">
                 본연의 아름다움을 거스르지 않는<br />
                 <span className="text-[#725b38] italic font-serif">자연스러움의 미학</span> — 순우리말 온새미로
               </h1>
             </div>
 
-            <p className="text-[16px] leading-[28px] text-[#4d463c] max-w-2xl">
+            <p className="text-[14px] lg:text-[16px] leading-[24px] lg:leading-[28px] text-[#4d463c] max-w-2xl break-keep">
               가르거나 쪼개지 않고 본래의 자연스러움을 온전히 지키는 1mm의 황금비율.<br className="hidden lg:inline" />
-              과도한 성형 티를 완전히 배제하고, 당신이 타고난 고유한 선과 표정의 깊이를 존중하는 무결점 1:1 전담 실명 진료를 약속합니다.
+              과도한 성형 티를 배제하고, 타고난 고유한 선과 표정의 깊이를 존중하는 1:1 전담 실명 진료를 지향합니다.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
+            <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 lg:gap-4 pt-2">
               <button
                 onClick={onScrollToHUD}
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[#1A1817] text-[#fdf9f5] text-[15px] font-semibold hover:bg-[#2E2A27] shadow-[0_8px_24px_rgba(114,91,56,0.18)] transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-6 lg:px-7 py-3.5 rounded-full bg-[#1A1817] text-[#fdf9f5] text-[14px] lg:text-[15px] font-semibold hover:bg-[#2E2A27] shadow-[0_8px_24px_rgba(114,91,56,0.18)] transition-all transform hover:-translate-y-0.5 cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[#fedeb2] text-[20px]">tune</span>
-                <span>1:1:0.8 안면 황금비율 시뮬레이터</span>
+                <span className="break-keep">1:1:0.8 안면 황금비율 시뮬레이터</span>
               </button>
               <button
                 onClick={onScrollToReservation}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-[#ebe7e4] text-[#1c1c19] hover:bg-[#e5e2de] text-[15px] font-semibold shadow-sm transition-all cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-5 lg:px-6 py-3.5 rounded-full bg-[#ebe7e4] text-[#1c1c19] hover:bg-[#e5e2de] text-[14px] lg:text-[15px] font-semibold shadow-sm transition-all cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[#725b38] text-[20px]">mail</span>
-                <span>1:1 프라이빗 시크릿 상담</span>
+                <span className="break-keep">1:1 프라이빗 시크릿 상담</span>
               </button>
             </div>
 
             {/* Quick Metrics Bar */}
-            <div className="grid grid-cols-3 gap-4 pt-4">
-              <div className="p-3.5 rounded-xl bg-[#f1ede9]/80 border border-[#d1c5b8]/30 shadow-sm flex flex-col">
-                <span className="text-[22px] font-serif font-bold text-[#725b38]">100%</span>
-                <span className="text-[12px] text-[#4d463c]">한국인 전문의 실명집도</span>
+            <div className="grid grid-cols-3 gap-2 lg:gap-4 pt-3 break-keep">
+              <div className="p-2.5 lg:p-3.5 rounded-xl bg-[#f1ede9]/80 border border-[#d1c5b8]/30 shadow-sm flex flex-col items-center lg:items-start text-center lg:text-left">
+                <span className="text-[18px] lg:text-[22px] font-serif font-bold text-[#725b38]">100%</span>
+                <span className="text-[11px] lg:text-[12px] text-[#4d463c] mt-0.5">한국인 전문의 실명집도</span>
               </div>
-              <div className="p-3.5 rounded-xl bg-[#f1ede9]/80 border border-[#d1c5b8]/30 shadow-sm flex flex-col">
-                <span className="text-[22px] font-serif font-bold text-[#725b38]">0건</span>
-                <span className="text-[12px] text-[#4d463c]">개원 이래 의료사고 0건</span>
+              <div className="p-2.5 lg:p-3.5 rounded-xl bg-[#f1ede9]/80 border border-[#d1c5b8]/30 shadow-sm flex flex-col items-center lg:items-start text-center lg:text-left">
+                <span className="text-[18px] lg:text-[22px] font-serif font-bold text-[#725b38]">0건</span>
+                <span className="text-[11px] lg:text-[12px] text-[#4d463c] mt-0.5">철저한 안전 수술 원칙</span>
               </div>
-              <div className="p-3.5 rounded-xl bg-[#f1ede9]/80 border border-[#d1c5b8]/30 shadow-sm flex flex-col">
-                <span className="text-[22px] font-serif font-bold text-[#725b38]">1:1</span>
-                <span className="text-[12px] text-[#4d463c]">마취과 전문의 전담 상주</span>
+              <div className="p-2.5 lg:p-3.5 rounded-xl bg-[#f1ede9]/80 border border-[#d1c5b8]/30 shadow-sm flex flex-col items-center lg:items-start text-center lg:text-left">
+                <span className="text-[18px] lg:text-[22px] font-serif font-bold text-[#725b38]">1:1</span>
+                <span className="text-[11px] lg:text-[12px] text-[#4d463c] mt-0.5">마취과 전문의 전담 상주</span>
               </div>
             </div>
           </div>

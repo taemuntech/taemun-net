@@ -11,16 +11,16 @@ export const MedicalFaculty: React.FC<MedicalFacultyProps> = ({ language, onSele
     <section id="specialists" className="w-full py-20 bg-surface-container-low">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section Header */}
-        <div className="max-w-3xl mb-12">
+        <div className="max-w-3xl mb-10 lg:mb-12 break-keep">
           <span className="px-3.5 py-1.5 rounded-full bg-primary-fixed text-primary font-label-caps text-[11px] font-bold">
             WORLD-CLASS MEDICAL FACULTY
           </span>
-          <h2 className="font-headline-xl text-[30px] lg:text-[38px] text-on-surface font-extrabold tracking-tight mt-3">
+          <h2 className="font-headline-xl text-[26px] lg:text-[38px] text-on-surface font-extrabold tracking-tight mt-3 leading-snug">
             {language === 'KR'
               ? '국내 명문대(예시) · 세브란스 출신 각막 & 망막 전임의 팀'
               : 'Seoul National Univ & Severance Cornea & Retina Fellows'}
           </h2>
-          <p className="font-body-lg text-[15px] lg:text-[17px] text-on-surface-variant mt-2 leading-relaxed">
+          <p className="font-body-lg text-[14px] lg:text-[17px] text-on-surface-variant mt-2 leading-relaxed">
             {language === 'KR'
               ? '공장형 안과와 차별화된 1:1 전담 주치의 책임 진료제. 상담부터 정밀 검사, 수술 집도, 평생 사후 관리까지 담당 전문의가 직접 책임집니다.'
               : 'Dedicated 1:1 primary attending physician system. From consultation and 50-step exam to surgery and lifelong post-op care.'}
@@ -28,7 +28,7 @@ export const MedicalFaculty: React.FC<MedicalFacultyProps> = ({ language, onSele
         </div>
 
         {/* 2 Doctors Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch break-keep">
           {/* Doctor 1: Dr. Hyunwoo Kang */}
           <div className="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow flex flex-col lg:flex-row border border-surface-container/50">
             <div className="w-full lg:w-5/12 h-72 lg:h-auto relative overflow-hidden bg-surface-container">

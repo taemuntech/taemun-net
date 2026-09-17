@@ -12,16 +12,16 @@ export const ProcedureComparison: React.FC<ProcedureComparisonProps> = ({ langua
     <section id="procedure-comparison" className="w-full py-20 bg-surface-container-low">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-12">
-          <div>
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-10 lg:mb-12">
+          <div className="break-keep">
             <div className="flex items-center gap-2 text-primary font-label-caps text-[11px] font-bold tracking-wider mb-2">
               <span className="material-symbols-outlined text-[16px]">bolt</span>
               <span>NEXT-GENERATION REFRACTIVE SURGERY</span>
             </div>
-            <h2 className="font-headline-xl text-[30px] lg:text-[38px] text-on-surface font-extrabold tracking-tight">
+            <h2 className="font-headline-xl text-[26px] lg:text-[38px] text-on-surface font-extrabold tracking-tight leading-snug">
               {language === 'KR' ? '스마일프로 vs 기존 시력교정술 비교' : 'SMILE Pro vs Traditional Surgery'}
             </h2>
-            <p className="font-body-lg text-[15px] lg:text-[17px] text-on-surface-variant mt-2">
+            <p className="font-body-lg text-[14px] lg:text-[17px] text-on-surface-variant mt-2 leading-relaxed">
               {language === 'KR'
                 ? '왜 비쥬맥스 800 스마일프로를 선택해야 하는지 데이터와 스펙으로 투명하게 공개합니다.'
                 : 'Directly comparing clinical metrics, incision scale, recovery time, and structural corneal stability.'}
@@ -29,46 +29,48 @@ export const ProcedureComparison: React.FC<ProcedureComparisonProps> = ({ langua
           </div>
 
           {/* Interactive Switching Tabs */}
-          <div className="inline-flex p-1.5 rounded-xl bg-surface-container-highest self-start lg:self-auto shadow-inner">
-            <button
-              type="button"
-              onClick={() => setActiveTab('smile')}
-              className={`px-4 py-2 rounded-lg font-headline-sm text-[14px] lg:text-[15px] transition-all cursor-pointer ${
-                activeTab === 'smile'
-                  ? 'bg-surface-container-lowest text-primary font-bold shadow-sm'
-                  : 'text-on-surface-variant hover:text-on-surface font-medium'
-              }`}
-            >
-              4세대 스마일프로
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('lasik')}
-              className={`px-4 py-2 rounded-lg font-headline-sm text-[14px] lg:text-[15px] transition-all cursor-pointer ${
-                activeTab === 'lasik'
-                  ? 'bg-surface-container-lowest text-primary font-bold shadow-sm'
-                  : 'text-on-surface-variant hover:text-on-surface font-medium'
-              }`}
-            >
-              기존 라식 (LASIK)
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('lasek')}
-              className={`px-4 py-2 rounded-lg font-headline-sm text-[14px] lg:text-[15px] transition-all cursor-pointer ${
-                activeTab === 'lasek'
-                  ? 'bg-surface-container-lowest text-primary font-bold shadow-sm'
-                  : 'text-on-surface-variant hover:text-on-surface font-medium'
-              }`}
-            >
-              기존 라섹 (LASEK)
-            </button>
+          <div className="max-w-full overflow-x-auto pb-1 lg:pb-0">
+            <div className="inline-flex p-1.5 rounded-xl bg-surface-container-highest shadow-inner whitespace-nowrap">
+              <button
+                type="button"
+                onClick={() => setActiveTab('smile')}
+                className={`px-3.5 lg:px-4 py-2 rounded-lg font-headline-sm text-[13px] lg:text-[15px] transition-all cursor-pointer ${
+                  activeTab === 'smile'
+                    ? 'bg-surface-container-lowest text-primary font-bold shadow-sm'
+                    : 'text-on-surface-variant hover:text-on-surface font-medium'
+                }`}
+              >
+                4세대 스마일프로
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('lasik')}
+                className={`px-3.5 lg:px-4 py-2 rounded-lg font-headline-sm text-[13px] lg:text-[15px] transition-all cursor-pointer ${
+                  activeTab === 'lasik'
+                    ? 'bg-surface-container-lowest text-primary font-bold shadow-sm'
+                    : 'text-on-surface-variant hover:text-on-surface font-medium'
+                }`}
+              >
+                기존 라식 (LASIK)
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('lasek')}
+                className={`px-3.5 lg:px-4 py-2 rounded-lg font-headline-sm text-[13px] lg:text-[15px] transition-all cursor-pointer ${
+                  activeTab === 'lasek'
+                    ? 'bg-surface-container-lowest text-primary font-bold shadow-sm'
+                    : 'text-on-surface-variant hover:text-on-surface font-medium'
+                }`}
+              >
+                기존 라섹 (LASEK)
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Tab Content: SMILE PRO */}
         {activeTab === 'smile' && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch animate-fadeIn">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch animate-fadeIn break-keep">
             <div className="lg:col-span-7 bg-surface-container-lowest p-8 rounded-2xl shadow-sm flex flex-col justify-between border border-surface-container/50">
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -167,7 +169,7 @@ export const ProcedureComparison: React.FC<ProcedureComparisonProps> = ({ langua
 
         {/* Tab Content: LASIK */}
         {activeTab === 'lasik' && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch animate-fadeIn">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch animate-fadeIn break-keep">
             <div className="lg:col-span-7 bg-surface-container-lowest p-8 rounded-2xl shadow-sm flex flex-col justify-between border border-surface-container/50">
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -247,7 +249,7 @@ export const ProcedureComparison: React.FC<ProcedureComparisonProps> = ({ langua
 
         {/* Tab Content: LASEK */}
         {activeTab === 'lasek' && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch animate-fadeIn">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch animate-fadeIn break-keep">
             <div className="lg:col-span-7 bg-surface-container-lowest p-8 rounded-2xl shadow-sm flex flex-col justify-between border border-surface-container/50">
               <div>
                 <div className="flex items-center justify-between mb-4">

@@ -13,16 +13,16 @@ export const LensSimulator: React.FC<LensSimulatorProps> = ({ language, onNaviga
     <section id="lens-simulator" className="w-full py-20 bg-surface-container-low">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-12">
-          <div>
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-10 lg:mb-12">
+          <div className="break-keep">
             <div className="flex items-center gap-2 text-tertiary font-label-caps text-[11px] font-bold tracking-wider mb-2">
               <span className="material-symbols-outlined text-[16px]">visibility</span>
               <span>INTERACTIVE INTRAOCULAR LENS SIMULATOR</span>
             </div>
-            <h2 className="font-headline-xl text-[30px] lg:text-[38px] text-on-surface font-extrabold tracking-tight">
+            <h2 className="font-headline-xl text-[26px] lg:text-[38px] text-on-surface font-extrabold tracking-tight leading-snug">
               {language === 'KR' ? '노안 & 백내장 인공수정체 시야 시뮬레이터' : 'Presbyopia & Cataract IOL Visual Simulator'}
             </h2>
-            <p className="font-body-lg text-[15px] lg:text-[17px] text-on-surface-variant mt-2">
+            <p className="font-body-lg text-[14px] lg:text-[17px] text-on-surface-variant mt-2 leading-relaxed">
               {language === 'KR'
                 ? '원거리, 중간거리, 근거리를 직접 비교해 보고, 내 생활 패턴과 취미에 가장 적합한 프리미엄 다초점 인공수정체를 체험해 보세요.'
                 : 'Experience interactive simulated vision across near, intermediate, and far distances with Monofocal, EDOF, and Multifocal IOLs.'}
@@ -30,45 +30,47 @@ export const LensSimulator: React.FC<LensSimulatorProps> = ({ language, onNaviga
           </div>
 
           {/* Interactive Mode Buttons */}
-          <div className="inline-flex p-1.5 rounded-xl bg-surface-container-highest self-start lg:self-auto shadow-inner">
-            <button
-              type="button"
-              onClick={() => setLensMode('mono')}
-              className={`px-3.5 lg:px-4 py-2 rounded-lg font-headline-sm text-[13px] lg:text-[14px] transition-all cursor-pointer ${
-                lensMode === 'mono'
-                  ? 'bg-surface-container-lowest text-primary font-bold shadow-sm'
-                  : 'text-on-surface-variant hover:text-on-surface font-medium'
-              }`}
-            >
-              단초점 인공수정체
-            </button>
-            <button
-              type="button"
-              onClick={() => setLensMode('edof')}
-              className={`px-3.5 lg:px-4 py-2 rounded-lg font-headline-sm text-[13px] lg:text-[14px] transition-all cursor-pointer ${
-                lensMode === 'edof'
-                  ? 'bg-surface-container-lowest text-primary font-bold shadow-sm'
-                  : 'text-on-surface-variant hover:text-on-surface font-medium'
-              }`}
-            >
-              연속초점 (EDOF)
-            </button>
-            <button
-              type="button"
-              onClick={() => setLensMode('multi')}
-              className={`px-3.5 lg:px-4 py-2 rounded-lg font-headline-sm text-[13px] lg:text-[14px] transition-all cursor-pointer ${
-                lensMode === 'multi'
-                  ? 'bg-surface-container-lowest text-primary font-bold shadow-sm'
-                  : 'text-on-surface-variant hover:text-on-surface font-medium'
-              }`}
-            >
-              프리미엄 4초점 다초점
-            </button>
+          <div className="max-w-full overflow-x-auto pb-1 lg:pb-0">
+            <div className="inline-flex p-1.5 rounded-xl bg-surface-container-highest shadow-inner whitespace-nowrap">
+              <button
+                type="button"
+                onClick={() => setLensMode('mono')}
+                className={`px-3.5 lg:px-4 py-2 rounded-lg font-headline-sm text-[13px] lg:text-[14px] transition-all cursor-pointer ${
+                  lensMode === 'mono'
+                    ? 'bg-surface-container-lowest text-primary font-bold shadow-sm'
+                    : 'text-on-surface-variant hover:text-on-surface font-medium'
+                }`}
+              >
+                단초점 인공수정체
+              </button>
+              <button
+                type="button"
+                onClick={() => setLensMode('edof')}
+                className={`px-3.5 lg:px-4 py-2 rounded-lg font-headline-sm text-[13px] lg:text-[14px] transition-all cursor-pointer ${
+                  lensMode === 'edof'
+                    ? 'bg-surface-container-lowest text-primary font-bold shadow-sm'
+                    : 'text-on-surface-variant hover:text-on-surface font-medium'
+                }`}
+              >
+                연속초점 (EDOF)
+              </button>
+              <button
+                type="button"
+                onClick={() => setLensMode('multi')}
+                className={`px-3.5 lg:px-4 py-2 rounded-lg font-headline-sm text-[13px] lg:text-[14px] transition-all cursor-pointer ${
+                  lensMode === 'multi'
+                    ? 'bg-surface-container-lowest text-primary font-bold shadow-sm'
+                    : 'text-on-surface-variant hover:text-on-surface font-medium'
+                }`}
+              >
+                프리미엄 다초점
+              </button>
+            </div>
           </div>
         </div>
 
         {/* 3 Distances Interactive Vision Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10 break-keep">
           {/* Near Distance Card */}
           <div className="bg-surface-container-lowest rounded-2xl overflow-hidden shadow-sm flex flex-col border border-surface-container/50">
             <div className="p-4 bg-surface-container-low border-b border-surface-container flex items-center justify-between">

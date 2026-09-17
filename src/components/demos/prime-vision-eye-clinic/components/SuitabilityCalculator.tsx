@@ -60,14 +60,14 @@ export const SuitabilityCalculator: React.FC<SuitabilityCalculatorProps> = ({
     <section id="suitability-calculator" className="w-full py-20 bg-surface">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center mb-12">
+        <div className="max-w-3xl mx-auto text-center mb-10 lg:mb-12 break-keep">
           <span className="px-3.5 py-1.5 rounded-full bg-primary-fixed text-primary font-label-caps text-[11px] font-bold">
             AI-POWERED CLINICAL ALGORITHM
           </span>
-          <h2 className="font-headline-xl text-[30px] lg:text-[38px] text-on-surface font-extrabold tracking-tight mt-3">
+          <h2 className="font-headline-xl text-[26px] lg:text-[38px] text-on-surface font-extrabold tracking-tight mt-3 leading-snug">
             {language === 'KR' ? '1분 시력교정 적합도 자가 계산기' : '1-Minute Self Vision Suitability Calculator'}
           </h2>
-          <p className="font-body-lg text-[15px] lg:text-[17px] text-on-surface-variant mt-2 leading-relaxed">
+          <p className="font-body-lg text-[14px] lg:text-[17px] text-on-surface-variant mt-2 leading-relaxed">
             {language === 'KR'
               ? '본인의 시력, 각막 조건, 라이프스타일을 선택하시면 프라임 안과의 안전 기준에 부합하는 최적의 수술법을 즉시 예측 분석해 드립니다.'
               : 'Select your vision status, corneal condition, and lifestyle to predict the safest and most optimal procedure based on Prime Vision protocols.'}
