@@ -1,0 +1,18 @@
+{
+  "slug": "lumen-build",
+  "kind": "sample",
+  "industry": "construction",
+  "title": "루멘 빌드",
+  "subtitle": "성수 · 도심 꼬마빌딩 신축 & 상업 근린생활시설 건축 솔루션",
+  "summary": "가상 상업 건축 브랜드 「루멘 빌드」로 제작한 도심 꼬마빌딩 신축 전문 웹사이트 샘플입니다. 성수 팝업 플래그십, 한남 루프탑 라운지, 연남 테라스 카페 등 4대 상업 랜드마크 완공 실적, 대지 용도지역별 임대 수익률 및 건축 규모 간이 계산기, 인허가부터 임대차 세팅까지 원스톱 5단계 로드맵, 무료 사업성 검토 신청 모달을 담았습니다.",
+  "features": [
+    "성수 적벽돌 플래그십·한남 루프탑·연남 테라스 근생 4대 완공작 쇼케이스",
+    "대지 면적 및 용도지역 기반 예상 연면적·건축비·임대수익률 간이 계산기(예시)",
+    "용적률·일조사선 최적화로 임대 면적을 극대화하는 정밀 상업 공간 설계",
+    "부지 타당성 분석부터 인허가, 철거, 책임 시공, 우량 테넌트 임대 세팅 원스톱",
+    "SampleNotice 연동 꼬마빌딩 신축 무료 사업성 검토 및 현장 상담 신청 모달"
+  ],
+  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript", "Commercial Yield Calculator", "Boutique Portfolio Showcase"],
+  "liveUrl": "/demo/lumen-build",
+  "createdAt": "2026-09-18"
+}
