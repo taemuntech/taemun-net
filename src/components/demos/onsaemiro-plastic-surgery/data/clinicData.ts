@@ -9,6 +9,8 @@ export const CLINIC_IMAGES = {
   eyeBefore: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-eye-before.png',
   noseAfter: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-nose-after.png',
   noseBefore: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-nose-before.png',
+  liftAfter: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-lift-after.png',
+  liftBefore: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-lift-before.png',
   recoverySuite: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-02.jpg',
   doctorKang: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-01.jpg',
   doctorYoon: '/demo-media/onsaemiro-plastic-surgery/onsaemiro-plastic-surgery-06.jpg',
@@ -45,8 +47,8 @@ export const BEFORE_AFTER_CASES: Record<string, BeforeAfterCase> = {
     title: '미니 SMAS 안면거상 + 심부볼 정밀 리프팅',
     subtitle: '귀 뒤 헤어라인 미세 절개선으로 흉터 눈에 띄지 않게 배치',
     desc: '귀 뒤 미세 절개선으로 흉터 은폐, 처진 턱선과 팔자주름을 근막층부터 2중 견인',
-    beforeImg: CLINIC_IMAGES.eyeBefore,
-    afterImg: CLINIC_IMAGES.philosophyNatural,
+    beforeImg: CLINIC_IMAGES.liftBefore,
+    afterImg: CLINIC_IMAGES.liftAfter,
     recoveryPeriod: '5~7일 (일상생활 복귀)',
     keyPoints: ['피부 표면이 아닌 SMAS 근막층 박리', '팔자주름 및 이중턱 동시 개선', '자연스러운 귀 형태 보존']
   }
