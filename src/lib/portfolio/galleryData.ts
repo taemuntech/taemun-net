@@ -646,7 +646,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     thumbnailUrl: '/images/mockup_tdocs.jpg',
     externalUrl: 'https://tdocs.kr',
     techStack: ['Next.js', 'React', 'Supabase RLS', 'PortOne V2', 'SOLAPI Alimtalk', 'Vector PDF'],
-    period: '4주',
+    period: '12주',
     year: '2026',
     badge: '직영 운영 서비스',
     highlights: [
@@ -667,7 +667,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     thumbnailUrl: '/images/mockup_taemun_bridge.jpg',
     externalUrl: 'https://taemun.co.kr',
     techStack: ['Next.js', 'Supabase RLS', 'PortOne PASS', 'Tailwind CSS', 'Admin CMS'],
-    period: '6주',
+    period: '16주',
     year: '2025',
     badge: '직영 운영 서비스',
     highlights: [

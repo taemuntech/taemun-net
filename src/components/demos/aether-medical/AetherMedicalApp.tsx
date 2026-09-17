@@ -11,7 +11,7 @@ import { ConsultationModal } from './components/ConsultationModal';
 import { Footer } from './components/Footer';
 import { MedicalMaterial } from './types';
 
-export default function AetherMedicalApp() {
+export function AetherMedicalApp({ isEmbed }: { isEmbed?: boolean } = {}) {
   const [selectedMaterial, setSelectedMaterial] = useState<MedicalMaterial | null>(null);
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
 
@@ -38,3 +38,5 @@ export default function AetherMedicalApp() {
     </div>
   );
 }
+
+export default AetherMedicalApp;

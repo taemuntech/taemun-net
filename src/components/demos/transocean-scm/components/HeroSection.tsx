@@ -76,7 +76,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onTrackClick, onSimula
         {/* Hero Cinematic Visual with Live Telemetry HUD */}
         <div className="relative rounded-lg overflow-hidden border border-[#434655]/40 shadow-2xl bg-[#061426]">
           {/* Primary Maritime Hero Video Stream */}
-          <div className="relative w-full h-[300px] sm:h-[420px] lg:h-[580px]">
+          <div className="relative w-full h-[300px] sm:h-[420px] lg:h-[580px] overflow-hidden">
             <video
               autoPlay
               loop
@@ -85,11 +85,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onTrackClick, onSimula
               controlsList="nodownload noplaybackrate"
               disablePictureInPicture
               onContextMenu={(e) => e.preventDefault()}
-              className="w-full h-full object-cover block"
+              className="w-full h-full object-cover block scale-[1.08] origin-top-left"
               src="/portfolio/transocean-scm/transocean-autonomous-ship.mp4"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#061426] via-transparent to-[#061426]/40 pointer-events-none" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#061426]/70 via-transparent to-[#061426]/70 pointer-events-none" />
+            {/* Subtle corner vignette to cleanly seal the bottom-right sector */}
+            <div className="absolute bottom-0 right-0 w-80 h-44 bg-gradient-to-tl from-[#061426] via-[#061426]/60 to-transparent pointer-events-none" />
 
             {/* Radar Scanner Line Animation */}
             <div className="absolute inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#b4c5ff] to-transparent radar-beam opacity-80 pointer-events-none" />

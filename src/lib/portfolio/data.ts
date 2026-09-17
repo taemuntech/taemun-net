@@ -78,7 +78,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     summary: '현장 롤 일지 입력 시 수율·관리도·로트 계보가 즉시 갱신되는 스마트 제조 플랫폼',
     description:
       '제조 현장의 수기 엑셀 장부를 웹 기반 실시간 엔터프라이즈 모니터링 시스템으로 전환한 프로젝트입니다. 7대 불순물 ICP 통계 관리도(SPC), 12주 수율 워터폴 분석, 잉곳부터 슬리팅까지 완벽한 로트 계보(Traceability) 역추적 엔진을 갖추고 있습니다.',
-    thumbnailUrl: '/images/mockup_lithium.jpg',
+    thumbnailUrl: '/demo-media/lithium-foil/lithium-foil-01.png',
     mockupType: 'desktop',
     liveDemoUrl: '/demo/lithium-foil',
     techStack: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind CSS v4', 'Custom SPC Charts'],
@@ -106,7 +106,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     mockupType: 'responsive',
     externalUrl: 'https://tdocs.kr',
     techStack: ['Next.js', 'React', 'Supabase', 'PortOne V2', 'SOLAPI Alimtalk', 'Vector PDF'],
-    period: '4주',
+    period: '12주',
     highlights: [
       '300여 종 전문 서식 반응형 지면 프리뷰 에디터',
       '카카오톡 원클릭 전자서명 및 감사추적 증명서 발급',
@@ -130,7 +130,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     mockupType: 'desktop',
     externalUrl: 'https://taemun.co.kr',
     techStack: ['Next.js', 'Supabase RLS', 'PortOne PASS', 'Tailwind CSS', 'Admin CMS'],
-    period: '6주',
+    period: '16주',
     highlights: [
       '7단계 견적-계약-검수-정산 라이프사이클 엔진',
       'PASS 본인인증 및 안전한 기성 정산 모듈',

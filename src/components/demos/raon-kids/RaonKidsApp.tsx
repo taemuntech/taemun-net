@@ -11,7 +11,7 @@ import { ConsultationModal } from './components/ConsultationModal';
 import { Footer } from './components/Footer';
 import { KidsMaterial } from './types';
 
-export default function RaonKidsApp() {
+export function RaonKidsApp({ isEmbed }: { isEmbed?: boolean } = {}) {
   const [selectedMaterial, setSelectedMaterial] = useState<KidsMaterial | null>(null);
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
 
@@ -38,3 +38,6 @@ export default function RaonKidsApp() {
     </div>
   );
 }
+
+export default RaonKidsApp;
+

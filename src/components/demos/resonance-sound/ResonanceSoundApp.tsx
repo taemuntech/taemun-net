@@ -11,7 +11,7 @@ import { ConsultationModal } from './components/ConsultationModal';
 import { Footer } from './components/Footer';
 import { SoundMaterial } from './types';
 
-export default function ResonanceSoundApp() {
+export function ResonanceSoundApp({ isEmbed }: { isEmbed?: boolean } = {}) {
   const [selectedMaterial, setSelectedMaterial] = useState<SoundMaterial | null>(null);
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
 
@@ -38,3 +38,6 @@ export default function ResonanceSoundApp() {
     </div>
   );
 }
+
+export default ResonanceSoundApp;
+
