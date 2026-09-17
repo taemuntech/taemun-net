@@ -348,6 +348,27 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       '독채 대관 및 스테이 공간 건축 설계 1:1 상담 예약 모달',
     ],
   },
+  {
+    id: 'nexus-work',
+    title: '넥서스 워크 (NEXUS WORK) 스마트 오피스 & 사옥 디자인',
+    client: '가상 브랜드 샘플 — 실제 업체가 아닙니다 (성수 테크 기업 사옥 설정)',
+    category: 'interior',
+    categoryName: '인테리어 · 스마트오피스',
+    summary: '몰입과 유기적 연결, 하이테크 하이브리드 스마트 오피스 시공 포트폴리오',
+    description: '성수·강남 테크 기업과 스타트업을 위한 하이브리드 스마트 오피스의 공식 웹사이트입니다. 코워킹·포커스 부스·타운홀·바이오필릭 4대 특화 존 핫스팟 투어, 온·습도 및 스마트 글래스를 제어하는 회의실 환경 관제 HUD, NRC 0.85 고성능 음향 차음재 아카이브를 담았습니다.',
+    thumbnailUrl: '/portfolio/nexus-work/desktop.png',
+    liveDemoUrl: '/demo/nexus-work',
+    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Smart Facility HUD', 'Acoustic Spec Archive', 'Spatial Zone Hotspots'],
+    period: '2주',
+    year: '2026',
+    badge: '실물 라이브 데모',
+    highlights: [
+      '4대 업무 몰입 존(코워킹·포커스·타운홀·바이오필릭) 핫스팟 투어',
+      '온·습도·CO2 센서 텔레메트리 및 스마트 글래스 제어 회의실 HUD',
+      '리사이클 PET 펠트, 알루미늄 배플, 탄화 코르크 음향 흡음재 아카이브',
+      '스마트 회의실 예약 및 오피스 인테리어 1:1 실측 상담 모달',
+    ],
+  },
 
   // ─── 03. 건축 (Architecture) ─────────────────────────────────
   {
