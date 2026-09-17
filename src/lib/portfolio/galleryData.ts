@@ -1691,7 +1691,29 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       '1:1 무료 전자기측기 실기 측정 및 목표 대학 합격선 정밀 진단 위저드',
     ],
   },
+  {
+    id: 'le-cordon-craft',
+    title: '르 꼬르동 크래프트 아카데미',
+    client: '가상 브랜드 샘플 — 실제 업체가 아닙니다 (제과/플라워 아카데미 설정)',
+    category: 'education',
+    categoryName: '학원 · 제과제빵/플로리스트',
+    summary: '프렌치 파티스리 정밀 템퍼링 곡선 제어 & 오뜨 꾸뛰르 플로럴 컬러 팔레트 아틀리에',
+    description: '프랑스 정통 제과 디플로마 및 오뜨 꾸뛰르 플로리스트 양성 전문 아카데미 공식 웹사이트입니다. 발로나 무스 쇼콜라·바닐라 에클레어 4단계 정밀 템퍼링 온도 곡선 Lab, 황금비율 기반 플로랄 컬러 팔레트 & 3D 구도 시뮬레이터, 수강생 마스터피스 갤러리, 1:1 아틀리에 참관 예약 위저드를 제공합니다.',
+    thumbnailUrl: '/portfolio/le-cordon-craft/desktop.png',
+    liveDemoUrl: '/demo/le-cordon-craft',
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Precision Tempering SVG Curve Lab', 'Haute Floral Composition Atelier'],
+    period: '2주',
+    year: '2026',
+    badge: '실물 라이브 데모',
+    highlights: [
+      '발로나 무스·바닐라 에클레어 4단계 정밀 템퍼링 온도 곡선 및 결정 구조 Lab',
+      '황금비율(포컬·세컨더리·그리너리) 기반 오뜨 꾸뛰르 플로랄 팔레트 시뮬레이터',
+      '프랑스 현지 라이선스 디플로마 및 카페/플라워 스튜디오 창업 마스터 커리큘럼',
+      '1:1 프라이빗 아틀리에 참관 및 교수진 진로 상담 예약 위저드',
+    ],
+  },
 ];
+
 
 
 
