@@ -16,8 +16,6 @@ export interface RegionQuizData {
   label: string;
   symptoms: SymptomItem[];
   diagnosis: string;
-  matchRate: string;
-  progress: number;
   step1: TreatmentStep;
   step2: TreatmentStep;
   step3: TreatmentStep;

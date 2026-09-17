@@ -8,7 +8,7 @@ interface MedicalStaffSectionProps {
 
 export const MedicalStaffSection: React.FC<MedicalStaffSectionProps> = ({ onSelectDoctor }) => {
   return (
-    <section id="medical-staff" className="w-full bg-[#FAF9F6] py-12 lg:py-16 scroll-mt-24">
+    <section id="medical-staff" className="w-full bg-[#FAF9F6] py-12 lg:py-16 scroll-mt-[132px]">
       <div className="max-w-7xl mx-auto px-4 lg:px-6 lg:px-12">
         {/* Staff Section Header */}
         <div className="max-w-3xl mb-8">
@@ -17,10 +17,10 @@ export const MedicalStaffSection: React.FC<MedicalStaffSectionProps> = ({ onSele
             <span>MEDICAL SPECIALISTS</span>
           </div>
           <h2 className="text-2xl lg:text-3xl font-bold text-[#1A1C1A] tracking-tight">
-            수술적 치료와 비수술적 치료의 경계를 가장 잘 아는 전문의
+            수술과 비수술의 경계를 함께 살피는 정형외과 전문의
           </h2>
           <p className="text-sm lg:text-base text-[#3F493F] mt-2">
-            국내 명문 대학병원(예시) 및 대학병원(예시) 출신 정형외과 전문의가 직접 진단하고, 끝까지 책임 진료합니다.
+            정형외과 전문의가 직접 진료하고, 검사 결과를 환자와 함께 보며 치료 방향을 정합니다. 아래 의료진 정보는 모두 예시입니다.
           </p>
         </div>
 
@@ -89,8 +89,9 @@ export const MedicalStaffSection: React.FC<MedicalStaffSectionProps> = ({ onSele
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-xs text-[#545F73] font-bold">전문 진료 분야</span>
                       <button
+                        type="button"
                         onClick={() => onSelectDoctor(`${doc.name} ${doc.title.split('/')[0].trim()}`)}
-                        className="text-xs font-bold px-2.5 py-1 rounded-md text-white transition-all cursor-pointer shadow-xs"
+                        className="min-h-11 inline-flex items-center text-xs font-bold px-3.5 py-1 rounded-md text-white transition-all cursor-pointer shadow-xs"
                         style={{ backgroundColor: accentColor }}
                       >
                         전담 예약하기 &rarr;

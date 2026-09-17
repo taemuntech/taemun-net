@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from 'react';
-import SampleNotice from '@/components/demo-kit/SampleNotice';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
 import { ImplantSection } from './components/ImplantSection';
@@ -15,19 +14,16 @@ import { ClinicTourModal } from './components/ClinicTourModal';
 import { PhilosophyModal } from './components/PhilosophyModal';
 import { BookingModal } from './components/BookingModal';
 import { FloatingActions } from './components/FloatingActions';
-import { Language, BookingFormData } from './types';
+import { BookingFormData } from './types';
 
 interface CheongdamArteDentalAppProps {
   isEmbed?: boolean;
 }
 
-export default function CheongdamArteDentalApp({ isEmbed }: CheongdamArteDentalAppProps = {}) {
-  const [language, setLanguage] = useState<Language>('KR');
+export default function CheongdamArteDentalApp(_props: CheongdamArteDentalAppProps = {}) {
   const [isClinicTourOpen, setIsClinicTourOpen] = useState(false);
   const [isPhilosophyOpen, setIsPhilosophyOpen] = useState(false);
   const [confirmedBooking, setConfirmedBooking] = useState<BookingFormData | null>(null);
-  const [sampleNoticeOpen, setSampleNoticeOpen] = useState(false);
-  const [sampleActionName, setSampleActionName] = useState('VIP 진료 예약 및 사전 문진');
 
   const scrollToBooking = () => {
     const el = document.getElementById('booking-section');
@@ -43,23 +39,15 @@ export default function CheongdamArteDentalApp({ isEmbed }: CheongdamArteDentalA
     }
   };
 
+  // 예약 폼은 스스로 샘플 고지(SampleNotice)를 먼저 띄우고, 그 고지를 닫은 뒤에 이 요약 화면을 연다.
   const handleCompleteBooking = (data: BookingFormData) => {
     setConfirmedBooking(data);
-    setSampleActionName('VIP 진료 예약 신청');
-    setSampleNoticeOpen(true);
-  };
-
-  const handleOpenNotice = (action: string) => {
-    setSampleActionName(action);
-    setSampleNoticeOpen(true);
   };
 
   return (
     <div className="min-h-screen bg-[#faf9f6] text-[#1a1c1a] font-sans selection:bg-[#ffdea5] selection:text-[#261900] flex flex-col">
-      {/* Sticky Header with Navigation and Language Switcher */}
+      {/* Sticky Header with Navigation */}
       <Header
-        language={language}
-        onLanguageChange={setLanguage}
         onOpenClinicTour={() => setIsClinicTourOpen(true)}
         onOpenPhilosophy={() => setIsPhilosophyOpen(true)}
         onNavigateToBooking={scrollToBooking}
@@ -125,15 +113,6 @@ export default function CheongdamArteDentalApp({ isEmbed }: CheongdamArteDentalA
         onGoToBooking={scrollToBooking}
       />
 
-      {/* 태문 안전 결제 및 샘플 고지 모달 */}
-      <SampleNotice
-        open={sampleNoticeOpen}
-        onClose={() => setSampleNoticeOpen(false)}
-        slug="cheongdam-arte-dental"
-        featureName={sampleActionName}
-        kind="sample"
-        industry="corporate"
-      />
     </div>
   );
 }

@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
-import { CLINIC_IMAGES } from '../data/clinicData';
 
 export const LocationConcierge: React.FC = () => {
   const [copied, setCopied] = useState<boolean>(false);
+  const [copyFailed, setCopyFailed] = useState<boolean>(false);
   const address = '서울특별시 강남구 압구정로 000 온새미로 메디컬 타워 4F~7F';
 
-  const handleCopyAddress = () => {
-    navigator.clipboard.writeText(address);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
+  // clipboard 는 비보안 문맥·권한 거부에서 거절된다 — 잡지 않으면 콘솔에 에러만 남고 버튼은 반응이 없다
+  const handleCopyAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(address);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      setCopyFailed(true);
+      setTimeout(() => setCopyFailed(false), 2500);
+    }
   };
 
   return (
@@ -31,22 +37,47 @@ export const LocationConcierge: React.FC = () => {
                   </p>
                   <button
                     onClick={handleCopyAddress}
-                    className="text-[11px] px-2.5 py-1 rounded-md bg-[#ffffff] text-[#725b38] border border-[#c5a880]/40 font-medium hover:bg-[#c5a880]/10 transition-colors flex items-center gap-1 cursor-pointer"
+                    className="text-[11px] px-2.5 py-1 min-h-[44px] rounded-md bg-[#ffffff] text-[#725b38] border border-[#c5a880]/40 font-medium hover:bg-[#c5a880]/10 transition-colors flex items-center gap-1 cursor-pointer"
                   >
                     <span className="material-symbols-outlined text-[14px]">
-                      {copied ? 'check' : 'content_copy'}
+                      {copyFailed ? 'error' : copied ? 'check' : 'content_copy'}
                     </span>
-                    <span>{copied ? '복사 완료' : '주소 복사'}</span>
+                    <span>{copyFailed ? '복사 권한 없음' : copied ? '복사 완료' : '주소 복사'}</span>
                   </button>
                 </div>
               </div>
 
-              {/* Static Map Graphic with overlay */}
-              <div
-                className="w-full h-72 lg:h-80 rounded-2xl bg-cover bg-center relative overflow-hidden shadow-inner flex items-end p-4 border border-[#d1c5b8]/40"
-                style={{ backgroundImage: `url('${CLINIC_IMAGES.mapView}')` }}
-              >
-                <div className="bg-[#fdf9f5]/90 backdrop-blur-md p-3.5 rounded-xl shadow-lg border border-[#c5a880]/30 flex items-center gap-3">
+              {/* 약도 그래픽 — 원래는 구글 지도 캡처(구글 로고와 「Map data ©2026 TMap Mobility」 워터마크가
+                  그대로 박힌 이미지)를 배경으로 깔았다. 지어낸 의원 화면에 실존 지도 서비스 자산을 얹는 꼴이고,
+                  주소도 가상(압구정로 000)이라 실제 지도를 보여 줄 근거가 없다. 자체 약도로 바꾼다. */}
+              <div className="w-full h-72 lg:h-80 rounded-2xl bg-[#ece7e1] relative overflow-hidden shadow-inner flex items-end p-4 border border-[#d1c5b8]/40">
+                <div className="absolute inset-0 opacity-50 bg-[radial-gradient(#d1c5b8_1px,transparent_1px)] [background-size:16px_16px]" />
+                <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <line x1="0" y1="44%" x2="100%" y2="44%" stroke="#dfd6cc" strokeWidth="26" />
+                  <line x1="34%" y1="0" x2="34%" y2="100%" stroke="#dfd6cc" strokeWidth="18" />
+                  <line x1="0" y1="14%" x2="100%" y2="72%" stroke="#e6ded6" strokeWidth="12" />
+                  <line x1="0" y1="44%" x2="100%" y2="44%" stroke="#c5a880" strokeWidth="3" strokeDasharray="10 8" />
+                </svg>
+                <div className="absolute top-4 left-4 right-4 text-center text-[11px] text-[#6d6459]">
+                  <span className="inline-block bg-[#fdf9f5]/90 px-2 py-0.5 rounded border border-[#d1c5b8]/50">
+                    약도 (예시) — 실제 지도가 아닙니다
+                  </span>
+                </div>
+                <div className="absolute top-14 left-4 bg-[#fdf9f5] px-2.5 py-1 rounded shadow-sm text-[11px] font-medium text-[#4d463c] border border-[#d1c5b8]/50">
+                  압구정로데오역 5번출구
+                </div>
+                <div className="absolute top-14 right-4 bg-[#fdf9f5] px-2.5 py-1 rounded shadow-sm text-[11px] font-medium text-[#4d463c] border border-[#d1c5b8]/50">
+                  청담사거리 방면
+                </div>
+                <div className="absolute top-[44%] left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+                  <div className="bg-[#1c1c19] text-[#e8d5b5] px-3 py-1.5 rounded-lg shadow-lg text-xs font-semibold flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-[#c5a880]" />
+                    <span>본원 위치</span>
+                  </div>
+                  <div className="w-3 h-3 bg-[#1c1c19] rotate-45 -mt-1.5" />
+                </div>
+                {/* relative z-10 — 위 약도 레이어가 absolute 라 그냥 두면 정적 블록인 이 카드를 덮어 버린다 */}
+                <div className="relative z-10 bg-[#fdf9f5]/90 backdrop-blur-md p-3.5 rounded-xl shadow-lg border border-[#c5a880]/30 flex items-center gap-3">
                   <span className="material-symbols-outlined text-[#725b38] text-[24px]">location_on</span>
                   <div>
                     <div className="text-[15px] font-semibold text-[#1c1c19]">
@@ -76,7 +107,7 @@ export const LocationConcierge: React.FC = () => {
                   자가용 이용 시
                 </span>
                 <span className="text-[12px] text-[#4d463c] leading-relaxed block">
-                  건물 1층 전담 의전팀 무료 발렛파킹(Valet) 상시 대기
+                  건물 1층 전담 의전팀 발렛파킹(Valet) 상시 대기
                 </span>
               </div>
             </div>

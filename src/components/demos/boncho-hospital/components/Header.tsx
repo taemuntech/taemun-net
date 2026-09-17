@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { HOSPITAL_IMAGES } from '../data/hospitalData';
+import { AVAILABLE_HARMONY, AVAILABLE_ROYAL, HOSPITAL_IMAGES } from '../data/hospitalData';
+import { ClinicalTab } from '../types';
 
 interface HeaderProps {
   onOpenBooking: () => void;
   onOpenBedStatus: () => void;
   onOpenTour: () => void;
   onOpenInsurance: () => void;
-  currentSection: string;
+  /** 특화센터로 이동하면서 그 탭까지 실제로 바꾼다 — 예전에는 스크롤만 하고 탭은 그대로였다 */
+  onNavigateCenter: (tab: ClinicalTab) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -14,6 +16,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenBedStatus,
   onOpenTour,
   onOpenInsurance,
+  onNavigateCenter,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -38,28 +41,33 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Top Utility Announcement Bar */}
       <div className="bg-[#102a20] text-white py-1.5 px-4 lg:px-8 border-b border-[#264035]">
         <div className="max-w-[1360px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-1 text-[11px] font-medium tracking-wide">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 break-keep">
             <span className="material-symbols-outlined text-[15px] text-[#cbe9da]">verified_user</span>
-            <span>보건복지부 규격 80병상 · 의·한의 협진 암면역재활 전문병원</span>
+            <span>의·한의 협진 80병상 입원 한방병원 · 가상 브랜드 샘플</span>
           </div>
 
           <button
             onClick={onOpenBedStatus}
-            className="flex items-center gap-2 bg-[#264035] hover:bg-[#324c41] px-2.5 py-0.5 rounded-full text-white transition-colors cursor-pointer"
-            title="실시간 병동 현황 보기"
+            className="hidden lg:flex items-center gap-2 bg-[#264035] hover:bg-[#324c41] px-2.5 py-0.5 rounded-full text-white transition-colors cursor-pointer break-keep"
+            title="병동 현황 보기"
           >
-            <span className="w-2 h-2 rounded-full bg-[#cbe9da] animate-pulse"></span>
-            <span>오늘의 실시간 입원실 현황: 1인실 2실 · 2인실 3실 잔여 (즉시 입원 가능)</span>
-            <span className="material-symbols-outlined text-[12px] opacity-80">arrow_forward</span>
+            <span className="w-2 h-2 rounded-full bg-[#cbe9da] animate-pulse shrink-0"></span>
+            <span>
+              오늘 입원 가능 병상 안내(예시): 1인실 {AVAILABLE_ROYAL}실 · 2인실 {AVAILABLE_HARMONY}병상
+            </span>
+            <span className="material-symbols-outlined text-[12px] opacity-80 shrink-0">arrow_forward</span>
           </button>
 
-          <div className="flex items-center gap-3 text-[#e9e8e5]">
-            <a href="tel:02-0000-0000" className="flex items-center gap-1 hover:text-white transition-colors">
+          <div className="hidden lg:flex items-center gap-3 text-[#e9e8e5]">
+            <a
+              href="tel:02-0000-0000"
+              className="flex items-center gap-1 hover:text-white transition-colors"
+            >
               <span className="material-symbols-outlined text-[14px]">call</span>
               <span>24시간 입원상담 02-0000-0000</span>
             </a>
             <span className="opacity-40">|</span>
-            <span className="hidden lg:inline">24시간 무료 발렛파킹 안내</span>
+            <span className="hidden lg:inline">방문객 주차 안내</span>
           </div>
         </div>
       </div>
@@ -67,9 +75,11 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Main Header Navigation Bar */}
       <div className="h-20 max-w-[1360px] mx-auto px-4 lg:px-8 flex items-center justify-between gap-4">
         {/* Brand Logo & Name */}
-        <div 
+        <button
+          type="button"
+          aria-label="맨 위로"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="flex items-center gap-3.5 shrink-0 cursor-pointer group"
+          className="flex items-center gap-3.5 shrink-0 cursor-pointer group text-left"
         >
           <img
             alt="본초 통합한방병원 엠블럼"
@@ -84,7 +94,7 @@ export const Header: React.FC<HeaderProps> = ({
               Integrative Oncology &amp; Rehab
             </span>
           </div>
-        </div>
+        </button>
 
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-1 lg:gap-2">
@@ -95,10 +105,13 @@ export const Header: React.FC<HeaderProps> = ({
             병원 철학
           </button>
           <button
-            onClick={() => scrollToSection('specialized-centers')}
+            onClick={() => {
+              onNavigateCenter('oncology');
+              scrollToSection('specialized-centers');
+            }}
             className="px-3.5 py-2 text-[14px] font-medium text-[#424844] hover:text-[#102a20] hover:bg-[#efeeeb] rounded-lg transition-colors whitespace-nowrap"
           >
-            암면역 집중센터
+            암 통합진료 센터
           </button>
           <button
             onClick={() => scrollToSection('suites-section')}
@@ -114,6 +127,7 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
           <button
             onClick={() => {
+              onNavigateCenter('traffic');
               scrollToSection('specialized-centers');
             }}
             className="px-3.5 py-2 text-[14px] font-medium text-[#424844] hover:text-[#102a20] hover:bg-[#efeeeb] rounded-lg transition-colors whitespace-nowrap"
@@ -141,7 +155,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           <button
             onClick={onOpenBooking}
-            className="inline-flex items-center justify-center px-3.5 lg:px-4 py-2 lg:py-2.5 rounded-lg bg-[#102a20] text-white text-[12px] lg:text-[13px] font-semibold shadow-[0_4px_16px_rgba(16,42,32,0.18)] hover:bg-[#264035] active:scale-95 transition-all cursor-pointer whitespace-nowrap"
+            className="inline-flex items-center justify-center px-3.5 lg:px-4 py-2 lg:py-2.5 max-lg:min-h-[44px] rounded-lg bg-[#102a20] text-white text-[12px] lg:text-[13px] font-semibold shadow-[0_4px_16px_rgba(16,42,32,0.18)] hover:bg-[#264035] active:scale-95 transition-all cursor-pointer whitespace-nowrap"
           >
             <span>입원·외래 간편예약</span>
           </button>
@@ -157,8 +171,9 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Mobile hamburger menu toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden w-9 h-9 rounded-lg bg-[#efeeeb] text-[#102a20] flex items-center justify-center cursor-pointer"
-            aria-label="Toggle Navigation Menu"
+            className="lg:hidden w-11 h-11 rounded-lg bg-[#efeeeb] text-[#102a20] flex items-center justify-center cursor-pointer"
+            aria-label="메뉴 열기/닫기"
+            aria-expanded={mobileMenuOpen}
           >
             <span className="material-symbols-outlined text-[22px]">
               {mobileMenuOpen ? 'close' : 'menu'}
@@ -172,42 +187,54 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="lg:hidden bg-[#faf9f6] border-b border-[#e3e2e0] px-4 py-4 space-y-2 shadow-lg animate-in fade-in duration-200 break-keep">
           <button
             onClick={() => scrollToSection('hospital-philosophy')}
-            className="w-full text-left px-3 py-2.5 rounded-lg font-medium text-[#102a20] hover:bg-[#efeeeb]"
+            className="w-full text-left px-3 py-2.5 min-h-[44px] rounded-lg font-medium text-[#102a20] hover:bg-[#efeeeb]"
           >
             병원 철학 및 소개
           </button>
           <button
-            onClick={() => scrollToSection('specialized-centers')}
-            className="w-full text-left px-3 py-2.5 rounded-lg font-medium text-[#102a20] hover:bg-[#efeeeb]"
+            onClick={() => {
+              onNavigateCenter('oncology');
+              scrollToSection('specialized-centers');
+            }}
+            className="w-full text-left px-3 py-2.5 min-h-[44px] rounded-lg font-medium text-[#102a20] hover:bg-[#efeeeb]"
           >
-            본초 3대 집중 진료 특화 센터
+            본초 3대 진료 특화 센터
+          </button>
+          <button
+            onClick={() => {
+              onNavigateCenter('traffic');
+              scrollToSection('specialized-centers');
+            }}
+            className="w-full text-left px-3 py-2.5 min-h-[44px] rounded-lg font-medium text-[#102a20] hover:bg-[#efeeeb]"
+          >
+            교통사고·수술 후 재활 입원
           </button>
           <button
             onClick={() => scrollToSection('suites-section')}
-            className="w-full text-left px-3 py-2.5 rounded-lg font-medium text-[#102a20] hover:bg-[#efeeeb]"
+            className="w-full text-left px-3 py-2.5 min-h-[44px] rounded-lg font-medium text-[#102a20] hover:bg-[#efeeeb]"
           >
             360° VIP 프라이빗 입원실
           </button>
           <button
             onClick={() => scrollToSection('smart-decoction-lab')}
-            className="w-full text-left px-3 py-2.5 rounded-lg font-medium text-[#102a20] hover:bg-[#efeeeb]"
+            className="w-full text-left px-3 py-2.5 min-h-[44px] rounded-lg font-medium text-[#102a20] hover:bg-[#efeeeb]"
           >
             원내 스마트 청정 탕전실 & 이력조회
           </button>
           <button
             onClick={() => scrollToSection('gourmet-nutrition')}
-            className="w-full text-left px-3 py-2.5 rounded-lg font-medium text-[#102a20] hover:bg-[#efeeeb]"
+            className="w-full text-left px-3 py-2.5 min-h-[44px] rounded-lg font-medium text-[#102a20] hover:bg-[#efeeeb]"
           >
-            1:1 임상 항암 약선 식단
+            치료 중 회복 식단 안내
           </button>
           <button
             onClick={() => {
               setMobileMenuOpen(false);
               onOpenBedStatus();
             }}
-            className="w-full text-left px-3 py-2.5 rounded-lg font-medium text-[#102a20] hover:bg-[#efeeeb] flex items-center justify-between"
+            className="w-full text-left px-3 py-2.5 min-h-[44px] rounded-lg font-medium text-[#102a20] hover:bg-[#efeeeb] flex items-center justify-between"
           >
-            <span>실시간 병상 현황 (1인실 2실 / 2인실 3실)</span>
+            <span>병동 현황 안내 (1인실 {AVAILABLE_ROYAL}실 / 2인실 {AVAILABLE_HARMONY}병상)</span>
             <span className="material-symbols-outlined text-[18px]">hotel</span>
           </button>
           <button
@@ -215,7 +242,7 @@ export const Header: React.FC<HeaderProps> = ({
               setMobileMenuOpen(false);
               onOpenInsurance();
             }}
-            className="w-full text-left px-3 py-2.5 rounded-lg font-medium text-[#75593c] hover:bg-[#ffd9b4]/30 flex items-center justify-between"
+            className="w-full text-left px-3 py-2.5 min-h-[44px] rounded-lg font-medium text-[#75593c] hover:bg-[#ffd9b4]/30 flex items-center justify-between"
           >
             <span>실손의료비 & 자동차보험 비용 계산기</span>
             <span className="material-symbols-outlined text-[18px]">calculate</span>
@@ -226,13 +253,13 @@ export const Header: React.FC<HeaderProps> = ({
                 setMobileMenuOpen(false);
                 onOpenBooking();
               }}
-              className="flex-1 py-3 bg-[#102a20] text-white rounded-lg font-semibold text-center text-sm"
+              className="flex-1 py-3 min-h-[44px] bg-[#102a20] text-white rounded-lg font-semibold text-center text-sm"
             >
               간편 입원상담 예약
             </button>
             <a
               href="tel:02-0000-0000"
-              className="flex-1 py-3 bg-[#efeeeb] text-[#102a20] rounded-lg font-semibold text-center text-sm flex items-center justify-center gap-1"
+              className="flex-1 py-3 min-h-[44px] bg-[#efeeeb] text-[#102a20] rounded-lg font-semibold text-center text-sm flex items-center justify-center gap-1"
             >
               <span className="material-symbols-outlined text-[18px]">call</span>
               <span>02-0000-0000</span>

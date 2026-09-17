@@ -495,8 +495,10 @@ const SUBMIT_WORDS = /신청|예약|문의|상담|접수|주문|가입|구매|�
 const FAKE_BUTTON = /(신청|예약|접수|주문|결제|구매)\s*(하기|완료|확정)/;
 // 실적처럼 읽히는 수치. 예전에는 「N건·N명·만족도 N%·ISO NNNN·N주 완성」만 봐서, 기업 랜딩 10종이 실제로 쓰는
 // 수율·감축률·IRR·AUM·설비 용량은 **한 줄도** 걸리지 않았다(실측: FIGURES 로 걸린 줄 0건).
+// 2026-09-17 보강(의료 6종): 수량 단위에 「례|케이스|증례」가 없어 「18,000+ 케이스」·「84,000례」가
+// 한 줄도 걸리지 않았다. 「18,000+」처럼 숫자와 단위 사이에 오는 + 도 함께 건넌다.
 const FIGURES =
-  /\d{1,3}(?:,\d{3})+\s*(?:건|명|개사|곳|세대|개)|\d{3,}\s*(?:건|개사|세대)|\d{2,}\s*개?\s*리뷰|리뷰\s*\d{2,}\s*개|★\s*\d(?:\.\d+)?|별점\s*\d(?:\.\d+)?|만족도\s*\d+(?:\.\d+)?\s*%|재구매율\s*\d+|ISO\s*\d{4,5}|\d+\s*(?:주|일|개월)\s*(?:만에\s*)?완성|\d+(?:\.\d+)?\s*%\s*(?:수율|절감|감축|저감|향상|단축|개선|증가|상승|감소|달성)|(?:수율|가동률|정시율|회수율)\s*\d+(?:\.\d+)?\s*%|\b(?:Net\s*)?IRR\b\s*[:=]?\s*\d|\bAUM\b\s*[:=]?\s*\d|\d+(?:\.\d+)?\s*조\s*원/;
+  /\d{1,3}(?:,\d{3})+\s*\+?\s*(?:건|명|개사|곳|세대|개|례|케이스|증례)|\d{3,}\s*\+?\s*(?:건|개사|세대|례|증례)|\d{2,}\s*개?\s*리뷰|리뷰\s*\d{2,}\s*개|★\s*\d(?:\.\d+)?|별점\s*\d(?:\.\d+)?|만족도\s*\d+(?:\.\d+)?\s*%|재구매율\s*\d+|ISO\s*\d{4,5}|\d+\s*(?:주|일|개월)\s*(?:만에\s*)?완성|\d+(?:\.\d+)?\s*%\s*(?:수율|절감|감축|저감|향상|단축|개선|증가|상승|감소|달성)|(?:수율|가동률|정시율|회수율)\s*\d+(?:\.\d+)?\s*%|\b(?:Net\s*)?IRR\b\s*[:=]?\s*\d|\bAUM\b\s*[:=]?\s*\d|\d+(?:\.\d+)?\s*조\s*원/;
 // 대소문자를 가리지 않는다 — 「GLOBAL NO.1」 은 히어로 배지에서 대문자로 쓰여 소문자 규칙을 그냥 지나갔다(실측).
 // 「1위」·「#1」·「점유율 1위」 같은 순위 주장도 같은 부류라 같이 본다.
 const GUARANTEE = /보장|보증합니다|책임 보증|\bNo\.?\s?1\b|#\s?1\b|넘버원|최고의|무조건|(?<![\d.])1\s*위(?![원험])/i;
@@ -560,6 +562,30 @@ const REAL_ORG_PATTERNS = [
   { re: /마이센(?!\s*양식)|\bMeissen\b(?!-?\s?Style)|세브르(?!\s*(?:양식|지역))|\bS[èe]vres\b(?!-?\s?Style)/i, why: "현존하는 자기 제조사 — 진품 단정 대신 「○○ 양식(-Style)」으로" },
   { re: /에르메스|\bHerm[èe]s\b|샤넬|\bChanel\b|루이\s?비통|\bLouis\s?Vuitton\b|구찌|\bGucci\b|프라다|\bPrada\b|롤렉스|\bRolex\b|까르띠에|\bCartier\b|디올|\bDior\b|버킨|\bBirkin\b/i, why: "실존 명품 하우스" },
   { re: /\bRTX\s?\d{3,4}|\bGTX\s?\d{3,4}|\bGeForce\b|\bRadeon\b|\bRX\s?\d{4}\b|Core\s?Ultra\s?\d|\bRyzen\b|(?<!트)라이젠|\bi[3579]-\d{4,5}\b|\bThunderbolt\s?\d|썬더볼트|\bGDDR6X\b|\bZen\s?\d\b/i, why: "실존 기업의 제품 라인 이름 — 「외장 GPU 16GB」·「USB4 40Gbps」처럼 일반 규격으로" },
+  // 2026-09-17 보강 ③(의료 6종): 이 범주가 통째로 비어 있어서 **가장 위험한** 데모 6종이 문구 경고 0건으로
+  // 통과했다. 실측으로 나온 것들: 실존 상급종합병원 4곳을 「(가상 협력망)」 딱지만 붙여 협력 기관으로 내세운 줄,
+  // 전문의약품 성분명(싸이모신 알파-1·미슬토)을 암 진료 카드 제목으로 건 줄, 관절강 주사 제품명(콘쥬란) 한 줄.
+  // 병원 이름은 지명이 붙어 변형되므로(「서초 성모 …」) **고유한 토막**을 본다.
+  {
+    re: /서울대병원|분당서울대|서울아산|아산병원|세브란스|성모병원|서울성모|강남성모|여의도성모|삼성서울병원|국립암센터|서울백병원|경희의료원|아주대병원|고대안암|고대구로|한양대병원|건국대병원|중앙대병원|차병원/,
+    why: "실존 의료기관 — 지어낸 병원에 실존 병원의 이름·협력 관계를 붙이지 않습니다",
+  },
+  {
+    re: /(?:서울대|연세대|고려대|한양대|경희대|가톨릭대|성균관대|울산대|아주대|인제대|순천향대|중앙대|이화여대|전남대|부산대|경북대)\s*(?:의과대학|의대|치과대학|한의과대학|의학전문대학원)/,
+    why: "실존 의과대학 — 지어낸 의료진에 실존 대학 직함을 붙이지 않습니다",
+  },
+  {
+    re: /대한(?:의사|치과의사|한의사|성형외과|피부과|안과|정형외과|신경외과|산부인과|소아청소년과|내과|외과|비뇨의학|이비인후과|마취통증의학|영상의학|재활의학)\s*(?:학회|협회|의사회)|의료기관평가인증원|상급종합병원\s*지정|보건복지부\s*지정/,
+    why: "실존 학회·평가기관·정부 지정 — 지어낸 병원이 소속·인증을 주장하지 않습니다",
+  },
+  {
+    re: /자이스|\bZEISS\b|비쥬맥스|\bVisuMax\b|아마리스|인모드|\bInMode\b|써마지|\bThermage\b|울쎄라|\bUlthera(?:py)?\b|슈링크|인비절라인|\bInvisalign\b|스트라우만|\bStraumann\b|오스템\s?임플란트|덴티움|루트로닉|올리지오|볼뉴머|포텐자|피코슈어|피코웨이|\bAccuvue\b|아큐브/i,
+    why: "실존 의료기기·장비 브랜드 — 「고주파(RF) 장비」·「집속초음파 장비」처럼 일반 명칭으로",
+  },
+  {
+    re: /콘쥬란|리쥬란|쥬베룩|스컬트라|\bSculptra\b|엘란쎄|쥬비덤|\bJuv[eé]derm\b|레스틸렌|\bRestylane\b|보톡스|\bBotox\b|미슬토|싸이모신|자닥신|이뮨셀|키트루다|옵디보|아바스틴|허셉틴/i,
+    why: "실존 의약품·전문의약품 이름 — 일반인 대상 광고가 약사법으로 금지됩니다. 성분 일반명이나 「(진료 후 결정)」으로",
+  },
 ];
 
 /**
@@ -584,7 +610,135 @@ const FAKE_IDENTIFIERS = [
   { re: /(?<!사업자)등록번호\s*[:：]\s*([A-Z0-9][A-Z0-9-]{4,})/, why: "제도 등록번호 — 조회 가능한 값일 수 있습니다" },
   { re: /등록면허\s*[:：]\s*\S+\s*제\d{4}-\d+호/, why: "지자체가 실제로 발급하는 면허번호 형식" },
   { re: /통신판매업신고\s*[:：]\s*제\d{4}-/, why: "실제로 발급되는 신고번호 형식" },
+  // 2026-09-17 보강(의료): 건강보험공단·심평원·보건소가 실제로 발급하는 번호들이다.
+  // 지어낸 병원이 달고 있으면 실존 기관의 번호와 부딪힌다. 0 으로만 채운 자리표시는 위 sameDigits 검사가 넘긴다.
+  { re: /요양기관\s*(?:기호|번호)\s*[:：]?\s*(\d[\d-]{5,})/, why: "건강보험 요양기관 기호 — 조회 가능한 번호입니다" },
+  { re: /의(?:사|료인)?\s*면허\s*(?:번호)?\s*[:：]?\s*(?:제\s*)?(\d{3,})/, why: "실제로 발급되는 의사면허번호" },
+  {
+    re: /의료기관\s*(?:개설)?\s*(?:신고|허가)\s*(?:번호)?\s*[:：]?\s*(?:제\s*)?(\d{2,}[\d-]*)/,
+    why: "보건소가 실제로 발급하는 개설신고번호",
+  },
 ];
+
+/**
+ * 의료광고 규칙 — **kind=sample 이면서 의료 계열인 데모에만** 건다(아래 isMedicalDemo).
+ *
+ * 왜 따로 두나(실측 2026-09-17): 의료 6종을 넣고 `node scripts/audit-portfolio.mjs` 를 돌렸더니
+ * 「ERROR 0 · WARN 98」인데 그 여섯에서 나온 경고는 썸네일 경로 3건뿐이고 **문구 경고는 0건**이었다.
+ * 검사기에 의료 범주가 통째로 없었기 때문이다 — 초록불이 「봤는데 깨끗하다」가 아니라 「안 봤다」였다.
+ *
+ * 왜 의료에만 거나: 「완치」·「이벤트」·「후기」는 다른 업종에서는 정상적인 낱말이다(커머스 후기 구역·행사 안내).
+ * 의료법 제56조 제2항과 제27조 제3항이 금지하는 것은 **의료광고**에서의 그 주장이라, 범위를 의료로 좁혀야
+ * 다른 업종에 거짓 양성을 내지 않는다.
+ *
+ * ⚠️ 낱말이 아니라 **주장**을 본다. 「부작용이 있을 수 있습니다」 같은 고지 문장이 「부작용」만 보고 걸리면
+ *    고지를 적은 쪽이 벌을 받는다 — 그래서 효과 단정은 「없/무/100%」가 붙은 모양만 잡고,
+ *    같은 줄에 「단정하지·보장하지·싣지 않습니다」 류의 부정이 있으면 규칙 설명문으로 보고 넘긴다.
+ */
+const MEDICAL_DISCLAIMER_NEGATION = /단정하지|보장하지|장담하지|싣지 않|쓰지 않|적지 않|하지 않습니다|아닙니다|아니며|없습니다만/;
+
+const MEDICAL_RULES = [
+  {
+    id: "testimonial",
+    // 의료법 제56조 제2항 제2호 — 치료경험담 광고는 명시적 금지다. 「후기」 홀로는 안 본다(너무 흔하다).
+    re: /(?:환자|치료|시술|수술|진료|고객|내원)\s*(?:후기|리뷰|체험담|사례담|스토리)|치료\s*경험담|리얼\s*후기|생생한\s*후기|\b후기\s*이벤트\b/,
+    why: "치료경험담·환자 후기 광고는 의료법 제56조 제2항이 금지합니다. 구역을 없애거나 진료 안내·자주 묻는 질문으로 바꾸세요",
+  },
+  {
+    id: "guarantee",
+    // 치료 효과 보장·단정. 「무통」은 통증이 없다는 절대 단정이라 같은 부류로 본다.
+    // 「통증 없는 관절의 움직임」처럼 형용사로 쓰인 이상(理想) 표현까지 잡으면 규칙이 소음이 된다.
+    // 약속으로 읽히는 꼴 — 「…없이」·「…없습니다」·「무통」·「부작용 없는 시술」 — 만 본다.
+    re: /완치(?!\s*(?:를|가)?\s*(?:보장|약속)하지)|부작용\s*(?:이|은|도)?\s*(?:전혀\s*)?없(?:이|습니다|는\s*(?:시술|수술|치료|주사))|무통(?!증\s*의학)|통증\s*(?:이|은)?\s*(?:전혀\s*)?없(?:이|습니다)|흉터\s*(?:가|는)?\s*(?:전혀\s*)?없(?:이|습니다)|재발\s*(?:이|은)?\s*없(?:이|습니다|는)|재발을\s*막|100\s*%\s*(?:성공|완치|만족|안전)|반드시\s*(?:낫|좋아|개선|회복)|영구적으로\s*(?:유지|지속)/,
+    why: "치료 효과를 단정·보장하는 표현은 의료법 제56조 제2항 제2호 위반입니다. 「통증 저감」·「재발 위험을 낮추는 것을 목표로」처럼 단정을 지우세요",
+  },
+  {
+    id: "comparison",
+    // 다른 의료기관과의 비교 — GUARANTEE 가 1위·최고를 보므로 여기서는 비교·유일·최다만 본다.
+    re: /(?:타|다른)\s*(?:병원|의원|치과|한의원|클리닉)\s*(?:대비|보다|과\s*달리)|타원\s*(?:대비|보다)|업계\s*유일|국내\s*유일|유일한\s*(?:병원|의원|치과|한의원)|최다\s*(?:시술|수술|증례|케이스|건수)/,
+    why: "다른 의료기관과의 비교·유일·최다 표현은 의료법 제56조 제2항이 금지합니다",
+  },
+  {
+    id: "inducement",
+    // 환자 유인(의료법 제27조 제3항). 가격표 자체는 되지만 할인·이벤트 형태는 안 된다.
+    re: /선착순|무료\s*(?:시술|수술|체험|치료)|\d+\s*%\s*할인|(?:비급여|진료비|시술비|수술비|성형|교정|임플란트|레이저)[^\n]{0,14}할인|이벤트\s*(?:가격|가\b|진행|중|특가)|특가\s*이벤트|반값\s*(?:시술|수술|이벤트)|\b1\s*\+\s*1\b/,
+    why: "비급여 진료비 할인·이벤트·선착순은 환자 유인 행위(의료법 제27조 제3항)입니다. 가격표는 두되 할인·이벤트 형태는 지우세요",
+  },
+];
+
+/**
+ * 전후 사진 구역을 가리키는 표시 — 있으면 같은 파일에 부작용·개인차 고지가 함께 있어야 한다.
+ * `before-after-cases` 같은 **앵커 id** 는 이동 링크일 뿐 사진이 아니라서 세지 않는다(실측: onsaemiro 헤더가
+ * 그 id 하나로 ERROR 를 냈다). 그래서 영문형은 하이픈으로 이어진 식별자를 빼고 낱말 사이 구분자만 허용한다.
+ */
+const MEDICAL_BEFORE_AFTER =
+  /비포\s*[·&/]?\s*애프터|(?<![-\w])before\s*(?:[·&/]|and)?\s*after(?![-\w])|전후\s*(?:사진|비교|이미지|슬라이더)|시술\s*전\s*[·/]\s*후|수술\s*전\s*[·/]\s*후/i;
+
+/** 「개인차」를 그 낱말로만 찾으면 「사람마다 달라질 수 있고」로 제대로 적은 고지가 걸린다 — 뜻으로 본다 */
+const MEDICAL_VARIATION_NOTICE = /개인차|개인에 따라|사람마다|환자(?:의)?\s*상태에 따라|경과가 다르|달라질 수 있|다를 수 있/;
+
+/**
+ * 이 데모가 의료 계열인가.
+ *
+ * 정본은 **갤러리 카드의 category: 'medical'** 이다 — 사람이 이미 분류해 둔 값이라 다음 배치의 새 의료
+ * 데모도 자동으로 들어온다. 카드 JSON 의 industry 는 쓸 수 없었다(의료 6종이 전부 "corporate" 였다 — 실측).
+ *
+ * ⚠️ 낱말 개수로 세는 방식은 **버렸다**. 「진료·처방·병원·시술」을 세니 반려동물 처방식 커머스(paws-tail)가
+ *    의료로 잡혀 「15% 할인」이 환자 유인으로 ERROR 가 났다(실측). 업종을 잘못 잡으면 규칙이 아니라 소음이 된다.
+ */
+const MEDICAL_SLUGS = (() => {
+  const out = new Set();
+  try {
+    const src = stripComments(fs.readFileSync(path.join(ROOT, "src", "lib", "portfolio", "galleryData.ts"), "utf8"));
+    // category 가 카드 블록 안에서 liveDemoUrl 보다 앞에 온다 — 둘을 짝지어 읽는다.
+    for (const m of src.matchAll(/category\s*:\s*["'`](\w+)["'`][\s\S]{0,2000}?liveDemoUrl\s*:\s*["'`]\/demo\/([a-z0-9-]+)["'`]/g)) {
+      if (m[1] === "medical") out.add(m[2]);
+    }
+  } catch {
+    /* 못 읽으면 아래 카드 제목 폴백만 쓴다 */
+  }
+  return out;
+})();
+
+/** 폴백 — 갤러리에 아직 안 올라온 새 데모용. 카드 제목·부제에 의료기관 이름이 있으면 의료로 본다. */
+const MEDICAL_TITLE = /병원|의원\b|치과|한의원|클리닉|메디컬\s?센터|성형외과|피부과|안과|정형외과|산부인과|이비인후과/;
+const NOT_HUMAN_MEDICAL = /반려동물|수의|동물병원|펫\b/;
+
+function isMedicalDemo(slug, card) {
+  if (MEDICAL_SLUGS.has(slug)) return true;
+  const head = `${card?.title ?? ""} ${card?.subtitle ?? ""}`;
+  return MEDICAL_TITLE.test(head) && !NOT_HUMAN_MEDICAL.test(`${head} ${card?.summary ?? ""}`);
+}
+
+/**
+ * 의료 데모 전용 문구 검사 — 이 데모가 의료 계열일 때만 부른다.
+ *
+ * ⚠️ 부정은 **줄 단위로 보면 안 된다**. 「…치료경험담·환자 후기, 시술 전후\n비교 사진 … 싣지 않습니다」처럼
+ *    고지 한 문장이 여러 줄에 걸치면, 금지어가 있는 줄에는 부정이 없어서 **고지를 제대로 적은 쪽이** 걸린다
+ *    (실측: boncho·seoul-barun 푸터의 의료광고 고지 두 곳이 그렇게 ERROR 가 났다). 앞뒤 2줄까지 함께 본다.
+ */
+function scanMedicalCopy(key, textLines, flag) {
+  const fileText = textLines.join("\n");
+  const negatedNear = (i) => textLines.slice(Math.max(0, i - 2), i + 3).some((l) => MEDICAL_DISCLAIMER_NEGATION.test(l));
+  textLines.forEach((line, i) => {
+    const at = `${i + 1}행`;
+    if (negatedNear(i)) return;
+    for (const r of MEDICAL_RULES) {
+      const m = line.match(r.re);
+      if (m) flag(key, `${at}: 의료광고 「${m[0]}」 — ${r.why}`);
+    }
+  });
+  // 전후 사진은 「같은 화면에」 부작용·개인차 고지가 있어야 한다. 파일 단위로 본다.
+  // 「실제 수술 전후 사진이 아닙니다」처럼 전후 사진이 **아니라고** 적은 줄은 대상이 아니다.
+  const baLine = textLines.findIndex((l) => MEDICAL_BEFORE_AFTER.test(l) && !MEDICAL_DISCLAIMER_NEGATION.test(l));
+  const ba = baLine >= 0 ? textLines[baLine].match(MEDICAL_BEFORE_AFTER) : null;
+  if (ba && !(/부작용/.test(fileText) && MEDICAL_VARIATION_NOTICE.test(fileText))) {
+    flag(
+      key,
+      `${baLine + 1}행: 전후(Before/After) 비교 「${ba[0].slice(0, 30)}」 — 같은 화면에 「예시 이미지 · 개인차가 있으며 부작용이 있을 수 있습니다」 고지가 없습니다`,
+    );
+  }
+}
 
 /**
  * 실존 이름·조회 가능한 번호·실적 수치·보장 표현 검사 — **한 함수**로 두고 세 곳(데모 소스·카드 JSON·홈
@@ -781,7 +935,7 @@ const buttonTexts = (src) =>
  * @param ctx { isPage, slug, card, slugRendersNotice }
  * @returns { rendersNotice, hasSubmitForm, hasDisclosure }
  */
-function scanFile(full, { isPage, slug, card, slugRendersNotice, kind }) {
+function scanFile(full, { isPage, slug, card, slugRendersNotice, kind, medical = false }) {
   const key = rel(full);
   /**
    * 가상 브랜드 샘플에서는 실존 기관·식별번호가 ERROR, 실존 업체 제안 시안에서는 WARN.
@@ -1025,6 +1179,10 @@ function scanFile(full, { isPage, slug, card, slugRendersNotice, kind }) {
 
   scanCopyForImpersonation(key, textLines, { impersonation });
 
+  // 의료광고 규칙 — 가상 브랜드 의료 샘플에만 건다.
+  // 실존 업체 제안 시안(kind=proposal)은 그 병원이 실제로 쓰는 문구일 수 있으므로 WARN 으로 낮춘다.
+  if (medical) scanMedicalCopy(key, textLines, (kind ?? card?.kind) === "proposal" ? warn : error);
+
   // ── 외부 이미지 호스트 직접 참조(핫링크) ──
   // 게이트 바깥이라 데모를 내려도 이미지는 계속 살아 있고, 주소가 만료되면 예고 없이 깨진다(실측: 홈에서 404 2건).
   // 방문자 IP·referer 도 그 호스트로 나간다. 당장 막지는 않고 **개수를 눈에 보이게** 둔다.
@@ -1067,6 +1225,8 @@ for (const s of sampleSources) {
   for (const cdir of COMPONENT_DEMO_DIRS) files.push(...walkSources(path.join(cdir, s.slug)));
   const unique = files.filter((f) => !scannedFiles.has(f));
   const slugRendersNotice = files.some((f) => /<SampleNotice\b/.test(stripComments(fs.readFileSync(f, "utf8"))));
+  // 의료 계열 판정은 파일 하나가 아니라 데모 전체 글자로 한다 — 한 파일만 보면 컴포넌트마다 판정이 갈린다.
+  const medical = isMedicalDemo(s.slug, s.card);
   let disclosure = false;
   let proposalDisclosure = false;
   const externalImages = [];
@@ -1074,7 +1234,7 @@ for (const s of sampleSources) {
     scannedFiles.add(f);
     keySlug.set(rel(f), s.slug);
     const isPage = path.dirname(f) === s.dir && path.basename(f) === "page.tsx";
-    const r = scanFile(f, { isPage, slug: s.slug, card: s.card, slugRendersNotice, kind: s.kind });
+    const r = scanFile(f, { isPage, slug: s.slug, card: s.card, slugRendersNotice, kind: s.kind, medical });
     externalImages.push(...r.externalImageHosts);
     // 고지는 「화면 안」에 있어야 인정한다. 라우트 폴더(page.tsx·<Slug>PageClient.tsx)는 기기 전환 툴바 쪽 껍데기라
     // ?embed=true 로 화면만 직접 열면 안 보인다 — 샘플 화면 컴포넌트에 있는 글자만 센다.

@@ -18,8 +18,8 @@ export const TreatmentMenu: React.FC<TreatmentMenuProps> = ({ onSelectTreatment 
           <h2 className="font-serif text-2xl lg:text-3xl lg:text-[32px] text-[#00110b] tracking-tight mb-3">
             과학적 근거에 기반한 하이엔드 안티에이징 메뉴
           </h2>
-          <p className="text-sm lg:text-base text-[#424845] leading-relaxed">
-            국제 학회에서 효능과 안전성이 입증된 글로벌 프리미엄 오리지널 장비와 스위스·독일산 명품 스킨부스터만을 엄선하여 시술합니다.
+          <p className="text-sm lg:text-base text-[#424845] leading-relaxed break-keep">
+            정식 수입·허가된 장비와 제품만 사용하며, 피부 상태와 생활 패턴에 맞춰 시술 종류와 강도를 상담에서 함께 정합니다. 시술 반응과 유지 기간에는 개인차가 있고 부작용이 생길 수 있습니다.
           </p>
         </div>
 
@@ -67,18 +67,19 @@ export const TreatmentMenu: React.FC<TreatmentMenuProps> = ({ onSelectTreatment 
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-[#efeeeb] flex items-center justify-between">
+              <div className="pt-2 border-t border-[#efeeeb] flex flex-wrap items-center justify-between gap-2">
                 <span className="text-xs text-[#424845] flex items-center gap-1.5">
-                  <Verified className="w-4 h-4 text-[#745a2a]" />
+                  <Verified className="w-4 h-4 text-[#745a2a] shrink-0" />
                   {treatment.badge}
                 </span>
 
+                {/* 누른 시술이 예약 폼 1단계에 실제로 선택된 채 내려간다 */}
                 <button
                   type="button"
                   onClick={() => onSelectTreatment(treatment)}
-                  className="text-[#00110b] font-semibold text-xs lg:text-sm hover:text-[#745a2a] flex items-center gap-1 transition-colors group-hover:translate-x-1"
+                  className="min-h-11 text-[#00110b] font-semibold text-xs lg:text-sm hover:text-[#745a2a] flex items-center gap-1 transition-colors group-hover:translate-x-1"
                 >
-                  <span>상세 상담 신청</span>
+                  <span>이 시술로 상담 신청</span>
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>

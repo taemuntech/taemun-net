@@ -110,7 +110,6 @@ export const OnsaemiroApp: React.FC<OnsaemiroAppProps> = ({ isEmbed = false }) =
         <ReservationSection
           selectedDoctorId={selectedDoctorId}
           prefilledNotes={prefilledNotes}
-          appliedHUDParams={activeHUDReport ? activeHUDReport.params : null}
         />
 
         <LocationConcierge />

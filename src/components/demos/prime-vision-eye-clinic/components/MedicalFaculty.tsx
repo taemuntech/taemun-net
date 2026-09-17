@@ -1,5 +1,6 @@
 import React from 'react';
 import { Language } from '../types';
+import { DOCTORS } from '../constants';
 
 interface MedicalFacultyProps {
   language: Language;
@@ -13,17 +14,17 @@ export const MedicalFaculty: React.FC<MedicalFacultyProps> = ({ language, onSele
         {/* Section Header */}
         <div className="max-w-3xl mb-10 lg:mb-12 break-keep">
           <span className="px-3.5 py-1.5 rounded-full bg-primary-fixed text-primary font-label-caps text-[11px] font-bold">
-            WORLD-CLASS MEDICAL FACULTY
+            MEDICAL FACULTY
           </span>
           <h2 className="font-headline-xl text-[26px] lg:text-[38px] text-on-surface font-extrabold tracking-tight mt-3 leading-snug">
             {language === 'KR'
-              ? '국내 명문대(예시) · 세브란스 출신 각막 & 망막 전임의 팀'
-              : 'Seoul National Univ & Severance Cornea & Retina Fellows'}
+              ? '각막 & 망막 세부전공 안과 전문의 팀'
+              : 'Cornea & Retina Subspecialist Team'}
           </h2>
           <p className="font-body-lg text-[14px] lg:text-[17px] text-on-surface-variant mt-2 leading-relaxed">
             {language === 'KR'
-              ? '공장형 안과와 차별화된 1:1 전담 주치의 책임 진료제. 상담부터 정밀 검사, 수술 집도, 평생 사후 관리까지 담당 전문의가 직접 책임집니다.'
-              : 'Dedicated 1:1 primary attending physician system. From consultation and 50-step exam to surgery and lifelong post-op care.'}
+              ? '1:1 전담 주치의 책임 진료제. 상담부터 정밀 검사, 수술 집도, 수술 후 정기 경과 관찰까지 담당 전문의가 이어서 봅니다. 아래 의료진은 샘플용 예시 인물입니다.'
+              : 'A 1:1 attending-physician system covering consultation, examination, surgery and follow-up. The doctors shown below are fictional examples.'}
           </p>
         </div>
 
@@ -49,29 +50,29 @@ export const MedicalFaculty: React.FC<MedicalFacultyProps> = ({ language, onSele
                   <span className="font-body-sm text-[13px] text-on-surface-variant font-medium">안과 전문의</span>
                 </div>
                 <div className="font-label-numeric text-[13px] text-primary font-bold mb-3">
-                  누적 시력교정 18,000+ 케이스 집도
+                  각막·망막 세부전공 · 시력교정 담당 (예시)
                 </div>
 
                 <p className="font-body-sm text-[13px] text-on-surface-variant italic mb-4 bg-surface-container-low p-3 rounded-xl border border-surface-container">
-                  &ldquo;단 0.01mm의 오차도 허용하지 않는 엄격한 집도 철학으로, 환자 개개인의 시각적 삶의 질을 온전히 회복시켜 드립니다.&rdquo;
+                  &ldquo;0.01mm 단위까지 확인하고 들어가는 것이 원칙입니다. 환자 한 분 한 분의 생활에 맞는 시야를 함께 찾아 가겠습니다.&rdquo;
                 </p>
 
                 <ul className="space-y-1.5 font-body-sm text-[13px] text-on-surface-variant">
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span>
-                    <span>국내 명문 A대학(예시) 의과대학 의학과 졸업</span>
+                    <span>국내 의과대학(예시) 의학과 졸업</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span>
-                    <span>국내 명문 A대학(예시)병원 안과 전문의 및 각막 세부전임의</span>
+                    <span>국내 대학병원(예시) 안과 전문의 · 각막 세부전임의 수료</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span>
-                    <span>독일 Carl Zeiss 공인 SMILE Pro Master Surgeon</span>
+                    <span>렌티큘 추출술(KLEx) 국제 술기 연수 수료 (예시)</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></span>
-                    <span>안과학회(예시)(KOS) · KSCRS 정회원</span>
+                    <span>안과 관련 학회(예시) 정회원</span>
                   </li>
                 </ul>
               </div>
@@ -79,8 +80,8 @@ export const MedicalFaculty: React.FC<MedicalFacultyProps> = ({ language, onSele
               <div className="mt-6 pt-4 border-t border-surface-container">
                 <button
                   type="button"
-                  onClick={() => onSelectDoctor('강현우 대표원장 (스마일프로·시력교정)')}
-                  className="w-full py-2.5 rounded-xl bg-surface-container hover:bg-primary hover:text-on-primary text-primary font-headline-sm text-[13px] font-bold transition-all cursor-pointer text-center"
+                  onClick={() => onSelectDoctor(DOCTORS.kang)}
+                  className="w-full py-2.5 min-h-[44px] rounded-xl bg-surface-container hover:bg-primary hover:text-on-primary text-primary font-headline-sm text-[13px] font-bold transition-all cursor-pointer text-center"
                 >
                   강현우 원장 지정 진료 예약
                 </button>
@@ -108,29 +109,29 @@ export const MedicalFaculty: React.FC<MedicalFacultyProps> = ({ language, onSele
                   <span className="font-body-sm text-[13px] text-on-surface-variant font-medium">안과 전문의</span>
                 </div>
                 <div className="font-label-numeric text-[13px] text-tertiary font-bold mb-3">
-                  노안·백내장 수술 12,000+ 케이스 달성
+                  노안 · 백내장 수술 담당 (예시)
                 </div>
 
                 <p className="font-body-sm text-[13px] text-on-surface-variant italic mb-4 bg-surface-container-low p-3 rounded-xl border border-surface-container">
-                  &ldquo;백내장은 단순히 혼탁을 제거하는 것을 넘어, 환자의 평생 취미와 일상 동선을 고려한 최적의 빛 설계를 완성하는 예술입니다.&rdquo;
+                  &ldquo;백내장 수술은 혼탁을 걷어내는 데서 끝나지 않습니다. 환자의 취미와 하루 동선을 듣고 어느 거리를 가장 편하게 쓰실지부터 함께 정합니다.&rdquo;
                 </p>
 
                 <ul className="space-y-1.5 font-body-sm text-[13px] text-on-surface-variant">
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-tertiary shrink-0"></span>
-                    <span>국내 명문 B대학(예시) 의과대학 졸업 (신촌 세브란스)</span>
+                    <span>국내 의과대학(예시) 졸업</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-tertiary shrink-0"></span>
-                    <span>국내 명문 B대학(예시) 대학병원(예시) 안과 전문의 및 망막 임상강사</span>
+                    <span>국내 대학병원(예시) 안과 전문의 · 망막 임상강사</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-tertiary shrink-0"></span>
-                    <span>존슨앤드존슨 / 자이스 프리미엄 인공수정체 키닥터</span>
+                    <span>프리미엄 다초점 인공수정체 술기 강사 (예시)</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-tertiary shrink-0"></span>
-                    <span>안과학회(예시)(KOS) · 한국망막학회(KRS) 정회원</span>
+                    <span>안과 · 망막 관련 학회(예시) 정회원</span>
                   </li>
                 </ul>
               </div>
@@ -138,8 +139,8 @@ export const MedicalFaculty: React.FC<MedicalFacultyProps> = ({ language, onSele
               <div className="mt-6 pt-4 border-t border-surface-container">
                 <button
                   type="button"
-                  onClick={() => onSelectDoctor('윤소희 대표원장 (노안·백내장·망막)')}
-                  className="w-full py-2.5 rounded-xl bg-surface-container hover:bg-tertiary hover:text-on-tertiary text-tertiary font-headline-sm text-[13px] font-bold transition-all cursor-pointer text-center"
+                  onClick={() => onSelectDoctor(DOCTORS.yoon)}
+                  className="w-full py-2.5 min-h-[44px] rounded-xl bg-surface-container hover:bg-tertiary hover:text-on-tertiary text-tertiary font-headline-sm text-[13px] font-bold transition-all cursor-pointer text-center"
                 >
                   윤소희 원장 지정 진료 예약
                 </button>

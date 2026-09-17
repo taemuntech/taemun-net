@@ -16,19 +16,26 @@ import { RoomTourModal } from './components/modals/RoomTourModal';
 import { InsuranceCalculatorModal } from './components/modals/InsuranceCalculatorModal';
 import { BedStatusModal } from './components/modals/BedStatusModal';
 
+import { AVAILABLE_TOTAL } from './data/hospitalData';
+import { AdmissionPurpose, ClinicalTab, RoomType } from './types';
+
 interface BonchoHospitalAppProps {
   isEmbed?: boolean;
 }
 
 export default function BonchoHospitalApp({ isEmbed = false }: BonchoHospitalAppProps = {}) {
   const [isTourOpen, setIsTourOpen] = useState(false);
-  const [tourRoomType, setTourRoomType] = useState<'royal' | 'harmony'>('royal');
+  const [tourRoomType, setTourRoomType] = useState<RoomType>('royal');
 
   const [isInsuranceOpen, setIsInsuranceOpen] = useState(false);
   const [isBedStatusOpen, setIsBedStatusOpen] = useState(false);
 
-  const [selectedRoomForBooking, setSelectedRoomForBooking] = useState<'royal' | 'harmony' | 'undecided'>('royal');
-  const [selectedPurposeForBooking, setSelectedPurposeForBooking] = useState<'oncology' | 'traffic' | 'rehab' | 'outpatient'>('oncology');
+  const [selectedRoomForBooking, setSelectedRoomForBooking] = useState<RoomType | 'undecided'>('royal');
+  // 병동 현황에서 고른 호실 — 예약 폼 본문까지 내려간다
+  const [selectedRoomNumber, setSelectedRoomNumber] = useState<string | null>(null);
+  const [selectedPurposeForBooking, setSelectedPurposeForBooking] = useState<AdmissionPurpose>('oncology');
+  // 특화센터 탭 — 헤더 메뉴에서도 바꿔야 해서 여기서 쥔다
+  const [centersTab, setCentersTab] = useState<ClinicalTab>('oncology');
 
   const scrollToConcierge = () => {
     const el = document.getElementById('admission-concierge');
@@ -45,37 +52,43 @@ export default function BonchoHospitalApp({ isEmbed = false }: BonchoHospitalApp
     }
   };
 
-  const handleOpenTour = (roomType?: 'royal' | 'harmony') => {
+  const handleOpenTour = (roomType?: RoomType) => {
     if (roomType) setTourRoomType(roomType);
     setIsTourOpen(true);
   };
 
-  const handleRoomSelect = (room: 'royal' | 'harmony') => {
+  const handleRoomSelect = (room: RoomType) => {
     setSelectedRoomForBooking(room);
+    setSelectedRoomNumber(null);
     scrollToConcierge();
   };
 
-  const handleDepartmentSelect = (dept: string) => {
-    if (dept === 'oncology') setSelectedPurposeForBooking('oncology');
-    else if (dept === 'traffic') setSelectedPurposeForBooking('traffic');
-    else if (dept === 'rehab') setSelectedPurposeForBooking('rehab');
+  const handleDepartmentSelect = (dept: ClinicalTab) => {
+    setSelectedPurposeForBooking(dept);
     scrollToConcierge();
   };
 
-  const handleBedSelect = (roomType: 'royal' | 'harmony') => {
+  // 병동 현황에서 고른 병실은 종류만이 아니라 호실까지 예약 폼으로 넘긴다
+  const handleBedSelect = (roomType: RoomType, roomNumber: string) => {
     setSelectedRoomForBooking(roomType);
+    setSelectedRoomNumber(roomNumber);
     scrollToConcierge();
   };
 
+  const handleNavigateCenter = (tab: ClinicalTab) => {
+    setCentersTab(tab);
+  };
+
+  // max-lg:pb-24 — 아래 고정 퀵바(z-40)가 푸터 마지막 줄을 덮고 있었다
   return (
-    <div className="min-h-screen bg-[#faf9f6] text-[#1a1c1a] font-sans selection:bg-[#cbe9da] selection:text-[#102a20]">
+    <div className="min-h-screen max-lg:pb-24 bg-[#faf9f6] text-[#1a1c1a] font-sans selection:bg-[#cbe9da] selection:text-[#102a20]">
       {/* Fixed Sticky Header */}
       <Header
-        currentSection="home"
         onOpenBooking={scrollToConcierge}
         onOpenBedStatus={() => setIsBedStatusOpen(true)}
         onOpenTour={() => handleOpenTour('royal')}
         onOpenInsurance={() => setIsInsuranceOpen(true)}
+        onNavigateCenter={handleNavigateCenter}
       />
 
       {/* Main Content Sections */}
@@ -89,6 +102,8 @@ export default function BonchoHospitalApp({ isEmbed = false }: BonchoHospitalApp
 
         {/* 2. Specialized Centers Section */}
         <SpecializedCentersSection
+          activeTab={centersTab}
+          onTabChange={setCentersTab}
           onSelectDepartment={handleDepartmentSelect}
         />
 
@@ -106,10 +121,12 @@ export default function BonchoHospitalApp({ isEmbed = false }: BonchoHospitalApp
         <GourmetNutritionSection />
 
         {/* 6. Smart Admission Concierge & Booking */}
+        {/* key 로 강제 리마운트하면 입력해 둔 이름·연락처·증상이 통째로 날아간다.
+            선택값은 props → useEffect 로만 반영한다. */}
         <AdmissionConciergeSection
-          key={`${selectedRoomForBooking}-${selectedPurposeForBooking}`}
           initialRoomType={selectedRoomForBooking}
           initialPurpose={selectedPurposeForBooking}
+          initialRoomNumber={selectedRoomNumber}
         />
 
         {/* 7. University Hospital Network & Location */}
@@ -123,21 +140,21 @@ export default function BonchoHospitalApp({ isEmbed = false }: BonchoHospitalApp
       <div className="fixed bottom-4 left-4 right-4 z-40 lg:hidden bg-[#102a20]/95 backdrop-blur-lg text-white p-2.5 rounded-2xl shadow-2xl border border-[#264035] flex items-center justify-between gap-2">
         <a
           href="tel:02-0000-0000"
-          className="flex-1 py-2 bg-[#264035] rounded-xl text-center text-[12px] font-semibold flex items-center justify-center gap-1 text-white"
+          className="flex-1 py-2 min-h-[44px] bg-[#264035] rounded-xl text-center text-[12px] font-semibold flex items-center justify-center gap-1 text-white"
         >
           <span className="material-symbols-outlined text-[16px]">call</span>
           <span>전화상담</span>
         </a>
         <button
           onClick={() => setIsBedStatusOpen(true)}
-          className="flex-1 py-2 bg-[#ffd9b4] text-[#3a1f04] rounded-xl text-center text-[12px] font-bold flex items-center justify-center gap-1"
+          className="flex-1 py-2 min-h-[44px] bg-[#ffd9b4] text-[#3a1f04] rounded-xl text-center text-[12px] font-bold flex items-center justify-center gap-1"
         >
           <span className="material-symbols-outlined text-[16px]">hotel</span>
-          <span>병실잔여(5)</span>
+          <span>병실잔여({AVAILABLE_TOTAL})</span>
         </button>
         <button
           onClick={scrollToConcierge}
-          className="flex-1 py-2 bg-[#cbe9da] text-[#052017] rounded-xl text-center text-[12px] font-bold flex items-center justify-center gap-1"
+          className="flex-1 py-2 min-h-[44px] bg-[#cbe9da] text-[#052017] rounded-xl text-center text-[12px] font-bold flex items-center justify-center gap-1"
         >
           <span className="material-symbols-outlined text-[16px]">calendar_month</span>
           <span>입원예약</span>

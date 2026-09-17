@@ -75,7 +75,7 @@ export const BeforeAfterGallery: React.FC = () => {
             </h2>
           </div>
           <p className="text-[14px] leading-relaxed text-[#4d463c] max-w-md">
-            중앙 슬라이더를 좌우로 드래그하여, 과교정 없이 본연의 매력을 극대화한 온새미로의 정교한 변화를 실시간으로 비교해보세요.
+            중앙 슬라이더를 좌우로 드래그하면 수술 전후를 비교해 볼 수 있습니다. 화면의 사진은 실제 환자가 아닌 예시 이미지입니다.
           </p>
         </div>
 
@@ -86,7 +86,7 @@ export const BeforeAfterGallery: React.FC = () => {
               setActiveCategory('eye');
               setSplitPos(50);
             }}
-            className={`px-4 py-2 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${
+            className={`px-4 py-2 min-h-[44px] inline-flex items-center rounded-full text-[13px] font-semibold transition-all cursor-pointer ${
               activeCategory === 'eye'
                 ? 'bg-[#1A1817] text-[#fdf9f5] shadow-md'
                 : 'bg-[#ebe7e4] text-[#1c1c19] hover:bg-[#e5e2de]'
@@ -99,7 +99,7 @@ export const BeforeAfterGallery: React.FC = () => {
               setActiveCategory('nose');
               setSplitPos(50);
             }}
-            className={`px-4 py-2 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${
+            className={`px-4 py-2 min-h-[44px] inline-flex items-center rounded-full text-[13px] font-semibold transition-all cursor-pointer ${
               activeCategory === 'nose'
                 ? 'bg-[#1A1817] text-[#fdf9f5] shadow-md'
                 : 'bg-[#ebe7e4] text-[#1c1c19] hover:bg-[#e5e2de]'
@@ -112,7 +112,7 @@ export const BeforeAfterGallery: React.FC = () => {
               setActiveCategory('lift');
               setSplitPos(50);
             }}
-            className={`px-4 py-2 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${
+            className={`px-4 py-2 min-h-[44px] inline-flex items-center rounded-full text-[13px] font-semibold transition-all cursor-pointer ${
               activeCategory === 'lift'
                 ? 'bg-[#1A1817] text-[#fdf9f5] shadow-md'
                 : 'bg-[#ebe7e4] text-[#1c1c19] hover:bg-[#e5e2de]'
@@ -140,7 +140,7 @@ export const BeforeAfterGallery: React.FC = () => {
                 draggable={false}
               />
               <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-full text-[#fdf9f5] text-[12px] font-medium shadow-md">
-                온새미로 수술 후 (After)
+                수술 후 (After) · 예시 이미지
               </div>
             </div>
 
@@ -158,7 +158,7 @@ export const BeforeAfterGallery: React.FC = () => {
                 draggable={false}
               />
               <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md px-3.5 py-1.5 rounded-full text-[#fdf9f5] text-[12px] font-medium shadow-md">
-                수술 전 (Before)
+                수술 전 (Before) · 예시 이미지
               </div>
             </div>
 
@@ -179,7 +179,7 @@ export const BeforeAfterGallery: React.FC = () => {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setSplitPos(100)}
-                className={`px-3.5 py-1.5 rounded-lg text-[12px] font-medium transition-colors cursor-pointer ${
+                className={`px-3.5 py-1.5 min-h-[44px] inline-flex items-center rounded-lg text-[12px] font-medium transition-colors cursor-pointer ${
                   splitPos === 100 ? 'bg-[#725b38] text-white' : 'bg-[#ebe7e4] text-[#1c1c19] hover:bg-[#e5e2de]'
                 }`}
               >
@@ -187,7 +187,7 @@ export const BeforeAfterGallery: React.FC = () => {
               </button>
               <button
                 onClick={() => setSplitPos(50)}
-                className={`px-3.5 py-1.5 rounded-lg text-[12px] font-semibold transition-colors cursor-pointer ${
+                className={`px-3.5 py-1.5 min-h-[44px] inline-flex items-center rounded-lg text-[12px] font-semibold transition-colors cursor-pointer ${
                   splitPos === 50 ? 'bg-[#725b38] text-white' : 'bg-[#ebe7e4] text-[#1c1c19] hover:bg-[#e5e2de]'
                 }`}
               >
@@ -195,7 +195,7 @@ export const BeforeAfterGallery: React.FC = () => {
               </button>
               <button
                 onClick={() => setSplitPos(0)}
-                className={`px-3.5 py-1.5 rounded-lg text-[12px] font-medium transition-colors cursor-pointer ${
+                className={`px-3.5 py-1.5 min-h-[44px] inline-flex items-center rounded-lg text-[12px] font-medium transition-colors cursor-pointer ${
                   splitPos === 0 ? 'bg-[#725b38] text-white' : 'bg-[#ebe7e4] text-[#1c1c19] hover:bg-[#e5e2de]'
                 }`}
               >
@@ -230,8 +230,10 @@ export const BeforeAfterGallery: React.FC = () => {
           </div>
 
           {/* Medical Disclaimer Badge */}
-          <div className="w-full p-3.5 rounded-xl bg-[#f1ede9]/70 text-center text-[12px] text-[#4d463c] leading-relaxed border border-[#d1c5b8]/30 break-keep">
-            ※ 상기 비포&amp;애프터 사진은 동일 환자의 동의하에 동일한 조명 및 각도에서 촬영된 실제 임상 증례이며, 개인의 체질에 따라 회복 기간 및 출혈·염증 등의 합병증 발생에 차이가 있을 수 있습니다.
+          <div className="w-full p-3.5 rounded-xl bg-[#f1ede9] text-center text-[12px] text-[#4d463c] leading-relaxed border border-[#c5a880]/40 break-keep">
+            <strong className="text-[#725b38] font-semibold">※ 예시 이미지 · 개인차가 있으며 부작용이 있을 수 있습니다.</strong>
+            <br className="hidden lg:inline" />{' '}
+            본 화면은 가상 브랜드 샘플로, 실제 환자의 수술 전후 사진이 아닙니다. 모든 수술은 출혈·감염·염증·신경 손상·비대칭 등의 부작용이 발생할 수 있고 회복 기간과 결과에는 개인차가 있으므로, 집도의와의 대면 상담과 사전 설명이 반드시 필요합니다.
           </div>
         </div>
       </div>

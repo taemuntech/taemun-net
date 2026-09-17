@@ -19,6 +19,10 @@ export const MedicalDirectors: React.FC<MedicalDirectorsProps> = ({ onSelectDoct
           <p className="text-[14px] leading-relaxed text-[#4d463c]">
             풍부한 임상경험의 성형외과 및 마취통증의학과 전문의들이 정직한 진료와 섬세한 미세 손기술로 당신의 고유한 아름다움을 마주합니다.
           </p>
+          {/* 지어낸 인물에 진짜 이력이 붙은 것처럼 읽히지 않도록 명시한다 */}
+          <p className="text-[12px] text-[#725b38] bg-[#f1ede9] border border-[#c5a880]/30 rounded-full px-4 py-1.5 break-keep">
+            ※ 아래 의료진과 이력은 가상 브랜드 샘플의 예시이며 실존 인물이 아닙니다.
+          </p>
         </div>
 
         {/* 3 Doctors Grid */}
@@ -70,7 +74,7 @@ export const MedicalDirectors: React.FC<MedicalDirectorsProps> = ({ onSelectDoct
                   </span>
                   <button
                     onClick={() => onSelectDoctorForConsultation(doc.id)}
-                    className="w-full py-2.5 rounded-xl bg-[#1A1817] text-[#fdf9f5] text-[12px] font-semibold hover:bg-[#2E2A27] transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                    className="w-full py-2.5 min-h-[44px] rounded-xl bg-[#1A1817] text-[#fdf9f5] text-[12px] font-semibold hover:bg-[#2E2A27] transition-colors cursor-pointer flex items-center justify-center gap-1.5"
                   >
                     <span>{doc.name} 1:1 상담 지정하기</span>
                     <span className="material-symbols-outlined text-[16px]">arrow_forward</span>

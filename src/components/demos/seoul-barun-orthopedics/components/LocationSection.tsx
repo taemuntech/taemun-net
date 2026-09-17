@@ -1,9 +1,8 @@
 import React from 'react';
-import { CLINIC_IMAGES } from '../data/clinicData';
 
 export const LocationSection: React.FC = () => {
   return (
-    <section id="location" className="w-full bg-[#FAF9F6] py-12 lg:py-16 scroll-mt-24">
+    <section id="location" className="w-full bg-[#FAF9F6] py-12 lg:py-16 scroll-mt-[132px]">
       <div className="max-w-7xl mx-auto px-4 lg:px-6 lg:px-12">
         {/* Section Header */}
         <div className="max-w-3xl mb-8">
@@ -108,22 +107,53 @@ export const LocationSection: React.FC = () => {
               </div>
             </div>
 
+            {/* 가상 상호라 내비에서 검색하면 아무것도 안 나온다 — 「이렇게 검색하세요」로 두면 거짓 안내가 된다. */}
             <div className="mt-4 pt-3 text-[#3F493F] text-xs border-t border-[#EFEEEB]">
-              내비게이션:{' '}
-              <strong className="text-[#1A1C1A]">'서울바른마디정형외과'</strong> 또는{' '}
-              <strong className="text-[#1A1C1A]">'바른마디메디컬타워'</strong> 검색
+              내비게이션 검색어 표기 자리:{' '}
+              <strong className="text-[#1A1C1A]">'서울바른마디정형외과'</strong> ·{' '}
+              <strong className="text-[#1A1C1A]">'바른마디메디컬타워'</strong>{' '}
+              <span className="text-[#6F7A6E]">(샘플이라 실제로는 검색되지 않습니다)</span>
             </div>
           </div>
         </div>
 
         {/* Map Integration Container */}
         <div className="relative w-full h-80 lg:h-96 rounded-2xl overflow-hidden shadow-sm bg-[#EFEEEB] border border-[#E9E8E5]">
+          {/* 약도 그래픽 — 원래는 구글 지도 캡처(구글 로고와 「Map data ©2026 TMap Mobility」가 찍힌 이미지)를
+              배경으로 깔았다. 지어낸 병원 화면에 실존 지도 서비스 자산을 얹는 것이라 나머지 의료 샘플 5종과
+              같은 방식(자체 약도)으로 바꿨다. 위치는 가상이므로 지도가 아니라 「약도」임을 화면에 적는다. */}
           <div
-            className="w-full h-full bg-cover bg-center"
-            style={{ backgroundImage: `url('${CLINIC_IMAGES.map}')` }}
+            className="w-full h-full relative"
             role="img"
-            aria-label="Google Maps view showing Seocho Medical Tower near Seoul Gyodae Station and Seocho Station"
-          ></div>
+            aria-label="교대역과 서초역 사이 바른마디 메디컬타워 위치를 나타낸 약도 (예시)"
+          >
+            <div className="absolute inset-0 opacity-50 bg-[radial-gradient(#C9D2C8_1px,transparent_1px)] [background-size:16px_16px]" />
+            <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <line x1="0" y1="52%" x2="100%" y2="52%" stroke="#E3E2E0" strokeWidth="26" />
+              <line x1="38%" y1="0" x2="38%" y2="100%" stroke="#E3E2E0" strokeWidth="18" />
+              <line x1="0" y1="18%" x2="100%" y2="78%" stroke="#EAE9E6" strokeWidth="12" />
+              <line x1="0" y1="52%" x2="100%" y2="52%" stroke="#95F8A7" strokeWidth="3" strokeDasharray="10 8" />
+            </svg>
+
+            <div className="absolute top-12 left-4 bg-white px-2.5 py-1 rounded shadow-sm text-[11px] font-medium text-[#3F493F] border border-[#E9E8E5]">
+              교대역 4번출구
+            </div>
+            <div className="absolute top-12 right-4 bg-white px-2.5 py-1 rounded shadow-sm text-[11px] font-medium text-[#3F493F] border border-[#E9E8E5]">
+              서초역 방면
+            </div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+              <div className="bg-[#1A1C1A] text-[#95F8A7] px-3 py-1.5 rounded-lg shadow-lg text-xs font-semibold flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[#95F8A7]" />
+                <span>바른마디 메디컬타워</span>
+              </div>
+              <div className="w-3 h-3 bg-[#1A1C1A] rotate-45 -mt-1.5" />
+            </div>
+            <div className="absolute top-4 left-4 right-4 text-center text-[11px] text-[#6F7A6E]">
+              <span className="inline-block bg-white/85 px-2 py-0.5 rounded border border-[#E9E8E5]">
+                약도 (예시) — 실제 지도가 아닙니다
+              </span>
+            </div>
+          </div>
 
           {/* In-map floating card */}
           <div className="absolute bottom-4 left-4 right-4 lg:right-auto bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-lg max-w-sm border border-white/80">

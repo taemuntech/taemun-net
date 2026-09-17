@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useId, useRef } from 'react';
+import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
 import { TechnologyItem } from '../types';
 
 interface TechDetailModalProps {
@@ -12,20 +13,37 @@ export const TechDetailModal: React.FC<TechDetailModalProps> = ({
   onClose,
   onBookTech,
 }) => {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const titleId = useId();
+  // Esc 닫기 · 배경 스크롤 잠금 · 포커스 가두기 — 샘플 공용 훅(훅은 항상 부르고, 렌더만 아래에서 끊는다)
+  useSampleDialog({ open: technology !== null, onClose, dialogRef });
+
   if (!technology) return null;
 
   const detail = technology.fullDetail;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-[#E9E8E5] overflow-hidden max-h-[90vh] flex flex-col">
+    <div
+      className="fixed inset-0 z-50 flex items-end lg:items-center justify-center p-0 lg:p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        className="relative w-full max-w-2xl bg-white rounded-t-2xl lg:rounded-2xl shadow-2xl border border-[#E9E8E5] overflow-hidden max-h-[90vh] flex flex-col outline-none"
+      >
         {/* Header */}
         <div className="p-5 lg:p-6 border-b border-[#EFEEEB] flex items-start justify-between bg-[#FAF9F6]">
           <div>
             <span className="text-xs font-mono font-bold text-[#00652C]">
               {technology.techNum}
             </span>
-            <h3 className="text-lg lg:text-xl font-bold text-[#1A1C1A] mt-1">
+            <h3 id={titleId} className="text-lg lg:text-xl font-bold text-[#1A1C1A] mt-1">
               {technology.title}
             </h3>
             <span className={`inline-block mt-2 px-2.5 py-0.5 rounded text-xs font-bold ${technology.badgeClass}`}>
@@ -33,8 +51,10 @@ export const TechDetailModal: React.FC<TechDetailModalProps> = ({
             </span>
           </div>
           <button
+            type="button"
             onClick={onClose}
-            className="w-9 h-9 rounded-full bg-white border border-[#E9E8E5] flex items-center justify-center text-[#545F73] hover:text-[#1A1C1A] cursor-pointer"
+            aria-label="닫기"
+            className="w-11 h-11 shrink-0 rounded-full bg-white border border-[#E9E8E5] flex items-center justify-center text-[#545F73] hover:text-[#1A1C1A] cursor-pointer"
           >
             <span className="material-symbols-outlined text-[20px]">close</span>
           </button>
@@ -116,17 +136,19 @@ export const TechDetailModal: React.FC<TechDetailModalProps> = ({
         {/* Footer actions */}
         <div className="p-4 lg:p-5 border-t border-[#EFEEEB] bg-[#FAF9F6] flex items-center justify-between gap-3">
           <button
+            type="button"
             onClick={onClose}
-            className="px-4 py-2.5 rounded-xl border border-[#E9E8E5] text-xs font-bold text-[#545F73] hover:bg-white cursor-pointer"
+            className="min-h-11 px-4 py-2.5 rounded-xl border border-[#E9E8E5] text-xs font-bold text-[#545F73] hover:bg-white cursor-pointer"
           >
             닫기
           </button>
           <button
+            type="button"
             onClick={() => {
               onClose();
               onBookTech(technology.title);
             }}
-            className="px-5 py-2.5 rounded-xl bg-[#00652C] hover:bg-[#15803D] text-white text-xs lg:text-sm font-bold inline-flex items-center gap-1.5 cursor-pointer shadow-sm"
+            className="min-h-11 px-5 py-2.5 rounded-xl bg-[#00652C] hover:bg-[#15803D] text-white text-xs lg:text-sm font-bold inline-flex items-center gap-1.5 cursor-pointer shadow-sm"
           >
             <span>이 치료로 당일 예약하기</span>
             <span className="material-symbols-outlined text-[16px]">arrow_forward</span>

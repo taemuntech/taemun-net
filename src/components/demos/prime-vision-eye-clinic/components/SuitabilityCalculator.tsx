@@ -8,6 +8,7 @@ import {
   LifestyleType,
   Language,
 } from '../types';
+import { SERVICES, OUTCOME_DISCLAIMER } from '../constants';
 
 interface SuitabilityCalculatorProps {
   language: Language;
@@ -25,33 +26,62 @@ export const SuitabilityCalculator: React.FC<SuitabilityCalculatorProps> = ({
     lifestyle: 'sports',
   });
 
+  // 결과 카드의 제목과 예약 폼에 넘기는 항목은 **같은 값**이어야 한다.
+  // 예전에는 고도난시 분기가 화면엔 「렌티큘 추출술」을 띄우고 폼에는 「라식」을 넘겨,
+  // 고른 것과 다른 항목이 예약 요약에 찍혔다. recommendedService 는 SERVICES 에서만 고른다.
   const recommendation: CalculatorResult = useMemo(() => {
-    if (calcState.myopia === 'severe' || calcState.cornea === 'thin') {
+    // 4번 문항(라이프스타일)은 결과 카드의 고려 사항 한 줄과 태그 하나를 실제로 바꾼다.
+    // 화면에 「…중점」이라고 적어 두고 결과가 그대로면 눌러도 아무 일 없는 문항이 된다.
+    const lifestyleNote: Record<LifestyleType, { note: string; tag: string }> = {
+      sports: {
+        note: '활동량이 많다고 고르셨으므로, 외부 충격에 상대적으로 유리한 방식을 먼저 살펴보고 보호 안경 착용 기간을 함께 안내드립니다.',
+        tag: '#충격안전성우선',
+      },
+      screen: {
+        note: '화면을 오래 보신다고 고르셨으므로, 수술 전후 안구건조 검사와 눈물막 관리 계획을 함께 상담합니다.',
+        tag: '#안구건조관리',
+      },
+      night: {
+        note: '야간 운전·정밀작업이 잦다고 고르셨으므로, 어두운 곳에서 커지는 동공 크기를 재고 빛번짐 가능성을 미리 설명드립니다.',
+        tag: '#야간빛번짐상담',
+      },
+    };
+    const lifestyle = lifestyleNote[calcState.lifestyle];
+
+    if (calcState.cornea === 'unknown') {
       return {
-        title: 'EVO+ 아쿠아 ICL 안내렌즈삽입술',
+        title: '50단계 정밀 안종합 검진 먼저',
+        matchRate: 0,
+        description: `각막 두께 검사 경험이 없다고 고르셨습니다. 각막 두께는 시술 선택을 가르는 조건이라, 검사 전에는 어떤 시술이 맞는지 안내드릴 수 없습니다. 정밀 검진으로 각막 두께·지형도·동공 크기를 먼저 확인한 뒤 시술을 정합니다. ${lifestyle.note}`,
+        tags: ['#각막두께미확인', '#정밀검진우선', lifestyle.tag],
+        recommendedService: SERVICES.exam,
+      };
+    } else if (calcState.myopia === 'severe' || calcState.cornea === 'thin') {
+      return {
+        title: '안내렌즈삽입술 (유수정체 인공수정체)',
         matchRate: 97,
         description:
-          '초고도 근시이거나 각막 두께가 얇은 조건에서는 각막을 깎지 않고 홍채 뒤쪽에 콜라머 특수 렌즈를 삽입하는 ICL이 빛번짐과 퇴행 없는 최상의 안전성을 지향합니다.',
-        tags: ['#각막보존100%', '#초고도근시최적', '#원상복구가능'],
-        recommendedService: 'EVO+ 아쿠아 ICL',
+          '초고도 근시이거나 각막 두께가 얇은 조건에서는, 각막을 깎지 않고 홍채 뒤쪽에 생체친화성 특수 렌즈를 넣는 안내렌즈삽입술이 우선 고려됩니다. 각막을 보존하고 필요 시 렌즈를 제거할 수 있는 방식이지만, 백내장·안압 상승 등 별도의 주의사항이 있습니다. ' + lifestyle.note,
+        tags: ['#각막을깎지않음', '#초고도근시선택지', lifestyle.tag],
+        recommendedService: SERVICES.phakicIol,
       };
     } else if (calcState.astigmatism === 'severe') {
       return {
-        title: '토포가이드 7초 스마일프로 (OcuLign®)',
+        title: '토포가이드 맞춤 라식 (난시축 보정)',
         matchRate: 99,
         description:
-          '고도 난시 축의 경우 자세에 따른 눈의 회선(Torsion)을 실시간 자동 회전 보정하는 비쥬맥스 800 OcuLign® 기술을 적용해 선명하고 겹침 없는 1.0 시력을 완성합니다.',
-        tags: ['#난시축자동보정', '#잔여난시0D도전', '#7초스마일프로'],
-        recommendedService: '토포 커스텀 라식',
+          '고도 난시축은 각막 지형도를 그대로 반영해 절삭하는 토포가이드 방식과, 자세에 따른 눈의 회선(Torsion)을 자동 회전 보정하는 기능을 함께 써서 난시 교정 정밀도를 높입니다. 교정 후 남는 난시량에는 개인차가 있습니다. ' + lifestyle.note,
+        tags: ['#난시축자동보정', '#각막지형도맞춤', lifestyle.tag],
+        recommendedService: SERVICES.topoLasik,
       };
     } else {
       return {
-        title: '7초 자이스 스마일프로 (SMILE Pro)',
+        title: '렌티큘 추출술 (KLEx)',
         matchRate: 98,
         description:
-          '중등도 근시와 충분한 각막 잔여량을 갖추었으며, 활동적인 라이프스타일에는 2mm 미세 절개로 각막 구조 손상을 80% 줄이는 4세대 스마일프로가 가장 안전하고 이상적입니다.',
-        tags: ['#수술익일일상복귀', '#외부충격우수', '#안구건조최소화'],
-        recommendedService: '7초 스마일프로',
+          '중등도 근시에 각막 잔여량이 충분한 조건에서는, 각막 절편을 만들지 않고 2mm 미세 절개로 렌티큘만 빼내는 렌티큘 추출술이 우선 고려됩니다. 회복 속도와 건조감 정도에는 개인차가 있습니다. ' + lifestyle.note,
+        tags: ['#절편을만들지않음', '#2mm미세절개', lifestyle.tag],
+        recommendedService: SERVICES.klex,
       };
     }
   }, [calcState]);
@@ -62,15 +92,15 @@ export const SuitabilityCalculator: React.FC<SuitabilityCalculatorProps> = ({
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center mb-10 lg:mb-12 break-keep">
           <span className="px-3.5 py-1.5 rounded-full bg-primary-fixed text-primary font-label-caps text-[11px] font-bold">
-            AI-POWERED CLINICAL ALGORITHM
+            SELF-CHECK GUIDE · 참고용
           </span>
           <h2 className="font-headline-xl text-[26px] lg:text-[38px] text-on-surface font-extrabold tracking-tight mt-3 leading-snug">
             {language === 'KR' ? '1분 시력교정 적합도 자가 계산기' : '1-Minute Self Vision Suitability Calculator'}
           </h2>
           <p className="font-body-lg text-[14px] lg:text-[17px] text-on-surface-variant mt-2 leading-relaxed">
             {language === 'KR'
-              ? '본인의 시력, 각막 조건, 라이프스타일을 선택하시면 프라임 안과의 안전 기준에 부합하는 최적의 수술법을 즉시 예측 분석해 드립니다.'
-              : 'Select your vision status, corneal condition, and lifestyle to predict the safest and most optimal procedure based on Prime Vision protocols.'}
+              ? '시력 · 각막 조건 · 생활 패턴을 고르시면 일반적으로 어떤 시술을 먼저 검토하게 되는지 참고용으로 안내해 드립니다. 진단이나 수술 가능 여부 판정이 아니며, 실제 적합 여부는 정밀 검진과 진료로만 확인할 수 있습니다.'
+              : 'A reference guide only — it suggests which procedure is usually considered first. It is not a diagnosis, and eligibility can only be confirmed by examination.'}
           </p>
         </div>
 
@@ -302,19 +332,23 @@ export const SuitabilityCalculator: React.FC<SuitabilityCalculatorProps> = ({
           </div>
 
           {/* Dynamic Recommendation Result Card (5 Cols) */}
-          <div className="lg:col-span-5 bg-gradient-to-b from-surface-container-lowest via-surface-container-lowest to-surface-container-low p-6 lg:p-8 rounded-2xl shadow-xl border-2 border-primary/20 sticky top-28">
-            <div className="flex items-center justify-between pb-4 border-b border-surface-container">
+          <div className="lg:col-span-5 bg-gradient-to-b from-surface-container-lowest via-surface-container-lowest to-surface-container-low p-6 lg:p-8 rounded-2xl shadow-xl border-2 border-primary/20 lg:sticky lg:top-28">
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-surface-container">
               <span className="flex items-center gap-1.5 font-label-caps text-[11px] text-secondary font-bold">
                 <span className="w-2 h-2 rounded-full bg-primary animate-ping"></span>
-                실시간 분석 결과
+                선택에 따른 참고 결과
               </span>
-              <span className="font-label-numeric text-[13px] font-bold text-primary">
-                적합 매칭 지수: {recommendation.matchRate}%
-              </span>
+              {recommendation.matchRate > 0 && (
+                <span className="font-label-numeric text-[13px] font-bold text-primary">
+                  참고 적합도: {recommendation.matchRate}% (예시 수치)
+                </span>
+              )}
             </div>
 
             <div className="my-6">
-              <div className="font-label-caps text-[11px] text-on-surface-variant font-semibold">추천 1순위 최적 시술</div>
+              <div className="font-label-caps text-[11px] text-on-surface-variant font-semibold">
+                {recommendation.matchRate > 0 ? '먼저 검토하게 되는 시술' : '먼저 밟게 되는 단계'}
+              </div>
               <h3 className="font-headline-xl text-[24px] lg:text-[28px] font-extrabold text-primary mt-1 leading-snug">
                 {recommendation.title}
               </h3>
@@ -341,12 +375,12 @@ export const SuitabilityCalculator: React.FC<SuitabilityCalculatorProps> = ({
               onClick={() => onSelectRecommendedService(recommendation.recommendedService)}
               className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-primary-container hover:bg-primary text-on-primary-container hover:text-on-primary font-headline-sm text-[15px] font-bold shadow-md transition-all active:scale-[0.99] cursor-pointer"
             >
-              <span>이 솔루션으로 당일 검사·수술 예약</span>
+              <span>{recommendation.matchRate > 0 ? '이 솔루션으로 당일 검사·수술 예약' : '정밀 안종합 검진부터 예약하기'}</span>
               <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
             </button>
 
-            <p className="font-body-sm text-[12px] text-outline text-center mt-3">
-              ※ 정확한 수술 가능 여부는 50단계 정밀 안종합 검진 데이터 산출 후 최종 확정됩니다.
+            <p className="font-body-sm text-[12px] text-outline text-center mt-3 leading-relaxed break-keep">
+              ※ {OUTCOME_DISCLAIMER} 수술 가능 여부는 50단계 정밀 안종합 검진과 진료를 거쳐 확정됩니다.
             </p>
           </div>
         </div>

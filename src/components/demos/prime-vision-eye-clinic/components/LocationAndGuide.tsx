@@ -21,7 +21,7 @@ export const LocationAndGuide: React.FC<LocationAndGuideProps> = ({ language }) 
           </h2>
           <p className="font-body-lg text-[14px] lg:text-[17px] text-on-surface-variant mt-2 leading-relaxed">
             {language === 'KR'
-              ? '역삼·강남 테헤란로의 중심, 쾌적하고 품격 있는 프라이빗 메디컬 라운지에서 대학병원급 프리미엄 아이케어를 경험하세요.'
+              ? '역삼 · 강남 테헤란로의 중심, 쾌적한 프라이빗 메디컬 라운지에서 정밀 아이케어를 받아 보세요. 아래 주소와 번호는 샘플용 예시입니다.'
               : 'Located at Gangnam Station Exit 1, Teheran-ro 124, Prime Medical Tower 4-7F.'}
           </p>
         </div>
@@ -40,7 +40,7 @@ export const LocationAndGuide: React.FC<LocationAndGuideProps> = ({ language }) 
                   <h4 className="font-headline-sm text-[16px] font-bold text-on-surface">병원 위치 및 주소</h4>
                   <p className="font-body-sm text-[14px] text-on-surface-variant mt-1 leading-relaxed">
                     서울특별시 강남구 테헤란로 124 프라임 메디컬 타워<br />
-                    4층 (정밀검진센터) ~ 7층 (스마일프로 및 노안·백내장 수술센터)
+                    4층 (정밀검진센터) ~ 7층 (시력교정 및 노안 · 백내장 수술센터)
                   </p>
                 </div>
               </div>
@@ -53,7 +53,7 @@ export const LocationAndGuide: React.FC<LocationAndGuideProps> = ({ language }) 
                 <div>
                   <h4 className="font-headline-sm text-[16px] font-bold text-on-surface">지하철 및 대중교통</h4>
                   <p className="font-body-sm text-[14px] text-on-surface-variant mt-1 leading-relaxed">
-                    <strong className="text-primary font-semibold">2호선 / 신분당선 강남역 1번 출구</strong> 나오신 후 테헤란로 방면 80m 직진 (도보 1분 거리, 1층 스타벅스 입점 빌딩)
+                    <strong className="text-primary font-semibold">2호선 / 신분당선 강남역 1번 출구</strong> 나오신 후 테헤란로 방면 80m 직진 (도보 1분 거리, 1층에 카페가 입점한 빌딩)
                   </p>
                 </div>
               </div>
@@ -64,9 +64,9 @@ export const LocationAndGuide: React.FC<LocationAndGuideProps> = ({ language }) 
                   <span className="material-symbols-outlined text-[22px]">local_parking</span>
                 </div>
                 <div>
-                  <h4 className="font-headline-sm text-[16px] font-bold text-on-surface">전용 주차 및 무료 발레파킹</h4>
+                  <h4 className="font-headline-sm text-[16px] font-bold text-on-surface">전용 주차 및 발레파킹</h4>
                   <p className="font-body-sm text-[14px] text-on-surface-variant mt-1 leading-relaxed">
-                    건물 타워 지하 전용 주차장 완비. 내원 시 1층 주차부스에서 <strong className="text-on-surface font-semibold">전액 무료 발레파킹</strong> 서비스를 이용하실 수 있습니다. (진료/수술 환자 무료 지원)
+                    건물 타워 지하 전용 주차장 완비. 내원 시 1층 주차부스에서 <strong className="text-on-surface font-semibold">발레파킹</strong> 서비스를 이용하실 수 있으며, 내원 확인 시 주차 등록을 도와 드립니다.
                   </p>
                 </div>
               </div>
@@ -96,9 +96,9 @@ export const LocationAndGuide: React.FC<LocationAndGuideProps> = ({ language }) 
               </div>
               <a
                 href="#fast-track-section"
-                className="px-5 py-2.5 rounded-xl bg-primary text-on-primary font-headline-sm text-[13px] font-bold hover:bg-primary-container hover:text-on-primary-container transition-all"
+                className="inline-flex items-center px-5 py-2.5 min-h-[44px] rounded-xl bg-primary text-on-primary font-headline-sm text-[13px] font-bold hover:bg-primary-container hover:text-on-primary-container transition-all"
               >
-                전화 바로 연결
+                예약 신청 바로가기
               </a>
             </div>
           </div>
@@ -129,20 +129,20 @@ export const LocationAndGuide: React.FC<LocationAndGuideProps> = ({ language }) 
                     강남역 1번 출구에서 80m (1분)
                   </span>
                 </div>
-                <span className="font-label-caps text-[11px] text-primary font-semibold">VALET AVAILABLE</span>
+                <span className="font-label-caps text-[11px] text-primary font-semibold">PARKING AVAILABLE</span>
               </div>
             </div>
 
             <div className="p-6 flex flex-wrap items-center justify-between gap-4">
               <div className="font-body-sm text-[13px] text-on-surface-variant">
-                지도 앱에서 &lsquo;프라임 스마트 아이 안과&rsquo;를 검색하시면 실시간 교통 및 주차 현황을 확인하실 수 있습니다.
+                실제 사이트라면 지도 앱에서 병원 이름을 검색해 실시간 교통 · 주차 현황을 볼 수 있는 자리입니다. (아래 버튼은 지도 서비스 첫 화면으로 이동합니다 — 샘플 주소라 검색 결과는 없습니다.)
               </div>
               <div className="flex items-center gap-2">
                 <a
                   href="https://map.naver.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-body-sm text-[13px] font-medium transition-all"
+                  className="inline-flex items-center px-4 py-2 min-h-[44px] rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-body-sm text-[13px] font-medium transition-all"
                 >
                   네이버 지도
                 </a>
@@ -150,7 +150,7 @@ export const LocationAndGuide: React.FC<LocationAndGuideProps> = ({ language }) 
                   href="https://map.kakao.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-body-sm text-[13px] font-medium transition-all"
+                  className="inline-flex items-center px-4 py-2 min-h-[44px] rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-body-sm text-[13px] font-medium transition-all"
                 >
                   카카오맵
                 </a>

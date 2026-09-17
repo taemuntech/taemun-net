@@ -75,7 +75,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSafetyModal, onOpenReserva
         <div className="flex items-center gap-2.5 lg:gap-3.5 shrink-0">
           <button 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="flex items-center gap-2.5 lg:gap-3 group text-left cursor-pointer"
+            className="flex items-center gap-2.5 lg:gap-3 min-h-[44px] group text-left cursor-pointer"
           >
             <div className="relative flex items-center justify-center">
               <img
@@ -183,7 +183,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSafetyModal, onOpenReserva
           {/* Signature VIP Booking Button */}
           <button
             onClick={onOpenReservation}
-            className="inline-flex items-center gap-1.5 lg:gap-2 px-3.5 lg:px-5 py-2 lg:py-2.5 rounded-full bg-[#1A1817] text-[#fdf9f5] text-[12px] font-semibold tracking-wider shadow-[0_4px_20px_rgba(197,168,128,0.22)] hover:bg-[#2E2A27] hover:shadow-[0_4px_24px_rgba(197,168,128,0.36)] transition-all duration-300 cursor-pointer"
+            className="inline-flex items-center gap-1.5 lg:gap-2 px-3.5 lg:px-5 py-2 lg:py-2.5 min-h-[44px] rounded-full bg-[#1A1817] text-[#fdf9f5] text-[12px] font-semibold tracking-wider shadow-[0_4px_20px_rgba(197,168,128,0.22)] hover:bg-[#2E2A27] hover:shadow-[0_4px_24px_rgba(197,168,128,0.36)] transition-all duration-300 cursor-pointer"
           >
             <span className="material-symbols-outlined text-[16px] lg:text-[18px] text-[#fedeb2]">calendar_month</span>
             <span className="lg:hidden whitespace-nowrap">1:1 상담 예약</span>
@@ -193,7 +193,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSafetyModal, onOpenReserva
           {/* Mobile hamburger menu toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-xl text-[#1c1c19] hover:bg-[#ebe7e4] transition-colors cursor-pointer"
+            className="lg:hidden w-11 h-11 inline-flex items-center justify-center rounded-xl text-[#1c1c19] hover:bg-[#ebe7e4] transition-colors cursor-pointer"
             aria-label="메뉴 열기"
           >
             <span className="material-symbols-outlined text-[24px]">
@@ -205,48 +205,48 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSafetyModal, onOpenReserva
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#fdf9f5] border-t border-[#d1c5b8]/30 px-6 py-5 shadow-xl break-keep">
+        <div className="lg:hidden bg-[#fdf9f5] border-t border-[#d1c5b8]/30 px-6 py-5 shadow-xl break-keep max-h-[calc(100dvh-140px)] overflow-y-auto">
           <div className="flex flex-col gap-3">
             <button
               onClick={() => scrollTo('philosophy')}
-              className="text-left py-2 text-[#1c1c19] text-[15px] font-medium border-b border-[#f1ede9]"
+              className="text-left py-2 min-h-[44px] flex items-center text-[#1c1c19] text-[15px] font-medium border-b border-[#f1ede9]"
             >
               온새미로 철학
             </button>
             <button
               onClick={() => scrollTo('proportion-hud')}
-              className="text-left py-2 text-[#725b38] font-semibold text-[15px] border-b border-[#f1ede9] flex items-center justify-between"
+              className="text-left py-2 min-h-[44px] text-[#725b38] font-semibold text-[15px] border-b border-[#f1ede9] flex items-center justify-between gap-2"
             >
               <span>1:1:0.8 안면 황금비율 HUD</span>
               <span className="text-[11px] px-2 py-0.5 rounded bg-[#c5a880]/20 text-[#725b38]">시뮬레이터</span>
             </button>
             <button
               onClick={() => scrollTo('before-after-cases')}
-              className="text-left py-2 text-[#1c1c19] text-[15px] font-medium border-b border-[#f1ede9]"
+              className="text-left py-2 min-h-[44px] flex items-center text-[#1c1c19] text-[15px] font-medium border-b border-[#f1ede9]"
             >
               비포&amp;애프터 듀얼 갤러리
             </button>
             <button
               onClick={() => scrollTo('safety-declaration')}
-              className="text-left py-2 text-[#1c1c19] text-[15px] font-medium border-b border-[#f1ede9]"
+              className="text-left py-2 min-h-[44px] flex items-center text-[#1c1c19] text-[15px] font-medium border-b border-[#f1ede9]"
             >
-              5대 무결점 환자 안심 시스템
+              5대 환자 안심 시스템
             </button>
             <button
               onClick={() => scrollTo('vip-recovery-care')}
-              className="text-left py-2 text-[#1c1c19] text-[15px] font-medium border-b border-[#f1ede9]"
+              className="text-left py-2 min-h-[44px] flex items-center text-[#1c1c19] text-[15px] font-medium border-b border-[#f1ede9]"
             >
               1인 VIP 회복케어 &amp; 14일 로드맵
             </button>
             <button
               onClick={() => scrollTo('medical-directors')}
-              className="text-left py-2 text-[#1c1c19] text-[15px] font-medium border-b border-[#f1ede9]"
+              className="text-left py-2 min-h-[44px] flex items-center text-[#1c1c19] text-[15px] font-medium border-b border-[#f1ede9]"
             >
               성형외과 &amp; 마취과 의료진
             </button>
             <button
               onClick={() => scrollTo('location-concierge')}
-              className="text-left py-2 text-[#1c1c19] text-[15px] font-medium border-b border-[#f1ede9]"
+              className="text-left py-2 min-h-[44px] flex items-center text-[#1c1c19] text-[15px] font-medium border-b border-[#f1ede9]"
             >
               오시는 길 &amp; 프라이빗 발렛 안내
             </button>

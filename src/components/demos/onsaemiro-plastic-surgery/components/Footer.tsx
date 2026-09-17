@@ -26,7 +26,7 @@ export const Footer: React.FC<FooterProps> = ({
               </span>
             </div>
             <p className="text-[13px] text-[#4d463c] leading-relaxed max-w-md">
-              온새미로는 '가르거나 쪼개지 않은 본디 그대로의 상태'를 뜻하는 순우리말입니다. 과도한 변형이 아닌 고유한 윤곽과 골격의 조화를 존중하며, 압구정 프라이빗 스위트에서 무결점 안심 수술 환경과 맞춤형 메디컬 스파를 선사합니다.
+              온새미로는 '가르거나 쪼개지 않은 본디 그대로의 상태'를 뜻하는 순우리말입니다. 과도한 변형이 아닌 고유한 윤곽과 골격의 조화를 존중하며, 압구정 프라이빗 스위트에서 안심 수술 환경과 맞춤형 회복 케어를 제공합니다.
             </p>
             <div className="flex flex-wrap items-center gap-4 text-[#4d463c] text-[12px] font-medium pt-1">
               <span className="flex items-center gap-1.5">
@@ -47,7 +47,7 @@ export const Footer: React.FC<FooterProps> = ({
             </span>
             <div>상호명: 온새미로성형외과의원 | 대표원장: 온새미로 의료진 대표</div>
             <div>의료기관 개설신고번호: 제 0000-0000000-0000호 (예시)</div>
-            <div>대한성형외과학회 정회원 성형외과 전문의 면허 표기 자리 (예시)</div>
+            <div>성형외과 전문의 면허번호 표기 자리 (예시)</div>
             <div>사업자등록번호: 000-00-00000 (샘플용) | 전화: 02-0000-0000</div>
             <div>주소: 서울특별시 강남구 압구정로 000 온새미로 메디컬 타워 4F-7F (압구정로데오역 5번 출구)</div>
           </div>
@@ -82,22 +82,31 @@ export const Footer: React.FC<FooterProps> = ({
 
         {/* Footer Navigation & Copyright */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4 text-[12px] text-[#4d463c]">
-          <div className="flex flex-wrap items-center gap-6">
-            <button onClick={onOpenSafetyModal} className="hover:text-[#725b38] transition-colors cursor-pointer">
+          <div className="flex flex-wrap items-center gap-x-6">
+            <button
+              onClick={onOpenSafetyModal}
+              className="min-h-[44px] inline-flex items-center hover:text-[#725b38] transition-colors cursor-pointer"
+            >
               환자권리장전
             </button>
-            <button onClick={onOpenPrivacyModal} className="hover:text-[#725b38] transition-colors font-medium cursor-pointer">
+            <button
+              onClick={onOpenPrivacyModal}
+              className="min-h-[44px] inline-flex items-center hover:text-[#725b38] transition-colors font-medium cursor-pointer"
+            >
               개인정보처리방침
             </button>
-            <button onClick={onOpenNonReimbursableModal} className="hover:text-[#725b38] transition-colors cursor-pointer">
+            <button
+              onClick={onOpenNonReimbursableModal}
+              className="min-h-[44px] inline-flex items-center hover:text-[#725b38] transition-colors cursor-pointer"
+            >
               비급여 진료비 고지
             </button>
-            <a href="#location-concierge" className="hover:text-[#725b38] transition-colors">
+            <a href="#location-concierge" className="min-h-[44px] inline-flex items-center hover:text-[#725b38] transition-colors">
               오시는 길 및 주차안내
             </a>
           </div>
           <div className="text-right">
-            <span>© 2025 ONSAEMIRO AESTHETIC &amp; PLASTIC SURGERY. All Rights Reserved.</span>
+            <span>© 2026 ONSAEMIRO AESTHETIC &amp; PLASTIC SURGERY. All Rights Reserved.</span>
           </div>
         </div>
 

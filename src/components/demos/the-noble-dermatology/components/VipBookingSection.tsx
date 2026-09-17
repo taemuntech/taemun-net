@@ -15,14 +15,15 @@ export const VipBookingSection: React.FC<VipBookingSectionProps> = ({
   onSubmitBooking,
 }) => {
   const [phoneError, setPhoneError] = useState('');
+  const [nameError, setNameError] = useState('');
 
   const allConcerns = [
-    '탄력 / 페이스 리프팅 (울쎄라·써마지)',
+    '탄력 / 페이스 리프팅 (초음파·고주파)',
     '난치성 색소 / 기미 / 화이트닝',
-    '스킨부스터 / 장벽 재생 (리쥬란·쥬베룩)',
+    '스킨부스터 / 장벽 재생 (PN·PDLLA)',
     '모공 축소 / 피부결 / 흉터 케어',
     '웨딩 & 프라이빗 VIP 토탈 케어',
-    '마크뷰 4광원 정밀 피부 진단만 희망',
+    '4광원 정밀 피부 진단만 희망',
   ];
 
   const doctorsList = [
@@ -48,8 +49,11 @@ export const VipBookingSection: React.FC<VipBookingSectionProps> = ({
     setFormData((prev) => ({ ...prev, doctor: docName }));
   };
 
+  /** 표시용 문자열이 아니라 숫자 개수로만 판정한다 — 하이픈이 섞인 길이를 재면 8·9자리가 통과한다. */
+  const phoneDigits = (value: string): string => value.replace(/[^0-9]/g, '');
+
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let val = e.target.value.replace(/[^0-9]/g, '');
+    let val = phoneDigits(e.target.value);
     if (val.length > 11) val = val.slice(0, 11);
     let formatted = val;
     if (val.length > 7) {
@@ -63,14 +67,14 @@ export const VipBookingSection: React.FC<VipBookingSectionProps> = ({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.customerName.trim()) {
-      alert('성함을 입력해 주세요.');
-      return;
-    }
-    if (!formData.customerPhone.trim() || formData.customerPhone.length < 10) {
-      setPhoneError('올바른 휴대폰 번호를 입력해 주세요.');
+  // 브라우저 alert() 대신 입력칸 아래 인라인 오류로 알린다
+  const handleSubmit = () => {
+    const missingName = !formData.customerName.trim();
+    const badPhone = phoneDigits(formData.customerPhone).length < 10;
+    setNameError(missingName ? '성함을 입력해 주세요.' : '');
+    setPhoneError(badPhone ? '올바른 휴대폰 번호를 입력해 주세요.' : '');
+    if (missingName || badPhone) {
+      document.getElementById(missingName ? 'noble-booking-name' : 'noble-booking-phone')?.focus();
       return;
     }
     onSubmitBooking(formData);
@@ -78,7 +82,7 @@ export const VipBookingSection: React.FC<VipBookingSectionProps> = ({
 
   return (
     <section id="vip-reservation" className="w-full py-16 lg:py-20 bg-[#f5f3f0] border-b border-[#eae8e5]">
-      <div className="max-w-7xl mx-auto px-4 lg:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="max-w-3xl mb-12">
           <span className="px-3 py-1 rounded-full bg-[#eae8e5] text-[#745a2a] text-xs font-semibold tracking-wider uppercase mb-2 inline-block border border-[#e4e2df]">
             1:1 VIP Bespoke Concierge
@@ -87,7 +91,7 @@ export const VipBookingSection: React.FC<VipBookingSectionProps> = ({
             스마트 1:1 VIP 사전 문진 및 프라이빗 예약
           </h2>
           <p className="text-sm lg:text-base text-[#424845] leading-relaxed">
-            원하시는 피부 고민과 전문의를 선택하시면, VIP 전담 매니저가 유선 또는 카카오 알림톡으로 30분 이내에 예약 확정을 안내해 드립니다.
+            원하시는 피부 고민과 전문의를 선택하시면, 전담 매니저가 유선 또는 카카오 알림톡으로 예약 가능한 일정을 안내해 드립니다.
           </p>
         </div>
 
@@ -113,7 +117,7 @@ export const VipBookingSection: React.FC<VipBookingSectionProps> = ({
                       key={concern}
                       type="button"
                       onClick={() => toggleConcern(concern)}
-                      className={`p-3 rounded-lg text-left text-xs lg:text-sm flex items-center justify-between transition-colors border ${
+                      className={`p-3 min-h-11 rounded-lg text-left text-xs lg:text-sm flex items-center justify-between transition-colors border ${
                         isSelected
                           ? 'bg-[#efeeeb] border-[#745a2a] text-[#00110b] font-semibold'
                           : 'bg-[#f5f3f0] border-transparent text-[#424845] hover:text-[#00110b] hover:bg-[#eae8e5]'
@@ -149,7 +153,7 @@ export const VipBookingSection: React.FC<VipBookingSectionProps> = ({
                       key={doc.name}
                       type="button"
                       onClick={() => selectDoctor(doc.name)}
-                      className={`p-3 rounded-lg text-center text-xs transition-all border ${
+                      className={`p-3 min-h-11 rounded-lg text-center text-xs transition-all border ${
                         isSelected
                           ? 'bg-[#efeeeb] border-[#745a2a] text-[#00110b] shadow-sm'
                           : 'bg-[#f5f3f0] border-transparent text-[#424845] hover:text-[#00110b] hover:bg-[#eae8e5]'
@@ -225,7 +229,7 @@ export const VipBookingSection: React.FC<VipBookingSectionProps> = ({
                   <select
                     value={formData.painSensitivity}
                     onChange={(e) => setFormData((prev) => ({ ...prev, painSensitivity: e.target.value }))}
-                    className="w-full bg-transparent font-medium text-[#00110b] focus:outline-none"
+                    className="w-full min-h-11 bg-transparent font-medium text-[#00110b] focus:outline-none"
                   >
                     <option>보통 (일반 마취크림)</option>
                     <option>예민함 (수면/복합마취 희망)</option>
@@ -237,7 +241,7 @@ export const VipBookingSection: React.FC<VipBookingSectionProps> = ({
                   <select
                     value={formData.downtimePreference}
                     onChange={(e) => setFormData((prev) => ({ ...prev, downtimePreference: e.target.value }))}
-                    className="w-full bg-transparent font-medium text-[#00110b] focus:outline-none"
+                    className="w-full min-h-11 bg-transparent font-medium text-[#00110b] focus:outline-none"
                   >
                     <option>즉각적인 일상 복귀 필요</option>
                     <option>2~3일 정도 휴식 가능</option>
@@ -249,9 +253,9 @@ export const VipBookingSection: React.FC<VipBookingSectionProps> = ({
                   <select
                     value={formData.valetRequired}
                     onChange={(e) => setFormData((prev) => ({ ...prev, valetRequired: e.target.value }))}
-                    className="w-full bg-transparent font-medium text-[#00110b] focus:outline-none"
+                    className="w-full min-h-11 bg-transparent font-medium text-[#00110b] focus:outline-none"
                   >
-                    <option>무료 VIP 발렛 파킹 신청</option>
+                    <option>발렛 파킹 신청</option>
                     <option>도보 / 대중교통 이용</option>
                   </select>
                 </div>
@@ -270,27 +274,44 @@ export const VipBookingSection: React.FC<VipBookingSectionProps> = ({
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs text-[#727975] mb-1.5 font-medium">성함</label>
+                  <label htmlFor="noble-booking-name" className="block text-xs text-[#727975] mb-1.5 font-medium">
+                    성함
+                  </label>
                   <input
+                    id="noble-booking-name"
                     type="text"
                     value={formData.customerName}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, customerName: e.target.value }))}
+                    onChange={(e) => {
+                      setFormData((prev) => ({ ...prev, customerName: e.target.value }));
+                      if (e.target.value.trim()) setNameError('');
+                    }}
                     placeholder="성함을 입력하세요"
+                    aria-invalid={nameError ? true : undefined}
                     className="w-full h-11 px-3.5 rounded-lg bg-[#f5f3f0] text-[#00110b] text-xs lg:text-sm border border-[#eae8e5] focus:outline-none focus:ring-2 focus:ring-[#00110b]"
                   />
+                  {nameError && (
+                    <div className="flex items-center gap-1 text-[11px] text-[#ba1a1a] mt-1">
+                      <AlertCircle className="w-3 h-3 shrink-0" />
+                      <span>{nameError}</span>
+                    </div>
+                  )}
                 </div>
                 <div>
-                  <label className="block text-xs text-[#727975] mb-1.5 font-medium">연락처 (알림톡 수신 번호)</label>
+                  <label htmlFor="noble-booking-phone" className="block text-xs text-[#727975] mb-1.5 font-medium">
+                    연락처 (안내받으실 번호)
+                  </label>
                   <input
+                    id="noble-booking-phone"
                     type="tel"
                     value={formData.customerPhone}
                     onChange={handlePhoneChange}
                     placeholder="010-0000-0000"
+                    aria-invalid={phoneError ? true : undefined}
                     className="w-full h-11 px-3.5 rounded-lg bg-[#f5f3f0] text-[#00110b] text-xs lg:text-sm border border-[#eae8e5] focus:outline-none focus:ring-2 focus:ring-[#00110b]"
                   />
                   {phoneError && (
                     <div className="flex items-center gap-1 text-[11px] text-[#ba1a1a] mt-1">
-                      <AlertCircle className="w-3 h-3" />
+                      <AlertCircle className="w-3 h-3 shrink-0" />
                       <span>{phoneError}</span>
                     </div>
                   )}
@@ -314,11 +335,12 @@ export const VipBookingSection: React.FC<VipBookingSectionProps> = ({
                 </span>
               </div>
 
-              {/* Simulated Kakao Alimtalk Badge */}
-              <div className="mb-4 p-3 rounded-lg bg-[#FEE500]/25 text-[#3C1E1E] flex items-center gap-2 text-xs font-medium border border-[#FEE500]/40">
-                <MessageSquare className="w-4 h-4 text-[#3C1E1E] shrink-0" />
-                <span>
-                  신청 안내 시 <strong>카카오 알림톡 VIP 확정증서</strong>가 즉시 발송됩니다.
+              {/* 샘플에서는 아무것도 발송되지 않는다 — 발송을 약속하던 문구를 실제 운영 기준 설명으로 바꿨다 */}
+              <div className="mb-4 p-3 rounded-lg bg-[#FEE500]/25 text-[#3C1E1E] flex items-start gap-2 text-xs font-medium border border-[#FEE500]/40">
+                <MessageSquare className="w-4 h-4 text-[#3C1E1E] shrink-0 mt-0.5" />
+                <span className="break-keep">
+                  실제 운영 시에는 예약 확정 안내를 알림톡으로 보내는 화면입니다. 이 샘플에서는 아무것도
+                  발송되지 않습니다.
                 </span>
               </div>
 
@@ -367,46 +389,50 @@ export const VipBookingSection: React.FC<VipBookingSectionProps> = ({
                   <span className="text-[#727975]">발렛 파킹</span>
                   <span className="text-[#745a2a] font-medium">
                     {formData.valetRequired.includes('발렛')
-                      ? 'B1층 VIP 무료 발렛 상시 지원'
+                      ? 'B1층 발렛 파킹 지원'
                       : '대중교통 / 도보'}
                   </span>
                 </div>
               </div>
 
-              {/* Submit CTA */}
-              <p className="text-[11px] text-stone-500 text-center mb-3">※ 본 화면은 포트폴리오용 시뮬레이션으로 실제 예약이나 개인정보가 외부로 전송되지 않습니다.</p>
+              {/* 증상·연락처를 적는 칸이라 「전송되지 않는다」가 작은 회색 글씨로 묻히면 안 된다 */}
+              <div className="mb-3 rounded-lg border border-[#745a2a]/30 bg-[#efeeeb] p-3 text-xs leading-relaxed text-[#00110b]">
+                <strong className="font-semibold">샘플 사이트입니다.</strong> 입력하신 성함·연락처·피부 고민은
+                어디에도 전송되지 않고 이 브라우저 화면에만 남으며, 진료 예약은 접수되지 않습니다.
+              </div>
               <button
                 type="button"
                 onClick={handleSubmit}
                 className="w-full py-4 rounded-lg bg-[#00110b] text-[#ffffff] font-semibold text-sm lg:text-base shadow-xl hover:bg-[#0d2820] active:scale-[0.99] transition-all flex items-center justify-center gap-2"
               >
                 <Lock className="w-4 h-4 text-[#ffdea7]" />
-                <span>1:1 VIP 프라이빗 예약 확정하기</span>
+                <span>1:1 프라이빗 예약 문의 보내기</span>
               </button>
 
-              <p className="text-center text-[11px] text-[#727975] mt-3 leading-normal">
-                더 노블 청담은 철저한 프라이빗 사전 예약제로 운영되며, 고객님의 개인정보는 의료법 및 개인정보보호법에 의해 철저히 보호됩니다.
+              <p className="text-center text-[11px] text-[#727975] mt-3 leading-normal break-keep">
+                더 노블 청담은 사전 예약제로 운영되며, 고객님의 개인정보는 의료법 및 개인정보보호법에 따라
+                관리합니다.
               </p>
             </div>
 
-            {/* Direct Line Banner */}
-            <div className="p-4 rounded-xl bg-[#eae8e5] border border-[#e4e2df] flex items-center justify-between">
+            {/* Direct Line Banner — 「직통 연결」이 제자리 앵커라 눌러도 아무 일이 없었다 → 전화 걸기로 */}
+            <div className="p-4 rounded-xl bg-[#eae8e5] border border-[#e4e2df] flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-[#fbf9f6] flex items-center justify-center text-[#745a2a] shrink-0">
                   <PhoneCall className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-[11px] text-[#727975]">실시간 전화 예약 및 긴급 문의</div>
+                  <div className="text-[11px] text-[#727975]">전화 예약 및 문의</div>
                   <div className="font-serif text-lg font-semibold text-[#00110b]">
                     {CLINIC_INFO.phone}
                   </div>
                 </div>
               </div>
               <a
-                href="#vip-reservation"
-                className="px-3.5 py-2 rounded-lg bg-[#ffffff] text-[#00110b] text-xs font-semibold hover:bg-[#efeeeb] transition-colors border border-[#e4e2df] shrink-0"
+                href={`tel:${CLINIC_INFO.phone}`}
+                className="px-3.5 min-h-11 flex items-center rounded-lg bg-[#ffffff] text-[#00110b] text-xs font-semibold hover:bg-[#efeeeb] transition-colors border border-[#e4e2df] shrink-0"
               >
-                직통 연결
+                전화 걸기
               </a>
             </div>
           </div>

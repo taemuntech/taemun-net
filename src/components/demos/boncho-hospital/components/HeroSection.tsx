@@ -1,5 +1,5 @@
 import React from 'react';
-import { HOSPITAL_IMAGES } from '../data/hospitalData';
+import { AVAILABLE_HARMONY, AVAILABLE_ROYAL, HOSPITAL_IMAGES } from '../data/hospitalData';
 
 interface HeroSectionProps {
   onOpenBooking: () => void;
@@ -24,7 +24,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <div className="inline-flex items-center gap-2 bg-[#e9e8e5] px-3.5 py-1.5 rounded-full shadow-sm">
             <span className="w-2 h-2 rounded-full bg-[#102a20] animate-ping"></span>
             <span className="text-[12px] text-[#102a20] font-semibold tracking-wide">
-              보건복지부 규격 80병상 · 의·한의 협진 암면역재활 전문병원
+              80병상 입원 병동 · 의·한의 협진 통합진료 (가상 브랜드 샘플)
             </span>
           </div>
 
@@ -42,7 +42,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <span className="text-[#c2c8c3] opacity-60">|</span>
             <div className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-[#264035] animate-pulse"></span>
-              <span className="text-[#102a20] font-medium">실시간 병동 피톤치드 공조 가동중</span>
+              <span className="text-[#102a20] font-medium">병동 공조·환기 상시 가동</span>
             </div>
           </div>
         </div>
@@ -64,7 +64,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </h1>
 
             <p className="text-[14px] lg:text-[16px] text-[#424844] leading-relaxed max-w-[560px] break-keep">
-              대학병원급 고주파 온열암치료(Oncothermia 13.56MHz) 및 고용량 면역주사와 KFDA hGMP 인증 친환경 맞춤 본초 탕약의 과학적 융합. 히노끼 향 가득한 호텔식 프라이빗 입원실에서 편안한 회복을 선사합니다.
+              고주파 온열치료(13.56MHz)와 면역 영양 수액, 그리고 환자마다 따로 내는 본초 탕약을 의사·한의사가 함께 상의해 진료 계획을 세웁니다. 편백 향이 나는 프라이빗 입원실에서 치료 기간을 보내실 수 있습니다.
             </p>
 
             <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-2.5 lg:gap-3 pt-2">
@@ -96,7 +96,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 <div className="font-serif text-[22px] text-[#102a20] font-semibold">80 Beds</div>
               </div>
               <div>
-                <div className="text-[12px] text-[#75593c] font-medium">대학병원 핫라인</div>
+                <div className="text-[12px] text-[#75593c] font-medium">협력 이송 핫라인</div>
                 <div className="font-serif text-[22px] text-[#102a20] font-semibold">24h 케어</div>
               </div>
             </div>
@@ -128,15 +128,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     <span className="material-symbols-outlined text-[20px]">hotel</span>
                   </div>
                   <div>
-                    <div className="text-[15px] font-bold text-[#102a20]">오늘의 실시간 입원 가능 병상</div>
+                    <div className="text-[15px] font-bold text-[#102a20]">오늘 입원 가능 병상 안내</div>
                     <div className="text-[13px] text-[#424844]">
-                      1인실 <strong className="text-[#102a20]">2실</strong> · 2인실 <strong className="text-[#75593c]">3실</strong> 잔여 (당일 즉시 수속 가능)
+                      1인실 <strong className="text-[#102a20]">{AVAILABLE_ROYAL}실</strong> · 2인실 <strong className="text-[#75593c]">{AVAILABLE_HARMONY}병상</strong> (오늘 기준 안내 · 예시)
                     </div>
                   </div>
                 </div>
                 <button
                   onClick={onOpenBedStatus}
-                  className="shrink-0 w-full lg:w-auto px-4 py-2 rounded-lg bg-[#264035] text-white text-[13px] font-semibold hover:bg-[#102a20] active:scale-95 transition-all cursor-pointer"
+                  className="shrink-0 w-full lg:w-auto px-4 py-2 max-lg:min-h-[44px] rounded-lg bg-[#264035] text-white text-[13px] font-semibold hover:bg-[#102a20] active:scale-95 transition-all cursor-pointer"
                 >
                   병실 현황 조회
                 </button>
@@ -146,7 +146,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </div>
 
         {/* 4 Key Trust Metrics Bento Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-12">
           {/* Bento 1 */}
           <div className="p-6 rounded-xl bg-white border border-[#e3e2e0] shadow-sm hover:shadow-md transition-shadow">
             <div className="w-12 h-12 rounded-lg bg-[#e9e8e5] flex items-center justify-center text-[#102a20] mb-4">
@@ -156,7 +156,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               80-Bed Luxury Suite
             </div>
             <p className="text-[13px] text-[#424844] leading-relaxed">
-              전 병상 최고급 전동 모션베드 및 개인별 맞춤 피톤치드 스마트 항균 공조 시스템
+              전 병상 전동 모션베드와 병실별 공기청정·환기 설비
             </p>
           </div>
 
@@ -169,7 +169,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               1:1 Integrative Oncology
             </div>
             <p className="text-[13px] text-[#424844] leading-relaxed">
-              의사·한의사 복수면허 전문의와 임상 간호인력의 365일 체계적인 협진 암면역 로드맵
+              의사·한의사 복수면허 의료진과 간호인력이 함께 보는 365일 협진 진료 계획
             </p>
           </div>
 
@@ -179,10 +179,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <span className="material-symbols-outlined text-[26px]">compost</span>
             </div>
             <div className="font-serif text-[18px] text-[#102a20] font-semibold mb-1">
-              100% GAP Certified
+              GAP·hGMP 규격 약재
             </div>
             <p className="text-[13px] text-[#424844] leading-relaxed">
-              중금속·잔류농약 불검출 공인 성적서 발급, 원내 스마트 옹기 무압력 추출 탕제
+              중금속·잔류농약 시험 성적서를 로트별로 보관하는 원내 옹기 무압력 추출 탕제 (예시 표기)
             </p>
           </div>
 
@@ -195,7 +195,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               24h Medical Network
             </div>
             <p className="text-[13px] text-[#424844] leading-relaxed">
-              24시간 당직의 및 간호사 상주, 서울성모·삼성서울·국립암센터 안심 앰뷸런스 핫라인
+              24시간 당직의 및 간호사 상주, 인근 대형병원 (가상 협력망) 응급 이송 핫라인
             </p>
           </div>
         </div>

@@ -14,10 +14,10 @@ export const SafetyDeclaration: React.FC<SafetyDeclarationProps> = ({ onOpenSafe
             PATIENT INTEGRITY FIRST
           </span>
           <h2 className="font-serif text-[28px] lg:text-[34px] text-[#1c1c19]">
-            온새미로 5대 무결점 환자 안심 시스템
+            온새미로 5대 환자 안심 시스템
           </h2>
           <p className="text-[14px] leading-relaxed text-[#4d463c]">
-            의료의 기본은 안전입니다. 타협 없는 감염 관리와 전문의 실명 책임제로 어떠한 타협도 허용하지 않습니다.
+            의료의 기본은 안전입니다. 감염 관리와 전문의 실명 책임제를 원칙으로 수술 환경을 운영합니다.
           </p>
         </div>
 
@@ -68,10 +68,10 @@ export const SafetyDeclaration: React.FC<SafetyDeclarationProps> = ({ onOpenSafe
             </div>
             <div>
               <h4 className="text-[16px] font-serif font-semibold text-[#1c1c19]">
-                온새미로 환자 권리 장전 &amp; 무결점 안심 서약서
+                온새미로 환자 권리 장전 &amp; 안심 서약서
               </h4>
               <p className="text-[13px] text-[#4d463c]">
-                의료사고 0건, 대리수술 원천 배제 200% 보증 서약 전문을 투명하게 공개합니다.
+                상담한 의사가 직접 집도한다는 실명 집도 원칙과 안전 관리 서약 전문을 공개합니다.
               </p>
             </div>
           </div>

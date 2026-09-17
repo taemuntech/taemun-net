@@ -19,7 +19,7 @@ export const VipRecoveryCare: React.FC = () => {
               <span className="italic text-[#725b38] font-serif">1인 VIP 메디컬 케어 라운지</span>
             </h2>
             <p className="text-[14px] leading-relaxed text-[#4d463c]">
-              온새미로는 수술실 밖을 나서는 순간부터 진정한 결과가 만들어진다고 믿습니다. 타인과의 마주침이 전혀 없는 100% 단독 1인 프라이빗 스위트에서 빠른 회복을 위한 최첨단 메디컬 케어를 제공합니다.
+              온새미로는 수술실 밖을 나서는 순간부터 회복이 시작된다고 봅니다. 타인과 마주치지 않는 단독 1인 프라이빗 스위트에서 회복기 메디컬 케어를 제공합니다. 회복 속도와 경과는 개인차가 있습니다.
             </p>
 
             {/* 3-Stage Quick Specs */}
@@ -39,7 +39,7 @@ export const VipRecoveryCare: React.FC = () => {
                 <div>
                   <span className="text-[15px] font-semibold text-[#1c1c19]">고압산소 챔버 (Hyperbaric 2.0 ATA)</span>
                   <p className="text-[13px] text-[#4d463c] mt-0.5">
-                    혈장 내 용해 산소 농도를 10배 이상 끌어올려 미세혈관 신생 및 붓기 70% 가속 완화
+                    2.0 ATA 가압 환경에서 진행하는 회복기 산소 관리 프로그램 (효과는 개인차가 있습니다)
                   </p>
                 </div>
               </div>
@@ -47,9 +47,9 @@ export const VipRecoveryCare: React.FC = () => {
               <div className="flex items-start gap-3 p-3.5 rounded-xl bg-[#ffffff] border border-[#d1c5b8]/30 shadow-sm">
                 <span className="material-symbols-outlined text-[#725b38] text-[20px] mt-0.5">lightbulb</span>
                 <div>
-                  <span className="text-[15px] font-semibold text-[#1c1c19]">스마트 힐라이트 II (Healite II) 듀얼 파장</span>
+                  <span className="text-[15px] font-semibold text-[#1c1c19]">저출력 LED 광(光) 케어 · 듀얼 파장</span>
                   <p className="text-[13px] text-[#4d463c] mt-0.5">
-                    830nm + 590nm 복합 파장으로 섬유아세포 활성화 및 흉터 예방
+                    830nm + 590nm 복합 파장을 쓰는 회복기 피부 관리 프로그램
                   </p>
                 </div>
               </div>
@@ -85,12 +85,12 @@ export const VipRecoveryCare: React.FC = () => {
         <div className="bg-[#ffffff] rounded-3xl p-6 lg:p-8 shadow-sm border border-[#d1c5b8]/30">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
             <span className="font-serif text-[18px] font-semibold text-[#1c1c19]">
-              14일 쾌속 붓기 완화 로드맵
+              14일 회복 관리 로드맵
             </span>
             <div className="flex flex-wrap items-center gap-2">
               <button
                 onClick={() => setActiveDay('day0')}
-                className={`px-4 py-1.5 rounded-full text-[12px] font-semibold transition-all cursor-pointer ${
+                className={`px-4 py-1.5 min-h-[44px] inline-flex items-center rounded-full text-[12px] font-semibold transition-all cursor-pointer ${
                   activeDay === 'day0'
                     ? 'bg-[#1A1817] text-[#fdf9f5]'
                     : 'bg-[#f1ede9] text-[#1c1c19] hover:bg-[#ebe7e4]'
@@ -100,7 +100,7 @@ export const VipRecoveryCare: React.FC = () => {
               </button>
               <button
                 onClick={() => setActiveDay('day3')}
-                className={`px-4 py-1.5 rounded-full text-[12px] font-semibold transition-all cursor-pointer ${
+                className={`px-4 py-1.5 min-h-[44px] inline-flex items-center rounded-full text-[12px] font-semibold transition-all cursor-pointer ${
                   activeDay === 'day3'
                     ? 'bg-[#1A1817] text-[#fdf9f5]'
                     : 'bg-[#f1ede9] text-[#1c1c19] hover:bg-[#ebe7e4]'
@@ -110,7 +110,7 @@ export const VipRecoveryCare: React.FC = () => {
               </button>
               <button
                 onClick={() => setActiveDay('day7')}
-                className={`px-4 py-1.5 rounded-full text-[12px] font-semibold transition-all cursor-pointer ${
+                className={`px-4 py-1.5 min-h-[44px] inline-flex items-center rounded-full text-[12px] font-semibold transition-all cursor-pointer ${
                   activeDay === 'day7'
                     ? 'bg-[#1A1817] text-[#fdf9f5]'
                     : 'bg-[#f1ede9] text-[#1c1c19] hover:bg-[#ebe7e4]'
@@ -120,7 +120,7 @@ export const VipRecoveryCare: React.FC = () => {
               </button>
               <button
                 onClick={() => setActiveDay('day14')}
-                className={`px-4 py-1.5 rounded-full text-[12px] font-semibold transition-all cursor-pointer ${
+                className={`px-4 py-1.5 min-h-[44px] inline-flex items-center rounded-full text-[12px] font-semibold transition-all cursor-pointer ${
                   activeDay === 'day14'
                     ? 'bg-[#1A1817] text-[#fdf9f5]'
                     : 'bg-[#f1ede9] text-[#1c1c19] hover:bg-[#ebe7e4]'
@@ -153,7 +153,7 @@ export const VipRecoveryCare: React.FC = () => {
             </div>
 
             <div className="shrink-0 p-5 rounded-xl bg-[#ffffff] shadow-sm border border-[#d1c5b8]/30 flex flex-col gap-1 min-w-[210px] items-center text-center">
-              <span className="text-[12px] text-[#4d463c]">붓기 잔여율 예측</span>
+              <span className="text-[12px] text-[#4d463c] break-keep">붓기 잔여율 (예시 · 개인차 있음)</span>
               <span className="font-serif text-[38px] font-bold text-[#725b38] leading-none my-1">
                 {currentStage.residualEdemaPct}%
               </span>

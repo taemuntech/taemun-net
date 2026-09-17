@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { LensMode, Language } from '../types';
+import { OUTCOME_DISCLAIMER } from '../constants';
 
 interface LensSimulatorProps {
   language: Language;
@@ -24,8 +25,8 @@ export const LensSimulator: React.FC<LensSimulatorProps> = ({ language, onNaviga
             </h2>
             <p className="font-body-lg text-[14px] lg:text-[17px] text-on-surface-variant mt-2 leading-relaxed">
               {language === 'KR'
-                ? '원거리, 중간거리, 근거리를 직접 비교해 보고, 내 생활 패턴과 취미에 가장 적합한 프리미엄 다초점 인공수정체를 체험해 보세요.'
-                : 'Experience interactive simulated vision across near, intermediate, and far distances with Monofocal, EDOF, and Multifocal IOLs.'}
+                ? '인공수정체 종류에 따라 원 · 중 · 근거리가 어떻게 달라지는지 보여 주는 참고용 시뮬레이션입니다. 실제로 보이는 정도는 사람마다 다릅니다.'
+                : 'A reference simulation of how near, intermediate, and far vision differ by IOL type. Actual vision varies between individuals.'}
             </p>
           </div>
 
@@ -35,7 +36,7 @@ export const LensSimulator: React.FC<LensSimulatorProps> = ({ language, onNaviga
               <button
                 type="button"
                 onClick={() => setLensMode('mono')}
-                className={`px-3.5 lg:px-4 py-2 rounded-lg font-headline-sm text-[13px] lg:text-[14px] transition-all cursor-pointer ${
+                className={`px-3.5 lg:px-4 py-2 min-h-[44px] inline-flex items-center rounded-lg font-headline-sm text-[13px] lg:text-[14px] transition-all cursor-pointer ${
                   lensMode === 'mono'
                     ? 'bg-surface-container-lowest text-primary font-bold shadow-sm'
                     : 'text-on-surface-variant hover:text-on-surface font-medium'
@@ -46,7 +47,7 @@ export const LensSimulator: React.FC<LensSimulatorProps> = ({ language, onNaviga
               <button
                 type="button"
                 onClick={() => setLensMode('edof')}
-                className={`px-3.5 lg:px-4 py-2 rounded-lg font-headline-sm text-[13px] lg:text-[14px] transition-all cursor-pointer ${
+                className={`px-3.5 lg:px-4 py-2 min-h-[44px] inline-flex items-center rounded-lg font-headline-sm text-[13px] lg:text-[14px] transition-all cursor-pointer ${
                   lensMode === 'edof'
                     ? 'bg-surface-container-lowest text-primary font-bold shadow-sm'
                     : 'text-on-surface-variant hover:text-on-surface font-medium'
@@ -57,7 +58,7 @@ export const LensSimulator: React.FC<LensSimulatorProps> = ({ language, onNaviga
               <button
                 type="button"
                 onClick={() => setLensMode('multi')}
-                className={`px-3.5 lg:px-4 py-2 rounded-lg font-headline-sm text-[13px] lg:text-[14px] transition-all cursor-pointer ${
+                className={`px-3.5 lg:px-4 py-2 min-h-[44px] inline-flex items-center rounded-lg font-headline-sm text-[13px] lg:text-[14px] transition-all cursor-pointer ${
                   lensMode === 'multi'
                     ? 'bg-surface-container-lowest text-primary font-bold shadow-sm'
                     : 'text-on-surface-variant hover:text-on-surface font-medium'
@@ -90,14 +91,14 @@ export const LensSimulator: React.FC<LensSimulatorProps> = ({ language, onNaviga
                 }`}
                referrerPolicy="no-referrer" />
               <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-sm font-label-numeric text-[12px] font-bold text-primary shadow">
-                {lensMode === 'mono' ? '흐림 (돋보기 필요)' : lensMode === 'edof' ? '약간 흐림 (보조)' : '선명 (안경 프리)'}
+                {lensMode === 'mono' ? '흐림 (돋보기 필요)' : lensMode === 'edof' ? '약간 흐림 (보조)' : '선명 (시뮬레이션)'}
               </div>
             </div>
 
             <div className="p-4 font-body-sm text-[13px] text-on-surface-variant leading-relaxed">
               {lensMode === 'mono' && '초점이 원거리에 맞춰져 근거리 글자가 심하게 뭉개지며 돋보기 착용이 반드시 필요합니다.'}
               {lensMode === 'edof' && '중간거리 중심 설계로 일반 글씨는 식별 가능하나 약봉투 등 미세 글씨는 돋보기가 도움될 수 있습니다.'}
-              {lensMode === 'multi' && '자이스 프리미엄 4초점 광학 설계로 돋보기 없이도 카카오톡, 신문, 책을 또렷하게 읽을 수 있습니다.'}
+              {lensMode === 'multi' && '다초점 광학 설계로 근거리 돋보기 의존도를 줄이는 것을 목표로 합니다. 읽히는 글자 크기와 밝기 조건에 따라 차이가 있습니다.'}
             </div>
           </div>
 
@@ -126,7 +127,7 @@ export const LensSimulator: React.FC<LensSimulatorProps> = ({ language, onNaviga
 
             <div className="p-4 font-body-sm text-[13px] text-on-surface-variant leading-relaxed">
               {lensMode === 'mono' && '컴퓨터 모니터와 차량 계기판이 다소 흐릿하게 보여 장시간 사무 작업 시 피로도가 발생합니다.'}
-              {lensMode === 'edof' && 'EDOF(확장 연속 초점) 특화 영역으로 모니터와 주방 싱크대, 차량 내비게이션이 매우 깨끗합니다.'}
+              {lensMode === 'edof' && 'EDOF(확장 연속 초점)가 주로 담당하는 구간으로, 모니터 · 주방 · 차량 내비게이션 거리에서 비교적 편안합니다.'}
               {lensMode === 'multi' && '연속 초점 연결 구역으로 끊김 없는 부드러운 초점 전환을 지원하여 컴퓨터 작업이 편안합니다.'}
             </div>
           </div>
@@ -153,11 +154,19 @@ export const LensSimulator: React.FC<LensSimulatorProps> = ({ language, onNaviga
             </div>
 
             <div className="p-4 font-body-sm text-[13px] text-on-surface-variant leading-relaxed">
-              {lensMode === 'mono' && '빛을 나누지 않고 원거리에 100% 집중하므로 야간 운전 시 번짐 없이 가장 선명한 시야를 제공합니다.'}
-              {lensMode === 'edof' && '비회절형 렌즈 설계로 야간 헤드라이트 빛번짐이 거의 없어 야간 고속도로 운전에 매우 탁월합니다.'}
-              {lensMode === 'multi' && '원거리 표지판과 풍경이 또렷하며, 초기 미세 링 빛번짐은 뇌의 시각 적응(Neuroadaptation)을 통해 완화됩니다.'}
+              {lensMode === 'mono' && '빛을 나누지 않고 원거리에 초점을 모으는 설계라, 야간 운전에서 빛번짐이 비교적 적은 편입니다.'}
+              {lensMode === 'edof' && '비회절형 렌즈 설계로 야간 헤드라이트 빛번짐이 상대적으로 적은 편이라 야간 운전이 잦은 분들이 많이 선택합니다.'}
+              {lensMode === 'multi' && '원거리 표지판과 풍경을 담당하는 구간입니다. 초기에는 불빛 주변에 미세한 링 빛번짐이 보일 수 있고, 적응 기간과 정도에는 개인차가 있습니다.'}
             </div>
           </div>
+        </div>
+
+        {/* 시술 효과를 이미지로 보여 주는 구역이라 같은 화면에 고지를 둔다 (의료법 제56조 제2항) */}
+        <div className="mb-10 p-4 lg:p-5 rounded-xl bg-surface-container-high border border-outline-variant/50 flex items-start gap-3 break-keep">
+          <span className="material-symbols-outlined text-[20px] text-on-surface-variant shrink-0 mt-0.5">info</span>
+          <p className="font-body-sm text-[12px] lg:text-[13px] text-on-surface-variant leading-relaxed">
+            {OUTCOME_DISCLAIMER} 위 사진은 초점 거리 차이를 설명하기 위해 흐림 효과를 입힌 연출 이미지이며, 실제 수술 전후 사진이 아닙니다.
+          </p>
         </div>
 
         {/* Selected Mode Summary Card */}
@@ -165,21 +174,21 @@ export const LensSimulator: React.FC<LensSimulatorProps> = ({ language, onNaviga
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
               <span className="px-3 py-1 rounded-full bg-primary-fixed text-primary font-label-caps text-[11px] font-bold">
-                {lensMode === 'mono' ? '경제적 선택' : lensMode === 'edof' ? '활동적 중장년' : '최고급 올인원'}
+                {lensMode === 'mono' ? '경제적 선택' : lensMode === 'edof' ? '활동적 중장년' : '프리미엄 올인원'}
               </span>
               <span className="font-headline-sm text-[18px] font-bold text-on-surface">
                 {lensMode === 'mono' && '단초점 인공수정체 (Monofocal)'}
                 {lensMode === 'edof' && '연속초점 인공수정체 (EDOF / Extended Depth of Focus)'}
-                {lensMode === 'multi' && '자이스 프리미엄 4초점 다초점 인공수정체 (Zeiss Trifocal/Quad)'}
+                {lensMode === 'multi' && '프리미엄 다초점(4초점) 인공수정체'}
               </span>
             </div>
             <p className="font-body-md text-[14px] text-on-surface-variant leading-relaxed">
               {lensMode === 'mono' &&
                 '건강보험 적용으로 수술 비용 부담이 적으며 원거리가 매우 깨끗하지만, 독서나 스마트폰 등 일상 근거리 작업 시 돋보기 안경 착용이 필수적입니다.'}
               {lensMode === 'edof' &&
-                '빛번짐을 줄이면서 중간거리(컴퓨터/계기판)부터 원거리까지 부드럽게 연결해 골프, 야간 운전, 오피스 업무를 즐기시는 분들에게 가장 만족도가 높습니다.'}
+                '빛번짐을 줄이면서 중간거리(컴퓨터 · 계기판)부터 원거리까지 이어 주는 설계라, 골프 · 야간 운전 · 사무 업무가 많은 분들이 많이 선택합니다.'}
               {lensMode === 'multi' &&
-                '근거리, 중간거리, 원거리를 모두 커버하여 수술 후 돋보기 안경 의존도를 95% 이상 획기적으로 줄여주며, 완벽한 자유로운 일상을 되찾아 드립니다.'}
+                '근거리 · 중간거리 · 원거리를 함께 담당하는 설계로, 수술 후 돋보기 의존도를 크게 줄이는 것을 목표로 합니다. 다만 빛번짐 · 대비감도 저하가 나타날 수 있고 결과에는 개인차가 있습니다.'}
             </p>
           </div>
 
@@ -187,7 +196,7 @@ export const LensSimulator: React.FC<LensSimulatorProps> = ({ language, onNaviga
             <button
               type="button"
               onClick={onNavigateBooking}
-              className="w-full lg:w-auto px-6 py-3.5 rounded-xl bg-primary text-on-primary font-headline-sm text-[14px] font-bold hover:bg-primary-container hover:text-on-primary-container transition-all shadow cursor-pointer text-center"
+              className="w-full lg:w-auto px-6 py-3.5 min-h-[44px] rounded-xl bg-primary text-on-primary font-headline-sm text-[14px] font-bold hover:bg-primary-container hover:text-on-primary-container transition-all shadow cursor-pointer text-center"
             >
               노안·백내장 1:1 맞춤 정밀 상담
             </button>

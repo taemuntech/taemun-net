@@ -7,7 +7,7 @@ const DEMO_METADATA: Metadata = sampleMetadata({
   slug: 'the-noble-dermatology',
   title: 'THE NOBLE (더 노블 청담 피부과의원) — 안티에이징 & 프라이빗 리프팅 센터',
   description:
-    '태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 의료기관이 아니며 진료 예약은 접수되지 않습니다. 울쎄라·써마지 정품 팁 실시간 시리얼 조회 모듈, 마크뷰 4종 광원 정밀 피부 진단기 쇼케이스, 1인 단독 독립 VIP 케어룸 및 맞춤형 모바일 사전 문진 예약 시스템을 한 페이지에 담았습니다.',
+    '태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 의료기관이 아니며 진료 예약은 접수되지 않습니다. 1회용 멸균 소모품 번호 조회 위젯, 4광원 피부 영상 분석 쇼케이스, 1인 단독 독립 VIP 케어룸 안내와 맞춤형 모바일 사전 문진 예약 화면을 한 페이지에 담았습니다.',
 });
 
 export function generateMetadata(): Promise<Metadata> {

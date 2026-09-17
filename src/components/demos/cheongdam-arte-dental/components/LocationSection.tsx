@@ -78,7 +78,7 @@ export const LocationSection: React.FC = () => {
                   건물 1층 전용 발렛 부스 상시 대기
                 </span>
                 <span className="text-xs text-[#4e4639] block mt-0.5">
-                  진료 및 수술 환자분들께는 전액 무료 VIP 발렛 주차권이 제공됩니다.
+                  건물 주차장과 발렛 이용 방법은 예약 시 데스크에서 안내해 드립니다.
                 </span>
               </div>
             </div>
@@ -94,7 +94,7 @@ export const LocationSection: React.FC = () => {
                 </span>
                 <a 
                   href="#booking-section"
-                  className="text-base font-serif font-bold text-[#775a19] hover:underline block mt-0.5"
+                  className="text-base font-serif font-bold text-[#775a19] hover:underline flex items-center min-h-11 mt-0.5"
                 >
                   02-0000-0000
                 </a>
@@ -107,23 +107,24 @@ export const LocationSection: React.FC = () => {
 
           {/* Quick Route Links */}
           <div className="pt-6 border-t border-[#d1c5b4]/30 grid grid-cols-2 gap-3">
+            {/* 가상 주소라 병원은 검색되지 않는다 — 실제로 존재하는 인근 역을 열어 준다 */}
             <a
-              href="https://map.naver.com"
+              href="https://map.naver.com/p/search/압구정로데오역"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2.5 rounded-xl bg-[#03C75A]/10 text-[#03C75A] text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#03C75A]/20 transition-colors"
+              className="px-4 py-2.5 min-h-11 rounded-xl bg-[#03C75A]/10 text-[#03C75A] text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#03C75A]/20 transition-colors"
             >
-              <span>네이버 지도 길찾기</span>
-              <ExternalLink className="w-3.5 h-3.5" />
+              <span>네이버 지도에서 역 보기</span>
+              <ExternalLink className="w-3.5 h-3.5 shrink-0" />
             </a>
             <a
-              href="https://map.kakao.com"
+              href="https://map.kakao.com/?q=압구정로데오역"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2.5 rounded-xl bg-[#FEE500]/30 text-[#3C1E1E] text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#FEE500]/50 transition-colors"
+              className="px-4 py-2.5 min-h-11 rounded-xl bg-[#FEE500]/30 text-[#3C1E1E] text-xs font-bold flex items-center justify-center gap-1.5 hover:bg-[#FEE500]/50 transition-colors"
             >
-              <span>카카오맵 길찾기</span>
-              <ExternalLink className="w-3.5 h-3.5" />
+              <span>카카오맵에서 역 보기</span>
+              <ExternalLink className="w-3.5 h-3.5 shrink-0" />
             </a>
           </div>
         </div>
@@ -155,7 +156,7 @@ export const LocationSection: React.FC = () => {
                 청담 아르떼 치과의원
               </span>
               <span className="text-[11px] text-[#4e4639] block mt-0.5">
-                압구정로데오역 3번 출구 도보 3분 • VIP 무료 발렛
+                압구정로데오역 3번 출구 도보 3분 • 1F 발렛 데스크
               </span>
             </div>
           </div>
@@ -163,7 +164,7 @@ export const LocationSection: React.FC = () => {
           {/* Map Controls Floating Badge */}
           <div className="absolute bottom-6 right-6 px-4 py-2 rounded-xl bg-white/90 backdrop-blur-sm text-xs font-semibold text-[#1a1c1a] shadow-md border border-[#d1c5b4]/40 flex items-center gap-2">
             <Compass className="w-4 h-4 text-[#775a19]" />
-            <span>강남구 청담동 88-1 일대</span>
+            <span>예시 지도 · 실제 위치가 아닙니다</span>
           </div>
         </div>
       </div>

@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { HOSPITAL_IMAGES } from '../data/hospitalData';
+import { PolicyKey, PolicyModal } from './modals/PolicyModal';
+
+const POLICY_LINKS: Array<{ key: PolicyKey; label: string }> = [
+  { key: 'terms', label: '이용약관' },
+  { key: 'privacy', label: '개인정보처리방침' },
+  { key: 'nonCovered', label: '비급여 진료비용' },
+  { key: 'rights', label: '환자의 권리와 의무' },
+];
 
 export const Footer: React.FC = () => {
+  const [openPolicy, setOpenPolicy] = useState<PolicyKey | null>(null);
+
   return (
     <footer className="w-full bg-[#102a20] text-[#e9e8e5] pt-14 pb-10 border-t border-[#264035]">
       <div className="max-w-[1360px] mx-auto px-4 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-cols-12 gap-8 pb-10 border-b border-[#264035]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-10 border-b border-[#264035]">
           {/* Col 1: Brand & Philosophy */}
           <div className="lg:col-span-4 space-y-4">
             <div className="flex items-center gap-3">
@@ -24,19 +34,19 @@ export const Footer: React.FC = () => {
               </div>
             </div>
 
-            <p className="text-[13px] text-[#b0cdbe] leading-relaxed">
-              비움과 채움의 치유 미학. 보건복지부 규격 80병상 의·한의 통합 암면역·수술재활 메디컬 센터로서 암 환자의 존엄한 회복과 일상 복귀를 온 마음으로 섬깁니다.
+            <p className="text-[13px] text-[#b0cdbe] leading-relaxed break-keep">
+              비움과 채움의 치유 미학. 80병상 입원 병동을 갖춘 의·한의 통합 진료 병원으로, 치료 기간과 회복기를 함께 보내는 것을 일로 삼습니다.
             </p>
 
-            <div className="flex items-center gap-3 text-[12px] text-[#cbe9da]">
+            <div className="flex items-center gap-3 text-[12px] text-[#cbe9da] break-keep">
               <span className="flex items-center gap-1">
                 <span className="material-symbols-outlined text-[16px]">verified</span>
-                <span>보건복지부 인증 규격 병원</span>
+                <span>의·한의 협진 80병상</span>
               </span>
               <span>•</span>
               <span className="flex items-center gap-1">
                 <span className="material-symbols-outlined text-[16px]">local_pharmacy</span>
-                <span>식약처 hGMP 조제 규격</span>
+                <span>hGMP 규격 약재 사용 (예시 표기)</span>
               </span>
             </div>
           </div>
@@ -93,34 +103,47 @@ export const Footer: React.FC = () => {
         {/* Bottom Legal, Registration & Disclaimer */}
         <div className="pt-6 space-y-3 text-[11px] text-[#8fab9d] leading-relaxed">
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-            <span>의료기관명: 의료법인 본초의료재단 본초통합한방병원</span>
-            <span>대표자: 정원석 (의사·한의사 복수면허 전문의)</span>
+            <span>의료기관명: 의료법인 본초의료재단 본초통합한방병원 (가상 브랜드)</span>
+            <span>대표자: 정원석 (의사·한의사 복수면허 · 예시)</span>
             <span>사업자등록번호: 000-00-00000 (샘플용)</span>
             <span>의료기관 개설허가번호: 제0000-00000호 (예시)</span>
           </div>
 
           <p>
-            소재지: 서울특별시 서초구 반포대로 180 (서초동, 본초빌딩 전관 1층~7층) | 개인정보보호책임자: 김세연
+            소재지: 서울특별시 서초구 반포대로 180 (서초동, 본초빌딩 전관 1층~7층) | 개인정보보호책임자: 표기 자리 (예시)
           </p>
 
           <div className="bg-white/5 p-2.5 rounded-lg text-[#cbe9da] text-[11px] mb-3 border border-[#264035]">
             [포트폴리오 가상 시안 고지] 이 웹사이트는 태문 DEV STUDIO 가 제작한 가상 브랜드 샘플입니다. 실제 의료기관이 아니며 진료 예약이나 개인정보는 일절 수집·접수되지 않습니다.
           </div>
-          <p className="text-[#727974] pt-2 border-t border-[#264035]/60">
-            [의료법령 준수 고지] 본 웹사이트의 모든 치료 후기, 치료법 소개 및 전후 사례는 의료법 제56조 및 동법 시행령을 준수하여 작성되었습니다. 개인의 체질과 기저 질환에 따라 치료 결과에 차이가 있을 수 있으며, 진료 전 의료진과의 충분한 상담이 필요합니다.
+          {/* 예전 문구는 「모든 치료 후기와 전후 사례」를 준수해 작성했다고 적었는데, 이 화면에는 후기도 전후
+              사진도 없다 — 없는 것을 있다고 고지하면 그 자체가 거짓 표시다. 실제로 지키는 내용만 남긴다. */}
+          <p className="text-[#727974] pt-2 border-t border-[#264035]/60 break-keep">
+            [의료광고 관련 고지] 의료법 제56조 제2항에 따라 이 웹사이트에는 치료경험담·환자 후기, 시술 전후
+            비교 사진, 다른 의료기관과의 비교, 치료 효과를 단정하는 표현을 싣지 않습니다. 화면의 치료 소개는
+            일반적인 안내이며, 개인의 체질과 기저 질환에 따라 경과가 다르고 부작용이 생길 수 있어 진료 전
+            의료진과의 상담이 필요합니다.
           </p>
 
-          <div className="flex items-center justify-between pt-2 text-[#727974]">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-2 pt-2 text-[#727974]">
             <div>© 2026 BONCHO INTEGRATIVE KOREAN MEDICINE HOSPITAL. ALL RIGHTS RESERVED.</div>
-            <div className="flex gap-4">
-              <span className="hover:text-white cursor-pointer">이용약관</span>
-              <span className="hover:text-white cursor-pointer font-semibold text-[#8fab9d]">개인정보처리방침</span>
-              <span className="hover:text-white cursor-pointer">비급여수가안내</span>
-              <span className="hover:text-white cursor-pointer">환자의권리와의무</span>
+            <div className="flex flex-wrap gap-x-4 gap-y-1">
+              {POLICY_LINKS.map((link) => (
+                <button
+                  key={link.key}
+                  type="button"
+                  onClick={() => setOpenPolicy(link.key)}
+                  className="hover:text-white underline underline-offset-2 max-lg:min-h-[44px] cursor-pointer"
+                >
+                  {link.label}
+                </button>
+              ))}
             </div>
           </div>
         </div>
       </div>
+
+      <PolicyModal openKey={openPolicy} onClose={() => setOpenPolicy(null)} />
     </footer>
   );
 };

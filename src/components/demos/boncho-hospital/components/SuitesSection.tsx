@@ -1,5 +1,5 @@
 import React from 'react';
-import { HOSPITAL_IMAGES } from '../data/hospitalData';
+import { AVAILABLE_HARMONY, AVAILABLE_ROYAL, HOSPITAL_IMAGES } from '../data/hospitalData';
 
 interface SuitesSectionProps {
   onSelectRoom: (roomType: 'royal' | 'harmony') => void;
@@ -34,16 +34,16 @@ export const SuitesSection: React.FC<SuitesSectionProps> = ({
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-[#264035] animate-pulse"></span>
               <div>
-                <div className="text-[11px] text-[#424844]">1인실 로열 잔여</div>
-                <div className="text-[15px] text-[#102a20] font-bold">2 실 가능</div>
+                <div className="text-[11px] text-[#424844]">1인실 로열 잔여(예시)</div>
+                <div className="text-[15px] text-[#102a20] font-bold">{AVAILABLE_ROYAL} 실</div>
               </div>
             </div>
             <span className="text-[#c2c8c3] opacity-60">|</span>
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-[#75593c] animate-pulse"></span>
               <div>
-                <div className="text-[11px] text-[#424844]">2인실 하모니 잔여</div>
-                <div className="text-[15px] text-[#75593c] font-bold">3 실 가능</div>
+                <div className="text-[11px] text-[#424844]">2인실 하모니 잔여(예시)</div>
+                <div className="text-[15px] text-[#75593c] font-bold">{AVAILABLE_HARMONY} 병상</div>
               </div>
             </div>
           </div>
@@ -70,7 +70,7 @@ export const SuitesSection: React.FC<SuitesSectionProps> = ({
                 {/* 360 virtual tour button overlay */}
                 <button
                   onClick={() => onOpenTour('royal')}
-                  className="absolute top-4 right-4 bg-white/90 hover:bg-white text-[#102a20] px-2.5 py-1.5 rounded-lg text-[12px] font-semibold flex items-center gap-1 shadow cursor-pointer transition-colors"
+                  className="absolute top-4 right-4 bg-white/90 hover:bg-white text-[#102a20] px-2.5 py-1.5 max-lg:min-h-[44px] max-lg:px-3.5 rounded-lg text-[12px] font-semibold flex items-center gap-1 shadow cursor-pointer transition-colors"
                 >
                   <span className="material-symbols-outlined text-[16px]">view_in_ar</span>
                   <span>360° 투어</span>
@@ -88,7 +88,7 @@ export const SuitesSection: React.FC<SuitesSectionProps> = ({
                 </div>
 
                 <p className="text-[14px] text-[#424844] leading-relaxed">
-                  가족 및 보호자가 함께 머물러도 넉넉한 공간. 전용 프라이빗 테라스 정원과 개별 샤워부스, 다이슨 퓨어쿨 공기청정기가 24시간 쾌적함을 선사합니다.
+                  가족 및 보호자가 함께 머물러도 넉넉한 공간. 전용 프라이빗 테라스 정원과 개별 샤워부스, 고성능 공기청정기를 갖췄습니다.
                 </p>
 
                 <div className="grid grid-cols-2 gap-2.5 pt-2">
@@ -106,7 +106,7 @@ export const SuitesSection: React.FC<SuitesSectionProps> = ({
                   </div>
                   <div className="flex items-center gap-2 text-[13px] text-[#1a1c1a] bg-[#f4f3f0] p-2.5 rounded-lg">
                     <span className="material-symbols-outlined text-[#102a20] text-[18px]">shower</span>
-                    <span>개별 비데 &amp; 최고급 샤워실</span>
+                    <span>개별 비데 &amp; 개인 샤워실</span>
                   </div>
                 </div>
               </div>
@@ -136,7 +136,7 @@ export const SuitesSection: React.FC<SuitesSectionProps> = ({
               <div className="relative overflow-hidden">
                 <img
                   className="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-103"
-                  alt="2인실 하모니 스위트 완벽 차음 방음 칸막이"
+                  alt="2인실 하모니 스위트 차음 파티션"
                   src={HOSPITAL_IMAGES.harmonySuite}
                 />
                 <div className="absolute top-4 left-4 bg-[#75593c] text-white px-3 py-1 rounded-md text-[12px] font-semibold tracking-wide">
@@ -149,7 +149,7 @@ export const SuitesSection: React.FC<SuitesSectionProps> = ({
                 {/* 360 virtual tour button overlay */}
                 <button
                   onClick={() => onOpenTour('harmony')}
-                  className="absolute top-4 right-4 bg-white/90 hover:bg-white text-[#75593c] px-2.5 py-1.5 rounded-lg text-[12px] font-semibold flex items-center gap-1 shadow cursor-pointer transition-colors"
+                  className="absolute top-4 right-4 bg-white/90 hover:bg-white text-[#75593c] px-2.5 py-1.5 max-lg:min-h-[44px] max-lg:px-3.5 rounded-lg text-[12px] font-semibold flex items-center gap-1 shadow cursor-pointer transition-colors"
                 >
                   <span className="material-symbols-outlined text-[16px]">view_in_ar</span>
                   <span>360° 투어</span>
@@ -162,12 +162,12 @@ export const SuitesSection: React.FC<SuitesSectionProps> = ({
                     2인실 하모니 스위트
                   </h3>
                   <span className="text-[13px] text-[#102a20] font-semibold">
-                    1인실 같은 완벽한 차음 배려
+                    독립 파티션 차음 설계
                   </span>
                 </div>
 
                 <p className="text-[14px] text-[#424844] leading-relaxed">
-                  천장까지 이어지는 견고한 암막 방음 칸막이 설계로 타 환자의 시선과 소음을 차단하여 2인실에서도 1인실 못지않은 안락한 독립 공간을 제공합니다.
+                  천장까지 이어지는 암막 파티션 설계로 다른 환자의 시선과 생활 소음을 줄여, 2인실에서도 독립적인 공간을 쓰실 수 있습니다.
                 </p>
 
                 <div className="grid grid-cols-2 gap-2.5 pt-2">
@@ -218,19 +218,19 @@ export const SuitesSection: React.FC<SuitesSectionProps> = ({
             </div>
             <div>
               <div className="font-serif text-[18px] text-[#102a20] font-semibold">
-                실손의료보험 &amp; 자동차보험 간편 비용 시뮬레이션
+실손의료보험 &amp; 자동차보험 간편 비용 시뮬레이션
               </div>
               <p className="text-[13px] text-[#424844] mt-0.5">
-                개인 실손보험 가입 시기 및 약관에 따라 입원료·비급여 치료비의 최대 80~100% 실손 적용 가능 범위를 사전 검토해 드립니다.
+                적용 범위는 가입 시기와 약관에 따라 크게 다릅니다. 입력하신 조건으로 대략적인 비용만 그려 보는 예시 도구이며, 실제 지급 여부는 가입하신 보험사에 확인하셔야 합니다.
               </p>
             </div>
           </div>
 
           <button
             onClick={onOpenInsurance}
-            className="shrink-0 px-5 py-2.5 rounded-lg bg-[#102a20] text-white text-[13px] font-semibold hover:bg-[#264035] active:scale-95 transition-all cursor-pointer flex items-center gap-1.5"
+            className="shrink-0 px-5 py-2.5 max-lg:w-full max-lg:justify-center max-lg:min-h-[44px] rounded-lg bg-[#102a20] text-white text-[13px] font-semibold hover:bg-[#264035] active:scale-95 transition-all cursor-pointer flex items-center gap-1.5"
           >
-            <span>실손보험 사전 무료 조회</span>
+            <span>예상 비용 계산해 보기</span>
             <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
           </button>
         </div>

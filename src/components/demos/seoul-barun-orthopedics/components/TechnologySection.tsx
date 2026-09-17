@@ -8,7 +8,7 @@ interface TechnologySectionProps {
 
 export const TechnologySection: React.FC<TechnologySectionProps> = ({ onSelectTechnology }) => {
   return (
-    <section id="spine-center" className="w-full bg-[#FAF9F6] py-12 lg:py-16 scroll-mt-24">
+    <section id="spine-center" className="w-full bg-[#FAF9F6] py-12 lg:py-16 scroll-mt-[132px]">
       <div className="max-w-7xl mx-auto px-4 lg:px-6 lg:px-12">
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-3">
@@ -18,15 +18,15 @@ export const TechnologySection: React.FC<TechnologySectionProps> = ({ onSelectTe
               <span>ADVANCED NON-SURGICAL SPECTRUM</span>
             </div>
             <h2 className="text-2xl lg:text-3xl font-bold text-[#1A1C1A] tracking-tight">
-              조직 재생을 촉진하는 4대 비수술 테크놀로지
+              조직 회복을 돕는 4대 비수술 테크놀로지
             </h2>
             <p className="text-sm lg:text-base text-[#3F493F] mt-1 max-w-2xl">
-              단순 통증 차단을 넘어 인대·신경·관절낭 본연의 재생력을 깨우는 정밀 정형외과급(예시) 첨단 장비 솔루션입니다.
+              단순 통증 차단을 넘어 인대·신경·관절낭의 회복 반응을 돕는 정형외과 장비 구성입니다. 효과와 필요한 횟수는 개인차가 있습니다.
             </p>
           </div>
           <div className="flex items-center gap-1.5 text-[#545F73] text-xs lg:text-sm font-medium self-start lg:self-auto">
             <span className="material-symbols-outlined text-[#00652C] text-[18px]">verified_user</span>
-            <span>국내외 규제기관(예시) 공인 인증 장비</span>
+            <span>의료기기 허가 장비 운용 (예시 표기)</span>
           </div>
         </div>
 
@@ -34,22 +34,31 @@ export const TechnologySection: React.FC<TechnologySectionProps> = ({ onSelectTe
         <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-cols-12 gap-6">
           {/* Tech Card 1: ESWT (Large 7 Cols) */}
           <div
+            role="button"
+            tabIndex={0}
+            aria-label={`${TECHNOLOGIES[0].title} 자세히 보기`}
             onClick={() => onSelectTechnology(TECHNOLOGIES[0])}
-            className="lg:col-span-7 bg-white rounded-2xl p-6 shadow-sm border border-[#E9E8E5] flex flex-col justify-between group hover:shadow-md transition-all cursor-pointer"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onSelectTechnology(TECHNOLOGIES[0]);
+              }
+            }}
+            className="lg:col-span-7 bg-white rounded-2xl p-6 shadow-sm border border-[#E9E8E5] flex flex-col justify-between group hover:shadow-md transition-all cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00652C]"
           >
             <div>
               <div className="flex items-center justify-between mb-3">
                 <span className="px-3 py-1 rounded-full bg-[#00652C]/10 text-[#00652C] text-xs font-bold">
-                  독일 스톨츠사 집중형(Focus) &amp; 방사형(Radial)
+                  집중형(Focus) &amp; 방사형(Radial) 2종 운용
                 </span>
                 <span className="text-xs text-[#6F7A6E] font-mono">TECHNOLOGY 01</span>
               </div>
               <h3 className="text-lg lg:text-xl font-bold text-[#1A1C1A] tracking-tight group-hover:text-[#00652C] transition-colors">
-                고에너지 체외충격파 치료 (Storz Medical ESWT)
+                고에너지 체외충격파 치료 (ESWT)
               </h3>
               <p className="text-xs lg:text-sm text-[#3F493F] mt-2 leading-relaxed">
-                초음파 속도로 전파되는 강력한 음파 에너지가 손상된 힘줄과 인대 조직 깊숙이 침투하여 
-                석회성 침착물을 분쇄하고, 신생 혈관 생성을 촉진하여 자연 치유 과정을 극대화합니다.
+                음파 에너지가 손상된 힘줄과 인대 조직에 전달되어 석회성 침착물에 물리적 자극을 주고,
+                조직의 회복 반응을 돕는 비침습 치료입니다. 반응 정도와 치료 횟수는 개인차가 있습니다.
               </p>
 
               {/* Technical Spec Pills */}
@@ -80,8 +89,17 @@ export const TechnologySection: React.FC<TechnologySectionProps> = ({ onSelectTe
           {/* Tech Card 2: Prolo / PDRN (5 Cols) */}
           <div
             id="joint-cartilage-center"
+            role="button"
+            tabIndex={0}
+            aria-label={`${TECHNOLOGIES[1].title} 자세히 보기`}
             onClick={() => onSelectTechnology(TECHNOLOGIES[1])}
-            className="lg:col-span-5 bg-white rounded-2xl p-6 shadow-sm border border-[#E9E8E5] flex flex-col justify-between group hover:shadow-md transition-all cursor-pointer scroll-mt-24"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onSelectTechnology(TECHNOLOGIES[1]);
+              }
+            }}
+            className="lg:col-span-5 bg-white rounded-2xl p-6 shadow-sm border border-[#E9E8E5] flex flex-col justify-between group hover:shadow-md transition-all cursor-pointer scroll-mt-[132px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00652C]"
           >
             <div>
               <div className="flex items-center justify-between mb-3">
@@ -94,18 +112,18 @@ export const TechnologySection: React.FC<TechnologySectionProps> = ({ onSelectTe
                 프롤로 인대강화 &amp; PDRN DNA 주사
               </h3>
               <p className="text-xs lg:text-sm text-[#3F493F] mt-2 leading-relaxed">
-                실시간 초음파 모니터링을 통해 0.1mm 단위로 미세 손상 인대와 연골 부위를 식별한 뒤, 
-                고농도 포도당 및 연어 추출 DNA 물질을 주입하여 인대 본연의 두께와 탄성을 복원합니다.
+                실시간 초음파 모니터링으로 미세 손상 인대와 연골 부위를 확인한 뒤,
+                고농도 포도당 및 연어 추출 PDRN 성분을 주입하여 인대의 회복 반응을 돕는 치료입니다.
               </p>
 
               <ul className="space-y-2 mt-4">
                 <li className="flex items-center gap-2 text-xs lg:text-sm text-[#1A1C1A]">
                   <span className="material-symbols-outlined text-[#00652C] text-[18px]">check_circle</span>
-                  <span>약화된 만성 인대의 근본적 증식 및 강화</span>
+                  <span>약화된 만성 인대의 증식을 유도하는 주사 치료</span>
                 </li>
                 <li className="flex items-center gap-2 text-xs lg:text-sm text-[#1A1C1A]">
                   <span className="material-symbols-outlined text-[#00652C] text-[18px]">check_circle</span>
-                  <span>스테로이드 미사용(No-Steroid) 안심 처방 원칙</span>
+                  <span>스테로이드 미사용(No-Steroid) 처방 원칙</span>
                 </li>
               </ul>
             </div>
@@ -120,8 +138,17 @@ export const TechnologySection: React.FC<TechnologySectionProps> = ({ onSelectTe
 
           {/* Tech Card 3: C-Arm Nerve Block (5 Cols) */}
           <div
+            role="button"
+            tabIndex={0}
+            aria-label={`${TECHNOLOGIES[2].title} 자세히 보기`}
             onClick={() => onSelectTechnology(TECHNOLOGIES[2])}
-            className="lg:col-span-5 bg-white rounded-2xl p-6 shadow-sm border border-[#E9E8E5] flex flex-col justify-between group hover:shadow-md transition-all cursor-pointer"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onSelectTechnology(TECHNOLOGIES[2]);
+              }
+            }}
+            className="lg:col-span-5 bg-white rounded-2xl p-6 shadow-sm border border-[#E9E8E5] flex flex-col justify-between group hover:shadow-md transition-all cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00652C]"
           >
             <div>
               <div className="flex items-center justify-between mb-3">
@@ -134,8 +161,8 @@ export const TechnologySection: React.FC<TechnologySectionProps> = ({ onSelectTe
                 C-Arm 정밀 영상유도 척추신경차단술
               </h3>
               <p className="text-xs lg:text-sm text-[#3F493F] mt-2 leading-relaxed">
-                움직이는 X-ray라 불리는 첨단 C-Arm을 통해 척추 신경관과 디스크 탈출 부위를 실시간 투시하며, 
-                신경 유착을 박리하고 급성 부종을 즉각 진정시키는 특수 주사 치료법입니다.
+                움직이는 X-ray라 불리는 C-Arm으로 척추 신경관과 디스크 탈출 부위를 실시간 투시하며,
+                신경 유착을 박리하고 급성 부종을 가라앉히는 주사 치료법입니다.
               </p>
 
               <div className="p-3 rounded-xl bg-[#F4F3F1] mt-4 space-y-1.5 border border-[#E9E8E5]">
@@ -160,8 +187,17 @@ export const TechnologySection: React.FC<TechnologySectionProps> = ({ onSelectTe
 
           {/* Tech Card 4: Cryo & High-Intensity Laser (7 Cols) */}
           <div
+            role="button"
+            tabIndex={0}
+            aria-label={`${TECHNOLOGIES[3].title} 자세히 보기`}
             onClick={() => onSelectTechnology(TECHNOLOGIES[3])}
-            className="lg:col-span-7 bg-white rounded-2xl p-6 shadow-sm border border-[#E9E8E5] flex flex-col justify-between group hover:shadow-md transition-all cursor-pointer"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onSelectTechnology(TECHNOLOGIES[3]);
+              }
+            }}
+            className="lg:col-span-7 bg-white rounded-2xl p-6 shadow-sm border border-[#E9E8E5] flex flex-col justify-between group hover:shadow-md transition-all cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00652C]"
           >
             <div>
               <div className="flex items-center justify-between mb-3">
@@ -204,6 +240,12 @@ export const TechnologySection: React.FC<TechnologySectionProps> = ({ onSelectTe
             </div>
           </div>
         </div>
+
+        {/* 의료광고 필수 고지 — 효과·부작용 개인차 */}
+        <p className="mt-6 text-xs text-[#545F73] bg-white border border-[#E9E8E5] rounded-xl p-4 leading-relaxed break-keep">
+          ※ 위 치료의 효과는 환자의 상태에 따라 개인차가 있으며, 통증·부종·멍 등 부작용이 나타날 수 있습니다.
+          치료 방법과 적용 여부는 진료와 검사 결과를 바탕으로 전문의가 판단합니다. 본 화면은 가상 브랜드 샘플이며 실제 진료 정보가 아닙니다.
+        </p>
       </div>
     </section>
   );

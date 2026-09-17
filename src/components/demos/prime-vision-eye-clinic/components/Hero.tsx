@@ -20,16 +20,16 @@ export const Hero: React.FC<HeroProps> = ({ language, onNavigate }) => {
         <div className="flex flex-wrap items-center gap-2 mb-6">
           <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-label-caps text-[11px] lg:text-[12px] font-semibold tracking-wider shadow-sm break-keep">
             <span className="w-2 h-2 rounded-full bg-primary animate-ping shrink-0"></span>
-            <span>CARL ZEISS VISUMAX 800 MASTER CLINIC</span>
+            <span>4TH-GEN FEMTOSECOND LASER CENTER</span>
           </span>
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-secondary font-label-caps text-[11px] lg:text-[12px] font-semibold break-keep">
             <span>30,000+ (예시 수치)</span>
-            <span>{language === 'KR' ? '무사고 수술 케이스' : 'Accident-Free Cases'}</span>
+            <span>{language === 'KR' ? '누적 수술 케이스' : 'Cumulative Cases'}</span>
           </span>
           <span className="hidden lg:inline-flex px-3 py-1 rounded-full bg-surface-container-low text-on-surface-variant font-label-caps text-[11px] lg:text-[12px] break-keep">
             {language === 'KR'
-              ? '국내 명문대(예시) · 세브란스 각막·망막 전임의 팀'
-              : 'Seoul Univ & Severance Subspecialist Team'}
+              ? '각막 · 망막 세부전공 안과 전문의 팀 (예시)'
+              : 'Cornea & Retina Subspecialist Team (sample)'}
           </span>
         </div>
 
@@ -40,7 +40,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onNavigate }) => {
               {language === 'KR' ? (
                 <>
                   눈부신 세상의 디테일을 되찾다<br />
-                  <span className="text-primary inline-block">7초의 정밀함, 스마일프로</span>
+                  <span className="text-primary inline-block">절편을 만들지 않는 렌티큘 추출술</span>
                   <span className="text-secondary font-bold text-[22px] lg:text-[34px] ml-1.5 inline-block">
                     &amp; 프리미엄 백내장
                   </span>
@@ -48,7 +48,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onNavigate }) => {
               ) : (
                 <>
                   Rediscover the Brilliance of Sight<br />
-                  <span className="text-primary inline-block">7-Second Precision SMILE Pro</span>
+                  <span className="text-primary inline-block">7-Second Lenticule Extraction</span>
                   <span className="text-secondary font-bold text-[22px] lg:text-[34px] ml-1.5 inline-block">
                     &amp; Premium Cataract
                   </span>
@@ -58,8 +58,8 @@ export const Hero: React.FC<HeroProps> = ({ language, onNavigate }) => {
 
             <p className="font-body-lg text-[15px] lg:text-[17px] text-on-surface-variant leading-relaxed max-w-2xl break-keep">
               {language === 'KR'
-                ? '국내 명문 A대학(예시)병원 · 신촌대학병원(예시) 각막 및 망막 세부전공 안과 전문의 직접 집도. 초고속 2MHz 펄스 자이스 비쥬맥스 800과 50여 가지 정밀 안구 안전 교차 검진으로 각막 손상을 극소화하고 가장 맑은 시야를 완성합니다.'
-                : 'Directly operated by corneal & retinal subspecialist fellows from Seoul National University and Severance Hospital. Leveraging the 2.0MHz ultra-speed Carl Zeiss VisuMax 800 and 50-step cross-checking diagnostics for optimal visual acuity.'}
+                ? '국내 대학병원(예시)에서 각막 및 망막을 세부전공한 안과 전문의가 직접 집도합니다. 펨토초 레이저 장비와 50여 가지 정밀 안구 안전 교차 검진으로 각막에 가는 부담을 줄이도록 설계된 수술 방식입니다. 시력 결과에는 개인차가 있습니다.'
+                : 'Performed by ophthalmologists subspecialised in cornea and retina at a university hospital (sample). A femtosecond laser system and 50-step cross-checking diagnostics are used to limit corneal burden. Outcomes vary between individuals.'}
             </p>
 
             {/* CTAs */}
@@ -86,7 +86,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onNavigate }) => {
             <div className="flex flex-wrap items-center gap-3 lg:gap-6 pt-3 text-on-surface-variant font-body-sm text-[12px] lg:text-[13px] break-keep">
               <div className="flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-primary text-[18px] lg:text-[20px] shrink-0">verified</span>
-                <span>독일 자이스 VisuMax 800 공인 인증</span>
+                <span>펨토초 레이저 장비 운용 (예시)</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-tertiary text-[18px] lg:text-[20px] shrink-0">security</span>
@@ -94,7 +94,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onNavigate }) => {
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-secondary text-[18px] lg:text-[20px] shrink-0">speed</span>
-                <span>검사 후 당일 오후 일상 회복형 수술</span>
+                <span>검사 후 당일 오후 수술 진행 가능 (검진 결과에 따름)</span>
               </div>
             </div>
           </div>
@@ -113,10 +113,10 @@ export const Hero: React.FC<HeroProps> = ({ language, onNavigate }) => {
                 {/* Floating Top HUD Badges */}
                 <div className="absolute top-3 left-3 right-3 lg:top-4 lg:left-4 lg:right-4 flex items-center justify-between pointer-events-none">
                   <span className="px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md font-label-numeric text-[11px] lg:text-[13px] text-primary font-bold shadow-md">
-                    ZEISS VISUMAX 800 · 2.0MHz
+                    FEMTOSECOND LASER
                   </span>
                   <span className="px-2 py-0.5 lg:px-2.5 lg:py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md font-label-numeric text-[11px] lg:text-[12px] text-tertiary font-semibold">
-                    LASER TIME: 07.2s
+                    LASER TIME: SECONDS
                   </span>
                 </div>
 
@@ -128,16 +128,16 @@ export const Hero: React.FC<HeroProps> = ({ language, onNavigate }) => {
                     </div>
                     <div className="break-keep">
                       <div className="font-headline-sm text-[13px] lg:text-[15px] font-bold text-on-surface">
-                        CentraLign® 실시간 동공 추적
+                        실시간 동공 추적 · 자동 중심 정렬
                       </div>
                       <div className="font-body-sm text-[11px] lg:text-[12px] text-on-surface-variant">
-                        오차 없는 시축 중심 정렬 완료 (0.00mm)
+                        시축 중심 정렬 진행 중 (장비 화면 예시)
                       </div>
                     </div>
                   </div>
                   <div className="text-right shrink-0 pl-2">
                     <div className="font-label-numeric text-[15px] lg:text-[16px] font-bold text-primary">99.8%</div>
-                    <div className="font-label-caps text-[9px] lg:text-[10px] text-outline">정밀 시축 일치도</div>
+                    <div className="font-label-caps text-[9px] lg:text-[10px] text-outline">시축 일치도 (예시 수치)</div>
                   </div>
                 </div>
               </div>
@@ -153,15 +153,15 @@ export const Hero: React.FC<HeroProps> = ({ language, onNavigate }) => {
               <span className="p-2.5 rounded-xl bg-primary-fixed text-primary">
                 <span className="material-symbols-outlined text-[24px]">timer</span>
               </span>
-              <span className="font-label-caps text-[11px] text-secondary font-bold">ZEISS TECHNOLOGY</span>
+              <span className="font-label-caps text-[11px] text-secondary font-bold">LASER TECHNOLOGY</span>
             </div>
             <div>
               <div className="flex items-baseline gap-1.5 font-bold tracking-tight">
-                <span className="font-label-numeric text-[26px] lg:text-[30px] text-primary">7초</span>
-                <span className="text-[15px] text-on-surface font-semibold">초고속 레이저</span>
+                <span className="font-label-numeric text-[26px] lg:text-[30px] text-primary">수 초</span>
+                <span className="text-[15px] text-on-surface font-semibold">단위 레이저 조사</span>
               </div>
               <p className="font-body-sm text-[13px] text-on-surface-variant mt-2 leading-relaxed break-keep">
-                단안 기준 7초 만에 각막 실질 분리 완료. 수술 중 석션 로스 위험성과 환자의 심리적 공포를 획기적으로 낮춥니다.
+                단안 기준 수 초 단위로 각막 실질 분리를 마칩니다. 레이저 조사 시간이 짧아 수술 중 석션 로스 위험과 환자의 부담을 줄이는 데 도움이 됩니다.
               </p>
             </div>
           </div>
@@ -180,7 +180,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onNavigate }) => {
                 <span className="text-[15px] text-on-surface font-semibold">미세 각막 절개</span>
               </div>
               <p className="font-body-sm text-[13px] text-on-surface-variant mt-2 leading-relaxed break-keep">
-                기존 라식의 20mm 절개 대비 80% 이상 절개창을 줄여 각막 지각 신경 손상 및 수술 후 안구건조증을 최소화합니다.
+                각막 뚜껑(절편)을 만드는 방식보다 절개창이 작아, 각막 지각 신경 손상과 수술 후 안구건조 증상을 줄이는 것을 목표로 합니다. 정도는 개인차가 있습니다.
               </p>
             </div>
           </div>
@@ -200,7 +200,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onNavigate }) => {
                 <span className="text-[15px] text-on-surface font-semibold whitespace-nowrap">누적 수술</span>
               </div>
               <p className="font-body-sm text-[13px] text-on-surface-variant mt-2 leading-relaxed break-keep">
-                국내 명문대(예시) · 세브란스 출신 전임의의 숙련된 노하우로 축적된 안전 수술 케이스. 1:1 맞춤 사후 관리 시스템.
+                국내 대학병원(예시) 세부전공 전임의 과정을 거친 의료진이 쌓아 온 수술 케이스. 1:1 맞춤 사후 관리 시스템.
               </p>
             </div>
           </div>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { CLINIC_IMAGES } from '../data/clinicData';
-import { Language } from '../types';
 import { 
   MapPin, 
   Phone, 
@@ -13,16 +12,12 @@ import {
 } from 'lucide-react';
 
 interface HeaderProps {
-  language: Language;
-  onLanguageChange: (lang: Language) => void;
   onOpenClinicTour: () => void;
   onOpenPhilosophy: () => void;
   onNavigateToBooking: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  language,
-  onLanguageChange,
   onOpenClinicTour,
   onOpenPhilosophy,
   onNavigateToBooking
@@ -72,31 +67,22 @@ export const Header: React.FC<HeaderProps> = ({
             </span>
           </div>
           
-          <div className="flex items-center gap-2 font-medium">
-            <button
-              onClick={() => onLanguageChange('KR')}
-              className={`transition-colors ${language === 'KR' ? 'font-bold text-[#775a19]' : 'text-[#7f7667] hover:text-[#1a1c1a]'}`}
-            >
-              KR
-            </button>
-            <span className="text-[#d1c5b4]">/</span>
-            <button
-              onClick={() => onLanguageChange('EN')}
-              className={`transition-colors ${language === 'EN' ? 'font-bold text-[#775a19]' : 'text-[#7f7667] hover:text-[#1a1c1a]'}`}
-            >
-              EN
-            </button>
-          </div>
+          {/* 좁은 데스크톱(1024~1279)에서 왼쪽 안내와 부딪히지 않게 xl 부터만 보인다 */}
+          <span className="hidden xl:flex items-center gap-1.5 font-medium whitespace-nowrap">
+            <CalendarDays className="w-3.5 h-3.5 text-[#775a19]" />
+            화·목 야간진료 21:00
+          </span>
         </div>
       </div>
 
       {/* Main Navbar */}
       <div className="h-20 max-w-7xl mx-auto px-4 lg:px-6 lg:px-12 flex items-center justify-between">
         {/* Brand Logo & Title */}
-        <a 
-          href="#" 
-          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-          className="flex items-center gap-3 group"
+        <button
+          type="button"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          aria-label="맨 위로"
+          className="flex items-center gap-3 group py-1.5 min-h-11 text-left cursor-pointer"
         >
           <img
             src={CLINIC_IMAGES.logo}
@@ -111,7 +97,7 @@ export const Header: React.FC<HeaderProps> = ({
               Cheongdam Arte Dental Atelier
             </span>
           </div>
-        </a>
+        </button>
 
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-1">
@@ -163,7 +149,7 @@ export const Header: React.FC<HeaderProps> = ({
                 : 'text-[#4e4639] hover:text-[#1a1c1a] hover:bg-[#efeeeb]'
             }`}
           >
-            안심 무통 진료
+            안심 저통증 진료
           </button>
           <button
             onClick={() => { setActiveSection('clinic-tour'); onOpenClinicTour(); }}
@@ -196,18 +182,22 @@ export const Header: React.FC<HeaderProps> = ({
             상담 및 예약 신청
           </button>
           
-          <button 
+          <button
+            type="button"
             onClick={onNavigateToBooking}
-            className="w-8 h-8 rounded-full bg-[#775a19] flex items-center justify-center text-white hover:bg-[#c5a059] transition-colors cursor-pointer"
+            className="w-11 h-11 lg:w-8 lg:h-8 rounded-full bg-[#775a19] flex items-center justify-center text-white hover:bg-[#c5a059] transition-colors cursor-pointer"
             title="VIP 환자 리셉션"
+            aria-label="예약 신청으로 이동"
           >
             <User className="w-4 h-4" />
           </button>
 
           <button
+            type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-lg text-[#1a1c1a] hover:bg-[#efeeeb] transition-colors cursor-pointer"
+            className="lg:hidden w-11 h-11 flex items-center justify-center rounded-lg text-[#1a1c1a] hover:bg-[#efeeeb] transition-colors cursor-pointer"
             aria-label="메뉴 열기"
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -219,47 +209,43 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="lg:hidden bg-[#faf9f6] border-b border-[#d1c5b4]/40 px-6 py-5 shadow-2xl space-y-3 break-keep">
           <div className="flex items-center justify-between pb-3 border-b border-[#d1c5b4]/30">
             <span className="text-xs font-semibold text-[#775a19]">진료 과목 & 안내</span>
-            <div className="flex items-center gap-2 text-xs">
-              <button onClick={() => onLanguageChange('KR')} className={language === 'KR' ? 'font-bold text-[#775a19]' : 'text-[#7f7667]'}>KR</button>
-              <span>/</span>
-              <button onClick={() => onLanguageChange('EN')} className={language === 'EN' ? 'font-bold text-[#775a19]' : 'text-[#7f7667]'}>EN</button>
-            </div>
+            <span className="text-[11px] text-[#7f7667]">화·목 야간진료 21:00</span>
           </div>
           
           <div className="grid grid-cols-2 gap-2 text-xs font-medium">
             <button
               onClick={() => { setMobileMenuOpen(false); onOpenPhilosophy(); }}
-              className="text-left p-2.5 rounded-lg bg-[#efeeeb] hover:bg-[#e9e8e5]"
+              className="text-left px-3 py-3 min-h-11 rounded-lg bg-[#efeeeb] hover:bg-[#e9e8e5]"
             >
               병원 철학
             </button>
             <button
               onClick={() => scrollToSection('faculty-section')}
-              className="text-left p-2.5 rounded-lg bg-[#efeeeb] hover:bg-[#e9e8e5]"
+              className="text-left px-3 py-3 min-h-11 rounded-lg bg-[#efeeeb] hover:bg-[#e9e8e5]"
             >
               의료진 소개
             </button>
             <button
               onClick={() => scrollToSection('navigation-section')}
-              className="text-left p-2.5 rounded-lg bg-[#efeeeb] hover:bg-[#e9e8e5]"
+              className="text-left px-3 py-3 min-h-11 rounded-lg bg-[#efeeeb] hover:bg-[#e9e8e5]"
             >
               디지털 임플란트
             </button>
             <button
               onClick={() => scrollToSection('veneer-section')}
-              className="text-left p-2.5 rounded-lg bg-[#efeeeb] hover:bg-[#e9e8e5]"
+              className="text-left px-3 py-3 min-h-11 rounded-lg bg-[#efeeeb] hover:bg-[#e9e8e5]"
             >
               심미 라미네이트
             </button>
             <button
               onClick={() => scrollToSection('painless-section')}
-              className="text-left p-2.5 rounded-lg bg-[#efeeeb] hover:bg-[#e9e8e5]"
+              className="text-left px-3 py-3 min-h-11 rounded-lg bg-[#efeeeb] hover:bg-[#e9e8e5]"
             >
-              안심 무통 진료
+              안심 저통증 진료
             </button>
             <button
               onClick={() => { setMobileMenuOpen(false); onOpenClinicTour(); }}
-              className="text-left p-2.5 rounded-lg bg-[#efeeeb] hover:bg-[#e9e8e5]"
+              className="text-left px-3 py-3 min-h-11 rounded-lg bg-[#efeeeb] hover:bg-[#e9e8e5]"
             >
               클리닉 투어
             </button>

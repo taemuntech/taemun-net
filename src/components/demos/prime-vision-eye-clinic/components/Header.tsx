@@ -19,7 +19,7 @@ export const Header: React.FC<HeaderProps> = ({
   const navLinks = [
     { id: 'clinic-story', label: language === 'KR' ? '병원 소개' : 'About Clinic' },
     { id: 'specialists', label: language === 'KR' ? '각막 & 망막 의료진' : 'Specialists' },
-    { id: 'procedure-comparison', label: language === 'KR' ? '7초 스마일프로' : '7s SMILE Pro' },
+    { id: 'procedure-comparison', label: language === 'KR' ? '렌티큘 추출술' : 'Lenticule Extraction' },
     { id: 'lens-simulator', label: language === 'KR' ? '노안 & 백내장' : 'Presbyopia & Cataract' },
     { id: 'diagnostic-suite', label: language === 'KR' ? '50가지 정밀검진' : '50-Step Exam' },
     { id: 'suitability-calculator', label: language === 'KR' ? '시력교정 계산기' : 'Suitability Test' },
@@ -29,11 +29,11 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="fixed top-[var(--sample-bar-h,0px)] left-0 right-0 z-50 shadow-[0_1px_8px_rgba(0,0,0,0.04)] bg-surface-container-lowest">
       {/* Top Utility Bar */}
       <div className="bg-surface-container-low text-on-surface-variant font-body-sm text-[13px] border-b border-surface-container/60">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12 h-9 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 h-11 lg:h-9 flex items-center justify-between">
           <div className="flex items-center gap-space-md overflow-hidden">
             <a
               href="#fast-track-section"
-              className="flex items-center gap-space-xs font-label-numeric font-semibold text-primary hover:underline shrink-0"
+              className="flex items-center gap-space-xs font-label-numeric font-semibold text-primary hover:underline shrink-0 min-h-[44px] lg:min-h-0"
             >
               <span className="material-symbols-outlined text-[16px]">call</span>
               <span>02-0000-0000</span>
@@ -61,7 +61,7 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 type="button"
                 onClick={() => onLanguageChange('KR')}
-                className={`font-label-caps text-[11px] px-1.5 py-0.5 rounded cursor-pointer ${
+                className={`font-label-caps text-[11px] px-1.5 py-0.5 rounded cursor-pointer inline-flex items-center justify-center min-w-[44px] min-h-[44px] lg:min-w-0 lg:min-h-0 ${
                   language === 'KR' ? 'text-primary font-bold bg-primary-fixed/40' : 'text-on-surface-variant hover:text-primary'
                 }`}
               >
@@ -71,7 +71,7 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 type="button"
                 onClick={() => onLanguageChange('EN')}
-                className={`font-label-caps text-[11px] px-1.5 py-0.5 rounded cursor-pointer ${
+                className={`font-label-caps text-[11px] px-1.5 py-0.5 rounded cursor-pointer inline-flex items-center justify-center min-w-[44px] min-h-[44px] lg:min-w-0 lg:min-h-0 ${
                   language === 'EN' ? 'text-primary font-bold bg-primary-fixed/40' : 'text-on-surface-variant hover:text-primary'
                 }`}
               >
@@ -80,7 +80,7 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
             <div className="hidden lg:flex items-center gap-1.5 font-label-caps text-[11px] text-secondary font-medium">
               <span className="w-2 h-2 rounded-full bg-primary-container inline-block animate-ping"></span>
-              <span>SMILE Pro 7s Center</span>
+              <span>PRECISION VISION CENTER</span>
             </div>
           </div>
         </div>
@@ -93,7 +93,7 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             type="button"
             onClick={() => onNavigate('hero-section')}
-            className="flex items-center gap-2.5 lg:gap-space-md shrink-0 text-left cursor-pointer focus:outline-none"
+            className="flex items-center gap-2.5 lg:gap-space-md shrink-0 text-left cursor-pointer focus:outline-none min-h-[44px]"
           >
             <img
               src="/demo-media/prime-vision-eye-clinic/prime-vision-eye-clinic-07.png"
@@ -146,7 +146,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={() => onNavigate('fast-track-section')}
-              className="animate-pulse-subtle flex items-center gap-1.5 lg:gap-space-xs bg-primary-container text-on-primary-container font-headline-sm text-[12px] lg:text-[14px] px-3 lg:px-space-md py-2 lg:py-2.5 rounded-full shadow-[0_4px_12px_rgba(14,165,233,0.25)] hover:bg-primary hover:text-on-primary transition-all font-semibold active:scale-[0.98] cursor-pointer"
+              className="flex items-center gap-1.5 lg:gap-space-xs bg-primary-container text-on-primary-container font-headline-sm text-[12px] lg:text-[14px] px-3 lg:px-space-md py-2 lg:py-2.5 min-h-[44px] rounded-full shadow-[0_4px_12px_rgba(14,165,233,0.25)] hover:bg-primary hover:text-on-primary transition-all font-semibold active:scale-[0.98] cursor-pointer"
             >
               <span className="material-symbols-outlined text-[16px] lg:text-[18px]">calendar_today</span>
               <span className="lg:hidden whitespace-nowrap">당일 검사·수술</span>
@@ -159,7 +159,7 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface cursor-pointer"
+              className="lg:hidden p-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface cursor-pointer"
               aria-label="Toggle navigation menu"
             >
               <span className="material-symbols-outlined text-[24px]">
@@ -180,7 +180,7 @@ export const Header: React.FC<HeaderProps> = ({
                   onNavigate(link.id);
                   setMobileMenuOpen(false);
                 }}
-                className="text-left py-2.5 px-3 rounded-lg text-[15px] font-medium text-on-surface hover:bg-surface-container-low transition-colors cursor-pointer"
+                className="flex items-center text-left py-2.5 px-3 min-h-[44px] rounded-lg text-[15px] font-medium text-on-surface hover:bg-surface-container-low transition-colors cursor-pointer"
               >
                 {link.label}
               </button>

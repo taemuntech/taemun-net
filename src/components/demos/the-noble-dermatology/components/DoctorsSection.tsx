@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, Award, Check } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import { DOCTORS } from '../data/clinicData';
 import { Doctor } from '../types';
 
@@ -13,13 +13,13 @@ export const DoctorsSection: React.FC<DoctorsSectionProps> = ({ onSelectDoctor }
       <div className="max-w-7xl mx-auto px-4 lg:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <span className="px-3 py-1 rounded-full bg-[#efeeeb] text-[#745a2a] text-xs font-semibold tracking-widest uppercase mb-2 inline-block border border-[#e4e2df]">
-            Seoul Nat'l Univ. Board-Certified Faculty
+            Board-Certified Dermatology Faculty
           </span>
           <h2 className="font-serif text-2xl lg:text-3xl lg:text-[32px] text-[#00110b] tracking-tight mb-3">
             풍부한 임상 경험과 학술적 깊이를 지닌 의료진
           </h2>
           <p className="text-sm lg:text-base text-[#424845] leading-relaxed">
-            모든 진료와 시술은 국내 명문 A대학(예시) 의과대학 졸업 및 대학병원(예시) 수련을 마친 보건복지부 공인 피부과 전문의 3인이 직접 책임 집도합니다.
+            모든 진료와 시술은 국내 명문 A대학(예시) 의과대학 졸업 및 대학병원(예시) 수련을 마친 피부과 전문의 3인이 직접 진료하고 시행합니다.
           </p>
         </div>
 
@@ -73,7 +73,7 @@ export const DoctorsSection: React.FC<DoctorsSectionProps> = ({ onSelectDoctor }
                 <button
                   type="button"
                   onClick={() => onSelectDoctor(doc.name)}
-                  className="w-full py-2.5 rounded-lg bg-[#efeeeb] text-[#00110b] hover:bg-[#00110b] hover:text-[#ffffff] text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
+                  className="w-full min-h-11 rounded-lg bg-[#efeeeb] text-[#00110b] hover:bg-[#00110b] hover:text-[#ffffff] text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
                 >
                   <Calendar className="w-3.5 h-3.5" />
                   <span>{doc.name} 1:1 상담 예약</span>

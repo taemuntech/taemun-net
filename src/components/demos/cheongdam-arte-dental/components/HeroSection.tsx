@@ -50,9 +50,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </h1>
 
             <p className="text-[#4e4639] text-[15px] lg:text-[17px] max-w-2xl leading-relaxed font-sans break-keep">
-              보건복지부 인증 구강악안면외과 &amp; 치과보철과 전문의 2인 심층 협진 체제.<br className="hidden lg:inline" />
-              3D 컴퓨터 모의수술로 오차 0.1mm 미만 식립에 도전하는 1-Day 네비게이션 임플란트와
-              자연 법랑질의 투명도를 온전히 재현하는 미세 삭제 예술 라미네이트를 경험하세요.
+              구강악안면외과 &amp; 치과보철과 전문의 2인 협진 체제.<br className="hidden lg:inline" />
+              3D 컴퓨터 모의수술로 계획하는 네비게이션 임플란트와 자연 법랑질의 투명도를 고려해 설계하는
+              미세 삭제 라미네이트를 안내해 드립니다. 치료 방법과 기간은 진단 후 결정됩니다.
             </p>
 
             {/* CTAs */}
@@ -61,7 +61,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 onClick={onNavigateToBooking}
                 className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 lg:px-7 lg:py-4 rounded-full bg-[#1a1c1a] text-white text-sm font-semibold tracking-wide shadow-xl hover:bg-[#775a19] transition-all duration-300 transform hover:-translate-y-0.5"
               >
-                <span>실시간 비대면 문진 &amp; 예약</span>
+                <span>온라인 사전 문진 &amp; 예약</span>
                 <Calendar className="w-4 h-4 text-[#ffdea5]" />
               </button>
               
@@ -78,7 +78,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <div className="pt-2 lg:pt-4 flex flex-col lg:flex-row items-start lg:items-center gap-3 lg:gap-6 text-[#4e4639] text-xs font-semibold break-keep">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 lg:w-5 lg:h-5 text-[#775a19] shrink-0" />
-                <span>스위스 Straumann &amp; Osstem 정품 공인 클리닉</span>
+                <span>국내 허가 임플란트 정품 사용 · 확인서 발급</span>
               </div>
               <div className="flex items-center gap-2">
                 <Wind className="w-4 h-4 lg:w-5 lg:h-5 text-[#006398] shrink-0" />
@@ -89,9 +89,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
           {/* Right Hero Image Card */}
           <div className="lg:col-span-5 relative">
-            <div 
+            <button
+              type="button"
               onClick={onOpenClinicTour}
-              className="group cursor-pointer relative rounded-3xl overflow-hidden shadow-2xl bg-[#e9e8e5] border border-[#d1c5b4]/40 transition-transform duration-500 hover:scale-[1.01]"
+              aria-label="클리닉 공간 투어 열기"
+              className="group cursor-pointer relative block w-full text-left rounded-3xl overflow-hidden shadow-2xl bg-[#e9e8e5] border border-[#d1c5b4]/40 transition-transform duration-500 hover:scale-[1.01]"
             >
               <img
                 src={CLINIC_IMAGES.heroSuite}
@@ -110,14 +112,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     1인 독립 음압 진료실 • 아르떼 가든 뷰
                   </span>
                   <span className="text-[11px] text-[#7f7667] block mt-0.5">
-                    클릭하여 클리닉 전경 360° 투어 보기
+                    클릭하여 클리닉 공간 안내 보기
                   </span>
                 </div>
                 <div className="w-10 h-10 rounded-full bg-[#ffdea5]/50 flex items-center justify-center text-[#775a19]">
                   <Shield className="w-5 h-5" />
                 </div>
               </div>
-            </div>
+            </button>
           </div>
         </div>
 
@@ -125,13 +127,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mt-16">
           <div className="p-6 rounded-2xl bg-white shadow-sm hover:shadow-md transition-all border border-[#d1c5b4]/30 flex flex-col justify-between">
             <span className="text-[11px] text-[#7f7667] tracking-wider uppercase font-semibold mb-1">
-              CUMULATIVE CASES
+              PERSONALIZED PLAN
             </span>
             <span className="font-sans text-4xl lg:text-[42px] font-bold text-[#775a19] tracking-tight my-1">
-              15,000+ (예시 수치) (예시 수치)
+              1:1 설계
             </span>
             <span className="text-xs text-[#4e4639] mt-1 leading-relaxed">
-              누적 디지털 임플란트 &amp; 심미 보철 수술 성공
+              3D 진단 데이터로 환자마다 새로 세우는 치료 계획
             </span>
           </div>
 
@@ -143,7 +145,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               &lt; 0.1mm
             </span>
             <span className="text-xs text-[#4e4639] mt-1 leading-relaxed">
-              3D 맞춤형 수술 유도 가이드 허용 오차 한계
+              3D 맞춤 수술 가이드 설계 시 허용 오차 기준
             </span>
           </div>
 
@@ -167,7 +169,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               9-Stage
             </span>
             <span className="text-xs text-[#4e4639] mt-1 leading-relaxed">
-              대학병원 수술실 기준 중앙 멸균 감염 제로 프로토콜
+              진료 기구 1인 1팩 중앙 멸균 감염관리 절차
             </span>
           </div>
         </div>

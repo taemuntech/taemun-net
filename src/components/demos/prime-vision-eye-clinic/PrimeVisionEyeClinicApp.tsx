@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import SampleNotice from '@/components/demo-kit/SampleNotice';
 import { Language, BookingState } from './types';
+import { SERVICES, DOCTORS } from './constants';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ProcedureComparison } from './components/ProcedureComparison';
@@ -22,18 +22,18 @@ interface PrimeVisionEyeClinicAppProps {
 export default function PrimeVisionEyeClinicApp({ isEmbed }: PrimeVisionEyeClinicAppProps = {}) {
   const [language, setLanguage] = useState<Language>('KR');
   const [activeSection, setActiveSection] = useState<string>('clinic-story');
-  const [sampleNoticeOpen, setSampleNoticeOpen] = useState(false);
-  const [sampleActionName, setSampleActionName] = useState('원데이 라식/백내장 패스트트랙 예약');
 
+  // toISOString() 은 UTC 기준이라 한국 시간 새벽에는 「내일」이 오늘로 찍힌다 — 로컬 날짜로 만든다.
   const getTomorrowDate = () => {
     const d = new Date();
     d.setDate(d.getDate() + 1);
-    return d.toISOString().split('T')[0];
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
   };
 
   const [bookingState, setBookingState] = useState<BookingState>({
-    service: '7초 스마일프로 (비쥬맥스 800)',
-    doctor: '상관없음 (가장 빠른 일정 우선)',
+    service: SERVICES.klex,
+    doctor: DOCTORS.any,
     sameday: '검사 당일 즉시 수술까지 희망 (원데이 패스트트랙)',
     date: getTomorrowDate(),
     time: '09:30 (오전 첫 타임)',
@@ -120,7 +120,7 @@ export default function PrimeVisionEyeClinicApp({ isEmbed }: PrimeVisionEyeClini
         {/* Hero Section */}
         <Hero language={language} onNavigate={handleNavigate} />
 
-        {/* 4th Gen SMILE Pro vs LASIK vs LASEK Comparison */}
+        {/* 4th Gen Lenticule Extraction vs LASIK vs LASEK Comparison */}
         <ProcedureComparison language={language} />
 
         {/* 1-Minute Vision Correction Suitability Calculator */}
@@ -135,7 +135,7 @@ export default function PrimeVisionEyeClinicApp({ isEmbed }: PrimeVisionEyeClini
           onNavigateBooking={() => {
             setBookingState((prev) => ({
               ...prev,
-              service: '노안 & 프리미엄 백내장',
+              service: SERVICES.cataract,
             }));
             handleNavigate('fast-track-section');
           }}
@@ -152,10 +152,6 @@ export default function PrimeVisionEyeClinicApp({ isEmbed }: PrimeVisionEyeClini
           language={language}
           bookingState={bookingState}
           setBookingState={setBookingState}
-          onCompleteBooking={() => {
-            setSampleActionName('1-Day 원데이 패스트트랙 수술 예약');
-            setSampleNoticeOpen(true);
-          }}
         />
 
         {/* Location & Consultation Hours */}
@@ -166,17 +162,7 @@ export default function PrimeVisionEyeClinicApp({ isEmbed }: PrimeVisionEyeClini
       <QuickActionBar onScrollTo={handleNavigate} />
 
       {/* Comprehensive Footer */}
-      <Footer language={language} />
-
-      {/* 태문 안전 결제 및 샘플 고지 모달 */}
-      <SampleNotice
-        open={sampleNoticeOpen}
-        onClose={() => setSampleNoticeOpen(false)}
-        slug="prime-vision-eye-clinic"
-        featureName={sampleActionName}
-        kind="sample"
-        industry="corporate"
-      />
+      <Footer />
     </div>
   );
 }

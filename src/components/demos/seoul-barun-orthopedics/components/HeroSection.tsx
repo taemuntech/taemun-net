@@ -22,9 +22,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         {/* Top Clinical Status Pill */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E9E8E5] text-[#3F493F] text-xs lg:text-sm mb-6 shadow-sm">
           <span className="w-2 h-2 rounded-full bg-[#00652C] animate-pulse"></span>
-          <span className="font-bold text-[#00652C]">대학병원급 정밀진단 인프라</span>
+          <span className="font-bold text-[#00652C]">정밀진단 원스톱 인프라</span>
           <span className="text-[#BECABC]">|</span>
-          <span>독일 지멘스 1.5T MRI 당일 가동 중</span>
+          <span>1.5T MRI 당일 가동 중 (예시 사양)</span>
         </div>
 
         {/* Main Asymmetric Hero Grid */}
@@ -46,9 +46,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
 
             <p className="text-[15px] lg:text-lg text-[#3F493F] max-w-2xl leading-relaxed break-keep">
-              과잉진료 없는 대학병원 교수 출신 정형외과 전문의 2인 진료 체계. 
-              정밀 초음파·C-Arm 유도 신경재생술, 독일 1.5T MRI 당일 판독 원스톱, 
-              그리고 100평 전용 물리도수운동치료센터가 하나의 맞춤형 치료 플랜으로 완성됩니다.
+              정형외과 전문의 2인이 함께 보는 협진 체계.
+              정밀 초음파·C-Arm 유도 주사 치료, 1.5T MRI 당일 판독 원스톱,
+              그리고 100평 전용 물리도수운동치료센터를 하나의 치료 플랜으로 안내합니다.
             </p>
 
             {/* CTAs */}
@@ -58,7 +58,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 className="h-11 lg:h-12 px-5 lg:px-6 rounded-xl bg-[#00652C] text-white text-sm lg:text-base font-bold inline-flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(0,101,44,0.22)] hover:bg-[#15803D] transition-all cursor-pointer transform hover:-translate-y-0.5"
               >
                 <span className="material-symbols-outlined text-[20px]">stethoscope</span>
-                <span>5대 부위 통증 자가진단</span>
+                <span>4대 부위 통증 자가체크</span>
               </button>
 
               <button
@@ -82,15 +82,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <div className="flex flex-wrap items-center gap-3 lg:gap-6 pt-2 text-[#545F73] text-xs lg:text-sm font-medium break-keep">
               <div className="flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-[#00652C] text-[18px]">verified</span>
-                <span>보건복지부 인증 정형외과 전문의</span>
+                <span>정형외과 전문의 상주 진료</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-[#00652C] text-[18px]">verified</span>
-                <span>독일 Storz 체외충격파 정품</span>
+                <span>집중형·방사형 체외충격파 장비 보유</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-[#00652C] text-[18px]">verified</span>
-                <span>국가공인 전문 물리치료사 전원 상주</span>
+                <span>물리치료사 1:1 전담 재활</span>
               </div>
             </div>
           </div>
@@ -134,7 +134,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 <span className="material-symbols-outlined text-[20px]">medical_services</span>
               </div>
               <div>
-                <div className="text-xs lg:text-sm text-[#1A1C1A] font-bold">비수술 치료 누적 84,000례+</div>
+                <div className="text-xs lg:text-sm text-[#1A1C1A] font-bold">비수술 치료 중심 진료 (예시)</div>
                 <div className="text-[11px] text-[#6F7A6E]">정형외과 세부 전문의 2인의 협진</div>
               </div>
             </div>
@@ -147,14 +147,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <div className="bg-white p-5 rounded-2xl shadow-sm border border-[#E9E8E5] flex flex-col justify-between hover:-translate-y-1 transition-transform">
             <div className="flex items-center justify-between mb-2">
               <span className="text-[11px] text-[#545F73] font-semibold uppercase tracking-wider">
-                Conservative Success
+                Conservative First
               </span>
               <span className="material-symbols-outlined text-[#00652C] text-[22px]">healing</span>
             </div>
             <div>
-              <div className="text-3xl font-bold text-[#00652C] tracking-tight">92.4%</div>
-              <div className="text-sm font-bold text-[#1A1C1A] mt-1">비수술 보존적 치료율</div>
-              <p className="text-xs text-[#3F493F] mt-0.5">수술 없이 통증 경감 및 일상 복귀 완수</p>
+              <div className="text-3xl font-bold text-[#00652C] tracking-tight">비수술 우선</div>
+              <div className="text-sm font-bold text-[#1A1C1A] mt-1">보존적 치료 우선 원칙</div>
+              <p className="text-xs text-[#3F493F] mt-0.5">수술 여부는 검사 결과를 보고 전문의와 상의해 정합니다</p>
             </div>
           </div>
 
@@ -169,7 +169,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <div>
               <div className="text-3xl font-bold text-[#007D73] tracking-tight">당일 판독</div>
               <div className="text-sm font-bold text-[#1A1C1A] mt-1">1.5T MRI 원스톱 검사</div>
-              <p className="text-xs text-[#3F493F] mt-0.5">대학병원급 영상장비 및 판독 소견서 즉시 발급</p>
+              <p className="text-xs text-[#3F493F] mt-0.5">1.5T 영상장비 및 판독 소견서 당일 발급</p>
             </div>
           </div>
 
@@ -184,7 +184,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <div>
               <div className="text-3xl font-bold text-[#1A1C1A] tracking-tight">100평 규모</div>
               <div className="text-sm font-bold text-[#1A1C1A] mt-1">1:1 도수재활 전용센터</div>
-              <p className="text-xs text-[#3F493F] mt-0.5">슬링·3D 감압기·독일제 메디컬 필라테스 기구</p>
+              <p className="text-xs text-[#3F493F] mt-0.5">슬링·3D 감압기·메디컬 필라테스 기구</p>
             </div>
           </div>
 
@@ -197,8 +197,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <span className="material-symbols-outlined text-[#15803D] text-[22px]">workspace_premium</span>
             </div>
             <div>
-              <div className="text-3xl font-bold text-[#1A1C1A] tracking-tight">외래교수 출신</div>
-              <div className="text-sm font-bold text-[#1A1C1A] mt-1">성모·대학병원(예시) 전문의</div>
+              <div className="text-3xl font-bold text-[#1A1C1A] tracking-tight">전문의 2인</div>
+              <div className="text-sm font-bold text-[#1A1C1A] mt-1">정형외과 전문의 협진</div>
               <p className="text-xs text-[#3F493F] mt-0.5">척추 외과 및 관절 스포츠의학 세부전공 협진</p>
             </div>
           </div>

@@ -49,7 +49,7 @@ export const Philosophy: React.FC = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
                 <span className="absolute bottom-3 left-3 text-[#fdf9f5] text-[11px] font-medium bg-black/30 backdrop-blur-sm px-2.5 py-1 rounded">
-                  자연스러운 표정근육의 완벽한 보존
+                  표정근육을 최대한 보존하는 설계
                 </span>
               </div>
             </div>
@@ -68,18 +68,19 @@ export const Philosophy: React.FC = () => {
                 </h3>
               </div>
               <p className="text-[14px] leading-relaxed text-[#4d463c]">
-                연부조직 뒤에 숨겨진 뼈의 각도, 신경선 주행 경로, 피부 두께를 3D-CT와 초고해상도 입체 스캐너로 0.05mm 단위까지 사전 계측하여 오차 없는 수술 계획을 수립합니다.
+                연부조직 뒤에 숨겨진 뼈의 각도, 신경선 주행 경로, 피부 두께를 3D-CT와 초고해상도 입체 스캐너로 0.05mm 단위까지 사전 계측하여 정밀한 수술 계획을 수립합니다.
               </p>
             </div>
             <div className="pt-8 mt-6">
-              <div className="h-44 rounded-xl overflow-hidden bg-[#ebe7e4] relative flex flex-col justify-between p-4 border border-[#d1c5b8]/40">
+              {/* 높이는 min-h — 모바일(lg 미만)에서 탭 대상 44px 를 지키면 칩이 한 줄 더 내려갈 수 있다 */}
+              <div className="min-h-[11rem] rounded-xl overflow-hidden bg-[#ebe7e4] relative flex flex-col justify-between p-4 border border-[#d1c5b8]/40">
                 {/* Layer switch buttons */}
-                <div className="flex items-center justify-between text-[11px] z-10">
+                <div className="flex flex-wrap items-center justify-between gap-y-2 text-[11px] z-10">
                   <span className="text-[#4d463c] font-medium">레이어 시뮬레이션:</span>
                   <div className="flex gap-1">
                     <button
                       onClick={() => setScanLayer('bone')}
-                      className={`px-2 py-0.5 rounded cursor-pointer ${
+                      className={`px-4 py-0.5 rounded cursor-pointer inline-flex items-center justify-center max-lg:min-h-[44px] max-lg:min-w-[44px] ${
                         scanLayer === 'bone' ? 'bg-[#725b38] text-white font-semibold' : 'bg-white/70 text-[#4d463c]'
                       }`}
                     >
@@ -87,7 +88,7 @@ export const Philosophy: React.FC = () => {
                     </button>
                     <button
                       onClick={() => setScanLayer('nerve')}
-                      className={`px-2 py-0.5 rounded cursor-pointer ${
+                      className={`px-4 py-0.5 rounded cursor-pointer inline-flex items-center justify-center max-lg:min-h-[44px] max-lg:min-w-[44px] ${
                         scanLayer === 'nerve' ? 'bg-[#725b38] text-white font-semibold' : 'bg-white/70 text-[#4d463c]'
                       }`}
                     >
@@ -95,7 +96,7 @@ export const Philosophy: React.FC = () => {
                     </button>
                     <button
                       onClick={() => setScanLayer('soft')}
-                      className={`px-2 py-0.5 rounded cursor-pointer ${
+                      className={`px-4 py-0.5 rounded cursor-pointer inline-flex items-center justify-center max-lg:min-h-[44px] max-lg:min-w-[44px] ${
                         scanLayer === 'soft' ? 'bg-[#725b38] text-white font-semibold' : 'bg-white/70 text-[#4d463c]'
                       }`}
                     >
@@ -120,7 +121,7 @@ export const Philosophy: React.FC = () => {
                 </div>
                 <span className="text-[11px] text-center text-[#4d463c] font-medium z-10">
                   {scanLayer === 'bone' && '3D 안면 골격 대칭 0.05mm 계측'}
-                  {scanLayer === 'nerve' && '하치조신경 및 안면신경 주행선 완벽 회피'}
+                  {scanLayer === 'nerve' && '하치조신경·안면신경 주행선 사전 확인'}
                   {scanLayer === 'soft' && '피부 연부조직 두께 및 탄력도 맵'}
                 </span>
               </div>
@@ -136,11 +137,11 @@ export const Philosophy: React.FC = () => {
               <div className="flex flex-col gap-2">
                 <span className="text-[11px] text-[#725b38] font-bold tracking-wider">PHILOSOPHY 03</span>
                 <h3 className="font-serif text-[20px] font-semibold text-[#1c1c19]">
-                  미세 다층 봉합 (Scarless Micro-Suture)
+                  미세 다층 봉합 (Micro-Layered Suture)
                 </h3>
               </div>
               <p className="text-[14px] leading-relaxed text-[#4d463c]">
-                피부 표면만을 닫는 단순 봉합이 아닌, 깊은 근막층-피하지방층-진피층을 3중으로 미세 분산 봉합하여 수술 후 흉터와 붉은 자국을 육안으로 찾기 어려울 정도로 최소화합니다.
+                피부 표면만을 닫는 단순 봉합이 아닌, 깊은 근막층-피하지방층-진피층을 3중으로 미세 분산 봉합하여 수술 후 남는 흉터와 붉은 자국을 줄이는 데 집중합니다. 흉터가 아무는 정도는 체질에 따라 개인차가 있습니다.
               </p>
             </div>
             <div className="pt-8 mt-6">

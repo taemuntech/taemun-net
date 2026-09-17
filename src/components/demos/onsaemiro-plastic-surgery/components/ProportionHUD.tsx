@@ -41,11 +41,11 @@ export const ProportionHUD: React.FC<ProportionHUDProps> = ({ onOpenReportModal 
     } else if (calculatedScore >= 85) {
       statusText = '안정적 균형 하모니 (Natural Balance)';
       statusBadgeClass = 'bg-[#e4dedc] text-[#1d1b1a]';
-      summaryText = '전반적 밸런스가 양호하나 하안부 또는 비순각의 미세 0.5~1.0mm 조정 시 더욱 세련되고 입체감 넘치는 동안 인상을 구현할 수 있습니다.';
+      summaryText = '전반적 밸런스가 양호하나 하안부 또는 비순각의 미세 0.5~1.0mm 조정으로 어떤 변화가 있을지 상담에서 함께 살펴볼 수 있습니다.';
     } else {
       statusText = '정밀 밸런스 조정 권장 (Refinement Needed)';
       statusBadgeClass = 'bg-[#cea481] text-[#573a1f]';
-      summaryText = '비순각 혹은 중·하안부 비율의 편차가 다소 확인됩니다. 무리한 뼈 절제 없이 미세 지방재배치와 자가연골 지지대 보강을 통한 맞춤형 밸런싱이 권장됩니다.';
+      summaryText = '비순각 혹은 중·하안부 비율의 편차가 다소 확인됩니다. 무리한 뼈 절제 없이 조정할 수 있는 방법이 있는지 상담에서 함께 검토해 볼 수 있습니다.';
     }
 
     return {
@@ -102,7 +102,7 @@ export const ProportionHUD: React.FC<ProportionHUDProps> = ({ onOpenReportModal 
             1 : 1 : 0.8 안면 황금비율 HUD
           </h2>
           <p className="text-[14px] leading-relaxed text-[#4d463c]">
-            상안부·중안부·하안부의 이상적 수치와 비순각을 직접 조절하여 당신의 얼굴선에 가장 부합하는 온새미로 조화 지수를 실시간으로 확인해보세요.
+            상안부·중안부·하안부 비율과 비순각을 직접 조절해 미적 기준과의 차이를 살펴보세요. 결과 값은 참고용 시뮬레이션이며 의학적 진단이 아닙니다.
           </p>
 
           {/* Quick Preset Buttons */}
@@ -110,19 +110,19 @@ export const ProportionHUD: React.FC<ProportionHUDProps> = ({ onOpenReportModal 
             <span className="text-[12px] text-[#4d463c] mr-1">추천 프리셋:</span>
             <button
               onClick={() => applyPreset('golden')}
-              className="px-3 py-1 rounded-full text-[12px] bg-[#ebe7e4] text-[#1c1c19] hover:bg-[#c5a880]/30 transition-colors font-medium cursor-pointer"
+              className="px-3 py-1 min-h-[44px] inline-flex items-center rounded-full text-[12px] bg-[#ebe7e4] text-[#1c1c19] hover:bg-[#c5a880]/30 transition-colors font-medium cursor-pointer"
             >
               온새미로 골든 스탠다드 (1:1:0.82)
             </button>
             <button
               onClick={() => applyPreset('youth')}
-              className="px-3 py-1 rounded-full text-[12px] bg-[#ebe7e4] text-[#1c1c19] hover:bg-[#c5a880]/30 transition-colors font-medium cursor-pointer"
+              className="px-3 py-1 min-h-[44px] inline-flex items-center rounded-full text-[12px] bg-[#ebe7e4] text-[#1c1c19] hover:bg-[#c5a880]/30 transition-colors font-medium cursor-pointer"
             >
               트렌디 큐트 동안 라인
             </button>
             <button
               onClick={() => applyPreset('refined')}
-              className="px-3 py-1 rounded-full text-[12px] bg-[#ebe7e4] text-[#1c1c19] hover:bg-[#c5a880]/30 transition-colors font-medium cursor-pointer"
+              className="px-3 py-1 min-h-[44px] inline-flex items-center rounded-full text-[12px] bg-[#ebe7e4] text-[#1c1c19] hover:bg-[#c5a880]/30 transition-colors font-medium cursor-pointer"
             >
               우아한 모던 에스테틱 라인
             </button>
@@ -141,7 +141,7 @@ export const ProportionHUD: React.FC<ProportionHUDProps> = ({ onOpenReportModal 
                 </div>
                 <button
                   onClick={resetToGolden}
-                  className="text-[12px] text-[#725b38] hover:text-[#1c1c19] flex items-center gap-1 cursor-pointer transition-colors font-medium"
+                  className="text-[12px] text-[#725b38] hover:text-[#1c1c19] min-h-[44px] flex items-center gap-1 cursor-pointer transition-colors font-medium"
                 >
                   <span className="material-symbols-outlined text-[16px]">refresh</span>
                   <span>골든 표준값 초기화</span>
@@ -163,7 +163,7 @@ export const ProportionHUD: React.FC<ProportionHUDProps> = ({ onOpenReportModal 
                   step="0.01"
                   value={params.upper}
                   onChange={(e) => setParams(prev => ({ ...prev, upper: parseFloat(e.target.value) }))}
-                  className="w-full h-2 bg-[#ebe7e4] rounded-lg appearance-none cursor-pointer accent-[#725b38]"
+                  className="w-full h-11 -my-3 appearance-none bg-transparent cursor-pointer [&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-runnable-track]:rounded-lg [&::-webkit-slider-runnable-track]:bg-[#ebe7e4] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:-mt-1.5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#725b38] [&::-webkit-slider-thumb]:shadow [&::-moz-range-track]:h-2 [&::-moz-range-track]:rounded-lg [&::-moz-range-track]:bg-[#ebe7e4] [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-[#725b38]"
                 />
                 <div className="flex justify-between text-[11px] text-[#4d463c]">
                   <span>0.80 (좁은 이마)</span>
@@ -187,7 +187,7 @@ export const ProportionHUD: React.FC<ProportionHUDProps> = ({ onOpenReportModal 
                   step="0.01"
                   value={params.mid}
                   onChange={(e) => setParams(prev => ({ ...prev, mid: parseFloat(e.target.value) }))}
-                  className="w-full h-2 bg-[#ebe7e4] rounded-lg appearance-none cursor-pointer accent-[#725b38]"
+                  className="w-full h-11 -my-3 appearance-none bg-transparent cursor-pointer [&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-runnable-track]:rounded-lg [&::-webkit-slider-runnable-track]:bg-[#ebe7e4] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:-mt-1.5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#725b38] [&::-webkit-slider-thumb]:shadow [&::-moz-range-track]:h-2 [&::-moz-range-track]:rounded-lg [&::-moz-range-track]:bg-[#ebe7e4] [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-[#725b38]"
                 />
                 <div className="flex justify-between text-[11px] text-[#4d463c]">
                   <span>0.80 (짧은 코)</span>
@@ -211,7 +211,7 @@ export const ProportionHUD: React.FC<ProportionHUDProps> = ({ onOpenReportModal 
                   step="0.01"
                   value={params.lower}
                   onChange={(e) => setParams(prev => ({ ...prev, lower: parseFloat(e.target.value) }))}
-                  className="w-full h-2 bg-[#ebe7e4] rounded-lg appearance-none cursor-pointer accent-[#725b38]"
+                  className="w-full h-11 -my-3 appearance-none bg-transparent cursor-pointer [&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-runnable-track]:rounded-lg [&::-webkit-slider-runnable-track]:bg-[#ebe7e4] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:-mt-1.5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#725b38] [&::-webkit-slider-thumb]:shadow [&::-moz-range-track]:h-2 [&::-moz-range-track]:rounded-lg [&::-moz-range-track]:bg-[#ebe7e4] [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-[#725b38]"
                 />
                 <div className="flex justify-between text-[11px] text-[#4d463c]">
                   <span>0.70 (짧은 턱)</span>
@@ -235,7 +235,7 @@ export const ProportionHUD: React.FC<ProportionHUDProps> = ({ onOpenReportModal 
                   step="1"
                   value={params.angle}
                   onChange={(e) => setParams(prev => ({ ...prev, angle: parseInt(e.target.value, 10) }))}
-                  className="w-full h-2 bg-[#ebe7e4] rounded-lg appearance-none cursor-pointer accent-[#725b38]"
+                  className="w-full h-11 -my-3 appearance-none bg-transparent cursor-pointer [&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-runnable-track]:rounded-lg [&::-webkit-slider-runnable-track]:bg-[#ebe7e4] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:-mt-1.5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#725b38] [&::-webkit-slider-thumb]:shadow [&::-moz-range-track]:h-2 [&::-moz-range-track]:rounded-lg [&::-moz-range-track]:bg-[#ebe7e4] [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-[#725b38]"
                 />
                 <div className="flex justify-between text-[11px] text-[#4d463c]">
                   <span>88° (처진 코)</span>
@@ -259,7 +259,7 @@ export const ProportionHUD: React.FC<ProportionHUDProps> = ({ onOpenReportModal 
                   step="0.5"
                   value={params.projection}
                   onChange={(e) => setParams(prev => ({ ...prev, projection: parseFloat(e.target.value) }))}
-                  className="w-full h-2 bg-[#ebe7e4] rounded-lg appearance-none cursor-pointer accent-[#725b38]"
+                  className="w-full h-11 -my-3 appearance-none bg-transparent cursor-pointer [&::-webkit-slider-runnable-track]:h-2 [&::-webkit-slider-runnable-track]:rounded-lg [&::-webkit-slider-runnable-track]:bg-[#ebe7e4] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:-mt-1.5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#725b38] [&::-webkit-slider-thumb]:shadow [&::-moz-range-track]:h-2 [&::-moz-range-track]:rounded-lg [&::-moz-range-track]:bg-[#ebe7e4] [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:border-0 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-[#725b38]"
                 />
                 <div className="flex justify-between text-[11px] text-[#4d463c]">
                   <span>-5.0mm (무턱 성향)</span>
@@ -347,7 +347,7 @@ export const ProportionHUD: React.FC<ProportionHUDProps> = ({ onOpenReportModal 
                 {/* Recommendation Text */}
                 <div className="p-4 rounded-xl bg-white/5 border border-white/10 text-[13px] leading-relaxed text-[#ddd9d6]">
                   <span className="text-[#fedeb2] font-semibold block mb-1">
-                    집도의 AI 프리뷰:
+                    시뮬레이션 참고 해설:
                   </span>
                   <span>{summary}</span>
                 </div>
@@ -359,8 +359,13 @@ export const ProportionHUD: React.FC<ProportionHUDProps> = ({ onOpenReportModal 
                 className="relative z-10 mt-6 w-full py-3.5 rounded-xl bg-[#725b38] text-white font-semibold text-[14px] hover:bg-[#c5a880] hover:text-[#513d1d] transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md"
               >
                 <span className="material-symbols-outlined text-[20px]">assignment</span>
-                <span>3D 가상성형 정밀 진단서 리포트 열람</span>
+                <span>비율 시뮬레이션 요약 보기</span>
               </button>
+
+              {/* 진단으로 읽히지 않도록 버튼 바로 아래 고지 */}
+              <p className="relative z-10 mt-3 text-[11px] leading-relaxed text-[#ddd9d6] text-center break-keep">
+                ※ 참고용 미적 비율 시뮬레이션입니다. 의학적 진단이 아니며, 실제 진단은 대면 진료로만 가능합니다.
+              </p>
             </div>
           </div>
         </div>

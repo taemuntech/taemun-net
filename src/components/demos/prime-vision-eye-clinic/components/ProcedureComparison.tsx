@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ProcedureTab, Language } from '../types';
+import { OUTCOME_DISCLAIMER } from '../constants';
 
 interface ProcedureComparisonProps {
   language: Language;
@@ -19,12 +20,12 @@ export const ProcedureComparison: React.FC<ProcedureComparisonProps> = ({ langua
               <span>NEXT-GENERATION REFRACTIVE SURGERY</span>
             </div>
             <h2 className="font-headline-xl text-[26px] lg:text-[38px] text-on-surface font-extrabold tracking-tight leading-snug">
-              {language === 'KR' ? '스마일프로 vs 기존 시력교정술 비교' : 'SMILE Pro vs Traditional Surgery'}
+              {language === 'KR' ? '렌티큘 추출술 · 라식 · 라섹 비교' : 'Lenticule Extraction vs LASIK vs LASEK'}
             </h2>
             <p className="font-body-lg text-[14px] lg:text-[17px] text-on-surface-variant mt-2 leading-relaxed">
               {language === 'KR'
-                ? '왜 비쥬맥스 800 스마일프로를 선택해야 하는지 데이터와 스펙으로 투명하게 공개합니다.'
-                : 'Directly comparing clinical metrics, incision scale, recovery time, and structural corneal stability.'}
+                ? '본원에서 시행하는 세 가지 시력교정 방식의 절개 형태 · 회복 기간 · 주의사항을 같은 기준으로 정리했습니다. 어떤 방식이 적합한지는 정밀 검진 결과에 따라 달라집니다.'
+                : 'The three refractive procedures offered here, compared on incision type, recovery time, and precautions. Suitability depends on your examination results.'}
             </p>
           </div>
 
@@ -34,18 +35,18 @@ export const ProcedureComparison: React.FC<ProcedureComparisonProps> = ({ langua
               <button
                 type="button"
                 onClick={() => setActiveTab('smile')}
-                className={`px-3.5 lg:px-4 py-2 rounded-lg font-headline-sm text-[13px] lg:text-[15px] transition-all cursor-pointer ${
+                className={`px-3.5 lg:px-4 py-2 min-h-[44px] inline-flex items-center rounded-lg font-headline-sm text-[13px] lg:text-[15px] transition-all cursor-pointer ${
                   activeTab === 'smile'
                     ? 'bg-surface-container-lowest text-primary font-bold shadow-sm'
                     : 'text-on-surface-variant hover:text-on-surface font-medium'
                 }`}
               >
-                4세대 스마일프로
+                렌티큘 추출술
               </button>
               <button
                 type="button"
                 onClick={() => setActiveTab('lasik')}
-                className={`px-3.5 lg:px-4 py-2 rounded-lg font-headline-sm text-[13px] lg:text-[15px] transition-all cursor-pointer ${
+                className={`px-3.5 lg:px-4 py-2 min-h-[44px] inline-flex items-center rounded-lg font-headline-sm text-[13px] lg:text-[15px] transition-all cursor-pointer ${
                   activeTab === 'lasik'
                     ? 'bg-surface-container-lowest text-primary font-bold shadow-sm'
                     : 'text-on-surface-variant hover:text-on-surface font-medium'
@@ -56,7 +57,7 @@ export const ProcedureComparison: React.FC<ProcedureComparisonProps> = ({ langua
               <button
                 type="button"
                 onClick={() => setActiveTab('lasek')}
-                className={`px-3.5 lg:px-4 py-2 rounded-lg font-headline-sm text-[13px] lg:text-[15px] transition-all cursor-pointer ${
+                className={`px-3.5 lg:px-4 py-2 min-h-[44px] inline-flex items-center rounded-lg font-headline-sm text-[13px] lg:text-[15px] transition-all cursor-pointer ${
                   activeTab === 'lasek'
                     ? 'bg-surface-container-lowest text-primary font-bold shadow-sm'
                     : 'text-on-surface-variant hover:text-on-surface font-medium'
@@ -68,30 +69,30 @@ export const ProcedureComparison: React.FC<ProcedureComparisonProps> = ({ langua
           </div>
         </div>
 
-        {/* Tab Content: SMILE PRO */}
+        {/* Tab Content: Lenticule Extraction */}
         {activeTab === 'smile' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch animate-fadeIn break-keep">
             <div className="lg:col-span-7 bg-surface-container-lowest p-8 rounded-2xl shadow-sm flex flex-col justify-between border border-surface-container/50">
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <span className="px-3 py-1 rounded-full bg-primary-fixed text-primary font-label-caps text-[11px] font-bold">
-                    최신 4세대 비쥬맥스 800
+                    펨토초 레이저
                   </span>
                   <span className="font-label-numeric text-[13px] text-tertiary font-semibold">
-                    Laser Speed: 2.0MHz
+                    Lenticule Extraction
                   </span>
                 </div>
                 <h3 className="font-headline-lg text-[22px] lg:text-[26px] text-on-surface font-bold mb-3 leading-snug">
-                  7초 조사 · 2mm 미세 절개 · 각막 절편 미생성
+                  수 초 조사 · 2mm 미세 절개 · 각막 절편 미생성
                 </h3>
                 <p className="font-body-md text-[15px] text-on-surface-variant leading-relaxed mb-6">
-                  각막 상피를 벗기거나 각막 뚜껑(절편)을 만들지 않고, 7초 만에 각막 내부에서 렌티큘(Lenticule)만을 미세 분리하여 단 2mm 미세창으로 추출합니다. 외부 충격에 강해 운동선수, 군인, 승무원, 특수직종에 가장 이상적입니다.
+                  각막 상피를 벗기거나 각막 뚜껑(절편)을 만들지 않고, 수 초 단위로 각막 내부에서 렌티큘(Lenticule)만을 미세 분리하여 2mm 미세창으로 추출합니다. 절편을 만들지 않아 외부 충격에 상대적으로 유리하며, 운동선수 · 군인 · 승무원 등 활동량이 많은 분들이 많이 선택합니다.
                 </p>
 
                 <div className="grid grid-cols-3 gap-3 lg:gap-4 mb-6">
                   <div className="p-4 rounded-xl bg-surface-container-low border border-surface-container/60">
                     <span className="font-label-caps text-[11px] text-on-surface-variant">레이저 조사 시간</span>
-                    <div className="font-label-numeric text-[20px] lg:text-[24px] font-bold text-primary mt-1">단 7초</div>
+                    <div className="font-label-numeric text-[20px] lg:text-[24px] font-bold text-primary mt-1">수 초</div>
                   </div>
                   <div className="p-4 rounded-xl bg-surface-container-low border border-surface-container/60">
                     <span className="font-label-caps text-[11px] text-on-surface-variant">각막 절개창 크기</span>
@@ -103,15 +104,15 @@ export const ProcedureComparison: React.FC<ProcedureComparisonProps> = ({ langua
                   </div>
                 </div>
 
-                {/* Key Zeiss Tech Chips */}
+                {/* Key laser alignment chips */}
                 <div className="p-4 rounded-xl bg-surface-container-high/80 border border-primary/20 flex flex-col gap-2">
                   <div className="flex items-center gap-2 text-primary font-headline-sm text-[14px] lg:text-[15px] font-semibold">
                     <span className="material-symbols-outlined text-[20px]">hub</span>
-                    <span>비쥬맥스 800 듀얼 센서 보정 기술 탑재</span>
+                    <span>듀얼 센서 자동 보정 기술 탑재</span>
                   </div>
                   <p className="font-body-sm text-[13px] text-on-surface-variant leading-relaxed">
-                    <strong>CentraLign®:</strong> 환자가 누웠을 때 변하는 동공 시축 중심을 밀리미터 이하로 감지 자동 고정.<br />
-                    <strong>OcuLign®:</strong> 자세에 따라 눈이 미세하게 돌아가는 회선 안구 난시축을 자동 회전 보정하여 난시 교정 정밀도를 획기적으로 향상.
+                    <strong>자동 중심 정렬:</strong> 환자가 누웠을 때 변하는 동공 시축 중심을 밀리미터 이하로 감지해 자동 고정.<br />
+                    <strong>난시축 자동 보정:</strong> 자세에 따라 눈이 미세하게 돌아가는 회선(Torsion)을 자동 회전 보정하여 난시 교정 정밀도를 높입니다.
                   </p>
                 </div>
               </div>
@@ -124,7 +125,7 @@ export const ProcedureComparison: React.FC<ProcedureComparisonProps> = ({ langua
                   각막 절개창 크기 직관 비교
                 </span>
                 <p className="font-body-sm text-[13px] text-on-surface-variant mb-6 leading-relaxed">
-                  절개창이 작을수록 각막 표면의 지각 신경이 안전하게 유지되어 안구건조증 유발률이 현저히 낮아집니다.
+                  절개창이 작을수록 각막 표면의 지각 신경이 덜 끊겨, 수술 후 안구건조 증상이 비교적 적게 보고됩니다. 다만 정도는 개인차가 있습니다.
                 </p>
 
                 {/* SVG Visual Demonstration */}
@@ -153,7 +154,7 @@ export const ProcedureComparison: React.FC<ProcedureComparisonProps> = ({ langua
                   </svg>
                   <div className="flex items-center gap-3 mt-4 text-center">
                     <span className="px-3.5 py-1.5 rounded-full bg-primary text-on-primary font-label-caps text-[11px] font-bold shadow-sm">
-                      스마일프로: 2mm 절개 (각막 신경 90% 보존)
+                      렌티큘 추출술: 2mm 미세 절개 (각막 표면 신경 보존에 유리)
                     </span>
                   </div>
                 </div>
@@ -161,7 +162,7 @@ export const ProcedureComparison: React.FC<ProcedureComparisonProps> = ({ langua
 
               <div className="mt-6 pt-4 border-t border-surface-container flex items-center justify-between text-on-surface-variant font-body-sm text-[13px]">
                 <span>수술 후 보호렌즈 착용:</span>
-                <span className="font-bold text-primary">불필요 (익일 세안 가능)</span>
+                <span className="font-bold text-primary">일반적으로 불필요</span>
               </div>
             </div>
           </div>
@@ -264,7 +265,7 @@ export const ProcedureComparison: React.FC<ProcedureComparisonProps> = ({ langua
                   각막 상피층 제거 후 엑시머 레이저로 직접 실질 절삭
                 </h3>
                 <p className="font-body-md text-[15px] text-on-surface-variant leading-relaxed mb-6">
-                  각막 가장 바깥쪽 상피를 약품이나 브러시로 완전히 벗겨낸 후 레이저로 도수를 교정합니다. 잔여 각막 두께를 많이 남길 수 있어 충격에 강하지만, 상피가 다시 자라는 3~5일 동안 상당한 통증과 눈부심이 발생합니다.
+                  각막 가장 바깥쪽 상피를 약품이나 브러시로 벗겨낸 후 레이저로 도수를 교정합니다. 잔여 각막 두께를 많이 남길 수 있어 얇은 각막에도 적용 범위가 넓은 반면, 상피가 다시 자라는 3~5일 동안 통증과 눈부심이 동반될 수 있습니다.
                 </p>
 
                 <div className="grid grid-cols-3 gap-3 lg:gap-4 mb-6">
@@ -296,7 +297,7 @@ export const ProcedureComparison: React.FC<ProcedureComparisonProps> = ({ langua
                   라섹 상피 박리 다이어그램
                 </span>
                 <p className="font-body-sm text-[13px] text-on-surface-variant mb-6 leading-relaxed">
-                  재생 과정에서 신경 노출로 인한 통증과 눈부심 발생.
+                  재생 과정에서 신경이 노출돼 통증과 눈부심이 동반될 수 있습니다.
                 </p>
 
                 <div className="w-full bg-surface-container-low rounded-xl p-6 flex flex-col items-center justify-center border border-surface-container/70">
@@ -315,7 +316,7 @@ export const ProcedureComparison: React.FC<ProcedureComparisonProps> = ({ langua
                   </svg>
                   <div className="flex items-center gap-3 mt-4 text-center">
                     <span className="px-3.5 py-1.5 rounded-full bg-surface-container-highest text-on-surface font-label-caps text-[11px] font-bold">
-                      라섹: 상피 박리 (3~5일 통증 및 회복 대기)
+                      라섹: 상피 박리 (3~5일 회복 기간)
                     </span>
                   </div>
                 </div>
@@ -331,14 +332,17 @@ export const ProcedureComparison: React.FC<ProcedureComparisonProps> = ({ langua
 
         {/* Comparison Matrix Table */}
         <div className="mt-12 bg-surface-container-lowest rounded-2xl p-6 shadow-sm overflow-x-auto border border-surface-container/50">
-          <h4 className="font-headline-sm text-[18px] text-on-surface font-bold mb-4">
-            수술별 한눈에 보는 팩트 체크 테이블
+          <h4 className="font-headline-sm text-[18px] text-on-surface font-bold mb-1">
+            수술별 한눈에 보는 비교표
           </h4>
+          <p className="font-body-sm text-[12px] text-on-surface-variant mb-4 leading-relaxed break-keep">
+            본원에서 시행하는 세 가지 방식을 같은 항목으로 비교한 일반적인 안내이며, 특정 시술이 다른 시술보다 우수하다는 뜻이 아닙니다. 수치와 기간은 예시이고 개인차가 있습니다.
+          </p>
           <table className="w-full text-left font-body-sm text-[14px] min-w-[620px]">
             <thead>
               <tr className="bg-surface-container-low text-on-surface font-semibold">
                 <th className="p-3.5 rounded-l-lg">구분</th>
-                <th className="p-3.5 text-primary font-bold">자이스 7초 스마일프로</th>
+                <th className="p-3.5 text-primary font-bold">렌티큘 추출술 (KLEx)</th>
                 <th className="p-3.5">기존 라식</th>
                 <th className="p-3.5 rounded-r-lg">기존 라섹</th>
               </tr>
@@ -346,7 +350,7 @@ export const ProcedureComparison: React.FC<ProcedureComparisonProps> = ({ langua
             <tbody className="divide-y divide-surface-container">
               <tr>
                 <td className="p-3.5 font-medium text-on-surface">단안 레이저 시간</td>
-                <td className="p-3.5 font-label-numeric font-bold text-primary">단 7초 (2MHz 초고속)</td>
+                <td className="p-3.5 font-label-numeric font-bold text-primary">수 초 단위</td>
                 <td className="p-3.5 font-label-numeric text-on-surface-variant">약 20초~30초</td>
                 <td className="p-3.5 font-label-numeric text-on-surface-variant">약 30초~50초</td>
               </tr>
@@ -358,30 +362,33 @@ export const ProcedureComparison: React.FC<ProcedureComparisonProps> = ({ langua
               </tr>
               <tr>
                 <td className="p-3.5 font-medium text-on-surface">수술 중 · 후 통증</td>
-                <td className="p-3.5 font-bold text-primary">거의 없음 (압박감 최소)</td>
+                <td className="p-3.5 font-bold text-primary">수술 중 압박감 위주</td>
                 <td className="p-3.5 text-on-surface-variant">당일 2~3시간 시림</td>
-                <td className="p-3.5 text-error font-medium">3~5일간 극심한 통증 · 눈물</td>
+                <td className="p-3.5 text-error font-medium">3~5일간 통증 · 눈물</td>
               </tr>
               <tr>
                 <td className="p-3.5 font-medium text-on-surface">일상 복귀 및 세안</td>
-                <td className="p-3.5 font-bold text-primary">다음 날 즉시 세안·화장 가능</td>
+                <td className="p-3.5 font-bold text-primary">다음 날부터 (의료진 안내에 따름)</td>
                 <td className="p-3.5 text-on-surface-variant">3일 후 가벼운 세안</td>
                 <td className="p-3.5 text-on-surface-variant">5~7일 후 렌즈 제거 후 세안</td>
               </tr>
               <tr>
                 <td className="p-3.5 font-medium text-on-surface">외부 충격 안전성</td>
-                <td className="p-3.5 font-bold text-primary">매우 강함 (절편 이탈 없음)</td>
+                <td className="p-3.5 font-bold text-primary">절편을 만들지 않음</td>
                 <td className="p-3.5 text-error font-medium">주의 필요 (절편 밀림 가능)</td>
-                <td className="p-3.5 font-medium text-on-surface">강함</td>
+                <td className="p-3.5 font-medium text-on-surface">절편 없음</td>
               </tr>
               <tr>
                 <td className="p-3.5 font-medium text-on-surface">안구건조증 유발률</td>
-                <td className="p-3.5 font-bold text-primary">최소화 (신경 손상 80% 감소)</td>
+                <td className="p-3.5 font-bold text-primary">표면 신경 손상이 상대적으로 적음</td>
                 <td className="p-3.5 text-on-surface-variant">초기 건조감 비교적 큼</td>
                 <td className="p-3.5 text-on-surface-variant">보통 수준</td>
               </tr>
             </tbody>
           </table>
+          <p className="font-body-sm text-[12px] text-outline mt-4 leading-relaxed break-keep">
+            {OUTCOME_DISCLAIMER}
+          </p>
         </div>
       </div>
     </section>

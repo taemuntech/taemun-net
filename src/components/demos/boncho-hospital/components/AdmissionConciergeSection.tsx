@@ -1,15 +1,27 @@
 import SampleNotice from '@/components/demo-kit/SampleNotice';
-import React, { useState } from 'react';
-import { ConciergeBookingForm } from '../types';
+import React, { useEffect, useState } from 'react';
+import { AdmissionPurpose, ConciergeBookingForm, InsuranceType, RoomType } from '../types';
 
 interface AdmissionConciergeProps {
-  initialRoomType?: 'royal' | 'harmony' | 'undecided';
-  initialPurpose?: 'oncology' | 'traffic' | 'rehab' | 'outpatient';
+  initialRoomType?: RoomType | 'undecided';
+  initialPurpose?: AdmissionPurpose;
+  /** 병동 현황에서 고른 호실 — 고른 병실 번호가 예약 폼 본문까지 내려오게 한다 */
+  initialRoomNumber?: string | null;
+}
+
+/** 내일 날짜(브라우저 시간대 기준). toISOString() 은 UTC 라 새벽에는 오늘 날짜가 찍힌다. */
+function tomorrowLocalDate(): string {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  const mm = `${d.getMonth() + 1}`.padStart(2, '0');
+  const dd = `${d.getDate()}`.padStart(2, '0');
+  return `${d.getFullYear()}-${mm}-${dd}`;
 }
 
 export const AdmissionConciergeSection: React.FC<AdmissionConciergeProps> = ({
   initialRoomType = 'royal',
   initialPurpose = 'oncology',
+  initialRoomNumber = null,
 }) => {
   const [formData, setFormData] = useState<ConciergeBookingForm>({
     admissionPurpose: initialPurpose,
@@ -17,10 +29,21 @@ export const AdmissionConciergeSection: React.FC<AdmissionConciergeProps> = ({
     insuranceType: 'auto',
     patientName: '',
     contactNumber: '',
-    preferredDate: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+    preferredDate: tomorrowLocalDate(),
     symptoms: '',
-    agreePrivacy: true,
+    // 사전 동의 체크는 개인정보보호법 제22조의 유효한 동의로 보기 어렵다 — 반드시 꺼진 채로 연다.
+    agreePrivacy: false,
+    agreeMarketing: false,
   });
+
+  // 부모가 넘기는 선택값만 반영한다. key 로 리마운트하면 입력해 둔 내용이 지워진다.
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      admissionPurpose: initialPurpose,
+      roomType: initialRoomType,
+    }));
+  }, [initialPurpose, initialRoomType, initialRoomNumber]);
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [sampleNoticeOpen, setSampleNoticeOpen] = useState(false);
@@ -36,7 +59,7 @@ export const AdmissionConciergeSection: React.FC<AdmissionConciergeProps> = ({
 
   const getPurposeLabel = (purpose: string) => {
     switch (purpose) {
-      case 'oncology': return '암면역 집중치료';
+      case 'oncology': return '암 통합진료 입원';
       case 'traffic': return '교통사고 입원';
       case 'rehab': return '수술 후 재활';
       case 'outpatient': return '외래 집중 진료';
@@ -45,16 +68,19 @@ export const AdmissionConciergeSection: React.FC<AdmissionConciergeProps> = ({
   };
 
   const getRoomLabel = (room: string) => {
+    // 호실 번호는 그 호실이 실제로 속한 종류일 때만 붙인다.
+    // 종류를 바꾼 뒤에도 따라붙으면 「2인실 … 304호」 같은 모순이 찍힌다.
+    const suffix = initialRoomNumber && room === initialRoomType ? ` · ${initialRoomNumber} 지정` : '';
     switch (room) {
-      case 'royal': return '1인실 로열 스위트 (프라이빗 테라스)';
-      case 'harmony': return '2인실 하모니 스위트 (독립 방음 칸막이형)';
+      case 'royal': return `1인실 로열 스위트 (프라이빗 테라스)${suffix}`;
+      case 'harmony': return `2인실 하모니 스위트 (독립 파티션형)${suffix}`;
       default: return '상담 후 의료진 추천에 따라 결정';
     }
   };
 
   const getInsuranceLabel = (ins: string) => {
     switch (ins) {
-      case 'auto': return '자동차보험 (대인접수번호 0원 처리)';
+      case 'auto': return '자동차보험 (대인접수번호로 청구)';
       case 'silson': return '개인 실손의료비 보험';
       default: return '국민건강보험 일반 적용';
     }
@@ -68,10 +94,10 @@ export const AdmissionConciergeSection: React.FC<AdmissionConciergeProps> = ({
             24/7 Smart Admission Concierge
           </span>
           <h2 className="font-serif text-[32px] lg:text-[38px] text-[#102a20] font-semibold mt-1">
-            실시간 입원실 간편 예약 &amp; 보험 상담
+            입원실 예약 &amp; 보험 상담 (시뮬레이션)
           </h2>
           <p className="text-[15px] text-[#424844] mt-2">
-            원하시는 진료 목적과 병실 형태를 선택하시면 24시간 당직 상담간호사가 입원 가능 여부와 예상 비용을 10분 이내 유선 안내해 드립니다.
+            원하시는 진료 목적과 병실 형태를 선택하시면 당직 상담간호사가 입원 가능 여부와 예상 비용을 유선으로 안내해 드립니다.
           </p>
         </div>
 
@@ -97,7 +123,7 @@ export const AdmissionConciergeSection: React.FC<AdmissionConciergeProps> = ({
                       <span className="material-symbols-outlined text-[24px] block mb-1">
                         ecg_heart
                       </span>
-                      <span className="text-[14px] font-semibold block">암면역 집중치료</span>
+                      <span className="text-[14px] font-semibold block">암 통합진료 입원</span>
                     </div>
                   </label>
 
@@ -160,16 +186,21 @@ export const AdmissionConciergeSection: React.FC<AdmissionConciergeProps> = ({
                   <select
                     value={formData.roomType}
                     onChange={(e) =>
-                      setFormData({ ...formData, roomType: e.target.value as any })
+                      setFormData({ ...formData, roomType: e.target.value as RoomType | 'undecided' })
                     }
                     className="w-full px-4 py-3 rounded-lg bg-[#f4f3f0] text-[#1a1c1a] text-[14px] border border-[#c2c8c3] focus:outline-none focus:ring-2 focus:ring-[#102a20] shadow-inner"
                   >
                     <option value="royal">
                       1인실 로열 스위트 (프라이빗 테라스 / 편백 인테리어)
                     </option>
-                    <option value="harmony">2인실 하모니 스위트 (독립 방음 칸막이형)</option>
+                    <option value="harmony">2인실 하모니 스위트 (독립 파티션형)</option>
                     <option value="undecided">상담 후 의료진 추천에 따라 결정</option>
                   </select>
+                  {initialRoomNumber && formData.roomType === initialRoomType && (
+                    <p className="mt-2 text-[12px] text-[#102a20] bg-[#cbe9da]/40 border border-[#b0cdbe] rounded-lg px-3 py-2 break-keep">
+                      병동 현황에서 고르신 <strong>{initialRoomNumber}</strong> 로 지정해 두었습니다. 다른 병실을 원하시면 위에서 바꿔 주세요.
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -179,12 +210,12 @@ export const AdmissionConciergeSection: React.FC<AdmissionConciergeProps> = ({
                   <select
                     value={formData.insuranceType}
                     onChange={(e) =>
-                      setFormData({ ...formData, insuranceType: e.target.value as any })
+                      setFormData({ ...formData, insuranceType: e.target.value as InsuranceType })
                     }
                     className="w-full px-4 py-3 rounded-lg bg-[#f4f3f0] text-[#1a1c1a] text-[14px] border border-[#c2c8c3] focus:outline-none focus:ring-2 focus:ring-[#102a20] shadow-inner"
                   >
                     <option value="auto">
-                      자동차보험 (대인사고 접수번호 보유 · 본인부담금 0원)
+                      자동차보험 (대인사고 접수번호 보유)
                     </option>
                     <option value="silson">개인 실손의료비 보험 적용 요청</option>
                     <option value="health">국민건강보험 일반 적용</option>
@@ -244,25 +275,39 @@ export const AdmissionConciergeSection: React.FC<AdmissionConciergeProps> = ({
                   value={formData.symptoms}
                   onChange={(e) => setFormData({ ...formData, symptoms: e.target.value })}
                   className="w-full px-4 py-3 rounded-lg bg-[#f4f3f0] text-[#1a1c1a] text-[14px] border border-[#c2c8c3] focus:outline-none focus:ring-2 focus:ring-[#102a20] shadow-inner"
-                  placeholder="현재 겪고 계신 질환(예: 유방암 2기 항암 중, 교통사고 후 경추 통증 등)이나 필요하신 케어를 남겨주시면 더욱 정확히 안내해 드립니다."
+                  placeholder="필요하신 안내를 적어 주세요. (샘플 화면이라 입력하신 내용은 어디에도 전송되지 않습니다)"
                   rows={2}
                 />
               </div>
 
               {/* Privacy & Submit */}
               <div className="flex flex-col lg:flex-row items-center justify-between gap-4 pt-4 bg-[#efeeeb] p-4 rounded-xl">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    required
-                    checked={formData.agreePrivacy}
-                    onChange={(e) => setFormData({ ...formData, agreePrivacy: e.target.checked })}
-                    className="w-4 h-4 rounded text-[#102a20] accent-[#102a20]"
-                    type="checkbox"
-                  />
-                  <span className="text-[13px] text-[#424844]">
-                    입원 상담을 위한 개인정보 수집 및 안내 메시지 수신에 동의합니다.
-                  </span>
-                </label>
+                {/* 수집 동의(필수)와 수신 동의(선택)를 한 칸에 묶으면 끼워 파는 모양이 된다 — 따로 가른다. */}
+                <div className="w-full lg:w-auto space-y-2">
+                  <label className="flex items-start gap-2 cursor-pointer">
+                    <input
+                      required
+                      checked={formData.agreePrivacy}
+                      onChange={(e) => setFormData({ ...formData, agreePrivacy: e.target.checked })}
+                      className="w-4 h-4 mt-0.5 shrink-0 rounded text-[#102a20] accent-[#102a20]"
+                      type="checkbox"
+                    />
+                    <span className="text-[13px] text-[#424844] break-keep">
+                      <strong className="text-[#102a20]">(필수)</strong> 입원 상담을 위한 개인정보 수집·이용에 동의합니다.
+                    </span>
+                  </label>
+                  <label className="flex items-start gap-2 cursor-pointer">
+                    <input
+                      checked={formData.agreeMarketing}
+                      onChange={(e) => setFormData({ ...formData, agreeMarketing: e.target.checked })}
+                      className="w-4 h-4 mt-0.5 shrink-0 rounded text-[#102a20] accent-[#102a20]"
+                      type="checkbox"
+                    />
+                    <span className="text-[13px] text-[#424844] break-keep">
+                      (선택) 진료·행사 안내 메시지 수신에 동의합니다.
+                    </span>
+                  </label>
+                </div>
 
                 <div className="w-full text-center mb-2"><p className="text-[11px] text-stone-500">※ 본 화면은 포트폴리오용 시뮬레이션으로 실제 예약이나 개인정보가 외부로 전송되지 않습니다.</p></div>
                 <button
@@ -270,7 +315,7 @@ export const AdmissionConciergeSection: React.FC<AdmissionConciergeProps> = ({
                   type="submit"
                 >
                   <span className="material-symbols-outlined text-[20px]">send</span>
-                  <span>입원 상담 시뮬레이션 신청</span>
+                  <span>입원 상담 시뮬레이션 보기</span>
                 </button>
               </div>
             </form>
@@ -334,7 +379,7 @@ export const AdmissionConciergeSection: React.FC<AdmissionConciergeProps> = ({
                       }}
                       className="px-4 py-2 rounded-lg bg-[#264035] hover:bg-[#324c41] text-[12px] font-semibold text-white transition-colors cursor-pointer"
                     >
-                      새로운 상담 접수하기
+                      다시 작성해 보기
                     </button>
                   </div>
                 </div>

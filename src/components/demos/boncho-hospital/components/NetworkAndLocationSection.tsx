@@ -12,25 +12,25 @@ export const NetworkAndLocationSection: React.FC = () => {
             Emergency Referral Network
           </span>
           <h2 className="font-serif text-[32px] lg:text-[38px] text-[#102a20] font-semibold mt-1">
-            주요 대학병원 골든타임 비상 핫라인
+            응급 전원 협력 안내 (예시)
           </h2>
           <p className="text-[15px] text-[#424844] mt-2">
-            응급 상황 발생 시 즉시 전원 가능한 비상 의료 협력망과 항암·방사선 외래 통원 차량을 운행합니다.
+            응급 상황이 생기면 전원할 수 있도록 협력 체계를 두고, 항암·방사선 외래 통원 차량을 운행합니다. 아래 기관명은 모두 가상의 예시이며, 실제 전원 협약을 뜻하지 않습니다.
           </p>
         </div>
 
         {/* 4 University Hospitals Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-16">
           <div className="bg-white p-5 rounded-xl border border-[#e3e2e0] shadow-sm flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="font-serif text-[18px] text-[#102a20] font-bold">서초 성모 메디컬 센터 (가상 협력망)</span>
+                <span className="font-serif text-[18px] text-[#102a20] font-bold">A 대학병원 (예시)</span>
                 <span className="text-[11px] bg-[#cbe9da] text-[#052017] px-2 py-0.5 rounded font-semibold">
                   차량 7분
                 </span>
               </div>
               <p className="text-[13px] text-[#424844] leading-relaxed">
-                서초 성모 메디컬 센터 응급의료센터와 최단 거리 직통 앰뷸런스 비상 이송 핫라인
+                A 대학병원(예시) 응급의료센터와 직통으로 연결되는 앰뷸런스 비상 이송 절차
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-[#efeeeb] text-[12px] text-[#75593c] font-medium flex items-center gap-1">
@@ -42,13 +42,13 @@ export const NetworkAndLocationSection: React.FC = () => {
           <div className="bg-white p-5 rounded-xl border border-[#e3e2e0] shadow-sm flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="font-serif text-[18px] text-[#102a20] font-bold">일원 메디컬 암병원 (가상 협력망)</span>
+                <span className="font-serif text-[18px] text-[#102a20] font-bold">B 암센터 (예시)</span>
                 <span className="text-[11px] bg-[#ffd9b4] text-[#533417] px-2 py-0.5 rounded font-semibold">
                   차량 15분
                 </span>
               </div>
               <p className="text-[13px] text-[#424844] leading-relaxed">
-                일원 메디컬 암병원 (가상 협력망) 암병원 외래 진료 일정과 연계된 1:1 리무진 동행 케어 시스템
+                B 암센터(예시) 외래 진료 일정과 연계된 1:1 동행 케어 시스템
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-[#efeeeb] text-[12px] text-[#75593c] font-medium flex items-center gap-1">
@@ -60,13 +60,13 @@ export const NetworkAndLocationSection: React.FC = () => {
           <div className="bg-white p-5 rounded-xl border border-[#e3e2e0] shadow-sm flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="font-serif text-[18px] text-[#102a20] font-bold">송파 아산 메디컬 (가상 협력망)</span>
+                <span className="font-serif text-[18px] text-[#102a20] font-bold">C 대학병원 (예시)</span>
                 <span className="text-[11px] bg-[#e9e8e5] text-[#102a20] px-2 py-0.5 rounded font-semibold">
                   차량 20분
                 </span>
               </div>
               <p className="text-[13px] text-[#424844] leading-relaxed">
-                풍납동 송파 아산 메디컬 (가상 협력망) 암병원 전원 및 수술 후 집중 회복을 위한 원스톱 이송 협력
+                C 대학병원(예시) 전원 및 수술 후 집중 회복을 위한 원스톱 이송 협력
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-[#efeeeb] text-[12px] text-[#75593c] font-medium flex items-center gap-1">
@@ -78,13 +78,13 @@ export const NetworkAndLocationSection: React.FC = () => {
           <div className="bg-white p-5 rounded-xl border border-[#e3e2e0] shadow-sm flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="font-serif text-[18px] text-[#102a20] font-bold">국립암센터</span>
+                <span className="font-serif text-[18px] text-[#102a20] font-bold">D 암연구 의료원 (예시)</span>
                 <span className="text-[11px] bg-[#e9e8e5] text-[#102a20] px-2 py-0.5 rounded font-semibold">
                   공동 진료망
                 </span>
               </div>
               <p className="text-[13px] text-[#424844] leading-relaxed">
-                국가 암 진료 가이드라인에 기반한 의·한의 통합 면역 프로토콜 공동 적용
+                표준 진료 지침을 참고해 의·한의 통합 진료 계획을 함께 검토하는 협력 관계 (예시)
               </p>
             </div>
             <div className="mt-4 pt-3 border-t border-[#efeeeb] text-[12px] text-[#75593c] font-medium flex items-center gap-1">
@@ -106,7 +106,7 @@ export const NetworkAndLocationSection: React.FC = () => {
                 오시는 길 &amp; 24시간 안심 발렛파킹
               </h3>
               <p className="text-[15px] text-[#424844] leading-relaxed">
-                서울특별시 서초구 반포대로 180 (서초역 1번 출구 도보 3분 / 교대역 9번 출구 인근).
+서울특별시 서초구 반포대로 180 (서초역 1번 출구 도보 3분 / 교대역 9번 출구 인근).
                 병원 정문 도착 즉시 전문 발렛 요원이 주차를 대행해 드려 거동이 불편하신 환자분도 편안하게 입장하실 수 있습니다.
               </p>
 
@@ -114,7 +114,7 @@ export const NetworkAndLocationSection: React.FC = () => {
               <div className="flex gap-2 pt-2">
                 <button
                   onClick={() => setMapTab('subway')}
-                  className={`px-3 py-1.5 rounded-lg text-[13px] font-semibold transition-colors cursor-pointer ${
+                  className={`px-3 py-1.5 max-lg:min-h-[44px] max-lg:px-4 rounded-lg text-[13px] font-semibold transition-colors cursor-pointer ${
                     mapTab === 'subway'
                       ? 'bg-[#102a20] text-white'
                       : 'bg-white text-[#424844] border border-[#e3e2e0]'
@@ -124,7 +124,7 @@ export const NetworkAndLocationSection: React.FC = () => {
                 </button>
                 <button
                   onClick={() => setMapTab('car')}
-                  className={`px-3 py-1.5 rounded-lg text-[13px] font-semibold transition-colors cursor-pointer ${
+                  className={`px-3 py-1.5 max-lg:min-h-[44px] max-lg:px-4 rounded-lg text-[13px] font-semibold transition-colors cursor-pointer ${
                     mapTab === 'car'
                       ? 'bg-[#102a20] text-white'
                       : 'bg-white text-[#424844] border border-[#e3e2e0]'
@@ -134,7 +134,7 @@ export const NetworkAndLocationSection: React.FC = () => {
                 </button>
                 <button
                   onClick={() => setMapTab('shuttle')}
-                  className={`px-3 py-1.5 rounded-lg text-[13px] font-semibold transition-colors cursor-pointer ${
+                  className={`px-3 py-1.5 max-lg:min-h-[44px] max-lg:px-4 rounded-lg text-[13px] font-semibold transition-colors cursor-pointer ${
                     mapTab === 'shuttle'
                       ? 'bg-[#102a20] text-white'
                       : 'bg-white text-[#424844] border border-[#e3e2e0]'
@@ -173,8 +173,8 @@ export const NetworkAndLocationSection: React.FC = () => {
 
                 {mapTab === 'shuttle' && (
                   <>
-                    <p>• 서초 성모 메디컬 센터 (가상 협력망) 암병원 정문 ↔ 본초한방병원: <strong>30분 간격 순환 셔틀</strong> 운행</p>
-                    <p>• 탑승 위치: 성모병원 본관 1층 정문 택시 승강장 건너편 전용 셔틀 베이</p>
+                    <p>• A 대학병원(예시) 정문 ↔ 본초한방병원: <strong>30분 간격 순환 셔틀</strong> 운행</p>
+                    <p>• 탑승 위치: A 대학병원(예시) 본관 1층 정문 앞 전용 셔틀 베이</p>
                     <p>• 첫차 08:30 / 막차 18:00 (입원·외래 예약 환자 무료 탑승)</p>
                   </>
                 )}
@@ -217,12 +217,12 @@ export const NetworkAndLocationSection: React.FC = () => {
                     <span>24시간 전담 발렛파킹 요원 상주 (정문 대기)</span>
                   </div>
                   <a
-                    href="https://map.kakao.com"
+                    href="https://map.kakao.com/?q=%EC%84%9C%EC%9A%B8%20%EC%84%9C%EC%B4%88%EA%B5%AC%20%EB%B0%98%ED%8F%AC%EB%8C%80%EB%A1%9C%20180"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#75593c] hover:underline flex items-center gap-0.5 text-[12px]"
+                    className="text-[#75593c] hover:underline flex items-center gap-0.5 max-lg:min-h-[44px] text-[12px] shrink-0"
                   >
-                    <span>지도 앱 길찾기</span>
+                    <span>지도 앱에서 주소 열기</span>
                     <span className="material-symbols-outlined text-[14px]">open_in_new</span>
                   </a>
                 </div>

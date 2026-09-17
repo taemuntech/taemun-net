@@ -1,45 +1,23 @@
 import React, { useState } from 'react';
+import SampleNotice from '@/components/demo-kit/SampleNotice';
 import { BookingState, Language } from '../types';
+import { SERVICE_LIST, DOCTOR_LIST, SAMPLE_FORM_NOTICE } from '../constants';
 
 interface FastTrackBookingProps {
   language: Language;
   bookingState: BookingState;
   setBookingState: React.Dispatch<React.SetStateAction<BookingState>>;
-  onCompleteBooking?: (voucher: any) => void;
 }
 
 export const FastTrackBooking: React.FC<FastTrackBookingProps> = ({
   language,
   bookingState,
   setBookingState,
-  onCompleteBooking,
 }) => {
-  const [submittedVoucher, setSubmittedVoucher] = useState<{
-    code: string;
-    date: string;
-    time: string;
-    service: string;
-    doctor: string;
-    name: string;
-    phone: string;
-  } | null>(null);
-
   const [formError, setFormError] = useState<string>('');
-
-  const services = [
-    '7초 스마일프로 (비쥬맥스 800)',
-    '토포 커스텀 라식',
-    'EVO+ 아쿠아 ICL',
-    '노안 & 프리미엄 백내장',
-    '50단계 정밀 안종합 검진',
-    '타 병원 2nd 재수술 상담',
-  ];
-
-  const doctors = [
-    '상관없음 (가장 빠른 일정 우선)',
-    '강현우 대표원장 (스마일프로·시력교정)',
-    '윤소희 대표원장 (노안·백내장·망막)',
-  ];
+  // 개인정보를 받는 폼이 있는 파일에서 직접 고지 모달을 연다.
+  // 부모에 맡겨 두면 「이 폼이 정말 고지를 여는지」를 이 파일만 보고는 알 수 없다.
+  const [noticeOpen, setNoticeOpen] = useState(false);
 
   const timeSlots = ['09:30 (오전 첫 타임)', '11:00', '14:00 (오후 첫 타임)', '16:00', '18:30 (야간)'];
 
@@ -59,18 +37,8 @@ export const FastTrackBooking: React.FC<FastTrackBookingProps> = ({
     }
 
     setFormError('');
-    const randomCode = 'PV-' + Math.floor(100000 + Math.random() * 900000);
-    const voucherData = {
-      code: randomCode,
-      date: bookingState.date || '내일',
-      time: bookingState.time,
-      service: bookingState.service,
-      doctor: bookingState.doctor,
-      name: bookingState.patientName,
-      phone: bookingState.patientPhone,
-    };
-    setSubmittedVoucher(voucherData);
-    if (onCompleteBooking) onCompleteBooking(voucherData);
+    // 입력값은 어디에도 보내지 않고, 가짜 접수번호도 만들지 않는다 — SampleNotice 만 연다.
+    setNoticeOpen(true);
   };
 
   return (
@@ -94,7 +62,7 @@ export const FastTrackBooking: React.FC<FastTrackBookingProps> = ({
         {/* Booking Form Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Main Form (7 Cols) */}
-          <form onSubmit={handleSubmit} data-sample-local="true"
+          <form onSubmit={handleSubmit}
             className="lg:col-span-7 bg-surface-container-lowest p-6 lg:p-8 rounded-2xl shadow-sm flex flex-col gap-6 border border-surface-container/50"
           >
             {/* Step 1: Service */}
@@ -103,13 +71,13 @@ export const FastTrackBooking: React.FC<FastTrackBookingProps> = ({
                 1. 희망 진료 및 수술 항목
               </label>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-2.5">
-                {services.map((svc) => (
+                {SERVICE_LIST.map((svc) => (
                   <button
                     key={svc}
                     type="button"
                     onClick={() => setBookingState((s) => ({ ...s, service: svc }))}
-                    className={`p-3 rounded-xl text-left font-body-sm text-[13px] lg:text-[14px] font-medium transition-all border cursor-pointer ${
-                      bookingState.service.includes(svc.slice(0, 5)) || bookingState.service === svc
+                    className={`flex items-center p-3 min-h-[44px] rounded-xl text-left font-body-sm text-[13px] lg:text-[14px] font-medium transition-all border cursor-pointer ${
+                      bookingState.service === svc
                         ? 'bg-primary-fixed border-primary/40 text-on-primary-fixed font-bold shadow-sm'
                         : 'bg-surface-container-low border-transparent hover:bg-surface-container-high text-on-surface'
                     }`}
@@ -126,10 +94,10 @@ export const FastTrackBooking: React.FC<FastTrackBookingProps> = ({
                 2. 희망 의료진 지정
               </label>
               <div className="space-y-2">
-                {doctors.map((doc) => (
+                {DOCTOR_LIST.map((doc) => (
                   <label
                     key={doc}
-                    className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
+                    className={`flex items-center gap-3 p-3 min-h-[44px] rounded-xl border cursor-pointer transition-all ${
                       bookingState.doctor === doc
                         ? 'bg-primary-fixed border-primary/30 text-on-primary-fixed font-bold'
                         : 'bg-surface-container-low border-transparent hover:bg-surface-container-high text-on-surface'
@@ -281,21 +249,25 @@ export const FastTrackBooking: React.FC<FastTrackBookingProps> = ({
               </div>
             )}
 
+            <p className="font-body-sm text-[13px] text-on-surface-variant leading-relaxed text-center break-keep">
+              {SAMPLE_FORM_NOTICE}
+            </p>
+
             <button
               type="submit"
               className="w-full py-4 rounded-xl bg-primary-container hover:bg-primary text-on-primary-container hover:text-on-primary font-headline-sm text-[16px] font-bold shadow-lg transition-all active:scale-[0.99] cursor-pointer flex items-center justify-center gap-2"
             >
               <span className="material-symbols-outlined text-[20px]">send</span>
-              <span>원데이 패스트트랙 신청 완료하기</span>
+              <span>원데이 패스트트랙 예약 보내기</span>
             </button>
           </form>
 
           {/* Live Review Card (5 Cols) */}
-          <div className="lg:col-span-5 bg-gradient-to-b from-surface-container-lowest to-surface-container-low p-6 lg:p-8 rounded-2xl shadow-xl border border-surface-container sticky top-28">
-            <div className="flex items-center justify-between pb-4 border-b border-surface-container">
+          <div className="lg:col-span-5 bg-gradient-to-b from-surface-container-lowest to-surface-container-low p-6 lg:p-8 rounded-2xl shadow-xl border border-surface-container lg:sticky lg:top-28">
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-surface-container">
               <span className="font-headline-sm text-[16px] font-bold text-on-surface flex items-center gap-2">
                 <span className="material-symbols-outlined text-primary text-[20px]">fact_check</span>
-                <span>실시간 예약 확인서 요약</span>
+                <span>입력하신 내용 요약</span>
               </span>
               <span className="font-label-caps text-[11px] px-2.5 py-1 rounded-full bg-primary-fixed text-primary font-bold">
                 1:1 FAST TRACK
@@ -342,69 +314,21 @@ export const FastTrackBooking: React.FC<FastTrackBookingProps> = ({
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-surface-container text-on-surface-variant font-body-sm text-[12px] leading-relaxed">
-              💡 <strong>안심 보증 안내:</strong> 예약 접수 완료 후 15분 이내에 전문 상담 코디네이터가 유선으로 사전 주의사항 및 동선 안내를 최종 확정해 드립니다.
+            <div className="p-4 rounded-xl bg-surface-container text-on-surface-variant font-body-sm text-[12px] leading-relaxed break-keep">
+              💡 <strong>샘플 안내:</strong> 이 요약은 왼쪽에 입력하신 내용을 화면에서 그대로 보여 줄 뿐이며, 어디에도 저장·전송되지 않습니다. 실제 사이트라면 접수 후 담당 코디네이터가 유선으로 주의사항과 동선을 안내하는 자리입니다.
             </div>
           </div>
         </div>
-
-        {/* Confirmation Modal */}
-        {submittedVoucher && (
-          <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-surface-container-lowest rounded-3xl p-6 lg:p-8 max-w-lg w-full shadow-2xl border border-surface-container animate-scaleIn">
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 rounded-full bg-primary-fixed text-primary flex items-center justify-center mx-auto mb-4">
-                  <span className="material-symbols-outlined text-[36px]">check_circle</span>
-                </div>
-                <span className="font-label-caps text-[11px] text-primary font-bold">RESERVATION CONFIRMED</span>
-                <h3 className="font-headline-lg text-[24px] font-extrabold text-on-surface mt-1">
-                  1-Day 패스트트랙 예약 신청 (시뮬레이션)
-                </h3>
-                <p className="font-body-sm text-[14px] text-on-surface-variant mt-2">
-                  {submittedVoucher.name}님, 프라임 스마트 아이 안과 예약이 가상 시뮬레이션 안내입니다 (실제 전송되지 않습니다).
-                </p>
-              </div>
-
-              <div className="bg-surface-container-low rounded-2xl p-5 mb-6 space-y-2.5 font-body-sm text-[14px]">
-                <div className="flex justify-between">
-                  <span className="text-on-surface-variant">접수 번호</span>
-                  <span className="font-label-numeric font-bold text-primary">{submittedVoucher.code}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-on-surface-variant">진료 항목</span>
-                  <span className="font-medium text-on-surface">{submittedVoucher.service}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-on-surface-variant">담당 의료진</span>
-                  <span className="font-medium text-on-surface">{submittedVoucher.doctor}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-on-surface-variant">예약 일시</span>
-                  <span className="font-label-numeric font-semibold text-on-surface">
-                    {submittedVoucher.date} {submittedVoucher.time}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-on-surface-variant">연락처</span>
-                  <span className="font-label-numeric font-semibold text-on-surface">{submittedVoucher.phone}</span>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-xl bg-primary-fixed/40 text-primary font-body-sm text-[12px] leading-relaxed mb-6">
-                카카오톡 알림톡으로 상세 오시는 길과 모바일 문진표가 시뮬레이션되었습니다. 방문 시 본인 확인을 위해 신분증을 지참해 주시기 바랍니다.
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setSubmittedVoucher(null)}
-                className="w-full py-3.5 rounded-xl bg-primary text-on-primary font-headline-sm text-[15px] font-bold hover:bg-primary-container hover:text-on-primary-container transition-all cursor-pointer"
-              >
-                확인
-              </button>
-            </div>
-          </div>
-        )}
       </div>
+
+      <SampleNotice
+        open={noticeOpen}
+        onClose={() => setNoticeOpen(false)}
+        slug="prime-vision-eye-clinic"
+        featureName="1-Day 원데이 패스트트랙 수술 예약"
+        kind="sample"
+        industry="corporate"
+      />
     </section>
   );
 };

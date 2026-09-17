@@ -28,13 +28,13 @@ export const Footer: React.FC<FooterProps> = ({
         <div className="pb-12 border-b border-white/10 grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
           <div className="flex flex-col items-center">
             <Award className="w-6 h-6 text-[#ffdea5] mb-2" />
-            <span className="text-xs font-bold text-white">보건복지부 인증 전문의</span>
+            <span className="text-xs font-bold text-white">치과 전문의 2인 진료</span>
             <span className="text-[10px] text-[#7f7667] mt-0.5">구강악안면외과 &amp; 치과보철과</span>
           </div>
           <div className="flex flex-col items-center">
             <ShieldCheck className="w-6 h-6 text-[#ffdea5] mb-2" />
-            <span className="text-xs font-bold text-white">Straumann &amp; Osstem</span>
-            <span className="text-[10px] text-[#7f7667] mt-0.5">100% 정품 인증서 발급</span>
+            <span className="text-xs font-bold text-white">국내 허가 임플란트</span>
+            <span className="text-[10px] text-[#7f7667] mt-0.5">정품 확인서 발급</span>
           </div>
           <div className="flex flex-col items-center">
             <Heart className="w-6 h-6 text-[#ffdea5] mb-2" />
@@ -68,11 +68,11 @@ export const Footer: React.FC<FooterProps> = ({
               </div>
             </div>
             <p className="text-xs text-[#efeeeb]/70 leading-relaxed max-w-sm">
-              대학병원 출신 보건복지부 인증 전문의 2인의 협진으로, 0.1mm의 오차도 허용하지 않는 첨단 디지털 진료와 자연치아를 온전히 보존하는 예술적 심미를 완성합니다.
+              구강악안면외과 · 치과보철과 전문의 2인이 함께 진단하고, 3D 디지털 계획과 자연치아를 최대한 보존하는 심미 진료를 지향합니다.
             </p>
             <div className="pt-2">
               <span className="text-xs font-bold text-[#ffdea5] block">VIP CONCIERGE</span>
-              <a href="#booking-section" className="text-2xl font-serif font-bold text-white hover:text-[#ffdea5] transition-colors">
+              <a href="#booking-section" className="inline-flex items-center min-h-11 text-2xl font-serif font-bold text-white hover:text-[#ffdea5] transition-colors">
                 02-0000-0000
               </a>
             </div>
@@ -113,14 +113,14 @@ export const Footer: React.FC<FooterProps> = ({
               QUICK MENU &amp; LOCATION
             </h4>
             <div className="flex flex-wrap gap-2 text-xs">
-              <button onClick={onOpenPhilosophy} className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white">
+              <button type="button" onClick={onOpenPhilosophy} className="px-3 py-2.5 min-h-11 rounded-lg bg-white/5 hover:bg-white/10 text-white">
                 병원 철학
               </button>
-              <button onClick={onOpenClinicTour} className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white">
+              <button type="button" onClick={onOpenClinicTour} className="px-3 py-2.5 min-h-11 rounded-lg bg-white/5 hover:bg-white/10 text-white">
                 VIP 공간 투어
               </button>
-              <button onClick={onGoToBooking} className="px-3 py-1.5 rounded-lg bg-[#775a19] text-white font-bold">
-                실시간 간편예약
+              <button type="button" onClick={onGoToBooking} className="px-3 py-2.5 min-h-11 rounded-lg bg-[#775a19] text-white font-bold">
+                온라인 간편예약
               </button>
             </div>
             
@@ -130,7 +130,7 @@ export const Footer: React.FC<FooterProps> = ({
                 <span>서울특별시 강남구 압구정로 88-1, 청담 아르떼 메디컬 타워 4-5F</span>
               </p>
               <p className="text-[11px] text-[#7f7667] pl-5">
-                * 압구정로데오역 3번 출구 도보 3분 • 1F VIP 무료 발렛 주차
+                * 압구정로데오역 3번 출구 도보 3분 • 1F 발렛 데스크 운영
               </p>
             </div>
           </div>
@@ -142,18 +142,24 @@ export const Footer: React.FC<FooterProps> = ({
             청담 아르떼 치과의원 | 대표원장: 민경훈 | 사업자등록번호: 000-00-00000 | 의료기관 개설신고: 제0000-0000000호 (예시) | 전화번호: 02-0000-0000
           </p>
           <p className="leading-relaxed bg-white/5 p-3 rounded-xl border border-white/5">
-            [의료법 고지사항] 본 웹사이트의 모든 치료 전후 사진 및 사례는 환자분의 자발적 서면 동의 하에 게재되었으며, 동일한 조명 및 촬영 각도에서 촬영되었습니다. 모든 치과 치료는 개인의 구강 상태, 잇몸뼈 골밀도 등에 따라 치료 기간이 상이할 수 있으며, 붓기, 출혈, 일시적 시림 증상 등의 부작용이 발생할 수 있으므로 반드시 사전 정밀 진단 후 의료진과 상담이 필요합니다.
+            이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 「청담 아르떼 치과의원」은 실제 의료기관이 아니며, 화면의 의료진·약력·주소·번호·수치는 모두 예시이고 진료 예약은 접수되지 않습니다.
+          </p>
+          <p className="leading-relaxed bg-white/5 p-3 rounded-xl border border-white/5">
+            [의료 관련 고지] 화면의 치료 전후 이미지는 실제 환자의 사진이 아닌 예시 이미지입니다. 치과 치료는 개인의 구강 상태와 잇몸뼈 상태에 따라 방법·기간·결과가 달라질 수 있고, 붓기·출혈·일시적 시림 등의 부작용이 생길 수 있으므로 반드시 사전 진단과 의료진 상담이 필요합니다.
           </p>
           <div className="flex flex-col lg:flex-row items-center justify-between pt-2">
-            <span>© 2026 Cheongdam Arte Dental Clinic. All Rights Reserved.</span>
+            <span>© 2026 Cheongdam Arte Dental Clinic (가상 브랜드 예시)</span>
             <div className="flex gap-4 mt-2 lg:mt-0 text-[10px]">
-              <span className="hover:underline cursor-pointer">개인정보처리방침</span>
+              <span>개인정보처리방침</span>
               <span>•</span>
-              <span className="hover:underline cursor-pointer">이용약관</span>
+              <span>이용약관</span>
               <span>•</span>
-              <span className="hover:underline cursor-pointer">비급여 진료비 안내</span>
+              <span>비급여 진료비 안내</span>
             </div>
           </div>
+          <p className="text-[10px] text-[#7f7667]/80 text-center lg:text-right">
+            * 위 세 항목은 샘플이라 문서가 없습니다 — 실제 사이트에서는 각각의 안내 페이지로 연결됩니다.
+          </p>
         </div>
       </div>
     </footer>

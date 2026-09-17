@@ -25,9 +25,9 @@ export const Footer: React.FC = () => {
             </div>
 
             <p className="text-xs lg:text-sm text-[#A5B0A4] max-w-md leading-relaxed">
-              정형외과 전문의의 원칙 진료, 과잉진료 없는 비수술 중심 척추·관절 네트워크. 
-              정밀 초음파, C-Arm 유도 신경차단술, 그리고 100평 전용 도수재활센터를 통해 
-              환자의 관절과 척추를 수술 없이 건강하게 지켜냅니다.
+              정형외과 전문의의 원칙 진료, 비수술 치료를 먼저 살피는 척추·관절 클리닉.
+              정밀 초음파, C-Arm 유도 신경차단술, 그리고 100평 전용 도수재활센터로
+              환자의 관절과 척추를 지키는 방향에서 치료 계획을 세웁니다.
             </p>
 
             <div className="text-xs text-[#8A9589] space-y-1">
@@ -61,23 +61,34 @@ export const Footer: React.FC = () => {
 
           {/* Right Column: Policies & Trust */}
           <div className="lg:col-span-3 space-y-3">
-            <div className="text-xs font-bold uppercase tracking-wider text-white">환자 권리 &amp; 비급여 안내</div>
-            <div className="flex flex-col space-y-2 text-xs text-[#A5B0A4]">
-              <a href="#about" className="hover:text-white transition-colors">
-                비급여 진료비 항목 고지
+            {/* 「개인정보 처리방침」·「비급여 고지」 같은 이름표는 문서로 가야 한다 —
+                샘플에는 그 문서가 없어서, 실제로 가는 곳의 이름을 그대로 적는다. */}
+            <div className="text-xs font-bold uppercase tracking-wider text-white">페이지 바로가기</div>
+            <div className="flex flex-col space-y-1 text-xs text-[#A5B0A4]">
+              <a href="#about" className="flex min-h-11 items-center hover:text-white transition-colors">
+                병원 소개 &amp; 진료 원칙
               </a>
-              <a href="#medical-staff" className="hover:text-white transition-colors">
-                의료진 윤리 규정 및 환자권리장전
+              <a href="#medical-staff" className="flex min-h-11 items-center hover:text-white transition-colors">
+                의료진 소개 (예시)
               </a>
-              <a href="#fast-track-booking" className="hover:text-white transition-colors">
-                개인정보 처리방침 (의료정보 보호)
+              <a href="#self-diagnosis" className="flex min-h-11 items-center hover:text-white transition-colors">
+                부위별 통증 자가체크
               </a>
-              <a href="#self-diagnosis" className="hover:text-white transition-colors">
-                영상정보처리기기 운영 관리 방침
+              <a href="#fast-track-booking" className="flex min-h-11 items-center hover:text-white transition-colors">
+                당일 MRI 원스톱 예약 (시뮬레이션)
               </a>
             </div>
           </div>
         </div>
+
+        {/* 의료광고 고지 — 나머지 의료 샘플 5종에는 있는데 이 화면에만 없었다.
+            고객이 이 템플릿을 그대로 쓰면 실제 의료기관 광고가 되므로 같은 고지를 둔다. */}
+        <p className="pt-6 text-[11px] text-[#8A9589] leading-relaxed break-keep">
+          [의료광고 관련 고지] 의료법 제56조 제2항에 따라 이 화면에는 치료경험담·환자 후기, 시술 전후 비교 사진,
+          다른 의료기관과의 비교, 치료 효과를 단정하는 표현을 싣지 않습니다. 화면의 치료 소개는 일반적인 안내이며,
+          통증의 원인과 경과에는 개인차가 있고 주사·시술에 따라 출혈·감염·신경 자극 등의 부작용이 생길 수 있어
+          진료 전 의료진과의 상담이 필요합니다.
+        </p>
 
         {/* Copyright sub-bar */}
         <div className="pt-6 flex flex-col lg:flex-row items-center justify-between text-[11px] text-[#8A9589] gap-2">
@@ -85,7 +96,7 @@ export const Footer: React.FC = () => {
             &copy; {new Date().getFullYear()} SEOUL BARUN MADI ORTHOPEDIC CLINIC. ALL RIGHTS RESERVED.
           </div>
           <div className="text-center lg:text-right">
-            본 사이트의 모든 의료 정보 및 콘텐츠는 의료법을 준수하여 작성되었습니다.
+            본 화면의 의료 정보·수치·의료진 이력은 모두 샘플용 예시이며 실제 진료 정보가 아닙니다.
           </div>
         </div>
       </div>

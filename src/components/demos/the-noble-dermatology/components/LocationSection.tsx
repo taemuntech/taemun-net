@@ -5,7 +5,7 @@ import { CLINIC_INFO } from '../data/clinicData';
 export const LocationSection: React.FC = () => {
   return (
     <section id="location-hours" className="w-full py-16 lg:py-20 bg-[#fbf9f6] border-b border-[#eae8e5]">
-      <div className="max-w-7xl mx-auto px-4 lg:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="max-w-3xl mb-12">
           <span className="px-3 py-1 rounded-full bg-[#efeeeb] text-[#745a2a] text-xs font-semibold tracking-wider uppercase mb-2 inline-block border border-[#e4e2df]">
             Location & Operating Hours
@@ -14,7 +14,7 @@ export const LocationSection: React.FC = () => {
             더 노블 청담 오시는 길 & 진료 시간 안내
           </h2>
           <p className="text-sm lg:text-base text-[#424845] leading-relaxed">
-            압구정 명품거리 및 청담 명품거리 인접, 도심 속 가장 프라이빗하고 안락한 메디컬 케어를 선사합니다.
+            압구정·청담 거리 인접. 지하철과 도보로 오시기 편한 곳에 있으며, 차량 이용 시 발렛 파킹을 지원합니다.
           </p>
         </div>
 
@@ -45,7 +45,7 @@ export const LocationSection: React.FC = () => {
                 <Car className="w-5 h-5 text-[#745a2a] shrink-0 mt-0.5" />
                 <div>
                   <span className="font-semibold text-[#00110b] block mb-0.5">
-                    전 고객 무료 VIP 1:1 발렛 파킹 서비스
+                    내원 고객 발렛 파킹 지원
                   </span>
                   <p className="text-[#424845] leading-relaxed">
                     {CLINIC_INFO.valet}
@@ -132,13 +132,13 @@ export const LocationSection: React.FC = () => {
 
               {/* Navigation App Links */}
               <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[#efeeeb]">
-                <span className="text-xs text-[#727975]">내비게이션 빠른 연결:</span>
+                <span className="text-xs text-[#727975]">지도 앱 열기 (가상 주소라 검색 결과는 없습니다):</span>
                 <div className="flex items-center gap-2">
                   <a
                     href="https://map.naver.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3 py-1.5 rounded bg-[#f5f3f0] hover:bg-[#efeeeb] text-[#00110b] text-xs font-medium flex items-center gap-1 transition-colors border border-[#eae8e5]"
+                    className="px-3 min-h-11 rounded bg-[#f5f3f0] hover:bg-[#efeeeb] text-[#00110b] text-xs font-medium flex items-center gap-1 transition-colors border border-[#eae8e5]"
                   >
                     <span>네이버 지도</span>
                     <ExternalLink className="w-3 h-3 text-[#727975]" />
@@ -147,7 +147,7 @@ export const LocationSection: React.FC = () => {
                     href="https://map.kakao.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3 py-1.5 rounded bg-[#f5f3f0] hover:bg-[#efeeeb] text-[#00110b] text-xs font-medium flex items-center gap-1 transition-colors border border-[#eae8e5]"
+                    className="px-3 min-h-11 rounded bg-[#f5f3f0] hover:bg-[#efeeeb] text-[#00110b] text-xs font-medium flex items-center gap-1 transition-colors border border-[#eae8e5]"
                   >
                     <span>카카오맵</span>
                     <ExternalLink className="w-3 h-3 text-[#727975]" />
@@ -156,7 +156,7 @@ export const LocationSection: React.FC = () => {
                     href="https://maps.google.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-3 py-1.5 rounded bg-[#f5f3f0] hover:bg-[#efeeeb] text-[#00110b] text-xs font-medium flex items-center gap-1 transition-colors border border-[#eae8e5]"
+                    className="px-3 min-h-11 rounded bg-[#f5f3f0] hover:bg-[#efeeeb] text-[#00110b] text-xs font-medium flex items-center gap-1 transition-colors border border-[#eae8e5]"
                   >
                     <span>Google Maps</span>
                     <ExternalLink className="w-3 h-3 text-[#727975]" />

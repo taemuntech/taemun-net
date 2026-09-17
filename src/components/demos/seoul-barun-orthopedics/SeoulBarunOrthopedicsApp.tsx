@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from 'react';
-import SampleNotice from '@/components/demo-kit/SampleNotice';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
 import { SymptomChecker } from './components/SymptomChecker';
@@ -13,7 +12,6 @@ import { LocationSection } from './components/LocationSection';
 import { Footer } from './components/Footer';
 import { TechDetailModal } from './components/TechDetailModal';
 import { RehabModal } from './components/RehabModal';
-import { BookingSuccessModal } from './components/BookingSuccessModal';
 import { TechnologyItem, RehabEquipment, BookingState, BodyRegion } from './types';
 
 interface SeoulBarunOrthopedicsAppProps {
@@ -23,10 +21,7 @@ interface SeoulBarunOrthopedicsAppProps {
 export default function SeoulBarunOrthopedicsApp({ isEmbed }: SeoulBarunOrthopedicsAppProps = {}) {
   const [selectedTech, setSelectedTech] = useState<TechnologyItem | null>(null);
   const [selectedRehab, setSelectedRehab] = useState<RehabEquipment | null>(null);
-  const [completedBooking, setCompletedBooking] = useState<BookingState | null>(null);
   const [prefilledBooking, setPrefilledBooking] = useState<Partial<BookingState>>({});
-  const [sampleNoticeOpen, setSampleNoticeOpen] = useState(false);
-  const [sampleActionName, setSampleActionName] = useState('당일 원스톱 MRI 검사 및 진료 예약');
 
   const scrollToSection = (id: string) => {
     const elem = document.getElementById(id);
@@ -42,7 +37,7 @@ export default function SeoulBarunOrthopedicsApp({ isEmbed }: SeoulBarunOrthoped
     scrollToSection('fast-track-booking');
   };
 
-  const handleSymptomProceed = (region: BodyRegion, condition: string) => {
+  const handleSymptomProceed = (region: BodyRegion) => {
     const partMapping: Record<BodyRegion, string> = {
       neck: '목/경추 센터',
       lumbar: '허리/요추 센터',
@@ -73,18 +68,12 @@ export default function SeoulBarunOrthopedicsApp({ isEmbed }: SeoulBarunOrthoped
     scrollToSection('fast-track-booking');
   };
 
-  const handleRehabBook = (title: string) => {
+  const handleRehabBook = () => {
     setPrefilledBooking((prev) => ({
       ...prev,
       part: '100평 1:1 도수재활 센터',
     }));
     scrollToSection('fast-track-booking');
-  };
-
-  const handleCompleteBooking = (st: BookingState) => {
-    setCompletedBooking(st);
-    setSampleActionName('당일 원스톱 MRI 검사 및 진료 예약');
-    setSampleNoticeOpen(true);
   };
 
   return (
@@ -96,7 +85,8 @@ export default function SeoulBarunOrthopedicsApp({ isEmbed }: SeoulBarunOrthoped
       />
 
       {/* Main Content Sections */}
-      <main className="flex-1 pt-[120px]">
+      {/* 고정 헤더 높이 = 상단 바(모바일 44 · lg 40) + 네비 80 */}
+      <main className="flex-1 pt-[124px] lg:pt-[120px]">
         <HeroSection
           onScrollToQuiz={() => scrollToSection('self-diagnosis')}
           onScrollToBooking={() => scrollToSection('fast-track-booking')}
@@ -117,10 +107,7 @@ export default function SeoulBarunOrthopedicsApp({ isEmbed }: SeoulBarunOrthoped
 
         <MedicalStaffSection onSelectDoctor={handleDoctorSelect} />
 
-        <FastTrackBooking
-          initialState={prefilledBooking}
-          onCompleteBooking={handleCompleteBooking}
-        />
+        <FastTrackBooking initialState={prefilledBooking} />
 
         <LocationSection />
       </main>
@@ -139,21 +126,6 @@ export default function SeoulBarunOrthopedicsApp({ isEmbed }: SeoulBarunOrthoped
         item={selectedRehab}
         onClose={() => setSelectedRehab(null)}
         onBookRehab={handleRehabBook}
-      />
-
-      <BookingSuccessModal
-        booking={completedBooking}
-        onClose={() => setCompletedBooking(null)}
-      />
-
-      {/* 태문 안전 결제 및 샘플 고지 모달 */}
-      <SampleNotice
-        open={sampleNoticeOpen}
-        onClose={() => setSampleNoticeOpen(false)}
-        slug="seoul-barun-orthopedics"
-        featureName={sampleActionName}
-        kind="sample"
-        industry="corporate"
       />
     </div>
   );

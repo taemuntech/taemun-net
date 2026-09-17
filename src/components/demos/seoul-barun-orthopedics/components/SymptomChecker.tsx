@@ -6,29 +6,29 @@ interface SymptomCheckerProps {
   onProceedToBooking: (region: BodyRegion, condition: string) => void;
 }
 
+// 일치도는 여기 한 곳에서만 만든다. 데이터에 씨앗 값을 두면 토글 뒤 숫자와 어긋나므로
+// clinicData 에서 matchRate·progress 를 없애고 체크 개수로만 계산한다.
+const matchPercent = (checkedCount: number, total: number): number =>
+  checkedCount === 0 ? 0 : Math.max(15, Math.round((checkedCount / total) * 100));
+
+const matchLabel = (pct: number): string => (pct === 0 ? '증상 선택 전' : `${pct}% 일치`);
+
 export const SymptomChecker: React.FC<SymptomCheckerProps> = ({ onProceedToBooking }) => {
   const [currentRegion, setCurrentRegion] = useState<BodyRegion>('neck');
   const [quizData, setQuizData] = useState<Record<BodyRegion, RegionQuizData>>(INITIAL_QUIZ_DATA);
 
   const currentTab = quizData[currentRegion];
+  const checkedCount = currentTab.symptoms.filter((s) => s.checked).length;
+  const pct = matchPercent(checkedCount, currentTab.symptoms.length);
 
   const handleToggle = (idx: number, checked: boolean) => {
     setQuizData((prev) => {
       const regionData = prev[currentRegion];
-      const updatedSymptoms = regionData.symptoms.map((s, i) =>
-        i === idx ? { ...s, checked } : s
-      );
-      const checkedCount = updatedSymptoms.filter((s) => s.checked).length;
-      const total = updatedSymptoms.length;
-      const pct = Math.max(15, Math.round((checkedCount / total) * 100));
-
       return {
         ...prev,
         [currentRegion]: {
           ...regionData,
-          symptoms: updatedSymptoms,
-          progress: pct,
-          matchRate: `${pct}% 일치`,
+          symptoms: regionData.symptoms.map((s, i) => (i === idx ? { ...s, checked } : s)),
         },
       };
     });
@@ -42,8 +42,6 @@ export const SymptomChecker: React.FC<SymptomCheckerProps> = ({ onProceedToBooki
         [currentRegion]: {
           ...regionData,
           symptoms: regionData.symptoms.map((s) => ({ ...s, checked: false })),
-          progress: 15,
-          matchRate: '15% (경미)',
         },
       };
     });
@@ -57,7 +55,7 @@ export const SymptomChecker: React.FC<SymptomCheckerProps> = ({ onProceedToBooki
   ];
 
   return (
-    <section id="self-diagnosis" className="w-full bg-[#F4F3F1] py-12 lg:py-16 scroll-mt-24">
+    <section id="self-diagnosis" className="w-full bg-[#F4F3F1] py-12 lg:py-16 scroll-mt-[132px]">
       <div className="max-w-7xl mx-auto px-4 lg:px-6 lg:px-12">
         {/* Section Title & Lead */}
         <div className="max-w-3xl mb-8">
@@ -66,10 +64,14 @@ export const SymptomChecker: React.FC<SymptomCheckerProps> = ({ onProceedToBooki
             <span>SYMPTOM CHECKER</span>
           </div>
           <h2 className="text-2xl lg:text-3xl font-bold text-[#1A1C1A] tracking-tight">
-            5대 주요 부위별 통증 자가진단 시스템
+            4대 주요 부위별 통증 자가체크
           </h2>
           <p className="text-sm lg:text-base text-[#3F493F] mt-2">
-            불편하신 부위와 증상을 선택하시면, 바른마디 임상 알고리즘이 예상 질환군과 비수술 치료 권장 단계를 즉시 분석해 드립니다.
+            불편하신 부위와 증상을 선택하시면 참고용 안내와 비수술 치료 단계 예시를 보여 드립니다.
+          </p>
+          <p className="mt-3 text-xs lg:text-sm text-[#545F73] bg-white border border-[#E9E8E5] rounded-xl p-3 leading-relaxed break-keep">
+            ※ 이 자가체크는 <strong className="text-[#1A1C1A]">의학적 진단이 아닙니다.</strong> 결과는 샘플 화면의 예시이며,
+            같은 증상도 원인이 다를 수 있습니다. 정확한 진단과 치료는 의료기관 진료와 검사가 필요합니다.
           </p>
         </div>
 
@@ -80,8 +82,10 @@ export const SymptomChecker: React.FC<SymptomCheckerProps> = ({ onProceedToBooki
             return (
               <button
                 key={tab.key}
+                type="button"
+                aria-pressed={isSelected}
                 onClick={() => setCurrentRegion(tab.key)}
-                className={`px-4 lg:px-5 py-2.5 rounded-full text-xs lg:text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer ${
+                className={`min-h-11 px-4 lg:px-5 py-2.5 rounded-full text-xs lg:text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer ${
                   isSelected
                     ? 'bg-[#00652C] text-white shadow-sm'
                     : 'bg-white text-[#3F493F] hover:text-[#1A1C1A] border border-[#E9E8E5] hover:bg-[#FAF9F6]'
@@ -104,7 +108,7 @@ export const SymptomChecker: React.FC<SymptomCheckerProps> = ({ onProceedToBooki
                   <span className="w-2.5 h-2.5 rounded-full bg-[#00652C]"></span>
                   {currentTab.label}
                 </span>
-                <span className="text-xs text-[#545F73]">3개 이상 체크 시 정밀진단 권장</span>
+                <span className="text-xs text-[#545F73]">3개 이상이면 진료 상담 권장</span>
               </div>
 
               {/* Dynamic Symptom Checklist */}
@@ -122,7 +126,7 @@ export const SymptomChecker: React.FC<SymptomCheckerProps> = ({ onProceedToBooki
                       type="checkbox"
                       checked={symptom.checked}
                       onChange={(e) => handleToggle(idx, e.target.checked)}
-                      className="w-5 h-5 mt-0.5 rounded accent-[#00652C] cursor-pointer"
+                      className="w-5 h-5 shrink-0 mt-0.5 rounded accent-[#00652C] cursor-pointer"
                     />
                     <span className="text-xs lg:text-sm leading-relaxed select-none">
                       {symptom.text}
@@ -136,11 +140,12 @@ export const SymptomChecker: React.FC<SymptomCheckerProps> = ({ onProceedToBooki
             <div className="pt-4 mt-6 border-t border-[#EFEEEB] flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-2 text-[#3F493F] text-xs">
                 <span className="material-symbols-outlined text-[#00652C] text-[18px]">info</span>
-                <span>체크 개수에 따라 실시간으로 우측 분석 소견이 갱신됩니다.</span>
+                <span>체크 개수에 따라 우측 참고 안내가 바로 갱신됩니다.</span>
               </div>
               <button
+                type="button"
                 onClick={handleReset}
-                className="text-xs lg:text-sm font-semibold text-[#545F73] hover:text-[#1A1C1A] flex items-center gap-1 cursor-pointer transition-colors"
+                className="min-h-11 px-1 text-xs lg:text-sm font-semibold text-[#545F73] hover:text-[#1A1C1A] flex items-center gap-1 cursor-pointer transition-colors"
               >
                 <span className="material-symbols-outlined text-[16px]">refresh</span>
                 <span>선택 초기화</span>
@@ -153,7 +158,7 @@ export const SymptomChecker: React.FC<SymptomCheckerProps> = ({ onProceedToBooki
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="px-2.5 py-1 rounded bg-[#D5E0F8] text-[#586377] text-xs font-bold">
-                  실시간 임상 알고리즘 결과
+                  참고용 예시 분석 결과
                 </span>
                 <span className="text-[11px] text-[#6F7A6E] font-mono tracking-wider font-semibold">
                   LIVE ANALYSIS
@@ -162,21 +167,21 @@ export const SymptomChecker: React.FC<SymptomCheckerProps> = ({ onProceedToBooki
 
               {/* Suspected Condition Header */}
               <div className="p-4 rounded-xl bg-[#F4F3F1] mb-5 border border-[#E9E8E5]">
-                <div className="text-xs text-[#545F73] font-semibold">가장 의심되는 주요 질환군</div>
+                <div className="text-xs text-[#545F73] font-semibold">참고해 볼 만한 질환군 (진단 아님)</div>
                 <h3 className="text-base lg:text-lg text-[#1A1C1A] font-bold mt-1 leading-snug">
-                  {currentTab.diagnosis}
+                  {checkedCount === 0 ? '왼쪽에서 해당하는 증상을 선택해 주세요' : currentTab.diagnosis}
                 </h3>
 
                 {/* Match Meter */}
                 <div className="mt-3">
                   <div className="flex justify-between items-center text-xs mb-1 font-semibold">
                     <span className="text-[#3F493F]">증상 일치도 분석</span>
-                    <span className="text-[#00652C] font-bold">{currentTab.matchRate}</span>
+                    <span className="text-[#00652C] font-bold">{matchLabel(pct)}</span>
                   </div>
                   <div className="w-full h-2.5 bg-[#EFEEEB] rounded-full overflow-hidden">
                     <div
                       className="h-full bg-gradient-to-r from-[#00652C] to-[#007D73] transition-all duration-500 rounded-full"
-                      style={{ width: `${currentTab.progress}%` }}
+                      style={{ width: `${pct}%` }}
                     ></div>
                   </div>
                 </div>
@@ -188,7 +193,7 @@ export const SymptomChecker: React.FC<SymptomCheckerProps> = ({ onProceedToBooki
                   <span className="material-symbols-outlined text-[#00652C] text-[18px]">
                     playlist_add_check
                   </span>
-                  <span>추천 비수술 치료 3단계 로드맵</span>
+                  <span>비수술 치료 3단계 예시 (진료 후 결정)</span>
                 </div>
 
                 {/* Step 1 */}
@@ -238,13 +243,21 @@ export const SymptomChecker: React.FC<SymptomCheckerProps> = ({ onProceedToBooki
               </div>
             </div>
 
+            {/* 의료광고 필수 고지 — 효과·부작용 개인차 (TechnologySection 과 같은 문안) */}
+            <p className="mt-4 text-[11px] lg:text-xs text-[#545F73] bg-[#FAF9F6] border border-[#E9E8E5] rounded-xl p-3 leading-relaxed break-keep">
+              ※ 위 치료 단계는 예시이며 효과는 환자의 상태에 따라 개인차가 있고, 통증·부종·멍 등 부작용이 나타날 수 있습니다.
+              시행 여부는 진료와 검사 결과를 바탕으로 전문의가 판단합니다.
+            </p>
+
             {/* Bottom Action */}
             <div className="pt-4 mt-4 border-t border-[#EFEEEB]">
               <button
+                type="button"
+                disabled={checkedCount === 0}
                 onClick={() => onProceedToBooking(currentRegion, currentTab.diagnosis)}
-                className="w-full py-3 px-4 rounded-xl bg-[#00652C] hover:bg-[#15803D] text-white text-xs lg:text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-[0_4px_16px_rgba(0,101,44,0.2)] cursor-pointer transform hover:-translate-y-0.5"
+                className="w-full min-h-11 py-3 px-4 rounded-xl bg-[#00652C] hover:bg-[#15803D] disabled:bg-[#B9C0B8] disabled:cursor-not-allowed disabled:hover:translate-y-0 text-white text-xs lg:text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-[0_4px_16px_rgba(0,101,44,0.2)] cursor-pointer transform hover:-translate-y-0.5"
               >
-                <span>위 소견으로 당일 정밀진단 예약하기</span>
+                <span>{checkedCount === 0 ? '증상을 선택하면 예약으로 넘어갑니다' : '이 내용으로 당일 정밀검사 예약하기'}</span>
                 <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
               </button>
             </div>

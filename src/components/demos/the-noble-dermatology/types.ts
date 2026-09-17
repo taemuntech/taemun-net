@@ -37,6 +37,8 @@ export interface Treatment {
   painCare: string;
   recommendation: string;
   badge: string;
+  /** 예약 폼 1단계 「피부 고민」 항목 이름 — 시술 카드에서 상담을 누르면 이 항목이 실제로 선택된다 */
+  concern: string;
 }
 
 export interface VerificationResult {

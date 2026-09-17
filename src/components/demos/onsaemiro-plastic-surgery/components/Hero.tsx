@@ -64,8 +64,8 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToHUD, onScrollToReservation
                 <span className="text-[11px] lg:text-[12px] text-[#4d463c] mt-0.5">한국인 전문의 실명집도</span>
               </div>
               <div className="p-2.5 lg:p-3.5 rounded-xl bg-[#f1ede9]/80 border border-[#d1c5b8]/30 shadow-sm flex flex-col items-center lg:items-start text-center lg:text-left">
-                <span className="text-[18px] lg:text-[22px] font-serif font-bold text-[#725b38]">0건</span>
-                <span className="text-[11px] lg:text-[12px] text-[#4d463c] mt-0.5">철저한 안전 수술 원칙</span>
+                <span className="text-[18px] lg:text-[22px] font-serif font-bold text-[#725b38]">5대</span>
+                <span className="text-[11px] lg:text-[12px] text-[#4d463c] mt-0.5">환자 안심 안전 시스템</span>
               </div>
               <div className="p-2.5 lg:p-3.5 rounded-xl bg-[#f1ede9]/80 border border-[#d1c5b8]/30 shadow-sm flex flex-col items-center lg:items-start text-center lg:text-left">
                 <span className="text-[18px] lg:text-[22px] font-serif font-bold text-[#725b38]">1:1</span>
@@ -124,7 +124,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToHUD, onScrollToReservation
             <div className="flex flex-col gap-1">
               <span className="text-[16px] font-semibold text-[#1c1c19]">100% 실명 집도의제</span>
               <p className="text-[13px] text-[#4d463c] leading-relaxed">
-                쉐도우 닥터, 대리수술을 법적으로 영구 배제하며 담당 전문의가 모든 과정을 집도합니다.
+                쉐도우 닥터·대리수술을 하지 않으며, 상담한 담당 전문의가 수술 전 과정을 직접 집도합니다.
               </p>
             </div>
           </div>

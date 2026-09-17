@@ -12,10 +12,10 @@ export const FacultySection: React.FC = () => {
             FACULTY &amp; SPECIALISTS
           </span>
           <h2 className="font-serif text-3xl lg:text-4xl text-[#1a1c1a] font-medium tracking-tight">
-            보건복지부 인증 대학병원 출신 전문의 협진
+            구강악안면외과 · 치과보철과 전문의 협진
           </h2>
           <p className="text-sm lg:text-base text-[#4e4639] mt-3 leading-relaxed font-sans">
-            외과적 수술의 안전성을 책임지는 구강악안면외과와 완벽한 심미 교합을 완성하는 치과보철과의 긴밀한 협진으로 고난도 케이스에서도 오차 없는 치료 결과를 선사합니다.
+            외과적 수술을 맡는 구강악안면외과와 심미 교합을 설계하는 치과보철과가 함께 진단하고 치료 계획을 세웁니다. 아래 의료진과 약력은 샘플용 예시입니다.
           </p>
         </div>
 

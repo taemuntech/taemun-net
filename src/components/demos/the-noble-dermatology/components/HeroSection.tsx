@@ -3,13 +3,13 @@ import { Calendar, ArrowRight, Verified, Award, Sparkles } from 'lucide-react';
 
 interface HeroSectionProps {
   onOpenBooking: () => void;
-  onExploreMarkVu: () => void;
+  onExploreSkinSpectrum: () => void;
   onExploreSuite: () => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
   onOpenBooking,
-  onExploreMarkVu,
+  onExploreSkinSpectrum,
   onExploreSuite,
 }) => {
   return (
@@ -23,7 +23,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="flex items-center gap-2 mb-4">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#efeeeb] text-[#745a2a] text-xs tracking-[0.25em] uppercase font-semibold border border-[#e4e2df]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#745a2a]" />
-            Swiss Precision Anti-Aging & Bespoke Dermatology
+            Bespoke Anti-Aging & Private Dermatology
           </span>
         </div>
 
@@ -38,7 +38,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </h1>
 
             <p className="text-[15px] lg:text-lg text-[#424845] max-w-xl leading-relaxed mb-6 lg:mb-8 break-keep">
-              국내 명문대(예시) 의대 출신 보건복지부 인증 피부과 전문의 3인 협진. 고객 대면 정품 인증 팁 즉석 개봉 및 전 과정 1인 독립 VIP 프라이빗 스위트 케어로 완벽한 안식과 정밀한 탄력 리프팅을 완성합니다.
+              국내 명문대(예시) 의대 출신 피부과 전문의 3인 협진. 시술에 쓰는 소모품은 고객 앞에서 미개봉 멸균 씰을 확인한 뒤 개봉하고, 상담부터 마무리까지 1인 독립 프라이빗 스위트에서 진행합니다. 시술 반응과 유지 기간에는 개인차가 있습니다.
             </p>
 
             {/* Action CTA Group */}
@@ -55,11 +55,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
               <button
                 type="button"
-                onClick={onExploreMarkVu}
+                onClick={onExploreSkinSpectrum}
                 className="inline-flex items-center justify-center gap-2 px-5 lg:px-6 py-3.5 lg:py-4 rounded-lg bg-[#ffffff] text-[#00110b] font-semibold text-sm lg:text-base border border-[#eae8e5] shadow-sm hover:bg-[#efeeeb] transition-all duration-300 active:scale-95"
               >
                 <Sparkles className="w-4 h-4 text-[#745a2a]" />
-                <span>마크뷰 4광원 입체 진단 체험</span>
+                <span>4광원 입체 피부 진단 살펴보기</span>
               </button>
             </div>
 
@@ -67,12 +67,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <div className="mt-6 lg:mt-8 pt-5 lg:pt-6 border-t border-[#eae8e5]/60 flex flex-wrap items-center gap-y-2.5 gap-x-4 lg:gap-x-6 text-xs text-[#424845] break-keep">
               <span className="flex items-center gap-1.5 text-[#00110b] font-medium">
                 <Verified className="w-4 h-4 text-[#745a2a] shrink-0" />
-                Solta Medical 써마지® FLX 공식 인증의원
+                시술 전 미개봉 멸균 씰 현장 확인
               </span>
               <span className="text-[#c1c8c4] hidden lg:inline">•</span>
               <span className="flex items-center gap-1.5 text-[#00110b] font-medium">
                 <Verified className="w-4 h-4 text-[#745a2a] shrink-0" />
-                Merz 울쎄라® 골든 레코드 키닥터
+                4광원 영상 분석 기반 시술 설계
               </span>
               <span className="text-[#c1c8c4] hidden lg:inline">•</span>
               <span className="flex items-center gap-1.5 text-[#00110b] font-medium">
@@ -84,9 +84,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
           {/* Right Column: Visual Feature Dossier Card */}
           <div className="lg:col-span-5 relative mt-4 lg:mt-0">
-            <div
+            {/* div onClick 이라 키보드로는 열 수 없었다 — 버튼으로 */}
+            <button
+              type="button"
               onClick={onExploreSuite}
-              className="group relative rounded-xl overflow-hidden shadow-2xl bg-[#ffffff] p-2 cursor-pointer transition-transform duration-500 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)]"
+              aria-label="1인 프라이빗 스위트 상세 안내 열기"
+              className="group relative block w-full text-left rounded-xl overflow-hidden shadow-2xl bg-[#ffffff] p-2 cursor-pointer transition-transform duration-500 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)]"
             >
               <div className="relative h-[380px] lg:h-[460px] w-full rounded-lg overflow-hidden">
                 <img
@@ -110,17 +113,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     Suite No. 01 — The Noble Private Care Lounge
                   </p>
                   <h3 className="font-serif text-xl lg:text-2xl text-[#ffffff] leading-snug">
-                    완벽한 프라이버시 속에서 완성되는<br />고품격 리프팅 스위트
+                    온전한 프라이버시 속에서 진행되는<br />고품격 리프팅 스위트
                   </h3>
                   <div className="mt-3 flex items-center justify-between text-xs text-[#ffffff]/80">
-                    <span>다이슨 에어랩 & 라 메르 어메니티 완비</span>
+                    <span>프리미엄 스타일러 & 진정 스킨케어 어메니티</span>
                     <span className="text-[#ffdea7] flex items-center gap-1 font-semibold group-hover:translate-x-1 transition-transform">
                       상세보기 <ArrowRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
                 </div>
               </div>
-            </div>
+            </button>
 
             {/* Micro Floating Credential Card */}
             <div className="absolute -bottom-6 -left-6 hidden lg:flex items-center gap-3 p-4 rounded-xl bg-[#ffffff] shadow-xl backdrop-blur-md max-w-xs border border-[#eae8e5]">
@@ -128,28 +131,29 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 <Award className="w-6 h-6" />
               </div>
               <div>
-                <div className="text-xs lg:text-sm font-semibold text-[#00110b]">100% 국내 명문대(예시) 전문의 전담</div>
-                <div className="text-xs text-[#424845]">대리 시술 0% 안심 보증제</div>
+                <div className="text-xs lg:text-sm font-semibold text-[#00110b]">피부과 전문의 직접 진료·시술</div>
+                <div className="text-xs text-[#424845]">상담부터 마무리까지 같은 의료진</div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Key Metrics Bento Grid (4 Columns) */}
-        <div className="mt-16 pt-8 grid grid-cols-1 lg:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* lg:grid-cols-2 와 lg:grid-cols-4 가 겹쳐 있어 태블릿에서 한 줄에 하나씩 떨어졌다 — 폰 1열·태블릿 2열·웹 4열 */}
+        <div className="mt-16 pt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="p-6 rounded-xl bg-[#ffffff] border border-[#eae8e5] shadow-sm hover:shadow-md transition-shadow">
             <div className="text-[#745a2a] font-serif text-4xl lg:text-5xl leading-none mb-2">3</div>
             <div className="text-sm lg:text-base font-semibold text-[#00110b] mb-1">Board-Certified Specialism</div>
             <p className="text-xs text-[#424845] leading-relaxed">
-              보건복지부 인증 국내 명문대(예시) 의대 출신 피부과 전문의 3인 상주 및 심층 1:1 진료
+              국내 명문대(예시) 의대 출신 피부과 전문의 3인 상주 및 심층 1:1 진료
             </p>
           </div>
 
           <div className="p-6 rounded-xl bg-[#ffffff] border border-[#eae8e5] shadow-sm hover:shadow-md transition-shadow">
             <div className="text-[#745a2a] font-serif text-4xl lg:text-5xl leading-none mb-2">100%</div>
-            <div className="text-sm lg:text-base font-semibold text-[#00110b] mb-1">Genuine Tip Certification</div>
+            <div className="text-sm lg:text-base font-semibold text-[#00110b] mb-1">Sterile Tip Check</div>
             <p className="text-xs text-[#424845] leading-relaxed">
-              써마지 FLX & 울쎄라 정품 팁 고객 대면 즉석 개봉 및 실시간 전산 시리얼 인증
+              고주파·초음파 시술용 소모품은 고객 앞에서 미개봉 멸균 씰을 확인한 뒤 개봉합니다
             </p>
           </div>
 
@@ -165,9 +169,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <div className="text-[#745a2a] font-serif text-4xl lg:text-5xl leading-none mb-2">
               0.1<span className="text-2xl font-sans">mm</span>
             </div>
-            <div className="text-sm lg:text-base font-semibold text-[#00110b] mb-1">Mark-Vu Precision</div>
+            <div className="text-sm lg:text-base font-semibold text-[#00110b] mb-1">Skin Spectrum Precision</div>
             <p className="text-xs text-[#424845] leading-relaxed">
-              4가지 특수 광원 정밀 피부 데이터 기반 0.1mm 단위 오차 없는 과학적 리프팅 설계
+              4가지 특수 광원으로 얻은 피부 데이터를 0.1mm 단위로 읽어 시술 범위를 설계합니다
             </p>
           </div>
         </div>
