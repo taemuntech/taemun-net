@@ -841,9 +841,13 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
       {/* ─────────────────────────────────────────────────────────────
           6. PROJECT EXHIBITION MODAL (POPUP ON CARD CLICK)
           ───────────────────────────────────────────────────────────── */}
+      {/* 높이는 dvh(지금 보이는 높이)로 잰다. 모바일의 vh 는 주소창·하단 버튼이 접혔을 때 기준이라, 그것들이 떠 있는
+          채로 모달을 열면 카드가 화면보다 커져 위아래가 잘렸다(삼성 인터넷 실측). 모달이 열리면 뒤 페이지 스크롤을
+          잠그므로 브라우저가 주소창을 스스로 접을 기회도 없다 — 그래서 카드를 보이는 영역에 맞춘다.
+          dvh 를 모르는 옛 브라우저는 vh 로 남는다. */}
       {selectedProject && (
         <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 lg:p-6 animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden shadow-2xl border border-zinc-200 flex flex-col justify-between text-left">
+          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] supports-[height:100dvh]:max-h-[90dvh] overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden shadow-2xl border border-zinc-200 flex flex-col justify-between text-left">
             {/* Modal Header */}
             <div className="p-5 lg:p-6 border-b border-zinc-200 flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur-sm z-20">
               <div className="flex items-center gap-2">
