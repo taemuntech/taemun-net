@@ -11,6 +11,10 @@ import { STUDIO_PHONE } from "@/lib/inquiry/contact";
 //   - 분석 도구: (site)/layout.tsx 의 GA 는 NEXT_PUBLIC_GA_ID 가 있을 때만 켜진다. 09-18 운영 HTML 에 없음 — 켜면 7항을 고친다.
 
 const EFFECTIVE_DATE = "2026년 9월 19일";
+// 7항 변경(문의 단계 기록) — 11항 「시행 7일 전에 알립니다」 약속대로 공지일과 시행일을 7일 띄운다.
+// 기록 코드도 시행일 전에는 아무것도 보내지 않는다(src/lib/inquiry/track.ts TRACKING_STARTS_AT — 날짜를 같이 바꿀 것).
+const REVISION_NOTICE_DATE = "2026년 9월 19일";
+const REVISION_DATE = "2026년 9월 26일";
 const PRIVACY_OFFICER = "이동주";
 const CONTACT_EMAIL = "contact@taemun.co.kr";
 
@@ -55,7 +59,12 @@ export default function PrivacyPage() {
             주식회사 태문(이하 「태문」)은 태문넷 사이트(taemun.net)에서 견적 문의를 받으면서 필요한 만큼의
             개인정보만 처리합니다. 이 방침은 어떤 정보를 왜 받고, 얼마 동안 보관하며, 누구에게 맡기는지 안내합니다.
           </p>
-          <p className="text-xs text-zinc-500">시행일: {EFFECTIVE_DATE}</p>
+          <p className="text-xs text-zinc-500">
+            시행일: {EFFECTIVE_DATE} ·{" "}
+            <a href="#privacy-change-7" className="underline underline-offset-2">
+              변경 예정: {REVISION_DATE}(7항)
+            </a>
+          </p>
         </header>
 
         <Section n={1} title="처리 목적">
@@ -79,7 +88,7 @@ export default function PrivacyPage() {
                 <tr>
                   <td className={cell}>선택</td>
                   <td className={cell}>
-                    이메일, 참고 사이트 주소, 문의 내용, 고르신 서비스·예산·일정
+                    이메일, 참고 사이트 주소, 문의 내용, 문의 화면에서 고르신 값(서비스·예산·일정·연락 방법·레퍼런스 활용 방식)
                   </td>
                 </tr>
                 <tr>
@@ -157,6 +166,14 @@ export default function PrivacyPage() {
 
         <Section n={7} title="쿠키와 분석 도구">
           <p>견적 문의 화면은 쿠키를 쓰지 않습니다. 방문 통계 도구도 쓰지 않습니다.</p>
+          <div id="privacy-change-7" className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-amber-950">
+            <p className="font-bold">변경 예정 — {REVISION_DATE} 시행 (공지 {REVISION_NOTICE_DATE})</p>
+            <p className="mt-1">
+              문의 화면을 더 쓰기 쉽게 고치려고, 방문하신 분이 문의 단계를 몇 단계까지 진행했는지와 어느 버튼을 눌렀는지를
+              기록합니다. 이 기록에는 이름·연락처·입력하신 내용·IP 주소가 들어가지 않고, 브라우저 탭마다 새로 만드는 임의
+              번호로만 묶어 누구인지 알 수 없습니다. 쿠키는 계속 쓰지 않습니다.
+            </p>
+          </div>
         </Section>
 
         <Section n={8} title="정보주체의 권리">
