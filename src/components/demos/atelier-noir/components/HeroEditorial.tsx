@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { HERO_RUNWAY_IMG, LOOKBOOK_PIECES } from '../data/mockData';
+import React from 'react';
+import { HERO_RUNWAY_IMG } from '../data/mockData';
 import { Product } from '../types';
 import { useCurrency } from '../currency';
 
@@ -15,17 +15,11 @@ interface HeroEditorialProps {
 const LOOK_SET_DISCOUNT = 0.15;
 
 export const HeroEditorial: React.FC<HeroEditorialProps> = ({
-  onOpenProductSpec,
   onAddLookSetToCart,
   onScrollToCatalog,
   lookSetProducts,
 }) => {
-  const [activePin, setActivePin] = useState<string | null>(null);
   const { price } = useCurrency();
-
-  const togglePin = (pinId: string) => {
-    setActivePin((prev) => (prev === pinId ? null : pinId));
-  };
 
   const lookSetTotal = lookSetProducts.reduce((sum, item) => sum + item.price, 0);
   const lookSetDiscounted = Math.round(lookSetTotal * (1 - LOOK_SET_DISCOUNT));
@@ -49,86 +43,6 @@ export const HeroEditorial: React.FC<HeroEditorialProps> = ({
           />
           {/* High Contrast Monochromatic Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#0d0e0f]/90 via-transparent to-[#0d0e0f]/20 pointer-events-none"></div>
-
-          {/* Pulse Pin 1: Blazer Top */}
-          <div className="absolute top-[32%] left-[46%] z-20">
-            <button
-              onClick={() => togglePin('pin-1')}
-              className="pulse-pin relative w-11 h-11 bg-[#caf300] text-[#171e00] rounded-none flex items-center justify-center font-label-sm font-extrabold shadow-lg cursor-pointer hover:scale-110 transition-transform"
-              aria-expanded={activePin === 'pin-1'}
-              aria-label="01 자켓 아이템 상세 보기"
-            >
-              <span className="material-symbols-outlined text-[16px]">
-                {activePin === 'pin-1' ? 'close' : 'add'}
-              </span>
-            </button>
-
-            {/* Interactive Popover Card */}
-            {activePin === 'pin-1' && (
-              <div className="absolute top-12 left-1/2 -translate-x-1/2 w-[min(16rem,calc(100vw-3rem))] bg-[#292a2b] hairline-all p-3.5 z-30 shadow-2xl animate-in fade-in zoom-in-95 duration-150">
-                <div className="text-[#caf300] font-label-sm text-[10px] uppercase mb-1 tracking-wider">
-                  01 / LOOK PIECE
-                </div>
-                <div className="font-headline-sm text-sm text-[#ffffff] font-bold">
-                  {LOOKBOOK_PIECES[0].name}
-                </div>
-                <div className="text-xs text-[#8f9378] mt-0.5">
-                  {LOOKBOOK_PIECES[0].brandDetails}
-                </div>
-                <div className="flex items-center justify-between mt-2.5 pt-2 hairline-t gap-2">
-                  <span className="font-label-md text-xs text-[#ffffff] font-bold">
-                    {price(LOOKBOOK_PIECES[0].price)}
-                  </span>
-                  <button
-                    onClick={() => onOpenProductSpec(LOOKBOOK_PIECES[0].productId)}
-                    className="text-[10px] font-label-sm bg-[#caf300] text-[#171e00] px-2.5 min-h-11 font-bold hover:bg-[#ffffff] transition-colors"
-                  >
-                    VIEW SPEC
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Pulse Pin 2: Pleated Trousers */}
-          <div className="absolute top-[68%] left-[49%] z-20">
-            <button
-              onClick={() => togglePin('pin-2')}
-              className="pulse-pin relative w-11 h-11 bg-[#ffffff] text-[#0c0d0e] rounded-none flex items-center justify-center font-label-sm font-extrabold shadow-lg cursor-pointer hover:scale-110 transition-transform"
-              aria-expanded={activePin === 'pin-2'}
-              aria-label="02 슬랙스 아이템 상세 보기"
-            >
-              <span className="material-symbols-outlined text-[16px]">
-                {activePin === 'pin-2' ? 'close' : 'add'}
-              </span>
-            </button>
-
-            {/* Interactive Popover Card */}
-            {activePin === 'pin-2' && (
-              <div className="absolute bottom-12 left-1/2 -translate-x-1/2 w-[min(16rem,calc(100vw-3rem))] bg-[#292a2b] hairline-all p-3.5 z-30 shadow-2xl animate-in fade-in zoom-in-95 duration-150">
-                <div className="text-[#ffffff] font-label-sm text-[10px] uppercase mb-1 tracking-wider">
-                  02 / LOOK PIECE
-                </div>
-                <div className="font-headline-sm text-sm text-[#ffffff] font-bold">
-                  {LOOKBOOK_PIECES[1].name}
-                </div>
-                <div className="text-xs text-[#8f9378] mt-0.5">
-                  {LOOKBOOK_PIECES[1].brandDetails}
-                </div>
-                <div className="flex items-center justify-between mt-2.5 pt-2 hairline-t gap-2">
-                  <span className="font-label-md text-xs text-[#ffffff] font-bold">
-                    {price(LOOKBOOK_PIECES[1].price)}
-                  </span>
-                  <button
-                    onClick={() => onOpenProductSpec(LOOKBOOK_PIECES[1].productId)}
-                    className="text-[10px] font-label-sm bg-[#ffffff] text-[#0c0d0e] px-2.5 min-h-11 font-bold hover:bg-[#caf300] transition-colors"
-                  >
-                    VIEW SPEC
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
 
           {/* Floating Badge: Editorial Issue */}
           <div className="absolute bottom-5 left-5 z-10">
