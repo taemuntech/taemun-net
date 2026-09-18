@@ -6,7 +6,8 @@
 // (API 가 다시 검증해 저장·문자에 넣는다 — 샘플별 전환을 셀 수 있게). 백엔드는 src/app/api/inquiry.
 //
 // 약속 문구 원칙: 연락 시각(「1시간 이내」「24시간」)·지체상금·무상 A/S 기간처럼 계약서에 없는 조건을 쓰지 않는다.
-// 형이 조건을 확정하면 화면·고객 문자(api/inquiry)·홈·상담 위젯 네 곳을 같은 문구로 맞춘다.
+// 형이 조건을 확정하면 화면·홈(진행 방식 섹션 포함)·상담 위젯을 같은 문구로 맞춘다.
+// (고객 자동 접수 문자는 2026-09-18 없앴다 — 방문자가 적은 아무 번호로나 문자가 나가는 통로였다. api/inquiry 머리말)
 
 import ParticleCanvas from "@/components/ParticleCanvas";
 import { 
@@ -29,7 +30,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import { INQUIRY_LIMITS } from "@/lib/inquiry/validate";
 import { parseInquiryIndustry, parseSampleInquiry } from "@/components/demo-kit/sample-lead";
 import { industryLabel, type IndustryKey, type PortfolioKind } from "@/lib/portfolio/schema";
 
@@ -124,6 +126,13 @@ export default function InquiryView({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  // 봇 걸러내기 두 가지 — 서버가 본다(src/lib/inquiry/validate.ts). 걸리면 서버는 저장·문자 없이 조용히 성공을 돌려준다.
+  // 1) 사람에게 보이지 않는 칸(website)을 채워 왔는가  2) 화면을 연 뒤 너무 빨리(3초 안에) 제출했는가
+  const [website, setWebsite] = useState("");
+  const openedAtRef = useRef<number | null>(null);
+  useEffect(() => {
+    openedAtRef.current = Date.now();
+  }, []);
 
   const serviceOptions = [
     { id: "company-homepage", label: "기업/회사 홍보 홈페이지", desc: "브랜드 대표 반응형 사이트 & 랜딩페이지" },
@@ -202,6 +211,8 @@ export default function InquiryView({
           referenceUrl,
           details,
           referral: referral ? referralPayload(referral) : industryLead ? { industry: industryLead } : undefined,
+          website,
+          elapsedMs: openedAtRef.current === null ? undefined : Date.now() - openedAtRef.current,
         }),
       });
 
@@ -594,6 +605,21 @@ export default function InquiryView({
                         <p className="text-xs text-gray-400">입력해 주신 연락처로 확인 후 연락드려 견적을 안내해 드립니다.</p>
                       </div>
 
+                      {/* 봇 걸러내기 칸 — 화면 밖에 두고 탭 이동·보조기기에서도 뺀다. 사람은 채울 일이 없다 */}
+                      <div aria-hidden="true" className="absolute -left-[9999px] top-auto w-px h-px overflow-hidden">
+                        <label>
+                          웹사이트
+                          <input
+                            type="text"
+                            name="website"
+                            tabIndex={-1}
+                            autoComplete="off"
+                            value={website}
+                            onChange={(e) => setWebsite(e.target.value)}
+                          />
+                        </label>
+                      </div>
+
                       <div className="space-y-3.5 lg:space-y-4 text-left">
                         <div>
                           <label htmlFor={`${fieldId}-name`} className="block text-xs font-bold text-gray-300 mb-1">
@@ -605,6 +631,7 @@ export default function InquiryView({
                             autoComplete="name"
                             required
                             placeholder="예: 홍길동 대표 / 태문기업"
+                            maxLength={INQUIRY_LIMITS.name}
                             value={clientName}
                             onChange={(e) => setClientName(e.target.value)}
                             className="w-full px-4 py-3 rounded-xl bg-gray-950 border border-white/10 text-white text-sm focus:outline-none focus:border-indigo-500 transition-colors"
@@ -635,6 +662,7 @@ export default function InquiryView({
                               type="email"
                               autoComplete="email"
                               placeholder="example@company.com"
+                              maxLength={INQUIRY_LIMITS.email}
                               value={email}
                               onChange={(e) => setEmail(e.target.value)}
                               className="w-full px-4 py-3 rounded-xl bg-gray-950 border border-white/10 text-white text-sm focus:outline-none focus:border-indigo-500 transition-colors"
@@ -647,6 +675,7 @@ export default function InquiryView({
                               id={`${fieldId}-reference`}
                               type="url"
                               placeholder="https://example.com"
+                              maxLength={INQUIRY_LIMITS.referenceUrl}
                               value={referenceUrl}
                               onChange={(e) => setReferenceUrl(e.target.value)}
                               className="w-full px-4 py-3 rounded-xl bg-gray-950 border border-white/10 text-white text-sm focus:outline-none focus:border-indigo-500 transition-colors"
@@ -662,6 +691,7 @@ export default function InquiryView({
                             placeholder="구현하고 싶으신 핵심 기능이나 자유로운 문의 내용을 적어주세요."
                             value={details}
                             onChange={(e) => setDetails(e.target.value)}
+                            maxLength={INQUIRY_LIMITS.details}
                             className="w-full px-4 py-3 rounded-xl bg-gray-950 border border-white/10 text-white text-sm focus:outline-none focus:border-indigo-500 transition-colors resize-none"
                           ></textarea>
                         </div>

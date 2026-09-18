@@ -4,7 +4,7 @@
 // 규칙 셋:
 // 1) 키가 없으면 던지지 않고 `{ ok:false, reason:'no-service-key' }` 로 돌려준다 —
 //    라우트가 이걸 503 「서버 설정 오류입니다.」 로 바꾼다. 공개 키로 조용히 강등되지 않는다
-//    (src/lib/supabase.ts 의 getAdminClient() 는 anon 으로 강등되므로 관리자 경로에서 쓰지 않는다).
+//    (anon 으로 강등되던 옛 src/lib/supabase.ts getAdminClient() 는 2026-09-18 문의 API 가 떠나면서 지웠다).
 // 2) 표가 아직 없거나 DB 가 죽어도 예외로 사이트를 넘어뜨리지 않는다 — 실패는 값으로 돌려준다.
 // 3) **모든 쓰기는 portfolio_state_log 에 한 줄을 남긴다**(추가 전용 표). 이력 쓰기가 실패해도
 //    본 쓰기는 이미 끝났으므로 성공으로 보고하되 logged:false 로 알린다.

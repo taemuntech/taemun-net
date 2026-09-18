@@ -13,7 +13,7 @@
 //   2) Origin 이 이 사이트와 같은가 — 없거나 다르면 403
 // fetch 는 POST 에 Origin 을 항상 붙인다. 그래서 「없으면 통과」가 아니라 「없으면 거절」이 맞다.
 
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 export type RequestGuardFailure = { response: NextResponse };
 
@@ -27,7 +27,7 @@ function originOf(url: string | null | undefined): string | null {
 }
 
 /** 이 서버가 자기라고 인정하는 주소들 */
-function allowedOrigins(req: NextRequest): string[] {
+function allowedOrigins(req: Request): string[] {
   const list = [
     originOf(process.env.ADMIN_VERIFY_BASE_URL),
     originOf(process.env.NEXT_PUBLIC_SITE_URL),
@@ -49,8 +49,11 @@ function allowedOrigins(req: NextRequest): string[] {
 /**
  * 통과하면 null, 막아야 하면 그대로 돌려줄 응답을 준다.
  * 부르는 쪽: `const bad = guardAdminWrite(req); if (bad) return bad;`
+ *
+ * 헤더만 보므로 NextRequest 가 아닌 일반 Request 도 받는다 — 관리자 밖의 공개 쓰기 라우트(견적 문의 접수)도
+ * 같은 검사를 쓴다(guardJsonWrite). 규칙을 두 벌로 만들지 않으려고 이름만 하나 더 둔다.
  */
-export function guardAdminWrite(req: NextRequest): NextResponse | null {
+export function guardAdminWrite(req: Request): NextResponse | null {
   const contentType = (req.headers.get("content-type") ?? "").toLowerCase().split(";")[0].trim();
   if (contentType !== "application/json" && !contentType.endsWith("+json")) {
     return NextResponse.json({ error: "요청 형식이 올바르지 않습니다." }, { status: 415 });
@@ -62,3 +65,6 @@ export function guardAdminWrite(req: NextRequest): NextResponse | null {
   }
   return null;
 }
+
+/** 공개 쓰기 라우트용 이름 — 검사 내용은 guardAdminWrite 와 같다(Content-Type json + 같은 출처) */
+export const guardJsonWrite = guardAdminWrite;
