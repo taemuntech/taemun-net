@@ -19,8 +19,10 @@ export const SpaceEstimator: React.FC<SpaceEstimatorProps> = ({ onRequestConsult
 
   // Calculation Logic (Estimated Reference)
   const baseRate = business.basePerPyung * area.multiplier * mood.factor;
-  const brandingFee = includeBranding ? 800 : 0; // 800만원
-  const furnitureFeePerPyung = includeFurniture ? 45 : 0; // 평당 45만원
+  // 브랜드 BX 가산분(단위: 만 원, 면적과 무관한 고정값). 숫자는 예시 설정값이다.
+  const brandingFee = includeBranding ? 800 : 0;
+  // 맞춤가구 가산분(단위: 만 원 / 평). 숫자는 예시 설정값이다.
+  const furnitureFeePerPyung = includeFurniture ? 45 : 0;
 
   const totalPerPyung = Math.round(baseRate + furnitureFeePerPyung);
   const totalBase = Math.round((totalPerPyung * area.pyung) + brandingFee);
@@ -62,6 +64,8 @@ export const SpaceEstimator: React.FC<SpaceEstimatorProps> = ({ onRequestConsult
                 {ESTIMATE_OPTIONS.businessTypes.map((item) => (
                   <button
                     key={item.id}
+                    type="button"
+                    aria-pressed={selectedBusiness === item.id}
                     onClick={() => setSelectedBusiness(item.id)}
                     className={`p-3.5 rounded-sm border text-left transition-all ${
                       selectedBusiness === item.id
@@ -89,6 +93,8 @@ export const SpaceEstimator: React.FC<SpaceEstimatorProps> = ({ onRequestConsult
                 {ESTIMATE_OPTIONS.areaSizes.map((item) => (
                   <button
                     key={item.id}
+                    type="button"
+                    aria-pressed={selectedArea === item.id}
                     onClick={() => setSelectedArea(item.id)}
                     className={`p-3 rounded-sm border text-center transition-all ${
                       selectedArea === item.id
@@ -114,6 +120,8 @@ export const SpaceEstimator: React.FC<SpaceEstimatorProps> = ({ onRequestConsult
                 {ESTIMATE_OPTIONS.styleMoods.map((item) => (
                   <button
                     key={item.id}
+                    type="button"
+                    aria-pressed={selectedMood === item.id}
                     onClick={() => setSelectedMood(item.id)}
                     className={`p-3.5 rounded-sm border text-left transition-all ${
                       selectedMood === item.id
@@ -168,7 +176,7 @@ export const SpaceEstimator: React.FC<SpaceEstimatorProps> = ({ onRequestConsult
           </div>
 
           {/* Realtime Result Card (5 Cols) */}
-          <div className="lg:col-span-5 bg-stone-950 p-6 lg:p-8 rounded-sm border border-amber-500/30 sticky top-28 space-y-6 shadow-2xl">
+          <div className="lg:col-span-5 bg-stone-950 p-6 lg:p-8 rounded-sm border border-amber-500/30 lg:sticky lg:top-[calc(var(--sample-bar-h,0px)+7rem)] space-y-6 shadow-2xl">
             <div className="border-b border-white/10 pb-4">
               <span className="text-[11px] font-mono text-amber-400 uppercase tracking-widest block mb-1">
                 PROJECT ESTIMATION REPORT
@@ -185,7 +193,7 @@ export const SpaceEstimator: React.FC<SpaceEstimatorProps> = ({ onRequestConsult
                 약 {minRange.toLocaleString()}만 ~ {maxRange.toLocaleString()}만원
               </div>
               <p className="text-[11px] text-stone-400 font-mono mt-1">
-                평당 평균 약 {totalPerPyung.toLocaleString()}만원 선
+                평당 평균 약 {totalPerPyung.toLocaleString()}만원 선 (예시 산출)
               </p>
             </div>
 
@@ -209,7 +217,7 @@ export const SpaceEstimator: React.FC<SpaceEstimatorProps> = ({ onRequestConsult
               </div>
               <div className="flex justify-between text-stone-300">
                 <span>맞춤 가구</span>
-                <span className="text-stone-100">{includeFurniture ? '포함 (평당 +45만)' : '미포함'}</span>
+                <span className="text-stone-100">{includeFurniture ? '포함 (평당 +45만 원 · 예시 단가)' : '미포함'}</span>
               </div>
             </div>
 
@@ -218,8 +226,9 @@ export const SpaceEstimator: React.FC<SpaceEstimatorProps> = ({ onRequestConsult
             </p>
 
             <button
+              type="button"
               onClick={handleApply}
-              className="w-full py-4 rounded-sm bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs tracking-widest uppercase transition-all shadow-lg shadow-amber-500/20"
+              className="w-full min-h-11 py-4 rounded-sm bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs tracking-widest uppercase transition-all shadow-lg shadow-amber-500/20"
             >
               이 조건으로 1:1 현장 실측 및 상담 신청
             </button>

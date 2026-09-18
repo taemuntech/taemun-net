@@ -33,11 +33,12 @@ export const InteractiveZoning: React.FC = () => {
             {FLOOR_ZONES.map((zone) => (
               <button
                 key={zone.id}
+                type="button"
                 onClick={() => {
                   setActiveFloorId(zone.id);
                   setActiveHotspotIndex(null);
                 }}
-                className={`px-5 py-2.5 rounded-sm text-xs font-mono font-bold tracking-wider transition-all ${
+                className={`inline-flex items-center justify-center text-center flex-1 lg:flex-none max-lg:min-h-11 px-3 lg:px-5 py-2.5 rounded-sm text-xs font-mono font-bold tracking-wider transition-all ${
                   activeFloorId === zone.id
                     ? 'bg-amber-500 text-stone-950 shadow-md'
                     : 'text-stone-400 hover:text-white hover:bg-white/5'
@@ -58,6 +59,7 @@ export const InteractiveZoning: React.FC = () => {
                 src={currentZone.imageUrl}
                 alt={currentZone.name}
                 fill
+                sizes="(max-width: 1023px) 100vw, 58vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
@@ -65,6 +67,10 @@ export const InteractiveZoning: React.FC = () => {
               {/* Hotspot Pins */}
               {currentZone.hotspots.map((spot, idx) => {
                 const isActive = activeHotspotIndex === idx;
+                // 말풍선이 이미지 밖으로 나가면 overflow-hidden 에 잘린다 — 핀 위치를 보고 붙는 쪽을 바꾼다.
+                const anchorX =
+                  spot.x > 66 ? 'left-0 -translate-x-full' : spot.x < 34 ? 'left-0' : 'left-1/2 -translate-x-1/2';
+                const anchorY = spot.y < 45 ? 'top-full mt-3' : 'bottom-full mb-3';
                 return (
                   <div
                     key={idx}
@@ -72,10 +78,12 @@ export const InteractiveZoning: React.FC = () => {
                     style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
                   >
                     <button
+                      type="button"
                       onClick={() => setActiveHotspotIndex(isActive ? null : idx)}
-                      className={`relative flex items-center justify-center w-8 h-8 rounded-full transition-all ${
+                      aria-pressed={isActive}
+                      className={`relative flex items-center justify-center w-11 h-11 lg:w-8 lg:h-8 rounded-full transition-all ${
                         isActive
-                          ? 'bg-amber-400 text-stone-950 scale-125 ring-4 ring-amber-400/40'
+                          ? 'bg-amber-400 text-stone-950 scale-110 lg:scale-125 ring-4 ring-amber-400/40'
                           : 'bg-stone-900/80 text-amber-300 border border-amber-400/60 hover:scale-110'
                       }`}
                       aria-label={spot.title}
@@ -84,14 +92,16 @@ export const InteractiveZoning: React.FC = () => {
                       <span className="absolute -inset-1 rounded-full bg-amber-400/20 animate-ping pointer-events-none" />
                     </button>
 
-                    {/* Active Hotspot Popover */}
+                    {/* Active Hotspot Popover — 데스크톱 전용. 모바일은 이미지 아래 핫스팟 목록이 같은 내용을 편다 */}
                     {isActive && (
-                      <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-3 w-64 p-3 rounded bg-stone-950/95 border border-amber-400/40 backdrop-blur-md shadow-2xl text-left z-30 animate-in fade-in zoom-in-95 duration-150">
+                      <div className={`hidden lg:block absolute ${anchorX} ${anchorY} w-64 p-3 rounded bg-stone-950/95 border border-amber-400/40 backdrop-blur-md shadow-2xl text-left z-30 animate-in fade-in zoom-in-95 duration-150`}>
                         <div className="flex items-center justify-between pb-1 border-b border-white/10 mb-1.5">
                           <span className="text-[10px] font-mono text-amber-400 uppercase tracking-widest">
                             POINT #{idx + 1}
                           </span>
                           <button
+                            type="button"
+                            aria-label="설명 닫기"
                             onClick={(e) => {
                               e.stopPropagation();
                               setActiveHotspotIndex(null);
@@ -116,33 +126,45 @@ export const InteractiveZoning: React.FC = () => {
                 <div className="px-3 py-1 rounded bg-black/60 backdrop-blur-md border border-white/10 text-xs text-stone-300 font-mono">
                   {currentZone.concept}
                 </div>
-                <div className="text-[11px] text-stone-400 bg-black/60 px-2.5 py-1 rounded border border-white/10">
+                {/* 모바일에선 핀이 이 안내와 겹쳐 둘 다 안 읽힌다 — 같은 안내가 섹션 설명에 이미 있다 */}
+                <div className="hidden lg:block text-[11px] text-stone-400 bg-black/60 px-2.5 py-1 rounded border border-white/10">
                   핀 번호를 누르면 공법이 표시됩니다
                 </div>
               </div>
             </div>
 
-            {/* Quick Hotspot Bar */}
-            <div className="grid grid-cols-3 gap-2">
-              {currentZone.hotspots.map((spot, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActiveHotspotIndex(idx)}
-                  className={`p-2.5 rounded-sm border text-left transition-all ${
-                    activeHotspotIndex === idx
-                      ? 'bg-amber-500/15 border-amber-500/60 text-white'
-                      : 'bg-stone-900/40 border-white/5 text-stone-400 hover:border-white/20'
-                  }`}
-                >
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <span className="text-[10px] font-mono font-bold text-amber-400">
-                      #{idx + 1}
-                    </span>
-                    <span className="text-xs font-semibold truncate">{spot.title}</span>
-                  </div>
-                  <p className="text-[10px] text-stone-400 truncate">{spot.desc}</p>
-                </button>
-              ))}
+            {/* Quick Hotspot Bar — 3칸으로 나누면 모바일에서 제목·설명이 통째로 잘려 아무 것도 안 읽힌다 */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
+              {currentZone.hotspots.map((spot, idx) => {
+                const isActive = activeHotspotIndex === idx;
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setActiveHotspotIndex(isActive ? null : idx)}
+                    aria-pressed={isActive}
+                    className={`p-2.5 rounded-sm border text-left transition-all ${
+                      isActive
+                        ? 'bg-amber-500/15 border-amber-500/60 text-white'
+                        : 'bg-stone-900/40 border-white/5 text-stone-400 hover:border-white/20'
+                    }`}
+                  >
+                    <div className="flex items-start gap-1.5 mb-1">
+                      <span className="text-[10px] font-mono font-bold text-amber-400 mt-0.5 shrink-0">
+                        #{idx + 1}
+                      </span>
+                      <span className="text-xs font-semibold [word-break:keep-all]">{spot.title}</span>
+                    </div>
+                    <p
+                      className={`text-[10px] leading-relaxed [word-break:keep-all] ${
+                        isActive ? 'text-stone-200' : 'text-stone-400 line-clamp-2'
+                      }`}
+                    >
+                      {spot.desc}
+                    </p>
+                  </button>
+                );
+              })}
             </div>
           </div>
 

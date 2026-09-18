@@ -70,24 +70,26 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               </button>
             </div>
 
-            {/* Curatorial Spec Bar */}
+            {/* Curatorial Spec Bar — 실적처럼 읽히는 수치라 셋 다 예시 표기를 단다.
+                「3 Years Provenance Warranty」는 기간·범위·면책이 붙는 보증 약속이라
+                사후 점검 프로그램 표기로 바꿨다(가상 브랜드가 보증을 약속하면 안 된다). */}
             <div className="grid grid-cols-3 gap-4 pt-10 mt-10 border-t border-white/10 text-left">
               <div>
                 <p className="text-2xl lg:text-3xl font-serif text-[#f4efea]">128+</p>
-                <p className="text-[11px] text-[#998f83] uppercase tracking-[0.16em] mt-1">
-                  Penthouse Projects
+                <p className="text-[11px] text-[#998f83] uppercase tracking-[0.16em] mt-1 break-keep [word-break:keep-all]">
+                  Penthouse Projects (예시)
                 </p>
               </div>
               <div>
                 <p className="text-2xl lg:text-3xl font-serif text-[#c5a880]">0.1mm</p>
-                <p className="text-[11px] text-[#998f83] uppercase tracking-[0.16em] mt-1">
-                  Precision Craft
+                <p className="text-[11px] text-[#998f83] uppercase tracking-[0.16em] mt-1 break-keep [word-break:keep-all]">
+                  Precision Craft (예시)
                 </p>
               </div>
               <div>
                 <p className="text-2xl lg:text-3xl font-serif text-[#f4efea]">3 Years</p>
-                <p className="text-[11px] text-[#998f83] uppercase tracking-[0.16em] mt-1">
-                  Provenance Warranty
+                <p className="text-[11px] text-[#998f83] uppercase tracking-[0.16em] mt-1 break-keep [word-break:keep-all]">
+                  Aftercare Programme (예시)
                 </p>
               </div>
             </div>
@@ -99,15 +101,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <div className="relative aspect-[16/10] overflow-hidden bg-[#0d0e10]">
                 <img
                   src={HERO_IMAGE_URL}
-                  alt="Haus & Space High-End Interior Architecture Masterpiece"
+                  alt="하우스앤스페이스 대표 주거 프로젝트 외관 — 목재와 강재 프레임의 저녁 전경 (예시)"
                   className="w-full h-full object-cover transition-all duration-700 group-hover:scale-[1.02]"
                 />
               </div>
-              <div className="flex items-center justify-between pt-3.5 px-1 border-t border-white/5 mt-1">
-                <span className="text-[11px] text-[#c5a880] uppercase tracking-[0.15em] font-medium">
-                  Plate 01 • Living Pavilion with Natural Travertine &amp; Courtyard View
+              {/* 좁은 화면에서 두 줄이 서로를 밀어 글자가 눌리던 자리 — lg 미만은 위아래로 쌓는다 */}
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-1 lg:gap-4 pt-3.5 px-1 border-t border-white/5 mt-1">
+                <span className="text-[11px] text-[#c5a880] uppercase tracking-[0.15em] font-medium break-keep [word-break:keep-all]">
+                  Plate 01 • Courtyard Elevation — Timber, Steel &amp; Evening Light
                 </span>
-                <span className="text-[11px] text-[#998f83] tracking-wider">
+                <span className="text-[11px] text-[#998f83] tracking-wider shrink-0">
                   Seoul, Republic of Korea
                 </span>
               </div>

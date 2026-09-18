@@ -1,9 +1,11 @@
 'use client';
 
 import React from 'react';
+import { ProjectCategory } from './types';
 
 interface FooterProps {
-  onSelectCategory: (cat: 'residential' | 'commercial') => void;
+  /** 누르면 포트폴리오 분류가 실제로 그 값으로 바뀐다 (예전엔 인자를 버리고 스크롤만 했다) */
+  onSelectCategory: (cat: ProjectCategory) => void;
   onOpenMaterialArchive: () => void;
   onOpenJournal: () => void;
   onOpenPress: () => void;
@@ -34,40 +36,41 @@ export const Footer: React.FC<FooterProps> = ({
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-6 lg:gap-8 text-xs uppercase tracking-wider font-sans">
+        {/* 탭 대상 44px 확보를 위해 min-h-11 을 쓰므로 세로 간격은 줄인다(모바일에서 4줄로 감긴다) */}
+        <div className="flex flex-wrap gap-x-6 gap-y-0 lg:gap-x-8 lg:gap-y-1 text-xs uppercase tracking-wider font-sans">
           <button
             onClick={() => onSelectCategory('residential')}
-            className="text-[#474741] hover:text-[#161714] transition-colors duration-200 cursor-pointer"
+            className="inline-flex min-h-11 items-center text-[#474741] hover:text-[#161714] transition-colors duration-200 cursor-pointer"
           >
             Residential Works
           </button>
           <button
             onClick={() => onSelectCategory('commercial')}
-            className="text-[#474741] hover:text-[#161714] transition-colors duration-200 cursor-pointer"
+            className="inline-flex min-h-11 items-center text-[#474741] hover:text-[#161714] transition-colors duration-200 cursor-pointer"
           >
             Commercial Spaces
           </button>
           <button
             onClick={onOpenMaterialArchive}
-            className="text-[#474741] hover:text-[#161714] transition-colors duration-200 cursor-pointer"
+            className="inline-flex min-h-11 items-center text-[#474741] hover:text-[#161714] transition-colors duration-200 cursor-pointer"
           >
             Material Archive
           </button>
           <button
             onClick={onOpenJournal}
-            className="text-[#474741] hover:text-[#161714] transition-colors duration-200 cursor-pointer"
+            className="inline-flex min-h-11 items-center text-[#474741] hover:text-[#161714] transition-colors duration-200 cursor-pointer"
           >
             Studio Journal
           </button>
           <button
             onClick={onOpenPress}
-            className="text-[#474741] hover:text-[#161714] transition-colors duration-200 cursor-pointer"
+            className="inline-flex min-h-11 items-center text-[#474741] hover:text-[#161714] transition-colors duration-200 cursor-pointer"
           >
             Press &amp; Inquiries
           </button>
           <button
             onClick={onOpenPrivacy}
-            className="text-[#474741] hover:text-[#161714] transition-colors duration-200 cursor-pointer"
+            className="inline-flex min-h-11 items-center text-[#474741] hover:text-[#161714] transition-colors duration-200 cursor-pointer"
           >
             Privacy Policy
           </button>

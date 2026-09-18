@@ -32,19 +32,29 @@ export const Footer: React.FC = () => {
             <span className="text-xs font-mono text-[#b8613d] font-bold uppercase block mb-4">
               STUDIO ATELIER
             </span>
-            <ul className="space-y-2 text-xs">
+            {/* 링크마다 min-h-11 — 모바일에서 손가락이 닿는 면을 44px 로 맞춘다. */}
+            <ul className="text-xs">
               <li>
-                <a href="#zones" className="hover:text-[#d27952] transition-colors">
+                <a
+                  href="#zones"
+                  className="inline-flex min-h-11 items-center hover:text-[#d27952] transition-colors"
+                >
                   스튜디오 3대 룸
                 </a>
               </li>
               <li>
-                <a href="#telemetry" className="hover:text-[#d27952] transition-colors">
+                <a
+                  href="#telemetry"
+                  className="inline-flex min-h-11 items-center hover:text-[#d27952] transition-colors"
+                >
                   클린 에어 텔레메트리 HUD
                 </a>
               </li>
               <li>
-                <a href="#materials" className="hover:text-[#d27952] transition-colors">
+                <a
+                  href="#materials"
+                  className="inline-flex min-h-11 items-center hover:text-[#d27952] transition-colors"
+                >
                   친환경 자재 아카이브
                 </a>
               </li>
@@ -61,7 +71,7 @@ export const Footer: React.FC = () => {
             </p>
             <Link
               href="/inquiry?from=arche-wellness"
-              className="inline-block px-4 py-2 rounded-lg bg-[#d27952]/10 hover:bg-[#d27952]/20 text-[#b8613d] border border-[#d27952]/30 text-xs font-semibold transition-all"
+              className="inline-flex min-h-11 items-center px-4 py-2 rounded-lg bg-[#d27952]/10 hover:bg-[#d27952]/20 text-[#b8613d] border border-[#d27952]/30 text-xs font-semibold transition-all"
             >
               태문 DEV STUDIO에 제작 의뢰 ↗
             </Link>

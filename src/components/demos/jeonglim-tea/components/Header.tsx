@@ -12,7 +12,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenTeaModal }) => {
     <header className="sticky top-[var(--sample-bar-h,0px)] z-40 bg-[#1c1815]/95 backdrop-blur-md border-b border-[#382f29] transition-all">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 h-20 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/demo/jeonglim-tea" className="flex items-center gap-3 group">
+        <Link href="/demo/jeonglim-tea" className="flex items-center gap-3 group min-h-11">
           <div className="w-10 h-10 rounded-xl bg-[#3d2f25] border border-[#6b5545] flex items-center justify-center text-[#f4ede2] font-serif font-bold text-lg shadow-md group-hover:scale-105 transition-transform">
             靜
           </div>
@@ -37,16 +37,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenTeaModal }) => {
           <a href="#materials" className="hover:text-[#e8cb9e] transition-colors">
             전통 고재 자재
           </a>
-          <a href="#philosophy" className="hover:text-[#e8cb9e] transition-colors">
-            여백의 미학
-          </a>
         </nav>
 
         {/* Action Button */}
         <div className="flex items-center gap-3">
           <button
             onClick={onOpenTeaModal}
-            className="px-4 py-2.5 rounded-lg bg-[#6b5545] hover:bg-[#856b57] text-[#f4ede2] font-semibold text-xs lg:text-sm shadow-md transition-all active:scale-95 border border-[#8c715c] cursor-pointer"
+            className="inline-flex items-center justify-center min-h-11 px-4 py-2.5 rounded-lg bg-[#6b5545] hover:bg-[#856b57] text-[#f4ede2] font-semibold text-xs lg:text-sm shadow-md transition-all active:scale-95 border border-[#8c715c] cursor-pointer break-keep"
           >
             한옥 다도 공간 시공 상담
           </button>

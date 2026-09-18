@@ -21,7 +21,7 @@ export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMateri
               엄선된 5대 하이엔드 건축·인테리어 물성
             </h2>
             <p className="text-stone-400 text-sm mt-2 max-w-2xl">
-              스튜디오가 직접 감리하고 시공에 투입하는 실제 자재들의 물성과 특성입니다. 카드를 클릭하면 상세 시공 가이드와 조명 페어링 정보를 확인하실 수 있습니다.
+              스튜디오가 직접 감리하고 시공에 투입하는 대표 자재들의 물성과 특성입니다. 카드를 클릭하면 상세 시공 가이드와 조명 페어링 정보를 확인하실 수 있습니다.
             </p>
           </div>
           <div className="mt-4 lg:mt-0 text-right">
@@ -32,10 +32,12 @@ export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMateri
         {/* Materials Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           {MATERIALS.map((mat) => (
-            <div
+            <button
               key={mat.id}
+              type="button"
               onClick={() => onSelectMaterial(mat)}
-              className="group cursor-pointer rounded-sm bg-stone-900/60 border border-white/10 hover:border-amber-400/50 transition-all duration-300 p-6 flex flex-col justify-between hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-500/5"
+              aria-label={`${mat.name} 스펙 시트 보기`}
+              className="group text-left w-full cursor-pointer rounded-sm bg-stone-900/60 border border-white/10 hover:border-amber-400/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400 transition-all duration-300 p-6 flex flex-col justify-between hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-500/5"
             >
               <div>
                 {/* Color/Texture Swatch Preview */}
@@ -53,7 +55,7 @@ export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMateri
                   <h3 className="font-serif text-base font-bold text-stone-100 group-hover:text-amber-300 transition-colors">
                     {mat.name}
                   </h3>
-                  <p className="text-[11px] font-mono text-stone-400 truncate">
+                  <p className="text-[11px] font-mono text-stone-400 break-words">
                     {mat.engName}
                   </p>
                 </div>
@@ -66,7 +68,7 @@ export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMateri
               <div className="pt-4 border-t border-white/5 space-y-2">
                 <div className="text-[11px] text-stone-400">
                   <span className="font-mono text-amber-400/80 block">권장 용도</span>
-                  <span className="truncate block text-stone-300">{mat.recommendedUse}</span>
+                  <span className="block text-stone-300 leading-relaxed [word-break:keep-all]">{mat.recommendedUse}</span>
                 </div>
 
                 <div className="flex items-center justify-between text-[11px] font-mono text-amber-400 pt-1 group-hover:underline">
@@ -74,7 +76,7 @@ export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMateri
                   <span>→</span>
                 </div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>

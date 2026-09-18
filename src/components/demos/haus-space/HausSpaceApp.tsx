@@ -1,8 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
-import { ArrowLeft, Send } from 'lucide-react';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
 import { TransformationSection } from './components/TransformationSection';
@@ -14,78 +12,40 @@ import { PressSection } from './components/PressSection';
 import { Footer } from './components/Footer';
 import { ProjectDossierModal } from './components/ProjectDossierModal';
 import { VRViewerModal } from './components/VRViewerModal';
-import { ProjectItem } from './types';
+import { ConsultationPrefill, ProjectItem } from './types';
 
-interface HausSpaceAppProps {
-  isEmbed?: boolean;
-}
-
-export default function HausSpaceApp({ isEmbed = false }: HausSpaceAppProps) {
+export default function HausSpaceApp() {
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
   const [isVROpen, setIsVROpen] = useState<boolean>(false);
-  const [consultProjectTitle, setConsultProjectTitle] = useState<string>('');
+  const [consultPrefill, setConsultPrefill] = useState<ConsultationPrefill | null>(null);
 
+  // 모달을 닫으면서 이동하는 경로가 있다. 모달은 열려 있는 동안 body 스크롤을 잠그는데,
+  // 그 잠금이 풀리는 건 React 가 화면을 갱신한 뒤라 같은 호출 안에서 바로 스크롤하면 먹지 않는다
+  // → 다음 프레임으로 한 박자 미룬다.
+  const scrollToSection = (id: string) => {
+    requestAnimationFrame(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    });
+  };
+
+  // 고른 프로젝트는 **요청 사항 칸에만** 싣는다. 「프로젝트 유형」 select 에 넣으면 option 에 없는 값이라
+  // 필수 항목이 빈 칸으로 보인다. nonce 로 같은 프로젝트를 다시 눌러도 다시 적용되게 한다.
   const scrollToConsultation = (projectTitle?: string) => {
     if (projectTitle) {
-      setConsultProjectTitle(projectTitle);
+      setConsultPrefill({
+        nonce: Date.now(),
+        message: `[${projectTitle}] 프로젝트와 유사한 무드의 설계 및 맞춤 자재 시공 컨설팅을 희망합니다.`,
+      });
     }
-    const elem = document.getElementById('consultation');
-    if (elem) {
-      elem.scrollIntoView({ behavior: 'smooth' });
-    }
+    scrollToSection('consultation');
   };
 
-  const scrollToSelectedWorks = () => {
-    const elem = document.getElementById('selected-works');
-    if (elem) {
-      elem.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const scrollToSelectedWorks = () => scrollToSection('selected-works');
 
-  const scrollToMaterialArchive = () => {
-    const elem = document.getElementById('material-archive');
-    if (elem) {
-      elem.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const scrollToMaterialArchive = () => scrollToSection('material-archive');
 
   return (
     <div className="min-h-screen bg-[#121315] text-[#e3e2e5] font-sans antialiased selection:bg-[#c5a880] selection:text-[#121315]">
-      {/* 🌟 Taemun Dev Studio Top Floating Demo Bar */}
-      {!isEmbed && (
-        <aside
-          aria-label="데모 안내 바"
-          className="sticky top-0 z-[60] bg-zinc-950/95 backdrop-blur-md text-white border-b border-zinc-800 text-xs py-2 px-4 flex items-center justify-between"
-        >
-          <div className="flex items-center gap-3">
-            <Link
-              href="/#category-interior"
-              className="flex items-center gap-1.5 text-zinc-400 hover:text-white transition-colors font-medium"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>포트폴리오 목록</span>
-            </Link>
-            <span className="text-zinc-600">|</span>
-            <span className="flex items-center gap-1.5 font-medium text-amber-400">
-              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-              <span className="font-semibold text-white">HAUS &amp; SPACE</span> 가상 브랜드 샘플 사이트
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="hidden lg:inline text-zinc-400">
-              태문 DEV STUDIO 하이엔드 인테리어 아키텍처 레퍼런스
-            </span>
-            <Link
-              href="/inquiry?from=haus-space"
-              className="bg-amber-600 hover:bg-amber-500 text-white font-medium px-3 py-1 rounded text-xs transition-colors flex items-center gap-1"
-            >
-              <Send className="w-3 h-3" />
-              <span>이런 사이트 제작 문의</span>
-            </Link>
-          </div>
-        </aside>
-      )}
-
       {/* Sticky Monograph Header */}
       <Header onOpenConsultation={() => scrollToConsultation()} />
 
@@ -97,7 +57,7 @@ export default function HausSpaceApp({ isEmbed = false }: HausSpaceAppProps) {
           onExploreMaterial={scrollToMaterialArchive}
         />
 
-        {/* Archival Spotlight 2025: Hannam The Hill Before & After */}
+        {/* Archival Spotlight 2025: 도심 펜트하우스(예시) 시공 전후 비교 */}
         <TransformationSection
           onConsultProject={(title) => scrollToConsultation(title)}
           onOpenVRModal={() => setIsVROpen(true)}
@@ -115,19 +75,7 @@ export default function HausSpaceApp({ isEmbed = false }: HausSpaceAppProps) {
         <MaterialArchiveSection />
 
         {/* Private Bureau: By Appointment Only Consultation */}
-        <ConsultationSection
-          key={consultProjectTitle}
-          initialProjectType={
-            consultProjectTitle
-              ? `프로젝트 문의: ${consultProjectTitle}`
-              : '하이엔드 주거 (아파트/펜트하우스)'
-          }
-          initialMessage={
-            consultProjectTitle
-              ? `[${consultProjectTitle}] 프로젝트와 유사한 무드의 설계 및 맞춤 자재 시공 컨설팅을 희망합니다.`
-              : ''
-          }
-        />
+        <ConsultationSection prefill={consultPrefill} />
 
         {/* Press & Curatorial Accolades */}
         <PressSection />
@@ -140,7 +88,7 @@ export default function HausSpaceApp({ isEmbed = false }: HausSpaceAppProps) {
         onInquire={(title) => scrollToConsultation(title)}
       />
 
-      {/* 360 VR Virtual Spatial Simulation */}
+      {/* 와이드 장면 뷰어 (좌우 패닝) */}
       <VRViewerModal isOpen={isVROpen} onClose={() => setIsVROpen(false)} />
 
       {/* Footer */}

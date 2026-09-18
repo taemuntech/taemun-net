@@ -19,7 +19,7 @@ export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMateri
           <h2 className="font-serif text-2xl lg:text-4xl font-bold text-white mb-4">
             시간이 빚어낸 한국 전통 고재 자재
           </h2>
-          <p className="text-sm lg:text-base text-[#a89888] font-light leading-relaxed">
+          <p className="text-sm lg:text-base text-[#a89888] font-light leading-relaxed break-keep">
             백 년을 견딘 소나무의 나이테부터 햇빛을 온화하게 걸러내는 닥나무 한지까지,
             세월의 깊이를 품어 묵직한 위로를 건네는 전통 자재 라이브러리를 소개합니다.
           </p>
@@ -27,10 +27,12 @@ export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMateri
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {HANOK_MATERIALS.map((mat) => (
-            <div
+            <button
               key={mat.id}
+              type="button"
               onClick={() => onSelectMaterial(mat)}
-              className="p-6 rounded-2xl bg-[#181310] border border-[#382f29] hover:border-[#8c715c] transition-all hover:-translate-y-1 group cursor-pointer shadow-lg flex flex-col justify-between"
+              aria-label={`${mat.name} 자재 상세 보기`}
+              className="w-full text-left p-6 rounded-2xl bg-[#181310] border border-[#382f29] hover:border-[#8c715c] transition-all hover:-translate-y-1 group cursor-pointer shadow-lg flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -43,11 +45,11 @@ export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMateri
                   </span>
                 </div>
 
-                <h3 className="text-lg font-bold text-white group-hover:text-[#d8b896] transition-colors mb-1">
+                <h3 className="text-lg font-bold text-white group-hover:text-[#d8b896] transition-colors mb-1 break-keep">
                   {mat.name}
                 </h3>
                 <p className="text-xs font-mono text-[#8a7566] mb-3 uppercase">{mat.engName}</p>
-                <p className="text-xs text-[#b8a796] font-light line-clamp-3 mb-4 leading-relaxed">
+                <p className="text-xs text-[#b8a796] font-light line-clamp-3 mb-4 leading-relaxed break-keep">
                   {mat.desc}
                 </p>
               </div>
@@ -56,11 +58,11 @@ export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMateri
                 <span className="text-[10px] font-mono text-[#8a7566] block mb-0.5">
                   CRAFT HERITAGE
                 </span>
-                <p className="text-xs text-[#cbb094] font-mono font-medium truncate">
+                <p className="text-xs text-[#cbb094] font-mono font-medium break-keep">
                   {mat.craftHeritage}
                 </p>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>

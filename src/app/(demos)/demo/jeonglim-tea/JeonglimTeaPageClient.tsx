@@ -9,7 +9,7 @@ interface Props {
 
 export default function JeonglimTeaPageClient({ isEmbed }: Props) {
   if (isEmbed) {
-    return <JeonglimTeaApp isEmbed={true} />;
+    return <JeonglimTeaApp />;
   }
 
   return (
@@ -17,7 +17,7 @@ export default function JeonglimTeaPageClient({ isEmbed }: Props) {
       src="/demo/jeonglim-tea?embed=true"
       title="정림다원 (靜林茶院)"
       category="인테리어 · 모던 한옥 티하우스 & 다도 공간"
-      client="가상 브랜드 샘플 — 실제 업체가 아닙니다 (북촌 한옥마을 다원 설정)"
+      client="가상 브랜드 샘플 — 실제 업체가 아닙니다 (북촌 일대 한옥 다원 설정)"
       techStack={[
         'Next.js 16',
         'React 19',

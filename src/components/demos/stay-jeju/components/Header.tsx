@@ -19,24 +19,29 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, onOpenConsultation }
     <header className="sticky top-[var(--sample-bar-h,0px)] z-40 w-full bg-[#18191d]/90 backdrop-blur-md border-b border-stone-800 text-stone-200 transition-all">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 h-20 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center gap-3 cursor-pointer" onClick={() => handleNavClick('hero')}>
-          <div className="w-10 h-10 rounded-sm bg-stone-100 text-stone-900 flex items-center justify-center font-serif font-bold text-lg tracking-tighter">
+        <button
+          type="button"
+          className="flex items-center gap-3 cursor-pointer text-left"
+          onClick={() => handleNavClick('hero')}
+          aria-label="소소재 제주 — 맨 위로"
+        >
+          <span className="w-10 h-10 shrink-0 rounded-sm bg-stone-100 text-stone-900 flex items-center justify-center font-serif font-bold text-lg tracking-tighter">
             素
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
+          </span>
+          <span className="block">
+            <span className="flex items-center gap-2">
               <span className="font-serif tracking-widest text-lg font-bold text-stone-100">
                 {STAY_BRAND.name}
               </span>
               <span className="hidden lg:inline-block text-[10px] uppercase font-mono tracking-widest px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20">
                 Boutique Stay
               </span>
-            </div>
-            <p className="text-[11px] text-stone-400 font-sans tracking-wide">
+            </span>
+            <span className="block text-[11px] text-stone-400 font-sans tracking-wide">
               제주 애월 독채 프리미엄 스테이 디자인
-            </p>
-          </div>
-        </div>
+            </span>
+          </span>
+        </button>
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-8 text-sm font-medium text-stone-300">
@@ -50,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, onOpenConsultation }
             onClick={() => handleNavClick('zones')}
             className="hover:text-amber-300 transition-colors tracking-wider"
           >
-            공간 360 투어
+            공간 디테일 투어
           </button>
           <button
             onClick={() => handleNavClick('materials')}
@@ -77,8 +82,9 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, onOpenConsultation }
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-stone-300 hover:text-white focus:outline-none"
-            aria-label="메뉴 열기"
+            className="lg:hidden p-2.5 -mr-1 text-stone-300 hover:text-white focus:outline-none"
+            aria-label={mobileMenuOpen ? '메뉴 닫기' : '메뉴 열기'}
+            aria-expanded={mobileMenuOpen}
           >
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               {mobileMenuOpen ? (
@@ -105,7 +111,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, onOpenConsultation }
               onClick={() => handleNavClick('zones')}
               className="text-left py-2 hover:text-amber-300 transition-colors border-b border-white/5"
             >
-              공간 360 투어 (Spatial Tour)
+              공간 디테일 투어 (Spatial Tour)
             </button>
             <button
               onClick={() => handleNavClick('materials')}

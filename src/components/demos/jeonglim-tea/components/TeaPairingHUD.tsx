@@ -19,8 +19,8 @@ export const TeaPairingHUD: React.FC = () => {
           <h2 className="font-serif text-2xl lg:text-4xl font-bold text-white mb-4">
             계절과 날씨가 짓는 차(茶) 한 잔의 여백
           </h2>
-          <p className="text-sm lg:text-base text-[#a89888] font-light leading-relaxed">
-            한옥의 공간미는 바깥의 날씨와 완벽히 호흡할 때 완성됩니다.
+          <p className="text-sm lg:text-base text-[#a89888] font-light leading-relaxed break-keep">
+            한옥의 공간미는 바깥의 날씨와 자연스럽게 호흡할 때 깊어집니다.
             처마 끝 빗소리, 창호 문살의 아침 볕, 눈 내리는 온돌의 고요함에 맞춘 다도 앰비언스를 경험해 보세요.
           </p>
         </div>
@@ -45,7 +45,7 @@ export const TeaPairingHUD: React.FC = () => {
                     {mood.temperatureNote}
                   </span>
                 </div>
-                <h4 className="text-base font-bold text-white mb-1">{mood.name}</h4>
+                <h4 className="text-base font-bold text-white mb-1 break-keep">{mood.name}</h4>
                 <p className="text-xs text-[#b8a796] font-light line-clamp-1">{mood.koreanPoetic}</p>
               </button>
             );
@@ -80,23 +80,28 @@ export const TeaPairingHUD: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-[#14100e]/95 via-transparent to-[#14100e]/30" />
 
           {/* HUD Info */}
-          <div className="absolute bottom-6 left-6 right-6 flex flex-col lg:flex-row items-start lg:items-end justify-between gap-4 p-6 rounded-2xl bg-[#1c1714]/85 backdrop-blur-md border border-[#382f29]">
+          {/* 375px 에서는 16:9 상자 높이가 200px 이 안 돼 p-6·bottom-6 이면 이 판이 사진 위로 넘쳐 잘린다 */}
+          <div className="absolute bottom-3 left-3 right-3 lg:bottom-6 lg:left-6 lg:right-6 flex flex-col lg:flex-row items-start lg:items-end justify-between gap-2.5 lg:gap-4 p-3.5 lg:p-6 rounded-2xl bg-[#1c1714]/85 backdrop-blur-md border border-[#382f29]">
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#d8b896] animate-pulse" />
-                <span className="text-xs font-mono text-[#d8b896] font-bold uppercase">
-                  ACTIVE HANOK SOUNDSCAPE & TEA PAIRING
+                <span className="text-[10px] lg:text-xs font-mono text-[#d8b896] font-bold uppercase">
+                  ACTIVE HANOK SOUNDSCAPE &amp; TEA PAIRING
                 </span>
               </div>
-              <h3 className="text-lg lg:text-xl font-bold text-white mb-1">{currentMood.name}</h3>
-              <p className="text-xs text-[#c4b5a5]">소리 풍경: {currentMood.soundscape}</p>
+              <h3 className="text-base lg:text-xl font-bold text-white mb-1 break-keep">
+                {currentMood.name}
+              </h3>
+              <p className="text-xs text-[#c4b5a5] break-keep">
+                소리 풍경: {currentMood.soundscape}
+              </p>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-[#261f1a] border border-[#3d3127] max-w-md">
+            <div className="p-3 lg:p-3.5 rounded-xl bg-[#261f1a] border border-[#3d3127] max-w-md">
               <span className="text-[10px] font-mono text-[#8a7566] block mb-0.5 uppercase">
                 RECOMMENDED TEA PAIRING
               </span>
-              <span className="text-xs lg:text-sm font-semibold text-[#d8b896]">
+              <span className="text-xs lg:text-sm font-semibold text-[#d8b896] break-keep">
                 {currentMood.recommendedTea}
               </span>
             </div>

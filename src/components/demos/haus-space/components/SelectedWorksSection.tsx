@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { PROJECTS } from '../data/portfolioData';
-import { ProjectItem } from '../types';
+import { imageCropStyle, ProjectItem } from '../types';
 
 interface SelectedWorksSectionProps {
   onSelectProject: (project: ProjectItem) => void;
@@ -28,7 +28,7 @@ export const SelectedWorksSection: React.FC<SelectedWorksSectionProps> = ({
 
   return (
     <section
-      className="py-16 lg:py-24 bg-[#0d0e10] border-y border-white/10"
+      className="py-16 lg:py-24 bg-[#0d0e10] border-y border-white/10 scroll-mt-[calc(var(--sample-bar-h,0px)_+_80px)]"
       id="selected-works"
     >
       <div className="max-w-[1440px] mx-auto px-5 lg:px-16">
@@ -44,6 +44,11 @@ export const SelectedWorksSection: React.FC<SelectedWorksSectionProps> = ({
             <p className="text-[15px] text-[#d1c5b8] mt-2 max-w-xl font-light leading-relaxed">
               절제된 비례와 하이엔드 물성의 결합. 주거와 상업 공간의 경계를 넘나드는 대표 프로젝트 셀렉션.
             </p>
+            {/* 형제 데모(seongsu-showroom·atelier-vaucluse)와 같은 자리에 같은 고지를 둔다 —
+                위치·면적·공사 기간이 붙어 있어 예시 표시가 없으면 실제 시공 실적으로 읽힌다. */}
+            <p className="text-xs text-[#998f83] mt-1.5 max-w-xl leading-relaxed">
+              아래 프로젝트명·위치·면적·공사 기간·연도는 가상 브랜드 설정으로 지어낸 예시이며 실제 시공 실적이 아닙니다.
+            </p>
           </div>
 
           {/* Rectilinear Category Badges */}
@@ -51,8 +56,10 @@ export const SelectedWorksSection: React.FC<SelectedWorksSectionProps> = ({
             {categories.map((cat) => (
               <button
                 key={cat}
+                type="button"
+                aria-pressed={activeCategory === cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`text-xs px-4 py-2 uppercase tracking-wider transition cursor-pointer ${
+                className={`text-xs min-h-11 px-4 py-2 uppercase tracking-wider transition cursor-pointer ${
                   activeCategory === cat
                     ? 'bg-[#c5a880] text-[#121315] font-semibold'
                     : 'bg-[#1b1c1e] text-[#d1c5b8] border border-white/10 hover:border-[#c5a880]/50 hover:text-[#f4efea]'
@@ -73,18 +80,32 @@ export const SelectedWorksSection: React.FC<SelectedWorksSectionProps> = ({
             >
               <div>
                 <div
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`${project.title} 상세 보기`}
                   onClick={() => onSelectProject(project)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      onSelectProject(project);
+                    }
+                  }}
                   className="relative aspect-[16/10] overflow-hidden bg-[#121315] mb-6 cursor-pointer"
                 >
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <span className="absolute top-4 left-4 bg-[#0d0e10]/90 border border-white/15 text-[#f4efea] text-[11px] px-3 py-1 uppercase tracking-wider">
+                  {/* 확대 연출과 원본 잘라내기가 같은 scale 유틸리티를 쓰면 hover 때 잘라낸 부분이
+                      다시 드러난다 — 바깥 상자가 확대를 맡고 img 는 잘라내기만 맡게 나눈다 */}
+                  <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-105">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover"
+                      style={imageCropStyle(project.imageCrop)}
+                    />
+                  </div>
+                  <span className="absolute top-4 left-4 z-10 bg-[#0d0e10]/90 border border-white/15 text-[#f4efea] text-[11px] px-3 py-1 uppercase tracking-wider">
                     {project.koreanCategory}
                   </span>
-                  <span className="absolute bottom-4 right-4 bg-[#0d0e10]/80 text-[#d1c5b8] text-[11px] px-2.5 py-1 font-mono">
+                  <span className="absolute bottom-4 right-4 z-10 bg-[#0d0e10]/80 text-[#d1c5b8] text-[11px] px-2.5 py-1 font-mono">
                     {project.completionYear}
                   </span>
                 </div>
@@ -111,8 +132,9 @@ export const SelectedWorksSection: React.FC<SelectedWorksSectionProps> = ({
               <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
                 <span className="text-xs text-[#998f83]">{project.materialsUsed}</span>
                 <button
+                  type="button"
                   onClick={() => onSelectProject(project)}
-                  className="text-xs tracking-wider uppercase text-[#c5a880] flex items-center gap-1.5 hover:text-[#f4efea] transition cursor-pointer"
+                  className="text-xs tracking-wider uppercase text-[#c5a880] flex min-h-11 items-center gap-1.5 hover:text-[#f4efea] transition cursor-pointer"
                 >
                   <span>View Dossier</span>
                   <ArrowRight className="w-3.5 h-3.5" />

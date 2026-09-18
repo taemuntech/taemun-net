@@ -25,14 +25,15 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="bg-[#faf9f7]/95 backdrop-blur-md text-[#161714] docked full-width top-0 sticky z-50 border-b border-[#c8c7bf]/30 transition-colors">
+    // 공용 샘플 바에 가려지지 않게 top-0 대신 --sample-bar-h 를 쓴다 — 바가 없으면 0px 라 화면은 그대로다.
+    <header className="bg-[#faf9f7]/95 backdrop-blur-md text-[#161714] docked full-width top-[var(--sample-bar-h,0px)] sticky z-50 border-b border-[#c8c7bf]/30 transition-colors">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-20">
-        {/* Studio Logo */}
-        <a
-          href="#"
-          className="flex flex-col group cursor-pointer"
-          onClick={(e) => {
-            e.preventDefault();
+        {/* Studio Logo — 맨 위로 되돌리는 버튼. 링크가 아니라 동작이라 button 으로 둔다(빈 href 금지) */}
+        <button
+          type="button"
+          aria-label="맨 위로"
+          className="flex flex-col justify-center min-h-11 text-left group cursor-pointer"
+          onClick={() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
         >
@@ -42,7 +43,7 @@ export const Header: React.FC<HeaderProps> = ({
           <span className="text-[10px] lg:text-[11px] tracking-[0.28em] text-[#474741]/70 uppercase font-sans">
             Architecture &amp; Spatial Interior
           </span>
-        </a>
+        </button>
 
         {/* Desktop Nav Items */}
         <nav className="hidden lg:flex items-center space-x-8">
@@ -99,7 +100,8 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle navigation menu"
-            className="p-2 text-[#161714] hover:text-[#904b35] focus:outline-none cursor-pointer"
+            aria-expanded={mobileMenuOpen}
+            className="p-2.5 text-[#161714] hover:text-[#904b35] focus:outline-none cursor-pointer"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -111,19 +113,19 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="lg:hidden bg-[#faf9f7] border-b border-[#c8c7bf]/40 px-6 py-6 space-y-4 shadow-sm animate-in fade-in slide-in-from-top-2 duration-200">
           <button
             onClick={() => scrollToSection('philosophy')}
-            className="block w-full text-left py-2 text-sm uppercase tracking-wider text-[#474741] hover:text-[#161714]"
+            className="flex w-full items-center min-h-11 text-left py-2 text-sm uppercase tracking-wider text-[#474741] hover:text-[#161714]"
           >
             Philosophy
           </button>
           <button
             onClick={() => scrollToSection('portfolio')}
-            className="block w-full text-left py-2 text-sm uppercase tracking-wider text-[#474741] hover:text-[#161714]"
+            className="flex w-full items-center min-h-11 text-left py-2 text-sm uppercase tracking-wider text-[#474741] hover:text-[#161714]"
           >
             Portfolio
           </button>
           <button
             onClick={() => scrollToSection('process')}
-            className="block w-full text-left py-2 text-sm uppercase tracking-wider text-[#474741] hover:text-[#161714]"
+            className="flex w-full items-center min-h-11 text-left py-2 text-sm uppercase tracking-wider text-[#474741] hover:text-[#161714]"
           >
             Process
           </button>
@@ -132,7 +134,7 @@ export const Header: React.FC<HeaderProps> = ({
               setMobileMenuOpen(false);
               onOpenPress();
             }}
-            className="block w-full text-left py-2 text-sm uppercase tracking-wider text-[#474741] hover:text-[#161714]"
+            className="flex w-full items-center min-h-11 text-left py-2 text-sm uppercase tracking-wider text-[#474741] hover:text-[#161714]"
           >
             Press
           </button>
@@ -141,7 +143,7 @@ export const Header: React.FC<HeaderProps> = ({
               setMobileMenuOpen(false);
               onOpenJournal();
             }}
-            className="block w-full text-left py-2 text-sm uppercase tracking-wider text-[#474741] hover:text-[#161714]"
+            className="flex w-full items-center min-h-11 text-left py-2 text-sm uppercase tracking-wider text-[#474741] hover:text-[#161714]"
           >
             Journal
           </button>
@@ -150,14 +152,14 @@ export const Header: React.FC<HeaderProps> = ({
               setMobileMenuOpen(false);
               onOpenMaterialArchive();
             }}
-            className="block w-full text-left py-2 text-sm uppercase tracking-wider text-[#904b35] font-medium"
+            className="flex w-full items-center min-h-11 text-left py-2 text-sm uppercase tracking-wider text-[#904b35] font-medium"
           >
             Materials &amp; Detail Archive
           </button>
           <div className="pt-2">
             <button
               onClick={() => scrollToSection('consultation')}
-              className="w-full bg-[#2b2b28] text-[#faf9f7] py-3 rounded text-xs uppercase tracking-wider font-semibold flex items-center justify-center gap-2 hover:bg-[#904b35] transition-colors"
+              className="w-full min-h-11 bg-[#2b2b28] text-[#faf9f7] py-3 rounded text-xs uppercase tracking-wider font-semibold flex items-center justify-center gap-2 hover:bg-[#904b35] transition-colors"
             >
               <span>1:1 상담 예약 신청</span>
               <ArrowRight size={14} />

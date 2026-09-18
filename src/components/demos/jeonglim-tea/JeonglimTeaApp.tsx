@@ -11,7 +11,7 @@ import { TeaModal } from './components/TeaModal';
 import { Footer } from './components/Footer';
 import { HanokMaterial } from './types';
 
-export const JeonglimTeaApp: React.FC<{ isEmbed?: boolean }> = ({ isEmbed }) => {
+export const JeonglimTeaApp: React.FC = () => {
   const [selectedMaterial, setSelectedMaterial] = useState<HanokMaterial | null>(null);
   const [isTeaModalOpen, setIsTeaModalOpen] = useState(false);
 

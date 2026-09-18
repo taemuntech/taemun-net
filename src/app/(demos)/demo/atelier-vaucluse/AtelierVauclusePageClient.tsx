@@ -9,7 +9,7 @@ interface Props {
 
 export default function AtelierVauclusePageClient({ isEmbed }: Props) {
   if (isEmbed) {
-    return <AtelierVaucluseApp isEmbed={true} />;
+    return <AtelierVaucluseApp />;
   }
 
   return (
@@ -24,14 +24,13 @@ export default function AtelierVauclusePageClient({ isEmbed }: Props) {
         "Tailwind CSS v4",
         "TypeScript",
         "Responsive Modal",
-        "Booking Wizard",
       ]}
       inquiryUrl="/inquiry?from=atelier-vaucluse"
       specs={[
-        { label: "반응형 규격", value: "PC(5열/와이드) · 태블릿 · 모바일 단일 lg: 규격" },
-        { label: "인터랙션", value: "프로젝트 갤러리 필터, 자재 아카이브, 1:1 예약 위저드" },
+        { label: "반응형 규격", value: "PC · 태블릿 · 모바일 — lg(1024px) 한 경계로 통일" },
+        { label: "인터랙션", value: "프로젝트 분류 필터, 상세·자재·저널 모달, 1:1 상담 신청 폼" },
         { label: "디자인 톤앤매너", value: "프렌치 모더니즘 샌드 오트밀 & 천연 트래버틴 웜톤" },
-        { label: "렌더링 성능", value: "Turbopack 100% 정적 프리렌더링 (LCP < 0.9s)" },
+        { label: "화면 구성", value: "히어로 · 철학 · 프로젝트 아카이브 · 4단계 프로세스 · 상담" },
       ]}
     />
   );

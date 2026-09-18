@@ -32,5 +32,4 @@ export interface AirSensorTelemetry {
   co2Level: number; // 420 ppm
   humidity: number; // 52%
   temperature: number; // 23.5 C
-  hepaPurity: string; // 99.97% (예시)
 }

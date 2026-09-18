@@ -18,7 +18,7 @@ export const Footer: React.FC = () => {
                 NOUVEAU DINING
               </span>
             </div>
-            <p className="text-xs text-stone-400 leading-relaxed max-w-md font-light mb-4">
+            <p className="text-xs text-stone-400 leading-relaxed max-w-md font-light mb-4 break-keep">
               누보 다이닝은 성수·청담의 미식과 공간을 결합한 하이엔드 F&B 인테리어 디자인 스튜디오의 가상 포트폴리오 웹사이트입니다.
             </p>
             <div className="text-[11px] font-mono text-stone-500 space-y-1">
@@ -32,19 +32,28 @@ export const Footer: React.FC = () => {
             <span className="text-xs font-mono text-amber-400 font-bold uppercase block mb-4">
               SPATIAL ATELIER
             </span>
-            <ul className="space-y-2 text-xs">
+            <ul className="text-xs">
               <li>
-                <a href="#zones" className="hover:text-amber-300 transition-colors">
+                <a
+                  href="#zones"
+                  className="flex min-h-11 items-center hover:text-amber-300 transition-colors"
+                >
                   공간 조닝 3대 영역
                 </a>
               </li>
               <li>
-                <a href="#lighting" className="hover:text-amber-300 transition-colors">
+                <a
+                  href="#lighting"
+                  className="flex min-h-11 items-center hover:text-amber-300 transition-colors"
+                >
                   조도 & 앰비언스 시뮬레이션
                 </a>
               </li>
               <li>
-                <a href="#materials" className="hover:text-amber-300 transition-colors">
+                <a
+                  href="#materials"
+                  className="flex min-h-11 items-center hover:text-amber-300 transition-colors"
+                >
                   프리미엄 마감재 아카이브
                 </a>
               </li>
@@ -61,7 +70,7 @@ export const Footer: React.FC = () => {
             </p>
             <Link
               href="/inquiry?from=nouveau-dining"
-              className="inline-block px-4 py-2 rounded-lg bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border border-amber-400/30 text-xs font-semibold transition-all"
+              className="inline-flex min-h-11 items-center px-4 py-2 rounded-lg bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border border-amber-400/30 text-xs font-semibold transition-all"
             >
               태문 DEV STUDIO에 제작 의뢰 ↗
             </Link>

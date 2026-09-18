@@ -11,7 +11,7 @@ interface MaterialArchiveProps {
 
 export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMaterial }) => {
   return (
-    <section id="materials" className="py-24 bg-white border-b border-[#ebdcd0]/60">
+    <section id="materials" className="scroll-mt-[calc(var(--sample-bar-h,0px)_+_80px)] py-24 bg-white border-b border-[#ebdcd0]/60">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
           <div className="lg:col-span-6">
@@ -42,10 +42,12 @@ export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMateri
         {/* Material Cards Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {SOUND_MATERIALS.map((mat) => (
-            <div
+            <button
               key={mat.id}
+              type="button"
               onClick={() => onSelectMaterial(mat)}
-              className="p-6 rounded-3xl bg-[#faf6f0] border border-[#ebdcd0] hover:border-[#8c6544] transition-all cursor-pointer group shadow-sm hover:shadow-md"
+              aria-label={`${mat.name} 음향 특성 보기`}
+              className="w-full text-left p-6 rounded-3xl bg-[#faf6f0] border border-[#ebdcd0] hover:border-[#8c6544] focus-visible:border-[#8c6544] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8c6544] transition-all cursor-pointer group shadow-sm hover:shadow-md"
             >
               <span className="text-[10px] font-mono text-[#8c6544] tracking-widest uppercase block mb-2">
                 {mat.category}
@@ -61,7 +63,7 @@ export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMateri
                 <span>음향 특성 보기</span>
                 <span className="group-hover:translate-x-1 transition-transform">→</span>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>

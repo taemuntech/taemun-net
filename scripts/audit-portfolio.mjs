@@ -686,19 +686,35 @@ const MEDICAL_VARIATION_NOTICE = /개인차|개인에 따라|사람마다|환자
  * ⚠️ 낱말 개수로 세는 방식은 **버렸다**. 「진료·처방·병원·시술」을 세니 반려동물 처방식 커머스(paws-tail)가
  *    의료로 잡혀 「15% 할인」이 환자 유인으로 ERROR 가 났다(실측). 업종을 잘못 잡으면 규칙이 아니라 소음이 된다.
  */
-const MEDICAL_SLUGS = (() => {
+/**
+ * 갤러리 카드에서 「이 분류에 속한 데모 slug」를 모은다 — 의료·인테리어 규칙의 **범위 정본**.
+ *
+ * ⚠️ 예전 방식(`category …[\s\S]{0,2000}?… liveDemoUrl` 한 방 정규식)은 **조용히 카드를 흘렸다**.
+ *    갤러리에는 liveDemoUrl 이 없는 카드(화면 없는 참고 카드)가 섞여 있어서, 그런 카드의 category 가
+ *    **다음 카드의** liveDemoUrl 을 집어삼키고 lastIndex 를 그 뒤로 옮겨 버린다. 그래서 그 다음 카드는
+ *    분류를 잃는다(실측 2026-09-18: chemical-reactor-portal 이 atelier-vaucluse 의 주소를 먹어
+ *    인테리어 11종 중 atelier-vaucluse 하나가 통째로 규칙 밖에 있었다).
+ *    → liveDemoUrl 을 기준으로 잘라, **그 앞 토막의 마지막 category** 를 그 데모의 분류로 읽는다.
+ */
+function slugsByGalleryCategory(wanted) {
   const out = new Set();
+  let src;
   try {
-    const src = stripComments(fs.readFileSync(path.join(ROOT, "src", "lib", "portfolio", "galleryData.ts"), "utf8"));
-    // category 가 카드 블록 안에서 liveDemoUrl 보다 앞에 온다 — 둘을 짝지어 읽는다.
-    for (const m of src.matchAll(/category\s*:\s*["'`](\w+)["'`][\s\S]{0,2000}?liveDemoUrl\s*:\s*["'`]\/demo\/([a-z0-9-]+)["'`]/g)) {
-      if (m[1] === "medical") out.add(m[2]);
-    }
+    src = stripComments(fs.readFileSync(path.join(ROOT, "src", "lib", "portfolio", "galleryData.ts"), "utf8"));
   } catch {
-    /* 못 읽으면 아래 카드 제목 폴백만 쓴다 */
+    return out; // 못 읽으면 각 규칙의 폴백만 쓴다
+  }
+  let cursor = 0;
+  for (const m of src.matchAll(/liveDemoUrl\s*:\s*["'`]\/demo\/([a-z0-9-]+)["'`]/g)) {
+    const before = src.slice(cursor, m.index);
+    cursor = m.index + m[0].length;
+    const cats = [...before.matchAll(/category\s*:\s*["'`](\w+)["'`]/g)];
+    if (cats.length && cats[cats.length - 1][1] === wanted) out.add(m[1]);
   }
   return out;
-})();
+}
+
+const MEDICAL_SLUGS = slugsByGalleryCategory("medical");
 
 /** 폴백 — 갤러리에 아직 안 올라온 새 데모용. 카드 제목·부제에 의료기관 이름이 있으면 의료로 본다. */
 const MEDICAL_TITLE = /병원|의원\b|치과|한의원|클리닉|메디컬\s?센터|성형외과|피부과|안과|정형외과|산부인과|이비인후과/;
@@ -738,6 +754,90 @@ function scanMedicalCopy(key, textLines, flag) {
       `${baLine + 1}행: 전후(Before/After) 비교 「${ba[0].slice(0, 30)}」 — 같은 화면에 「예시 이미지 · 개인차가 있으며 부작용이 있을 수 있습니다」 고지가 없습니다`,
     );
   }
+}
+
+/**
+ * 인테리어·공간디자인 규칙 — **kind=sample 이면서 인테리어 계열인 데모에만** 건다(아래 isInteriorDemo).
+ *
+ * 왜 따로 두나(실측 2026-09-18): 인테리어 11종을 넣고 `node scripts/audit-portfolio.mjs` 를 돌렸더니
+ * 그 열한 종에서 나온 지적이 **0건**이었다. 검사기에 인테리어 범주가 통째로 없었기 때문이다.
+ *
+ * 왜 인테리어에만 거나: 「보증」·「평당」·「무상」은 다른 업종에서 정상적인 낱말이다(제품 보증 안내·평당 단가표가
+ * 있는 부동산·건자재 커머스). 시공 계약 조건으로 읽히는 건 **공간 시공을 파는 지면**에서라, 범위를 좁혀야
+ * 다른 업종에 거짓 양성을 내지 않는다. 판정 정본은 의료 규칙과 같은 방식 — 갤러리 카드의 category 다.
+ *
+ * ⚠️ 낱말이 아니라 **주장**을 본다. 「무상 보증 같은 약속은 하지 않습니다」처럼 **부정**을 적은 고지 문장이
+ *    걸리면 제대로 적은 쪽이 벌을 받는다(의료 규칙 때 처음 12건 중 6건이 그런 거짓 양성이었다).
+ *    그래서 앞뒤 2줄에 부정·예시 표시가 있으면 넘긴다.
+ */
+const INTERIOR_NEGATION =
+  /단정하지|보장하지|약속하지|쓰지 않|적지 않|싣지 않|하지 않습니다|아닙니다|아니며|없습니다만|지어낸|가상|예시|자리표시/;
+
+const INTERIOR_RULES = [
+  {
+    id: "brand",
+    // 실존 가구·조명·자재·설비 브랜드. **구별되는 표기만** 넣는다 —
+    // 「놀」·「헤이」·「무토」 같은 짧은 한글 음차는 일반 낱말과 겹쳐 거짓 양성이 된다.
+    re: /허먼\s?밀러|Herman\s?Miller|비트라(?!지)|\bVitra\b|USM\s?할러|프리츠\s?한센|Fritz\s?Hansen|루이스\s?폴센|Louis\s?Poulsen|톰\s?딕슨|Tom\s?Dixon|아르텍\b|\bArtek\b|까시나|카시나|\bCassina\b|미노티|\bMinotti\b|폴리폼|\bPoliform\b|B&B\s?Italia|\bMolteni\b|\bKnoll\b|\bKartell\b|크바드라트|\bKvadrat\b|플로스\s?조명|\bFLOS\b|아르테미데|\bArtemide\b|\bGUBI\b|듀라빗|\bDuravit\b|그로헤|\bGROHE\b|한스그로헤|\bHansgrohe\b|도른브라흐트|\bDornbracht\b|콜러\s?(?:수전|위생도기)|\bKohler\b|\bTOTO\s?(?:위생도기|변기|수전)|아메리칸\s?스탠다드|포셀라노사|\bPorcelanosa\b|\bBoffi\b|\bBulthaup\b|가게나우|\bGaggenau\b|\bMiele\b|서브제로|\bSub-?Zero\b|한샘|현대리바트|리바트\b|이케아|\bIKEA\b|벤자민\s?무어|Benjamin\s?Moore|던\s?에드워드|Dunn-?Edwards|\bFarrow\s?&\s?Ball\b|노루페인트|삼화페인트|KCC\s?(?:글라스|창호|실리콘)|LX\s?하우시스|이건창호|\bJUNG\b\s?스위치|르그랑|\bLegrand\b|필립스\s?휴|\bPhilips\s?Hue\b/i,
+    why:
+      "실존 가구·조명·자재·설비 브랜드 — 지어낸 스튜디오가 실존 브랜드를 적으면 제휴·공식 취급처로 읽힙니다. " +
+      "「덴마크산 펜던트 조명」·「유럽산 위생도기」처럼 계열·산지로 적으세요",
+  },
+  {
+    id: "award",
+    // 실존 건축·디자인 수상·매체. 「iF」·「AD」 처럼 짧은 것은 뒤에 오는 말까지 묶어야 거짓 양성이 안 난다.
+    re: /(?:한국)?건축문화대상|공간문화대상|서울시\s?건축상|김수근\s?건축상|레드닷|Red\s?Dot|iF\s?(?:디자인|Design)\s?(?:어워드|Award)|IDEA\s?(?:디자인\s?)?어워드|\bIDEA\s?Design\s?Award\b|German\s?Design\s?Award|Dezeen\s?Award|디젠\s?어워드|엘르\s?데코|ELLE\s?DECO|아키텍처럴?\s?다이제스트|Architectural\s?Digest|월페이퍼\s?매거진|Wallpaper\*|굿디자인\s?(?:마크|어워드)|GD\s?마크|우수디자인\s?선정/i,
+    why: "실존 수상·매체 이름 — 지어낸 스튜디오의 수상·보도 이력으로 쓰지 않습니다. 구역을 없애거나 「가상 수상 설정(예시)」로 명시하세요",
+  },
+  {
+    id: "license",
+    // 실내건축공사업 등록증·건설업 면허 번호. 「강남 제2015-18호」 같은 모양이 실제로 나왔다.
+    re: /(?:실내건축(?:공사업)?|건설업|전문건설업|종합건설업)[^\n]{0,20}(?:등록|면허)[^\n]{0,10}(?:제\s*)?\d[\d-]*\s*호?|제\s*\d{4}\s*-\s*\d+\s*호/,
+    why: "조회 가능한 면허·등록번호 형식 — 실존 업체를 가리킬 수 있습니다. 「등록번호 표기 자리 (예시)」로 두세요",
+  },
+  {
+    id: "warranty",
+    // 하자보수 보증은 계약 조건이다. 기간·범위·면책을 안 적은 약속은 분쟁을 만든다.
+    re: /무상\s*(?:하자\s*)?(?:보수|보증|A\/?S)|\d+\s*년\s*(?:간\s*)?(?:무상\s*)?(?:하자\s*)?(?:보수|보증)|하자\s*보증\s*\d+\s*년|평생\s*(?:무상\s*)?(?:보증|보수|A\/?S)|하자\s*(?:를)?\s*(?:100\s*%|전액)\s*(?:보상|책임)/,
+    why: "하자보수 보증 약속은 계약 조건입니다. 기간·범위·면책 없이 적으면 분쟁이 됩니다. 「하자보수 절차 안내 (예시)」처럼 조건 설명으로 바꾸세요",
+  },
+  {
+    id: "unitprice",
+    // 평단가 단정은 표시광고법상 실체가 있어야 한다. 범위·예시로 적으면 통과한다(아래 예외 처리).
+    re: /평당\s*[\d,]+\s*만?\s*원|㎡\s*당\s*[\d,]+\s*만?\s*원|[\d,]+\s*만\s*원\s*\/\s*평/,
+    why: "평단가 단정 — 실체가 있어야 쓸 수 있습니다. 「평당 300~400만 원 (예시 범위)」처럼 범위·예시로 적으세요",
+  },
+];
+
+/** 평단가는 「부터·~·범위·예시」가 붙으면 단정이 아니다 — 앞뒤 2줄에서 함께 본다 */
+const INTERIOR_PRICE_RANGE = /부터|[~〜]|범위|예상|예시|안팎|내외/;
+
+/**
+ * 이 데모가 인테리어·공간디자인 계열인가.
+ * 정본은 **갤러리 카드의 category: 'interior'** — 사람이 이미 분류해 둔 값이라 다음 배치의 새 인테리어
+ * 데모도 자동으로 들어온다(의료 규칙에서 쓴 방식 그대로).
+ */
+const INTERIOR_SLUGS = slugsByGalleryCategory("interior");
+
+function isInteriorDemo(slug, card) {
+  if (INTERIOR_SLUGS.has(slug)) return true;
+  // 폴백 — 갤러리에 아직 안 올라온 새 데모용. 카드 JSON 의 industry 는 사람이 적은 값이라 그대로 믿는다.
+  return card?.industry === "interior";
+}
+
+/** 인테리어 데모 전용 문구 검사 — 이 데모가 인테리어 계열일 때만 부른다. */
+function scanInteriorCopy(key, textLines, flag) {
+  const near = (i, re) => textLines.slice(Math.max(0, i - 2), i + 3).some((l) => re.test(l));
+  textLines.forEach((line, i) => {
+    const at = `${i + 1}행`;
+    if (near(i, INTERIOR_NEGATION)) return;
+    for (const r of INTERIOR_RULES) {
+      const m = line.match(r.re);
+      if (!m) continue;
+      if (r.id === "unitprice" && near(i, INTERIOR_PRICE_RANGE)) continue;
+      flag(key, `${at}: 인테리어 「${m[0]}」 — ${r.why}`);
+    }
+  });
 }
 
 /**
@@ -935,7 +1035,7 @@ const buttonTexts = (src) =>
  * @param ctx { isPage, slug, card, slugRendersNotice }
  * @returns { rendersNotice, hasSubmitForm, hasDisclosure }
  */
-function scanFile(full, { isPage, slug, card, slugRendersNotice, kind, medical = false }) {
+function scanFile(full, { isPage, slug, card, slugRendersNotice, kind, medical = false, interior = false }) {
   const key = rel(full);
   /**
    * 가상 브랜드 샘플에서는 실존 기관·식별번호가 ERROR, 실존 업체 제안 시안에서는 WARN.
@@ -1183,6 +1283,10 @@ function scanFile(full, { isPage, slug, card, slugRendersNotice, kind, medical =
   // 실존 업체 제안 시안(kind=proposal)은 그 병원이 실제로 쓰는 문구일 수 있으므로 WARN 으로 낮춘다.
   if (medical) scanMedicalCopy(key, textLines, (kind ?? card?.kind) === "proposal" ? warn : error);
 
+  // 인테리어·공간디자인 규칙 — 가상 브랜드 인테리어 샘플에만 건다.
+  // 실존 업체 제안 시안(kind=proposal)은 그 업체가 실제로 가진 면허·보증일 수 있으므로 WARN 으로 낮춘다.
+  if (interior) scanInteriorCopy(key, textLines, (kind ?? card?.kind) === "proposal" ? warn : error);
+
   // ── 외부 이미지 호스트 직접 참조(핫링크) ──
   // 게이트 바깥이라 데모를 내려도 이미지는 계속 살아 있고, 주소가 만료되면 예고 없이 깨진다(실측: 홈에서 404 2건).
   // 방문자 IP·referer 도 그 호스트로 나간다. 당장 막지는 않고 **개수를 눈에 보이게** 둔다.
@@ -1227,6 +1331,8 @@ for (const s of sampleSources) {
   const slugRendersNotice = files.some((f) => /<SampleNotice\b/.test(stripComments(fs.readFileSync(f, "utf8"))));
   // 의료 계열 판정은 파일 하나가 아니라 데모 전체 글자로 한다 — 한 파일만 보면 컴포넌트마다 판정이 갈린다.
   const medical = isMedicalDemo(s.slug, s.card);
+  // 인테리어 계열 판정도 같은 이유로 데모 전체 단위로 한 번만 한다.
+  const interior = isInteriorDemo(s.slug, s.card);
   let disclosure = false;
   let proposalDisclosure = false;
   const externalImages = [];
@@ -1234,7 +1340,7 @@ for (const s of sampleSources) {
     scannedFiles.add(f);
     keySlug.set(rel(f), s.slug);
     const isPage = path.dirname(f) === s.dir && path.basename(f) === "page.tsx";
-    const r = scanFile(f, { isPage, slug: s.slug, card: s.card, slugRendersNotice, kind: s.kind, medical });
+    const r = scanFile(f, { isPage, slug: s.slug, card: s.card, slugRendersNotice, kind: s.kind, medical, interior });
     externalImages.push(...r.externalImageHosts);
     // 고지는 「화면 안」에 있어야 인정한다. 라우트 폴더(page.tsx·<Slug>PageClient.tsx)는 기기 전환 툴바 쪽 껍데기라
     // ?embed=true 로 화면만 직접 열면 안 보인다 — 샘플 화면 컴포넌트에 있는 글자만 센다.

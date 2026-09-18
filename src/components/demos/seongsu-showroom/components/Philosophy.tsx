@@ -1,10 +1,16 @@
 'use client';
 import React from 'react';
 
-export const Philosophy: React.FC = () => {
+interface PhilosophyProps {
+  /** 카드 하단 「자세한 시공 디테일 확인하기」 — 조닝 섹션으로 데려간다(예전엔 눌러도 아무 일도 없었다) */
+  onExploreDetail: (sectionId: string) => void;
+}
+
+export const Philosophy: React.FC<PhilosophyProps> = ({ onExploreDetail }) => {
   const principles = [
     {
       num: '01',
+      target: 'zoning',
       title: '원형의 보존과 대담한 개입',
       engTitle: 'Preservation & Bold Intervention',
       desc: '1970년대 성수동 준공업지역의 붉은 벽돌 파사드와 거친 콘크리트 보를 억지로 가리지 않고 드러냅니다. 옛 시간의 켜 위에 정밀한 금속 프로파일과 조명을 더해 과거와 현재가 공존하는 긴장감을 연출합니다.',
@@ -12,6 +18,7 @@ export const Philosophy: React.FC = () => {
     },
     {
       num: '02',
+      target: 'materials',
       title: '소재 본연의 물성과 촉각적 질감',
       engTitle: 'Tactile Authenticity & Raw Texture',
       desc: '모조 필름이나 플라스틱 마감을 배제하고, 차가운 스테인리스, 미세한 기포가 살아있는 노출 콘크리트, 온화한 이탈리아산 트래버틴 등 시간이 흐를수록 품격이 더해지는 천연 물성만을 큐레이션합니다.',
@@ -19,6 +26,7 @@ export const Philosophy: React.FC = () => {
     },
     {
       num: '03',
+      target: 'projects',
       title: '브랜드 서사를 공간 동선으로 치환',
       engTitle: 'Spatial Narrative & Zoning Flow',
       desc: '단순히 제품을 진열하는 상업 공간을 넘어, 방문객이 문을 열고 들어서서 계단을 오르고 머무르는 전 과정이 하나의 입체적인 스토리텔링이 되도록 빛의 조도와 음향, 시선의 개방감을 치밀하게 계산합니다.',
@@ -46,9 +54,11 @@ export const Philosophy: React.FC = () => {
         {/* 3 Principles Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {principles.map((item) => (
-            <div
+            <button
               key={item.num}
-              className="p-8 rounded-sm bg-stone-900/60 border border-white/10 hover:border-amber-500/40 transition-all duration-300 flex flex-col justify-between group"
+              type="button"
+              onClick={() => onExploreDetail(item.target)}
+              className="text-left w-full p-8 rounded-sm bg-stone-900/60 border border-white/10 hover:border-amber-500/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400 transition-all duration-300 flex flex-col justify-between group"
             >
               <div>
                 <div className="flex items-center justify-between mb-6">
@@ -76,7 +86,7 @@ export const Philosophy: React.FC = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>

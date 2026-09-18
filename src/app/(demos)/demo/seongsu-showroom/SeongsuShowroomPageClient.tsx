@@ -9,7 +9,7 @@ interface Props {
 
 export default function SeongsuShowroomPageClient({ isEmbed }: Props) {
   if (isEmbed) {
-    return <SeongsuShowroomApp isEmbed={true} />;
+    return <SeongsuShowroomApp />;
   }
 
   return (

@@ -42,10 +42,13 @@ export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMateri
         {/* Material Cards Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {MEDICAL_MATERIALS.map((mat) => (
-            <div
+            // 원래 onClick 만 달린 <div> 였다 — 키보드·스크린리더로는 열 수 없었다. 모양은 그대로 두고 button 으로 바꾼다.
+            <button
               key={mat.id}
+              type="button"
               onClick={() => onSelectMaterial(mat)}
-              className="p-6 rounded-3xl bg-[#faf7f2] border border-[#ebdcd0] hover:border-[#a38068] transition-all cursor-pointer group shadow-sm hover:shadow-md"
+              aria-label={`${mat.name} 상세 규격 보기`}
+              className="w-full text-left p-6 rounded-3xl bg-[#faf7f2] border border-[#ebdcd0] hover:border-[#a38068] transition-all cursor-pointer group shadow-sm hover:shadow-md"
             >
               <span className="text-[10px] font-mono text-[#a38068] tracking-widest uppercase block mb-2">
                 {mat.category}
@@ -61,7 +64,7 @@ export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMateri
                 <span>상세 규격 보기</span>
                 <span className="group-hover:translate-x-1 transition-transform">→</span>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>

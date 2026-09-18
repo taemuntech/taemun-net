@@ -43,27 +43,31 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTrial }) => {
         {/* Subtitle */}
         <p className="max-w-2xl mx-auto text-sm lg:text-lg text-[#5a483c] font-light leading-relaxed mb-10">
           한남과 청담의 프리미엄 프라이빗 필라테스 & 스파를 위한 공간 솔루션.
-          자연 채광을 투과시키는 린넨과 웜 샌드 미장, 천연 히노끼 피톤치드 공조가 어우러져
-          고객의 몸과 마음에 온전한 치유의 시간을 선사합니다.
+          자연 채광을 투과시키는 린넨과 웜 샌드 미장, 천연 히노끼 마감과 청정 공조가 어우러져
+          고객의 몸과 마음에 온전한 휴식의 시간을 건넵니다.
         </p>
 
-        {/* Spec Grid Mini */}
+        {/* Spec Grid Mini — 가상 스튜디오의 설정값이라 규모·위치에 「예시」를 남긴다(실적 수치로 읽히지 않게). */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-3xl mx-auto mb-12">
           <div className="p-4 rounded-xl bg-white/80 border border-[#ebdcd0] shadow-sm backdrop-blur-sm">
             <span className="block text-[11px] font-mono text-[#8a7566] uppercase">LOCATION</span>
             <span className="text-base font-bold text-[#b8613d]">서울 용산구 한남동</span>
+            <span className="block text-[10px] text-[#9c8b7d]">가상 스튜디오 설정</span>
           </div>
           <div className="p-4 rounded-xl bg-white/80 border border-[#ebdcd0] shadow-sm backdrop-blur-sm">
             <span className="block text-[11px] font-mono text-[#8a7566] uppercase">SCALE</span>
             <span className="text-base font-bold text-[#b8613d]">단독 3층 (95평형)</span>
+            <span className="block text-[10px] text-[#9c8b7d]">예시 규모</span>
           </div>
           <div className="p-4 rounded-xl bg-white/80 border border-[#ebdcd0] shadow-sm backdrop-blur-sm">
             <span className="block text-[11px] font-mono text-[#8a7566] uppercase">CONCEPT</span>
             <span className="text-base font-bold text-[#b8613d]">웜 샌드 오가닉 아키텍처</span>
+            <span className="block text-[10px] text-[#9c8b7d]">디자인 콘셉트</span>
           </div>
           <div className="p-4 rounded-xl bg-white/80 border border-[#ebdcd0] shadow-sm backdrop-blur-sm">
             <span className="block text-[11px] font-mono text-[#8a7566] uppercase">AIR QUALITY</span>
             <span className="text-base font-bold text-[#b8613d]">청정 외기 항온항습</span>
+            <span className="block text-[10px] text-[#9c8b7d]">예시 설비 사양</span>
           </div>
         </div>
 

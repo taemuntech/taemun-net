@@ -52,7 +52,7 @@ export const WELLNESS_ZONES: WellnessZone[] = [
       '곡선형 이탈리아 부클레 패브릭 라운지 소파',
       '플루티드 라임스톤 티 아일랜드 카운터',
       '실내 생화 올리브 수목 및 천연석 조형물',
-      '친환경 무독성 황마(Jute) 러그 바닥재',
+      '천연 황마(Jute) 섬유 러그 바닥재',
     ],
     hotspots: [
       {
@@ -71,7 +71,7 @@ export const WELLNESS_ZONES: WellnessZone[] = [
         x: 75,
         y: 50,
         title: '생화 올리브 조경',
-        desc: '공기 정화와 시각적 휴식을 더하는 실내 수목',
+        desc: '싱그러움과 시각적 휴식을 더하는 실내 수목',
       },
     ],
   },
@@ -84,19 +84,19 @@ export const WELLNESS_ZONES: WellnessZone[] = [
       '레슨 후 상쾌한 마무리를 돕는 1인 독립형 파우더룸입니다. 히노끼 편백나무 벽면에서 피어나는 천연 피톤치드와 무프레임 백라이트 거울, 테라코타 세면대가 호텔 스파의 품격을 완성합니다.',
     imageUrl: '/portfolio/arche-wellness/arche-04.jpg',
     capacity: '프라이빗 1인 파우더 & 샤워 부스',
-    airSpec: '급속 제습 및 음이온 탈취 배기 시스템',
+    airSpec: '급속 제습 및 배기 순환 시스템 (예시 사양)',
     features: [
-      '천연 히노끼 원목 벽면 마감 (피톤치드 아로마)',
+      '천연 히노끼 원목 벽면 마감',
       '수제 질감의 테라코타 더블 세면대 & 브러시드 니켈 수전',
       '조광 제어가 가능한 무프레임 비정형 거울',
-      '다이슨 에어랩 및 프리미엄 비건 어메니티 세팅 공간',
+      '프리미엄 스타일링 드라이어 및 비건 어메니티 세팅 공간',
     ],
     hotspots: [
       {
         x: 38,
         y: 32,
         title: '비정형 백라이트 미러',
-        desc: '그림자 없이 얼굴을 부드럽게 밝히는 고연색성 거울',
+        desc: '그림자를 줄여 얼굴을 부드럽게 밝히는 고연색성 거울',
       },
       {
         x: 38,
@@ -131,7 +131,7 @@ export const WELLNESS_MATERIALS: WellnessMaterial[] = [
     engName: 'Solid Hinoki Cypress Timber',
     spec: '함수율 12% 이하 정밀 건조 목재 (예시 규격)',
     ecoCert: '지속가능 산림 관리 목재 규격 (예시)',
-    desc: '옹이가 없는 엄선된 편백나무로 제작된 프리미엄 내장재입니다. 물에 닿아도 썩지 않으며 피톤치드를 자연 방출하여 실내 공기를 상쾌하게 정화합니다.',
+    desc: '옹이가 없는 엄선된 편백나무로 제작된 프리미엄 내장재입니다. 습기에 강해 물을 쓰는 공간에 두루 쓰이며, 은은한 편백 향이 감도는 마감을 만듭니다.',
     sensoryNote: '은은하고 맑은 숲속 피톤치드 향기와 비단결 같은 원목 표면',
     colorHex: '#e8cb9e',
   },
@@ -140,8 +140,8 @@ export const WELLNESS_MATERIALS: WellnessMaterial[] = [
     name: '천연 규조토 흡방습 기능성 미장재',
     engName: 'Natural Diatomaceous Earth Plaster',
     spec: '미세 다공질 실리카 자연 미장 (예시 규격)',
-    ecoCert: '실내 공기질 최고 친환경 마크 (예시)',
-    desc: '바다 플랑크톤 유해가 퇴적된 천연 규조토 벽재입니다. 실내 습도가 높을 때는 수분을 흡수하고 건조할 때는 방출하여 쾌적한 45~55% 습도를 자연 유지합니다.',
+    ecoCert: '실내 공기질 친환경 자재 규격 (예시)',
+    desc: '바다 플랑크톤 유해가 퇴적된 천연 규조토 벽재입니다. 실내 습도가 높을 때는 수분을 머금고 건조할 때는 내보내, 쾌적 습도 범위(45~55%, 예시)를 지키는 데 도움을 줍니다.',
     sensoryNote: '햇빛을 부드럽게 분산시키는 포근하고 매트한 백사장 질감',
     colorHex: '#e5ded1',
   },
@@ -149,18 +149,18 @@ export const WELLNESS_MATERIALS: WellnessMaterial[] = [
     id: 'mat-raw-linen',
     name: '천연 오가닉 퓨어 린넨 패브릭',
     engName: 'Pure Organic Flax Linen',
-    spec: '평량 380g/sqm 100% 천연 아마사 (예시 규격)',
+    spec: '평량 380g/sqm 순수 아마(Flax) 섬유 직조 (예시 규격)',
     ecoCert: '글로벌 섬유 친환경 안전 규격 (예시)',
-    desc: '화학 가공을 거치지 않은 순수 아마 섬유로 짠 린넨 커튼입니다. 정전기가 발생하지 않고 먼지가 붙지 않아 알레르기 걱정 없는 청정 스튜디오를 만듭니다.',
+    desc: '화학 가공을 거치지 않은 순수 아마 섬유로 짠 린넨 커튼입니다. 정전기가 잘 생기지 않아 먼지가 덜 붙고, 관리가 수월한 청정 스튜디오를 만듭니다.',
     sensoryNote: '자연 바람에 산들거리는 청량하고 포근한 천연 직조감',
     colorHex: '#cbbfad',
   },
 ];
 
+// 전부 연출용 예시 값이다 — 화면에도 항목마다 「예시」를 달아 실측치로 읽히지 않게 한다.
 export const INITIAL_TELEMETRY: AirSensorTelemetry = {
   oxygenRate: 21.2,
   co2Level: 420,
   humidity: 52,
   temperature: 23.5,
-  hepaPurity: '99.97% (H13 등급, 예시)',
 };

@@ -1,6 +1,7 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useId, useRef } from 'react';
 import SampleNotice from '@/components/demo-kit/SampleNotice';
+import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
 
 interface ConsultationModalProps {
   isOpen: boolean;
@@ -19,11 +20,27 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
   const [message, setMessage] = useState('');
   const [noticeOpen, setNoticeOpen] = useState(false);
 
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const fieldId = useId();
+  const titleId = `${fieldId}-title`;
+
+  // 열릴 때마다 넘겨받은 메모로 맞춘다.
+  // initialNote 만 보던 때에는, 같은 견적 조건으로 두 번째 신청하면 문자열이 그대로라 effect 가 안 돌아
+  // 닫을 때 비운 메모가 **빈 채로** 다시 열렸다(견적 요약이 사라졌다).
   useEffect(() => {
-    if (initialNote) {
-      setMessage(initialNote);
-    }
-  }, [initialNote]);
+    if (isOpen) setMessage(initialNote);
+  }, [isOpen, initialNote]);
+
+  const handleCloseAll = useCallback(() => {
+    setName('');
+    setPhone('');
+    setMessage('');
+    onClose();
+  }, [onClose]);
+
+  // 안내 모달이 뜨면 그쪽이 포커스를 잡는다 — 두 다이얼로그가 동시에 잠그지 않게 여기선 끈다
+  useSampleDialog({ open: isOpen && !noticeOpen, onClose: handleCloseAll, dialogRef, initialFocusRef: nameRef });
 
   if (!isOpen && !noticeOpen) return null;
 
@@ -32,21 +49,27 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
     setNoticeOpen(true);
   };
 
-  const handleCloseAll = () => {
-    setName('');
-    setPhone('');
-    setMessage('');
-    onClose();
-  };
-
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="bg-[#15161a] border border-white/15 rounded-sm max-w-lg w-full p-6 lg:p-8 text-white space-y-6 shadow-2xl relative">
+        <div
+          className="fixed inset-0 z-50 flex items-end lg:items-center justify-center p-0 lg:p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-200"
+          onMouseDown={(e) => {
+            if (e.target === e.currentTarget) handleCloseAll();
+          }}
+        >
+          <div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
+            tabIndex={-1}
+            className="bg-[#15161a] border border-white/15 rounded-t-xl lg:rounded-sm max-w-lg w-full max-h-[90vh] overflow-y-auto overscroll-contain p-6 lg:p-8 text-white space-y-6 shadow-2xl relative outline-none"
+          >
             <button
+              type="button"
               onClick={handleCloseAll}
-              className="absolute top-6 right-6 text-stone-400 hover:text-white text-lg"
+              className="absolute top-3 right-3 flex h-11 w-11 items-center justify-center rounded text-stone-400 hover:text-white text-lg"
               aria-label="닫기"
             >
               ✕
@@ -57,7 +80,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                 <span className="text-xs font-mono text-amber-400 uppercase tracking-wider block mb-1">
                   COMMERCIAL INQUIRY
                 </span>
-                <h3 className="font-serif text-xl font-bold text-white">
+                <h3 id={titleId} className="font-serif text-xl font-bold text-white">
                   프로젝트 1:1 공간 컨설팅 신청
                 </h3>
                 <p className="text-xs text-stone-400 mt-1">
@@ -67,10 +90,12 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
 
               <div className="space-y-3 pt-2">
                 <div>
-                  <label className="block text-[11px] font-mono text-stone-300 mb-1">
+                  <label htmlFor={`${fieldId}-name`} className="block text-[11px] font-mono text-stone-300 mb-1">
                     담당자 성함 / 브랜드명
                   </label>
                   <input
+                    ref={nameRef}
+                    id={`${fieldId}-name`}
                     type="text"
                     required
                     value={name}
@@ -81,10 +106,11 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-mono text-stone-300 mb-1">
+                  <label htmlFor={`${fieldId}-phone`} className="block text-[11px] font-mono text-stone-300 mb-1">
                     연락처 (휴대전화)
                   </label>
                   <input
+                    id={`${fieldId}-phone`}
                     type="tel"
                     required
                     value={phone}
@@ -95,10 +121,11 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-mono text-stone-300 mb-1">
+                  <label htmlFor={`${fieldId}-space`} className="block text-[11px] font-mono text-stone-300 mb-1">
                     희망 공간 유형
                   </label>
                   <select
+                    id={`${fieldId}-space`}
                     value={spaceType}
                     onChange={(e) => setSpaceType(e.target.value)}
                     className="w-full px-3.5 py-2.5 rounded-sm bg-stone-900 border border-white/10 text-white text-xs focus:border-amber-400 focus:outline-none"
@@ -111,10 +138,11 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-mono text-stone-300 mb-1">
+                  <label htmlFor={`${fieldId}-message`} className="block text-[11px] font-mono text-stone-300 mb-1">
                     공간 기획 내용 및 사전 견적 정보
                   </label>
                   <textarea
+                    id={`${fieldId}-message`}
                     rows={4}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
@@ -130,7 +158,7 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({
                 </p>
                 <button
                   type="submit"
-                  className="w-full py-3.5 rounded-sm bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs tracking-widest uppercase transition-all shadow-md shadow-amber-500/20"
+                  className="w-full min-h-11 py-3.5 rounded-sm bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs tracking-widest uppercase transition-all shadow-md shadow-amber-500/20"
                 >
                   1:1 상담 및 방문 예약 신청하기
                 </button>

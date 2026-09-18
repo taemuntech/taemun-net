@@ -86,15 +86,17 @@ export const Philosophy: React.FC<PhilosophyProps> = ({ onOpenMaterialArchive })
             <div>
               <h4 className="text-sm font-semibold text-[#161714] font-sans break-keep [word-break:keep-all]">스튜디오 실물 마감재 무드보드 라이브러리</h4>
               <p className="text-xs text-[#474741] font-sans mt-0.5 break-keep [word-break:keep-all]">
-                도산공원 아틀리에 쇼룸에서 120여 종의 천연 석재 슬랩과 고유 질감의 미장 플라스터를 직접 만져보실 수 있습니다.
+                도산공원 아틀리에 쇼룸에서 천연 석재 슬랩과 고유 질감의 미장 플라스터를 직접 만져보실 수 있습니다. (보유 품목 수·구성은 예시)
               </p>
             </div>
           </div>
           <button
             onClick={onOpenMaterialArchive}
-            className="text-xs font-semibold uppercase tracking-wider text-[#161714] hover:text-[#904b35] border-b border-[#161714] hover:border-[#904b35] pb-0.5 transition-colors shrink-0 cursor-pointer"
+            className="group inline-flex min-h-11 items-center shrink-0 cursor-pointer"
           >
-            마감재 아카이브 살펴보기 &rarr;
+            <span className="text-xs font-semibold uppercase tracking-wider text-[#161714] group-hover:text-[#904b35] border-b border-[#161714] group-hover:border-[#904b35] pb-0.5 transition-colors">
+              마감재 아카이브 살펴보기 &rarr;
+            </span>
           </button>
         </div>
       </div>

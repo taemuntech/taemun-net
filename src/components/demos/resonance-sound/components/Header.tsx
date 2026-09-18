@@ -26,26 +26,26 @@ export const Header: React.FC<HeaderProps> = ({ onOpenConsultation }) => {
         </div>
 
         {/* Navigation Links */}
+        {/* 링크 자체는 글자 높이 16px 이라 탭 대상이 작다 — min-h-[44px] 로 누를 면적만 넓힌다(헤더 높이 80px 안에서 소화) */}
         <nav className="hidden lg:flex items-center gap-8 text-xs font-medium text-[#6b523e] tracking-wider uppercase">
-          <a href="#zones" className="hover:text-[#2e2319] transition-colors">
+          <a href="#zones" className="min-h-[44px] flex items-center hover:text-[#2e2319] transition-colors">
             Acoustic Zones
           </a>
-          <a href="#rt60" className="hover:text-[#2e2319] transition-colors">
+          <a href="#rt60" className="min-h-[44px] flex items-center hover:text-[#2e2319] transition-colors">
             RT60 Simulation
           </a>
-          <a href="#materials" className="hover:text-[#2e2319] transition-colors">
+          <a href="#materials" className="min-h-[44px] flex items-center hover:text-[#2e2319] transition-colors">
             Sound Materials
           </a>
-          <a href="#philosophy" className="hover:text-[#2e2319] transition-colors">
-            Philosophy
-          </a>
+          {/* 「Philosophy」 링크는 대상 섹션이 문서에 없어 눌러도 아무 데도 가지 않았다 — 없는 앵커라 제거 */}
         </nav>
 
         {/* CTA Button */}
         <div className="flex items-center gap-3">
           <button
+            type="button"
             onClick={onOpenConsultation}
-            className="px-5 py-2.5 rounded-full bg-[#5c422c] hover:bg-[#473220] text-white text-xs font-bold tracking-wide transition-all shadow-md active:scale-95 cursor-pointer"
+            className="min-h-[44px] px-5 py-2.5 rounded-full bg-[#5c422c] hover:bg-[#473220] text-white text-xs font-bold tracking-wide transition-all shadow-md active:scale-95 cursor-pointer"
           >
             청음실 시공 상담
           </button>

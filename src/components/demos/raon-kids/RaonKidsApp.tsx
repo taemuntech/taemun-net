@@ -11,7 +11,7 @@ import { ConsultationModal } from './components/ConsultationModal';
 import { Footer } from './components/Footer';
 import { KidsMaterial } from './types';
 
-export function RaonKidsApp({ isEmbed }: { isEmbed?: boolean } = {}) {
+export function RaonKidsApp() {
   const [selectedMaterial, setSelectedMaterial] = useState<KidsMaterial | null>(null);
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
 

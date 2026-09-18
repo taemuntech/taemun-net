@@ -9,7 +9,7 @@ interface Props {
 
 export default function ArcheWellnessPageClient({ isEmbed }: Props) {
   if (isEmbed) {
-    return <ArcheWellnessApp isEmbed={true} />;
+    return <ArcheWellnessApp />;
   }
 
   return (

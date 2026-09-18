@@ -20,7 +20,7 @@ export const CLINIC_ZONES: ClinicZone[] = [
     name: '호텔식 프라이빗 파우더 & 스파 샤워 룸',
     engName: 'Hotel-Style Powder & Spa Suite',
     tag: 'ZONE 02 · 프라이빗 파우더',
-    description: '시술 후 흐트러진 매무새를 완벽하게 정돈할 수 있는 호텔식 파우더 룸입니다. 트래버틴 천연석 세면대와 플루티드 글라스 파티션으로 프라이버시를 보호합니다.',
+    description: '시술 후 흐트러진 매무새를 편안하게 정돈할 수 있는 호텔식 파우더 룸입니다. 트래버틴 천연석 세면대와 플루티드 글라스 파티션으로 프라이버시를 보호합니다.',
     specs: [
       { label: '석재 마감', value: '천연 로만 트래버틴 원석' },
       { label: '거울 조명', value: 'CRI 95+ 고연색성 백라이트' },
@@ -54,7 +54,8 @@ export const MEDICAL_MATERIALS: MedicalMaterial[] = [
     origin: '천연 규조토 및 석회 미장 (이탈리아)',
     specs: '두께 2.5mm / 곰팡이 저항성 A등급 (예시)',
     description: '자연 유래 성분으로 시공되는 친환경 미장재로, 포름알데히드 흡착과 습도 조절 능력이 뛰어나며 차분한 캐시미어 텍스처를 구현합니다.',
-    certification: '친환경 건축자재 최우수 등급 (예시 표기)',
+    // 실제 친환경 건축자재 인증(HB 마크)의 등급 이름을 그대로 쓰면 「받았다」로 읽힌다 — 자리표시로만 둔다
+    certification: '친환경 건축자재 등급 표기 자리 (예시)',
   },
   {
     id: 'mat-2',

@@ -9,6 +9,8 @@ export const StudioZones: React.FC = () => {
   const [activeHotspotIndex, setActiveHotspotIndex] = useState<number | null>(null);
 
   const currentZone = WELLNESS_ZONES.find((z) => z.id === activeZoneId) || WELLNESS_ZONES[0];
+  const activeHotspot =
+    activeHotspotIndex === null ? null : (currentZone.hotspots[activeHotspotIndex] ?? null);
 
   return (
     <section id="zones" className="py-24 bg-[#faf7f2] text-[#3d322a] border-t border-[#ebdcd0]">
@@ -34,11 +36,13 @@ export const StudioZones: React.FC = () => {
             return (
               <button
                 key={zone.id}
+                type="button"
+                aria-pressed={isActive}
                 onClick={() => {
                   setActiveZoneId(zone.id);
                   setActiveHotspotIndex(null);
                 }}
-                className={`px-5 py-3 rounded-lg font-medium text-xs lg:text-sm transition-all cursor-pointer ${
+                className={`min-h-11 px-5 py-3 rounded-lg font-medium text-xs lg:text-sm transition-all cursor-pointer ${
                   isActive
                     ? 'bg-[#d27952] text-white font-bold shadow-md shadow-[#d27952]/20'
                     : 'bg-white hover:bg-[#f3ece2] text-[#5a483c] border border-[#e5d5c7]'
@@ -53,69 +57,104 @@ export const StudioZones: React.FC = () => {
         {/* Zone Content Display */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Interactive Image with Hotspots */}
-          <div className="lg:col-span-8 relative aspect-16/10 rounded-2xl overflow-hidden border border-[#ebdcd0] bg-white shadow-xl group">
-            <Image
-              src={currentZone.imageUrl}
-              alt={currentZone.name}
-              fill
-              sizes="(max-width: 1024px) 100vw, 66vw"
-              className="object-cover object-center transition-transform duration-700 group-hover:scale-102"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#2d221b]/70 via-transparent to-transparent" />
+          <div className="lg:col-span-8">
+            <div className="relative aspect-16/10 rounded-2xl overflow-hidden border border-[#ebdcd0] bg-white shadow-xl group">
+              <Image
+                src={currentZone.imageUrl}
+                alt={currentZone.name}
+                fill
+                sizes="(max-width: 1024px) 100vw, 66vw"
+                className="object-cover object-center transition-transform duration-700 group-hover:scale-102"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#2d221b]/70 via-transparent to-transparent" />
 
-            {/* Hotspots */}
-            {currentZone.hotspots.map((spot, idx) => {
-              const isSelected = activeHotspotIndex === idx;
-              return (
-                <div
-                  key={idx}
-                  style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
-                  className="absolute -translate-x-1/2 -translate-y-1/2 z-20"
-                >
-                  <button
-                    onClick={() => setActiveHotspotIndex(isSelected ? null : idx)}
-                    className={`relative w-8 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer ${
-                      isSelected
-                        ? 'bg-[#d27952] text-white scale-125 ring-4 ring-[#d27952]/40 shadow-lg'
-                        : 'bg-white/90 hover:bg-[#d27952] text-[#3d322a] hover:text-white border border-[#d27952]/60 shadow-md'
-                    }`}
+              {/* Hotspots */}
+              {currentZone.hotspots.map((spot, idx) => {
+                const isSelected = activeHotspotIndex === idx;
+                // 말풍선은 이미지 상자(overflow-hidden) 안에서 잘린다 — 핀이 가장자리·위쪽에 있으면 붙는 방향을 뒤집는다.
+                // 375px 에서 오른쪽 핀(x 85%)은 오른쪽이, 위쪽 핀(y 32~35%)은 위가 잘려 글이 안 보였다.
+                const tipX =
+                  spot.x > 66 ? 'right-0' : spot.x < 34 ? 'left-0' : 'left-1/2 -translate-x-1/2';
+                const tipY = spot.y < 50 ? 'top-full mt-3' : 'bottom-full mb-3';
+                return (
+                  <div
+                    key={idx}
+                    style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
+                    className="absolute -translate-x-1/2 -translate-y-1/2 z-20"
                   >
-                    <span className="text-xs font-mono font-bold">{idx + 1}</span>
-                    <span className="absolute inset-0 rounded-full bg-[#d27952]/30 animate-ping" />
-                  </button>
-
-                  {/* Tooltip */}
-                  {isSelected && (
-                    <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-3 w-60 p-3.5 rounded-xl bg-white/95 border border-[#d27952]/40 shadow-2xl backdrop-blur-md text-left z-30 pointer-events-none text-[#3d322a]">
-                      <span className="text-[10px] font-mono text-[#b8613d] block mb-0.5">
-                        HOTSPOT 0{idx + 1}
+                    {/* 손가락이 닿는 면은 44px, 눈에 보이는 핀은 원래대로 32px — 바깥 button 을 키우고 안쪽 span 이 디자인을 그대로 맡는다. */}
+                    <button
+                      type="button"
+                      aria-expanded={isSelected}
+                      aria-label={`핫스팟 ${idx + 1} — ${spot.title}`}
+                      onClick={() => setActiveHotspotIndex(isSelected ? null : idx)}
+                      className="group/pin w-11 h-11 flex items-center justify-center cursor-pointer"
+                    >
+                      <span
+                        className={`relative w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                          isSelected
+                            ? 'bg-[#d27952] text-white scale-125 ring-4 ring-[#d27952]/40 shadow-lg'
+                            : 'bg-white/90 text-[#3d322a] border border-[#d27952]/60 shadow-md group-hover/pin:bg-[#d27952] group-hover/pin:text-white'
+                        }`}
+                      >
+                        <span className="text-xs font-mono font-bold">{idx + 1}</span>
+                        <span className="absolute inset-0 rounded-full bg-[#d27952]/30 animate-ping" />
                       </span>
-                      <h4 className="text-xs font-bold text-[#2d221b] mb-1">{spot.title}</h4>
-                      <p className="text-[11px] text-[#5a483c] font-light leading-snug">
-                        {spot.desc}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+                    </button>
 
-            {/* Bottom Caption */}
-            <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-white/90 backdrop-blur-md border border-[#ebdcd0] shadow-sm">
-              <span className="text-[11px] font-mono text-[#b8613d] block mb-1">
-                {currentZone.engName}
-              </span>
-              <p className="text-xs lg:text-sm text-[#3d322a] line-clamp-2">
-                {currentZone.description}
-              </p>
+                    {/* Tooltip — lg 이상에서만. 그 아래 폭에서는 사진 높이(375px 기준 214px)가 말풍선보다 낮아
+                        어느 방향으로 붙여도 잘렸다 → 사진 아래 칸(모바일 핫스팟 패널)으로 내려 보낸다. */}
+                    {isSelected && (
+                      <div
+                        className={`absolute hidden lg:block ${tipX} ${tipY} w-60 p-3.5 rounded-xl bg-white/95 border border-[#d27952]/40 shadow-2xl backdrop-blur-md text-left z-30 pointer-events-none text-[#3d322a]`}
+                      >
+                        <span className="text-[10px] font-mono text-[#b8613d] block mb-0.5">
+                          HOTSPOT 0{idx + 1}
+                        </span>
+                        <h4 className="text-xs font-bold text-[#2d221b] mb-1">{spot.title}</h4>
+                        <p className="text-[11px] text-[#5a483c] font-light leading-snug">
+                          {spot.desc}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+
+              {/* Bottom Caption */}
+              <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-white/90 backdrop-blur-md border border-[#ebdcd0] shadow-sm">
+                <span className="text-[11px] font-mono text-[#b8613d] block mb-1">
+                  {currentZone.engName}
+                </span>
+                <p className="text-xs lg:text-sm text-[#3d322a] line-clamp-2">
+                  {currentZone.description}
+                </p>
+              </div>
             </div>
+
+            {/* 모바일·태블릿(lg 미만) 핫스팟 패널 — 사진 위 말풍선 대신 사진 아래에서 온전히 읽힌다. */}
+            {activeHotspot && (
+              <div className="lg:hidden mt-3 p-4 rounded-xl bg-white border border-[#d27952]/40 shadow-md text-left">
+                <span className="text-[10px] font-mono text-[#b8613d] block mb-0.5">
+                  HOTSPOT 0{(activeHotspotIndex ?? 0) + 1}
+                </span>
+                <h4 className="text-sm font-bold text-[#2d221b] mb-1">{activeHotspot.title}</h4>
+                <p className="text-xs text-[#5a483c] font-light leading-relaxed">
+                  {activeHotspot.desc}
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Zone Detail Info */}
           <div className="lg:col-span-4 p-6 lg:p-8 rounded-2xl bg-white border border-[#ebdcd0] shadow-lg">
             <span className="text-[11px] font-mono text-[#b8613d] block mb-1">ROOM DETAILS</span>
             <h3 className="text-xl lg:text-2xl font-bold text-[#2d221b] mb-2">{currentZone.name}</h3>
-            <p className="text-xs text-[#8a7566] font-medium mb-6">{currentZone.subtitle}</p>
+            <p className="text-xs text-[#8a7566] font-medium mb-4">{currentZone.subtitle}</p>
+            {/* 사진 위 캡션은 2줄에서 잘린다(line-clamp-2) — 잘린 설명을 읽을 데가 없어 여기에 전문을 둔다. */}
+            <p className="text-xs lg:text-sm text-[#5a483c] font-light leading-relaxed mb-6">
+              {currentZone.description}
+            </p>
 
             <div className="space-y-4 mb-6">
               <div className="p-3.5 rounded-xl bg-[#faf7f2] border border-[#ebdcd0]">

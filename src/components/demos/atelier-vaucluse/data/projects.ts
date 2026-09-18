@@ -24,7 +24,7 @@ export const HERO_IMAGES = {
 export const PROJECTS: Project[] = [
   {
     id: 'hannam-terrace-villa',
-    index: '01 / 12',
+    index: '01 / 06',
     title: '한남동 테라스 빌라 리노베이션',
     subtitle: '미니멀 오가닉 · 천연 트래버틴 · 제작 화이트오크 가구',
     category: 'renovation',
@@ -48,7 +48,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'seongsu-cultural-showroom',
-    index: '02 / 12',
+    index: '02 / 06',
     title: '성수동 복합 문화 쇼룸',
     subtitle: '브루탈리즘 & 우드 · 노출 콘크리트 · 맞춤 오브제 디스플레이',
     category: 'commercial',
@@ -72,7 +72,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'pyeongchang-private-house',
-    index: '03 / 12',
+    index: '03 / 06',
     title: '평창동 단독주택 인테리어',
     subtitle: '내추럴 스톤 & 라이팅 · 프라이빗 중정 연계 · 조형적 보이드',
     category: 'residential',
@@ -87,7 +87,7 @@ export const PROJECTS: Project[] = [
       '북악산 자락의 계절 변화를 실내로 끌어들이기 위해 전면 통창과 2개 층 높이의 웅장한 화강석 벽난로를 중심축으로 삼았습니다. 스칸디나비안과 한국적 고요함이 만난 프로젝트입니다.',
     materials: ['천연 챠콜 화강석', '스위스 산 광폭 원목마루', '수제 라임 플라스터', '초슬림 알루미늄 시스템 창호'],
     keyFeatures: ['더블 하이트 오픈 천장', '사계절 중정 뷰 포인트 설계', '통합 스마트 홈 사운드 & 조도 제어'],
-    clientReview: '집 전체가 마치 미술관 같으면서도 가족들의 일상이 따뜻하게 감싸지는 최고의 주거 공간이 완성되었습니다.',
+    clientReview: '집 전체가 마치 미술관 같으면서도 가족들의 일상이 따뜻하게 감싸지는 주거 공간이 완성되었습니다.',
     galleryImages: [
       '/demo-media/atelier-vaucluse/atelier-vaucluse-05.jpg',
       HERO_IMAGES.main.url,
@@ -96,7 +96,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'hannam-private-sanctuary',
-    index: '04 / 12',
+    index: '04 / 06',
     title: '한남 프라이빗 생추어리 펜트하우스',
     subtitle: '파노라믹 한강 뷰 · 텍스처드 라임워시 · 슬랩 트래버틴',
     category: 'residential',
@@ -114,7 +114,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'cheongdam-atelier-suite',
-    index: '05 / 12',
+    index: '05 / 06',
     title: '청담 디자이너 아틀리에 & 다이닝 라운지',
     subtitle: '조형적 다이닝 · 브론즈 펜던트 · 노르딕 솔리드 오크',
     category: 'commercial',
@@ -132,7 +132,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'seongbuk-heritage-renovation',
-    index: '06 / 12',
+    index: '06 / 06',
     title: '성북동 헤리티지 레지던스 리노베이션',
     subtitle: '전통 석재와 현대적 비례미의 조화 · 듀얼 코트야드',
     category: 'renovation',
@@ -175,8 +175,8 @@ export const PHILOSOPHY_PILLARS = [
     titleKr: '정밀한 시공 디테일',
     titleEn: 'Bespoke Execution',
     description:
-      '아뜰리에 보클루즈 직영 현장 소장의 1:1 전담 감리 시스템을 통해 선과 면의 1mm 오차 없는 완벽한 조인트, 히든 도어, 무몰딩 마감을 실현합니다.',
-    badge: '자체 숙련 장인팀 직접 시공 & 2년 품질 보증',
+      '아뜰리에 보클루즈 직영 현장 소장의 1:1 전담 감리 시스템을 통해 선과 면이 맞아떨어지는 정밀한 조인트, 히든 도어, 무몰딩 마감을 실현합니다.',
+    badge: '자체 숙련 장인팀 직접 시공 · 준공 후 점검 프로그램 (예시)',
   },
 ];
 
@@ -205,8 +205,8 @@ export const PROCESS_STEPS = [
   {
     step: '04',
     titleKr: '스타일링 & 케어',
-    titleEn: 'Styling & 2-Year Warranty',
-    desc: '조명 세팅, 아트피스 및 맞춤 패브릭 최종 스타일링을 마치고, 2년간 보증하는 전담 AS 시스템으로 공간의 가치를 유지합니다.',
-    duration: '보증 기간: 준공 후 24개월',
+    titleEn: 'Styling & Aftercare',
+    desc: '조명 세팅, 아트피스 및 맞춤 패브릭 최종 스타일링을 마치고, 전담 창구를 통해 준공 후 점검과 보수 요청을 이어서 받습니다. 하자보수의 기간·범위·면책은 계약서에 따로 적습니다.',
+    duration: '사후 점검 기간: 계약 조건에 따름 (예시 표기)',
   },
 ];

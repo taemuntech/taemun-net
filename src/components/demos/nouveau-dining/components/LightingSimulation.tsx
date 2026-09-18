@@ -19,8 +19,8 @@ export const LightingSimulation: React.FC = () => {
           <h2 className="font-serif text-2xl lg:text-4xl font-bold text-white mb-4">
             시간대에 따라 변화하는 3단계 조도 시뮬레이션
           </h2>
-          <p className="text-sm lg:text-base text-stone-400 font-light leading-relaxed">
-            F&B 공간의 분위기와 고객의 체류 시간은 빛이 결정합니다.
+          <p className="text-sm lg:text-base text-stone-400 font-light leading-relaxed break-keep">
+            F&B 공간의 분위기와 손님이 머무는 시간은 빛이 크게 좌우합니다.
             자연 채광 브런치부터 은은한 심야 캔들 다이닝까지 실시간 조명 설계를 시뮬레이션해 보세요.
           </p>
         </div>
@@ -32,8 +32,10 @@ export const LightingSimulation: React.FC = () => {
             return (
               <button
                 key={mode.id}
+                type="button"
+                aria-pressed={isSelected}
                 onClick={() => setActiveModeId(mode.id)}
-                className={`p-5 rounded-2xl border text-left transition-all cursor-pointer ${
+                className={`p-5 rounded-2xl border text-left transition-all cursor-pointer break-keep ${
                   isSelected
                     ? 'bg-stone-900 border-amber-400 shadow-xl shadow-amber-500/10 ring-1 ring-amber-400'
                     : 'bg-stone-900/50 border-stone-800 hover:border-stone-700'
@@ -52,37 +54,43 @@ export const LightingSimulation: React.FC = () => {
           })}
         </div>
 
-        {/* Visual Simulation Display Box */}
-        <div className="relative aspect-16/9 rounded-3xl overflow-hidden border border-stone-800 bg-stone-900 shadow-2xl">
-          {/* Base Image */}
-          <Image
-            src={
-              activeModeId === 'daylight'
-                ? '/portfolio/nouveau-dining/nouveau-01.jpg'
-                : activeModeId === 'sunset'
-                ? '/portfolio/nouveau-dining/nouveau-03.jpg'
-                : '/portfolio/nouveau-dining/nouveau-02.jpg'
-            }
-            alt={currentMode.name}
-            fill
-            sizes="100vw"
-            className="object-cover object-center transition-all duration-700"
-          />
+        {/*
+          Visual Simulation Display Box.
+          HUD 를 lg 미만에서 사진 위에 얹으면(375 기준 사진 높이 약 193px) HUD 가 사진을 거의 다 덮어,
+          조명이 어떻게 바뀌는지가 보이지 않았다 — 모바일에서는 HUD 를 사진 아래로 내린다.
+        */}
+        <div className="relative">
+          <div className="relative aspect-16/9 rounded-3xl overflow-hidden border border-stone-800 bg-stone-900 shadow-2xl">
+            {/* Base Image */}
+            <Image
+              src={
+                activeModeId === 'daylight'
+                  ? '/portfolio/nouveau-dining/nouveau-01.jpg'
+                  : activeModeId === 'sunset'
+                  ? '/portfolio/nouveau-dining/nouveau-03.jpg'
+                  : '/portfolio/nouveau-dining/nouveau-02.jpg'
+              }
+              alt={currentMode.name}
+              fill
+              sizes="100vw"
+              className="object-cover object-center transition-all duration-700"
+            />
 
-          {/* Dynamic Light Filter Overlay */}
-          <div
-            className={`absolute inset-0 transition-opacity duration-700 pointer-events-none ${
-              activeModeId === 'daylight'
-                ? 'bg-amber-100/10'
-                : activeModeId === 'sunset'
-                ? 'bg-amber-700/25 mix-blend-multiply'
-                : 'bg-indigo-950/45 mix-blend-multiply'
-            }`}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-transparent to-stone-950/20" />
+            {/* Dynamic Light Filter Overlay */}
+            <div
+              className={`absolute inset-0 transition-opacity duration-700 pointer-events-none ${
+                activeModeId === 'daylight'
+                  ? 'bg-amber-100/10'
+                  : activeModeId === 'sunset'
+                  ? 'bg-amber-700/25 mix-blend-multiply'
+                  : 'bg-indigo-950/45 mix-blend-multiply'
+              }`}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-transparent to-stone-950/20" />
+          </div>
 
-          {/* Telemetry HUD on Image */}
-          <div className="absolute bottom-6 left-6 right-6 flex flex-col lg:flex-row items-start lg:items-end justify-between gap-4 p-6 rounded-2xl bg-stone-950/80 backdrop-blur-md border border-stone-800">
+          {/* Telemetry HUD — 모바일은 사진 아래, lg 이상은 사진 위에 얹는다 */}
+          <div className="mt-4 lg:mt-0 lg:absolute lg:bottom-6 lg:left-6 lg:right-6 flex flex-col lg:flex-row items-start lg:items-end justify-between gap-4 p-5 lg:p-6 rounded-2xl bg-stone-950/80 backdrop-blur-md border border-stone-800">
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
@@ -90,8 +98,8 @@ export const LightingSimulation: React.FC = () => {
                   ACTIVE LIGHTING TELEMETRY
                 </span>
               </div>
-              <h3 className="text-lg lg:text-xl font-bold text-white">{currentMode.name}</h3>
-              <p className="text-xs text-stone-300 max-w-xl">{currentMode.desc}</p>
+              <h3 className="text-lg lg:text-xl font-bold text-white break-keep">{currentMode.name}</h3>
+              <p className="text-xs text-stone-300 max-w-xl break-keep">{currentMode.desc}</p>
             </div>
 
             <div className="flex items-center gap-4">

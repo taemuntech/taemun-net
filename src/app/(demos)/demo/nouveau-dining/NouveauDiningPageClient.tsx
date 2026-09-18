@@ -9,7 +9,7 @@ interface Props {
 
 export default function NouveauDiningPageClient({ isEmbed }: Props) {
   if (isEmbed) {
-    return <NouveauDiningApp isEmbed={true} />;
+    return <NouveauDiningApp />;
   }
 
   return (

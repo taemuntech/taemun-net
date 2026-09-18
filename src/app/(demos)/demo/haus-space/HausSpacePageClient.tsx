@@ -9,14 +9,14 @@ interface Props {
 
 export default function HausSpacePageClient({ isEmbed }: Props) {
   if (isEmbed) {
-    return <HausSpaceApp isEmbed={true} />;
+    return <HausSpaceApp />;
   }
 
   return (
     <DevicePreviewFrame
       src="/demo/haus-space?embed=true"
       title="HAUS & SPACE (하우스 앤 스페이스)"
-      category="인테리어 · 최고급 펜트하우스 주거 아카이브"
+      category="인테리어 · 하이엔드 펜트하우스 주거 아카이브"
       client="가상 브랜드 샘플 — 실존 고객사 아님"
       techStack={[
         "Next.js 16",
@@ -24,15 +24,16 @@ export default function HausSpacePageClient({ isEmbed }: Props) {
         "Tailwind CSS v4",
         "TypeScript",
         "Before & After Slider",
-        "360 VR Spatial Tour",
+        "Wide Scene Viewer",
         "Architectural Dossier",
       ]}
       inquiryUrl="/inquiry?from=haus-space"
       specs={[
         { label: "반응형 규격", value: "PC(와이드) · 태블릿 · 모바일 단일 lg: 브레이크포인트 규격" },
-        { label: "시공 비교 인터랙션", value: "3D 렌더링 대비 완공 8K 실물 비교 슬라이더 & 핀 마킹" },
-        { label: "가상 공간 투어", value: "마스터 베드룸 & 테라스 360 파노라마 실감형 시뮬레이션" },
-        { label: "자재 디지털 아카이브", value: "이탈리아 나보나 트래버틴, 북미산 월넛, Flos 조명 스펙" },
+        { label: "시공 비교 인터랙션", value: "3D 렌더링 대비 완공 실물 비교 슬라이더 & 자재 핀 마킹" },
+        { label: "와이드 장면 뷰어", value: "리빙 파빌리온 · 중정 · 착공 전 골조 — 좌우로 끌어 보는 한 장면 뷰어" },
+        // 태문 DEV STUDIO 자신의 스펙 표라, 실존 조명 브랜드 이름을 적으면 취급·제휴로 읽힌다 — 자재 계열만 남긴다.
+        { label: "자재 디지털 아카이브", value: "나보나 트래버틴, 북미산 월넛, 고연색 매립 조명 스펙" },
       ]}
     />
   );

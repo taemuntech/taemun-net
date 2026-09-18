@@ -38,6 +38,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenConsultation }) => {
               </span>
               <p className="text-stone-300 font-light">{STAY_BRAND.address}</p>
               <p className="text-stone-400 font-light">{STAY_BRAND.checkIn}</p>
+              <p className="text-stone-500 font-light">{STAY_BRAND.bizNumber}</p>
             </div>
 
             <div className="space-y-2">
@@ -48,7 +49,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenConsultation }) => {
               <p className="text-stone-300 font-light">MAIL: {STAY_BRAND.email}</p>
               <button
                 onClick={onOpenConsultation}
-                className="text-amber-400 hover:text-amber-300 underline pt-1 block text-left"
+                className="text-amber-400 hover:text-amber-300 underline min-h-[44px] inline-flex items-center text-left"
               >
                 프라이빗 예약 및 건축 상담 신청하기 →
               </button>

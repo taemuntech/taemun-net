@@ -34,7 +34,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
         {/* Main Headline */}
         <h1 className="font-serif text-3xl lg:text-6xl font-normal text-[#3b2e1e] tracking-tight leading-[1.25] mb-6">
           상상력이 피어나는 햇살, <br />
-          <span className="italic font-light text-[#c98330]">무독성 친환경 감성</span>의 키즈 복합공간
+          <span className="italic font-light text-[#c98330]">저VOC 친환경 마감</span>의 키즈 복합공간
         </h1>
 
         {/* Subtitle */}
@@ -62,12 +62,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
         {/* Quick Safety Spec Bar */}
         <div className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-[#ebdcd0]/60">
           <div className="text-center p-3">
-            <span className="text-[11px] font-mono text-[#8c7456] uppercase block mb-1">RADON ZERO</span>
+            <span className="text-[11px] font-mono text-[#8c7456] uppercase block mb-1">RADON</span>
             <span className="font-serif text-lg lg:text-xl font-bold text-[#3b2e1e]">0.02 pCi/L (예시)</span>
           </div>
           <div className="text-center p-3">
             <span className="text-[11px] font-mono text-[#8c7456] uppercase block mb-1">WOOD GRADE</span>
-            <span className="font-serif text-lg lg:text-xl font-bold text-[#3b2e1e]">E0 무절 자작나무</span>
+            <span className="font-serif text-lg lg:text-xl font-bold text-[#3b2e1e]">E0 등급 무절 자작나무 (예시)</span>
           </div>
           <div className="text-center p-3">
             <span className="text-[11px] font-mono text-[#8c7456] uppercase block mb-1">IMPACT ABSORB</span>
@@ -75,7 +75,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
           </div>
           <div className="text-center p-3">
             <span className="text-[11px] font-mono text-[#8c7456] uppercase block mb-1">ROUND CORNER</span>
-            <span className="font-serif text-lg lg:text-xl font-bold text-[#3b2e1e]">R150 곡선 안전각</span>
+            <span className="font-serif text-lg lg:text-xl font-bold text-[#3b2e1e]">R150 곡선 안전각 (예시)</span>
           </div>
         </div>
       </div>

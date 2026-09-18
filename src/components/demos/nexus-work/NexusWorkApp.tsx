@@ -12,11 +12,7 @@ import { ConsultationModal } from './components/ConsultationModal';
 import { Footer } from './components/Footer';
 import { AcousticMaterial } from './types';
 
-interface NexusWorkAppProps {
-  isEmbed?: boolean;
-}
-
-export const NexusWorkApp: React.FC<NexusWorkAppProps> = () => {
+export const NexusWorkApp: React.FC = () => {
   const [selectedMaterial, setSelectedMaterial] = useState<AcousticMaterial | null>(null);
   const [consultationOpen, setConsultationOpen] = useState(false);
   const [consultationNote, setConsultationNote] = useState('');

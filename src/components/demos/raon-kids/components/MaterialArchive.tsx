@@ -24,7 +24,7 @@ export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMateri
             </h2>
             <p className="text-xs lg:text-sm text-[#6e5840] font-light leading-relaxed [word-break:keep-all]">
               핀란드산 E0 무절 자작나무부터 포르투갈 천연 코르크, 천연 점토 테라코타까지 
-              아이가 피부로 맞닿는 모든 표면의 유기농 마감 기준을 확인해 보세요.
+              아이가 피부로 맞닿는 모든 표면의 친환경 마감 기준을 확인해 보세요.
             </p>
           </div>
 
@@ -44,8 +44,17 @@ export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMateri
           {KIDS_MATERIALS.map((mat) => (
             <div
               key={mat.id}
+              role="button"
+              tabIndex={0}
+              aria-label={`${mat.name} 친환경 스펙 보기`}
               onClick={() => onSelectMaterial(mat)}
-              className="p-6 rounded-3xl bg-[#fcf9f2] border border-[#ebdcd0] hover:border-[#e39c44] transition-all cursor-pointer group shadow-sm hover:shadow-md"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onSelectMaterial(mat);
+                }
+              }}
+              className="p-6 rounded-3xl bg-[#fcf9f2] border border-[#ebdcd0] hover:border-[#e39c44] transition-all cursor-pointer group shadow-sm hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e39c44]"
             >
               <span className="text-[10px] font-mono text-[#c98330] tracking-widest uppercase block mb-2">
                 {mat.category}

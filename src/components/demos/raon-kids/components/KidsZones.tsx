@@ -32,6 +32,8 @@ export const KidsZones: React.FC = () => {
             return (
               <button
                 key={zone.id}
+                type="button"
+                aria-pressed={isActive}
                 onClick={() => setActiveZoneId(zone.id)}
                 className={`p-5 rounded-2xl text-left transition-all border cursor-pointer ${
                   isActive

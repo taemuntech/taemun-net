@@ -30,22 +30,22 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <a href="#selected-works" className="hover:text-[#c5a880] transition">
+                <a href="#selected-works" className="inline-flex min-h-11 items-center hover:text-[#c5a880] transition">
                   Selected Works
                 </a>
               </li>
               <li>
-                <a href="#transformation" className="hover:text-[#c5a880] transition">
+                <a href="#transformation" className="inline-flex min-h-11 items-center hover:text-[#c5a880] transition">
                   3D vs Built
                 </a>
               </li>
               <li>
-                <a href="#material-archive" className="hover:text-[#c5a880] transition">
+                <a href="#material-archive" className="inline-flex min-h-11 items-center hover:text-[#c5a880] transition">
                   Material Library
                 </a>
               </li>
               <li>
-                <a href="#process-atelier" className="hover:text-[#c5a880] transition">
+                <a href="#process-atelier" className="inline-flex min-h-11 items-center hover:text-[#c5a880] transition">
                   Atelier Protocol
                 </a>
               </li>
@@ -81,7 +81,7 @@ export const Footer: React.FC = () => {
             </div>
             <button
               onClick={scrollToTop}
-              className="mt-6 inline-flex items-center gap-2 text-xs text-[#c5a880] hover:text-white transition cursor-pointer"
+              className="mt-6 inline-flex min-h-11 items-center gap-2 text-xs text-[#c5a880] hover:text-white transition cursor-pointer"
             >
               <span>Back to Top</span>
               <ArrowUp className="w-4 h-4" />
@@ -95,22 +95,14 @@ export const Footer: React.FC = () => {
           정보·프로젝트·수상 이력은 모두 예시입니다.
         </p>
 
-        <div className="pt-8 flex flex-col lg:flex-row items-center justify-between gap-4 text-xs">
+        {/* 여기 있던 소셜·정책 링크 네 개는 전부 빈 앵커라 눌러도 아무 데도 가지 않았고,
+            그중 하나는 실존 건축 매체 이름이라 가상 브랜드의 공식 채널처럼 읽혔다.
+            매체 이름은 지우고, 연결할 곳이 없다는 사실을 그대로 적은 표기 자리로 바꾼다. */}
+        <div className="pt-8 flex flex-col lg:flex-row items-center justify-between gap-4 text-xs text-center lg:text-left">
           <p>© {new Date().getFullYear()} HAUS &amp; SPACE. All Rights Reserved.</p>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-[#c5a880] transition">
-              Instagram
-            </a>
-            <a href="#" className="hover:text-[#c5a880] transition">
-              YouTube Archival
-            </a>
-            <a href="#" className="hover:text-[#c5a880] transition">
-              ArchDaily
-            </a>
-            <a href="#" className="hover:text-[#c5a880] transition">
-              Privacy Policy
-            </a>
-          </div>
+          <p className="[word-break:keep-all]">
+            소셜 채널 · 개인정보처리방침 링크 자리 (예시) — 샘플이라 연결된 페이지가 없습니다
+          </p>
         </div>
       </div>
     </footer>

@@ -58,7 +58,7 @@ export const Hero: React.FC<HeroProps> = ({
           {/* Studio Metrics Badge Panel */}
           <div className="lg:col-span-4 bg-[#f4f3f1] p-6 lg:p-8 rounded border border-[#c8c7bf]/30 space-y-6">
             <span className="text-[11px] uppercase tracking-[0.18em] text-[#474741] font-medium block pb-2 border-b border-[#c8c7bf]/30 font-sans">
-              Studio Metrics / 기준과 신뢰
+              Studio Metrics / 기준과 신뢰 (예시 수치)
             </span>
             <div className="grid grid-cols-3 gap-4">
               <div>
@@ -75,7 +75,7 @@ export const Hero: React.FC<HeroProps> = ({
               </div>
             </div>
             <p className="text-xs lg:text-sm text-[#474741]/85 border-t border-[#c8c7bf]/30 pt-4 leading-relaxed font-sans break-keep [word-break:keep-all]">
-              공간 기획 단계부터 마감재 맞춤 가공, 현장 상주 감리까지 타협 없는 원칙으로 완결성을 보증합니다.
+              공간 기획 단계부터 마감재 맞춤 가공, 현장 상주 감리까지 타협 없는 원칙으로 완성도를 챙깁니다. 위 수치는 화면 구성을 보여 주기 위한 예시이며 실제 실적이 아닙니다.
             </p>
           </div>
         </div>
@@ -83,9 +83,11 @@ export const Hero: React.FC<HeroProps> = ({
         {/* Hero Visual Banner Collage */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           {/* Main 8-col */}
-          <div
+          <button
+            type="button"
             onClick={() => onSelectImage(HERO_IMAGES.main)}
-            className="lg:col-span-8 overflow-hidden rounded relative group h-[340px] lg:h-[560px] bg-[#efeeec] cursor-pointer shadow-sm border border-[#c8c7bf]/20"
+            aria-label={`${HERO_IMAGES.main.label} 크게 보기`}
+            className="lg:col-span-8 overflow-hidden rounded relative group h-[340px] lg:h-[560px] bg-[#efeeec] cursor-pointer shadow-sm border border-[#c8c7bf]/20 text-left block w-full"
           >
             <img
               referrerPolicy="no-referrer"
@@ -100,13 +102,15 @@ export const Hero: React.FC<HeroProps> = ({
               </span>
               <Eye size={13} className="text-[#904b35] opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-          </div>
+          </button>
 
           {/* 4-col Side Collage: Mobile Horizontal Swipe Pair & Desktop Vertical Stack */}
           <div className="lg:col-span-4 flex flex-row lg:flex-col gap-4 lg:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none -mx-6 px-6 lg:mx-0 lg:px-0">
-            <div
+            <button
+              type="button"
               onClick={() => onSelectImage(HERO_IMAGES.detail1)}
-              className="w-[78vw] lg:w-auto shrink-0 snap-center flex-1 overflow-hidden rounded relative group h-[210px] lg:h-auto bg-[#efeeec] cursor-pointer shadow-sm border border-[#c8c7bf]/20"
+              aria-label={`${HERO_IMAGES.detail1.label} 크게 보기`}
+              className="w-[78vw] lg:w-auto shrink-0 snap-center flex-1 overflow-hidden rounded relative group h-[210px] lg:h-auto bg-[#efeeec] cursor-pointer shadow-sm border border-[#c8c7bf]/20 text-left"
             >
               <img
                 referrerPolicy="no-referrer"
@@ -121,11 +125,13 @@ export const Hero: React.FC<HeroProps> = ({
                 </span>
                 <Eye size={12} className="text-[#904b35] opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
-            </div>
+            </button>
 
-            <div
+            <button
+              type="button"
               onClick={() => onSelectImage(HERO_IMAGES.detail2)}
-              className="w-[78vw] lg:w-auto shrink-0 snap-center flex-1 overflow-hidden rounded relative group h-[210px] lg:h-auto bg-[#efeeec] cursor-pointer shadow-sm border border-[#c8c7bf]/20"
+              aria-label={`${HERO_IMAGES.detail2.label} 크게 보기`}
+              className="w-[78vw] lg:w-auto shrink-0 snap-center flex-1 overflow-hidden rounded relative group h-[210px] lg:h-auto bg-[#efeeec] cursor-pointer shadow-sm border border-[#c8c7bf]/20 text-left"
             >
               <img
                 referrerPolicy="no-referrer"
@@ -140,7 +146,7 @@ export const Hero: React.FC<HeroProps> = ({
                 </span>
                 <Eye size={12} className="text-[#904b35] opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>
-            </div>
+            </button>
           </div>
         </div>
       </div>

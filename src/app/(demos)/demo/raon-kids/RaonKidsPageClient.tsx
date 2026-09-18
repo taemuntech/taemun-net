@@ -9,7 +9,7 @@ interface Props {
 
 export default function RaonKidsPageClient({ isEmbed }: Props) {
   if (isEmbed) {
-    return <RaonKidsApp isEmbed={true} />;
+    return <RaonKidsApp />;
   }
 
   return (
@@ -30,8 +30,11 @@ export default function RaonKidsPageClient({ isEmbed }: Props) {
       inquiryUrl="/inquiry?from=raon-kids"
       specs={[
         { label: '반응형 규격', value: '모바일 퍼스트 단일 lg: 브레이크포인트 규격 준수' },
-        { label: '인터랙티브 기능', value: '라돈 Zero/VOC Free 친환경 안전 모니터링 HUD, 3대 놀이/아트존 투어' },
-        { label: '물성 아카이브', value: 'E0 자작나무, 천연 규조토, 식품 등급 실리콘 등 친환경 스펙' },
+        { label: '인터랙티브 기능', value: '라돈·VOC 예시 수치 실내 환경 모니터링 HUD, 3대 놀이/아트존 투어' },
+        {
+          label: '물성 아카이브',
+          value: '자작나무 집성목·충격 완화 코르크·천연 점토·광물계 도료·재생 펠트 5종 (예시 스펙)',
+        },
         { label: '고객 전환 장치', value: 'SampleNotice 연동 키즈 시설 맞춤 시공 상담 신청 모달' },
       ]}
     />

@@ -9,7 +9,7 @@ interface Props {
 
 export default function NexusWorkPageClient({ isEmbed }: Props) {
   if (isEmbed) {
-    return <NexusWorkApp isEmbed={true} />;
+    return <NexusWorkApp />;
   }
 
   return (
@@ -31,8 +31,8 @@ export default function NexusWorkPageClient({ isEmbed }: Props) {
       specs={[
         { label: '반응형 규격', value: '모바일 퍼스트 단일 lg: 브레이크포인트 규격 준수' },
         { label: '인터랙티브 기능', value: '스마트 회의실 IoT 환경 관제 HUD, 4대 업무 몰입 존 투어' },
-        { label: '음향 엔지니어링', value: 'NRC 0.85 고성능 음향 흡음 펠트 및 마이크로 배플 적용' },
-        { label: '클라이언트 기능', value: '스마트 회의실 예약 연동 및 1:1 오피스 실측 상담 모달' },
+        { label: '음향 엔지니어링', value: '음향 흡음 마감재 스펙 아카이브 4종 (NRC 등급은 예시 표기)' },
+        { label: '클라이언트 기능', value: '회의실 예약 문의 연결 및 1:1 오피스 실측 상담 모달 (샘플 — 실제 접수 없음)' },
       ]}
     />
   );

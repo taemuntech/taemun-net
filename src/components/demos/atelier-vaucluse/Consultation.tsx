@@ -1,11 +1,21 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MapPin, Phone, Mail, Clock, ExternalLink, Send, CheckCircle } from 'lucide-react';
 import SampleNotice from '@/components/demo-kit/SampleNotice';
-import { ConsultationFormData } from './types';
+import { ConsultationFormData, ConsultationPrefill } from './types';
 
-export const Consultation: React.FC = () => {
+interface ConsultationProps {
+  /**
+   * 프로젝트 상세에서 「이 스타일로 상담 예약」을 누르면 내려오는 요청 사항.
+   * 같은 프로젝트를 다시 눌러도 반영되도록 nonce 를 함께 본다.
+   * (예전에는 부모가 textarea.value 를 직접 써서 넣었는데, 제어 컴포넌트라 React 상태가
+   *  바뀌지 않아 다음 렌더에서 지워졌다 — 눌러도 아무 일도 일어나지 않았다.)
+   */
+  prefill?: ConsultationPrefill | null;
+}
+
+export const Consultation: React.FC<ConsultationProps> = ({ prefill = null }) => {
   const [formData, setFormData] = useState<ConsultationFormData>({
     name: '',
     phone: '',
@@ -19,6 +29,22 @@ export const Consultation: React.FC = () => {
 
   const [noticeOpen, setNoticeOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const notesRef = useRef<HTMLTextAreaElement>(null);
+  const appliedNonce = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (!prefill || prefill.nonce === appliedNonce.current) return;
+    appliedNonce.current = prefill.nonce;
+    setFormData((prev) => ({
+      ...prev,
+      spaceType: prefill.spaceType ?? prev.spaceType,
+      notes: prefill.notes,
+    }));
+    setErrorMessage(null);
+    // 스크롤이 끝난 뒤 요청 사항 칸을 짚어 준다 — 어디가 채워졌는지 보이게
+    const t = window.setTimeout(() => notesRef.current?.focus({ preventScroll: true }), 600);
+    return () => window.clearTimeout(t);
+  }, [prefill]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -34,14 +60,15 @@ export const Consultation: React.FC = () => {
 
   const handleFillSample = () => {
     setFormData({
-      name: '강태민 (클라이언트)',
-      phone: '010-8923-4152',
+      name: '홍길동 (예시)',
+      phone: '010-0000-0000',
       spaceType: '단독주택 신축 및 인테리어',
       area: '85평 / 약 280m²',
       location: '서울시 용산구 한남동',
       expectedDate: '2025년 6월 예정',
       notes: '자연 채광을 극대화한 중정과 마이크로시멘트 바닥, 트래버틴 아일랜드 시공을 희망합니다. 도면 검토 요청드립니다.',
-      privacyAgreed: true,
+      // 동의는 예시로도 대신 켜 주지 않는다 — 개인정보 동의는 언제나 사용자가 직접 누른다
+      privacyAgreed: false,
     });
     setErrorMessage(null);
   };
@@ -85,7 +112,7 @@ export const Consultation: React.FC = () => {
                 당신의 공간을 위한 <br className="hidden lg:inline" />첫 걸음
               </h2>
               <p className="text-sm lg:text-base text-[#474741] mt-4 leading-relaxed font-sans font-light break-keep [word-break:keep-all]">
-                공간의 성격과 규모, 예상 착공 일정에 맞춰 전문 디자이너가 사전 검토 후 24시간 이내에 직접 회신드립니다.
+                공간의 성격과 규모, 예상 착공 일정에 맞춰 담당 디자이너가 사전 검토 후 직접 회신드립니다.
               </p>
             </div>
 
@@ -99,23 +126,23 @@ export const Consultation: React.FC = () => {
                 <div className="flex items-start gap-3">
                   <MapPin size={17} className="text-[#777770] shrink-0 mt-0.5" />
                   <span className="leading-snug">
-                    서울특별시 강남구 압구정로 60길 21, 보클루즈 빌딩 3F/4F
+                    서울특별시 강남구 압구정로 (가상 스튜디오)
                   </span>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <Phone size={17} className="text-[#777770] shrink-0" />
-                  <span>+82 (02) 548-2890</span>
+                  <span>02-0000-0000 (예시)</span>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <Mail size={17} className="text-[#777770] shrink-0" />
-                  <span>inquiry@atelier-vaucluse.kr</span>
+                  <span>inquiry@example.com (예시)</span>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <Clock size={17} className="text-[#777770] shrink-0" />
-                  <span>월 - 금: 09:30 - 18:30 (주말 100% 사전 예약제)</span>
+                  <span>월 - 금: 09:30 - 18:30 (주말 사전 예약제)</span>
                 </div>
               </div>
 
@@ -124,7 +151,7 @@ export const Consultation: React.FC = () => {
                   href="https://pf.kakao.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-xs uppercase tracking-wider text-[#161714] hover:text-[#904b35] flex items-center gap-1 font-medium font-sans transition-colors"
+                  className="text-xs uppercase tracking-wider text-[#161714] hover:text-[#904b35] inline-flex min-h-11 items-center gap-1 font-medium font-sans transition-colors"
                 >
                   <span>Kakao Channel</span>
                   <ExternalLink size={12} />
@@ -134,7 +161,7 @@ export const Consultation: React.FC = () => {
                   href="https://instagram.com"
                   target="_blank"
                   rel="noreferrer"
-                  className="text-xs uppercase tracking-wider text-[#161714] hover:text-[#904b35] flex items-center gap-1 font-medium font-sans transition-colors"
+                  className="text-xs uppercase tracking-wider text-[#161714] hover:text-[#904b35] inline-flex min-h-11 items-center gap-1 font-medium font-sans transition-colors"
                 >
                   <span>Instagram</span>
                   <ExternalLink size={12} />
@@ -149,7 +176,7 @@ export const Consultation: React.FC = () => {
                 <span>투명한 3D 견적 및 사전 실측 무상 지원</span>
               </div>
               <p className="text-xs text-[#474741] font-sans font-light leading-relaxed">
-                설계 단계에서 자재 브랜드, 원산지 규격 및 상세 단가를 100% 투명하게 공개하여 추가 비용에 대한 불안을 제거합니다.
+                설계 단계에서 자재 규격과 원산지, 상세 단가를 함께 열어 두고 추가 비용이 생기는 지점을 미리 설명드립니다.
               </p>
             </div>
           </div>
@@ -163,7 +190,7 @@ export const Consultation: React.FC = () => {
               <button
                 type="button"
                 onClick={handleFillSample}
-                className="text-[11px] font-sans text-[#904b35] hover:underline cursor-pointer tracking-wider"
+                className="text-[11px] font-sans text-[#904b35] hover:underline cursor-pointer tracking-wider inline-flex min-h-11 items-center shrink-0"
               >
                 예시 데이터 채우기
               </button>
@@ -288,6 +315,7 @@ export const Consultation: React.FC = () => {
                   요청 사항 및 특별 고려 사항
                 </label>
                 <textarea
+                  ref={notesRef}
                   rows={3}
                   name="notes"
                   value={formData.notes}
@@ -297,8 +325,11 @@ export const Consultation: React.FC = () => {
                 />
               </div>
 
-              {/* Privacy Agreement */}
-              <div className="flex items-center gap-2 pt-1">
+              {/* Privacy Agreement — 기본값은 언제나 꺼짐. 라벨 전체가 44px 높이의 탭 대상이다 */}
+              <label
+                htmlFor="privacy"
+                className="flex items-center gap-2.5 min-h-11 cursor-pointer select-none"
+              >
                 <input
                   type="checkbox"
                   id="privacy"
@@ -306,12 +337,12 @@ export const Consultation: React.FC = () => {
                   checked={formData.privacyAgreed}
                   onChange={handleChange}
                   required
-                  className="rounded border-[#c8c7bf] text-[#161714] focus:ring-0 cursor-pointer h-4 w-4"
+                  className="rounded border-[#c8c7bf] text-[#161714] focus:ring-0 cursor-pointer h-5 w-5 shrink-0"
                 />
-                <label htmlFor="privacy" className="text-xs lg:text-sm text-[#474741] font-sans cursor-pointer select-none">
+                <span className="text-xs lg:text-sm text-[#474741] font-sans break-keep [word-break:keep-all]">
                   개인정보 수집 및 상담 연락에 동의합니다.
-                </label>
-              </div>
+                </span>
+              </label>
 
               <p className="text-xs lg:text-sm text-[#904b35] font-sans font-medium text-center">
                 샘플 사이트 — 실제로 접수되지 않습니다
@@ -319,7 +350,7 @@ export const Consultation: React.FC = () => {
 
               <button
                 type="submit"
-                className="w-full bg-[#2b2b28] text-[#faf9f7] hover:bg-[#904b35] transition-all duration-300 py-4 rounded text-xs font-semibold uppercase tracking-[0.2em] font-sans flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow"
+                className="w-full min-h-11 bg-[#2b2b28] text-[#faf9f7] hover:bg-[#904b35] transition-all duration-300 py-4 rounded text-xs font-semibold uppercase tracking-[0.2em] font-sans flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow"
               >
                 <span>1:1 상담 및 견적 신청서 발송</span>
                 <Send size={14} />

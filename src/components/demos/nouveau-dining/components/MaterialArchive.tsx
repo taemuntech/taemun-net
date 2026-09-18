@@ -19,18 +19,21 @@ export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMateri
           <h2 className="font-serif text-2xl lg:text-4xl font-bold text-white mb-4">
             손끝에 닿는 감각, F&B 프리미엄 마감재
           </h2>
-          <p className="text-sm lg:text-base text-stone-400 font-light leading-relaxed">
+          <p className="text-sm lg:text-base text-stone-400 font-light leading-relaxed break-keep">
             미식의 품격은 음식뿐 아니라 고객이 닿는 식탁, 바 카운터, 패브릭의 물성에서 완성됩니다.
-            오랜 시간 검증된 내구성과 촉각적 만족감을 주는 4대 핵심 마감재를 소개합니다.
+            매일의 사용을 견디는 내구성과 촉각적 만족감을 함께 살핀 4대 핵심 마감재를 소개합니다.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* div + onClick 이면 키보드로는 열 수 없어 button 으로 둔다(보이는 모양은 그대로) */}
           {DINING_MATERIALS.map((mat) => (
-            <div
+            <button
               key={mat.id}
+              type="button"
               onClick={() => onSelectMaterial(mat)}
-              className="p-6 rounded-2xl bg-stone-950 border border-stone-800 hover:border-amber-400/60 transition-all hover:-translate-y-1 group cursor-pointer shadow-lg flex flex-col justify-between"
+              aria-label={`${mat.name} 자재 규격 상세 보기`}
+              className="w-full text-left p-6 rounded-2xl bg-stone-950 border border-stone-800 hover:border-amber-400/60 transition-all hover:-translate-y-1 group cursor-pointer shadow-lg flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -43,11 +46,11 @@ export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMateri
                   </span>
                 </div>
 
-                <h3 className="text-lg font-bold text-white group-hover:text-amber-300 transition-colors mb-1">
+                <h3 className="text-lg font-bold text-white group-hover:text-amber-300 transition-colors mb-1 break-keep">
                   {mat.name}
                 </h3>
                 <p className="text-xs font-mono text-stone-400 mb-3 uppercase">{mat.engName}</p>
-                <p className="text-xs text-stone-300 font-light line-clamp-3 mb-4 leading-relaxed">
+                <p className="text-xs text-stone-300 font-light line-clamp-3 mb-4 leading-relaxed break-keep">
                   {mat.desc}
                 </p>
               </div>
@@ -56,9 +59,10 @@ export const MaterialArchive: React.FC<MaterialArchiveProps> = ({ onSelectMateri
                 <span className="text-[10px] font-mono text-stone-400 block mb-0.5">
                   SPECIFICATION
                 </span>
-                <p className="text-xs text-amber-200/90 font-mono truncate">{mat.spec}</p>
+                {/* truncate 였을 때 1440 의 4열 카드(236px)에서 「(예시 규격)」 표기가 통째로 잘렸다 */}
+                <p className="text-xs text-amber-200/90 font-mono break-keep">{mat.spec}</p>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>

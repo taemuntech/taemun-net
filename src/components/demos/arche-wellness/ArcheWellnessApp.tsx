@@ -11,7 +11,7 @@ import { TrialModal } from './components/TrialModal';
 import { Footer } from './components/Footer';
 import { WellnessMaterial } from './types';
 
-export const ArcheWellnessApp: React.FC<{ isEmbed?: boolean }> = ({ isEmbed }) => {
+export const ArcheWellnessApp: React.FC = () => {
   const [selectedMaterial, setSelectedMaterial] = useState<WellnessMaterial | null>(null);
   const [isTrialOpen, setIsTrialOpen] = useState(false);
 

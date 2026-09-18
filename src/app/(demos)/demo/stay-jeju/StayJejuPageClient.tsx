@@ -9,7 +9,7 @@ interface Props {
 
 export default function StayJejuPageClient({ isEmbed }: Props) {
   if (isEmbed) {
-    return <StayJejuApp isEmbed={true} />;
+    return <StayJejuApp />;
   }
 
   return (

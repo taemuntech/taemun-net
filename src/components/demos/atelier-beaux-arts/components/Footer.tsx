@@ -18,7 +18,7 @@ export function Footer() {
               </span>
             </div>
             <p className="text-xs leading-relaxed text-[#64748B] max-w-md mb-6">
-              아틀리에 보자르 미대입시 연구소는 서울대 디자인, 국민대 조형대, 홍익대 등 최상위 명문 미대 실기 시험에 최적화된 3D 시각 발상과 황금분할 조형 교육을 선도합니다.
+              아틀리에 보자르 미대입시 연구소는 통합실기·기초조형·미술우수자 등 상위권 미대 실기 전형에 최적화된 3D 시각 발상과 황금분할 조형 교육을 연구합니다.
             </p>
             <div className="p-3 bg-[#16191F] border border-[#2A303C] rounded-xl inline-block">
               <span className="text-[11px] text-[#38BDF8] block">
@@ -48,7 +48,7 @@ export function Footer() {
             <ul className="space-y-2.5 text-xs text-[#94A3B8]">
               <li>S대 통합실기평가 & K대 기초조형평가 (예시)</li>
               <li>H대 미술우수자 서류 및 면접 크리틱 (예시)</li>
-              <li>한예종 조형예술과 심층 실기 (예시)</li>
+              <li>A예술대 조형예술과 심층 실기 (예시)</li>
               <li>기초디자인 50종 질감 라이브러리</li>
             </ul>
           </div>

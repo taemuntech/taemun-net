@@ -1,21 +1,31 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Project, ProjectCategory } from './types';
 import { PROJECTS } from './data/projects';
 import { ArrowUpRight } from 'lucide-react';
 
 interface PortfolioProps {
+  /** 선택된 분류 — 푸터의 Residential/Commercial 링크도 같은 상태를 바꾸므로 부모가 들고 있는다 */
+  activeCategory: ProjectCategory;
+  onChangeCategory: (category: ProjectCategory) => void;
   onSelectProject: (project: Project) => void;
   onOpenMaterialArchive: () => void;
 }
 
+const CATEGORY_TABS: { value: ProjectCategory; label: string }[] = [
+  { value: 'all', label: '전체 (All)' },
+  { value: 'residential', label: '주거 공간 (Residential)' },
+  { value: 'commercial', label: '상업 공간 (Commercial)' },
+  { value: 'renovation', label: '리노베이션 (Renovation)' },
+];
+
 export const Portfolio: React.FC<PortfolioProps> = ({
+  activeCategory,
+  onChangeCategory,
   onSelectProject,
   onOpenMaterialArchive,
 }) => {
-  const [activeCategory, setActiveCategory] = useState<ProjectCategory>('all');
-
   const filteredProjects = useMemo(() => {
     if (activeCategory === 'all') return PROJECTS;
     return PROJECTS.filter((p) => p.category === activeCategory);
@@ -33,50 +43,29 @@ export const Portfolio: React.FC<PortfolioProps> = ({
             <h2 className="text-3xl lg:text-5xl font-serif font-normal text-[#161714] tracking-[-0.015em] break-keep [word-break:keep-all]">
               대표 프로젝트 아카이브
             </h2>
+            <p className="text-xs text-[#777770] font-sans mt-2 break-keep [word-break:keep-all]">
+              아래 프로젝트명·지역·연도·면적은 화면 구성을 보여 주기 위한 가상 예시입니다.
+            </p>
           </div>
 
           {/* Category Filter Tabs: Horizontal swipe scroll on mobile, wrap on desktop */}
-          <div className="flex items-center gap-2 overflow-x-auto scrollbar-none pb-2 -mx-6 px-6 lg:mx-0 lg:px-0 lg:pb-0 lg:flex-wrap">
-            <button
-              onClick={() => setActiveCategory('all')}
-              className={`px-4 py-2 rounded text-xs uppercase tracking-wider font-sans transition-all duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
-                activeCategory === 'all'
-                  ? 'bg-[#161714] text-[#faf9f7] border border-[#161714]'
-                  : 'bg-[#faf9f7] text-[#474741] hover:text-[#161714] border border-[#c8c7bf]/40'
-              }`}
-            >
-              전체 (All)
-            </button>
-            <button
-              onClick={() => setActiveCategory('residential')}
-              className={`px-4 py-2 rounded text-xs uppercase tracking-wider font-sans transition-all duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
-                activeCategory === 'residential'
-                  ? 'bg-[#161714] text-[#faf9f7] border border-[#161714]'
-                  : 'bg-[#faf9f7] text-[#474741] hover:text-[#161714] border border-[#c8c7bf]/40'
-              }`}
-            >
-              주거 공간 (Residential)
-            </button>
-            <button
-              onClick={() => setActiveCategory('commercial')}
-              className={`px-4 py-2 rounded text-xs uppercase tracking-wider font-sans transition-all duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
-                activeCategory === 'commercial'
-                  ? 'bg-[#161714] text-[#faf9f7] border border-[#161714]'
-                  : 'bg-[#faf9f7] text-[#474741] hover:text-[#161714] border border-[#c8c7bf]/40'
-              }`}
-            >
-              상업 공간 (Commercial)
-            </button>
-            <button
-              onClick={() => setActiveCategory('renovation')}
-              className={`px-4 py-2 rounded text-xs uppercase tracking-wider font-sans transition-all duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
-                activeCategory === 'renovation'
-                  ? 'bg-[#161714] text-[#faf9f7] border border-[#161714]'
-                  : 'bg-[#faf9f7] text-[#474741] hover:text-[#161714] border border-[#c8c7bf]/40'
-              }`}
-            >
-              리노베이션 (Renovation)
-            </button>
+          {/* 탭이 아니라 «필터 토글»이라 role=tab 대신 aria-pressed 를 쓴다 */}
+          <div role="group" aria-label="프로젝트 분류" className="flex items-center gap-2 overflow-x-auto scrollbar-none pb-2 -mx-6 px-6 lg:mx-0 lg:px-0 lg:pb-0 lg:flex-wrap">
+            {CATEGORY_TABS.map((tab) => (
+              <button
+                key={tab.value}
+                type="button"
+                aria-pressed={activeCategory === tab.value}
+                onClick={() => onChangeCategory(tab.value)}
+                className={`px-4 min-h-11 rounded text-xs uppercase tracking-wider font-sans transition-all duration-200 cursor-pointer whitespace-nowrap shrink-0 ${
+                  activeCategory === tab.value
+                    ? 'bg-[#161714] text-[#faf9f7] border border-[#161714]'
+                    : 'bg-[#faf9f7] text-[#474741] hover:text-[#161714] border border-[#c8c7bf]/40'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -91,10 +80,12 @@ export const Portfolio: React.FC<PortfolioProps> = ({
         {/* Editorial Project Showcase: Mobile Horizontal Swipe Carousel & Desktop 3-col Grid */}
         <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-6 px-6 scrollbar-none lg:grid lg:grid-cols-3 lg:gap-8 lg:mx-0 lg:px-0">
           {filteredProjects.map((project) => (
-            <article
+            <button
+              type="button"
               key={project.id}
               onClick={() => onSelectProject(project)}
-              className="w-[84vw] shrink-0 snap-center lg:w-auto group cursor-pointer flex flex-col"
+              aria-label={`${project.title} 상세 보기`}
+              className="w-[84vw] shrink-0 snap-center lg:w-auto group cursor-pointer flex flex-col text-left"
             >
               <div className="aspect-[4/5] overflow-hidden rounded bg-[#efeeec] relative mb-4 border border-[#c8c7bf]/20 shadow-xs">
                 <img
@@ -131,7 +122,7 @@ export const Portfolio: React.FC<PortfolioProps> = ({
                   {project.subtitle}
                 </p>
               </div>
-            </article>
+            </button>
           ))}
         </div>
 
@@ -139,10 +130,14 @@ export const Portfolio: React.FC<PortfolioProps> = ({
         <div className="text-center mt-12 lg:mt-16">
           <button
             onClick={onOpenMaterialArchive}
-            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#161714] hover:text-[#904b35] border-b border-[#161714] hover:border-[#904b35] pb-1 transition-colors cursor-pointer break-keep [word-break:keep-all]"
+            type="button"
+            aria-label="천연 소재 및 마감재 라이브러리 열기"
+            className="group inline-flex min-h-11 items-center cursor-pointer"
           >
-            <span>모든 프로젝트 및 마감재 디테일 보기</span>
-            <ArrowUpRight size={14} />
+            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#161714] group-hover:text-[#904b35] border-b border-[#161714] group-hover:border-[#904b35] pb-1 transition-colors break-keep [word-break:keep-all]">
+              <span>천연 소재 &amp; 마감재 라이브러리 보기</span>
+              <ArrowUpRight size={14} />
+            </span>
           </button>
         </div>
       </div>

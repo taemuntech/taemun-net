@@ -9,7 +9,7 @@ export const ProcessSection: React.FC = () => {
 
   return (
     <section
-      className="py-16 lg:py-24 bg-[#121315] max-w-[1440px] mx-auto px-5 lg:px-16"
+      className="py-16 lg:py-24 bg-[#121315] max-w-[1440px] mx-auto px-5 lg:px-16 scroll-mt-[calc(var(--sample-bar-h,0px)_+_80px)]"
       id="process-atelier"
     >
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
@@ -20,23 +20,25 @@ export const ProcessSection: React.FC = () => {
               Bespoke Construction Protocol
             </span>
             <h2 className="text-3xl lg:text-4xl font-serif text-[#f4efea] leading-tight break-keep [word-break:keep-all]">
-              완벽을 빚어내는
+              완성도를 쌓아 올리는
               <br />
               4단계 아틀리에 프로세스
             </h2>
             <p className="text-[15px] text-[#d1c5b8] mt-4 font-light leading-relaxed">
-              공간의 시작부터 입주 후 수년의 시간까지. 하우스앤스페이스는 설계자와 직영 마스터 빌더가 한 팀으로 결속되어 타협 없는 완성도를 구현합니다.
+              공간의 시작부터 입주 후 수년의 시간까지. 하우스앤스페이스는 설계자와 직영 시공 팀이 한 팀으로 움직이며 공정을 함께 챙깁니다.
             </p>
 
+            {/* 「Guarantee」·「책임집니다」는 보증 약속으로 읽힌다 — 가상 브랜드가 약속할 수 있는 말이 아니라
+                시공 체계 설명으로 바꾸고, 경력 연차에는 예시 표기를 단다. */}
             <div className="mt-8 p-6 bg-[#1b1c1e] border border-[#c5a880]/30 shadow-lg">
               <div className="flex items-center gap-3 mb-2">
-                <ShieldCheck className="w-5 h-5 text-[#c5a880]" />
-                <span className="text-xs uppercase tracking-[0.14em] text-[#f4efea] font-semibold">
-                  Direct Master Builder Guarantee
+                <ShieldCheck className="w-5 h-5 text-[#c5a880] shrink-0" />
+                <span className="text-xs uppercase tracking-[0.14em] text-[#f4efea] font-semibold break-keep [word-break:keep-all]">
+                  Direct Master Builder System
                 </span>
               </div>
-              <p className="text-xs text-[#998f83] leading-relaxed">
-                하도급 외주가 아닌 20년 경력의 전속 목공·석공·설비 장인들이 현장을 총괄하여 오차 없는 마감과 독보적인 내구성을 책임집니다.
+              <p className="text-xs text-[#998f83] leading-relaxed [word-break:keep-all]">
+                하도급 외주 대신 전속 목공·석공·설비 팀이 현장을 총괄하는 직영 시공 체계입니다. (경력 20년 이상 — 예시 표기)
               </p>
             </div>
           </div>
@@ -49,8 +51,18 @@ export const ProcessSection: React.FC = () => {
             return (
               <div
                 key={step.number}
+                role="button"
+                tabIndex={0}
+                aria-pressed={isSelected}
+                aria-label={`${step.phase} 단계 선택`}
                 onClick={() => setActiveStep(idx)}
-                className={`bg-[#1b1c1e] border p-8 transition-all duration-300 cursor-pointer ${
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setActiveStep(idx);
+                  }
+                }}
+                className={`bg-[#1b1c1e] border p-6 lg:p-8 transition-all duration-300 cursor-pointer ${
                   isSelected
                     ? 'border-[#c5a880] shadow-[0_0_30px_rgba(197,168,128,0.1)]'
                     : 'border-white/10 hover:border-[#c5a880]/50'
@@ -64,7 +76,7 @@ export const ProcessSection: React.FC = () => {
                   >
                     {step.number}
                   </span>
-                  <span className="text-[11px] uppercase tracking-[0.2em] text-[#998f83]">
+                  <span className="text-[11px] uppercase tracking-[0.2em] text-[#998f83] text-right break-keep [word-break:keep-all]">
                     {step.phase}
                   </span>
                 </div>

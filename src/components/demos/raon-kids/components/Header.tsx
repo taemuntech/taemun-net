@@ -33,19 +33,18 @@ export const Header: React.FC<HeaderProps> = ({ onOpenConsultation }) => {
           <a href="#safety" className="hover:text-[#3b2e1e] transition-colors">
             Safety HUD
           </a>
+          {/* 예전에는 Philosophy 링크가 하나 더 있었는데 그 이름의 절(節)이 지면에 없어 눌러도 아무 데도 가지 않았다 — 지웠다 */}
           <a href="#materials" className="hover:text-[#3b2e1e] transition-colors">
             Eco Materials
-          </a>
-          <a href="#philosophy" className="hover:text-[#3b2e1e] transition-colors">
-            Philosophy
           </a>
         </nav>
 
         {/* CTA Button */}
         <div className="flex items-center gap-3">
           <button
+            type="button"
             onClick={onOpenConsultation}
-            className="px-5 py-2.5 rounded-full bg-[#e39c44] hover:bg-[#c98330] text-white text-xs font-bold tracking-wide transition-all shadow-md active:scale-95 cursor-pointer"
+            className="inline-flex items-center justify-center min-h-[44px] px-5 py-2.5 rounded-full bg-[#e39c44] hover:bg-[#c98330] text-white text-xs font-bold tracking-wide transition-all shadow-md active:scale-95 cursor-pointer"
           >
             키즈 공간 시공 상담
           </button>

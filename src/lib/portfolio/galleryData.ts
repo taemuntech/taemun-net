@@ -1446,7 +1446,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     category: 'education',
     categoryName: '학원 · 명문 미대입시/조형랩',
     summary: '3D 원근 틸트 합격작 큐레이션 & 실기 기출 발문 핀셋 해체 Lab',
-    description: '서울대 디자인, 국민대 조형대, 홍익대, 한예종 등 최상위 명문 미대 실기 시험에 최적화된 전문 디자인 연구소 공식 웹사이트입니다. 마우스 인터랙티브 3D 원근 틸트 합격작 갤러리, 황금분할선 구도 오버레이, 기출문제 제시물 물성 핀셋 해체 Lab, 1:1 모의 실기 평가 신청 위저드를 제공합니다.',
+    description: '주요 미술대학 실기 시험에 맞춘 전문 디자인 연구소 공식 웹사이트입니다. 마우스 인터랙티브 3D 원근 틸트 합격작 갤러리, 황금분할선 구도 오버레이, 기출문제 제시물 물성 핀셋 해체 Lab, 1:1 모의 실기 평가 신청 위저드를 제공합니다.',
     thumbnailUrl: '/portfolio/atelier-beaux-arts/desktop.png',
     liveDemoUrl: '/demo/atelier-beaux-arts',
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', '3D Perspective Tilt Gallery', 'Exam Rubric Lab'],
@@ -1455,7 +1455,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     badge: '실물 라이브 데모',
     highlights: [
       '마우스 인터랙티브 3D 원근 틸트 및 황금분할선 그리드 오버레이 합격작 갤러리',
-      '서울대 통합실기·국민대 기초조형 기출문제 제시물 물성 및 실기 전략 핀셋 해체 Lab',
+      '주요 미대 유형별 기출 제시물 물성 및 실기 전략 해체 Lab',
       '연도별·대학별 합격 재현작 돋보기 확대 및 평가위원 채점 핵심 주안점 분석',
       '지원 대학 및 전형별 1:1 모의 실기 평가 및 포트폴리오 심층 진단 신청 위저드',
     ],

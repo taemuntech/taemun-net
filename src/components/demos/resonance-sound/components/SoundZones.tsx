@@ -9,7 +9,7 @@ export const SoundZones: React.FC = () => {
   const currentZone = SOUND_ZONES.find((z) => z.id === activeZoneId) || SOUND_ZONES[0];
 
   return (
-    <section id="zones" className="py-24 bg-white border-y border-[#ebdcd0]/60">
+    <section id="zones" className="scroll-mt-[calc(var(--sample-bar-h,0px)_+_80px)] py-24 bg-white border-y border-[#ebdcd0]/60">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         {/* Section Header */}
         <div className="max-w-2xl mb-16">
@@ -32,6 +32,8 @@ export const SoundZones: React.FC = () => {
             return (
               <button
                 key={zone.id}
+                type="button"
+                aria-pressed={isActive}
                 onClick={() => setActiveZoneId(zone.id)}
                 className={`p-5 rounded-2xl text-left transition-all border cursor-pointer ${
                   isActive

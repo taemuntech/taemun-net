@@ -15,11 +15,12 @@ export const Header: React.FC<HeaderProps> = ({ onOpenConsultation }) => {
           <div className="w-10 h-10 rounded-2xl bg-[#e8dacd] border border-[#d8c4b2] flex items-center justify-center text-[#6e5849] font-serif font-bold text-lg shadow-sm">
             AE
           </div>
-          <div>
-            <span className="font-serif text-lg lg:text-xl font-medium tracking-tight text-[#2d241e] block leading-none">
+          <div className="min-w-0">
+            <span className="font-serif text-base lg:text-xl font-medium tracking-tight text-[#2d241e] block leading-none whitespace-nowrap">
               AETHER MEDICAL
             </span>
-            <span className="text-[10px] font-mono tracking-widest text-[#9c8473] uppercase mt-0.5 block">
+            {/* 아주 좁은 폭(420px 미만)에서는 이 영문 부제가 두 줄로 접혀 h-20 헤더를 밀어낸다 — 그 구간에서만 감춘다 */}
+            <span className="hidden min-[420px]:block text-[10px] font-mono tracking-widest text-[#9c8473] uppercase mt-0.5 whitespace-nowrap">
               Cheongdam Aesthetic Clinic
             </span>
           </div>
@@ -36,16 +37,15 @@ export const Header: React.FC<HeaderProps> = ({ onOpenConsultation }) => {
           <a href="#materials" className="hover:text-[#2d241e] transition-colors">
             Material Archive
           </a>
-          <a href="#philosophy" className="hover:text-[#2d241e] transition-colors">
-            Philosophy
-          </a>
+          {/* Philosophy(#philosophy) 링크는 뺐다 — 그 id 를 가진 구역이 이 화면에 없어 눌러도 아무 데도 가지 않았다 */}
         </nav>
 
         {/* CTA Button */}
         <div className="flex items-center gap-3">
           <button
             onClick={onOpenConsultation}
-            className="px-5 py-2.5 rounded-full bg-[#6e5849] hover:bg-[#524135] text-white text-xs font-medium tracking-wide transition-all shadow-md active:scale-95 cursor-pointer"
+            type="button"
+            className="px-5 py-2.5 min-h-11 whitespace-nowrap rounded-full bg-[#6e5849] hover:bg-[#524135] text-white text-xs font-medium tracking-wide transition-all shadow-md active:scale-95 cursor-pointer"
           >
             클리닉 시공 상담
           </button>

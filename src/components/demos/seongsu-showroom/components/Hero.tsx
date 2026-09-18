@@ -13,10 +13,11 @@ export const Hero: React.FC<HeroProps> = ({ onExploreZoning, onOpenEstimator }) 
       {/* Background Media with Gradient Masks */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/portfolio/seongsu-showroom/seongsu-01.avif"
-          alt="아틀리에 무드 성수 플래그십 쇼룸 전경"
+          src="/portfolio/seongsu-showroom/seongsu-01.jpg"
+          alt="아틀리에 무드 성수 1F 웰컴 라운지 — 목재 프레임 유리 파티션과 모듈러 소파"
           fill
           priority
+          sizes="100vw"
           className="object-cover object-center opacity-45 scale-105 transition-transform duration-1000 ease-out"
         />
         {/* Subtle Ambient Gradients */}
@@ -52,13 +53,14 @@ export const Hero: React.FC<HeroProps> = ({ onExploreZoning, onOpenEstimator }) 
 
         {/* Subtitle */}
         <p className="max-w-2xl mx-auto text-sm lg:text-lg text-stone-300 font-light leading-relaxed mb-10">
-          시간의 흔적을 담은 붉은 벽돌과 노출 콘크리트, 정밀 가공된 스테인리스와 원석의 조화.<br className="hidden lg:inline" />
+          옛 공장 건물의 골조와 창을 남기고, 목재 프레임과 반투명 유리, 정밀 가공된 금속을 더했습니다.<br className="hidden lg:inline" />
           공간 자체가 브랜드의 강력한 서사가 되는 상업 쇼룸 및 복합문화공간을 설계합니다.
         </p>
 
         {/* Action Buttons */}
         <div className="flex flex-col lg:flex-row items-center justify-center gap-4">
           <button
+            type="button"
             onClick={onExploreZoning}
             className="w-full lg:w-auto px-8 py-4 rounded-sm bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-sm tracking-widest uppercase transition-all shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2"
           >
@@ -68,6 +70,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreZoning, onOpenEstimator }) 
             </svg>
           </button>
           <button
+            type="button"
             onClick={onOpenEstimator}
             className="w-full lg:w-auto px-8 py-4 rounded-sm bg-white/10 hover:bg-white/15 text-white border border-white/20 font-medium text-sm tracking-wider transition-all backdrop-blur-sm"
           >

@@ -31,7 +31,7 @@ export function HeroSection({ onOpenEvaluation, onScrollToGallery }: HeroSection
 
           {/* Description */}
           <p className="text-base lg:text-lg text-[#94A3B8] leading-relaxed mb-10 font-sans">
-            서울대 디자인, 국민대 조형대, 홍익대, 한예종 등 최상위 명문 미대 실기 시험은 기술적 묘사를 넘어선 창의적 문제 해결력을 평가합니다. 출제 의도를 꿰뚫는 발문 분석과 정밀한 화면 황금분할 구도로 실기 A+ 합격권을 이끕니다.
+            통합실기, 기초조형, 미술우수자, 심층실기 등 상위권 미대 실기 전형은 기술적 묘사를 넘어선 창의적 문제 해결력을 평가합니다. 출제 의도를 꿰뚫는 발문 분석과 정밀한 화면 황금분할 구도로 실기 대비 과정을 설계합니다.
           </p>
 
           {/* Action CTAs */}
@@ -57,7 +57,7 @@ export function HeroSection({ onOpenEvaluation, onScrollToGallery }: HeroSection
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 pt-8 border-t border-[#2A303C]">
             <div>
               <p className="text-2xl lg:text-3xl font-serif font-bold text-[#38BDF8]">4개교</p>
-              <p className="text-xs text-[#94A3B8] mt-1">서울대·국민대·홍익대·한예종 특화 (예시)</p>
+              <p className="text-xs text-[#94A3B8] mt-1">통합실기·기초조형·미술우수자·심층실기 특화 (예시)</p>
             </div>
             <div>
               <p className="text-2xl lg:text-3xl font-serif font-bold text-[#38BDF8]">1:1.618</p>

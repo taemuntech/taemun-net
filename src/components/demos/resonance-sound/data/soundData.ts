@@ -6,7 +6,7 @@ export const SOUND_ZONES: SoundZone[] = [
     name: '스윗스팟 하이파이 리스닝 & 턴테이블 룸',
     engName: 'Hi-Fi Sweet Spot Listening Suite',
     tag: 'ZONE 01 · 메인 청음실',
-    description: '청음자의 귀 높이에 맞춘 정밀 삼각 배치 스윗스팟 공간입니다. 코너 베이스 트랩과 솔리드 화이트 오크 음향 디퓨저로 정재파를 완벽히 분산시킵니다.',
+    description: '청음자의 귀 높이에 맞춘 정밀 삼각 배치 스윗스팟 공간입니다. 코너 베이스 트랩과 솔리드 화이트 오크 음향 디퓨저로 정재파를 고르게 분산시킵니다.',
     acousticSpecs: [
       { label: '권장 잔향 시간 (RT60)', value: '0.38초 기준 설계 (예시)' },
       { label: '저음역 흡음 구조', value: '40~80Hz 코너 멤브레인 트랩' },
@@ -24,7 +24,7 @@ export const SOUND_ZONES: SoundZone[] = [
     acousticSpecs: [
       { label: '수납 용량', value: 'LP 3,500장 규격 설계 (예시)' },
       { label: '목재 사양', value: '북미산 FAS급 솔리드 화이트 오크' },
-      { label: '레일 하드웨어', value: '독일 헤펠레 고하중 댐핑 레일' },
+      { label: '레일 하드웨어', value: '독일제 고하중 댐핑 레일' },
       { label: '청음 시스템', value: '오픈형 헤드폰 전용 앰프 스테이션' },
     ],
     image: '/portfolio/resonance-sound/resonance-03.jpg',
@@ -37,7 +37,7 @@ export const SOUND_ZONES: SoundZone[] = [
     description: '4K 레이저 프로젝터와 전동 ALR 스크린이 매립된 밝은 톤의 시네마 공간입니다. 벽체 전체를 샌드 베이지 패브릭 흡음 패널로 마감하여 몰입감을 극대화했습니다.',
     acousticSpecs: [
       { label: '스크린 규격', value: '140인치 전동 텐션 ALR 매립' },
-      { label: '음향 채널 설계', value: '돌비 애트모스 7.1.4 매립 배치' },
+      { label: '음향 채널 설계', value: '7.1.4 몰입형 서라운드 매립 배치' },
       { label: '간접 조명', value: '0~100% 무단 DALI 디밍 제어' },
       { label: '소파 구성', value: '모듈러 리클라이닝 부클레 소파' },
     ],
@@ -53,7 +53,7 @@ export const SOUND_MATERIALS: SoundMaterial[] = [
     category: '음향 확산재',
     origin: '북미산 화이트 오크 통원목 정밀 CNC 가공',
     specs: '두께 120mm / 확산 주파수 650Hz~4,800Hz (예시)',
-    description: '소리를 불필요하게 흡수하여 먹먹하게 만들지 않고, 맑고 입체적인 잔향으로 공간 전체에 고르게 분산시키는 최고급 원목 음향 자재입니다.',
+    description: '소리를 불필요하게 흡수하여 먹먹하게 만들지 않고, 맑고 입체적인 잔향으로 공간 전체에 고르게 분산시키는 고급 원목 음향 자재입니다.',
     frequencyRange: '650Hz ~ 4,800Hz 고음역 확산 (예시)',
   },
   {
@@ -61,7 +61,7 @@ export const SOUND_MATERIALS: SoundMaterial[] = [
     name: '친환경 고밀도 리사이클 PET 어쿠스틱 펠트',
     engName: 'High-Density Recycled PET Felt',
     category: '벽체 흡음재',
-    origin: '국내 무독성 난연 인증 재생 섬유',
+    origin: '국내 재생 섬유 · 난연 등급 표기 자리 (예시)',
     specs: '밀도 220kg/㎥ / NRC 0.85 (예시)',
     description: '중고음역대의 불쾌한 반사음을 부드럽게 흡수하며, 따뜻한 샌드 베이지 텍스처로 벽면을 감싸 아늑한 라운지 무드를 연출합니다.',
     absorptionRate: 'NRC 0.85 고성능 흡음 (예시)',
@@ -82,7 +82,7 @@ export const SOUND_MATERIALS: SoundMaterial[] = [
     category: '벽체 마감재',
     origin: '오스트리아 천연 오크 무늬목 & 코어 흡음재',
     specs: '타공 직경 0.5mm 미세 타공 / 피치 2mm',
-    description: '육안으로는 일반 원목 벽체처럼 매끄럽게 보이지만, 0.5mm 미세 홀을 통해 중저음역을 정밀하게 흡수하는 특허 음향 패널입니다.',
+    description: '육안으로는 일반 원목 벽체처럼 매끄럽게 보이지만, 0.5mm 미세 홀을 통해 중저음역을 정밀하게 흡수하는 정밀 타공 음향 패널입니다.',
   },
   {
     id: 'mat-5',

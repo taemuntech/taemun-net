@@ -40,7 +40,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
         {/* Subtitle */}
         <p className="text-sm lg:text-lg text-[#6b523e] max-w-2xl mx-auto font-light leading-relaxed mb-10 [word-break:keep-all]">
           어두운 지하 청음실을 벗어나, 따뜻한 자연 채광과 2D QRD 음향 디퓨저, 
-          RT60 0.38초 정밀 잔향 제어로 완성한 성수·한남 하이파이 프라이빗 오디오 룸 시공 공간입니다.
+          RT60 0.38초(예시) 목표의 잔향 설계로 그려 본 성수·한남 하이파이 프라이빗 오디오 룸 시공 공간입니다.
         </p>
 
         {/* Action Buttons */}

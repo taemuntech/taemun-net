@@ -17,7 +17,7 @@ export const ClinicZones: React.FC = () => {
             ARCHITECTURAL SPATIAL ZONING
           </span>
           <h2 className="font-serif text-2xl lg:text-4xl font-normal text-[#2d241e] tracking-tight mb-4">
-            환자의 불안을 치유하는 <br />
+            환자의 긴장을 덜어 주는 <br />
             <span className="italic font-light text-[#7a6252]">3대 VIP 프라이빗 공간 설계</span>
           </h2>
           <p className="text-xs lg:text-sm text-[#6e5849] font-light leading-relaxed">
@@ -32,7 +32,9 @@ export const ClinicZones: React.FC = () => {
             return (
               <button
                 key={zone.id}
+                type="button"
                 onClick={() => setActiveZoneId(zone.id)}
+                aria-pressed={isActive}
                 className={`p-5 rounded-2xl text-left transition-all border cursor-pointer ${
                   isActive
                     ? 'bg-[#faf7f2] border-[#a38068] shadow-md ring-1 ring-[#a38068]'

@@ -13,11 +13,7 @@ import { ProjectDetailModal } from './components/ProjectDetailModal';
 import { ConsultationModal } from './components/ConsultationModal';
 import { MaterialItem, ProjectCase } from './types';
 
-interface SeongsuShowroomAppProps {
-  isEmbed?: boolean;
-}
-
-export const SeongsuShowroomApp: React.FC<SeongsuShowroomAppProps> = ({ isEmbed = false }) => {
+export const SeongsuShowroomApp: React.FC = () => {
   const [selectedMaterial, setSelectedMaterial] = useState<MaterialItem | null>(null);
   const [selectedProject, setSelectedProject] = useState<ProjectCase | null>(null);
   const [isConsultationOpen, setIsConsultationOpen] = useState<boolean>(false);
@@ -28,7 +24,7 @@ export const SeongsuShowroomApp: React.FC<SeongsuShowroomAppProps> = ({ isEmbed 
     if (el) {
       const headerOffset = 80;
       const elementPosition = el.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      const offsetPosition = elementPosition + window.scrollY - headerOffset;
       window.scrollTo({
         top: offsetPosition,
         behavior: 'smooth',
@@ -61,7 +57,7 @@ export const SeongsuShowroomApp: React.FC<SeongsuShowroomAppProps> = ({ isEmbed 
         />
 
         {/* Spatial Architecture Philosophy */}
-        <Philosophy />
+        <Philosophy onExploreDetail={scrollToElement} />
 
         {/* Interactive 3-Floor Zoning Experience */}
         <InteractiveZoning />

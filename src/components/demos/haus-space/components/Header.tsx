@@ -19,17 +19,28 @@ export const Header: React.FC<HeaderProps> = ({ onOpenConsultation }) => {
     { label: 'Press & Recognition', href: '#press-recognition' },
   ];
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-[#121315]/85 border-b border-white/10 transition-all duration-300">
+    // 공용 샘플 바에 가려지지 않게 top-0 대신 --sample-bar-h 를 쓴다 — 바가 없으면 0px 라 화면은 그대로다.
+    <header className="sticky top-[var(--sample-bar-h,0px)] z-50 backdrop-blur-md bg-[#121315]/85 border-b border-white/10 transition-all duration-300">
       <div className="w-full px-5 lg:px-16 max-w-[1440px] mx-auto flex items-center justify-between h-20">
-        {/* Brand Logo */}
-        <a href="#" className="flex items-center gap-3 group">
+        {/* Brand Logo — 예전엔 빈 앵커라 눌러도 아무 일이 없었다. 맨 위로 올리는 버튼으로 바꿨다.
+            로고가 높이 기준으로만 커서 상자가 40px 폭에 그쳤다 — 탭 대상 44px 를 채우려고 최소 폭만 더했다(로고 크기·위치는 그대로). */}
+        <button
+          type="button"
+          onClick={scrollToTop}
+          aria-label="맨 위로"
+          className="flex items-center gap-3 group min-h-11 min-w-11 cursor-pointer"
+        >
           <img
             src={BRAND_LOGO_URL}
-            alt="HAUS & SPACE Dark Luxury Brand Logo"
+            alt="HAUS & SPACE 브랜드 로고"
             className="h-10 w-auto object-contain transition-opacity duration-300 group-hover:opacity-90"
           />
-        </a>
+        </button>
 
         {/* Navigation Links (Desktop) */}
         <nav className="hidden lg:flex items-center gap-8">
@@ -59,9 +70,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenConsultation }) => {
 
           <button
             type="button"
-            aria-label="Toggle Menu"
+            aria-label={mobileMenuOpen ? '메뉴 닫기' : '메뉴 열기'}
+            aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-[#e2c399] hover:text-[#dac3a6] transition-colors cursor-pointer"
+            className="lg:hidden flex h-11 w-11 items-center justify-center text-[#e2c399] hover:text-[#dac3a6] transition-colors cursor-pointer"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -77,7 +89,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenConsultation }) => {
                 key={link.label}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-xs uppercase tracking-[0.14em] text-[#d1c5b8] hover:text-[#e2c399] py-2 border-b border-white/5 flex items-center justify-between"
+                className="text-xs uppercase tracking-[0.14em] text-[#d1c5b8] hover:text-[#e2c399] min-h-11 py-2 border-b border-white/5 flex items-center justify-between"
               >
                 <span>{link.label}</span>
                 <ArrowUpRight className="w-3.5 h-3.5 text-[#c5a880]" />

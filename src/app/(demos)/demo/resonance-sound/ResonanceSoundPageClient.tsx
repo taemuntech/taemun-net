@@ -9,7 +9,7 @@ interface Props {
 
 export default function ResonanceSoundPageClient({ isEmbed }: Props) {
   if (isEmbed) {
-    return <ResonanceSoundApp isEmbed={true} />;
+    return <ResonanceSoundApp />;
   }
 
   return (
@@ -30,8 +30,8 @@ export default function ResonanceSoundPageClient({ isEmbed }: Props) {
       inquiryUrl="/inquiry?from=resonance-sound"
       specs={[
         { label: '반응형 규격', value: '모바일 퍼스트 단일 lg: 브레이크포인트 규격 준수' },
-        { label: '인터랙티브 기능', value: '실시간 RT60 잔향 시간 시뮬레이터 HUD, 3대 청음/시네마 존 투어' },
-        { label: '물성 아카이브', value: '3D 우드 디퓨저, 샌드 흡음 패브릭, 플로팅 바닥재 등 음향 스펙' },
+        { label: '인터랙티브 기능', value: '장르 프리셋 RT60 잔향 시간 시뮬레이터 HUD, 3대 청음/시네마 존 투어' },
+        { label: '물성 아카이브', value: '2D QRD 우드 디퓨저, 재생 PET 흡음 펠트, 코르크-러버 방진 시트 등 음향 스펙' },
         { label: '고객 전환 장치', value: 'SampleNotice 연동 음향 공간 시공 상담 신청 모달' },
       ]}
     />

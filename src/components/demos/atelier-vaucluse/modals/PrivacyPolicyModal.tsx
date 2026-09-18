@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useId, useRef } from 'react';
 import { X, ShieldCheck } from 'lucide-react';
+import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
 
 interface PrivacyPolicyModalProps {
   isOpen: boolean;
@@ -9,25 +10,49 @@ interface PrivacyPolicyModalProps {
 }
 
 export const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, onClose }) => {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const titleId = useId();
+
+  // Esc 닫기 · 배경 스크롤 잠금 · 포커스 가두기 — 샘플 공용 훅
+  useSampleDialog({ open: isOpen, onClose, dialogRef });
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 lg:p-6 bg-black/70 backdrop-blur-xs overflow-y-auto animate-in fade-in duration-200">
-      <div className="bg-[#faf9f7] rounded max-w-2xl w-full max-h-[85vh] flex flex-col border border-[#c8c7bf]/40 shadow-2xl relative my-auto overflow-hidden">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#c8c7bf]/30 bg-[#faf9f7]">
-          <div className="flex items-center gap-2">
-            <ShieldCheck size={18} className="text-[#904b35]" />
-            <h3 className="text-lg font-serif text-[#161714]">개인정보 처리방침 안내</h3>
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 lg:p-6 bg-black/70 backdrop-blur-xs overflow-y-auto animate-in fade-in duration-200"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        className="bg-[#faf9f7] rounded max-w-2xl w-full max-h-[85vh] flex flex-col border border-[#c8c7bf]/40 shadow-2xl relative my-auto overflow-hidden outline-none"
+      >
+        <div className="flex items-center justify-between gap-3 px-6 py-4 border-b border-[#c8c7bf]/30 bg-[#faf9f7]">
+          <div className="flex items-center gap-2 min-w-0">
+            <ShieldCheck size={18} className="text-[#904b35] shrink-0" />
+            <h3 id={titleId} className="text-lg font-serif text-[#161714]">
+              개인정보 처리방침 안내
+            </h3>
           </div>
           <button
             onClick={onClose}
-            className="text-[#474741] hover:text-[#161714] p-1.5 rounded hover:bg-[#efeeec] cursor-pointer transition-colors"
+            aria-label="닫기"
+            className="text-[#474741] hover:text-[#161714] w-11 h-11 -mr-2 shrink-0 flex items-center justify-center rounded hover:bg-[#efeeec] cursor-pointer transition-colors"
           >
             <X size={20} />
           </button>
         </div>
 
         <div className="overflow-y-auto p-6 space-y-4 text-xs lg:text-sm text-[#474741] font-sans font-light leading-relaxed">
+          <p className="rounded border border-[#c8c7bf]/50 bg-[#f4f3f1] px-3 py-2 text-[#161714] break-keep [word-break:keep-all]">
+            이 화면은 가상 브랜드 샘플의 예시 방침입니다. 상담 폼은 실제로 접수되지 않으며, 입력하신 내용은 어디에도 저장·전송되지 않습니다.
+          </p>
           <p>
             아뜰리에 보클루즈(이하 ‘스튜디오’)는 고객의 소중한 개인정보를 보호하며, 「개인정보 보호법」 등 관련 법령을 엄격히 준수합니다.
           </p>
@@ -59,7 +84,7 @@ export const PrivacyPolicyModal: React.FC<PrivacyPolicyModalProps> = ({ isOpen, 
         <div className="px-6 py-4 border-t border-[#c8c7bf]/30 bg-[#f4f3f1] flex justify-end">
           <button
             onClick={onClose}
-            className="bg-[#2b2b28] text-[#faf9f7] hover:bg-[#904b35] px-6 py-2 rounded text-xs uppercase tracking-wider font-semibold font-sans transition-colors cursor-pointer"
+            className="bg-[#2b2b28] text-[#faf9f7] hover:bg-[#904b35] px-6 min-h-11 rounded text-xs uppercase tracking-wider font-semibold font-sans transition-colors cursor-pointer"
           >
             닫기
           </button>

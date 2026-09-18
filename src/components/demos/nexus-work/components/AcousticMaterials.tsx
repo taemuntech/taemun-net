@@ -33,8 +33,7 @@ export const AcousticMaterials: React.FC<AcousticMaterialsProps> = ({ onSelectMa
           {ACOUSTIC_MATERIALS.map((mat, idx) => (
             <div
               key={mat.id}
-              onClick={() => onSelectMaterial(mat)}
-              className="group cursor-pointer rounded-2xl bg-zinc-900/70 border border-zinc-800 hover:border-cyan-500/50 p-6 lg:p-7 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-950/20 hover:-translate-y-1"
+              className="group relative rounded-2xl bg-zinc-900/70 border border-zinc-800 hover:border-cyan-500/50 p-6 lg:p-7 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-950/20 hover:-translate-y-1 focus-within:border-cyan-500/50"
             >
               <div>
                 <div className="flex items-center justify-between mb-6">
@@ -45,9 +44,14 @@ export const AcousticMaterials: React.FC<AcousticMaterialsProps> = ({ onSelectMa
                     />
                     <span className="font-mono text-xs text-zinc-500">SPEC #0{idx + 1}</span>
                   </div>
-                  <span className="text-xs font-mono text-zinc-400 group-hover:text-cyan-300 transition-colors">
-                    스펙 보기 →
-                  </span>
+                  {/* 카드 전체를 덮는 실제 버튼 — 키보드로도 열리고, ::after 로 카드 전면이 탭 영역이 된다 */}
+                  <button
+                    type="button"
+                    onClick={() => onSelectMaterial(mat)}
+                    className="-my-3 inline-flex min-h-[44px] items-center text-xs font-mono text-zinc-400 group-hover:text-cyan-300 transition-colors cursor-pointer after:absolute after:inset-0 after:rounded-2xl after:content-['']"
+                  >
+                    <span className="sr-only">{mat.name} </span>스펙 보기 →
+                  </button>
                 </div>
 
                 <h3 className="text-xl font-bold text-white group-hover:text-cyan-200 transition-colors mb-1">
@@ -68,7 +72,8 @@ export const AcousticMaterials: React.FC<AcousticMaterialsProps> = ({ onSelectMa
 
               <div className="pt-4 border-t border-zinc-800">
                 <span className="text-[11px] font-mono text-zinc-400 block mb-1">친환경 규격 (예시 표기)</span>
-                <p className="text-xs text-emerald-400 font-mono font-medium truncate">
+                {/* truncate 금지 — 잘리면 「(예시)」 표기가 통째로 사라진다 */}
+                <p className="text-xs text-emerald-400 font-mono font-medium leading-snug [word-break:keep-all]">
                   {mat.ecoCert}
                 </p>
               </div>

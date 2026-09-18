@@ -32,16 +32,16 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTeaModal }) => {
         </div>
 
         {/* Main Title */}
-        <h1 className="font-serif text-3xl lg:text-6xl font-bold tracking-tight text-[#f4ede2] mb-6 leading-tight">
+        <h1 className="font-serif text-3xl lg:text-6xl font-bold tracking-tight text-[#f4ede2] mb-6 leading-tight break-keep">
           비움과 침묵 속에 피어나는
           <br />
           <span className="text-[#d8b896]">
-            백 년 고재와 먹색 대리석의 조화
+            백 년 고재와 먹색 화강석의 조화
           </span>
         </h1>
 
         {/* Subtitle */}
-        <p className="max-w-2xl mx-auto text-sm lg:text-lg text-[#b8a796] font-light leading-relaxed mb-10">
+        <p className="max-w-2xl mx-auto text-sm lg:text-lg text-[#b8a796] font-light leading-relaxed mb-10 break-keep">
           북촌과 서촌의 전통 고택 건축 미학을 현대적인 다도 문화 공간으로 재해석합니다.
           자연 건조된 춘양목 서까래 아래, 현대식 블랙 화강석 팽주석과 비 내리는 중정 툇마루가 어우러져
           시간이 멈춘 듯한 고요한 차 한 잔의 여백을 짓습니다.
@@ -51,19 +51,19 @@ export const Hero: React.FC<HeroProps> = ({ onOpenTeaModal }) => {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-3xl mx-auto mb-12">
           <div className="p-4 rounded-xl bg-[#221c18]/80 border border-[#3d3127] shadow-sm backdrop-blur-sm">
             <span className="block text-[11px] font-mono text-[#8a7566] uppercase">LOCATION</span>
-            <span className="text-base font-bold text-[#d8b896]">서울 종로구 북촌한옥마을</span>
+            <span className="text-base font-bold text-[#d8b896] break-keep">서울 종로구 북촌 일대 (가상)</span>
           </div>
           <div className="p-4 rounded-xl bg-[#221c18]/80 border border-[#3d3127] shadow-sm backdrop-blur-sm">
             <span className="block text-[11px] font-mono text-[#8a7566] uppercase">STRUCTURE</span>
-            <span className="text-base font-bold text-[#d8b896]">100년 전통 목구조 복원</span>
+            <span className="text-base font-bold text-[#d8b896] break-keep">전통 목구조 복원 (예시)</span>
           </div>
           <div className="p-4 rounded-xl bg-[#221c18]/80 border border-[#3d3127] shadow-sm backdrop-blur-sm">
             <span className="block text-[11px] font-mono text-[#8a7566] uppercase">CONCEPT</span>
-            <span className="text-base font-bold text-[#d8b896]">모던 한옥 & 다도 팽주석</span>
+            <span className="text-base font-bold text-[#d8b896] break-keep">모던 한옥 &amp; 다도 팽주석</span>
           </div>
           <div className="p-4 rounded-xl bg-[#221c18]/80 border border-[#3d3127] shadow-sm backdrop-blur-sm">
             <span className="block text-[11px] font-mono text-[#8a7566] uppercase">LANDSCAPE</span>
-            <span className="text-base font-bold text-[#d8b896]">이끼 중정 & 석등 파노라마</span>
+            <span className="text-base font-bold text-[#d8b896] break-keep">이끼 중정 &amp; 석등 파노라마</span>
           </div>
         </div>
 

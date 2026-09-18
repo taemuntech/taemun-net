@@ -12,11 +12,7 @@ import { ConsultationModal } from './components/ConsultationModal';
 import { Footer } from './components/Footer';
 import { StayMaterial } from './types';
 
-interface StayJejuAppProps {
-  isEmbed?: boolean;
-}
-
-export const StayJejuApp: React.FC<StayJejuAppProps> = () => {
+export const StayJejuApp: React.FC = () => {
   const [selectedMaterial, setSelectedMaterial] = useState<StayMaterial | null>(null);
   const [consultationOpen, setConsultationOpen] = useState(false);
 

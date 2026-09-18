@@ -15,6 +15,13 @@ export const MeetingRoomHUD: React.FC<MeetingRoomHUDProps> = ({ onOpenBookingNot
 
   const currentRoom = rooms.find((r) => r.id === selectedRoomId) || rooms[0];
 
+  // 센서 값이 바뀌면 판정 문구도 같이 바뀌어야 한다 — 고정 문구는 「읽히지만 틀린」 계기판이 된다.
+  const co2Verdict = (ppm: number): { label: string; tone: string } => {
+    if (ppm < 600) return { label: '매우 좋음', tone: 'text-emerald-400' };
+    if (ppm < 800) return { label: '좋음', tone: 'text-emerald-400/80' };
+    return { label: '환기 권장', tone: 'text-amber-400' };
+  };
+
   // 스마트 글래스 프라이버시 모드 토글 인터랙션
   const togglePrivacyGlass = (roomId: string) => {
     setRooms((prev) =>
@@ -63,18 +70,20 @@ export const MeetingRoomHUD: React.FC<MeetingRoomHUDProps> = ({ onOpenBookingNot
               {rooms.map((room) => {
                 const isSelected = room.id === selectedRoomId;
                 return (
-                  <div
+                  <button
                     key={room.id}
+                    type="button"
                     onClick={() => setSelectedRoomId(room.id)}
-                    className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                    aria-pressed={isSelected}
+                    className={`w-full text-left p-4 rounded-2xl border transition-all cursor-pointer ${
                       isSelected
                         ? 'bg-zinc-900 border-cyan-500/80 shadow-lg shadow-cyan-950/30'
                         : 'bg-zinc-950/70 border-zinc-800 hover:border-zinc-700'
                     }`}
                   >
-                    <div className="flex items-center justify-between mb-1.5">
-                      <h4 className="text-sm font-bold text-white">{room.name}</h4>
-                      <div className="flex items-center gap-2">
+                    <span className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
+                      <span className="text-sm font-bold text-white">{room.name}</span>
+                      <span className="flex items-center gap-2">
                         <span
                           className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${
                             room.isOccupied
@@ -87,10 +96,10 @@ export const MeetingRoomHUD: React.FC<MeetingRoomHUDProps> = ({ onOpenBookingNot
                         <span className="text-[11px] font-mono text-zinc-500">
                           {room.capacity}인실
                         </span>
-                      </div>
-                    </div>
-                    <p className="text-xs text-zinc-400 font-light truncate">{room.type}</p>
-                  </div>
+                      </span>
+                    </span>
+                    <span className="block text-xs text-zinc-400 font-light">{room.type}</span>
+                  </button>
                 );
               })}
             </div>
@@ -104,7 +113,7 @@ export const MeetingRoomHUD: React.FC<MeetingRoomHUDProps> = ({ onOpenBookingNot
                 </div>
                 <button
                   onClick={() => onOpenBookingNotice(currentRoom.name)}
-                  className="px-3.5 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-zinc-950 text-xs font-bold font-mono transition-colors"
+                  className="inline-flex items-center justify-center min-h-[44px] px-3.5 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-zinc-950 text-xs font-bold font-mono transition-colors"
                 >
                   회의실 예약 →
                 </button>
@@ -122,11 +131,13 @@ export const MeetingRoomHUD: React.FC<MeetingRoomHUDProps> = ({ onOpenBookingNot
 
                 <div className="p-3 rounded-xl bg-black/50 border border-zinc-800/80 text-center">
                   <span className="text-[10px] font-mono text-zinc-400 block mb-1">CO2 농도</span>
-                  <span className="text-base font-mono font-bold text-emerald-400">
+                  <span className={`text-base font-mono font-bold ${co2Verdict(currentRoom.co2Level).tone}`}>
                     {currentRoom.co2Level}
                     <span className="text-[10px] ml-0.5">ppm</span>
                   </span>
-                  <span className="text-[9px] text-emerald-400/80 block mt-0.5 font-mono">매우 좋음</span>
+                  <span className={`text-[9px] block mt-0.5 font-mono ${co2Verdict(currentRoom.co2Level).tone}`}>
+                    {co2Verdict(currentRoom.co2Level).label}
+                  </span>
                 </div>
 
                 <div className="p-3 rounded-xl bg-black/50 border border-zinc-800/80 text-center">
@@ -152,7 +163,8 @@ export const MeetingRoomHUD: React.FC<MeetingRoomHUDProps> = ({ onOpenBookingNot
                   </div>
                   <button
                     onClick={() => togglePrivacyGlass(currentRoom.id)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all ${
+                    aria-pressed={currentRoom.smartGlassPrivacy}
+                    className={`shrink-0 inline-flex items-center justify-center min-h-[44px] px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all ${
                       currentRoom.smartGlassPrivacy
                         ? 'bg-indigo-600 text-white shadow-sm'
                         : 'bg-zinc-800 text-zinc-400 hover:text-white'
@@ -173,7 +185,8 @@ export const MeetingRoomHUD: React.FC<MeetingRoomHUDProps> = ({ onOpenBookingNot
                   </div>
                   <button
                     onClick={() => toggleOccupancy(currentRoom.id)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all ${
+                    aria-pressed={currentRoom.isOccupied}
+                    className={`shrink-0 inline-flex items-center justify-center min-h-[44px] px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all ${
                       currentRoom.isOccupied
                         ? 'bg-rose-600 text-white shadow-sm'
                         : 'bg-zinc-800 text-zinc-400 hover:text-white'
@@ -191,7 +204,7 @@ export const MeetingRoomHUD: React.FC<MeetingRoomHUDProps> = ({ onOpenBookingNot
             <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-950 shadow-2xl group">
               <Image
                 src="/portfolio/nexus-work/nexus-05.jpg"
-                alt="넥서스 워크 스마트 보드룸"
+                alt="넥서스 워크 스마트 회의실 대표 이미지"
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
@@ -226,8 +239,12 @@ export const MeetingRoomHUD: React.FC<MeetingRoomHUDProps> = ({ onOpenBookingNot
 
               {/* Bottom Caption */}
               <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-black/75 backdrop-blur-md border border-white/10">
-                <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-wider block mb-1">
-                  INSTALLED SMART EQUIPMENT
+                {/* 회의실 4곳이 같은 사진을 쓴다 — 실시간 영상처럼 읽히지 않도록 대표 컷임을 밝힌다 */}
+                <span className="flex flex-wrap items-center justify-between gap-1 mb-1">
+                  <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-wider">
+                    INSTALLED SMART EQUIPMENT
+                  </span>
+                  <span className="text-[10px] font-mono text-zinc-400">회의실 대표 이미지 (예시)</span>
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {currentRoom.equipment.map((eq, i) => (

@@ -88,7 +88,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreZones, onExploreHUD }) => {
           </div>
           <div className="space-y-1">
             <span className="text-[11px] font-mono text-zinc-400 tracking-wider">FLOOR SCALE</span>
-            <p className="text-sm lg:text-base font-bold text-zinc-200">775 m² (약 235평)</p>
+            <p className="text-sm lg:text-base font-bold text-zinc-200">775 m² (약 235평, 예시)</p>
             <p className="text-xs text-zinc-400 font-light">코워킹 · 타운홀 · 웰니스</p>
           </div>
           <div className="space-y-1">
@@ -98,7 +98,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreZones, onExploreHUD }) => {
           </div>
           <div className="space-y-1">
             <span className="text-[11px] font-mono text-zinc-400 tracking-wider">BIOPHILIC WELLNESS</span>
-            <p className="text-sm lg:text-base font-bold text-zinc-200">8M 수직 식재 정원</p>
+            <p className="text-sm lg:text-base font-bold text-zinc-200">8M 수직 식재 정원 (예시)</p>
             <p className="text-xs text-zinc-400 font-light">자연 채광 & 피톤치드 테라피</p>
           </div>
         </div>

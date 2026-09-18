@@ -11,7 +11,7 @@ import { ReserveModal } from './components/ReserveModal';
 import { Footer } from './components/Footer';
 import { DiningMaterial } from './types';
 
-export const NouveauDiningApp: React.FC<{ isEmbed?: boolean }> = ({ isEmbed }) => {
+export const NouveauDiningApp: React.FC = () => {
   const [selectedMaterial, setSelectedMaterial] = useState<DiningMaterial | null>(null);
   const [isReserveOpen, setIsReserveOpen] = useState(false);
 

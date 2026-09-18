@@ -32,7 +32,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenReserve }) => {
         </div>
 
         {/* Main Title */}
-        <h1 className="font-serif text-3xl lg:text-6xl font-bold tracking-tight text-white mb-6 leading-tight">
+        <h1 className="font-serif text-3xl lg:text-6xl font-bold tracking-tight text-white mb-6 leading-tight break-keep">
           미식과 공간의 조화,
           <br />
           <span className="bg-gradient-to-r from-amber-200 via-amber-300 to-amber-500 bg-clip-text text-transparent">
@@ -41,8 +41,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenReserve }) => {
         </h1>
 
         {/* Subtitle */}
-        <p className="max-w-2xl mx-auto text-sm lg:text-lg text-stone-300 font-light leading-relaxed mb-10">
-          성수와 청담의 미식 랜드마크를 완성하는 감각적인 공간 디자인.
+        <p className="max-w-2xl mx-auto text-sm lg:text-lg text-stone-300 font-light leading-relaxed mb-10 break-keep">
+          성수와 청담의 미식 공간을 위한 감각적인 공간 디자인.
           화이트 테라조 바 카운터와 통창 채광, 셰프의 동선과 고객의 오감을 고려한
           하이엔드 다이닝 & 카페 아키텍처를 제안합니다.
         </p>
@@ -51,19 +51,27 @@ export const Hero: React.FC<HeroProps> = ({ onOpenReserve }) => {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-3xl mx-auto mb-12">
           <div className="p-4 rounded-xl bg-stone-900/70 border border-stone-800 backdrop-blur-sm">
             <span className="block text-[11px] font-mono text-stone-400 uppercase">LOCATION</span>
-            <span className="text-base font-bold text-amber-200">서울 성수동 카페거리</span>
+            <span className="text-sm lg:text-base font-bold text-amber-200 break-keep">
+              서울 성수동 카페거리
+            </span>
           </div>
           <div className="p-4 rounded-xl bg-stone-900/70 border border-stone-800 backdrop-blur-sm">
             <span className="block text-[11px] font-mono text-stone-400 uppercase">SCALE</span>
-            <span className="text-base font-bold text-amber-200">지상 1·2층 (120평형)</span>
+            <span className="text-sm lg:text-base font-bold text-amber-200 break-keep">
+              지상 1·2층 120평형 (예시)
+            </span>
           </div>
           <div className="p-4 rounded-xl bg-stone-900/70 border border-stone-800 backdrop-blur-sm">
             <span className="block text-[11px] font-mono text-stone-400 uppercase">CONCEPT</span>
-            <span className="text-base font-bold text-amber-200">프렌치 모던 비스트로</span>
+            <span className="text-sm lg:text-base font-bold text-amber-200 break-keep">
+              프렌치 모던 비스트로
+            </span>
           </div>
           <div className="p-4 rounded-xl bg-stone-900/70 border border-stone-800 backdrop-blur-sm">
             <span className="block text-[11px] font-mono text-stone-400 uppercase">KEY FEATURE</span>
-            <span className="text-base font-bold text-amber-200">오픈 셰프 키친 & 테라스</span>
+            <span className="text-sm lg:text-base font-bold text-amber-200 break-keep">
+              오픈 셰프 키친 & 테라스
+            </span>
           </div>
         </div>
 
@@ -76,6 +84,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenReserve }) => {
             3대 공간 조닝 둘러보기
           </a>
           <button
+            type="button"
             onClick={onOpenReserve}
             className="w-full lg:w-auto px-8 py-4 rounded-xl bg-stone-900/80 hover:bg-stone-800 text-stone-200 border border-stone-700 font-semibold text-sm transition-all active:scale-95 cursor-pointer"
           >

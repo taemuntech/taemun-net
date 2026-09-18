@@ -13,8 +13,8 @@ export const Hero: React.FC<HeroProps> = ({ onExploreMood, onExploreZones }) => 
       {/* Background Media */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/portfolio/stay-jeju/jeju-01.avif"
-          alt="소소재 제주 독채 스테이 전경"
+          src="/portfolio/stay-jeju/jeju-03.jpg"
+          alt="소소재 제주 독채 스테이 — 돌벽과 소나무 사이로 바다가 보이는 테라스"
           fill
           priority
           className="object-cover object-center opacity-50 scale-105 transition-transform duration-1000 ease-out"
@@ -52,7 +52,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreMood, onExploreZones }) => 
         {/* Subtitle */}
         <p className="max-w-2xl mx-auto text-sm lg:text-lg text-stone-300 font-light leading-relaxed mb-10">
           시간의 흐름에 따라 변화하는 제주의 빛과 바람을 공간으로 온전히 담아냈습니다.<br className="hidden lg:inline" />
-          현무암 겹돌담과 100년 편백 고재, 하늘로 열린 천창이 완성하는 가장 깊은 휴식을 제안합니다.
+          현무암 겹돌담과 편백 고재, 정원으로 열린 통창이 만드는 깊은 휴식을 제안합니다.
         </p>
 
         {/* Action Buttons */}
@@ -70,7 +70,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreMood, onExploreZones }) => 
             onClick={onExploreZones}
             className="w-full lg:w-auto px-8 py-4 rounded-sm bg-stone-900/80 hover:bg-stone-800 text-stone-200 border border-white/10 font-medium text-sm tracking-wider transition-all backdrop-blur-sm"
           >
-            안채 & 노천 히노끼탕 공간 투어
+            안채 & 노천 석조탕 공간 투어
           </button>
         </div>
 
@@ -84,7 +84,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreMood, onExploreZones }) => 
           <div className="space-y-1">
             <span className="text-[11px] font-mono text-stone-400 tracking-wider">ARCHITECTURE</span>
             <p className="text-sm lg:text-base font-serif font-bold text-stone-200">독채 116 m² (35평형)</p>
-            <p className="text-xs text-stone-400">안채 · 다도실 · 노천 온천</p>
+            <p className="text-xs text-stone-400">안채 · 다도실 · 노천탕</p>
           </div>
           <div className="space-y-1">
             <span className="text-[11px] font-mono text-stone-400 tracking-wider">NATURAL MATERIAL</span>

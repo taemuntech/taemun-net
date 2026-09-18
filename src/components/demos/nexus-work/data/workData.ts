@@ -4,7 +4,9 @@ export const WORK_BRAND = {
   name: 'NEXUS WORK',
   koreanName: '넥서스 워크 스튜디오',
   tagline: '몰입과 유기적 연결, 하이테크 하이브리드 스마트 오피스 아키텍처',
-  address: '서울특별시 성수동 연무장길 88 (가상)',
+  // 지번·번지까지 적으면 조회 가능한 실제 건물을 가리킨다 — 「(가상)」을 붙여도 마찬가지다.
+  // 다른 데모(stay-jeju·seongsu-showroom)와 같이 동·일대 수준까지만 적고 구를 넣는다.
+  address: '서울특별시 성동구 성수동2가 일대 (예시 주소)',
   phone: '02-0000-0000',
   email: 'contact@example.com',
   businessHours: '평일 09:00 - 18:00 (사전 예약 방문)',
@@ -18,7 +20,7 @@ export const WORKSPACE_ZONES: WorkspaceZone[] = [
     subtitle: '자유로운 아이디어 교류와 유연한 팀 협업을 위한 오픈 허브',
     area: '280 m² (약 85평)',
     capacity: '최대 60인 동시 수용',
-    acousticsGrade: 'NRC 0.85 고성능 흡음 설계',
+    acousticsGrade: 'NRC 0.85 고성능 흡음 설계 (예시)',
     description:
       '한강 조망 전면 통창 채광과 우드 루버 천장이 조화를 이루는 메인 라운지입니다. 전동 모션 데스크와 모듈형 소파, 이동식 글래스 파티션을 배치하여 프로젝트 규모에 맞춰 공간을 즉시 재구성할 수 있습니다.',
     imageUrl: '/portfolio/nexus-work/nexus-01.jpg',
@@ -59,7 +61,7 @@ export const WORKSPACE_ZONES: WorkspaceZone[] = [
     capacity: '1인 독립형 (개별 프라이버시)',
     acousticsGrade: 'STC 42dB 초저소음 차음 등급 (예시)',
     description:
-      '화상 미팅과 고도의 집중을 요하는 개인 작업을 위해 최적화된 독립형 음향 캡슐입니다. 3중 차음 강화유리와 흡음 리브 패널을 적용하여 내부 대화가 외부로 유출되지 않습니다.',
+      '화상 미팅과 고도의 집중을 요하는 개인 작업을 위해 최적화된 독립형 음향 캡슐입니다. 3중 차음 강화유리와 흡음 리브 패널을 적용해, 내부 대화가 밖으로 새어 나가는 것을 줄이도록 설계했습니다.',
     imageUrl: '/portfolio/nexus-work/nexus-02.jpg',
     features: ['3중 차음 도어 및 마그네틱 실링', '눈부심 없는 2,700K 웜 코브 조명', '내장형 저소음 환기 댐퍼', '모바일 무선 충전 & 고속 USB4 확장 독'],
     hotspots: [
@@ -186,7 +188,7 @@ export const SMART_MEETING_ROOMS: SmartMeetingRoom[] = [
     lux: 480,
     isOccupied: false,
     smartGlassPrivacy: false,
-    equipment: ['울트라와이드 21:9 프레젠테이션 스크린', '돌비 보이스 하이파이 오디오', '글로벌 타임존 디스플레이 HUD', '스마트 조광 블라인드'],
+    equipment: ['울트라와이드 21:9 프레젠테이션 스크린', '광대역 하이파이 화상회의 오디오', '글로벌 타임존 디스플레이 HUD', '스마트 조광 블라인드'],
   },
   {
     id: 'room-huddle',
@@ -212,7 +214,7 @@ export const ACOUSTIC_MATERIALS: AcousticMaterial[] = [
     desc: '폐페트병을 재활용하여 제작한 고밀도 친환경 음향 펠트입니다. 난반사 소음을 부드럽게 흡수하여 오픈 오피스의 말소리 간섭을 현저히 줄여줍니다.',
     sensoryNote: '직조 섬유의 온화한 촉감과 차분한 매트 차콜 톤의 고급스러운 텍스처',
     colorHex: '#2b2d35',
-    specs: ['불연/난연 B-s1,d0 화재 안전 규격', '포름알데히드 방출 제로', '외벽 및 천장 수평/수직 시공 가능'],
+    specs: ['난연 등급 화재 안전 규격 (예시 표기)', '포름알데히드 방출 최소 등급 (예시 표기)', '외벽 및 천장 수평/수직 시공 가능'],
   },
   {
     id: 'mat-baffle',
@@ -234,7 +236,7 @@ export const ACOUSTIC_MATERIALS: AcousticMaterial[] = [
     desc: '코르크 참나무 수피를 고온 고압 증기로 탄화시켜 접착제 없이 자연 수지만으로 압착한 지속 가능한 천연 건축 마감재입니다.',
     sensoryNote: '은은한 훈연 나무 향과 자연스러운 벌집형 다공질의 따스한 표면',
     colorHex: '#524338',
-    specs: ['천연 항균 및 곰팡이 저항성', '단열 성능을 겸비한 벽체 마감', '탄소 네거티브 친환경 소재'],
+    specs: ['천연 수지 성분의 방습 특성 (예시 표기)', '단열 성능을 겸비한 벽체 마감', '재생 가능한 천연 수피 기반 소재'],
   },
   {
     id: 'mat-carpet',

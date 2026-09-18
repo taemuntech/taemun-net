@@ -33,7 +33,8 @@ export const TimeMoodController: React.FC = () => {
               <button
                 key={mood.id}
                 onClick={() => setActiveMoodId(mood.id)}
-                className={`flex-1 min-w-[140px] py-3.5 px-4 rounded-sm text-xs font-mono font-bold tracking-wider transition-all flex items-center justify-center gap-2 ${
+                aria-pressed={isActive}
+                className={`flex-1 min-w-[140px] min-h-[44px] py-3.5 px-4 rounded-sm text-xs font-mono font-bold tracking-wider transition-all flex flex-wrap items-center justify-center gap-x-2 ${
                   isActive
                     ? 'bg-amber-600 text-stone-950 shadow-md scale-[1.01]'
                     : 'bg-stone-950/60 text-stone-400 hover:text-stone-200 hover:bg-stone-800 border border-white/5'
@@ -67,10 +68,10 @@ export const TimeMoodController: React.FC = () => {
               <span className="font-bold text-amber-300">{currentMood.colorTemp}</span>
             </div>
 
-            {/* Top Right Sound Preset */}
+            {/* Top Right Sound Preset — 실제로 소리가 나지는 않는다. 「무엇을 틀 자리인지」 적어 둔 표기다. */}
             <div className="absolute top-4 right-4 hidden lg:flex items-center gap-2 px-3 py-1.5 rounded bg-black/75 backdrop-blur-md border border-white/10 text-[11px] font-mono text-stone-300">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>{currentMood.ambientSoundName}</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              <span>음향 프리셋: {currentMood.ambientSoundName}</span>
             </div>
 
             {/* Bottom Caption */}
@@ -115,7 +116,7 @@ export const TimeMoodController: React.FC = () => {
               </div>
               <div className="flex justify-between text-stone-400">
                 <span>자연 채광 연동</span>
-                <span className="text-stone-200">일조 각도 기반 전동 천창 센서</span>
+                <span className="text-stone-200">일조 각도 기반 전동 차양 센서</span>
               </div>
               <div className="flex justify-between text-stone-400">
                 <span>공간 음향 차음</span>

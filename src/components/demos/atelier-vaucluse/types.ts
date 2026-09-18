@@ -18,6 +18,13 @@ export interface Project {
   galleryImages?: string[];
 }
 
+/** 프로젝트 상세 → 상담 폼으로 내려보내는 선택 내용. nonce 로 같은 값의 재적용을 구분한다 */
+export interface ConsultationPrefill {
+  nonce: number;
+  notes: string;
+  spaceType?: string;
+}
+
 export interface ConsultationFormData {
   name: string;
   phone: string;

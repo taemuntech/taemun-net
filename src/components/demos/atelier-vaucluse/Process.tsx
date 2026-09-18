@@ -16,7 +16,7 @@ export const Process: React.FC = () => {
             체계적인 인테리어 <br className="hidden lg:inline" />완성 프로세스 4단계
           </h2>
           <p className="text-sm lg:text-base text-[#474741] mt-3 font-light leading-relaxed font-sans break-keep [word-break:keep-all]">
-            초기 상담부터 2년 사후 보증까지 투명하고 정교한 단계별 로드맵으로 불안감을 해소합니다.
+            초기 상담부터 준공 후 점검까지 투명하고 정교한 단계별 로드맵으로 불안감을 해소합니다. 아래 일정과 조건은 샘플용 예시입니다.
           </p>
         </div>
 

@@ -1,21 +1,36 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { INITIAL_TELEMETRY } from '../data/wellnessData';
+
+// 급속 청정 뒤의 예시 수치. 한 번 누르면 여기로, 다시 누르면 평상 수치로 되돌아간다
+// (예전에는 두 번째부터 눌러도 숫자가 그대로라 「눌러도 아무 일 없는 버튼」이었다).
+const PURIFIED_TELEMETRY = {
+  ...INITIAL_TELEMETRY,
+  oxygenRate: 21.4,
+  co2Level: 390,
+  humidity: 50,
+};
 
 export const AirTelemetryHUD: React.FC = () => {
   const [telemetry, setTelemetry] = useState(INITIAL_TELEMETRY);
   const [isPurifying, setIsPurifying] = useState(false);
+  const [isPurified, setIsPurified] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   const triggerRapidPurify = () => {
+    if (isPurifying) return;
+    const next = !isPurified;
     setIsPurifying(true);
-    setTimeout(() => {
-      setTelemetry((prev) => ({
-        ...prev,
-        co2Level: 390,
-        oxygenRate: 21.4,
-        humidity: 50,
-      }));
+    timerRef.current = setTimeout(() => {
+      setTelemetry(next ? PURIFIED_TELEMETRY : INITIAL_TELEMETRY);
+      setIsPurified(next);
       setIsPurifying(false);
     }, 1200);
   };
@@ -32,7 +47,8 @@ export const AirTelemetryHUD: React.FC = () => {
           </h2>
           <p className="text-sm lg:text-base text-[#6e5d50] font-light leading-relaxed">
             필라테스와 요가는 바른 호흡에서 시작됩니다. 이산화탄소 농도와 산소 비율, 쾌적 습도를
-            24시간 정밀 측정하여 최상의 힐링 환경을 유지하는 공조 인테리어 기술을 체험해 보세요.
+            24시간 측정해 쾌적한 실내 환경을 유지하는 공조 인테리어 설계를 체험해 보세요.
+            아래 수치는 모두 연출용 예시 값입니다.
           </p>
         </div>
 
@@ -46,24 +62,29 @@ export const AirTelemetryHUD: React.FC = () => {
                 </span>
               </div>
               <h3 className="text-xl font-bold text-[#2d221b]">스튜디오 전 구역 청정 공기질 모니터링</h3>
-              <p className="text-xs text-[#8a7566]">H13 헤파 필터 및 천연 규조토 자율 습도 조절 연동</p>
+              <p className="text-xs text-[#8a7566]">헤파 등급 필터 및 천연 규조토 습도 조절 연동 (예시 사양)</p>
             </div>
 
             <button
+              type="button"
               onClick={triggerRapidPurify}
               disabled={isPurifying}
-              className={`px-5 py-3 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all cursor-pointer ${
+              className={`min-h-11 shrink-0 px-5 py-3 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all cursor-pointer ${
                 isPurifying
-                  ? 'bg-stone-300 text-stone-500'
+                  ? 'bg-stone-300 text-stone-500 cursor-wait'
                   : 'bg-[#d27952] hover:bg-[#b8613d] text-white shadow-md shadow-[#d27952]/20 active:scale-95'
               }`}
             >
-              {isPurifying ? '에어 케어 순환 중...' : '급속 청정 모드 시뮬레이션'}
+              {isPurifying
+                ? '에어 케어 순환 중...'
+                : isPurified
+                  ? '평상 모드로 되돌리기'
+                  : '급속 청정 모드 시뮬레이션'}
             </button>
           </div>
 
           {/* Telemetry Metric Cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4" aria-live="polite">
             <div className="p-5 rounded-2xl bg-[#faf7f2] border border-[#ebdcd0]">
               <span className="text-[11px] font-mono text-[#8a7566] block mb-1">OXYGEN RATE</span>
               <div className="text-2xl lg:text-3xl font-mono font-bold text-[#b8613d]">

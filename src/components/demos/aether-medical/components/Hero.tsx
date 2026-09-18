@@ -34,18 +34,19 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
         {/* Main Headline */}
         <h1 className="font-serif text-3xl lg:text-6xl font-normal text-[#2d241e] tracking-tight leading-[1.25] mb-6">
           빛과 곡면의 안식처, <br />
-          <span className="italic font-light text-[#7a6252]">6성급 호텔 라운지 감성</span>의 메디컬 인테리어
+          <span className="italic font-light text-[#7a6252]">호텔 라운지 감성</span>의 메디컬 인테리어
         </h1>
 
         {/* Subtitle */}
         <p className="text-sm lg:text-lg text-[#6e5849] max-w-2xl mx-auto font-light leading-relaxed mb-10 [word-break:keep-all]">
-          차가운 병원의 인상을 완전히 지우고, 자연 채광과 천연 로만 트래버틴, 
-          45dB 무소음 차음 설계로 완성한 청담동 하이엔드 피부과 & 안티에이징 센터 시공 공간입니다.
+          차가운 병원의 인상을 덜어내고, 자연 채광과 천연 로만 트래버틴,
+          45dB 이하를 목표로 한 차음 설계로 완성한 청담동 하이엔드 피부과 & 안티에이징 센터 시공 공간입니다.
         </p>
 
         {/* Action Buttons */}
         <div className="flex flex-col lg:flex-row items-center justify-center gap-4">
           <button
+            type="button"
             onClick={onOpenConsultation}
             className="w-full lg:w-auto px-8 py-4 rounded-full bg-[#524135] hover:bg-[#3d2f26] text-white font-medium text-xs lg:text-sm tracking-wider uppercase transition-all shadow-lg active:scale-95 cursor-pointer"
           >
@@ -59,23 +60,23 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
           </a>
         </div>
 
-        {/* Quick Spec Bar */}
+        {/* Quick Spec Bar — 값 칸은 375px 에서 「간접 조 도」처럼 낱말 중간이 접혀 keep-all 을 건다 */}
         <div className="mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-[#ebdcd0]/60">
           <div className="text-center p-3">
             <span className="text-[11px] font-mono text-[#9c8473] uppercase block mb-1">ACOUSTIC RATING</span>
-            <span className="font-serif text-lg lg:text-xl font-bold text-[#3d2f26]">45dB 이하 차음 (예시)</span>
+            <span className="font-serif text-lg lg:text-xl font-bold text-[#3d2f26] [word-break:keep-all]">45dB 이하 차음 (예시)</span>
           </div>
           <div className="text-center p-3">
             <span className="text-[11px] font-mono text-[#9c8473] uppercase block mb-1">LIGHTING TEMP</span>
-            <span className="font-serif text-lg lg:text-xl font-bold text-[#3d2f26]">3000K 간접 조도</span>
+            <span className="font-serif text-lg lg:text-xl font-bold text-[#3d2f26] [word-break:keep-all]">3000K 간접 조도</span>
           </div>
           <div className="text-center p-3">
             <span className="text-[11px] font-mono text-[#9c8473] uppercase block mb-1">VENTILATION</span>
-            <span className="font-serif text-lg lg:text-xl font-bold text-[#3d2f26]">시간당 12회 환기 (예시)</span>
+            <span className="font-serif text-lg lg:text-xl font-bold text-[#3d2f26] [word-break:keep-all]">시간당 12회 환기 (예시)</span>
           </div>
           <div className="text-center p-3">
             <span className="text-[11px] font-mono text-[#9c8473] uppercase block mb-1">PRIVACY ARCH</span>
-            <span className="font-serif text-lg lg:text-xl font-bold text-[#3d2f26]">100% 1인 독립동선</span>
+            <span className="font-serif text-lg lg:text-xl font-bold text-[#3d2f26] [word-break:keep-all]">1인 독립 동선 설계</span>
           </div>
         </div>
       </div>

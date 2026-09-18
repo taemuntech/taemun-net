@@ -29,10 +29,10 @@ export const AcousticSilenceHUD: React.FC = () => {
           </span>
           <h2 className="font-serif text-2xl lg:text-4xl font-normal text-[#2d241e] tracking-tight mb-4">
             청각적 고요와 서카디언 조도, <br />
-            <span className="italic font-light text-[#7a6252]">무소음 힐링 환경 시뮬레이션</span>
+            <span className="italic font-light text-[#7a6252]">정온 힐링 환경 시뮬레이션</span>
           </h2>
           <p className="text-xs lg:text-sm text-[#6e5849] font-light leading-relaxed">
-            환자의 심박수를 안정시키는 이중 차음벽 설계와 시술 단계별 색온도 제어 시스템을 직접 테스트해 보세요.
+            소음 스트레스를 줄이는 것을 목표로 한 이중 차음벽 설계와 시술 단계별 색온도 제어 시스템을 직접 테스트해 보세요.
           </p>
         </div>
 
@@ -45,8 +45,10 @@ export const AcousticSilenceHUD: React.FC = () => {
                 <h3 className="font-serif text-lg font-bold text-[#2d241e]">차음 & 흡음 텔레메트리</h3>
               </div>
               <button
+                type="button"
                 onClick={() => setSoundproofActive(!soundproofActive)}
-                className={`px-3 py-1.5 rounded-full text-xs font-mono transition-colors cursor-pointer ${
+                aria-pressed={soundproofActive}
+                className={`px-4 py-1.5 min-h-11 rounded-full text-xs font-mono whitespace-nowrap transition-colors cursor-pointer ${
                   soundproofActive ? 'bg-[#524135] text-white' : 'bg-[#ebdcd0] text-[#6e5849]'
                 }`}
               >
@@ -56,14 +58,14 @@ export const AcousticSilenceHUD: React.FC = () => {
 
             {/* Decibel Meter Display */}
             <div className="p-5 rounded-2xl bg-[#faf7f2] border border-[#ebdcd0] text-center space-y-2">
-              <span className="text-xs font-mono text-[#9c8473] uppercase">ROOM NOISE LEVEL</span>
+              <span className="text-xs font-mono text-[#9c8473] uppercase">ROOM NOISE LEVEL (SIM)</span>
               <div className="font-serif text-4xl lg:text-5xl font-bold text-[#3d2f26]">
                 {soundproofActive ? '34.2 dB' : '58.7 dB'}
               </div>
-              <p className="text-xs text-[#7a6252] font-light">
+              <p className="text-xs text-[#7a6252] font-light [word-break:keep-all]">
                 {soundproofActive
-                  ? '도서관보다 조용한 1인 특화 차음 설계 (기준 45dB 이하 유지)'
-                  : '일반 복도 소음 유입 상태 시뮬레이션'}
+                  ? '도서관 수준의 정숙도를 목표로 한 1인 특화 차음 설계 (기준 45dB 이하 · 예시 수치)'
+                  : '일반 복도 소음이 유입되는 상태 (시뮬레이션 예시 수치)'}
               </p>
             </div>
 
@@ -94,8 +96,10 @@ export const AcousticSilenceHUD: React.FC = () => {
               {(['welcome', 'treatment', 'recovery'] as CircadianLightingMode[]).map((mode) => (
                 <button
                   key={mode}
+                  type="button"
                   onClick={() => setLightingMode(mode)}
-                  className={`py-3 px-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+                  aria-pressed={lightingMode === mode}
+                  className={`py-3 px-2 min-h-11 rounded-xl text-xs font-medium transition-all cursor-pointer ${
                     lightingMode === mode
                       ? 'bg-[#524135] text-white shadow'
                       : 'bg-[#faf7f2] text-[#6e5849] hover:bg-[#ebdcd0]'

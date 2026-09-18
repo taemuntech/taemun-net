@@ -20,27 +20,29 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, onOpenConsultation }
     <header className="sticky top-[var(--sample-bar-h,0px)] z-40 w-full bg-[#0d0f14]/90 backdrop-blur-md border-b border-zinc-800 text-zinc-200 transition-all">
       <div className="max-w-7xl mx-auto px-4 lg:px-8 h-20 flex items-center justify-between">
         {/* Logo */}
-        <div
-          className="flex items-center gap-3 cursor-pointer"
+        <button
+          type="button"
+          className="flex items-center gap-3 cursor-pointer text-left"
           onClick={() => handleNavClick('hero')}
+          aria-label="넥서스 워크 첫 화면으로"
         >
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-400 text-zinc-950 flex items-center justify-center font-mono font-black text-lg shadow-lg shadow-cyan-500/20">
+          <span className="w-10 h-10 shrink-0 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-400 text-zinc-950 flex items-center justify-center font-mono font-black text-lg shadow-lg shadow-cyan-500/20">
             NW
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
+          </span>
+          <span className="block">
+            <span className="flex items-center gap-2">
               <span className="font-mono tracking-wider text-lg font-bold text-white">
                 {WORK_BRAND.name}
               </span>
               <span className="hidden lg:inline-block text-[10px] uppercase font-mono tracking-widest px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
                 Smart Office Architecture
               </span>
-            </div>
-            <p className="text-[11px] text-zinc-400 font-sans tracking-wide">
+            </span>
+            <span className="block text-[11px] text-zinc-400 font-sans tracking-wide">
               성수·강남 하이테크 스마트 사옥 인테리어
-            </p>
-          </div>
-        </div>
+            </span>
+          </span>
+        </button>
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-8 text-sm font-medium text-zinc-300">
@@ -81,9 +83,11 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, onOpenConsultation }
           </button>
 
           <button
+            type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-zinc-300 hover:text-white focus:outline-none"
-            aria-label="메뉴 열기"
+            className="lg:hidden p-2.5 -mr-1 text-zinc-300 hover:text-white focus:outline-none"
+            aria-label={mobileMenuOpen ? '메뉴 닫기' : '메뉴 열기'}
+            aria-expanded={mobileMenuOpen}
           >
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               {mobileMenuOpen ? (
@@ -102,13 +106,13 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, onOpenConsultation }
           <div className="flex flex-col space-y-3 text-sm text-zinc-300 font-medium">
             <button
               onClick={() => handleNavClick('zones')}
-              className="text-left py-2 hover:text-cyan-400 transition-colors border-b border-white/5"
+              className="text-left flex items-center min-h-[44px] py-2 hover:text-cyan-400 transition-colors border-b border-white/5"
             >
               4대 몰입 존 투어 (Workspace Zones)
             </button>
             <button
               onClick={() => handleNavClick('meeting-hud')}
-              className="text-left py-2 hover:text-cyan-400 transition-colors border-b border-white/5 flex items-center justify-between"
+              className="text-left min-h-[44px] py-2 hover:text-cyan-400 transition-colors border-b border-white/5 flex items-center justify-between"
             >
               <span>스마트 회의실 관제 HUD</span>
               <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono">
@@ -117,13 +121,13 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, onOpenConsultation }
             </button>
             <button
               onClick={() => handleNavClick('acoustics')}
-              className="text-left py-2 hover:text-cyan-400 transition-colors border-b border-white/5"
+              className="text-left flex items-center min-h-[44px] py-2 hover:text-cyan-400 transition-colors border-b border-white/5"
             >
               음향 차음 마감재 스펙 아카이브
             </button>
             <button
               onClick={() => handleNavClick('philosophy')}
-              className="text-left py-2 hover:text-cyan-400 transition-colors border-b border-white/5"
+              className="text-left flex items-center min-h-[44px] py-2 hover:text-cyan-400 transition-colors border-b border-white/5"
             >
               공간 철학 & 설계 가이드
             </button>
@@ -135,7 +139,8 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, onOpenConsultation }
                 setMobileMenuOpen(false);
                 onOpenConsultation();
               }}
-              className="w-full py-3 text-center rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-zinc-950 font-bold text-xs tracking-wider uppercase shadow-md shadow-cyan-500/20"
+              type="button"
+              className="w-full min-h-[44px] py-3 text-center rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-zinc-950 font-bold text-xs tracking-wider uppercase shadow-md shadow-cyan-500/20"
             >
               오피스 인테리어 실측 상담 신청
             </button>

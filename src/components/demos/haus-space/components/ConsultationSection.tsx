@@ -1,30 +1,40 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MapPin, Phone, Mail, ShieldCheck } from 'lucide-react';
 import SampleNotice from '@/components/demo-kit/SampleNotice';
-import { ConsultationFormState } from '../types';
+import { ConsultationFormState, ConsultationPrefill } from '../types';
 
 interface ConsultationSectionProps {
-  initialProjectType?: string;
-  initialMessage?: string;
+  prefill?: ConsultationPrefill | null;
 }
 
-export const ConsultationSection: React.FC<ConsultationSectionProps> = ({
-  initialProjectType = '하이엔드 주거 (아파트/펜트하우스)',
-  initialMessage = '',
-}) => {
+export const ConsultationSection: React.FC<ConsultationSectionProps> = ({ prefill = null }) => {
   const [formData, setFormData] = useState<ConsultationFormState>({
     clientName: '',
     phone: '',
     location: '',
     area: '',
-    projectType: initialProjectType,
+    // 첫 option 과 글자가 똑같아야 한다 — 다르면 제어 select 가 selectedIndex -1 로 떨어져 빈 칸으로 보인다.
+    projectType: '하이엔드 주거 (아파트/펜트하우스)',
     budgetRange: '3억 원 ~ 5억 원',
     timeline: '',
-    message: initialMessage,
+    message: '',
     privacyAgree: false,
   });
+
+  const messageRef = useRef<HTMLTextAreaElement>(null);
+  const appliedNonce = useRef<number | null>(null);
+
+  // 프로젝트에서 넘어온 값은 요청 사항 칸에만 싣는다. 재마운트가 아니라 nonce 비교라 이미 친 성함·연락처가 남는다.
+  useEffect(() => {
+    if (!prefill || prefill.nonce === appliedNonce.current) return;
+    appliedNonce.current = prefill.nonce;
+    setFormData((prev) => ({ ...prev, message: prefill.message }));
+    setErrorMessage('');
+    const t = window.setTimeout(() => messageRef.current?.focus({ preventScroll: true }), 600);
+    return () => window.clearTimeout(t);
+  }, [prefill]);
 
   // 샘플이라 상담을 접수하지 않는다 — 검증을 통과하면 가짜 접수번호·성공 화면 대신 공용 안내(SampleNotice)만 연다.
   const [isNoticeOpen, setIsNoticeOpen] = useState<boolean>(false);
@@ -43,7 +53,7 @@ export const ConsultationSection: React.FC<ConsultationSectionProps> = ({
 
   return (
     <section
-      className="py-16 lg:py-24 bg-[#121315] max-w-[1440px] mx-auto px-5 lg:px-16"
+      className="py-16 lg:py-24 bg-[#121315] max-w-[1440px] mx-auto px-5 lg:px-16 scroll-mt-[calc(var(--sample-bar-h,0px)_+_80px)]"
       id="consultation"
     >
       <div className="bg-[#1b1c1e] border border-white/10 p-8 lg:p-20 shadow-2xl relative overflow-hidden">
@@ -64,14 +74,14 @@ export const ConsultationSection: React.FC<ConsultationSectionProps> = ({
               컨설팅 신청
             </h2>
             <p className="text-base text-[#d1c5b8] mt-4 font-light leading-relaxed">
-              하우스앤스페이스는 프로젝트의 완벽한 퀄리티 관리를 위해 월 한정된 수의 주거 및 상업 프로젝트만을 엄선하여 전담 진행합니다.
+              하우스앤스페이스는 프로젝트 품질 관리를 위해 월 한정된 수의 주거 및 상업 프로젝트만 전담해 진행합니다.
             </p>
 
             <div className="mt-8 space-y-4">
               <div className="flex items-center gap-3">
                 <MapPin className="w-5 h-5 text-[#c5a880] shrink-0" />
                 <span className="text-sm text-[#e3e2e5]">
-                  서울시 강남구 압구정로 60길 18, 하우스앤스페이스 아틀리에
+                  서울시 강남구 압구정로 (가상 아틀리에)
                 </span>
               </div>
               <div className="flex items-center gap-3">
@@ -272,6 +282,7 @@ export const ConsultationSection: React.FC<ConsultationSectionProps> = ({
                   </label>
                   <textarea
                     id="consult-message"
+                    ref={messageRef}
                     rows={4}
                     value={formData.message}
                     onChange={(e) =>
@@ -282,7 +293,11 @@ export const ConsultationSection: React.FC<ConsultationSectionProps> = ({
                   />
                 </div>
 
-                <div className="flex items-start gap-3">
+                {/* shrink-0 이 없으면 375px 에서 긴 라벨이 체크박스를 13x16 으로 눌러 찌그러뜨린다 */}
+                <label
+                  htmlFor="privacy-agree"
+                  className="flex items-start gap-3 min-h-11 cursor-pointer"
+                >
                   <input
                     id="privacy-agree"
                     type="checkbox"
@@ -294,15 +309,12 @@ export const ConsultationSection: React.FC<ConsultationSectionProps> = ({
                         privacyAgree: e.target.checked,
                       })
                     }
-                    className="mt-1 w-4 h-4 text-[#c5a880] bg-[#1b1c1e] border-white/20 focus:ring-0 focus:ring-offset-0 rounded-none cursor-pointer"
+                    className="mt-1 w-5 h-5 shrink-0 text-[#c5a880] bg-[#1b1c1e] border-white/20 focus:ring-0 focus:ring-offset-0 rounded-none cursor-pointer"
                   />
-                  <label
-                    htmlFor="privacy-agree"
-                    className="text-xs text-[#998f83] leading-relaxed cursor-pointer"
-                  >
-                    개인정보 수집 및 컨설팅 목적 이용에 동의합니다. (작성하신 정보는 오직 상담 예약 및 분석 목적으로만 활용됩니다)
-                  </label>
-                </div>
+                  <span className="text-xs text-[#998f83] leading-relaxed">
+                    개인정보 수집 및 컨설팅 목적 이용에 동의합니다. (샘플 화면이라 실제로 수집·저장하지 않습니다)
+                  </span>
+                </label>
 
                 {errorMessage && (
                   <p

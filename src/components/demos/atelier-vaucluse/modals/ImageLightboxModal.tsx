@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useId, useRef } from 'react';
 import { X } from 'lucide-react';
+import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
 
 interface ImageLightboxModalProps {
   image: {
@@ -19,25 +20,46 @@ export const ImageLightboxModal: React.FC<ImageLightboxModalProps> = ({
   onClose,
   onRequestConsultation,
 }) => {
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const titleId = useId();
+
+  // Esc 닫기 · 배경 스크롤 잠금 · 포커스 가두기 — 샘플 공용 훅
+  useSampleDialog({ open: image !== null, onClose, dialogRef });
+
   if (!image) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 lg:p-6 bg-black/80 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-[#faf9f7] rounded max-w-4xl w-full max-h-[92vh] flex flex-col border border-[#c8c7bf]/40 shadow-2xl relative my-auto overflow-hidden">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 lg:p-6 bg-black/80 backdrop-blur-xs animate-in fade-in duration-200"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        className="bg-[#faf9f7] rounded max-w-4xl w-full max-h-[92vh] flex flex-col border border-[#c8c7bf]/40 shadow-2xl relative my-auto overflow-hidden outline-none"
+      >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#c8c7bf]/30 bg-[#faf9f7]">
-          <div>
+        <div className="flex items-center justify-between gap-3 px-6 py-4 border-b border-[#c8c7bf]/30 bg-[#faf9f7]">
+          <div className="min-w-0">
             <span className="text-xs uppercase tracking-[0.2em] font-medium text-[#904b35] font-sans block">
               Atelier Spatial Perspective
             </span>
-            <h3 className="text-lg lg:text-xl font-serif text-[#161714]">
+            <h3
+              id={titleId}
+              className="text-lg lg:text-xl font-serif text-[#161714] break-keep [word-break:keep-all]"
+            >
               {image.label}
             </h3>
           </div>
 
           <button
             onClick={onClose}
-            className="text-[#474741] hover:text-[#161714] p-1.5 rounded hover:bg-[#efeeec] cursor-pointer transition-colors"
+            className="text-[#474741] hover:text-[#161714] w-11 h-11 -mr-2 shrink-0 flex items-center justify-center rounded hover:bg-[#efeeec] cursor-pointer transition-colors"
             aria-label="닫기"
           >
             <X size={20} />
@@ -70,7 +92,7 @@ export const ImageLightboxModal: React.FC<ImageLightboxModalProps> = ({
                 onClose();
                 onRequestConsultation();
               }}
-              className="bg-[#2b2b28] text-[#faf9f7] hover:bg-[#904b35] px-5 py-2.5 rounded text-xs uppercase tracking-wider font-semibold font-sans whitespace-nowrap transition-colors cursor-pointer"
+              className="bg-[#2b2b28] text-[#faf9f7] hover:bg-[#904b35] px-5 min-h-11 rounded text-xs uppercase tracking-wider font-semibold font-sans whitespace-nowrap transition-colors cursor-pointer w-full lg:w-auto"
             >
               1:1 컨설팅 문의
             </button>

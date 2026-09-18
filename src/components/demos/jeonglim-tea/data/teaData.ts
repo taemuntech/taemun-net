@@ -3,11 +3,11 @@ import { HanokZone, HanokMaterial, WeatherMood } from '../types';
 export const HANOK_ZONES: HanokZone[] = [
   {
     id: 'paengju-bar',
-    name: '다도 팽주석 & 먹색 대리석 티 바',
+    name: '다도 팽주석 & 먹색 화강석 티 바',
     engName: 'Master Paengju Tea Bar',
     subtitle: '천장 서까래와 현대식 무광 화강석 다도대의 절제된 조화',
     description:
-      '북촌 100년 고택의 소나무 서까래를 그대로 노출하고, 현대적인 블랙 무광 화강석 다도대를 L자형으로 배치한 공간입니다. 팽주(茶主)가 정성껏 우려내는 맑은 찻물 소리와 무쇠 주전자 김이 오르는 정경을 감상할 수 있습니다.',
+      '북촌 한옥의 결을 머금은 고재 소나무 서까래를 그대로 노출하고, 현대적인 블랙 무광 화강석 다도대를 L자형으로 배치한 공간입니다. 팽주(茶主)가 정성껏 우려내는 맑은 찻물 소리와 무쇠 주전자 김이 오르는 정경을 감상할 수 있습니다.',
     imageUrl: '/portfolio/jeonglim-tea/jeonglim-01.jpg',
     capacity: '8석 (카운터 다도석)',
     timberSpec: '춘양목 고재 소나무 보 & 서까래 복원 (예시)',
@@ -129,7 +129,7 @@ export const WEATHER_MOODS: WeatherMood[] = [
     koreanPoetic: '기와 처마 끝으로 떨어지는 빗소리',
     soundscape: '낙수물 소리와 촉촉한 흙내음',
     temperatureNote: '온도 20°C · 습도 65% (예시)',
-    recommendedTea: '하동 잭설 발효 홍차 & 구운 인절미',
+    recommendedTea: '하동 작설 발효 홍차 & 구운 인절미',
   },
   {
     id: 'snow',
@@ -156,7 +156,7 @@ export const HANOK_MATERIALS: HanokMaterial[] = [
     id: 'mat-hanji',
     name: '천연 닥나무 수제 창호 한지',
     engName: 'Traditional Mulberry Hanji Paper',
-    spec: '100% 국산 참닥나무 수제 발틀지 (예시)',
+    spec: '국산 참닥나무 수제 발틀지 (예시)',
     craftHeritage: '전통 외발뜨기 한지 장인 규격 (예시)',
     desc: '닥나무 껍질을 삶고 두드려 손으로 뜬 전통 한지입니다. 햇살의 강한 자외선은 차단하고 부드러운 산란광만을 실내로 들여와 눈이 편안한 여백의 공간을 만듭니다.',
     sensoryNote: '눈부심 없는 따스한 미색과 섬세한 닥나무 섬유의 감촉',
@@ -177,7 +177,7 @@ export const HANOK_MATERIALS: HanokMaterial[] = [
     name: '단조 황동 & 수제 무쇠 철물',
     engName: 'Forged Brass & Blacksmith Iron Hardware',
     spec: '손망치 두드림 수제 단조 (예시)',
-    craftHeritage: '전통 두석장 손잡이 및 문고리 (예시)',
+    craftHeritage: '전통 방식 두석(豆錫) 철물 손잡이·문고리 (예시)',
     desc: '기계 프레스가 아닌 대장간 손망치로 두드려 만든 문고리와 돌쩌귀입니다. 자연스러운 두드림 자국과 시간이 흐를수록 깊어지는 파티나(고색)가 일품입니다.',
     sensoryNote: '묵직하고 서늘한 금속의 무게와 손에 착 감기는 문고리 촉감',
     colorHex: '#806c4f',

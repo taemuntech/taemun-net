@@ -47,8 +47,9 @@ export const Footer: React.FC<FooterProps> = ({ onOpenConsultation }) => {
               <p className="text-zinc-300 font-light">TEL: {WORK_BRAND.phone}</p>
               <p className="text-zinc-300 font-light">MAIL: {WORK_BRAND.email}</p>
               <button
+                type="button"
                 onClick={onOpenConsultation}
-                className="text-cyan-400 hover:text-cyan-300 underline pt-1 block text-left"
+                className="text-cyan-400 hover:text-cyan-300 underline inline-flex items-center min-h-[44px] text-left"
               >
                 1:1 오피스 시공 실측 신청하기 →
               </button>

@@ -11,21 +11,21 @@ export const RT60AcousticHUD: React.FC = () => {
       case 'vocal-jazz':
         return {
           rt60: '0.38s (예시)',
-          clarity: '보컬 포커스 98%',
+          clarity: '보컬 포커스 98% (예시)',
           feel: '밀도 높고 건조하며 정위감이 뚜렷한 스튜디오 사운드',
           diffusers: '후면 집중 확산 (QRD 2D)',
         };
       case 'chamber':
         return {
           rt60: '0.55s (예시)',
-          clarity: '현악 잔향감 94%',
+          clarity: '현악 잔향감 94% (예시)',
           feel: '바이올린과 첼로의 배음이 풍성하게 살아나는 자연스러운 홀 톤',
           diffusers: '측벽 및 천장 복합 확산',
         };
       case 'symphony':
         return {
           rt60: '0.78s (예시)',
-          clarity: '대편성 공간감 91%',
+          clarity: '대편성 공간감 91% (예시)',
           feel: '오케스트라 투티의 웅장한 다이내믹과 광활한 사운드 스테이지',
           diffusers: '전방향 입체 분산 모드',
         };
@@ -35,7 +35,7 @@ export const RT60AcousticHUD: React.FC = () => {
   const profile = getAcousticProfile();
 
   return (
-    <section id="rt60" className="py-24 bg-[#faf6f0]">
+    <section id="rt60" className="scroll-mt-[calc(var(--sample-bar-h,0px)_+_80px)] py-24 bg-[#faf6f0]">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="max-w-2xl mb-16">
           <span className="text-xs font-mono text-[#8c6544] tracking-widest uppercase block mb-2">
@@ -62,8 +62,10 @@ export const RT60AcousticHUD: React.FC = () => {
               {(['vocal-jazz', 'chamber', 'symphony'] as MusicGenreMode[]).map((mode) => (
                 <button
                   key={mode}
+                  type="button"
+                  aria-pressed={genre === mode}
                   onClick={() => setGenre(mode)}
-                  className={`py-2.5 px-4 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+                  className={`min-h-[44px] py-2.5 px-4 rounded-xl text-xs font-medium transition-all cursor-pointer ${
                     genre === mode
                       ? 'bg-[#5c422c] text-white shadow'
                       : 'bg-[#faf6f0] text-[#6b523e] hover:bg-[#eedbc9]'
