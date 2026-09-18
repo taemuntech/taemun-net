@@ -35,7 +35,34 @@ export type InquiryInput = {
   email: string | null;
   referenceUrl: string | null;
   details: string | null;
+  /** 아래는 흐름 정보 — 화면이 보내는 값이 목록에 없으면 null 로 두고 접수는 받는다(문의를 잃지 않게) */
+  entry: InquiryEntry | null;
+  path: InquiryPath;
+  budgetFlexible: boolean | null;
+  contactPref: ContactPref | null;
+  referenceUsage: ReferenceUsage | null;
+  variant: InquiryVariant | null;
 };
+
+export const INQUIRY_ENTRIES = ["home_modal", "inquiry_page", "demo"] as const;
+export type InquiryEntry = (typeof INQUIRY_ENTRIES)[number];
+/** full = 4단계 끝까지 · quick = 「나머지는 통화로 정할게요 — 연락처만 남기기」 */
+export const INQUIRY_PATHS = ["full", "quick"] as const;
+export type InquiryPath = (typeof INQUIRY_PATHS)[number];
+export const CONTACT_PREFS = ["call", "text_first"] as const;
+export type ContactPref = (typeof CONTACT_PREFS)[number];
+/** 「이 레퍼런스를 어떻게 쓰실 건가요」 — 디자인 거의 그대로 · 분위기·구성만 참고 · 기능만 가져오기 */
+export const REFERENCE_USAGES = ["as_is", "mood", "feature"] as const;
+export type ReferenceUsage = (typeof REFERENCE_USAGES)[number];
+export const INQUIRY_VARIANTS = ["doc", "plain"] as const;
+export type InquiryVariant = (typeof INQUIRY_VARIANTS)[number];
+
+/** 답하지 않고 「연락처만 남기기」로 온 칸에 적는 값 — 요청서·관리자 화면·문자에 같은 말로 보인다 */
+export const DECIDE_IN_CONSULT = "상담에서 정함";
+
+function oneOf<T extends string>(list: readonly T[], value: unknown): T | null {
+  return typeof value === "string" && (list as readonly string[]).includes(value) ? (value as T) : null;
+}
 
 /**
  * 평평한 결과 — 셋 중 하나다.
@@ -82,8 +109,10 @@ export function validateInquiryBody(raw: unknown): InquiryValidation {
     return { input: null, error: null, bot: true };
   }
 
-  const rawServices = body.services;
-  if (!Array.isArray(rawServices) || rawServices.length === 0) {
+  // 「연락처만 남기기」(quick)는 서비스·일정·예산을 고르지 않고 올 수 있다 — 빈 칸은 「상담에서 정함」으로 적는다
+  const path: InquiryPath = oneOf(INQUIRY_PATHS, body.path) ?? "full";
+  const rawServices = body.services ?? [];
+  if (!Array.isArray(rawServices) || (rawServices.length === 0 && path !== "quick")) {
     return fail("희망하는 서비스 카테고리를 최소 1개 이상 선택해 주세요.");
   }
   if (rawServices.length > INQUIRY_LIMITS.services) return fail("서비스 선택이 너무 많습니다.");
@@ -122,16 +151,23 @@ export function validateInquiryBody(raw: unknown): InquiryValidation {
     return fail("예산·일정 선택 값이 올바르지 않습니다.");
   }
 
+  const quick = path === "quick";
   return {
     input: {
-      services,
-      budget: budget || "미정",
-      timeline: timeline || "일정 협의",
+      services: services.length > 0 ? services : [DECIDE_IN_CONSULT],
+      budget: budget || (quick ? DECIDE_IN_CONSULT : "미정"),
+      timeline: timeline || (quick ? DECIDE_IN_CONSULT : "일정 협의"),
       clientName,
       phone,
       email: email || null,
       referenceUrl: referenceUrl || null,
       details: details || null,
+      entry: oneOf(INQUIRY_ENTRIES, body.entry),
+      path,
+      budgetFlexible: typeof body.budgetFlexible === "boolean" ? body.budgetFlexible : null,
+      contactPref: oneOf(CONTACT_PREFS, body.contactPref),
+      referenceUsage: oneOf(REFERENCE_USAGES, body.referenceUsage),
+      variant: oneOf(INQUIRY_VARIANTS, body.variant),
     },
     error: null,
     bot: false,

@@ -1,10 +1,12 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { sendSms } from "@/lib/solapi";
 import { NextResponse } from "next/server";
 import { SUPABASE_URL } from "@/lib/supabase-url";
 import { guardJsonWrite } from "@/lib/admin/request-guard";
 import { validateInquiryBody, type InquiryInput } from "@/lib/inquiry/validate";
 import { STUDIO_PHONE } from "@/lib/inquiry/contact";
+import { CONTACT_PREF_LABEL, REFERENCE_USAGE_LABEL } from "@/lib/inquiry/labels";
+import { kstYymmdd } from "@/lib/kst";
 import { parseInquiryIndustry, parseSampleInquiry } from "@/components/demo-kit/sample-lead";
 import { getPortfolioBySlug, type PortfolioCard } from "@/lib/portfolio/registry";
 import { KIND_LABEL, industryLabel, type IndustryKey, type PortfolioKind } from "@/lib/portfolio/schema";
@@ -79,8 +81,14 @@ function clip(value: string, max: number): string {
   return value.length > max ? `${value.slice(0, max)}…(이하 관리자 화면)` : value;
 }
 
-function adminSmsText(input: InquiryInput, referral: ValidReferral | null): string {
-  return `[태문넷 신규 견적 접수]
+function adminSmsText(input: InquiryInput, referral: ValidReferral | null, requestNo: string | null): string {
+  const extra = [
+    input.path === "quick" ? "■ 경로: 연락처만 남김(질문 생략)" : null,
+    input.referenceUsage ? `■ 레퍼런스 활용: ${REFERENCE_USAGE_LABEL[input.referenceUsage]}` : null,
+    input.budgetFlexible ? "■ 예산 조정 가능" : null,
+    input.contactPref ? `■ 연락 방법: ${CONTACT_PREF_LABEL[input.contactPref]}` : null,
+  ].filter(Boolean);
+  return `[태문넷 신규 견적 접수${requestNo ? ` ${requestNo}` : ""}]
 ■ 고객명: ${input.clientName}
 ■ 연락처: ${input.phone}
 ■ 서비스: ${input.services.join(", ")}
@@ -88,9 +96,26 @@ function adminSmsText(input: InquiryInput, referral: ValidReferral | null): stri
 ■ 일정: ${input.timeline}
 ■ 이메일: ${input.email ?? "미입력"}
 ■ 참고URL: ${input.referenceUrl ?? "없음"}
-■ 유입: ${referralSmsText(referral)}
+■ 유입: ${referralSmsText(referral)}${extra.length ? `\n${extra.join("\n")}` : ""}
 ■ 문의내용: ${input.details ? clip(input.details, SMS_DETAILS_MAX) : "없음"}`;
 }
+
+/**
+ * 접수번호 「TM-YYMMDD-NN」 — 날짜는 KST, NN 은 그날 순번(01부터). 완료 화면에 보여 주고 통화 때 찾는 번호다.
+ * 그날 이미 번호가 붙은 행 수 + 1 로 정하고, 동시에 두 건이 같은 번호를 잡으면 유일 인덱스(23505)에 걸리므로
+ * 호출하는 쪽이 순번을 올려 다시 넣는다.
+ */
+async function firstRequestSeq(db: SupabaseClient, now: Date): Promise<{ prefix: string; seq: number }> {
+  const prefix = `TM-${kstYymmdd(now)}-`;
+  const counted = await db
+    .from("inquiries")
+    .select("id", { count: "exact", head: true })
+    .like("request_no", `${prefix}%`);
+  if (counted.error) console.warn("inquiry: request_no count failed:", counted.error.code);
+  return { prefix, seq: (counted.count ?? 0) + 1 };
+}
+
+const requestNoOf = (prefix: string, seq: number) => `${prefix}${String(seq).padStart(2, "0")}`;
 
 /**
  * 견적 문의 접수.
@@ -103,7 +128,10 @@ function adminSmsText(input: InquiryInput, referral: ValidReferral | null): stri
  * - **공개(anon) 키로 내려가지 않는다.** service_role 키가 없으면 503. 공개 키 삽입은 표의 INSERT 정책에
  *   기대는데, 그 정책은 누구나 이 API 를 거치지 않고 표에 직접 쓰게 열어 둔다 — 마이그레이션으로 닫는다.
  * - 저장 오류 원문(Supabase 메시지)을 방문자에게 돌려주지 않는다. 표 이름·칸 이름이 새어 나갔다.
- * - 응답에 저장된 행을 싣지 않는다 — 화면은 success 만 본다.
+ * - 응답에 저장된 행을 싣지 않는다 — 화면은 success 와 접수번호(requestNo)만 본다.
+ *
+ * 2026-09-19 추가: 접수번호(TM-YYMMDD-NN, KST) · 유입·흐름 칸(referral_*·entry·path·reference_usage 등,
+ * 마이그레이션 20260919090000). 칸이 없으면 저장이 통째로 실패하므로 그 마이그레이션이 먼저 적용돼 있어야 한다.
  */
 export async function POST(request: Request) {
   const blocked = guardJsonWrite(request);
@@ -140,8 +168,9 @@ export async function POST(request: Request) {
     // 중복·빈도 제한 — 표에서 센다(서버리스라 메모리 카운터는 인스턴스마다 따로 논다).
     // 세는 쿼리가 실패하면 막지 않고 접수를 받는다: 문의 한 건을 잃는 쪽이 더 비싸다.
     const [recent, daily, hourly] = await Promise.all([
-      db.from("inquiries").select("id", { count: "exact", head: true })
-        .eq("phone", input.phone).gte("created_at", new Date(now - DUPLICATE_WINDOW_MS).toISOString()),
+      db.from("inquiries").select("request_no")
+        .eq("phone", input.phone).gte("created_at", new Date(now - DUPLICATE_WINDOW_MS).toISOString())
+        .order("created_at", { ascending: false }).limit(1),
       db.from("inquiries").select("id", { count: "exact", head: true })
         .eq("phone", input.phone).gte("created_at", new Date(now - 24 * 60 * 60 * 1000).toISOString()),
       db.from("inquiries").select("id", { count: "exact", head: true })
@@ -150,9 +179,11 @@ export async function POST(request: Request) {
     for (const r of [recent, daily, hourly]) {
       if (r.error) console.warn("inquiry: rate-limit count failed (접수는 계속):", r.error.code);
     }
-    if ((recent.count ?? 0) > 0) {
+    if (recent.data && recent.data.length > 0) {
+      // 두 번 누름·새로고침 재전송 — 새로 저장하지 않고 앞 접수의 번호를 그대로 보여 준다
       console.info("inquiry: duplicate within window — stored nothing");
-      return NextResponse.json({ success: true });
+      const previous = (recent.data[0] as { request_no: string | null }).request_no;
+      return NextResponse.json({ success: true, requestNo: previous ?? null });
     }
     if ((daily.count ?? 0) >= PER_PHONE_DAILY_MAX || (hourly.count ?? 0) >= GLOBAL_HOURLY_MAX) {
       console.warn("inquiry: rate limited", { daily: daily.count, hourly: hourly.count });
@@ -167,15 +198,45 @@ export async function POST(request: Request) {
       phone: input.phone,
       email: input.email,
       reference_url: input.referenceUrl,
-      // inquiries 표에 유입 전용 칸이 아직 없어(마이그레이션 20260806) 상세 내용 첫 줄에 서버가 붙인다.
-      // 칸을 만들면 여기서 referral_from·referral_industry·referral_kind 로 옮긴다.
+      // 유입은 칸(referral_*)에 싣는다(마이그레이션 20260919090000). 옛 행과 같이 세려고 한동안
+      // 상세 내용 첫 줄 「[유입] …」 도 같이 남긴다.
       details: [referral ? referralLine(referral) : null, input.details].filter(Boolean).join("\n") || null,
+      referral_from: referral?.from ?? null,
+      referral_kind: referral?.kind ?? null,
+      referral_industry: referral?.industry ?? null,
+      entry: input.entry,
+      path: input.path,
+      budget_flexible: input.budgetFlexible,
+      contact_pref: input.contactPref,
+      reference_usage: input.referenceUsage,
+      variant: input.variant,
       status: "pending",
     };
 
-    const saved = await db.from("inquiries").insert([payload]);
-    if (saved.error) {
+    // 접수번호가 겹치면(동시 접수) 순번을 올려 다시 넣는다. 다른 오류는 바로 실패로 본다.
+    const first = await firstRequestSeq(db, new Date(now));
+    const prefix = first.prefix;
+    let seq = first.seq;
+    let requestNo: string | null = null;
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const candidate = requestNoOf(prefix, seq);
+      const saved = await db.from("inquiries").insert([{ ...payload, request_no: candidate }]);
+      if (!saved.error) {
+        requestNo = candidate;
+        break;
+      }
+      if (saved.error.code === "23505") {
+        seq += 1;
+        continue;
+      }
       console.error("inquiry: insert failed:", saved.error);
+      return NextResponse.json(
+        { error: `접수 중 문제가 생겼습니다. 잠시 뒤 다시 시도하시거나 ${CALL_US}` },
+        { status: 500 },
+      );
+    }
+    if (!requestNo) {
+      console.error("inquiry: request_no kept colliding — gave up");
       return NextResponse.json(
         { error: `접수 중 문제가 생겼습니다. 잠시 뒤 다시 시도하시거나 ${CALL_US}` },
         { status: 500 },
@@ -185,10 +246,10 @@ export async function POST(request: Request) {
     // 접수 알림 — 형 확인 번호(사이트에 적힌 총괄 아키텍트 직통과 같다).
     // Vercel 에 SOLAPI_ADMIN_RECEIVER_PHONE 이 따로 있으면 그 값이 우선한다. 문자가 실패해도 접수는 저장됐다.
     const adminPhone = process.env.SOLAPI_ADMIN_RECEIVER_PHONE || STUDIO_PHONE.replace(/-/g, "");
-    const smsResult = await sendSms(adminPhone, adminSmsText(input, referral));
+    const smsResult = await sendSms(adminPhone, adminSmsText(input, referral, requestNo));
     console.log("Admin SMS notification result:", smsResult);
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, requestNo });
   } catch (err) {
     console.error("inquiry: unexpected error:", err);
     return NextResponse.json(
