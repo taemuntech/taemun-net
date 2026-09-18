@@ -27,6 +27,14 @@ const PRIVATE_DIR = path.join(process.cwd(), "private-assets");
 /** 옮기지 않은 파일(공개 샘플 썸네일)은 여기서 읽는다 */
 const PUBLIC_DIR = path.join(process.cwd(), "public");
 
+/**
+ * 가상 브랜드 샘플(kind=sample) 자산만 방문자 브라우저에 잠깐 둔다(초).
+ * 홈 카드에 마우스를 올려 받은 미리보기 영상을 모달에서 또 받지 않게 하려는 것이다.
+ * `private` 라 CDN 에는 여전히 안 굳는다 — 내리면 새 방문자에겐 바로 404 이고, 이미 받아 둔 사람 화면에만
+ * 이 시간만큼 남는다. 실존 업체 시안(proposal)은 급히 내려야 할 수 있어 지금처럼 전혀 안 굳힌다.
+ */
+const SAMPLE_BROWSER_CACHE_SECONDS = 600;
+
 const CONTENT_TYPES: Record<string, string> = {
   ".png": "image/png",
   ".jpg": "image/jpeg",
@@ -77,10 +85,13 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ path: strin
   if (!body) return NOT_FOUND();
 
   const type = CONTENT_TYPES[path.extname(target.relPath).toLowerCase()] ?? "application/octet-stream";
+  // 관리자 요청은 내려간 것도 받으므로 샘플이라도 굳히지 않는다.
+  const browserCacheable = kind === "sample" && !isAdmin;
   const baseHeaders = {
     "Content-Type": type,
-    // 내리면 바로 안 보여야 한다 — CDN·브라우저에 굳히지 않는다(이미 열린 URL 이 남는 것을 막을 수는 없다).
-    "Cache-Control": "private, no-store",
+    // 내리면 바로 안 보여야 한다 — CDN 에는 절대 굳히지 않는다(이미 열린 URL 이 남는 것을 막을 수는 없다).
+    // 샘플만 방문자 브라우저에 잠깐 둔다(SAMPLE_BROWSER_CACHE_SECONDS 설명 참고).
+    "Cache-Control": browserCacheable ? `private, max-age=${SAMPLE_BROWSER_CACHE_SECONDS}` : "private, no-store",
     "X-Robots-Tag": "noindex, nofollow",
     // 동영상은 구간 요청으로 받는다 — 받아 줄 수 있다고 먼저 알린다.
     "Accept-Ranges": "bytes",

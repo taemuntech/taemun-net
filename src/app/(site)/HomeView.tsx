@@ -177,6 +177,91 @@ function ModalPreviewMedia({ project, zoomOnHover }: { project: GalleryProject; 
   );
 }
 
+/** 카드 위에 이만큼 머물러야 영상을 받는다 — 마우스로 카드 줄을 쓸고 지나가기만 해도 5개를 받지 않게 */
+const HOVER_DWELL_MS = 200;
+
+/**
+ * 홈 카드에 마우스를 올리면 모달과 같은 미리보기 클립을 사진 위에 겹쳐 튼다.
+ *
+ * 부하를 작게 두는 규칙:
+ * - 마우스가 있는 PC 에서만 한다(휴대폰엔 올리기가 없다). 동작 줄이기·데이터 절약 모드면 하지 않는다.
+ * - 카드에 HOVER_DWELL_MS 이상 머물 때 처음 영상을 만든다. 그 전엔 video 요소 자체가 없어 아무것도 안 받는다.
+ * - 한 번 만든 영상은 마우스가 떠나면 멈추기만 하고 지우지 않는다 — 다시 올려도 새로 받지 않는다.
+ * - 샘플 자산은 브라우저에 10분 남으므로(api/asset 라우트) 이어서 모달을 열어도 같은 클립을 또 받지 않는다.
+ *
+ * 마우스 출입은 카드 전체(data-preview-card)에서 받는다 — 사진 칸만이 아니라 카드 어디에 올려도 돈다.
+ * 영상은 pointer-events 를 꺼서 카드 클릭(모달 열기)을 가로채지 않는다.
+ */
+function CardHoverVideo({ src }: { src: string }) {
+  const anchorRef = useRef<HTMLSpanElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const hoveringRef = useRef(false);
+  const [mounted, setMounted] = useState(false);
+  const [playing, setPlaying] = useState(false);
+
+  useEffect(() => {
+    const card = anchorRef.current?.closest<HTMLElement>("[data-preview-card]");
+    if (!card) return;
+    const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+    if (!canHover || reduceMotion || saveData) return;
+
+    let timer = 0;
+    const enter = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        hoveringRef.current = true;
+        setMounted(true); // 처음이면 여기서 video 가 생기고 autoPlay 로 튼다
+        videoRef.current?.play().catch(() => {}); // 두 번째부터는 멈춰 둔 것을 이어 튼다
+      }, HOVER_DWELL_MS);
+    };
+    const leave = () => {
+      window.clearTimeout(timer);
+      hoveringRef.current = false;
+      setPlaying(false);
+      videoRef.current?.pause();
+    };
+    card.addEventListener("mouseenter", enter);
+    card.addEventListener("mouseleave", leave);
+    return () => {
+      window.clearTimeout(timer);
+      card.removeEventListener("mouseenter", enter);
+      card.removeEventListener("mouseleave", leave);
+    };
+  }, []);
+
+  return (
+    <span ref={anchorRef} aria-hidden="true" className="contents">
+      {mounted && (
+        <video
+          ref={videoRef}
+          src={src}
+          muted
+          playsInline
+          loop
+          autoPlay
+          preload="auto"
+          disablePictureInPicture
+          disableRemotePlayback
+          controlsList="nodownload noplaybackrate"
+          onPlaying={(e) => {
+            // 받는 사이 마우스가 떠났으면 autoPlay 가 늦게 틀어도 도로 멈춘다
+            if (!hoveringRef.current) {
+              e.currentTarget.pause();
+              return;
+            }
+            setPlaying(true);
+          }}
+          className={`absolute inset-0 w-full h-full object-cover scale-105 pointer-events-none transition-opacity duration-300 ${
+            playing ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      )}
+    </span>
+  );
+}
+
 export default function HomeView({ projects, categories, demoLinks, shortcuts = [] }: HomeViewProps) {
   // 이름만 옛것 그대로 둔다(아래 화면 코드가 이 이름을 쓴다) — 값은 서버가 이미 걸러 준 배열이다
   const galleryProjects = projects;
@@ -313,10 +398,13 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
           ───────────────────────────────────────────────────────────── */}
       <section className="relative w-full overflow-hidden min-h-[680px] lg:min-h-[760px] flex flex-col justify-between pt-32 lg:pt-40 pb-8 lg:pb-12">
         
-        {/* Fullscreen Video Background */}
+        {/* Fullscreen Video Background
+            영상은 모든 방문자가 첫 화면에서 받으므로 가볍게 둔다 — 원본 13.4MB(7Mbps)를 crf 26·무음으로 1.7MB 로
+            다시 뽑았다(어두운 막 아래라 차이가 안 보인다). poster 는 그 첫 프레임이라 받는 동안 빈 화면이 안 뜬다. */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <video
             src="/videos/taemun-hero-kling.mp4"
+            poster="/videos/taemun-hero-kling-poster.jpg"
             autoPlay
             loop
             muted
@@ -541,6 +629,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                     <div
                       key={project.id}
                       id={`project-${project.id}`}
+                      data-preview-card
                       onClick={() => setSelectedProject(project)}
                       className={`${
                         isFifthHiddenOnMobile ? "hidden lg:flex" : "flex"
@@ -555,6 +644,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         loading="lazy"
                       />
+                      {project.previewVideoUrl && <CardHoverVideo src={project.previewVideoUrl} />}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-between p-2">
                         <span className="text-[10px] text-white font-medium bg-black/60 px-2 py-0.5 rounded backdrop-blur-sm">
                           상세보기
