@@ -1,0 +1,346 @@
+import { AdmissionCutoffItem, CarrelSeat, FacultyMember } from '../types';
+
+export const HERO_BACKGROUND_IMAGE = "https://lh3.googleusercontent.com/aida-public/AB6AXuCVSPVQh52-NrmcZHAepqFrRcM4simZ6LZOagLoYKf_1IjDs1DQ5q8PAgpiKINdEydz53U3U0c-dVCrVv9tTy19MIx7YyRl0lxTaKrVTCTdqk-KkmQ62JMSjVSRT4h-hY7HdnDvLI3VHYuQ4tnhWF9gQhMLqNb5udNwih9YS8RDzcbmlZ252BXYxAZkx5V8OP6bi_Sx-PX6rz6BJoH9cyioYtWZ0MPk8wqCKkomAzbhVTXWuWzAKp7Mxw";
+
+export const LOGO_IMAGE = "https://lh3.googleusercontent.com/aida/AEtjO1X_agiewcBRu6NnvocbyMC4YFik8OJpOQNANO3ASDcjeJS5FPsZysauWLRZCDrYeeCXpd1BKbZ1OpEKHc7wqBg0qHl7xaLMceaO4Qbd_Vv03gGQYcKJFN8b1c2RXTX2kApPGFtB3xMkUnz7l1TT7BJjonLlQLzypZnt40kuDukLHQ-8yScVZGLacpc26VPDs7_lvWQYwV3IjefpvtZD0qjJKzHJJvKWX0pK8IiIYy4Uq5qB35r0G0-JiRPF";
+
+export const ADMISSION_MATRIX_DATA: AdmissionCutoffItem[] = [
+  {
+    id: 'snu',
+    name: 'S대 법학전문대학원 (예시)',
+    division: '가군',
+    quota: '150명',
+    cut2024: 'LEET 142.1',
+    cut2023: '141.6',
+    cut2022: '140.8',
+    threeYearAvg: '141.5 pt',
+    minGpa: '97.2',
+    englishReq: 'TEPS 480+',
+    apexShare: '38명 (25.3%)',
+    comment: '서면 정성평가 비중 확대, 추리논증 고득점 변별력 극대화 필수.',
+    category: 'sky',
+  },
+  {
+    id: 'korea',
+    name: 'K대 법학전문대학원 (예시)',
+    division: '나군',
+    quota: '120명',
+    cut2024: 'LEET 139.8',
+    cut2023: '139.1',
+    cut2022: '138.4',
+    threeYearAvg: '139.1 pt',
+    minGpa: '96.5',
+    englishReq: 'TOEIC 990',
+    apexShare: '34명 (28.3%)',
+    comment: '구술면접의 법철학적 쟁점 해결 능력 실질 반영비율 20% 초과.',
+    category: 'sky',
+  },
+  {
+    id: 'yonsei',
+    name: 'Y대 법학전문대학원 (예시)',
+    division: '가군',
+    quota: '120명',
+    cut2024: 'LEET 139.5',
+    cut2023: '138.9',
+    cut2022: '138.2',
+    threeYearAvg: '138.8 pt',
+    minGpa: '96.8',
+    englishReq: 'TOEIC 990',
+    apexShare: '31명 (25.8%)',
+    comment: '자기소개서 정량 스크리닝 엄정화, 학업계획서 1:1 리라이팅 권장.',
+    category: 'sky',
+  },
+  {
+    id: 'skku',
+    name: 'S-Univ 법학전문대학원 (예시)',
+    division: '나군',
+    quota: '120명',
+    cut2024: 'LEET 136.2',
+    cut2023: '135.5',
+    cut2022: '134.8',
+    threeYearAvg: '135.5 pt',
+    minGpa: '95.4',
+    englishReq: 'TOEIC 985',
+    apexShare: '29명 (24.1%)',
+    comment: '1단계 LEET 60% 직접 반영으로 1차 합격선 표준편차 극단 수렴.',
+    category: 'metro',
+  },
+  {
+    id: 'hanyang',
+    name: 'H대 법학전문대학원 (예시)',
+    division: '가군',
+    quota: '100명',
+    cut2024: 'LEET 135.8',
+    cut2023: '135.1',
+    cut2022: '134.4',
+    threeYearAvg: '135.1 pt',
+    minGpa: '94.9',
+    englishReq: 'TOEIC 980',
+    apexShare: '26명 (26.0%)',
+    comment: '언어이해 영역 가중치 우수자 지원 집중 및 서면 질의 심도 강화.',
+    category: 'metro',
+  },
+  {
+    id: 'cau',
+    name: 'C대 법학전문대학원 (예시)',
+    division: '가군/나군',
+    quota: '50명',
+    cut2024: 'LEET 134.5',
+    cut2023: '133.8',
+    cut2022: '133.0',
+    threeYearAvg: '133.8 pt',
+    minGpa: '94.2',
+    englishReq: 'TOEIC 970',
+    apexShare: '15명 (30.0%)',
+    comment: '정성평가 블라인드 면접 변별력 강화, 형사·민사 사례형 논술 평가 우대.',
+    category: 'metro',
+  },
+  {
+    id: 'khu',
+    name: 'K-Univ 법학전문대학원 (예시)',
+    division: '나군',
+    quota: '60명',
+    cut2024: 'LEET 134.2',
+    cut2023: '133.5',
+    cut2022: '132.9',
+    threeYearAvg: '133.5 pt',
+    minGpa: '94.0',
+    englishReq: 'TOEIC 975',
+    apexShare: '18명 (30.0%)',
+    comment: '국제법 및 금융법 특성화 트랙, 언어·추리 균형형 득점자 선발 경향.',
+    category: 'metro',
+  },
+  {
+    id: 'pnu',
+    name: 'P대 법학전문대학원 (예시)',
+    division: '가군/나군',
+    quota: '120명',
+    cut2024: 'LEET 131.6',
+    cut2023: '130.8',
+    cut2022: '130.1',
+    threeYearAvg: '130.8 pt',
+    minGpa: '92.5',
+    englishReq: 'TOEIC 950',
+    apexShare: '28명 (23.3%)',
+    comment: '지역인재 전형 및 일반전형 분리 선발, 정량 GPA 실질 환산비율 우위.',
+    category: 'national',
+  },
+  {
+    id: 'knu',
+    name: 'K-Univ(D) 법학전문대학원 (예시)',
+    division: '가군/나군',
+    quota: '120명',
+    cut2024: 'LEET 131.2',
+    cut2023: '130.4',
+    cut2022: '129.8',
+    threeYearAvg: '130.5 pt',
+    minGpa: '92.1',
+    englishReq: 'TOEIC 945',
+    apexShare: '25명 (20.8%)',
+    comment: '논술 영역 실질 채점 강화, 법학적 적성검사 논리력 검증 구술면접.',
+    category: 'national',
+  },
+  {
+    id: 'cnu',
+    name: 'C-Univ(G) 법학전문대학원 (예시)',
+    division: '가군/나군',
+    quota: '120명',
+    cut2024: 'LEET 130.4',
+    cut2023: '129.7',
+    cut2022: '129.0',
+    threeYearAvg: '129.7 pt',
+    minGpa: '91.8',
+    englishReq: 'TOEIC 940',
+    apexShare: '22명 (18.3%)',
+    comment: '공익인권법 특성화, 서류평가에서 사회공헌 및 정성 실적 배점 중요.',
+    category: 'national',
+  },
+  {
+    id: 'cpa-primary',
+    name: '대형 회계법인 연계 CPA 1차 선발반 (예시)',
+    division: 'CPA Track',
+    quota: '80명',
+    cut2024: '425.5 / 550',
+    cut2023: '418.0',
+    cut2022: '409.5',
+    threeYearAvg: '417.6 pt',
+    minGpa: '88.5+',
+    englishReq: 'TOEIC 710',
+    apexShare: '합격률 78.4% (예시)',
+    comment: '재무회계 및 세법학 심층 모의평가 매주 토요일 의무 진행.',
+    category: 'cpa',
+    isCpa: true,
+  },
+  {
+    id: 'cpa-secondary',
+    name: '대형 회계법인 감사본부 (예시) 연계 2차 유예반',
+    division: 'CPA Final',
+    quota: '50명',
+    cut2024: '과목별 60점+',
+    cut2023: '전원 합격 (예시)',
+    cut2022: '94.2%',
+    threeYearAvg: '96.1%',
+    minGpa: '상관없음',
+    englishReq: '패스 완료',
+    apexShare: '48명 (96.0%)',
+    comment: '재무관리, 원가회계, 회계감사, 세법, 재무회계 파트너 1:1 답안 첨삭.',
+    category: 'cpa',
+    isCpa: true,
+  },
+];
+
+export const INITIAL_SEATS: CarrelSeat[] = [
+  // Zone A: Solitary (01 - 10)
+  { id: 'A-01', seatNumber: '01', zone: 'A', zoneName: 'Solitary Wing', status: 'Occupied', powerDraw: '48W', noiseDb: 21.2 },
+  { id: 'A-02', seatNumber: '02', zone: 'A', zoneName: 'Solitary Wing', status: 'Occupied', powerDraw: '52W', noiseDb: 20.8 },
+  { id: 'A-03', seatNumber: '03', zone: 'A', zoneName: 'Solitary Wing', status: 'Available', powerDraw: '0W', noiseDb: 19.5 },
+  { id: 'A-04', seatNumber: '04', zone: 'A', zoneName: 'Solitary Wing', status: 'Occupied', powerDraw: '45W', noiseDb: 21.4 },
+  { id: 'A-05', seatNumber: '05', zone: 'A', zoneName: 'Solitary Wing', status: 'Occupied', powerDraw: '60W', noiseDb: 22.0 },
+  { id: 'A-06', seatNumber: '06', zone: 'A', zoneName: 'Solitary Wing', status: 'Occupied', powerDraw: '47W', noiseDb: 21.5 },
+  { id: 'A-07', seatNumber: '07', zone: 'A', zoneName: 'Solitary Wing', status: 'Available', powerDraw: '0W', noiseDb: 19.8 },
+  { id: 'A-08', seatNumber: '08', zone: 'A', zoneName: 'Solitary Wing', status: 'Occupied', powerDraw: '55W', noiseDb: 21.0 },
+  { id: 'A-09', seatNumber: '09', zone: 'A', zoneName: 'Solitary Wing', status: 'Maintenance', powerDraw: '10W', noiseDb: 20.1 },
+  { id: 'A-10', seatNumber: '10', zone: 'A', zoneName: 'Solitary Wing', status: 'Occupied', powerDraw: '51W', noiseDb: 21.7 },
+
+  // Zone B: Archive Lab (11 - 20)
+  { id: 'B-01', seatNumber: '11', zone: 'B', zoneName: 'Archive Lab', status: 'Occupied', powerDraw: '54W', noiseDb: 22.4 },
+  { id: 'B-02', seatNumber: '12', zone: 'B', zoneName: 'Archive Lab', status: 'Available', powerDraw: '0W', noiseDb: 20.0 },
+  { id: 'B-03', seatNumber: '13', zone: 'B', zoneName: 'Archive Lab', status: 'Occupied', powerDraw: '49W', noiseDb: 21.9 },
+  { id: 'B-04', seatNumber: '14', zone: 'B', zoneName: 'Archive Lab', status: 'Occupied', powerDraw: '53W', noiseDb: 22.1 },
+  { id: 'B-05', seatNumber: '15', zone: 'B', zoneName: 'Archive Lab', status: 'Occupied', powerDraw: '58W', noiseDb: 22.6 },
+  { id: 'B-06', seatNumber: '16', zone: 'B', zoneName: 'Archive Lab', status: 'Occupied', powerDraw: '46W', noiseDb: 21.5 },
+  { id: 'B-07', seatNumber: '17', zone: 'B', zoneName: 'Archive Lab', status: 'Available', powerDraw: '0W', noiseDb: 19.9 },
+  { id: 'B-08', seatNumber: '18', zone: 'B', zoneName: 'Archive Lab', status: 'Occupied', powerDraw: '50W', noiseDb: 21.8 },
+  { id: 'B-09', seatNumber: '19', zone: 'B', zoneName: 'Archive Lab', status: 'Occupied', powerDraw: '52W', noiseDb: 22.0 },
+  { id: 'B-10', seatNumber: '20', zone: 'B', zoneName: 'Archive Lab', status: 'Occupied', powerDraw: '61W', noiseDb: 23.0 },
+
+  // Zone C: CPA Intensive (21 - 30)
+  { id: 'C-01', seatNumber: '21', zone: 'C', zoneName: 'CPA Intensive', status: 'Available', powerDraw: '0W', noiseDb: 22.5 },
+  { id: 'C-02', seatNumber: '22', zone: 'C', zoneName: 'CPA Intensive', status: 'Occupied', powerDraw: '65W', noiseDb: 24.1 },
+  { id: 'C-03', seatNumber: '23', zone: 'C', zoneName: 'CPA Intensive', status: 'Occupied', powerDraw: '62W', noiseDb: 23.9 },
+  { id: 'C-04', seatNumber: '24', zone: 'C', zoneName: 'CPA Intensive', status: 'Available', powerDraw: '0W', noiseDb: 21.0 },
+  { id: 'C-05', seatNumber: '25', zone: 'C', zoneName: 'CPA Intensive', status: 'Occupied', powerDraw: '58W', noiseDb: 23.7 },
+  { id: 'C-06', seatNumber: '26', zone: 'C', zoneName: 'CPA Intensive', status: 'Occupied', powerDraw: '59W', noiseDb: 24.0 },
+  { id: 'C-07', seatNumber: '27', zone: 'C', zoneName: 'CPA Intensive', status: 'Occupied', powerDraw: '63W', noiseDb: 24.2 },
+  { id: 'C-08', seatNumber: '28', zone: 'C', zoneName: 'CPA Intensive', status: 'Occupied', powerDraw: '56W', noiseDb: 23.5 },
+  { id: 'C-09', seatNumber: '29', zone: 'C', zoneName: 'CPA Intensive', status: 'Occupied', powerDraw: '57W', noiseDb: 23.8 },
+  { id: 'C-10', seatNumber: '30', zone: 'C', zoneName: 'CPA Intensive', status: 'Available', powerDraw: '0W', noiseDb: 21.2 },
+];
+
+export const FACULTY_MEMBERS: FacultyMember[] = [
+  {
+    id: 'kim-junhyeok',
+    name: '김준혁 대표교수',
+    roleBadge: 'DEAN & DIRECTOR',
+    department: '헌법·형사소송법 총괄',
+    academicTitle: '대표교수 / 원장',
+    description: 'S대 법과대학 수석 졸업 (예시). 제45회 사법시험 수석 합격. 대법원 재판연구관 출신 (예시) 출신으로 로스쿨 형사기록형 및 LEET 추리논증 최우수 해법 직강.',
+    achievement: '• 3개년 수강생 합격률 98.2% (예시)',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC72mabf7UxI8blalO3MfrbYjotqTqEOKybzZVp0q8yOHaxq6fTl2ZGb5QFC1XW9LIX8U0jvTyqoZXSrtQBI93ozbPsR6QGH6BT4bgtWp13-cwYxkBt65YJFET9G2SXNmvsoQ0AUc_ctzeOpwhsX1t5zwlJ2aiqN46GooZzCj76GWIGFU-4aS-FhcvVvLzFpGym3EPqaJAf99_v9mOnV_pDWwotasHLjMdVs0-HeD_s_FZ3IFUNHlp-gA',
+    imageAlt: 'Monochrome solemn portrait of an authoritative Korean male legal scholar in his late 40s wearing a bespoke charcoal wool suit, sitting against a dark mahogany academic library.',
+    credentials: [
+      'S대 법과대학 수석 졸업 (예시) (학사·석사)',
+      '제45회 사법시험 수석 합격 (사법연수원 35기)',
+      '대법원 재판연구관 출신 (예시) (형사조 총괄 연구관)',
+      '법학전문대학원협의회 LEET 출제 자문위원 역임',
+      '저서: 《형사소송법 판례의 정석》, 《LEET 추리논증 형식논리 해체론》'
+    ],
+    lectures: [
+      'LEET 추리논증 형식논리학 및 법적 추론 마스터',
+      '변호사시험 형사법 기록형/사례형 완결 코어',
+      '법전원 입학 구술면접 법철학 쟁점 심층 문답'
+    ]
+  },
+  {
+    id: 'park-seoyeon',
+    name: '박서연 공인회계사',
+    roleBadge: 'PARTNER ADVISOR',
+    department: '재무회계·세법학 연구소장',
+    academicTitle: '연구소장 / KICPA',
+    description: 'Y대 경영대학 (예시) 졸. 제38기 공인회계사(CPA) 수석. 대형 회계법인 (예시) 감사본부 파트너 출신. K-IFRS 기준 회계감사 및 2차 주관식 세법 답안 작성 전담.',
+    achievement: '• 대형 회계법인 (예시) 파트너 추천 트랙 전담',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBA86SENd55Dow1g25SiS-rCFt9m3obluD9rgFlKpI09MSf6Z5lPznSQec6tskV0Slz_cOXKjreblSybpPXhdFKSyuoyVlGL1Czz0xSsV2x8o9fKds11rxHye1fycsPM86xj04qVP59hyWQ6XN15oiHxhqEmUe70JCjIqcB8LAIBA07Vi3vSdhVrOxioBjXFyaG_xlGg_DSO--U_uDFIInwiTgffIVPoMQrqkP4_Z3iBz9dJX32wHEShA',
+    imageAlt: 'Sophisticated portrait of a distinguished Korean female Certified Public Accountant in her early 40s wearing an elegant midnight blue blazer, holding an audit ledger.',
+    credentials: [
+      'Y대 경영대학 (예시) 경영학 학사 (Summa Cum Laude)',
+      '제38회 공인회계사(KICPA) 전체 수석 합격',
+      'PwC 대형 회계법인 (예시) 금융감사본부 Senior Partner',
+      '한국공인회계사회 회계연구위원회 전문위원',
+      '저서: 《K-IFRS 고급회계정해》, 《세법학 판례 및 서술 전략》'
+    ],
+    lectures: [
+      'CPA 1·2차 재무회계 구조론 및 연결회계 정복',
+      '세법학 I/II 주관식 답안 채점관 시각 실전 교정',
+      '대형 회계법인 (예시) 입사 면접 및 커리어 트랙 프리미엄 멘토링'
+    ]
+  },
+  {
+    id: 'david-kang',
+    name: 'David C. Kang 법학박사',
+    roleBadge: 'VISITING SCHOLAR',
+    department: 'LEET 언어이해·법철학 연구관',
+    academicTitle: '석좌연구관 / S.J.D.',
+    description: 'H-Univ Law School (예시) Visiting Fellow. S대 인문학 (예시) 학·석사. 언어이해 상위 0.1% 정밀 텍스트 분해론 창안. LEET 제시문 논리구조 완전 해체식 독해 훈련.',
+    achievement: '• LEET 언어 백분위 99.8% (예시) 달성자 다수 배출',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDHZanbrzLbh6JytYc1B7nt7bs4mEVoKOUV59_Gu0cFUheF_raY1TJusmtnfNLsfiV_VA38y5zQRJKmMfRK1boSU39HVZj_t_VF4NMpJovTN-FRHtIEM4xOlWypGFzuQbvbS1d40Ot00zVw2URgj16bps37_5WOXIlBmm2H5GPbBOe8Li5NNp2aU91B0-pS46zyEfkw82HFHWbBJsJXUQP2IhWqmvhquasKEpjLuM8jjWeP8vq3lknMrg',
+    imageAlt: 'Distinguished Asian-American male legal philosopher in his 50s with scholarly glasses, dressed in a bespoke dark navy tailored vest and white shirt.',
+    credentials: [
+      'H-Univ Law School (예시) (Visiting Research Fellow in Jurisprudence)',
+      'S대 인문대학 (예시) 철학과 학사 및 법철학 석사',
+      'C-Univ Law School (예시) 법학박사 (S.J.D.)',
+      '전미 아시아계 법학교수협회 정회원',
+      '저서: 《The Architecture of Juridical Arguments》, 《언어이해 텍스트 해부도감》'
+    ],
+    lectures: [
+      '고난도 인문·철학·과학기술 복합 지문 초정밀 분석법',
+      '시간 압박 속 30초 내 문단 맥락 논증 구조 도식화',
+      'SKY 로스쿨 자기소개서 및 학업계획서 영문/국문 감수'
+    ]
+  },
+  {
+    id: 'choi-youngjin',
+    name: '최영진 변호사',
+    roleBadge: 'FORMER CHIEF PROSECUTOR',
+    department: '검찰실무·변호사시험 기록형',
+    academicTitle: '파트너 변호사 / 전 부장검사',
+    description: '서울중앙지검 (예시) 특수부 부장검사 역임. 사법연수원 교수 역임. 로스쿨 재학생 대상 검찰실무, 형사 판례 평석 및 본고사 답안지 실전 첨삭 주관.',
+    achievement: '• 변호사시험 1차 합격률 99.1% (예시)',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBVa9kUZ4exYglCGBtjh6_xGPPy5Rde0yer99UqJOS4hkuEiZV4OkSSBkIKiPCIbJ0z4v4nIACku7rugQkq7EdKrspKxizEYASyATUjX29UYoGX3S_DTX-nxL5EHiQf2LP3pvnG1pXSoxF1TuWV-ihyjHkas8JMp3bQezaY-jUPsCiL3mZa5CC8wIT46X7iy-kMvAnMqkd4VnLFagHLxNwiDijIZhIUp3Hlaajhwg0VKYBrhSwIP0jIuQ',
+    imageAlt: 'Charismatic Korean senior male jurist in his early 50s wearing a dark charcoal barrister suit with a subtle gold pin. Crisp slate background.',
+    credentials: [
+      'S대 법과대학 (예시) 법학사',
+      '제36회 사법시험 합격 (사법연수원 26기)',
+      '서울중앙지검 (예시) 특수2부 부장검사',
+      '사법연수원 검찰실무 전임교수',
+      '대한변호사협회 형사전문변호사 인증'
+    ],
+    lectures: [
+      '검찰실무 기소/불기소 결정문 및 공소장 작성 공식',
+      '형사소송 증거법 쟁점 및 위법수집증거 배제 실무',
+      '변호사시험 기록형 메모법 및 압축 답안 프레임워크'
+    ]
+  }
+];
+
+export const CARREL_SPECIFICATIONS = [
+  {
+    code: 'SPEC 01',
+    title: 'ACOUSTIC ATTENUATION',
+    description: '스위스 수입 4중 구조 방음 도어 및 복합 흡음재 시공. 음향 투과 손실치(STC) 48dB 달성으로 외부 타자기·발걸음 소리 완전 소거.'
+  },
+  {
+    code: 'SPEC 02',
+    title: 'ERGONOMIC MASTERY',
+    description: '전 좌석 허먼밀러(Herman Miller) Aeron Remastered 풀옵션 의자 배치. 16시간 연속 착석 시 요추 피로도 최소화 지향 (예시).'
+  },
+  {
+    code: 'SPEC 03',
+    title: 'CIRCADIAN LIGHTING MATRIX',
+    description: '3,000K~6,500K 생체리듬 연동 5단계 무반사 LED 조명. 백내장 및 시신경 피로 방지 프리커 프리(Flicker-Free) 특허 모듈.'
+  },
+  {
+    code: 'SPEC 04',
+    title: 'MICROCLIMATE CLIMATE CONTROL',
+    description: '독립형 펠티어 소자 무진동 공조. 좌석별 미세 온도(±0.5℃) 및 산소 발생 농도 23% 항시 유지.'
+  }
+];

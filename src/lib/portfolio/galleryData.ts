@@ -1616,12 +1616,32 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       '1:1 비공개 포트폴리오 감사 및 학업 지수 정밀 진단 신청 위저드',
     ],
   },
+  {
+    id: 'apex-legal-cpa',
+    title: '에이펙스 법학·회계 아카데미 (APEX Legal & CPA)',
+    client: '가상 브랜드 샘플 — 실제 업체가 아닙니다 (로스쿨 LEET/공인회계사 CPA 전문관 설정)',
+    category: 'education',
+    categoryName: '학원 · 로스쿨LEET/공인회계사CPA',
+    summary: '전국 로스쿨 3개년 LEET 매트릭스 & 48dB 1인 방음 캐럴 좌석도 & 사정관 답안 첨삭 Lab',
+    description: '서초 법조타운 최상위 로스쿨(LEET) 및 공인회계사(CPA) 전문 교육기관 웹사이트 샘플입니다. 전국 주요 로스쿨 및 CPA 3개년 합격선 인터랙티브 매트릭스, 48dB 음향 투과 손실 1인 방음 캐럴 실시간 좌석도, 전직 법조인·회계사 전임 교수진 아카이브, 1:1 심층 입학 진단 레벨테스트 신청 위저드를 제공합니다.',
+    thumbnailUrl: '/portfolio/apex-legal-cpa/desktop.png',
+    liveDemoUrl: '/demo/apex-legal-cpa',
+    techStack: [
+      'Next.js 16',
+      'React 19',
+      'Tailwind CSS v4',
+      'TypeScript',
+      'Admission Matrix Lab',
+      'Soundproof Carrel Floorplan',
+    ],
+    period: '2주',
+    year: '2026',
+    badge: '실물 라이브 데모',
+    highlights: [
+      '전국 주요 로스쿨 3개년 LEET·GPA 커트라인 & CPA 1·2차 인터랙티브 합격 매트릭스(예시)',
+      '48dB 음향 감쇠 1인 방음 캐럴 3개 구역 실시간 전력·소음 텔레메트리 좌석 배치도(예시)',
+      '사법시험 및 회계사 수석 출신 전임 교수진 프로필 & 본고사 주관식 답안 첨삭 로드맵(예시)',
+      '지망 트랙별 1:1 심층 입학 진단 레벨테스트 및 좌석 사전 배정 신청 위저드',
+    ],
+  },
 ];
-
-
-
-
-
-
-
-
