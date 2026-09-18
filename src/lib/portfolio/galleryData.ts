@@ -1182,7 +1182,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     summary: '부산신항-로테르담 실시간 AIS 선박 추적, -18℃ 초저온 콜드체인 IoT 관제 및 복합운임 시뮬레이터',
     description: '글로벌 선사 규모의 글로벌 스마트 항만 & AI 복합물류 플래그십 사이트입니다. B/L 선하증권 실시간 GPS 선박 및 컨테이너 텔레메트리 HUD, 해상·항공·철도 운송모드별 실시간 운임 및 Scope-3 탄소 감축 계산기, 부산·로테르담·싱가포르·LA 4대 거점 항만 혼잡도 레이더 모달, 글로벌 화주 전용 RFP 운송계약 접수 데스크를 완비했습니다.',
     thumbnailUrl: '/demo-media/transocean-scm/transocean-scm-01.jpg',
-    // 미리보기 영상 보류 — 히어로 영상 선체·컨테이너에 실존 선사 로고가 찍혀 있다. 영상을 바꾼 뒤에 넣는다.
+    previewVideoUrl: '/portfolio/transocean-scm/transocean-autonomous-ship-preview.mp4',
     liveDemoUrl: '/demo/transocean-scm',
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
