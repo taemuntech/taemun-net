@@ -23,10 +23,6 @@ export default function VoltronEvPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        '800V Ultra-Fast Charging Simulator',
-        'SiC Inverter HUD',
-        '기능안전 등급 표기 (예시)',
-        'OEM 견적 요청 폼',
       ]}
       inquiryUrl="/inquiry?from=voltron-ev"
       specs={[

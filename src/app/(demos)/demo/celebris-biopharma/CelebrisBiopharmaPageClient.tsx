@@ -23,9 +23,6 @@ export default function CelebrisBiopharmaPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Interactive Pipeline Matrix',
-        'PROTEA-AI Platform Engine',
-        'Songdo cGMP Cleanroom Spec',
       ]}
       inquiryUrl="/inquiry?from=celebris-biopharma"
       specs={[

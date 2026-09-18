@@ -23,11 +23,6 @@ export default function AtelierNoirPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Faceted Category & Attribute Filter HUD',
-        'Interactive Lookbook Pulse Pins',
-        'Multi-Angle Fit & Measurement Matrix',
-        'Ranking & Curation Tabs',
-        'Cart & Wishlist Drawer Architecture',
       ]}
       inquiryUrl="/inquiry?from=atelier-noir"
       specs={[

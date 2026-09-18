@@ -12,7 +12,7 @@
     "굴착 깊이(m) 및 지반 조건별 흙막이 가시설 개략 공사비 & 공기 간이 시뮬레이터(예시)",
     "SampleNotice 연동 신축 현장 지반 시추 주상도 무료 기술 검토 신청 모달"
   ],
-  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript", "Subsurface Depth Layer Viewer", "Foundation Cost Estimator"],
+  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript"],
   "liveUrl": "/demo/geo-foundation",
   "createdAt": "2026-09-18"
 }

@@ -16,9 +16,7 @@
     "Next.js 16",
     "React 19",
     "TypeScript",
-    "Tailwind CSS v4",
-    "3D Kinematics Analysis",
-    "Real-Time Score Calibrator"
+    "Tailwind CSS v4"
   ],
   "liveUrl": "/demo/pinnacle-athletic-lab",
   "icon": "activity",

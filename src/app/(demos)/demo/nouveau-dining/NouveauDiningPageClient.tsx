@@ -23,9 +23,6 @@ export default function NouveauDiningPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Ambience Lighting Simulator',
-        'Tactile Material Library',
-        'Spatial Zone Hotspots',
       ]}
       inquiryUrl="/inquiry?from=nouveau-dining"
       specs={[

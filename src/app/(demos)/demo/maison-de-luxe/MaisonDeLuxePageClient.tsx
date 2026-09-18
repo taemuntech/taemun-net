@@ -23,10 +23,6 @@ export default function MaisonDeLuxePageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        '3-Stage Inspection Workflow UI',
-        'Lot Number Record Lookup',
-        'Private Concierge Chat Drawer',
-        'Cart · Order Form Flow',
       ]}
       inquiryUrl="/inquiry?from=maison-de-luxe&industry=commerce"
       specs={[

@@ -16,9 +16,7 @@
     "Next.js 16",
     "React 19",
     "TypeScript",
-    "Tailwind CSS v4",
-    "Admission Matrix Lab",
-    "Soundproof Carrel Floorplan"
+    "Tailwind CSS v4"
   ],
   "liveUrl": "/demo/apex-legal-cpa",
   "icon": "briefcase",

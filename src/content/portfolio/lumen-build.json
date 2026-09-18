@@ -12,7 +12,7 @@
     "부지 타당성 분석부터 인허가, 철거, 책임 시공, 우량 테넌트 임대 세팅 원스톱",
     "SampleNotice 연동 꼬마빌딩 신축 무료 사업성 검토 및 현장 상담 신청 모달"
   ],
-  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript", "Commercial Yield Calculator", "Boutique Portfolio Showcase"],
+  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript"],
   "liveUrl": "/demo/lumen-build",
   "createdAt": "2026-09-18"
 }

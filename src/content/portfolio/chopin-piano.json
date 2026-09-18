@@ -18,9 +18,7 @@
     "React 19",
     "TypeScript",
     "Tailwind CSS v4",
-    "Web Audio API",
-    "Harmonics Synthesizer",
-    "Acoustic Reverb HUD"
+    "Web Audio API"
   ],
   "liveUrl": "/demo/chopin-piano",
   "icon": "sparkles",

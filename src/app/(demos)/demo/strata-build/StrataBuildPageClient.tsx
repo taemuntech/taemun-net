@@ -23,10 +23,6 @@ export default function StrataBuildPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Timelapse Build-Up Slider',
-        'Rugged Field HUD',
-        'Landmark Showcase',
-        'Structural Material Archive',
       ]}
       inquiryUrl="/inquiry?from=strata-build"
       specs={[

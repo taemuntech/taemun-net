@@ -23,9 +23,6 @@ export default function TerraCorePageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Subterranean Strata HUD',
-        '14.2M TBM Cutterhead Simulator',
-        'Geotechnical Spec Archive',
       ]}
       inquiryUrl="/inquiry?from=terra-core"
       specs={[

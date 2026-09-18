@@ -23,9 +23,6 @@ export default function StayJejuPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Circadian Lighting HUD',
-        'Spatial Zone Hotspots',
-        'Jeju Tactile Archive',
       ]}
       inquiryUrl="/inquiry?from=stay-jeju"
       specs={[

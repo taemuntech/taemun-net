@@ -12,7 +12,7 @@
     "사옥 vs 지식산업센터 규모별 예상 공사비 및 공사 기간 간이 시뮬레이터(예시)",
     "SampleNotice 연동 신축 부지 무료 법적 검토 및 종합건설 턴키 견적 신청 모달"
   ],
-  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript", "BIM 4D Digital Twin Showcase", "Turnkey Construction Simulator"],
+  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript"],
   "liveUrl": "/demo/metro-build",
   "createdAt": "2026-09-18"
 }

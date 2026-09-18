@@ -23,10 +23,6 @@ export default function TechnovaGearPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Parametric Spec Matrix',
-        '3D Vapor Chamber CAD Inspector',
-        'Chassis I/O Port Telemetry',
-        'Side-by-Side Model Comparator',
       ]}
       inquiryUrl="/inquiry?from=technova-gear&industry=commerce"
       specs={[

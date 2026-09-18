@@ -23,9 +23,6 @@ export default function StellaOrbitalPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Multi-Sensor Radar Explorer',
-        'Constellation Telemetry HUD',
-        'Planetary Analytics Suite',
       ]}
       inquiryUrl="/inquiry?from=stella-orbital"
       specs={[

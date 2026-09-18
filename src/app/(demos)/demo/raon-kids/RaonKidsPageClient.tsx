@@ -23,9 +23,6 @@ export default function RaonKidsPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Eco Safety Telemetry HUD',
-        'Child-Safe Material Library',
-        'Interactive Play Zones',
       ]}
       inquiryUrl="/inquiry?from=raon-kids"
       specs={[

@@ -23,9 +23,6 @@ export default function OceanMarinePageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Maritime Caisson Process Viewer',
-        'Port & Harbor Cost Estimator',
-        'Deepwater Quay Wall Showcase',
       ]}
       inquiryUrl="/inquiry?from=ocean-marine"
       specs={[

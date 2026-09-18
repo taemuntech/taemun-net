@@ -23,9 +23,6 @@ export default function NexusWorkPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Smart Facility HUD',
-        'Acoustic Spec Archive',
-        'Spatial Zone Hotspots',
       ]}
       inquiryUrl="/inquiry?from=nexus-work"
       specs={[

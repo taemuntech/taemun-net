@@ -23,9 +23,6 @@ export default function NexusRoboticsPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Fleet Digital Twin HUD',
-        'Interactive ROI Calculator',
-        'Cleanroom Class 1 대응 표기 (예시)',
       ]}
       inquiryUrl="/inquiry?from=nexus-robotics"
       specs={[

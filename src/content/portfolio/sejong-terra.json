@@ -12,7 +12,7 @@
     "단지 면적(만평) 및 지반 조건별 부지조성 개략 토목 공사비 산출기(예시)",
     "SampleNotice 연동 지방자치단체 및 산단 개발 턴키 기술 자문 신청 모달"
   ],
-  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript", "Mass-Haul Earthwork Balancer", "Industrial Land Cost Estimator"],
+  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript"],
   "liveUrl": "/demo/sejong-terra",
   "createdAt": "2026-09-18"
 }

@@ -23,9 +23,6 @@ export default function JeonglimTeaPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Weather Ambience HUD',
-        'Traditional Timber Library',
-        'Hanok Spatial Hotspots',
       ]}
       inquiryUrl="/inquiry?from=jeonglim-tea"
       specs={[

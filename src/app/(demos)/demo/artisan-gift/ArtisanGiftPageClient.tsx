@@ -23,11 +23,6 @@ export default function ArtisanGiftPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Real-time Foil & Blind Engraving Simulator',
-        'Interactive Bojagi Knot Wrapping Lookbook',
-        'Scheduled Gift Delivery Reservation Engine',
-        'Bespoke Artisan Packaging Customizer',
-        'Category · Search · Sort Collection Filter',
       ]}
       inquiryUrl="/inquiry?from=artisan-gift&industry=commerce"
       specs={[

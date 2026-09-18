@@ -22,9 +22,6 @@ export default function VeritasJuniorEnglishPageClient({ isEmbed }: Props) {
         'Next.js 16',
         'TypeScript',
         'Tailwind CSS v4',
-        'Lexile Virtual Bookshelf',
-        'AI Speech Diagnostic Lab',
-        'Native Interview Wizard',
       ]}
       inquiryUrl="/inquiry?from=veritas-junior-english"
       specs={[

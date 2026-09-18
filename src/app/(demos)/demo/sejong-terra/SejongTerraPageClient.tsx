@@ -23,9 +23,6 @@ export default function SejongTerraPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Mass-Haul Earthwork Balancer',
-        'Industrial Land Cost Estimator',
-        'Smart Machine Guidance Showcase',
       ]}
       inquiryUrl="/inquiry?from=sejong-terra"
       specs={[

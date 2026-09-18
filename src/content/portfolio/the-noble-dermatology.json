@@ -17,9 +17,7 @@
     "Next.js 16",
     "React 19",
     "TypeScript",
-    "Tailwind CSS v4",
-    "Serial Lookup Widget",
-    "Skin Spectrum Showcase"
+    "Tailwind CSS v4"
   ],
   "liveUrl": "/demo/the-noble-dermatology",
   "icon": "sparkles",

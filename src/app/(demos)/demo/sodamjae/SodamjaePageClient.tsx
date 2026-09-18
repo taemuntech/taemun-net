@@ -23,8 +23,6 @@ export default function SodamjaePageClient({ isEmbed }: Props) {
         "React 19",
         "Tailwind CSS v4",
         "TypeScript",
-        "Project Detail Modal",
-        "Hanok Quote Wizard",
       ]}
       inquiryUrl="/inquiry?from=sodamjae"
       specs={[

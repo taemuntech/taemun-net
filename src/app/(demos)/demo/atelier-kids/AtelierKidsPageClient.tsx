@@ -23,9 +23,6 @@ export default function AtelierKidsPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Collage Canvas Interactive',
-        'Sensory Development HUD',
-        'Kids Art Archive',
       ]}
       inquiryUrl="/inquiry?from=atelier-kids"
       specs={[

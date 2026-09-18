@@ -23,9 +23,6 @@ export default function HausSpacePageClient({ isEmbed }: Props) {
         "React 19",
         "Tailwind CSS v4",
         "TypeScript",
-        "Before & After Slider",
-        "Wide Scene Viewer",
-        "Architectural Dossier",
       ]}
       inquiryUrl="/inquiry?from=haus-space"
       specs={[

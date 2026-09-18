@@ -23,8 +23,6 @@ export default function LithiumFoilPageClient({ isEmbed }: Props) {
         "React 19",
         "Tailwind CSS v4",
         "TypeScript",
-        "Statistical Process Control",
-        "Lot Traceability",
       ]}
       inquiryUrl="/inquiry?from=lithium-foil"
       specs={[

@@ -23,10 +23,6 @@ export default function NordicPeakPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        '4단계 속성 필터',
-        '텐트 평면도 시뮬레이터',
-        '필드 기상 관측 HUD (예시 데이터)',
-        '기어 스펙 비교표',
       ]}
       inquiryUrl="/inquiry?from=nordic-peak&industry=commerce"
       specs={[

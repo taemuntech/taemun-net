@@ -23,10 +23,6 @@ export default function HysfaPageClient({ isEmbed }: Props) {
         "React 19",
         "Tailwind CSS v4",
         "TypeScript",
-        "3 Core Divisions",
-        "5-Stage Total QA",
-        "Bilingual (KO/EN)",
-        "Quote & Engineering Form",
       ]}
       inquiryUrl="/inquiry?from=hysfa"
       specs={[

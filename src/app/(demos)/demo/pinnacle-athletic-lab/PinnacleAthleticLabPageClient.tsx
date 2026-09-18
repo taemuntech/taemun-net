@@ -28,8 +28,6 @@ export default function PinnacleAthleticLabPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        '3D Kinematics Analysis',
-        'Real-Time Score Calibrator',
       ]}
       inquiryUrl="/inquiry?from=pinnacle-athletic-lab"
       specs={[

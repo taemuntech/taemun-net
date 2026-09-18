@@ -23,9 +23,6 @@ export default function MetroBuildPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'BIM 4D Digital Twin Operations Center',
-        'Turnkey Construction Simulator',
-        'Masterpiece Portfolio Filter',
       ]}
       inquiryUrl="/inquiry?from=metro-build"
       specs={[

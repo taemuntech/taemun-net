@@ -24,8 +24,6 @@ export default function ChopinPianoPageClient({ isEmbed }: Props) {
         'Tailwind CSS v4',
         'TypeScript',
         'Web Audio API Synthesizer',
-        'Acoustic Reverb HUD',
-        'Masterclass Booking Wizard',
       ]}
       inquiryUrl="/inquiry?from=chopin-piano"
       specs={[

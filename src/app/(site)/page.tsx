@@ -42,9 +42,13 @@ export default async function Home() {
   );
 
   // 목록에 없는 slug(= 등록 안 된 데모, 내려간 시안)는 **싣지 않는 쪽**으로 넘어진다.
+  // 데모도 외부 운영 주소도 없는 카드도 싣지 않는다 — 볼 것이 없는데 「샘플」 표시·기술 스택·제작 기간을 달고
+  // 「이 레퍼런스로 제작 문의」까지 띄우면 만든 적 없는 작품을 내건 것이 된다(2026-09-18 실측 15장, 쓰지 않은
+  // FastAPI·MQTT·PostgreSQL 이 적혀 있었다). 데이터는 남겨 두므로 데모를 만들어 liveDemoUrl 을 달면 저절로 돌아온다.
   const projects = GALLERY_PROJECTS.filter((p) => {
     const slug = demoSlugOf(p);
-    return slug === null || listedSlugs.has(slug);
+    if (slug === null) return Boolean(p.externalUrl);
+    return listedSlugs.has(slug);
   });
 
   // 헤더 드롭다운도 같은 스냅숏으로 거른다. HomeView 는 받은 것을 Header 에 그대로 전달만 한다 —

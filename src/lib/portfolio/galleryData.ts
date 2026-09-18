@@ -114,7 +114,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '반도체 식각·확산 공정 핵심 소재인 쿼츠웨어·정밀 세라믹 제조사를 상정하고 만든 플래그십 화면입니다. 4대 핵심 사업(쿼츠·세라믹·세정·옵틱) 인터랙티브 도면 및 쇼케이스, 창립 기념 영상 상영관, 주가 차트 화면 및 신규 협력제안 포털을 담았습니다.',
     thumbnailUrl: '/portfolio/wonik-qnc/wonik-qnc-04.jpg',
     liveDemoUrl: '/demo/wonik-qnc',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'PR Film Theater', 'IR Dashboard'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '3주',
     year: '2026',
     badge: '기업 IR 허브',
@@ -135,7 +135,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '반도체 공정 자동화(FA) 설비, 초고순도(UHP) 가스 공급 인프라, 스마트 제어 S/W를 함께 다루는 장비 기업을 상정하고 만든 공식 웹사이트 화면입니다. 연혁 아카이브, 5단계 전수 검사 QA 파이프라인, 온라인 견적 접수 화면을 담았습니다.',
     thumbnailUrl: '/hysfa/sub205_img01.jpg',
     liveDemoUrl: '/demo/hysfa',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', '5-Stage QA Pipeline', 'Bilingual (KR/EN)'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '4주',
     year: '2026',
     badge: '품질 파이프라인',
@@ -156,7 +156,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '엑셀 수기 장부로 관리되던 리튬박 현장 일지를 웹 기반 실시간 엔터프라이즈 모니터링 시스템으로 전환했습니다. 7대 미량 불순물(Fe, Cu, Ni 등) ICP 통계 관리도(SPC), 12주 수율 워터폴 분석, 잉곳부터 슬리팅까지 완벽한 로트(Lot) 계보 역추적 엔진을 갖추고 있습니다.',
     thumbnailUrl: '/demo-media/lithium-foil/lithium-foil-01.png',
     liveDemoUrl: '/demo/lithium-foil',
-    techStack: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind CSS v4', 'Custom SPC Charts'],
+    techStack: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind CSS v4'],
     period: '3주',
     year: '2026',
     highlights: [
@@ -274,7 +274,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '화려한 치장보다 천연 트래버틴과 미장 회벽, 훈증 오크의 물성을 앞세운 최고급 건축 인테리어 에이전시의 브랜드 웹사이트입니다. 공간 철학 3대 축 소개, 반응형 프로젝트 아카이브 및 필터링, 1:1 프라이빗 공간 컨설팅 예약 위저드 시스템을 탑재했습니다.',
     thumbnailUrl: '/demo-media/atelier-vaucluse/atelier-vaucluse-01.avif',
     liveDemoUrl: '/demo/atelier-vaucluse',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Editorial Grid', 'Modal Booking'],
+    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -294,7 +294,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '도심 속 안식처를 지향하는 최고급 펜트하우스 전용 포트폴리오 사이트로, 시공 전 3D 렌더링과 완공 후 8K 실물 사진을 인터랙티브 슬라이더로 비교 감상할 수 있습니다.',
     thumbnailUrl: '/demo-media/haus-space/haus-space-01.avif',
     liveDemoUrl: '/demo/haus-space',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Before & After Slider', '360 VR Tour'],
+    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2025',
     highlights: [
@@ -313,7 +313,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '붉은 벽돌과 노출 콘크리트, 브러시드 스테인리스와 천연 원석이 조화를 이루는 상업 인테리어 스튜디오의 공식 웹사이트입니다. 3층 층별 조닝 인터랙션 핀 핫스팟, 5대 하이엔드 자재 스펙 아카이브, 업종·규모별 실시간 공간 견적 시뮬레이터 시스템을 탑재했습니다.',
     thumbnailUrl: '/demo-media/gallery/seongsu-flagship-showroom-01.avif',
     liveDemoUrl: '/demo/seongsu-showroom',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Interactive Zoning HUD', 'Material Archive', 'Space Estimator'],
+    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2025',
     highlights: [
@@ -333,7 +333,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '제주 애월의 바다와 오름을 품은 프라이빗 독채 스테이의 공식 웹사이트입니다. Day/Sunset/Night 시간대별 서커디언 조명 연출과 색온도 제어, 안채 다도실과 노천 히노끼탕 360 공간 투어 핀 핫스팟, 제주 현무암·100년 편백·규조토 등 4대 자연 물성 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/stay-jeju/desktop.png',
     liveDemoUrl: '/demo/stay-jeju',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Circadian Lighting HUD', 'Spatial Zone Hotspots', 'Jeju Tactile Archive'],
+    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -353,7 +353,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '성수·강남 테크 기업과 스타트업을 위한 하이브리드 스마트 오피스의 공식 웹사이트입니다. 코워킹·포커스 부스·타운홀·바이오필릭 4대 특화 존 핫스팟 투어, 온·습도 및 스마트 글래스를 제어하는 회의실 환경 관제 HUD, NRC 0.85 고성능 음향 차음재 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/nexus-work/desktop.png',
     liveDemoUrl: '/demo/nexus-work',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Smart Facility HUD', 'Acoustic Spec Archive', 'Spatial Zone Hotspots'],
+    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -373,7 +373,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '성수와 청담의 미식 랜드마크를 완성하는 F&B 레스토랑 & 감성 카페의 공식 웹사이트입니다. 오픈 셰프 카운터 바, 어번 온실 테라스, 르 시엘 프라이빗 룸 핫스팟 투어와 3단계 시간대별 조도(Lux) 시뮬레이션, 이탈리안 테라조와 황동 마감재 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/nouveau-dining/desktop.png',
     liveDemoUrl: '/demo/nouveau-dining',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Lighting Simulator', 'Spatial Hotspots', 'Tactile Archive'],
+    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -393,7 +393,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '한남·청담의 1:1 VIP 필라테스 & 스파 공간을 위한 공식 웹사이트입니다. 독립 리포머 룸, 허벌 티 라운지, 히노끼 스파 파우더룸 핫스팟 투어와 산소 농도·쾌적 습도를 모니터링하는 클린 에어 텔레메트리 HUD, 테라코타 및 히노끼 친환경 자재 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/arche-wellness/desktop.png',
     liveDemoUrl: '/demo/arche-wellness',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Air Telemetry HUD', 'Eco-Material Library', 'Studio Hotspots'],
+    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -413,7 +413,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '북촌·서촌의 전통 고택 건축 미학과 현대적 다도 문화를 결합한 한옥 복합문화 공간의 공식 웹사이트입니다. 다도 팽주석, 중정 이끼 정원 평상, 소반 온돌 다실 핫스팟 투어와 처마 끝 빗소리를 연출하는 날씨 앰비언스 HUD, 100년 고재 소나무와 수제 한지 전통 마감재 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/jeonglim-tea/desktop.png',
     liveDemoUrl: '/demo/jeonglim-tea',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Weather Ambience HUD', 'Heritage Timber Library', 'Hanok Hotspots'],
+    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -433,7 +433,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '청담·압구정의 VIP 피부과 & 안티에이징 센터를 위한 공식 웹사이트입니다. 캐시미어 크림 웰컴 라운지, 프라이빗 1인 치료 스위트, 호텔식 파우더 앤 스파 핫스팟 투어와 45dB 이하 무소음 차음 텔레메트리 HUD, 친환경 항균 규조토 및 트래버틴 자재 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/aether-medical/desktop.png',
     liveDemoUrl: '/demo/aether-medical',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Acoustic Silence HUD', 'Medical Tactile Archive', 'Clinic Hotspots'],
+    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -453,7 +453,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '서초·판교의 프리미엄 영유아 및 초등 창의 복합문화 라운지를 위한 공식 웹사이트입니다. 워터 앤 클레이 아트 스튜디오, 유기적 자작나무 놀이 파빌리온, 부모 전용 감성 살롱 핫스팟 투어와 라돈 제로·VOC 프리 안전 인증 텔레메트리 HUD, 친환경 자작나무와 천연 코르크 자재 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/raon-kids/desktop.png',
     liveDemoUrl: '/demo/raon-kids',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Eco-Safety Telemetry HUD', 'Kids Material Archive', 'Creative Zone Hotspots'],
+    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -473,7 +473,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '성수·한남의 하이엔드 오디오 애호가와 스튜디오를 위한 공식 웹사이트입니다. 스윗스팟 리스닝 룸, 화이트 오크 바이닐 라이브러리, 프라이빗 홈 시네마 핫스팟 투어와 보컬부터 대편성 심포니까지 음향 잔향 시간(RT60) 시뮬레이션 HUD, 솔리드 화이트 오크 디퓨저와 흡음 펠트 자재 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/resonance-sound/desktop.png',
     liveDemoUrl: '/demo/resonance-sound',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'RT60 Acoustic HUD', 'Sound Material Archive', 'Audiophile Hotspots'],
+    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -496,7 +496,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '판교, 서초, 한남, 가평 등 고급 주거 및 별서(세컨하우스) 전문 건축사사무소 공식 웹사이트입니다. 판교 모던 중정주택, 가평 수변별서, 서초 콘크리트하우스 등 4대 준공작 인터랙티브 갤러리, 건축가의 공간 철학, 대지 조건별 예상 건축비 산출 가이드, 1:1 건축 상담 및 대지 답사 신청 모달을 담았습니다.',
     thumbnailUrl: '/portfolio/arche-house/desktop.png',
     liveDemoUrl: '/demo/arche-house',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Architectural Gallery', 'Budget Estimator'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -516,7 +516,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '성수동, 연남동, 한남동, 도산대로 등 도심 핫플레이스 꼬마빌딩 및 상업 근린생활시설 신축 전문 건축·시공사 공식 웹사이트입니다. 성수 팝업 플래그십, 한남 루프탑 라운지 등 4대 완공 실적 갤러리, 대지 조건별 예상 임대수익률 및 건축 규모 간이 시뮬레이터, 인허가부터 임대차 세팅까지 원스톱 5단계 로드맵, 무료 사업성 검토 신청 모달을 담았습니다.',
     thumbnailUrl: '/portfolio/lumen-build/desktop.png',
     liveDemoUrl: '/demo/lumen-build',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Commercial Yield Calculator', 'Boutique Portfolio Showcase'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -536,7 +536,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '1980~90년대 도심 노후 오피스, 병원, 상가 빌딩을 초현대식 글래스 커튼월 사옥으로 탈바꿈하는 대수선·리모델링 전문 솔루션 공식 웹사이트입니다. 실시간 Before & After 외관 비교 인터랙티브 슬라이더, 4대 대수선 완공작 아카이브, 신축 대비 경제성 비교 시뮬레이터, 탄소섬유 내진 보강 및 수직 증축 특화 공법, 무료 현장 실측 및 건물 진단 신청 모달을 담았습니다.',
     thumbnailUrl: '/portfolio/renewal-tech/desktop.png',
     liveDemoUrl: '/demo/renewal-tech',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Before-After Split Slider', 'Value-Add ROI Simulator'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -556,7 +556,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '판교·성수 IT 기업 본사 사옥과 가산·문정 첨단 드라이브인 지식산업센터 신축에 특화된 메트로종합건설의 공식 브랜드 웹사이트입니다. 판교 테크노밸리 사옥·마곡 바이오 R&D 센터 4대 대표 실적 갤러리, 스마트 BIM 4D 공정 관제 시스템 쇼케이스, 기획·설계·시공 턴키 프로세스, 연면적별 공사비 & 공기 간이 시뮬레이터, 무료 부지 기술검토 신청 모달을 담았습니다.',
     thumbnailUrl: '/portfolio/metro-build/desktop.png',
     liveDemoUrl: '/demo/metro-build',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'BIM 4D Digital Twin Showcase', 'Turnkey Construction Simulator'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -576,7 +576,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '용인·이천·안성 수도권 핵심 물류 요충지에 초대형 저온·상온 복합 물류센터를 시공하는 로지스파크건설의 공식 웹사이트입니다. 용인 메가 콜드체인 허브 등 4대 완공 실적 갤러리, -25℃ 멀티 챔버 공조 인터랙티브 다이어그램, FM1 규격 초평탄 바닥 및 PC 기둥 시공 쇼케이스, 물류센터 규모별 예상 공사비 & 공기 간이 계산기, 부지 기술검토 신청 모달을 담았습니다.',
     thumbnailUrl: '/portfolio/logis-park/desktop.png',
     liveDemoUrl: '/demo/logis-park',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Cold-Chain Chamber Diagram', 'Logistics Cost Simulator'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -596,7 +596,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '고속도로, 국도 개설, 해상 장대교량, 대심도 철도 터널 등 대형 사회간접자본(SOC) 인프라 시공을 선도하는 한빛토목이앤씨의 공식 웹사이트입니다. 서해 복합 사장교·산악 6차선 고속도로 4대 완공 갤러리, 이동식 비계(MSS) 교량 가설 엔지니어링 아카이브, 공종별 연장(km) 기반 공사비 간이 시뮬레이터, 인프라 개발 민관협력 견적 신청 모달을 담았습니다.',
     thumbnailUrl: '/portfolio/hanbit-civil/desktop.png',
     liveDemoUrl: '/demo/hanbit-civil',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Mega Infrastructure Showcase', 'Civil Cost Estimator'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -616,7 +616,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '도심 초고층 빌딩 대심도 터파기, 지하연속벽(D-Wall), 대구경 RCD 현장타설말뚝, 초고압 차수 그라우팅을 전문 시공하는 지오파운데이션의 공식 웹사이트입니다. 지하 40m 역타 현장 등 4대 완공 갤러리, 심도별 지층 단면 인터랙티브 뷰어, 굴착 깊이별 가시설 개략 공사비 시뮬레이터, 지반 시추조사서 무료 기술검토 신청 모달을 담았습니다.',
     thumbnailUrl: '/portfolio/geo-foundation/desktop.png',
     liveDemoUrl: '/demo/geo-foundation',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Subsurface Depth Layer Viewer', 'Foundation Cost Estimator'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -636,7 +636,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '도심 대심도 지하철, 고속철도, 해저 침매터널 등 특수 메가 토목 엔지니어링 전문 기업의 공식 웹사이트입니다. 스크롤 연동 심도·지압 텔레메트리 HUD, 14.2m 쉴드 TBM 회전 커터헤드 인터랙션, 4대 지층 특화 단면 핫스팟 투어, 초고강도 세그먼트 라이닝 콘크리트 및 차수 지반 보강 신소재 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/terra-core/desktop.png',
     liveDemoUrl: '/demo/terra-core',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Strata Depth HUD', 'TBM Cutterhead Simulator', 'Geotechnical Archive'],
+    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -656,7 +656,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '초고층 복합 타워, 환승센터, 스마트 물류 플랜트 등 메가 스트럭처 전문 종합건설사의 공식 웹사이트입니다. 공정률 0%부터 100%까지 인터랙티브 슬라이더로 조작하는 4단계 공정 타임랩스 빌드업 시뮬레이터, 60MPa 콘크리트 수화열 양생 온도 및 타워크레인 풍속 감리 패드 HUD, 3대 메가 랜드마크 쇼케이스, 고성능 면진 및 구조재 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/strata-build/desktop.png',
     liveDemoUrl: '/demo/strata-build',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Timelapse Build-Up Slider', 'Rugged Field HUD', 'Landmark Showcase'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -676,7 +676,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '100년 목재 자연 건조 노하우, 못을 쓰지 않는 전통 사개맞춤 결구의 구조미 위에 최고 등급 시스템 삼중창호와 현대식 지열·단열 설비를 더한 프리미엄 한옥 건축공방의 공식 웹사이트입니다. 전국 68채 완공작 아카이브, 도편수 철학, 5단계 시공 로드맵 및 1:1 맞춤 견적 신청 위저드를 탑재했습니다.',
     thumbnailUrl: '/portfolio/sodamjae/sodamjae-06.jpg',
     liveDemoUrl: '/demo/sodamjae',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Project Detail Modal', 'Hanok Quote Wizard'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -932,7 +932,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '대한민국 대표 디자이너 패션 셀렉트숍의 핵심 UX를 집약한 플래그십 이커머스 라이브 데모입니다. 4단계(대·중·소·세) 카테고리 트리와 컬러/핏/소재 정밀 필터, 2026 S/S 런웨이 쇼퍼블 펄스 핀, 어깨/가슴/소매/총장 실측 cm 매트릭스, 장바구니/위시리스트 드로어 및 성수·한남 스트릿 아카이브를 탑재했습니다.',
     thumbnailUrl: '/demo-media/atelier-noir/atelier-noir-12.jpg',
     liveDemoUrl: '/demo/atelier-noir',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', '4-Tier Deep Category HUD', 'Shoppable Pulse Pins', 'Fit Measurement Matrix', 'Real-time Live Ranking Engine'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -952,7 +952,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '대한민국 프리미엄 그로서리 커머스의 첨단 UX를 구현한 플래그십 이커머스 라이브 데모입니다. 횡성 최상위 등급(예시 표기) 숙성 한우부터 제주 새벽 직송 유기농 채소까지, 보관온도대별(냉장/냉동/상온) 실시간 필터와 100g당 투명 단가 공시, 셰프 레시피 재료 원클릭 일괄 담기 및 도심 허브 풀콜드체인 관제 로그를 제공합니다.',
     thumbnailUrl: '/demo-media/verde-gourmet/verde-gourmet-01.avif',
     liveDemoUrl: '/demo/verde-gourmet',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Full Cold-Chain Telemetry', 'Chef Recipe Batch Cart', 'Dawn Delivery Countdown', 'Temperature Zone Matrix'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -972,7 +972,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '글로벌 K-뷰티 트렌드를 선도하는 프리미엄 더마 코스메틱 플래그십 이커머스 라이브 데모입니다. 시카 엑소좀 수분 앰플부터 히알루론산 장벽 크림까지, 자체 클린 등급 성분 사전(공인 인증 아님)과 텍스처 발림성 비교, 피부타입(건성/수부지/지성/민감성) 및 피부고민별 4단계 맞춤 필터링, 실시간 어워즈 랭킹 및 1:1 피부과 전문의 상담 위저드를 탑재했습니다.',
     thumbnailUrl: '/demo-media/luminous-lab/luminous-lab-01.avif',
     liveDemoUrl: '/demo/luminous-lab',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Ingredient Grade Inspector', 'Skin Concern 4-Tier HUD', 'Clinical Trial Telemetry', 'Live Beauty Awards Engine'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -992,7 +992,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '하이테크 하드웨어 커머스 화면을 담은 플래그십 이커머스 라이브 데모입니다. 고성능 게이밍 랩탑부터 마그네틱 홀센서 키보드까지, 파라메트릭 스펙 필터 HUD, 2~4개 모델 동시 스펙 대조 매트릭스, 베이퍼 챔버 3D CAD 분해도 모달 및 6면 I/O 포트 매크로 뷰어를 제공합니다.',
     thumbnailUrl: '/demo-media/technova-gear/technova-gear-01.avif',
     liveDemoUrl: '/demo/technova-gear',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Parametric Spec Matrix', '3D Vapor Chamber CAD Inspector', 'Chassis I/O Port Telemetry', 'Side-by-Side Model Comparator'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1012,7 +1012,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '대한민국 프리미엄 홈퍼니싱 커머스의 감각적인 UX를 구현한 플래그십 이커머스 라이브 데모입니다. 반원형 모듈 소파부터 트래버틴 천연석 테이블까지, 쇼퍼블 3D 공간 투어 펄스 핀, 3-Piece 가구 번들 원클릭 담기, 시간대별(낮/밤) 조도 전환 뷰어, 아파트 평형별 가구 배치 시뮬레이션 및 청담/한남 프라이빗 쇼룸 1:1 방문 예약 위저드를 제공합니다.',
     thumbnailUrl: '/demo-media/maison-architect/maison-architect-04.jpg',
     liveDemoUrl: '/demo/maison-architect',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Spatial Room Tour HUD', '3000K/5000K Lighting Simulator', 'Apartment Floorplan Placement Matrix', 'Private Showroom Reservation Wizard'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1032,7 +1032,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '유럽 최상위 명품 하우스 아카이브를 선별 소개하는 최고급 럭셔리 살롱 이커머스 라이브 데모입니다. AI 초미세 분광 스캔부터 공인 감정위원 2차 검수 및 NFC 위변조 방지 봉인까지 3단계 정품 검수 레이더, 시리얼 넘버/NFC 해시코드 기반 실시간 디지털 보증서 조회, 1:1 VIP 프라이빗 살롱 컨시어지 챗, 안심 예치 결제 계약 및 VIP 발렛 무장 안심 핸드캐리 배송 옵션을 완비했습니다.',
     thumbnailUrl: '/demo-media/maison-de-luxe/maison-de-luxe-04.jpg',
     liveDemoUrl: '/demo/maison-de-luxe',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', '3-Stage Authenticity Radar System', 'NFC Hash Cryptographic Authenticator', 'VIP Private Concierge Stream Engine', 'Bonded Escrow Settlement Wizard'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1052,7 +1052,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '영하 35도 설산과 극한의 환경을 극복하는 하이엔드 테크니컬 아웃도어 익스페디션 기어 플래그십 스토어 라이브 데모입니다. 지오데식 돔 텐트부터 DAC NSL 알루미늄 폴대, 5000mm 내수압 실타프, 순수 티타늄 쿡웨어 라인업과 4단계 택티컬 필터 HUD, 텐트 풋프린트/이너텐트 레이아웃 시뮬레이션, 동시 다중 모델 스펙 비교 매트릭스 및 설산 캠핑장 당일 퀵서비스 특급 출고 시스템을 제공합니다.',
     thumbnailUrl: '/demo-media/nordic-peak/nordic-peak-04.jpg',
     liveDemoUrl: '/demo/nordic-peak',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', '4-Tier Tactical HUD Filter Matrix', 'Interactive Tent Dimension Simulator', 'Weather Telemetry & Gust Warning Radar', 'Side-by-Side Gear Spec Comparison Engine'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1072,7 +1072,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '수의학 전문의와 임상영양학 연구진이 설계한 프리미엄 반려동물 메디컬 푸드 D2C 스토어 라이브 데모입니다. 국제 반려동물 영양 기준(예시 참고)/FEDIAF 기준 65% 생육 배합식단, AI 반려동물 영양 프로파일러(RER/DER 체중·질환별 1일 정량 급여 산출 및 처방 리포트 발행), 실물 동전 대비 1:1 키블 크기 비교 스케일러, 온라인 수의사 1:1 무료 문진 접수 시스템 및 정기구독 15% 평생 할인 혜택을 제공합니다.',
     thumbnailUrl: '/demo-media/paws-tail/paws-tail-06.jpg',
     liveDemoUrl: '/demo/paws-tail',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'AI Veterinary Nutrition Profiler', '1:1 Kibble Scale Comparison Viewer', 'Online Triage Diagnostic Modal', 'Clinical Nutrition PDF Report Generator'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1092,7 +1092,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '30년 경력 대한민국 공예 명장과 전통 아틀리에의 핸드크래프트 작품을 큐레이션한 프리미엄 기프팅 스토어 라이브 데모입니다. 이탈리아 베지터블 레더 지갑 위 24K 골드박/불도장 이니셜 각인 시뮬레이션, 수국·연꽃 궁중 보자기 매듭 룩북, 문경 도자기 백자 다기 세트, 통황동 롤러볼 펜과 기념일 지정 안심 배송 시스템을 제공합니다.',
     thumbnailUrl: '/demo-media/artisan-gift/artisan-gift-02.jpg',
     liveDemoUrl: '/demo/artisan-gift',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Real-time Foil Engraving Simulator', 'Bojagi Knot Wrapping Lookbook', 'Scheduled Delivery Engine'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1112,7 +1112,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '파리, 런던, 피렌체 직영 옥션 및 귀족 가문 전승 오리지널 앤틱을 선별 소개하는 최고급 앤틱 큐레이션 살롱 웹사이트입니다. 카테고리별 아카이브 검색, 뮤지엄 그레이드 작품 상세 도록 모달, 소장 희망 서류함(CartFolio), 관심작 보관함(Wishlist) 및 한남동 살롱 프라이빗 뷰잉 예약 시스템을 탑재했습니다.',
     thumbnailUrl: '/demo-media/maison/maison-13.jpg',
     liveDemoUrl: '/demo/maison',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Curator Dossier Modal', 'Acquisition Folio'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1134,7 +1134,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '반도체 웨이퍼 카세트 및 2차전지 전극 롤 무인 이송을 위한 하이엔드 로보틱스 플래그십 사이트입니다. 3대 로봇 라인업(AMR-500/1500/3000) 360 스펙 브로슈어, 실시간 148노드 NEXUS-OS 디지털 트윈 팹 관제 뷰어, 면적 및 교대 인력 기반 대화형 ROI 계산기를 탑재했습니다.',
     thumbnailUrl: '/demo-media/nexus-robotics/nexus-robotics-01.jpg',
     liveDemoUrl: '/demo/nexus-robotics',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Digital Twin HUD', 'Interactive ROI Matrix'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1154,7 +1154,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '노르딕 클린테크 감성의 대형 신재생에너지 엔터프라이즈 플래그십 사이트입니다. 신안·울산·포항 4대 발전 거점 실시간 SCADA 텔레메트리 연동 맵, 기업용 연간 전력 사용량 기반 탄소 배출권·전력 구매 금융 절감 계산기(예시 산출식), 국제 인증기관(예시) 그린수소 인증관을 완비했습니다.',
     thumbnailUrl: '/demo-media/h2-next/h2-next-01.avif',
     liveDemoUrl: '/demo/h2-next',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'SCADA Hub Map', 'Carbon PPA Calculator'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1174,7 +1174,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '글로벌 선사 규모의 글로벌 스마트 항만 & AI 복합물류 플래그십 사이트입니다. B/L 선하증권 실시간 GPS 선박 및 컨테이너 텔레메트리 HUD, 해상·항공·철도 운송모드별 실시간 운임 및 Scope-3 탄소 감축 계산기, 부산·로테르담·싱가포르·LA 4대 거점 항만 혼잡도 레이더 모달, 글로벌 화주 전용 RFP 운송계약 접수 데스크를 완비했습니다.',
     thumbnailUrl: '/demo-media/transocean-scm/transocean-scm-01.jpg',
     liveDemoUrl: '/demo/transocean-scm',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'AIS Vessel HUD', 'Port Radar Modal', 'Multimodal Carbon Matrix'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1194,7 +1194,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '글로벌 완성차 Tier-1 전장 엔지니어링 기업을 위한 하이퍼 테크 플래그십 사이트입니다. 배터리 용량 및 주변온도별 실시간 800V 충전 속도·열방출 시뮬레이터, 3세대 SiC 전력 인버터 분해 마이크로 아키텍처 뷰어, 실시간 120kHz 스위칭 오실로스코프 파형 계측기, 기능안전 등급 표기(예시) 및 기술 백서 다운로드 게이트를 완비했습니다.',
     thumbnailUrl: '/demo-media/voltron-ev/voltron-ev-01.jpg',
     liveDemoUrl: '/demo/voltron-ev',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Charging Simulator', 'Architecture Explorer', 'ASIL-D Dossier'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1214,7 +1214,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '순백 스페이스테크 클린룸 감성으로 설계된 지구관측 위성 데이터 플랫폼 플래그십 사이트입니다. 광학(EO)·합성개구레이더(SAR)·초분광 3대 센서 인터랙티브 해상도 비교 뷰어, 국방/해양/인프라 분석 솔루션 매트릭스, 전 세계 14개 지상국 다운링크 텔레메트리 HUD, 촬영 위임 의뢰(Tasking) 위저드를 완비했습니다.',
     thumbnailUrl: '/demo-media/stella-orbital/stella-orbital-04.jpg',
     liveDemoUrl: '/demo/stella-orbital',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Multi-Sensor Radar', 'Live Orbit HUD'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1234,7 +1234,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '월스트리트 및 스위스 프라이빗 뱅킹 감성의 최고급 사모펀드·대체자산운용사 플래그십 사이트입니다. 4대 투자 전략(바이아웃·딥테크·인프라·크레딧) 매트릭스, 48개 포트폴리오 기업 및 회수(Exit) 실적 모달, 약정액·투자기간 기반 실시간 Net IRR 및 DPI 분배금 계산기, 연기금/국부펀드 전용 에어갭 VDR 신청 시스템을 완비했습니다.',
     thumbnailUrl: '/demo-media/apex-partners/apex-partners-01.jpg',
     liveDemoUrl: '/demo/apex-partners',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Actuarial IRR Simulator', 'Air-Gapped VDR Gate'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1254,7 +1254,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '세계적 수준의 최고급 부티크 리조트·프라이빗 빌라 플래그십 사이트입니다. 3대 건축 스위트 익스플로러, 여행지·숙박일수·비포크 옵션 실시간 견적 계산기, 파인다이닝 & 프라이빗 웰니스 스파 쇼케이스, VIP 전용기·요트 컨시어지 직통 접수 시스템을 완비했습니다.',
     thumbnailUrl: '/demo-media/atlas-resort/atlas-resort-06.jpg',
     liveDemoUrl: '/demo/atlas-resort',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', '360 Villa Suite Explorer', 'Dynamic Season Calculator'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1274,7 +1274,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '순백의 딥사이언스 무균 연구실 감성으로 설계된 글로벌 바이오텍 플래그십 사이트입니다. 4대 항암 파이프라인(CB-101/204/308/401) 실시간 임상 단계 트래커, 3D 분자 작용기전(MoA) 영상 모달, 송도 12,000평 cGMP 생산 시설 가상 투어, 글로벌 제약사 BD 전용 기술수출(L/O) 및 CDA/NDA 체결 위저드를 완비했습니다.',
     thumbnailUrl: '/demo-media/celebris-biopharma/celebris-biopharma-01.avif',
     liveDemoUrl: '/demo/celebris-biopharma',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Pipeline Matrix', 'MoA 3D Viewer'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1294,7 +1294,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '스위스·노르딕 감성의 하이엔드 테크 클린룸 디자인으로 설계된 반도체 첨단 패키징 플래그십 사이트입니다. L1 로직 다이부터 L4 글래스 코어 기판까지 4단계 마이크로 아키텍처 인터랙티브 익스플로러, HBM 스택별 실시간 열/휨(Warpage) 시뮬레이션 리포트 생성기, 99.85% 양산 수율 파운드리 5단계 비파괴 검사 공정 안내를 제공합니다.',
     thumbnailUrl: '/demo-media/nano-advanced/nano-advanced-01.avif',
     liveDemoUrl: '/demo/nano-advanced',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Micro-Architecture Explorer', 'Thermal Simulator'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1314,7 +1314,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '첨단 바이오 무균 클린룸과 청정 바이오스피어 감성의 수직 스마트팜 플래그십 사이트입니다. 재배 면적(1,000~10,000평) 및 품종별 연간 생산량(톤), 용수 절감·탄소 감축 ROI 계산기(예시 산출식), Blue(450nm) 엽록소 강화 vs Red(660nm) 개화 촉진 분광 LED 파장 실시간 튜너, 온습도/CO2 Class 1000 클린룸 관제 HUD, 특급호텔 및 대형마트 B2B 4시간 콜드체인 납품 계약 위저드를 완비했습니다.',
     thumbnailUrl: '/demo-media/greencube-agri/greencube-agri-01.jpg',
     liveDemoUrl: '/demo/greencube-agri',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Spectral AI Matrix', 'Harvest Yield Calculator', 'Cold Chain HUD'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1336,7 +1336,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '청담역 역세권에 위치한 하이엔드 심미보철·임플란트 특화 치과병원 웹사이트입니다. 구강악안면외과 및 치과보철과 전문의 2인 협진 시스템, 3D CT 및 구강 스캐너를 이용한 컴퓨터 분석 가이드 임플란트 시술 과정 소개, 1:1 맞춤형 치아 성형 비포&애프터 갤러리, 실시간 네이버 예약 및 야간진료 일정 안내를 완비했습니다.',
     thumbnailUrl: '/demo-media/cheongdam-arte-dental/cheongdam-arte-dental-01.avif',
     liveDemoUrl: '/demo/cheongdam-arte-dental',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', '3D Navigation Guide', 'Smart Booking Engine'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1356,7 +1356,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '피부과 전문의의 정밀 피부 정량 진단(다파장 영상분석)을 기반으로 한 1:1 맞춤형 리프팅·안티에이징 전문 피부과 공식 웹사이트입니다. 고주파·집속초음파 장비 시술 팁 이력 조회(예시)를 담은 화증 시리얼 넘버 실시간 확인 모듈, 비급여 수가표 투명 공개, 전 객실 1인 단독 VIP 케어룸 안내를 제공합니다.',
     thumbnailUrl: '/demo-media/the-noble-dermatology/the-noble-dermatology-01.jpg',
     liveDemoUrl: '/demo/the-noble-dermatology',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Tip Serial Verification', 'Mark-Vu Diagnostic'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '3주',
     year: '2026',
     highlights: [
@@ -1376,7 +1376,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '척추 디스크, 관절 연골 손상의 비수술 체외충격파·프롤로 주사 치료부터 수술 후 1:1 도수재활까지 전 과정을 원스톱으로 관리하는 척추관절 정형외과 사이트입니다. 척추관 협착증·오십견 부위별 자가진단 인터랙티브 체크리스트와 MRI 당일 촬영·판독 원스톱 예약 시스템을 갖추고 있습니다.',
     thumbnailUrl: '/demo-media/seoul-barun-orthopedics/seoul-barun-orthopedics-01.avif',
     liveDemoUrl: '/demo/seoul-barun-orthopedics',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Pain Symptom Checker', 'MRI Fast-Track Booking'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1396,7 +1396,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '스마일프로, 라섹, 안내렌즈삽입술(ICL), 다초점 인공수정체 백내장 수술을 중점 집도하는 전문 안과의원 웹사이트입니다. 50여 가지 정밀 안구 종합검진 절차 소개, 내 눈에 맞는 시력교정술 인터랙티브 추천 시뮬레이터, 의료진의 수술 누적 건수 및 학회 연구 실적을 신뢰감 있게 구성했습니다.',
     thumbnailUrl: '/portfolio/prime-vision-eye-clinic/eye-exam-friendly.jpg',
     liveDemoUrl: '/demo/prime-vision-eye-clinic',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'SMILE Pro 7s Simulator', 'IOL Vision Viewer'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1416,7 +1416,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '양방 영상의학 진단과 한방 체질 맞춤 침·뜸·한약 처방을 통합 제공하는 80병상 규모 한방병원 공식 웹사이트입니다. 전 병실 1인실·2인실 모션베드 및 개별 테라스 360 가상 투어, GAP 인증 한약재 클린 탕전 과정 실시간 중계관, 교통사고 자동차보험 입원 절차 가이드를 지원합니다.',
     thumbnailUrl: '/portfolio/boncho-hospital/desktop.png',
     liveDemoUrl: '/demo/boncho-hospital',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'VR 360 Inpatient Tour', 'Herb Traceability Engine'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1436,7 +1436,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '과도한 성형을 지양하고 본연의 아름다운 조화를 살리는 순우리말 성형외과 공식 웹사이트입니다. 상·중·하안 비율 및 비순각 3D 인터랙티브 계산기, 드래그 기반 비포애프터 전후 비교 뷰어, 수술 실명제·1:1 마취과 전문의 상주 등 5대 안전망, 1인 VIP 리커버리 붓기 완화 힐링 케어를 지원합니다.',
     thumbnailUrl: '/portfolio/onsaemiro-plastic-surgery/desktop.png',
     liveDemoUrl: '/demo/onsaemiro-plastic-surgery',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', '3D Facial Ratio HUD', 'Before-After Split Viewer'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1462,9 +1462,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       'React 19',
       'Tailwind CSS v4',
       'TypeScript',
-      'Med-Pass Simulator',
-      'Killer Question Lab',
-      'Level-Test Wizard',
     ],
     period: '2주',
     year: '2026',
@@ -1485,7 +1482,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '오스트리아 빈 국립음대 및 미국 줄리어드 음악원 출신 교수진이 직접 지도하는 1:1 도제식 클래식 피아노 아카데미 공식 웹사이트입니다. Web Audio API 기반 88건반 실시간 배음 합성 인터랙티브 Lab, 스타인웨이 D-274 룸 잔향(RT60) 및 1~8차 고조파 배음 텔레메트리 HUD, 예중·예고 및 해외 유학 마스터클래스 로드맵, 1:1 실기 오디션 신청 위저드를 제공합니다.',
     thumbnailUrl: '/portfolio/chopin-piano/desktop.png',
     liveDemoUrl: '/demo/chopin-piano',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Web Audio API Synthesizer', 'Acoustic Reverb HUD'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Web Audio API Synthesizer'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1505,7 +1502,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '프랑스 에꼴 드 보자르 기반 4~13세 아동 감각 미술 전문 아카데미 공식 웹사이트입니다. 자연 오브제 실시간 회전·확대 인터랙티브 꼴라주 캔버스, 연령 단계별 4대 감각 발달 지표 HUD, 4인 원탁 소수정예 조형 커리큘럼, 1회 무료 원데이 감각 체험 수업 신청 위저드를 제공합니다.',
     thumbnailUrl: '/portfolio/atelier-kids/desktop.png',
     liveDemoUrl: '/demo/atelier-kids',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Collage Canvas Interactive', 'Sensory Development HUD'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1525,7 +1522,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '미국 사립학교 정규 커리큘럼과 렉사일 지수 기반 북클럽을 운영하는 프리미엄 주니어 영어몰입 교육기관 공식 웹사이트입니다. 렉사일 200L~1100L 인터랙티브 슬라이더 연동 가상 원서 서재 뷰어, AI 음성인식 스피킹 발음·유창성 정밀 진단 리포트, 3단계 몰입 커리큘럼, 1:1 원어민 레벨테스트 신청 위저드를 제공합니다.',
     thumbnailUrl: '/portfolio/veritas-junior-english/desktop.png',
     liveDemoUrl: '/demo/veritas-junior-english',
-    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Lexile Virtual Bookshelf', 'AI Speech Diagnostic Lab'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -1550,8 +1547,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       'React 19',
       'Tailwind CSS v4',
       'TypeScript',
-      'Digital SAT 1600 Telemetry',
-      'Broadsheet Gazette Architecture',
     ],
     period: '2주',
     year: '2026',
@@ -1578,8 +1573,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       'React 19',
       'Tailwind CSS v4',
       'TypeScript',
-      'Admission Matrix Lab',
-      'Soundproof Carrel Floorplan',
     ],
     period: '2주',
     year: '2026',
@@ -1605,8 +1598,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       'React 19',
       'Tailwind CSS v4',
       'TypeScript',
-      '3D Kinematics Analysis',
-      'Real-Time Score Calibrator',
     ],
     period: '2주',
     year: '2026',

@@ -23,10 +23,6 @@ export default function WonikQncPageClient({ isEmbed }: Props) {
         "React 19",
         "Tailwind CSS v4",
         "TypeScript",
-        "40th Anniversary Film",
-        "Real-time KOSDAQ IR",
-        "SRM Partner Portal",
-        "Multilingual (KR/EN/CN/JP)",
       ]}
       inquiryUrl="/inquiry?from=wonik-qnc"
       specs={[

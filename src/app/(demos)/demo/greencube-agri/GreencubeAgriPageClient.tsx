@@ -23,10 +23,6 @@ export default function GreencubeAgriPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Spectral AI Growth Matrix',
-        'Harvest Yield Calculator',
-        '4-Hour Cold Chain Telemetry',
-        'B2B Turnkey Portal',
       ]}
       inquiryUrl="/inquiry?from=greencube-agri"
       specs={[

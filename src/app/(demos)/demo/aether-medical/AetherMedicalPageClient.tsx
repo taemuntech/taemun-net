@@ -23,9 +23,6 @@ export default function AetherMedicalPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Acoustic & Circadian HUD',
-        'Medical Material Library',
-        'VIP Zone Selector',
       ]}
       inquiryUrl="/inquiry?from=aether-medical"
       // 스펙 표는 화면에 실제로 있는 것만 적는다 — 「핫스팟 투어」·「무광 테라조/항균 패브릭」은 이 데모에 없던 설명이었다

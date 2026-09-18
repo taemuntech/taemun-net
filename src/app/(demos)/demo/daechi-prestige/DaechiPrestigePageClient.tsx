@@ -23,9 +23,6 @@ export default function DaechiPrestigePageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Med-Pass Simulator',
-        'Killer Question Lab',
-        'Level-Test Wizard',
       ]}
       inquiryUrl="/inquiry?from=daechi-prestige"
       specs={[

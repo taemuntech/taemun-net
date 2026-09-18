@@ -23,7 +23,6 @@ export default function AtelierVauclusePageClient({ isEmbed }: Props) {
         "React 19",
         "Tailwind CSS v4",
         "TypeScript",
-        "Responsive Modal",
       ]}
       inquiryUrl="/inquiry?from=atelier-vaucluse"
       specs={[

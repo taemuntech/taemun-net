@@ -23,9 +23,6 @@ export default function ArcheWellnessPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Clean Air Telemetry HUD',
-        'Eco-Material Library',
-        'Studio Room Hotspots',
       ]}
       inquiryUrl="/inquiry?from=arche-wellness"
       specs={[

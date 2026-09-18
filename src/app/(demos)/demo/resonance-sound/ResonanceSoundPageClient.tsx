@@ -23,9 +23,6 @@ export default function ResonanceSoundPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'RT60 Acoustic Simulator HUD',
-        'Acoustic Material Library',
-        'Sweet-Spot Spatial Zones',
       ]}
       inquiryUrl="/inquiry?from=resonance-sound"
       specs={[

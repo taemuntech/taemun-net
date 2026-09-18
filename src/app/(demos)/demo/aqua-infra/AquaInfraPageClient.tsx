@@ -23,9 +23,6 @@ export default function AquaInfraPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Underground Waterflow Process Diagram',
-        'Water Infra Cost Estimator',
-        'MBR Membrane Bioreactor Showcase',
       ]}
       inquiryUrl="/inquiry?from=aqua-infra"
       specs={[

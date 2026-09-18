@@ -17,10 +17,7 @@
     "Next.js 16",
     "React 19",
     "TypeScript",
-    "Tailwind CSS v4",
-    "Interactive Collage Canvas",
-    "Sensory Development HUD",
-    "Kids Art Archive"
+    "Tailwind CSS v4"
   ],
   "liveUrl": "/demo/atelier-kids",
   "icon": "sparkles",

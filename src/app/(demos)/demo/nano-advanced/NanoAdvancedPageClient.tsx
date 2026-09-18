@@ -23,9 +23,6 @@ export default function NanoAdvancedPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Heterogeneous 4-Layer Explorer',
-        'AI Thermal & Warpage Simulator',
-        'Foundry Quality Inspection Flow',
       ]}
       inquiryUrl="/inquiry?from=nano-advanced"
       specs={[

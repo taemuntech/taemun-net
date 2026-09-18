@@ -17,9 +17,7 @@
     "Next.js 16",
     "React 19",
     "TypeScript",
-    "Tailwind CSS v4",
-    "Pain Symptom Checker",
-    "MRI Fast-Track Booking"
+    "Tailwind CSS v4"
   ],
   "liveUrl": "/demo/seoul-barun-orthopedics",
   "icon": "sparkles",

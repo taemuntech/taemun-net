@@ -23,9 +23,6 @@ export default function LogisParkPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Cold-Chain Chamber Interactive Diagram',
-        'FM1 Superflat Floor Technology',
-        'Logistics Facility Cost Simulator',
       ]}
       inquiryUrl="/inquiry?from=logis-park"
       specs={[

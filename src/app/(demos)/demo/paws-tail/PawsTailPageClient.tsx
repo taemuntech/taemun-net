@@ -23,10 +23,6 @@ export default function PawsTailPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'AI Veterinary Nutrition Profiler (RER/DER)',
-        '1:1 Kibble Scale Comparison Viewer',
-        'Online Triage Diagnostic Modal',
-        'Clinical Nutrition Report Viewer',
       ]}
       inquiryUrl="/inquiry?from=paws-tail&industry=commerce"
       specs={[

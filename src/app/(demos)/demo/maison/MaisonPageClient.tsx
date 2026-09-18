@@ -23,8 +23,6 @@ export default function MaisonPageClient({ isEmbed }: Props) {
         "React 19",
         "Tailwind CSS v4",
         "TypeScript",
-        "Curator Dossier Modal",
-        "Acquisition Folio Drawer",
       ]}
       inquiryUrl="/inquiry?from=maison"
       specs={[

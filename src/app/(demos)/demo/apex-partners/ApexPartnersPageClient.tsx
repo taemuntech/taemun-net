@@ -23,10 +23,6 @@ export default function ApexPartnersPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Actuarial IRR & DPI Simulator',
-        'Air-Gapped VDR Gate',
-        '4-Pillar Strategy Matrix',
-        'Global Timezone Ticker',
       ]}
       inquiryUrl="/inquiry?from=apex-partners"
       specs={[

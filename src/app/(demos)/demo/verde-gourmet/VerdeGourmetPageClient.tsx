@@ -23,10 +23,6 @@ export default function VerdeGourmetPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Full Cold-Chain Telemetry',
-        'Chef Recipe Batch Cart',
-        'Dawn Delivery Countdown',
-        'Temperature Zone Matrix',
       ]}
       inquiryUrl="/inquiry?from=verde-gourmet"
       specs={[

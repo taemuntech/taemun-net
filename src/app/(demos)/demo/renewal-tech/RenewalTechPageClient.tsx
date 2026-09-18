@@ -23,9 +23,6 @@ export default function RenewalTechPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Interactive Split Before/After Slider',
-        'Retrofit vs New-Build ROI Simulator',
-        'Patented Retrofit Tech Showcase',
       ]}
       inquiryUrl="/inquiry?from=renewal-tech"
       specs={[

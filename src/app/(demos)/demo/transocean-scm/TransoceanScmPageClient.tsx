@@ -23,10 +23,6 @@ export default function TransoceanScmPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Vessel & Reefer HUD',
-        'Port Congestion Radar',
-        'Multimodal Carbon Calculator',
-        'Enterprise RFP Desk',
       ]}
       inquiryUrl="/inquiry?from=transocean-scm"
       specs={[

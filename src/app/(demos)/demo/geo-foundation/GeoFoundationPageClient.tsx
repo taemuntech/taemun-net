@@ -23,9 +23,6 @@ export default function GeoFoundationPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Deep Strata Stratum Viewer',
-        'Deep Excavation Cost Estimator',
-        'D-Wall & RCD Tech Showcase',
       ]}
       inquiryUrl="/inquiry?from=geo-foundation"
       specs={[

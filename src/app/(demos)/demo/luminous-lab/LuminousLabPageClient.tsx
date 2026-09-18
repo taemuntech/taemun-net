@@ -23,9 +23,6 @@ export default function LuminousLabPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Ingredient Inspector',
-        'Skin Concern 4-Tier HUD',
-        'Cart Drawer',
       ]}
       inquiryUrl="/inquiry?from=luminous-lab&industry=commerce"
       specs={[

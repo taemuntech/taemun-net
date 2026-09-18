@@ -16,9 +16,7 @@
     "Next.js 16",
     "React 19",
     "TypeScript",
-    "Tailwind CSS v4",
-    "Digital SAT 1600 Telemetry",
-    "Broadsheet Gazette Architecture"
+    "Tailwind CSS v4"
   ],
   "liveUrl": "/demo/heritage-global-prep",
   "icon": "sparkles",

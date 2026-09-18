@@ -12,7 +12,7 @@
     "대지 현장 분석부터 기본설계, 실시설계, 책임감리 4단계 프로세스 로드맵",
     "SampleNotice 연동 1:1 건축 상담 및 대지 현장 답사 신청 모달"
   ],
-  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript", "Architectural Gallery", "Budget Estimator"],
+  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript"],
   "liveUrl": "/demo/arche-house",
   "createdAt": "2026-09-18"
 }

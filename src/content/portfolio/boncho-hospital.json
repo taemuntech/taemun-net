@@ -17,9 +17,7 @@
     "Next.js 16",
     "React 19",
     "TypeScript",
-    "Tailwind CSS v4",
-    "VR 360 Inpatient Tour",
-    "Herb Traceability Engine"
+    "Tailwind CSS v4"
   ],
   "liveUrl": "/demo/boncho-hospital",
   "icon": "sparkles",

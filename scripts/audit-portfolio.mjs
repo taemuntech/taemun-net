@@ -82,6 +82,8 @@ if (argv.includes("--help") || argv.includes("-h")) {
     · kind=sample 이 **자기** /demo-media/<자기 slug>/ 에 둔 이미지는 면제(일부러 게이트 밖 — CDN 이 바로 내준다)
     · kind=proposal 은 면제 없음 — /demo-media/ 에 두면 그대로 ERROR (private-assets/portfolio/<slug>/ 로)
   - kind=sample 데모의 기기 전환 툴바 client= 에 가상 브랜드 표시가 없음(툴바가 「클라이언트: …」로 찍는다)
+  - 기술 스택 태그(갤러리·카드 JSON·툴바)가 기능 이름이거나, 그 데모 소스에 쓴 흔적이 없거나, 설치 버전과 다름
+    → 고치기: node scripts/audit-portfolio.mjs --fix-tech-stack (걸린 태그를 지운다)
   - 폼인데 SampleNotice 를 렌더하지 않음(같은 샘플의 다른 파일이 열어도 — onSubmit 을 props 로 받는 폼만 WARN)
   - SampleNotice 의 open 상태를 true 로 만드는 setter 호출이 없음
   - 가짜 접수 문구(「접수되었습니다」「예약이 완료되었습니다」「전송되었습니다」…)
@@ -1631,6 +1633,144 @@ const GALLERY_DATA_SEVERITY = "error";
     scanCopyForImpersonation(galleryKey, textLines, { impersonation: sev, report: sev });
     scanGalleryThumbnails(galleryKey, gsrc);
   }
+}
+
+// ───────── 6-3. 기술 스택 태그 (ERROR) ─────────
+//
+// 왜: 홈 상세 모달의 칩과 기기 전환 툴바의 「적용 기술 스택 & 라이브러리」는 **이 데모를 무엇으로 만들었나**를 말하는
+// 자리다. 거기 기능 이름(Digital Twin HUD·360 VR Tour)이나 쓰지 않은 기술(FastAPI·MQTT·PostgreSQL)을 적으면 그런
+// 라이브러리·서버를 썼다고 말하는 게 된다. 실측(2026-09-18): 태그 1,116개 중 기술로 확인되는 건 기본 4종·Web Audio·SVG
+// 뿐이었고 352개가 기능 이름, 이름에 AI 가 들어간 5종은 AI 호출이 한 줄도 없었다.
+// 규칙: 기본 태그는 설치된 메이저 버전과 맞아야 하고, 그 밖의 태그는 아래 표에 있으면서 **그 데모 소스에 쓴 흔적**이 있어야
+//   한다. 기능은 카드 features·갤러리 highlights 에 적는다. 표에 없는 기술을 실제로 썼으면 표에 한 줄 더한다.
+// 고치기: `node scripts/audit-portfolio.mjs --fix-tech-stack` — 갤러리·카드 JSON·툴바 세 곳에서 통과 못 하는 태그를 지운다.
+const FIX_TECH_STACK = argv.includes("--fix-tech-stack");
+function installedMajor(pkg) {
+  try {
+    return JSON.parse(fs.readFileSync(path.join(ROOT, "node_modules", pkg, "package.json"), "utf8")).version.split(".")[0];
+  } catch {
+    return null; // 설치 전이면 버전 대조는 건너뛴다
+  }
+}
+const STACK_BASE = [
+  [/^Next\.js (\d+)$/, "next"],
+  [/^React (\d+)$/, "react"],
+  [/^Tailwind CSS v(\d+)$/, "tailwindcss"],
+];
+const importFrom = (mods) => new RegExp(`from\\s*["'](?:${mods})(?:/[^"']*)?["']|import\\(\\s*["'](?:${mods})`);
+/** [태그 모양, 그 데모 코드에 남는 흔적] — 여기 없는 태그는 기능 이름으로 본다 */
+const STACK_EVIDENCE = [
+  [/^Web Audio API\b/, /\bAudioContext\b/],
+  [/^SVG\b/, /<svg\b/],
+  [/^(HTML5 )?Canvas( API)?$/, /<canvas\b|getContext\(\s*["']2d/],
+  [/^(WebGL|Three\.js)\b/, importFrom("three|@react-three/fiber")],
+  [/^(Framer )?Motion$/, importFrom("motion|framer-motion")],
+  [/^GSAP$/, importFrom("gsap")],
+  [/^Chart\.js$/, importFrom("chart\\.js|react-chartjs-2")],
+  [/^Recharts$/, importFrom("recharts")],
+  [/^D3(\.js)?$/, importFrom("d3")],
+  [/^Lucide( React)?$/, importFrom("lucide-react")],
+  [/^Intersection Observer( API)?$/, /\bIntersectionObserver\b/],
+];
+/** 통과하면 null, 아니면 사유 */
+function stackTagProblem(tag, code, files) {
+  for (const [re, pkg] of STACK_BASE) {
+    const m = tag.match(re);
+    if (!m) continue;
+    const major = installedMajor(pkg);
+    return major && major !== m[1] ? `설치된 ${pkg} 는 ${major} 버전입니다` : null;
+  }
+  if (tag === "TypeScript") return files.every((f) => /\.tsx?$/.test(f)) ? null : "이 데모에 .js 파일이 섞여 있습니다";
+  const hit = STACK_EVIDENCE.find(([re]) => re.test(tag));
+  if (!hit) return "기술이 아니라 기능 이름입니다 — 기능은 카드 features·갤러리 highlights 에 적으세요";
+  return hit[1].test(code) ? null : "이 데모 소스에 쓴 흔적이 없습니다";
+}
+/** src 안의 techStack 배열(opener 는 여는 대괄호까지) — inner 는 대괄호 안쪽 */
+function findStackArrays(src, opener) {
+  const out = [];
+  for (let i = src.indexOf(opener); i !== -1; i = src.indexOf(opener, i + 1)) {
+    const start = i + opener.length;
+    const end = src.indexOf("]", start);
+    const inner = src.slice(start, end);
+    const tags = [...inner.matchAll(/(["'])([^"'\r\n]+)\1/g)].map((m) => m[2]);
+    out.push({ at: i, start, end, inner, tags, quote: (inner.match(/["']/) || ['"'])[0] });
+  }
+  return out;
+}
+/** 남길 태그만으로 배열 안쪽을 다시 쓴다 — 한 줄이면 한 줄로, 여러 줄이면 들여쓰기·끝 쉼표·줄바꿈을 그대로 */
+function rewriteStackInner(arr, keep) {
+  const q = arr.quote;
+  if (!keep.length) return "";
+  if (!/\n/.test(arr.inner)) return keep.map((t) => q + t + q).join(", ");
+  const eol = arr.inner.includes("\r\n") ? "\r\n" : "\n";
+  const indent = (arr.inner.match(/\n([ \t]*)\S/) || [, ""])[1];
+  const closing = (arr.inner.match(/\n([ \t]*)$/) || [, ""])[1];
+  const comma = /,\s*$/.test(arr.inner) ? "," : "";
+  return eol + keep.map((t) => indent + q + t + q).join("," + eol) + comma + eol + closing;
+}
+{
+  const lineAt = (src, i) => src.slice(0, i).split("\n").length;
+  const demoCode = new Map();
+  for (const s of sampleSources) {
+    const files = [...walkSources(s.dir)];
+    for (const cdir of COMPONENT_DEMO_DIRS) files.push(...walkSources(path.join(cdir, s.slug)));
+    demoCode.set(s.slug, { files, code: files.map((f) => stripComments(fs.readFileSync(f, "utf8"))).join("\n") });
+  }
+  const fixed = [];
+  /** 한 파일 안의 배열들을 판정하고, --fix-tech-stack 이면 걸린 태그를 지워 다시 쓴다 */
+  function checkFile(file, key, opener, slugOfArray) {
+    const src = fs.readFileSync(file, "utf8");
+    let out = src;
+    let removed = 0;
+    for (const arr of findStackArrays(src, opener).reverse()) {
+      const slug = slugOfArray(src, arr);
+      const demo = slug && demoCode.get(slug);
+      if (!demo) continue;
+      const bad = arr.tags.map((t) => [t, stackTagProblem(t, demo.code, demo.files)]).filter(([, p]) => p);
+      if (!bad.length) continue;
+      if (FIX_TECH_STACK) {
+        const keep = arr.tags.filter((t) => !bad.some(([b]) => b === t));
+        out = out.slice(0, arr.start) + rewriteStackInner(arr, keep) + out.slice(arr.end);
+        removed += bad.length;
+        continue;
+      }
+      keySlug.set(key, slug);
+      for (const [t, p] of bad) error(key, `${lineAt(src, arr.at)}행: 기술 스택 「${t}」 — ${p}`);
+    }
+    if (removed) {
+      fs.writeFileSync(file, out, "utf8");
+      fixed.push(`${rel(file)} (${removed}개 지움)`);
+    }
+  }
+  // 1) 홈 갤러리 카드 — 배열이 속한 항목의 liveDemoUrl 로 데모를 찾는다(외부 운영 서비스는 이 저장소 밖이라 건너뜀)
+  const galleryFile = path.join(ROOT, "src", "lib", "portfolio", "galleryData.ts");
+  if (fs.existsSync(galleryFile)) {
+    // 데모도 외부 운영 주소도 없는 카드는 홈이 싣지 않는다(page.tsx) — 올렸는데 안 보이면 이것
+    const gsrc = fs.readFileSync(galleryFile, "utf8");
+    const ids = [...gsrc.matchAll(/\n    id: '([^']+)'/g)];
+    const orphans = ids
+      .filter((m, i) => {
+        const entry = gsrc.slice(m.index, i + 1 < ids.length ? ids[i + 1].index : gsrc.length);
+        return !/\n\s*(liveDemoUrl|externalUrl):\s*'/.test(entry);
+      })
+      .map((m) => m[1]);
+    if (orphans.length) {
+      warn(`갤러리 카드 ${rel(galleryFile)}`, `데모도 외부 링크도 없는 카드 ${orphans.length}장은 홈에 안 뜹니다: ${orphans.join(", ")}`);
+    }
+    checkFile(galleryFile, `갤러리 카드 ${rel(galleryFile)}`, "techStack: [", (src, arr) => {
+      const from = src.lastIndexOf("\n    id: '", arr.at);
+      const next = src.indexOf("\n    id: '", arr.at);
+      const entry = src.slice(from, next === -1 ? src.length : next);
+      return (entry.match(/liveDemoUrl:\s*'\/demo\/([^'/?#]+)/) || [])[1] ?? null;
+    });
+  }
+  // 2) 카드 JSON · 3) 기기 전환 툴바(라우트 폴더의 techStack prop)
+  for (const s of sampleSources) {
+    const card = path.join(CONTENT_DIR, `${s.slug}.json`);
+    if (fs.existsSync(card)) checkFile(card, rel(card), '"techStack": [', () => s.slug);
+    for (const f of walkSources(s.dir)) checkFile(f, rel(f), "techStack={[", () => s.slug);
+  }
+  if (FIX_TECH_STACK) console.log(fixed.length ? `기술 스택 태그 정리 ${fixed.length}곳:\n  ${fixed.join("\n  ")}` : "기술 스택 태그: 고칠 곳 없음");
 }
 
 // ───────── 6-2. 데모 공용 파일(태문 자기 목소리) 문구 (WARN) ─────────

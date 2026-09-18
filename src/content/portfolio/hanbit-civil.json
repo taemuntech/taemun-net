@@ -12,7 +12,7 @@
     "인프라 공종별(교량·터널·도로) 연장(km) 기반 공사비 & 공기 간이 시뮬레이터(예시)",
     "SampleNotice 연동 인프라 개발 민관협력 및 턴키 시공 견적 의뢰 신청 모달"
   ],
-  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript", "Mega Infrastructure Showcase", "Civil Cost Estimator"],
+  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript"],
   "liveUrl": "/demo/hanbit-civil",
   "createdAt": "2026-09-18"
 }

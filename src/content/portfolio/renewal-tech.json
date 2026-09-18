@@ -12,7 +12,7 @@
     "탄소섬유(CFRP) 기둥 보강, 강판 내진 압착, 수직 2개층 증축 엔지니어링 솔루션",
     "SampleNotice 연동 노후 빌딩 무료 현장 실측 및 구조 안전 진단 신청 모달"
   ],
-  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript", "Before-After Split Slider", "Value-Add ROI Simulator"],
+  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript"],
   "liveUrl": "/demo/renewal-tech",
   "createdAt": "2026-09-18"
 }

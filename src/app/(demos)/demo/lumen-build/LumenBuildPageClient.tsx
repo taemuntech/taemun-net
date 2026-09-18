@@ -23,9 +23,6 @@ export default function LumenBuildPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Commercial Yield Calculator',
-        'Boutique Portfolio Showcase',
-        'One-Stop Process',
       ]}
       inquiryUrl="/inquiry?from=lumen-build"
       specs={[

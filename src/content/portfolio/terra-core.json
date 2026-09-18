@@ -16,9 +16,7 @@
     "Next.js 16",
     "React 19",
     "TypeScript",
-    "Tailwind CSS v4",
-    "Subterranean Strata HUD",
-    "TBM Cutterhead 3D View"
+    "Tailwind CSS v4"
   ],
   "liveUrl": "/demo/terra-core",
   "createdAt": "2026-09-17"

@@ -23,9 +23,6 @@ export default function ArcheHousePageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Architectural Gallery',
-        'Budget Estimator',
-        'Process Roadmap',
       ]}
       inquiryUrl="/inquiry?from=arche-house"
       specs={[

@@ -28,8 +28,6 @@ export default function ApexLegalCpaPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Admission Matrix Lab',
-        'Soundproof Carrel Floorplan',
       ]}
       inquiryUrl="/inquiry?from=apex-legal-cpa"
       specs={[

@@ -23,9 +23,6 @@ export default function HanbitCivilPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Mega Civil Infrastructure Showcase',
-        'Civil Cost & Timeline Estimator',
-        'Advanced Bridge MSS & NATM Tech Archive',
       ]}
       inquiryUrl="/inquiry?from=hanbit-civil"
       specs={[

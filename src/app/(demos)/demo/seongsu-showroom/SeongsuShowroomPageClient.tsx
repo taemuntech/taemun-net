@@ -23,9 +23,6 @@ export default function SeongsuShowroomPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Interactive Zoning HUD',
-        'Material Archive',
-        'Space Estimator',
       ]}
       inquiryUrl="/inquiry?from=seongsu-showroom"
       specs={[

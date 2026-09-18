@@ -12,7 +12,7 @@
     "물류센터 연면적 및 램프 구조별 예상 공사비 & 공기 간이 시뮬레이터(예시)",
     "SampleNotice 연동 신규 물류부지 인허가 및 턴키 견적 의뢰 신청 모달"
   ],
-  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript", "Cold-Chain Chamber Diagram", "Logistics Cost Simulator"],
+  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript"],
   "liveUrl": "/demo/logis-park",
   "createdAt": "2026-09-18"
 }

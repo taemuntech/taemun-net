@@ -23,10 +23,6 @@ export default function MaisonArchitectPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Spatial Room Tour HUD',
-        '3000K/5000K Lighting Simulator',
-        'Apartment Floorplan Placement Matrix',
-        'Private Showroom Reservation Wizard',
       ]}
       inquiryUrl="/inquiry?from=maison-architect&industry=commerce"
       specs={[

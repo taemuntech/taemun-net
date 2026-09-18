@@ -17,9 +17,7 @@
     "Next.js 16",
     "React 19",
     "TypeScript",
-    "Tailwind CSS v4",
-    "3D Facial Ratio HUD",
-    "Before-After Split Viewer"
+    "Tailwind CSS v4"
   ],
   "liveUrl": "/demo/onsaemiro-plastic-surgery",
   "icon": "sparkles",

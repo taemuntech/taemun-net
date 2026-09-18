@@ -12,7 +12,7 @@
     "항만 선석 규모(안벽 연장 m) 및 외해 수심별 개략 공사비 & 공기 산출기(예시)",
     "SampleNotice 연동 해양수산부 및 항만공사(PA) 턴키 기술 자문 신청 모달"
   ],
-  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript", "Maritime Caisson Process Viewer", "Port & Harbor Cost Estimator"],
+  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript"],
   "liveUrl": "/demo/ocean-marine",
   "createdAt": "2026-09-18"
 }

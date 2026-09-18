@@ -28,8 +28,6 @@ export default function HeritageGlobalPrepPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Digital SAT 1600 Telemetry',
-        'Broadsheet Gazette Architecture',
       ]}
       inquiryUrl="/inquiry?from=heritage-global-prep"
       specs={[

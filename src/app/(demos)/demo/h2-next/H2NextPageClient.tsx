@@ -23,9 +23,6 @@ export default function H2NextPageClient({ isEmbed }: Props) {
         'React 19',
         'Tailwind CSS v4',
         'TypeScript',
-        'Interactive SCADA Hub Map',
-        'Enterprise Carbon & PPA Calculator',
-        'Nordic Cleanroom Architecture',
       ]}
       inquiryUrl="/inquiry?from=h2-next"
       specs={[

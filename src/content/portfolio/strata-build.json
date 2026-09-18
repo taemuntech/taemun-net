@@ -12,7 +12,7 @@
     "SM460 고강도 구조용 강재, UHPC 150MPa, 삼중 로이유리, 면진 댐퍼 자재 아카이브",
     "SampleNotice 기반 종합건설 도급 견적 및 현장 합동 감리 신청 모달"
   ],
-  "techStack": ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS v4", "Timelapse Build-Up Slider", "Rugged Field HUD"],
+  "techStack": ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS v4"],
   "liveUrl": "/demo/strata-build",
   "createdAt": "2026-09-17"
 }

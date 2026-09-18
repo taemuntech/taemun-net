@@ -12,7 +12,7 @@
     "처리 용량(만톤/일) 및 관로 연장(km)별 수자원 토목 개략 공사비 산출기(예시)",
     "SampleNotice 연동 지방자치단체 및 공공 수자원 인프라 턴키 기술 협력 신청 모달"
   ],
-  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript", "Underground Waterflow Process Diagram", "Water Infra Cost Estimator"],
+  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript"],
   "liveUrl": "/demo/aqua-infra",
   "createdAt": "2026-09-18"
 }
