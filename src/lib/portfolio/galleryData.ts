@@ -1212,7 +1212,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     categoryName: '기업랜딩 · 우주항공/스페이스테크',
     summary: '태양동기궤도 500km 초소형 위성 군집, 0.3m 초고해상도 광학 & X-Band SAR 레이더, 실시간 텔레메트리 다운링크',
     description: '순백 스페이스테크 클린룸 감성으로 설계된 지구관측 위성 데이터 플랫폼 플래그십 사이트입니다. 광학(EO)·합성개구레이더(SAR)·초분광 3대 센서 인터랙티브 해상도 비교 뷰어, 국방/해양/인프라 분석 솔루션 매트릭스, 전 세계 14개 지상국 다운링크 텔레메트리 HUD, 촬영 위임 의뢰(Tasking) 위저드를 완비했습니다.',
-    thumbnailUrl: '/demo-media/stella-orbital/stella-orbital-01.avif',
+    thumbnailUrl: '/demo-media/stella-orbital/stella-orbital-04.jpg',
     liveDemoUrl: '/demo/stella-orbital',
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Multi-Sensor Radar', 'Live Orbit HUD'],
     period: '2주',
