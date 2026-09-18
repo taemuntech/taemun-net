@@ -938,6 +938,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     summary: '4단계 딥 카테고리 HUD, 인터랙티브 룩북 쇼퍼블 펄스 핀, 체형별 실측 치수 조견표 및 실시간 랭킹 시스템',
     description: '대한민국 대표 디자이너 패션 셀렉트숍의 핵심 UX를 집약한 플래그십 이커머스 라이브 데모입니다. 4단계(대·중·소·세) 카테고리 트리와 컬러/핏/소재 정밀 필터, 2026 S/S 런웨이 쇼퍼블 펄스 핀, 어깨/가슴/소매/총장 실측 cm 매트릭스, 장바구니/위시리스트 드로어 및 성수·한남 스트릿 아카이브를 탑재했습니다.',
     thumbnailUrl: '/demo-media/atelier-noir/atelier-noir-12.jpg',
+    previewVideoUrl: '/portfolio/atelier-noir/high-fashion-runway.mp4',
     liveDemoUrl: '/demo/atelier-noir',
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',

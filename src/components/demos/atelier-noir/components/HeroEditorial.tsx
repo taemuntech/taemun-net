@@ -33,13 +33,20 @@ export const HeroEditorial: React.FC<HeroEditorialProps> = ({
   return (
     <section id="lookbook" className="relative bg-[#0d0e0f] hairline-b overflow-hidden scroll-mt-[calc(var(--sample-bar-h,0px)_+_72px)]">
       <div className="max-w-7xl mx-auto grid grid-cols-12">
-        {/* Asymmetric Left Span: Editorial Photography with SHOP THE LOOK Pulse Pins */}
-        <div className="col-span-12 lg:col-span-8 relative aspect-[16/11] lg:aspect-[1.79/1] hairline-r overflow-hidden group">
-          <img
-            src={HERO_RUNWAY_IMG}
-            alt="High-fashion editorial photography of a stylish model posing in an oversized minimalist black tailored blazer and wide pleated wool trousers"
-            className="w-full h-full object-cover object-center filter grayscale contrast-125 transition-transform duration-700 ease-out group-hover:scale-102"
-          referrerPolicy="no-referrer" />
+        {/* Asymmetric Left Span: Editorial Runway Video with SHOP THE LOOK Pulse Pins */}
+        <div className="col-span-12 lg:col-span-8 relative aspect-[16/11] lg:aspect-[1.79/1] hairline-r overflow-hidden group bg-[#0d0e0f]">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            controlsList="nodownload noplaybackrate"
+            disablePictureInPicture
+            onContextMenu={(e) => e.preventDefault()}
+            poster={HERO_RUNWAY_IMG}
+            className="w-full h-full object-cover object-center scale-[1.05] origin-top-left transition-transform duration-700 ease-out"
+            src="/portfolio/atelier-noir/high-fashion-runway.mp4"
+          />
           {/* High Contrast Monochromatic Overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-[#0d0e0f]/90 via-transparent to-[#0d0e0f]/20 pointer-events-none"></div>
 
