@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import HomeView from "./HomeView";
-import { GALLERY_CATEGORIES, GALLERY_PROJECTS, type GalleryProject } from "@/lib/portfolio/galleryData";
+import { GALLERY_CATEGORIES, GALLERY_PROJECTS } from "@/lib/portfolio/galleryData";
+import { demoSlugOf } from "@/lib/portfolio/gallery-ref";
 import { getPortfolio } from "@/lib/portfolio/registry";
 import { listedDemoLinks } from "@/lib/portfolio/header-links";
 import { listedHomeShortcuts } from "@/lib/portfolio/home-shortcuts";
@@ -26,12 +27,8 @@ export const metadata: Metadata = {
 // 「읽기 실패」)이 정적 HTML 로 굳어, 관리자가 무엇을 눌러도 재배포 전까지 홈은 그대로다.
 export const dynamic = "force-dynamic";
 
-/** 갤러리 카드의 /demo/<slug> 링크에서 slug 를 뽑는다. 외부 서비스(externalUrl)는 상태 관리 대상이 아니다 */
-function demoSlugOf(project: GalleryProject): string | null {
-  const url = project.liveDemoUrl;
-  if (!url || !url.startsWith("/demo/")) return null;
-  return url.slice("/demo/".length).split(/[/?#]/)[0] || null;
-}
+// 카드 → slug 는 src/lib/portfolio/gallery-ref.ts 한 곳(문의 페이지의 ?project= 되돌림도 같이 쓴다).
+// 외부 서비스(externalUrl)는 상태 관리 대상이 아니라 demoSlugOf 가 null 이다.
 
 export default async function Home() {
   const snapshot = await getState();

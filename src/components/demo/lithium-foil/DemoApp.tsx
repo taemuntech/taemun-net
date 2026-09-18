@@ -318,7 +318,7 @@ function DemoHeader() {
             <span>스튜디오 홈</span>
           </Link>
           <Link
-            href="/inquiry"
+            href="/inquiry?from=lithium-foil"
             className="inline-flex items-center justify-center min-h-10 px-4 lg:px-5 rounded-full bg-gradient-to-r from-indigo-600/30 via-purple-600/30 to-pink-600/30 border border-indigo-500/50 text-white font-bold text-xs hover:border-indigo-400 transition-all backdrop-blur-md shadow-lg shadow-indigo-500/25 whitespace-nowrap"
           >
             이런 시스템 문의
@@ -399,7 +399,7 @@ function DemoCta() {
 
           <div className="pt-2 lg:pt-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-center gap-3 lg:gap-4">
             <Link
-              href="/inquiry"
+              href="/inquiry?from=lithium-foil"
               className="w-full lg:w-auto min-h-12 px-7 py-3.5 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-sm lg:text-base shadow-xl shadow-indigo-500/25 hover:opacity-90 transition-all flex items-center justify-center gap-2 group"
             >
               <span>프로젝트 상담 문의</span>

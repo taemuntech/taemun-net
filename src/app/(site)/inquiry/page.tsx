@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
+import { sampleInquiryHref } from "@/components/demo-kit/sample-lead";
+import { GALLERY_PROJECTS } from "@/lib/portfolio/galleryData";
+import { gallerySlugOf } from "@/lib/portfolio/gallery-ref";
 import { getPortfolio } from "@/lib/portfolio/registry";
 import { getState, isReachable, resolveStatus, type StateSnapshot } from "@/lib/portfolio/state";
 import { SITE_OG_IMAGES } from "@/lib/site-og";
@@ -42,11 +46,42 @@ function buildSampleIndex(snapshot: StateSnapshot): SampleIndex {
   return index;
 }
 
+/**
+ * 옛 주소 `?project=<갤러리 카드 제목>` → `?from=<slug>`.
+ *
+ * 홈 카드 모달의 「이 레퍼런스로 제작 문의」가 카드 **제목**을 project 로 붙여 보냈는데, 이 화면은 from(slug)만 읽는다.
+ * 그래서 홈에서 들어온 문의는 어느 레퍼런스를 보고 왔는지가 통째로 빠졌다 — 서비스 미리 고르기·안내 칩·형 문자의
+ * 「유입」 줄 전부(2026-09-18 확인). 홈 버튼은 모달 개편(구현계획서 P4) 때 바뀌므로, 들어오는 쪽에서 먼저 잇는다.
+ * 카드 id 는 slug 와 다를 수 있어(09-18 실측: 이어지는 카드 58장 중 22장) 제목 → 카드 → 카드가 가리키는 주소로
+ * slug 를 찾는다(gallery-ref.ts). 같은 날 58장 전부 올바른 slug 로 되돌려지는 것을 로컬에서 확인했다.
+ *
+ * 되돌리지 않는 경우: 이미 from 이 있다 · 제목에 맞는 카드가 없다 · 막힌(내려간) 작업물이다(표에 없다).
+ * 마지막 경우에 주소를 바꾸면 내려간 시안의 slug 가 주소창에 드러나므로 그대로 둔다.
+ */
+function legacyProjectHref(
+  params: Record<string, string | string[] | undefined>,
+  sampleIndex: SampleIndex,
+): string | null {
+  const title = typeof params.project === "string" ? params.project : null;
+  if (!title || params.from !== undefined) return null;
+  const card = GALLERY_PROJECTS.find((p) => p.title === title);
+  if (!card) return null;
+  const slug = gallerySlugOf(card, getPortfolio());
+  if (!slug || !sampleIndex[slug]) return null;
+  return sampleInquiryHref({ from: slug });
+}
+
 // 상태를 접속 때마다 다시 본다 — 홈·포트폴리오와 같은 이유(빌드 스냅숏이 굳으면 내려도 이름이 남는다)
 export const dynamic = "force-dynamic";
 
-export default async function InquiryPage() {
+export default async function InquiryPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
   const sampleIndex = buildSampleIndex(await getState());
+  const legacy = legacyProjectHref(await searchParams, sampleIndex);
+  if (legacy) redirect(legacy);
   return (
     <Suspense fallback={<InquiryView referral={null} />}>
       <InquiryViewWithReferral sampleIndex={sampleIndex} />
