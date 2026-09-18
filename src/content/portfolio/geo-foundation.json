@@ -1,0 +1,18 @@
+{
+  "slug": "geo-foundation",
+  "kind": "sample",
+  "industry": "civil",
+  "title": "지오파운데이션",
+  "subtitle": "대심도 흙막이 · 연약지반 개량 · D-Wall 특수기초 토목 솔루션",
+  "summary": "가상 특수기초 토목 브랜드 「지오파운데이션」으로 제작한 대심도 지하 굴착 및 지반 안정화 전문 웹사이트 샘플입니다. 도심 초고층 빌딩 40m 대심도 역타(Top-Down) 터파기·하이드로프리즈 D-Wall 시공·대구경 RCD 현장타설말뚝 등 4대 대표 실적 갤러리, 심도별 지하 흙막이 지층 단면 인터랙티브 뷰어, 초고압 차수 그라우팅(JSP) 신공법 아카이브, 굴착 깊이별 가시설 개략 공사비 계산기(예시), 그리고 SampleNotice 연동 지반조사서 무료 기술 검토 신청 모달을 담았습니다.",
+  "features": [
+    "도심 40m 대심도 흙막이·하이드로프리즈 D-Wall·대구경 RCD 말뚝 4대 특수기초 완공 갤러리",
+    "지하 심도별(-10m ~ -50m) 흙막이 및 암반 지지층 단면 인터랙티브 뷰어",
+    "초고압 제트 그라우팅(JSP/SIG) 차수 및 도심 지반 자동 계측 관제 쇼케이스",
+    "굴착 깊이(m) 및 지반 조건별 흙막이 가시설 개략 공사비 & 공기 간이 시뮬레이터(예시)",
+    "SampleNotice 연동 신축 현장 지반 시추 주상도 무료 기술 검토 신청 모달"
+  ],
+  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript", "Subsurface Depth Layer Viewer", "Foundation Cost Estimator"],
+  "liveUrl": "/demo/geo-foundation",
+  "createdAt": "2026-09-18"
+}
