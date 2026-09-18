@@ -8,6 +8,6 @@ export const SITE_OG_IMAGES = [
     url: "/portfolio/atelier-vaucluse/desktop.png",
     width: 1440,
     height: 900,
-    alt: "태문 DEV STUDIO 가 만든 업종별 샘플 사이트 화면",
+    alt: "태문넷이 만든 업종별 샘플 사이트 화면",
   },
 ];

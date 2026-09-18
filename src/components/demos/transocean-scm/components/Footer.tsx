@@ -125,7 +125,7 @@ export const Footer: React.FC = () => {
         {/* Bottom Disclaimers */}
         <div className="pt-4 flex flex-col lg:flex-row justify-between items-center text-[#8d90a0] font-mono text-xs gap-3">
           <p className="text-center lg:text-left">
-            &copy; 2026 Transocean Global SCM (가상 브랜드). 태문 DEV STUDIO 샘플 화면입니다.
+            &copy; 2026 Transocean Global SCM (가상 브랜드). 태문넷 샘플 화면입니다.
           </p>
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-1">
             <span>B/L STANDARD: TOCU-2025 (예시)</span>

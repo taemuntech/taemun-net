@@ -429,7 +429,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
             <div className="inline-flex items-center gap-2 px-3.5 lg:px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-semibold shadow-xs">
               <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
               <span className="tracking-wider uppercase text-[11px] lg:text-xs font-mono text-zinc-100">
-                TAEMUN DEV STUDIO • BESPOKE DIGITAL GALLERY
+                TAEMUN.NET • BESPOKE DIGITAL GALLERY
               </span>
             </div>
 
@@ -757,7 +757,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
             CAPABILITIES
           </span>
           <h2 className="text-2xl lg:text-4xl font-light text-zinc-950 tracking-tight">
-            태문 데브스튜디오의 <span className="font-serif italic text-zinc-800 font-normal">전문 역량 4대 축</span>
+            태문넷의 <span className="font-serif italic text-zinc-800 font-normal">전문 역량 4대 축</span>
           </h2>
           <p className="text-zinc-500 text-xs lg:text-sm mt-2 font-light">
             단순 웹사이트 제작을 넘어, 산업 현장의 복잡한 요구조건을 풀스택 아키텍처로 정밀하게 해결합니다.
@@ -928,7 +928,9 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
       {/* Agency Minimal Footer */}
       <footer className="border-t border-zinc-200 py-10 px-4 lg:px-8 max-w-7xl mx-auto text-xs text-zinc-500 flex flex-col lg:flex-row items-center justify-between gap-4 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-4 text-center lg:text-left">
-          <span className="font-bold text-zinc-900 tracking-wide">TAEMUN DEV STUDIO</span>
+          <span className="font-bold text-zinc-900 tracking-wide">
+            태문넷 <span className="font-mono text-[10px] font-semibold text-zinc-500">DEV STUDIO</span>
+          </span>
           <span className="hidden lg:inline text-zinc-300">|</span>
           <span>(주)태문 • 사업자등록번호 696-86-03651</span>
           <span className="hidden lg:inline text-zinc-300">|</span>
@@ -938,7 +940,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
           <Link href="/privacy" className="font-bold text-zinc-700 hover:text-zinc-900">
             개인정보 처리방침
           </Link>
-          <span>&copy; {new Date().getFullYear()} TAEMUN DEV STUDIO. All rights reserved.</span>
+          <span>&copy; {new Date().getFullYear()} 주식회사 태문. All rights reserved.</span>
         </div>
       </footer>
 

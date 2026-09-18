@@ -98,12 +98,12 @@ export default function SampleSiteBar(_props: SampleSiteBarProps) {
       <style>{`:root{${SAMPLE_BAR_HEIGHT_VAR}:${SAMPLE_BAR_HEIGHT_PX}px}`}</style>
       <div
         role="region"
-        aria-label="태문 DEV STUDIO 샘플 사이트 안내"
+        aria-label="태문넷 샘플 사이트 안내"
         className="sticky top-0 z-[9999] w-full border-b border-white/10 bg-[#030712]/95 text-white backdrop-blur-md [word-break:keep-all]"
         style={{ height: SAMPLE_BAR_HEIGHT_PX, fontFamily: "system-ui, -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif" }}
       >
         <div className="mx-auto flex h-full max-w-7xl items-center gap-2 px-3 lg:gap-4 lg:px-6">
-          <Link href="/" className="flex min-w-0 shrink items-center gap-2" aria-label="태문 DEV STUDIO 홈">
+          <Link href="/" className="flex min-w-0 shrink items-center gap-2" aria-label="태문넷 홈">
             <Image
               src="/images/logo/icon-192-transparent.png"
               alt=""
@@ -114,7 +114,7 @@ export default function SampleSiteBar(_props: SampleSiteBarProps) {
             <span className="truncate text-[13px] font-bold leading-none tracking-tight">
               <span className="lg:hidden">태문 샘플</span>
               <span className="hidden lg:inline">
-                태문 <span className="text-indigo-300">DEV STUDIO</span>
+                태문넷 <span className="text-indigo-300">DEV STUDIO</span>
                 <span className="ml-1.5 font-medium text-gray-300">샘플 사이트</span>
               </span>
             </span>

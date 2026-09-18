@@ -362,7 +362,7 @@ export default function DevicePreviewFrame({
               </div>
               <h2 className="text-2xl lg:text-3xl font-bold text-zinc-950">{title}</h2>
               <p className="text-xs lg:text-sm text-zinc-600 mt-2 font-light">
-                클라이언트: {client} | 태문 DEV STUDIO 직영 아키텍처 명세서
+                클라이언트: {client} | 태문넷 직영 아키텍처 명세서
               </p>
             </div>
 

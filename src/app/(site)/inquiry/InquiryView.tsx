@@ -247,7 +247,7 @@ export default function InquiryView({
               />
             </div>
             <span className="text-lg lg:text-xl font-bold tracking-tight text-white">
-              태문 <span className="text-indigo-400 text-xs lg:text-sm font-semibold ml-1">DEV STUDIO</span>
+              태문넷 <span className="text-indigo-400 text-xs lg:text-sm font-semibold ml-1">DEV STUDIO</span>
             </span>
           </Link>
 
@@ -275,7 +275,7 @@ export default function InquiryView({
                 <span>4단계 무료 견적 문의</span>
               </div>
               <h1 className="text-2xl lg:text-4xl font-extrabold text-white leading-tight">
-                태문 DEV STUDIO 는<br />
+                태문넷은<br />
                 <span className="bg-gradient-to-r from-white via-indigo-200 to-purple-300 bg-clip-text text-transparent">
                   이렇게 일합니다
                 </span>

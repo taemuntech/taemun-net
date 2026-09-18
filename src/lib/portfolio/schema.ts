@@ -25,7 +25,7 @@ export const KIND_LABEL: Record<PortfolioKind, string> = {
  * 실존 업체 이름이 걸린 시안이라 「그 회사가 만든 사이트」로 읽히면 곤란하다 — 카드·모달·샘플 바가 모두 이 문장을 쓴다.
  */
 export const PROPOSAL_DISCLAIMER =
-  "태문 DEV STUDIO 가 제안용으로 만든 시안이며, 해당 회사가 만들었거나 의뢰한 사이트가 아닙니다.";
+  "태문넷이 제안용으로 만든 시안이며, 해당 회사가 만들었거나 의뢰한 사이트가 아닙니다.";
 
 /** 카드 summary 에 「제안용 시안」 성격이 드러나는지 — audit·레지스트리가 같이 쓴다 */
 export const PROPOSAL_SUMMARY_RE = /제안(용)?\s*시안|제안서?\s*시안/;

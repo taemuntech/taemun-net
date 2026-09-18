@@ -42,7 +42,7 @@ const LAYOUT_PROPOSAL_DISCLAIMER = (() => {
   }
 })();
 const SITE_DEFAULT_TITLE = "홈페이지 제작 & 웹·앱 개발 외주 전문";
-const DEMOS_DEFAULT_TITLE = "샘플 사이트 — 태문 DEV STUDIO";
+const DEMOS_DEFAULT_TITLE = "샘플 사이트 — 태문넷";
 /** 사이트 틀(다크) 문구 검사 대상 — 게이트가 샘플만 보면 사이트 페이지의 과장 문구가 어디에도 안 걸린다 */
 const SITE_COPY_DIRS = [path.join(ROOT, "src", "app", "(site)")];
 const SITE_COPY_FILES = [
@@ -1358,7 +1358,7 @@ for (const s of sampleSources) {
     keySlug.set(key, s.slug);
     warn(
       key,
-      "화면에 샘플·시안 고지가 없습니다 — 푸터에 한 줄 남기세요. 가상 브랜드면 「이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아닙니다」, 실존 업체 제안 시안이면 「태문 DEV STUDIO 가 제안용으로 만든 시안이며, 해당 회사가 의뢰하거나 만든 사이트가 아닙니다」 (샘플 바를 접어도 남는 표시)",
+      "화면에 샘플·시안 고지가 없습니다 — 푸터에 한 줄 남기세요. 가상 브랜드면 「이 사이트는 태문넷이 만든 가상 브랜드 샘플입니다. 실제 업체가 아닙니다」, 실존 업체 제안 시안이면 「태문넷이 제안용으로 만든 시안이며, 해당 회사가 의뢰하거나 만든 사이트가 아닙니다」 (샘플 바를 접어도 남는 표시)",
     );
   }
   // 실존 업체 제안 시안은 「가상 브랜드 샘플」 문구로 대신할 수 없다 — 회사 이름이 걸린 화면이라 ERROR 로 막는다
@@ -1367,7 +1367,7 @@ for (const s of sampleSources) {
     keySlug.set(key, s.slug);
     error(
       key,
-      `kind=proposal 인데 제안 시안 고지가 없습니다 — 「태문 DEV STUDIO 가 제안용으로 만든 시안이며, 해당 회사가 만들었거나 의뢰한 사이트가 아닙니다」를 헤더 아래 띠·푸터처럼 접을 수 없는 자리에 넣으세요. 툴바(DevicePreviewFrame)의 고지 띠는 iframe 바깥이라 ?embed=true 를 직접 열면 안 보입니다`,
+      `kind=proposal 인데 제안 시안 고지가 없습니다 — 「태문넷이 제안용으로 만든 시안이며, 해당 회사가 만들었거나 의뢰한 사이트가 아닙니다」를 헤더 아래 띠·푸터처럼 접을 수 없는 자리에 넣으세요. 툴바(DevicePreviewFrame)의 고지 띠는 iframe 바깥이라 ?embed=true 를 직접 열면 안 보입니다`,
     );
   }
 
@@ -1789,6 +1789,29 @@ function rewriteStackInner(arr, keep) {
   }
 }
 
+// ───────── 6-5. 옛 사이트 이름 「태문 DEV STUDIO」 (ERROR) ─────────
+// 2026-09-19 사이트 이름을 「태문넷」으로 바꿨다(도메인 taemun.net 과 같은 이름 — 형 결정). DEV STUDIO 는 로고 옆 작은
+// 부제(「태문넷 <span>DEV STUDIO</span>」)로만 남는다. 개명 전에 만든 가지·데모가 합쳐지면 옛 이름이 화면·탭 제목·검색
+// 정보로 돌아와 이름이 두 갈래가 된다. 예외는 (site)/layout.tsx 하나 — 옛 이름으로 찾는 사람을 잇는 alternateName·keywords.
+{
+  const OLD_NAME = /태문\s*DEV\s*STUDIO|TAEMUN\s+DEV\s+STUDIO|태문\s*데브\s*스튜디오|태문\s*<span[^>]*>\s*DEV\s*STUDIO/g;
+  const allowed = rel(path.join(ROOT, "src", "app", "(site)", "layout.tsx"));
+  const targets = [...walkSources(path.join(ROOT, "src"))];
+  if (fs.existsSync(CONTENT_DIR)) {
+    for (const f of fs.readdirSync(CONTENT_DIR)) if (f.endsWith(".json")) targets.push(path.join(CONTENT_DIR, f));
+  }
+  for (const f of targets) {
+    const key = rel(f);
+    if (key === allowed) continue;
+    const raw = fs.readFileSync(f, "utf8");
+    const src = f.endsWith(".json") ? raw : stripComments(raw);
+    for (const m of src.matchAll(OLD_NAME)) {
+      const line = src.slice(0, m.index).split("\n").length;
+      error(key, `${line}행: 옛 이름 「${m[0].replace(/\s+/g, " ")}」 — 사이트 이름은 「태문넷」입니다(영문 대문자 표기는 TAEMUN.NET, DEV STUDIO 는 로고 옆 부제로만)`);
+    }
+  }
+}
+
 // ───────── 6-2. 데모 공용 파일(태문 자기 목소리) 문구 (WARN) ─────────
 //
 // 왜 따로 두나: 기기 전환 툴바(src/components/demos/DevicePreviewFrame.tsx)는 데모 12종 **전부**를 감싸는데
@@ -1918,9 +1941,9 @@ if (BASE) {
       if (/application\/ld\+json/i.test(html)) error(key, "샘플인데 JSON-LD 가 있습니다 — 태문 사업자 정보가 가상 브랜드 페이지에 붙습니다. (demos) 로 옮기세요");
       // 상단 태문 표시 — 지금은 기기 전환 툴바(DevicePreviewFrame)가 맡고, 툴바 없는 샘플은 SampleSiteBar 가 맡는다.
       // 둘 중 하나는 반드시 있어야 「누가 만든 무슨 화면인지」와 포트폴리오·제작 문의 길이 화면에 남는다.
-      // 표시 문구는 툴바(아라 DevicePreviewFrame: 「태문 DEV STUDIO 직영 …」)와 SampleSiteBar 가 서로 다르다.
+      // 표시 문구는 툴바(아라 DevicePreviewFrame: 「태문넷 직영 …」)와 SampleSiteBar 가 서로 다르다.
       // 클라이언트에서 그려지는 툴바는 SSR HTML 본문 대신 RSC 페이로드에 실리므로 문자열 존재로 판정한다.
-      const hasStudioBar = html.includes("태문 DEV STUDIO");
+      const hasStudioBar = html.includes("태문넷");
       if (!hasStudioBar) {
         error(
           key,

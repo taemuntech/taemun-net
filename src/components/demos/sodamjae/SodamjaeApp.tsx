@@ -53,7 +53,7 @@ export default function SodamjaeApp({ isEmbed = false }: { isEmbed?: boolean } =
           </div>
           <div className="flex items-center gap-3">
             <span className="hidden lg:inline text-gray-400">
-              태문 DEV STUDIO 프리미엄 전통한옥·중목구조 레퍼런스
+              태문넷 프리미엄 전통한옥·중목구조 레퍼런스
             </span>
             <Link
               href="/inquiry?from=sodamjae"

@@ -16,13 +16,13 @@ const CONTACT_EMAIL = "contact@taemun.co.kr";
 
 export const metadata: Metadata = {
   title: "개인정보 처리방침",
-  description: "태문 DEV STUDIO(주식회사 태문)가 견적 문의로 받는 개인정보를 어떻게 처리하는지 안내합니다.",
+  description: "태문넷(주식회사 태문)이 견적 문의로 받는 개인정보를 어떻게 처리하는지 안내합니다.",
   alternates: { canonical: "/privacy" },
   openGraph: {
     type: "website",
     locale: "ko_KR",
-    siteName: "태문 DEV STUDIO",
-    title: "개인정보 처리방침 | 태문 DEV STUDIO",
+    siteName: "태문넷",
+    title: "개인정보 처리방침 | 태문넷",
     description: "견적 문의로 받는 개인정보의 처리 목적·항목·보유기간·위탁·국외 이전·권리 행사 방법",
     url: "/privacy",
     images: SITE_OG_IMAGES,
@@ -48,11 +48,11 @@ export default function PrivacyPage() {
       <div className="max-w-3xl mx-auto px-4 lg:px-8 py-12 lg:py-16 space-y-10">
         <header className="space-y-3 border-b border-zinc-200 pb-8">
           <Link href="/" className="text-xs font-bold text-zinc-500 hover:text-zinc-900">
-            ← 태문 DEV STUDIO
+            ← 태문넷
           </Link>
           <h1 className="text-2xl lg:text-3xl font-extrabold tracking-tight">개인정보 처리방침</h1>
           <p className="text-sm text-zinc-600 leading-relaxed">
-            주식회사 태문(이하 「태문」)은 태문 DEV STUDIO 사이트(taemun.net)에서 견적 문의를 받으면서 필요한 만큼의
+            주식회사 태문(이하 「태문」)은 태문넷 사이트(taemun.net)에서 견적 문의를 받으면서 필요한 만큼의
             개인정보만 처리합니다. 이 방침은 어떤 정보를 왜 받고, 얼마 동안 보관하며, 누구에게 맡기는지 안내합니다.
           </p>
           <p className="text-xs text-zinc-500">시행일: {EFFECTIVE_DATE}</p>

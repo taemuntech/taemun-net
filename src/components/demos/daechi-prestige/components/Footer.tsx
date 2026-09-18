@@ -85,7 +85,7 @@ export const Footer: React.FC = () => {
         {/* Bottom Disclaimer & Copyright */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4 text-xs text-outline font-label-sm">
           <div>
-            © 2026 DAECHI PRESTIGE MEDICAL LAB. ALL RIGHTS RESERVED. DESIGNED BY 태문 DEV STUDIO.
+            © 2026 DAECHI PRESTIGE MEDICAL LAB. ALL RIGHTS RESERVED. DESIGNED BY 태문넷.
           </div>
           <div className="flex items-center gap-4">
             <span>개인정보처리방침(예시)</span>

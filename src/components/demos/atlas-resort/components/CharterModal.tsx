@@ -73,7 +73,7 @@ export const CharterModal: React.FC<CharterModalProps> = ({ charter, onClose }) 
             ))}
           </dl>
           <p className="mt-8 rounded border border-[#c6c7c0]/40 px-4 py-3 text-[11px] leading-relaxed text-[#767872]">
-            이 문서는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플의 예시 문안입니다. 실제 약관이 아니며 법적 효력이 없습니다.
+            이 문서는 태문넷이 만든 가상 브랜드 샘플의 예시 문안입니다. 실제 약관이 아니며 법적 효력이 없습니다.
           </p>
         </div>
       </div>

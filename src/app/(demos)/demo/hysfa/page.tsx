@@ -4,7 +4,7 @@ import HysfaPageClient from "./HysfaPageClient";
 
 // 제목·설명·og 는 **판정 뒤에** 내보낸다(근거·실측: src/lib/portfolio/demo-metadata.ts).
 const DEMO_METADATA: Metadata = {
-  title: "한양시스템㈜ — 차세대 반도체 공정 설비 & 4K SCADA 관제 | 태문 DEV STUDIO",
+  title: "한양시스템㈜ — 차세대 반도체 공정 설비 & 4K SCADA 관제 | 태문넷",
   description:
     "삼성전자 세메스(SEMES) SSQ 품질 인증 협력사 한양시스템㈜ 공식 리뉴얼 프로토타입. 반도체 매엽식 세정 설비, 특수가스 캐비닛(Gas Keeper), 4K 초고화질 SCADA 관제 시뮬레이터를 직접 조작해 보세요.",
   alternates: {

@@ -55,7 +55,7 @@ export function Footer() {
 
         <div className="pt-8 border-t border-[#3D3833] flex flex-col lg:flex-row items-center justify-between gap-4 text-[11px] text-[#7A7369]">
           <p>© 2026 ATELIER KIDS Art Academy. All Rights Reserved. (샘플 데모)</p>
-          <p>태문 DEV STUDIO 프리미엄 아동 교육 & 감성 미술 포트폴리오</p>
+          <p>태문넷 프리미엄 아동 교육 & 감성 미술 포트폴리오</p>
         </div>
       </div>
     </footer>

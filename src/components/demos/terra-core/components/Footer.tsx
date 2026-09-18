@@ -44,7 +44,7 @@ export const Footer: React.FC = () => {
         <div className="pt-6 text-center text-xs font-sans text-[#8b949e]">
           <p className="font-semibold text-[#c9d1d9]"><SampleFooterNote /></p>
           <p className="text-[11px] text-[#6e7681] mt-1 font-mono">
-            &copy; {new Date().getFullYear()} TERRA-CORE Inc. &amp; TAEMUN DEV STUDIO. All rights reserved.
+            &copy; {new Date().getFullYear()} TERRA-CORE Inc. &amp; TAEMUN.NET. All rights reserved.
           </p>
         </div>
       </div>

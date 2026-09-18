@@ -31,7 +31,7 @@ export default function FloatingChatWidget() {
               <div>
                 <div className="flex items-center gap-2">
                   <h4 className="text-[14px] font-bold text-white tracking-tight leading-none">
-                    태문 DEV STUDIO
+                    태문넷
                   </h4>
                   <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[10px] font-mono font-semibold text-emerald-400">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />

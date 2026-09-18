@@ -1,4 +1,4 @@
--- Create inquiries table for TAEMUN DEV STUDIO (taemun.net)
+-- Create inquiries table for TAEMUN.NET (taemun.net)
 CREATE TABLE IF NOT EXISTS public.inquiries (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   services TEXT[] NOT NULL,

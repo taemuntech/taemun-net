@@ -54,7 +54,7 @@ export default function LoginView() {
           <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04]">
             <Lock className="h-5 w-5 text-indigo-300" aria-hidden="true" />
           </div>
-          <h1 className="mt-4 text-xl font-bold text-white">태문 DEV STUDIO 관리자</h1>
+          <h1 className="mt-4 text-xl font-bold text-white">태문넷 관리자</h1>
           <p className="mt-1.5 text-sm text-gray-400">작업물 공개 상태를 바꾸는 화면입니다.</p>
         </div>
 

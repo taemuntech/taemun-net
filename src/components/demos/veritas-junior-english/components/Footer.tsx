@@ -52,7 +52,7 @@ export function Footer() {
 
         <div className="pt-8 border-t border-blue-900/60 flex flex-col lg:flex-row items-center justify-between gap-4 text-[11px] text-slate-400">
           <p>© 2026 VERITAS JUNIOR Prestige English Academy. All Rights Reserved. (샘플 데모)</p>
-          <p>태문 DEV STUDIO 프리미엄 주니어 어학원 &amp; 렉사일 에듀테크 포트폴리오</p>
+          <p>태문넷 프리미엄 주니어 어학원 &amp; 렉사일 에듀테크 포트폴리오</p>
         </div>
       </div>
     </footer>

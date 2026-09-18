@@ -19,7 +19,7 @@ import { SITE_OG_IMAGES } from "@/lib/site-og";
 export const dynamic = "force-dynamic";
 
 const DESCRIPTION =
-  "태문 DEV STUDIO 가 만든 업종별 샘플 사이트와 직접 운영 중인 서비스를 한곳에서 보세요. 인테리어·건축·제조·쇼핑몰 등 업종별로 골라 보고, 마음에 드는 사이트를 기준으로 제작을 문의할 수 있습니다.";
+  "태문넷이 만든 업종별 샘플 사이트와 직접 운영 중인 서비스를 한곳에서 보세요. 인테리어·건축·제조·쇼핑몰 등 업종별로 골라 보고, 마음에 드는 사이트를 기준으로 제작을 문의할 수 있습니다.";
 
 export const metadata: Metadata = {
   title: "포트폴리오",
@@ -28,8 +28,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "ko_KR",
-    siteName: "태문 DEV STUDIO",
-    title: "포트폴리오 | 태문 DEV STUDIO",
+    siteName: "태문넷",
+    title: "포트폴리오 | 태문넷",
     description: DESCRIPTION,
     url: "/portfolio",
     images: SITE_OG_IMAGES,
@@ -72,7 +72,7 @@ export default async function PortfolioPage() {
         <div className="text-center max-w-3xl mx-auto mb-12 lg:mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-medium tracking-wide mb-6">
             <Layers className="w-3.5 h-3.5" aria-hidden="true" />
-            <span>TAEMUN DEV STUDIO PORTFOLIO</span>
+            <span>TAEMUN.NET PORTFOLIO</span>
           </div>
           <h1 className="text-3xl lg:text-5xl font-extrabold tracking-tight text-white mb-5 leading-tight break-keep">
             업종에 맞춘{" "}

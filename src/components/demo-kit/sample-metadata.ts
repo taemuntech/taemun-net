@@ -23,8 +23,8 @@ export function sampleMetadata({ slug, title, description }: SampleMetadataInput
     openGraph: {
       type: "website",
       locale: "ko_KR",
-      siteName: "태문 DEV STUDIO 샘플 사이트",
-      title: `${title} — 태문 DEV STUDIO 샘플 사이트`,
+      siteName: "태문넷 샘플 사이트",
+      title: `${title} — 태문넷 샘플 사이트`,
       description,
       url: `/demo/${slug}`,
       images: [{ url: thumb.desktop, width: 1440, height: 900, alt: `${title} 샘플 사이트 화면` }],

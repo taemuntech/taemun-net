@@ -14,7 +14,7 @@ import InquiryView, { InquiryViewWithReferral, type SampleIndex } from "./Inquir
 // fallback 에 유입 정보 없는 같은 화면을 넣어 정적 HTML(검색·첫 화면)이 비지 않게 한다 — 수화 시 주소를 읽은 화면으로 바뀐다.
 
 const DESCRIPTION =
-  "홈페이지·쇼핑몰·예약 사이트·맞춤형 웹 개발 견적 문의. 필요한 서비스와 예산·일정을 4단계로 골라 보내 주시면 태문 DEV STUDIO 가 연락드립니다.";
+  "홈페이지·쇼핑몰·예약 사이트·맞춤형 웹 개발 견적 문의. 필요한 서비스와 예산·일정을 4단계로 골라 보내 주시면 태문넷이 연락드립니다.";
 
 // openGraph 를 페이지에서 따로 선언한다 — 없으면 레이아웃(홈)의 og:url·og:title 을 물려받아 공유 미리보기가 홈으로 샌다.
 export const metadata: Metadata = {
@@ -24,8 +24,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "ko_KR",
-    siteName: "태문 DEV STUDIO",
-    title: "프로젝트 견적 문의 | 태문 DEV STUDIO",
+    siteName: "태문넷",
+    title: "프로젝트 견적 문의 | 태문넷",
     description: DESCRIPTION,
     url: "/inquiry",
     images: SITE_OG_IMAGES,

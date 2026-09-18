@@ -65,7 +65,7 @@ export default function DemoGate() {
             <Mail className="h-4 w-4 text-indigo-400" aria-hidden="true" />
             <span>{EMAIL}</span>
           </a>
-          <p className="mt-2 text-xs text-gray-500">태문 DEV STUDIO</p>
+          <p className="mt-2 text-xs text-gray-500">태문넷</p>
         </div>
       </div>
     </main>

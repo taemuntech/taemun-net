@@ -74,7 +74,7 @@ export const Footer: React.FC = () => {
               href="/inquiry?from=jeonglim-tea"
               className="inline-flex items-center min-h-11 px-4 py-2 rounded-lg bg-[#6b5545]/20 hover:bg-[#6b5545]/30 text-[#d8b896] border border-[#6b5545]/40 text-xs font-semibold transition-all break-keep"
             >
-              태문 DEV STUDIO에 제작 의뢰 ↗
+              태문넷에 제작 의뢰 ↗
             </Link>
           </div>
         </div>

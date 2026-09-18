@@ -22,8 +22,8 @@ import { DEMO_GONE_PATH, DEMO_SLUG_HEADER, decideDemoAccess } from "@/lib/portfo
 export const metadata: Metadata = {
   metadataBase: new URL("https://taemun.net"),
   title: {
-    default: "샘플 사이트 — 태문 DEV STUDIO",
-    template: "%s — 태문 DEV STUDIO",
+    default: "샘플 사이트 — 태문넷",
+    template: "%s — 태문넷",
   },
   robots: {
     index: false,

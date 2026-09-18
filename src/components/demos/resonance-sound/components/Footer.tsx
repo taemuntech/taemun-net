@@ -22,7 +22,7 @@ export const Footer: React.FC = () => {
 
         <div className="pt-8 flex flex-col lg:flex-row items-center justify-between gap-4 text-[11px] text-[#856b54]">
           <p>© 2026 RESONANCE AUDIO STUDIO. All architectural rights reserved.</p>
-          <p>Designed by TAEMUN DEV STUDIO</p>
+          <p>Designed by TAEMUN.NET</p>
         </div>
       </div>
     </footer>

@@ -86,7 +86,7 @@ import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 <p className="text-xs opacity-60"><SampleFooterNote /></p>
 ```
 
-화면에는 **「이 화면은 태문 DEV STUDIO의 가상 브랜드 샘플입니다. © 2026 주식회사 태문」** 이 나옵니다.
+화면에는 **「이 화면은 태문넷의 가상 브랜드 샘플입니다. © 2026 주식회사 태문」** 이 나옵니다.
 - 문구는 그 컴포넌트 **한 곳이 정본**입니다. 바꾸고 싶으면 거기만 고치면 전 데모가 같이 바뀝니다. 데모 파일에 문구를 직접 적지 마세요 — 예전엔 10가지 넘게 제각각이었습니다.
 - `<span>` 을 그리므로 `<p>`·`<span>` 안에 넣어도 됩니다. 색·크기는 감싼 요소를 따릅니다(데모마다 디자인이 달라서).
 - ⚠️ **제안용 시안(실존 업체, `kind: "proposal"`)에는 넣지 않습니다.** 그 회사는 「가상」이 아니에요. 거기는 레이아웃이 별도 고지를 붙입니다.
@@ -136,6 +136,12 @@ return <DevicePreviewFrame src="/demo/<slug>?embed=true" title=… category=… 
 - 갤러리 `period` 는 화면에 **「예상 제작 2주~」** 로 붙습니다 — 샘플을 그 기간에 만들었다는 뜻이 아니라 **이런 사이트를
   맡기면 걸리는 기간**이라는 손님과의 약속이에요. 형이 실제로 납품할 수 있는 기간만 적습니다(모르면 비슷한 샘플 값을 따르기).
 - 데모도 외부 링크도 없는 갤러리 카드는 **홈에 안 뜹니다** — 볼 것 없는 카드를 걸면 만든 적 없는 작품을 내건 게 됩니다.
+
+### 13) 사이트 이름은 「태문넷」 (2026-09-19 개명)
+- 도메인 taemun.net 과 같은 이름입니다. 제목·설명·푸터·고지 어디든 **「태문넷」**, 영문 대문자 자리는 **`TAEMUN.NET`**.
+- 「DEV STUDIO」는 로고 옆 **작은 부제**로만 씁니다(`태문넷 <span …>DEV STUDIO</span>`).
+- 조사는 받침에 맞춥니다: 태문넷**이** 만든 · 태문넷**은** · 태문넷**을** · 태문넷**과** · 태문넷**으로**.
+- 옛 이름 「태문 DEV STUDIO」·「TAEMUN DEV STUDIO」는 검사가 ERROR 로 막습니다(주석은 괜찮습니다).
 
 ### 올리기 전 한 줄
 ```bash
@@ -217,7 +223,7 @@ npm run audit:portfolio -- --base http://localhost:3055 --strict <slug>    # 4. 
 
 - **반드시 `src/app/(demos)/demo/<slug>/`.** `(demos)` 레이아웃이 자동으로 해 주는 것:
   - `robots: noindex, follow` — 가상 브랜드도 제안 시안도 검색에 안 뜬다
-  - 제목 템플릿 `%s — 태문 DEV STUDIO 샘플 사이트`
+  - 제목 템플릿 `%s — 태문넷 샘플 사이트`
   - `body` 기본 `bg-white text-gray-900` (사이트 틀의 다크 톤은 안 물려받는다)
 - **상단 태문 표시는 기기 전환 툴바(`DevicePreviewFrame`)가 맡는다.** `src/app/(demos)/demo/<slug>/<Slug>PageClient.tsx` 가
   `?embed=true` 면 화면만, 아니면 툴바 + iframe 을 그린다(태문 로고·종류 칩·「포트폴리오」·「이런 사이트 제작 문의」·제안 시안 고지 띠).
@@ -245,7 +251,7 @@ export const metadata = sampleMetadata({
   slug: "haneul-dental",
   title: "하늘치과 — 치과 병원",
   description:
-    "태문 DEV STUDIO 가 만든 가상 브랜드 샘플 사이트입니다. 진료 과목 소개·의료진 소개·진료 예약 화면을 담았습니다. 실제 병원이 아니며 예약은 접수되지 않습니다.",
+    "태문넷이 만든 가상 브랜드 샘플 사이트입니다. 진료 과목 소개·의료진 소개·진료 예약 화면을 담았습니다. 실제 병원이 아니며 예약은 접수되지 않습니다.",
 });
 
 export default function HaneulDentalDemoPage() {
@@ -256,7 +262,7 @@ export default function HaneulDentalDemoPage() {
 지킬 것:
 - **`page.tsx` 에 `"use client"` 금지** (audit ERROR — metadata 를 못 쓴다).
 - metadata 는 **`sampleMetadata({ slug, title, description })`** 로 만든다. 카카오톡으로 영업 링크를 보냈을 때 뜨는 미리보기(og 제목·썸네일 `/portfolio/<slug>/desktop.png`)까지 채운다. `slug` 는 카드와 같게(audit 대조).
-- `title` 필수 (없으면 탭 제목이 레이아웃 기본값 → 실측 audit ERROR). 형식: `<가상 브랜드> — <업종>`. **「샘플」은 넣지 않는다** — 레이아웃 템플릿이 「— 태문 DEV STUDIO 샘플 사이트」를 붙여 두 번 나온다.
+- `title` 필수 (없으면 탭 제목이 레이아웃 기본값 → 실측 audit ERROR). 형식: `<가상 브랜드> — <업종>`. **「샘플」은 넣지 않는다** — 레이아웃 템플릿이 「— 태문넷 샘플 사이트」를 붙여 두 번 나온다.
 - `description` 에 「가상 브랜드 샘플」「실제 업체가 아니며 ○○은 접수되지 않습니다」를 넣는다.
 - `robots`·`alternates.canonical` 은 **쓰지 않는다** (레이아웃이 noindex 를 준다. canonical 을 넣으면 noindex 와 어긋난다).
 - props 를 넘기려면 직렬화 가능한 값만(문자열·숫자·배열·객체). 함수·아이콘 컴포넌트 금지.
@@ -325,7 +331,7 @@ export default function HaneulDentalApp() {
 
       {/* 푸터 샘플 고지 필수 — 샘플 바를 × 로 접어도 남는 표시 */}
       <footer className="px-6 py-10 text-xs text-slate-500">
-        이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 병원이 아니며, 의료진·수치는 예시입니다.
+        이 사이트는 태문넷이 만든 가상 브랜드 샘플입니다. 실제 병원이 아니며, 의료진·수치는 예시입니다.
       </footer>
     </div>
   );
@@ -448,7 +454,7 @@ const handleBookingSubmit = (e: FormEvent<HTMLFormElement>) => {
 | 실적 | 실존 회사·건물·아파트 단지명, 수상·인증(ISO, 우수업체 선정 등), 언론 보도, 고객 후기 실명 **금지** | 「래미안 ○○ 시공」 ✗ |
 | 숫자 | 「시공 1,200건」「만족도 98%」「ISO 9001」「2주 완성」 같은 실적·인증·기간 금지(WARN). 넣어야 보기 좋으면 **「예시 수치」라고 화면에 적는다**(그 파일은 면제) | |
 | 보증·보장 | 가상 브랜드라도 「3년 품질 보증」「보장」「No.1」을 쓰지 않는다(WARN) | 「공정마다 검수 항목을 두고 확인」 ✓ |
-| 샘플 고지 | **푸터에 「이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아닙니다」** — 샘플 바를 접어도 남는 표시(없으면 WARN) | 골든 샘플 푸터 |
+| 샘플 고지 | **푸터에 「이 사이트는 태문넷이 만든 가상 브랜드 샘플입니다. 실제 업체가 아닙니다」** — 샘플 바를 접어도 남는 표시(없으면 WARN) | 골든 샘플 푸터 |
 | 기능 문구 | 화면에 실제로 동작하지 않는 기능을 광고하지 않는다. 금지 표현은 6장 표 | 「실시간 모니터링」 ✗ |
 | 이미지 | Unsplash 등 무료 스톡 또는 직접 만든 것. 실존 업체 사진·로고 금지 | |
 | 태문 연락처 | 샘플 안에 **넣지 않는다**. 제작 문의는 샘플 바와 SampleNotice 가 한다 | `010-8672-6463` ✗ |
@@ -574,7 +580,7 @@ UTF-8(BOM 없이 권장), 들여쓰기 2칸, 끝 쉼표 금지.
 | # | 규칙 | 어기면 |
 |---|---|---|
 | 1 | **검색 제외** — `(demos)/layout.tsx` 의 `robots: { index: false }` 를 그대로 쓴다. page 에 `robots`·`canonical` 을 **적지 않는다**(적으면 레이아웃 noindex 를 덮어쓴다) | audit 실측 ERROR `샘플인데 noindex 가 없습니다` |
-| 2 | **화면 안 고지** — 「태문 DEV STUDIO 가 제안용으로 만든 시안이며, 해당 회사가 **만들었거나 의뢰한 사이트가 아닙니다**」를 `src/components/demos/<slug>/` 안의 접을 수 없는 자리(헤더 아래 띠 + 푸터)에 넣는다. 툴바(`DevicePreviewFrame`)의 `disclaimer` 띠는 iframe **바깥**이라 `?embed=true` 를 직접 열면 안 보인다 — 툴바 고지는 이것과 **별개로** 같이 넣는다 | audit ERROR `kind=proposal 인데 화면 안에 제안 시안 고지가 없습니다` |
+| 2 | **화면 안 고지** — 「태문넷이 제안용으로 만든 시안이며, 해당 회사가 **만들었거나 의뢰한 사이트가 아닙니다**」를 `src/components/demos/<slug>/` 안의 접을 수 없는 자리(헤더 아래 띠 + 푸터)에 넣는다. 툴바(`DevicePreviewFrame`)의 `disclaimer` 띠는 iframe **바깥**이라 `?embed=true` 를 직접 열면 안 보인다 — 툴바 고지는 이것과 **별개로** 같이 넣는다 | audit ERROR `kind=proposal 인데 화면 안에 제안 시안 고지가 없습니다` |
 | 3 | **`liveUrl` 은 `/demo/<slug>`** — 그 회사의 실제 사이트로 링크하지 않는다. `client`·`period` 칸은 `sample` 과 똑같이 **금지** | `validatePortfolioItem` ERROR |
 | 4 | **폼·다운로드는 전부 `SampleNotice`**, 그리고 `kind="proposal"` 을 넘긴다(모달 제목이 「제안용 시안입니다」로 바뀐다). 「접수되었습니다」·「다운로드가 시작되었습니다」 화면·`alert` 을 만들지 않는다 | audit ERROR `SampleNotice 의 kind 가 「없음(기본 sample)」` · `가짜 접수 문구` |
 | 5 | **사실이 아닌 것을 사실처럼 적지 않는다** — 실존 연락처·주소·사업자번호는 자리표시(`000-0000-0000`·`000@example.com`)로, 주가·실적·인증·연혁·뉴스·채용은 화면에 **「예시」** 라고 적는다. 제작 연도·기간·고객·수상·「업계 1위」류는 아예 쓰지 않는다 | audit WARN(전화·이메일·사업자번호·실적 수치·보장·최상급), `--strict <slug>` 면 ERROR |
@@ -588,7 +594,7 @@ UTF-8(BOM 없이 권장), 들여쓰기 2칸, 끝 쉼표 금지.
   "industry": "manufacturing",
   "title": "원익큐앤씨 (WONIK QnC)",
   "subtitle": "반도체 쿼츠웨어·정밀 세라믹 기업 사이트 제안용 시안",
-  "summary": "태문 DEV STUDIO 가 원익큐앤씨(코스닥 074600)에 제안하려고 만든 제안용 시안입니다. 실제 계약·납품한 사례가 아니고 해당 회사가 만들었거나 의뢰한 사이트도 아니며, 화면의 주가·재무·뉴스·공시·채용 정보는 구성을 보여 주기 위한 예시 값입니다. …",
+  "summary": "태문넷이 원익큐앤씨(코스닥 074600)에 제안하려고 만든 제안용 시안입니다. 실제 계약·납품한 사례가 아니고 해당 회사가 만들었거나 의뢰한 사이트도 아니며, 화면의 주가·재무·뉴스·공시·채용 정보는 구성을 보여 주기 위한 예시 값입니다. …",
   "features": ["… (예시)", "… (시안 — 접수되지 않음)", "…"],
   "techStack": ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS v4"],
   "liveUrl": "/demo/wonik-qnc",

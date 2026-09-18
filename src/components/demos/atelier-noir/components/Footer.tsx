@@ -199,7 +199,7 @@ export const Footer: React.FC<FooterProps> = ({
         <div className="max-w-7xl mx-auto px-4 lg:px-6 flex flex-col lg:flex-row justify-between items-center text-[#8f9378] font-label-sm text-[11px] gap-2">
           <div><SampleFooterNote /></div>
           <div className="flex items-center gap-4">
-            <span>SAMPLE SITE · 태문 DEV STUDIO</span>
+            <span>SAMPLE SITE · 태문넷</span>
             <span>회사 정보 · 번호는 모두 예시입니다</span>
           </div>
         </div>

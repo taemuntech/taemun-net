@@ -80,7 +80,7 @@ function clip(value: string, max: number): string {
 }
 
 function adminSmsText(input: InquiryInput, referral: ValidReferral | null): string {
-  return `[태문 DEV STUDIO 신규 견적 접수]
+  return `[태문넷 신규 견적 접수]
 ■ 고객명: ${input.clientName}
 ■ 연락처: ${input.phone}
 ■ 서비스: ${input.services.join(", ")}

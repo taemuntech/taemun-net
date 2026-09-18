@@ -74,7 +74,7 @@ export const Footer: React.FC = () => {
               href="/inquiry?from=arche-wellness"
               className="inline-flex min-h-11 items-center px-4 py-2 rounded-lg bg-[#d27952]/10 hover:bg-[#d27952]/20 text-[#b8613d] border border-[#d27952]/30 text-xs font-semibold transition-all"
             >
-              태문 DEV STUDIO에 제작 의뢰 ↗
+              태문넷에 제작 의뢰 ↗
             </Link>
           </div>
         </div>

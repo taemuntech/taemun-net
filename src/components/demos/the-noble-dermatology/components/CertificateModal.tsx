@@ -110,8 +110,8 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({ certificate,
 
             <div className="text-xs text-[#424845] leading-relaxed mb-6 bg-[#f5f3f0] p-4 rounded-lg border border-[#eae8e5]">
               위 소모품은 1회용 멸균 제품으로, 시술 직전 고객 앞에서 미개봉 상태를 확인한 뒤 개봉하여 단 1회
-              사용하고 폐기했음을 기록한 서식입니다. 표시된 모델명·공급처·번호는 모두 예시이며, 이 화면은 태문
-              DEV STUDIO 가 만든 샘플 사이트의 일부입니다.
+              사용하고 폐기했음을 기록한 서식입니다. 표시된 모델명·공급처·번호는 모두 예시이며, 이 화면은 태문넷이
+               만든 샘플 사이트의 일부입니다.
             </div>
 
             <div className="flex flex-wrap items-end justify-between gap-4 pt-4 border-t border-[#e4e2df]">

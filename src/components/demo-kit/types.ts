@@ -6,7 +6,7 @@ import type { IndustryKey } from "@/lib/portfolio/schema";
 /**
  * (demos) 레이아웃이 모든 샘플 위에 자동으로 붙이는 얇은 바.
  * 주소(/demo/<slug>)에서 slug 를 읽는다. 샘플 코드는 이 바를 직접 넣지 않는다.
- * 내용: 태문 로고·「태문 DEV STUDIO 샘플 사이트」 · 포트폴리오로 · 「이런 사이트 제작 문의」(→ sampleInquiryHref)
+ * 내용: 태문 로고·「태문넷 샘플 사이트」 · 포트폴리오로 · 「이런 사이트 제작 문의」(→ sampleInquiryHref)
  */
 export type SampleSiteBarProps = Record<string, never>;
 

@@ -298,7 +298,7 @@ function DemoHeader() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-gray-950/95 border-b border-white/5">
       <div className="max-w-7xl mx-auto px-4 lg:px-6 h-20 flex items-center justify-between gap-3">
-        <Link href="/" className="flex items-center gap-2 min-w-0" aria-label="태문 DEV STUDIO 홈으로">
+        <Link href="/" className="flex items-center gap-2 min-w-0" aria-label="태문넷 홈으로">
           <span className="w-10 lg:w-12 h-10 lg:h-12 flex items-center justify-center select-none shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element -- 홈 헤더와 같은 로고 표기 */}
             <img
@@ -308,7 +308,7 @@ function DemoHeader() {
             />
           </span>
           <span className="text-lg lg:text-xl font-bold tracking-tight text-white flex items-center -ml-1 whitespace-nowrap">
-            태문 <span className="text-indigo-400 text-xs lg:text-sm font-semibold tracking-normal ml-1">DEV STUDIO</span>
+            태문넷 <span className="text-indigo-400 text-xs lg:text-sm font-semibold tracking-normal ml-1">DEV STUDIO</span>
           </span>
         </Link>
 
@@ -440,7 +440,7 @@ function DemoFooter() {
       <div className="max-w-7xl mx-auto space-y-4">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-3 lg:gap-4">
           <div>
-            <span className="font-bold text-gray-300">태문 DEV STUDIO</span> • 직통전화: {CONTACT.phone} • 이메일: {CONTACT.email}
+            <span className="font-bold text-gray-300">태문넷</span> • 직통전화: {CONTACT.phone} • 이메일: {CONTACT.email}
           </div>
         </div>
         <p className="text-gray-400 leading-relaxed"><SampleFooterNote /></p>

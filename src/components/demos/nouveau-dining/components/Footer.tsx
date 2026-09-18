@@ -73,7 +73,7 @@ export const Footer: React.FC = () => {
               href="/inquiry?from=nouveau-dining"
               className="inline-flex min-h-11 items-center px-4 py-2 rounded-lg bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border border-amber-400/30 text-xs font-semibold transition-all"
             >
-              태문 DEV STUDIO에 제작 의뢰 ↗
+              태문넷에 제작 의뢰 ↗
             </Link>
           </div>
         </div>

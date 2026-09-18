@@ -98,7 +98,7 @@ export const Footer: React.FC = () => {
 
         {/* Copyright Text */}
         <div className="flex flex-col lg:flex-row items-center justify-between gap-2 pt-4 border-t border-[#4d4635] text-[10px] text-[#99907c] text-center lg:text-left">
-          <p className="[word-break:keep-all]">태문 DEV STUDIO 제작 샘플 · 실제 거래는 이루어지지 않습니다</p>
+          <p className="[word-break:keep-all]">태문넷 제작 샘플 · 실제 거래는 이루어지지 않습니다</p>
         </div>
       </div>
     </footer>

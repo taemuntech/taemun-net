@@ -61,7 +61,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenConsultation }) => {
         <div className="pt-8 border-t border-stone-800/80 flex flex-col lg:flex-row items-center justify-between text-[11px] text-stone-400 font-light">
           <p><SampleFooterNote /></p>
           <span className="mt-2 lg:mt-0 font-mono text-stone-400">
-            TAEMUN DEV STUDIO · VIRTUAL SHOWCASE
+            TAEMUN.NET · VIRTUAL SHOWCASE
           </span>
         </div>
       </div>

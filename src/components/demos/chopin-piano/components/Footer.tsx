@@ -55,7 +55,7 @@ export function Footer() {
 
         <div className="pt-8 border-t border-[#25211c] flex flex-col lg:flex-row items-center justify-between gap-4 text-[11px] text-[#635c54]">
           <p>© 2026 CHOPIN HAUS Piano Academy. All Rights Reserved. (샘플 데모)</p>
-          <p>태문 DEV STUDIO 프리미엄 에듀테크 & 예술 아카데미 포트폴리오</p>
+          <p>태문넷 프리미엄 에듀테크 & 예술 아카데미 포트폴리오</p>
         </div>
       </div>
     </footer>

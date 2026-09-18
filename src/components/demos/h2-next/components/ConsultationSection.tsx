@@ -294,7 +294,7 @@ export const ConsultationSection: React.FC = () => {
                   <Lock className="w-3.5 h-3.5" /> 샘플 화면이라 전송·저장되는 값이 없습니다
                 </span>
                 <span>•</span>
-                <span>실제 상담 창구는 태문 DEV STUDIO 문의로 이어집니다</span>
+                <span>실제 상담 창구는 태문넷 문의로 이어집니다</span>
               </div>
             </div>
           </form>

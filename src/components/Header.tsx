@@ -242,7 +242,7 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
           <div className="flex flex-col text-left">
             <div className="flex items-center gap-1.5">
               <span className="text-base lg:text-lg font-extrabold tracking-tight text-zinc-950 leading-none group-hover:text-black transition-colors">
-                태문
+                태문넷
               </span>
               <span className="text-[11px] font-mono font-bold tracking-wider text-zinc-500 uppercase">
                 DEV STUDIO

@@ -7,8 +7,8 @@ import "../globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://taemun.net"),
   title: {
-    default: "홈페이지 제작 & 웹·앱 개발 외주 전문 | 태문 DEV STUDIO",
-    template: "%s | 태문 DEV STUDIO",
+    default: "홈페이지 제작 & 웹·앱 개발 외주 전문 | 태문넷",
+    template: "%s | 태문넷",
   },
   description:
     "맞춤형 홈페이지 제작부터 고성능 웹·앱 솔루션, 전자서식 SaaS, PG 결제 연동까지. 업종별 샘플로 시안을 먼저 보고 결정하세요. 개발 외주 문의 010-8672-6463",
@@ -23,16 +23,19 @@ export const metadata: Metadata = {
     "풀스택 개발 외주",
     "전자서식 개발",
     "PG 결제 연동",
-    "태문 DEV STUDIO",
+    "태문넷",
+    "taemun.net",
     "태문",
+    // 2026-09-19 개명 전 이름 — 예전 이름으로 찾는 사람도 이어지게 남긴다
+    "태문 DEV STUDIO",
   ],
   // alternates.canonical 은 레이아웃에 두지 않는다 — 하위 페이지가 전부 홈을 canonical 로
   // 물려받는 결함이 있었다. 홈만 (site)/page.tsx 에서 "/" 를 선언한다.
   openGraph: {
     type: "website",
     locale: "ko_KR",
-    siteName: "태문 DEV STUDIO",
-    title: "홈페이지 제작 & 웹·앱 개발 외주 전문 | 태문 DEV STUDIO",
+    siteName: "태문넷",
+    title: "홈페이지 제작 & 웹·앱 개발 외주 전문 | 태문넷",
     description:
       "맞춤형 홈페이지 제작부터 고성능 웹·앱 솔루션, 전자서식 SaaS, PG 결제 연동까지. 업종별 샘플로 시안을 먼저 보고 결정하세요.",
     url: "https://taemun.net",
@@ -100,23 +103,36 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
+            // 사이트 이름은 「태문넷」(2026-09-19 개명 — 도메인 taemun.net 과 같은 이름). 검색 결과에 뜨는 사이트 이름은
+            // WebSite 의 name 을 먼저 본다. 옛 이름 「태문 DEV STUDIO」는 alternateName 으로 남겨 같은 사이트로 이어지게 한다.
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "ProfessionalService",
-              name: "태문 DEV STUDIO",
-              legalName: "주식회사 태문",
-              url: "https://taemun.net",
-              description:
-                "홈페이지 제작, 웹·앱 플랫폼 개발, 전자서식 SaaS 및 PG 결제 시스템 전문 외주 개발 스튜디오",
-              telephone: "+82-10-8672-6463",
-              email: "contact@taemun.co.kr",
-              areaServed: "KR",
-              availableLanguage: "Korean",
-              serviceType: [
-                "홈페이지 제작",
-                "웹 앱 개발",
-                "전자서식 솔루션",
-                "PG 결제 및 정기구독 연동",
+              "@graph": [
+                {
+                  "@type": "WebSite",
+                  name: "태문넷",
+                  alternateName: ["taemun.net", "태문 DEV STUDIO"],
+                  url: "https://taemun.net/",
+                },
+                {
+                  "@type": "ProfessionalService",
+                  name: "태문넷",
+                  alternateName: ["태문 DEV STUDIO", "taemun.net"],
+                  legalName: "주식회사 태문",
+                  url: "https://taemun.net",
+                  description:
+                    "홈페이지 제작, 웹·앱 플랫폼 개발, 전자서식 SaaS 및 PG 결제 시스템 전문 외주 개발 스튜디오",
+                  telephone: "+82-10-8672-6463",
+                  email: "contact@taemun.co.kr",
+                  areaServed: "KR",
+                  availableLanguage: "Korean",
+                  serviceType: [
+                    "홈페이지 제작",
+                    "웹 앱 개발",
+                    "전자서식 솔루션",
+                    "PG 결제 및 정기구독 연동",
+                  ],
+                },
               ],
             }),
           }}
