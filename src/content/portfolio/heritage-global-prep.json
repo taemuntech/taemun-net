@@ -1,0 +1,26 @@
+{
+  "slug": "heritage-global-prep",
+  "kind": "sample",
+  "industry": "corporate",
+  "title": "헤리티지 글로벌 프렙 (Heritage Global Prep)",
+  "subtitle": "아이비리그 입시 가제트 & Digital SAT 1600 텔레메트리 샘플",
+  "summary": "가상 브랜드 「헤리티지 글로벌 프렙(HERITAGE GLOBAL PREP)」으로 제작한 19세기 정통 영자신문 브로드시트(Broadsheet Gazette) 감성의 하이엔드 아이비리그 입시 전문 기관 웹사이트 샘플입니다. Digital SAT 1600 적응형 시험 점수 시뮬레이터 및 Academic Index 텔레메트리 계산기, 전직 아이비리그 입학사정관의 Common App 에세이 3막 핀셋 해체 주석(Marginalia), 8대 명문대 입시 옥텟 롤 및 전임 펠로우 아카이브, 비공개 포트폴리오 감사 신청 위저드를 탑재했습니다. 화면의 모든 수치·합격생명·지표는 가상 예시입니다.",
+  "features": [
+    "Digital SAT 1600 적응형 모듈 R&W 및 Math 실시간 환산 & Academic Index(AI) 240 계산기",
+    "전직 아이비리그 입학사정관의 Common App 에세이 3막 핀셋 첨삭 주석(Marginalia) 해체 Lab",
+    "8대 아이비리그(H-Univ 등) 합격률·SAT 중위수·인재상 텔레메트리 옥텟 롤 아카이브(예시)",
+    "19세기 영자신문 브로드시트 가제트(Broadsheet Gazette) 타이포그래피 & 드롭캡 아키텍처",
+    "1:1 비공개 포트폴리오 감사 및 학업 지수 정밀 진단 신청 위저드"
+  ],
+  "techStack": [
+    "Next.js 16",
+    "React 19",
+    "TypeScript",
+    "Tailwind CSS v4",
+    "Digital SAT 1600 Telemetry",
+    "Broadsheet Gazette Architecture"
+  ],
+  "liveUrl": "/demo/heritage-global-prep",
+  "icon": "sparkles",
+  "createdAt": "2026-09-18"
+}

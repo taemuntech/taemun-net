@@ -1,0 +1,376 @@
+import { IvyInstitution, EssayCase, SenateFellow, CandidateDossier } from '../types';
+
+export const CREST_IMAGE_URL =
+  'https://lh3.googleusercontent.com/aida/AOf_eGOMQz-26VqWkWvO45l7vT3z6-FzYgKov_R_zG6rKkgp77x59m9_01bF2mP1795v94m6oA4K6nOIdtQJ0p880h63fWc4W-F1_8nFkP5f73tL_B=s1600';
+
+export const ARTHUR_STERLING_IMAGE_URL =
+  'https://lh3.googleusercontent.com/aida-public/AB6AXuBXgsk3yxpDq4vpYrBcmXM3oQ_yEpRoWyQeAZpIexD9hJ6UpVOsxkx719hheRFlqBdlGo7DqHPHTJ2vyn-SbP2atyrNfKG-OTKdNdJHBBsZ7O4T_LBpHivqh2fSZsWI_pQrUx-jK36HL0gjTyL3siN3mIQ5e-_HGHBtOO9Rr-Cs9zxlU3csGxq0PtMZGG9CqZaugl0BClmfG5JJ9tc6IqjTfD9DvbwwEVUmST9qe28WpumlDFhOajQPmg';
+
+export const IVY_INSTITUTIONS: IvyInstitution[] = [
+  {
+    id: 'h-univ',
+    name: 'H-Univ (예시)',
+    shortName: 'H-UNIV',
+    location: 'Cambridge, Massachusetts',
+    founded: 1636,
+    crestColor: '#881337',
+    latinMotto: 'Veritas',
+    mottoTranslation: 'Truth',
+    admitRate: '3.41% (예시)',
+    medianSat: 1580,
+    admitCount: 14,
+    academicIndexThreshold: 238,
+    undergradEnrollment: '7,153',
+    popularMajors: ['Economics', 'Computer Science', 'Government', 'Applied Mathematics'],
+    facultyReadingFocus:
+      'Dialectical originality, institutional leadership, epistemic humility, and paradigm-shifting forensic inquiry.',
+  },
+  {
+    id: 'yale',
+    name: 'Yale University',
+    shortName: 'YALE',
+    location: 'New Haven, Connecticut',
+    founded: 1701,
+    crestColor: '#0F4D92',
+    latinMotto: 'Lux et Veritas',
+    mottoTranslation: 'Light and Truth',
+    admitRate: '4.35% (예시)',
+    medianSat: 1570,
+    admitCount: 11,
+    academicIndexThreshold: 236,
+    undergradEnrollment: '6,590',
+    popularMajors: ['History', 'Political Science', 'Economics', 'Ethics, Politics & Economics'],
+    facultyReadingFocus:
+      'Collegiate citizenship, nuanced prose craft, philosophical tension, and residential college vitality.',
+  },
+  {
+    id: 'princeton',
+    name: 'Princeton University',
+    shortName: 'PRINCETON',
+    location: 'Princeton, New Jersey',
+    founded: 1746,
+    crestColor: '#FF8F00',
+    latinMotto: 'Dei Sub Numine Viget',
+    mottoTranslation: 'Under the Protection of God She Flourishes',
+    admitRate: '3.98% (예시)',
+    medianSat: 1580,
+    admitCount: 12,
+    academicIndexThreshold: 238,
+    undergradEnrollment: '5,548',
+    popularMajors: ['Public Policy', 'Operations Research', 'Computer Science', 'Molecular Biology'],
+    facultyReadingFocus:
+      'Senior thesis potential, rigorous independent research, USAMO/ISEF-grade scholarship, and uncompromised focus.',
+  },
+  {
+    id: 'columbia',
+    name: 'Columbia University',
+    shortName: 'COLUMBIA',
+    location: 'New York, New York',
+    founded: 1754,
+    crestColor: '#75B2DD',
+    latinMotto: 'In Lumine Tuo Videbimus Lumen',
+    mottoTranslation: 'In Thy Light Shall We See Light',
+    admitRate: '3.85% (예시)',
+    medianSat: 1560,
+    admitCount: 9,
+    academicIndexThreshold: 235,
+    undergradEnrollment: '8,832',
+    popularMajors: ['Economics', 'Computer Science', 'Philosophy', 'Comparative Literature'],
+    facultyReadingFocus:
+      'Direct engagement with the Core Curriculum, urban intellectual curiosity, and rigorous rhetorical debate.',
+  },
+  {
+    id: 'upenn',
+    name: 'University of Pennsylvania (Wharton)',
+    shortName: 'UPENN / WHARTON',
+    location: 'Philadelphia, Pennsylvania',
+    founded: 1740,
+    crestColor: '#011F5B',
+    latinMotto: 'Leges Sine Moribus Vanae',
+    mottoTranslation: 'Laws Without Morals Are in Vain',
+    admitRate: '5.68% (예시)',
+    medianSat: 1570,
+    admitCount: 16,
+    academicIndexThreshold: 236,
+    undergradEnrollment: '10,412',
+    popularMajors: ['Finance', 'Management', 'Bioengineering', 'Philosophy, Politics & Economics'],
+    facultyReadingFocus:
+      'Pragmatic innovation, quantitative acuity, interdisciplinary pre-professional leadership, and institutional enterprise.',
+  },
+  {
+    id: 'brown',
+    name: 'Brown University',
+    shortName: 'BROWN',
+    location: 'Providence, Rhode Island',
+    founded: 1764,
+    crestColor: '#4E3629',
+    latinMotto: 'In Deo Speramus',
+    mottoTranslation: 'In God We Hope',
+    admitRate: '5.08% (예시)',
+    medianSat: 1550,
+    admitCount: 8,
+    academicIndexThreshold: 234,
+    undergradEnrollment: '7,222',
+    popularMajors: ['Computer Science', 'Biology', 'International Relations', 'Modern Culture & Media'],
+    facultyReadingFocus:
+      'Open Curriculum self-direction, genuine intellectual non-conformity, and fearless cross-disciplinary architecture.',
+  },
+  {
+    id: 'dartmouth',
+    name: 'Dartmouth College',
+    shortName: 'DARTMOUTH',
+    location: 'Hanover, New Hampshire',
+    founded: 1769,
+    crestColor: '#00693E',
+    latinMotto: 'Vox Clamantis in Deserto',
+    mottoTranslation: 'The Voice of One Crying in the Wilderness',
+    admitRate: '6.23% (예시)',
+    medianSat: 1550,
+    admitCount: 7,
+    academicIndexThreshold: 233,
+    undergradEnrollment: '4,458',
+    popularMajors: ['Economics', 'Government', 'Computer Science', 'Engineering Sciences'],
+    facultyReadingFocus:
+      'Intimate undergraduate faculty collaboration, wilderness resilience, peer camaraderie, and intellectual endurance.',
+  },
+  {
+    id: 'cornell',
+    name: 'Cornell University',
+    shortName: 'CORNELL',
+    location: 'Ithaca, New York',
+    founded: 1865,
+    crestColor: '#B31B1B',
+    latinMotto: 'I Would Found an Institution Where Any Person Can Find Instruction in Any Study',
+    mottoTranslation: 'Ezra Cornell Credo',
+    admitRate: '7.26% (예시)',
+    medianSat: 1540,
+    admitCount: 18,
+    academicIndexThreshold: 232,
+    undergradEnrollment: '15,735',
+    popularMajors: ['Biological Sciences', 'Computer Science', 'Hotel Administration', 'Applied Economics'],
+    facultyReadingFocus:
+      'Deep college-specific vocational alignment (CAS, Engineering, Dyson, CALS), research depth, and work ethic.',
+  },
+];
+
+export const ESSAY_CASES: EssayCase[] = [
+  {
+    id: 'case-2024-h08',
+    caseNo: 'CASE NO. 2024-H08',
+    candidateName: 'Arthur V. Sterling',
+    institution: 'H-College (예시)',
+    matriculationYear: 'Class of 2028 (REA Admit)',
+    concentration: 'Philosophy & Mathematics',
+    satScore: 1600,
+    title: 'The Mechanics of Horology and Historical Amnesia',
+    act1: {
+      label: 'ACT I: THE HOOK',
+      paragraphs: 'PARAGRAPHS 1–2',
+      excerpt:
+        '“At 4:15 AM, the ticking of the escapement wheel inside an 18th-century Breguet pocket watch is indistinguishable from the murmur of human guilt. With micro-tweezers suspended over the pallet fork, I was forced to concede that time does not heal all wounds; it merely measures the rate at which steel oxidizes and memory compromises.”',
+      marginaliaTitle: 'MARGINE SCHOLIA // PROVOST AUDIT',
+      marginaliaNote:
+        '✓ Immediate Sensory Immersion: Entirely eschews sentimental high-school clichés, soccer tournaments, or philanthropic performativity. Instantly grounds the reader in specialized craftsmanship while establishing horology as a dialectical metaphor for epistemological inquiry.',
+      metrics: { voice: '10/10', hook: 'UNERRING' },
+    },
+    act2: {
+      label: 'ACT II: THE CRISIS',
+      paragraphs: 'PARAGRAPHS 3–4',
+      excerpt:
+        '“When the hairspring fractured under half a gram of miscalculated torque, the illusion of mechanical order vanished. Restoration was not preservation, but an act of critical confrontation. If every antique gear has been replaced three times over two centuries, what remains of Breguet’s original intention?”',
+      marginaliaTitle: 'MARGINE SCHOLIA // FACULTY NOTE',
+      marginaliaNote:
+        '✓ Intellectual Friction: Candidate demonstrates epistemic humility without helplessness. Seamlessly bridges mechanical physics (torque thresholds) with classical metaphysics (Theseus’ paradox of identity). Signals a student ready for senior philosophy colloquia.',
+      metrics: { rhetoric: '10/10', depth: '0.01% (예시)' },
+    },
+    act3: {
+      label: 'ACT III: THE SYNTHESIS',
+      folio: 'CLOSING FOLIO',
+      excerpt:
+        '“To matriculate into the academy is not merely to inherit heavy leather volumes, but to recalibrate the precision instruments through which our society measures truth. I do not seek a university to confirm what I know; I seek a laboratory where my certainty will be rigorously dismantled.”',
+      committeeDisposition:
+        '“One of the finest closing arguments submitted this cycle. Demonstrates collegiate citizenship and dialectical maturity.”',
+      verdict: 'H-COLLEGE ’28 (예시) // ADMITTED UNANIMOUS',
+      metrics: { rating: 'S-TIER', status: 'MATRICULATION SECURED' },
+    },
+  },
+  {
+    id: 'case-2024-y14',
+    caseNo: 'CASE NO. 2024-Y14',
+    candidateName: 'Beatrice K. Chen',
+    institution: 'Yale University',
+    matriculationYear: 'Class of 2028 (SCEA Admit)',
+    concentration: 'Physics & Musicology',
+    satScore: 1590,
+    title: 'Counterpoint & Topology: J.S. Bach in Non-Euclidean Space',
+    act1: {
+      label: 'ACT I: THE HOOK',
+      paragraphs: 'PARAGRAPHS 1–2',
+      excerpt:
+        '“The cello’s C-string vibrates at 65.4 Hertz, a frequency low enough to rattle the sternum before registering in the ear. Sitting before the score of Bach’s Fifth Cello Suite, I noticed that the prelude did not behave like linear sound; it folded back onto itself like a Möbius strip of tonal gravity.”',
+      marginaliaTitle: 'MARGINE SCHOLIA // MUSIC COMMITTEE',
+      marginaliaNote:
+        '✓ Kinetic Acoustic Precision: Integrates tactile cello acoustics directly with geometric intuition. Avoids the standard "I started playing at age 4" biographical recital trap. Immediately positions candidate as an analytical artist.',
+      metrics: { voice: '9.9/10', hook: 'ARRESTING' },
+    },
+    act2: {
+      label: 'ACT II: THE CRISIS',
+      paragraphs: 'PARAGRAPHS 3–4',
+      excerpt:
+        '“In measure 42, the scordatura tuning forces a deliberate dissonance that standard harmonic analysis refuses to resolve. Like a singularity in general relativity where the equations collapse, Bach does not apologize for the rupture—he suspends the listener in acoustic exile until the return of the pedal point.”',
+      marginaliaTitle: 'MARGINE SCHOLIA // INTERVIEW CHAIR',
+      marginaliaNote:
+        '✓ Interdisciplinary Rigor: Authentic fusion of tensor algebra concepts and baroque fugue structure. The metaphor feels organically lived rather than artificially grafted from a high school textbook.',
+      metrics: { rhetoric: '10/10', depth: '0.05% (예시)' },
+    },
+    act3: {
+      label: 'ACT III: THE SYNTHESIS',
+      folio: 'CLOSING FOLIO',
+      excerpt:
+        '“In the Harkness Tower carillon or the basement laboratories of Sloane Physics, I want to explore where formal symmetry fractures into human pathos. I do not play to escape reality; I play to chart its curvature.”',
+      committeeDisposition:
+        '“Rare intellectual courage. Perfect synthesis of Yale College liberal arts ideal: the scholar-artist whose curiosity is boundless.”',
+      verdict: 'YALE COLLEGE ’28 // ADMITTED UNANIMOUS',
+      metrics: { rating: 'S-TIER', status: 'MATRICULATION SECURED' },
+    },
+  },
+  {
+    id: 'case-2024-p03',
+    caseNo: 'CASE NO. 2024-P03',
+    candidateName: 'Marcus D. Aurelius-Vance',
+    institution: 'Princeton University',
+    matriculationYear: 'Class of 2028 (Single Choice Early Admit)',
+    concentration: 'Classics & Quantitative Economics',
+    satScore: 1580,
+    title: 'Epigraphy of the Subura: Ephemeral Graffiti & Roman Labor Contracts',
+    act1: {
+      label: 'ACT I: THE HOOK',
+      paragraphs: 'PARAGRAPHS 1–2',
+      excerpt:
+        '“Cicero wrote on vellum for posterity; the baker of Regio IV scratched his unpaid bread accounts into stucco with a rusty nail. While classical scholars spend lifetimes on the aristocratic speeches of the Senate floor, I fell in love with the misspelled curses on the alley walls of Pompeii.”',
+      marginaliaTitle: 'MARGINE SCHOLIA // CLASSICS FACULTY',
+      marginaliaNote:
+        '✓ Historiographical Subversion: Flips traditional Great Men historiography on its head within four sentences. Grounded in primary epigraphic records and ancient socioeconomic realities.',
+      metrics: { voice: '10/10', hook: 'INCISIVE' },
+    },
+    act2: {
+      label: 'ACT II: THE CRISIS',
+      paragraphs: 'PARAGRAPHS 3–4',
+      excerpt:
+        '“Deciphering a half-eroded taberna ledger, I discovered that inflation in 79 AD followed a logarithmic distribution that mirrored the pricing spikes in post-pandemic commodities. The past is not a foreign country; it is our own balance sheet written in Vulgar Latin.”',
+      marginaliaTitle: 'MARGINE SCHOLIA // ECONOMICS READER',
+      marginaliaNote:
+        '✓ Archival Forensic Maturity: Transcends mere translation to model econometric pricing models. Signals an undergraduate who will immediately contribute to Princeton’s Seeger Center for Hellenic & Roman Studies.',
+      metrics: { rhetoric: '9.9/10', depth: '0.02% (예시)' },
+    },
+    act3: {
+      label: 'ACT III: THE SYNTHESIS',
+      folio: 'CLOSING FOLIO',
+      excerpt:
+        '“The senior thesis at Princeton is not an academic exercise; it is an obligation to rescue forgotten lives from archival silence. I intend to build the first computational corpus of plebeian epigraphy—not to prove my Latin, but to restore voice to the voiceless.”',
+      committeeDisposition:
+        '“Extraordinary readiness for independent scholarly research. Direct alignment with the Princeton thesis tradition.”',
+      verdict: 'PRINCETON UNIVERSITY ’28 // ADMITTED UNANIMOUS',
+      metrics: { rating: 'S-TIER', status: 'MATRICULATION SECURED' },
+    },
+  },
+];
+
+export const SENATE_FELLOWS: SenateFellow[] = [
+  {
+    id: 'montgomery',
+    name: 'Dr. Alistair Montgomery',
+    role: 'Cambridge Chair',
+    formerRole: 'Ex-Senior Admissions Officer, H-College (예시)',
+    credentials: 'Ph.D. H-Univ (예시) · Former Senior Admissions Officer',
+    institution: 'H-Univ (예시)',
+    cohort: 'H-Yard (예시) ’09',
+    titleStatus: 'SENATE PROVOST',
+    bio: 'Presided over 12,000+ candidate dockets across early action and regular decision rounds. Specializes in Academic Index calibration, high-tier STEM competitions, and institutional priority positioning.',
+    specialties: [
+      'Academic Index (AI) Forensic Calibration',
+      'STEM Portfolio & USAMO/ISEF Evaluation',
+      'Early Action Docket Strategy',
+    ],
+  },
+  {
+    id: 'vance',
+    name: 'Eleanor Vance, Esq.',
+    role: 'New Haven Chair',
+    formerRole: 'Former Yale Alumni Interview Committee Chair',
+    credentials: 'J.D. Yale Law · B.A. Yale College',
+    institution: 'Yale University',
+    cohort: 'Yale College ’12',
+    titleStatus: 'RHETORIC FELLOW',
+    bio: 'Curates the forensic rhetorical polish required for Ivy League humanities essays, legal portfolio defensibility, and dialectical interview simulations for candidates targeting New Haven and Morningside Heights.',
+    specialties: [
+      'Forensic Rhetorical Common App Polishing',
+      'Collegiate Citizenship & Interview Defensibility',
+      'Law, Ethics & Policy Track Development',
+    ],
+  },
+  {
+    id: 'thorne',
+    name: 'Prof. Julian Thorne',
+    role: 'Princeton & Oxford',
+    formerRole: 'Rhodes Scholar · Former Admissions Reader',
+    credentials: 'Ph.D. Princeton · Rhodes Scholar · Pulitzer Nominee',
+    institution: 'Princeton University',
+    cohort: 'Princeton ’06',
+    titleStatus: 'LITERARY DEAN',
+    bio: 'Master of dialectical exposition. Personally reviews candidate long-form personal statements to eliminate derivative syntax, clichés, and non-distinguishing academic claims.',
+    specialties: [
+      'Dialectical Voice & Essay Structural Architecture',
+      'Independent Thesis & Research Curation',
+      'Prestige Scholarship & Fellowship Dockets',
+    ],
+  },
+];
+
+export const HISTORIC_DOCKETS: CandidateDossier[] = [
+  {
+    id: 'doc-1',
+    folioNumber: '#HG-2024-H08',
+    fullName: 'Arthur V. Sterling',
+    school: 'Phillips Exeter Academy',
+    matriculationClass: 'Class of 2028',
+    gpa: '4.00 UW',
+    satScore: 1600,
+    concentration: 'Philosophy & Mathematics',
+    targetColleges: ['H-College (예시) (REA)'],
+    guardianEmail: 'patron.sterling@example.com',
+    submissionDate: 'Oct 14, 2023',
+    academicIndex: 239,
+    senateTier: 'Tier 1 Senate Review (Admitted)',
+  },
+  {
+    id: 'doc-2',
+    folioNumber: '#HG-2024-Y14',
+    fullName: 'Beatrice K. Chen',
+    school: 'Daewon Foreign Language HS',
+    matriculationClass: 'Class of 2028',
+    gpa: '3.99 UW',
+    satScore: 1590,
+    concentration: 'Physics & Musicology',
+    targetColleges: ['Yale University (SCEA)'],
+    guardianEmail: 'chen.academic@example.com',
+    submissionDate: 'Oct 28, 2023',
+    academicIndex: 238,
+    senateTier: 'Tier 1 Senate Review (Admitted)',
+  },
+  {
+    id: 'doc-3',
+    folioNumber: '#HG-2024-P03',
+    fullName: 'Marcus D. Aurelius-Vance',
+    school: "St. Paul's School",
+    matriculationClass: 'Class of 2028',
+    gpa: '3.97 UW',
+    satScore: 1580,
+    concentration: 'Classics & Quantitative Economics',
+    targetColleges: ['Princeton University (SCEA)'],
+    guardianEmail: 'vance.folio@example.com',
+    submissionDate: 'Nov 01, 2023',
+    academicIndex: 237,
+    senateTier: 'Tier 1 Senate Review (Admitted)',
+  },
+];
