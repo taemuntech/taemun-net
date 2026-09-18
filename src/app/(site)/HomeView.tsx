@@ -927,9 +927,9 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
         <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-4 text-center lg:text-left">
           <span className="font-bold text-zinc-900 tracking-wide">TAEMUN DEV STUDIO</span>
           <span className="hidden lg:inline text-zinc-300">|</span>
-          <span>(주)태문 • 사업자등록번호 211-88-94103</span>
+          <span>(주)태문 • 사업자등록번호 696-86-03651</span>
           <span className="hidden lg:inline text-zinc-300">|</span>
-          <span>서울시 강남구 테헤란로</span>
+          <span>대전광역시 대덕구 대화로 120, 2층</span>
         </div>
         <div>
           &copy; {new Date().getFullYear()} TAEMUN DEV STUDIO. All rights reserved.
