@@ -697,6 +697,17 @@ export default function InquiryView({
                         </div>
                       </div>
 
+                      {/* 개인정보 고지 — 제출 버튼 바로 위. 동의 체크박스는 두지 않는다(견적을 요청하신 분의 요청에 따른 처리,
+                          개인정보 보호법 제15조 제1항 제4호). 항목·기간은 /privacy 와 같게 유지한다 */}
+                      <p className="text-[11px] leading-relaxed text-gray-400">
+                        견적 회신과 상담을 위해 성함(회사명)·휴대폰 번호와, 적어 주신 경우 이메일·참고 주소·문의 내용을 받습니다.
+                        접수일로부터 1년 동안 보관한 뒤 파기합니다. 자세한 내용은{" "}
+                        <Link href="/privacy" className="underline underline-offset-2 text-gray-300 hover:text-white">
+                          개인정보 처리방침
+                        </Link>
+                        을 확인해 주세요.
+                      </p>
+
                       <div className="pt-2 flex items-center justify-between gap-3">
                         <button
                           type="button"

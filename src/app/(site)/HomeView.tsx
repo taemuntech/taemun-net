@@ -934,8 +934,11 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
           <span className="hidden lg:inline text-zinc-300">|</span>
           <span>대전광역시 대덕구 대화로 120, 2층</span>
         </div>
-        <div>
-          &copy; {new Date().getFullYear()} TAEMUN DEV STUDIO. All rights reserved.
+        <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-4">
+          <Link href="/privacy" className="font-bold text-zinc-700 hover:text-zinc-900">
+            개인정보 처리방침
+          </Link>
+          <span>&copy; {new Date().getFullYear()} TAEMUN DEV STUDIO. All rights reserved.</span>
         </div>
       </footer>
 
