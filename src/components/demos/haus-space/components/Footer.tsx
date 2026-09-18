@@ -3,6 +3,7 @@
 import React from 'react';
 import { ArrowUp } from 'lucide-react';
 import { BRAND_LOGO_URL } from '../data/portfolioData';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
@@ -90,10 +91,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* 접을 수 없는 자리에 남기는 샘플 고지 — 위 사업자·연락처 정보가 실재하는 업체로 읽히면 안 된다 */}
-        <p className="mt-8 border border-[#c5a880]/40 bg-[#121315] px-4 py-3 text-[13px] leading-relaxed text-[#f4efea] [word-break:keep-all]">
-          이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며, 화면의 상호·주소·연락처·사업자
-          정보·프로젝트·수상 이력은 모두 예시입니다.
-        </p>
+        <p className="mt-8 border border-[#c5a880]/40 bg-[#121315] px-4 py-3 text-[13px] leading-relaxed text-[#f4efea] [word-break:keep-all]"><SampleFooterNote /></p>
 
         {/* 여기 있던 소셜·정책 링크 네 개는 전부 빈 앵커라 눌러도 아무 데도 가지 않았고,
             그중 하나는 실존 건축 매체 이름이라 가상 브랜드의 공식 채널처럼 읽혔다.

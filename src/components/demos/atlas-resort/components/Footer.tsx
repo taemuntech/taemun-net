@@ -5,6 +5,7 @@ import { BrandMark } from './BrandMark';
 import { CharterModal } from './CharterModal';
 import { CHARTERS } from '../data/charters';
 import type { Charter, Villa } from '../types';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 interface FooterProps {
   onNavigateToSection: (id: string) => void;
@@ -145,10 +146,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateToSection, onSelectHub
         </div>
 
         {/* 샘플 고지 — 상단 샘플 바를 접거나 ?embed=true 로 화면만 열어도 남아야 하는 표시 */}
-        <p className="mt-6 rounded border border-[#c6c7c0]/40 px-4 py-3 text-xs leading-relaxed text-[#454742] normal-case tracking-normal">
-          이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며, 화면의 회사명·객실·요금·수치·연락처는
-          모두 예시입니다. 예약·문의 폼은 접수되지 않습니다.
-        </p>
+        <p className="mt-6 rounded border border-[#c6c7c0]/40 px-4 py-3 text-xs leading-relaxed text-[#454742] normal-case tracking-normal"><SampleFooterNote /></p>
       </div>
 
       <CharterModal charter={openCharter} onClose={() => setOpenCharter(null)} />

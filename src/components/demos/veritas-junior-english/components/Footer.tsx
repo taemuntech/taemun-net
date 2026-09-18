@@ -1,6 +1,7 @@
 ﻿'use client';
 
 import React from 'react';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 export function Footer() {
   return (
@@ -20,9 +21,7 @@ export function Footer() {
               베리타스 주니어는 영미 명문 사립학교 정규 커리큘럼과 렉사일 지수 기반 도서관을 통해 단순 주입식 암기가 아닌 원서 중심의 자기주도적 아카데믹 리터러시를 확립합니다.
             </p>
             <div className="p-3 bg-blue-950/80 border border-blue-800 rounded-xl inline-block">
-              <span className="text-[11px] text-blue-300 block">
-                가상 브랜드 샘플 — 실제 업체가 아닙니다 (주니어 영어몰입 어학원 설정)
-              </span>
+              <span className="text-[11px] text-blue-300 block"><SampleFooterNote /></span>
             </div>
           </div>
 

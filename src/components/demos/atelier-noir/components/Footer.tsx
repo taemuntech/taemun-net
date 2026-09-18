@@ -1,4 +1,5 @@
 import React from 'react';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 interface FooterProps {
   onOpenConcierge: () => void;
@@ -196,10 +197,7 @@ export const Footer: React.FC<FooterProps> = ({
       {/* Copyright Sub-Footer */}
       <div className="hairline-t py-4 px-4 lg:px-6 bg-[#0d0e0f]">
         <div className="max-w-[1920px] mx-auto flex flex-col lg:flex-row justify-between items-center text-[#8f9378] font-label-sm text-[11px] gap-2">
-          <div>
-            이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며 주문·결제·상담은 접수되지
-            않습니다. © 2026 ATELIER NOIR (가상 브랜드).
-          </div>
+          <div><SampleFooterNote /></div>
           <div className="flex items-center gap-4">
             <span>SAMPLE SITE · 태문 DEV STUDIO</span>
             <span>회사 정보 · 번호는 모두 예시입니다</span>

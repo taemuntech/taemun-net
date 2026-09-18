@@ -1,5 +1,6 @@
 import React from 'react';
 import { LOGO_IMG_URL } from '../data/mockData';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 /** 각 항목은 이 지면에 실제로 있는 구역(id)만 가리킨다 */
 const FOOTER_LINKS = [
@@ -84,10 +85,7 @@ export const Footer: React.FC = () => {
       </div>
 
       {/* 샘플 고지 — 접을 수 없는 자리에 남긴다(가상 브랜드라는 사실이 화면에서 사라지면 안 된다) */}
-      <div className="mb-8 rounded-xl border border-[#1e40af]/30 bg-white px-4 py-3 text-center text-[12px] lg:text-[13px] leading-relaxed text-[#0b1c30] [word-break:keep-all]">
-        이 사이트는 <strong className="font-bold text-[#00288e]">태문 DEV STUDIO 가 만든 가상 브랜드 샘플</strong>입니다.
-        실제 업체가 아니며, 화면의 파이프라인·임상 수치·논문·자문단·시설과 연락처는 모두 예시입니다.
-      </div>
+      <div className="mb-8 rounded-xl border border-[#1e40af]/30 bg-white px-4 py-3 text-center text-[12px] lg:text-[13px] leading-relaxed text-[#0b1c30] [word-break:keep-all]"><SampleFooterNote /></div>
 
       <div className="pt-8 border-t border-[#c4c5d5]/30 flex flex-col lg:flex-row items-center justify-between text-[12px] text-[#444653] gap-4">
         <div className="font-code-mono text-center lg:text-left">

@@ -1,5 +1,6 @@
 import React from 'react';
 import { BRAND_LOGO_URL, CATEGORIES } from '../data/products';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 interface FooterProps {
   /** 분류를 골라 목록으로 데려간다 — 빈 앵커 주소로 아무 일도 안 하는 링크를 두지 않는다 */
@@ -119,9 +120,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory, onGoToSection,
 
         {/* 저작권·하단 메뉴 */}
         <div className="pt-6 flex flex-col lg:flex-row justify-between items-center gap-4 text-center lg:text-left">
-          <div className="font-label-mono-sm text-label-mono-sm text-outline [word-break:keep-all]">
-            © 2026 NORDIC PEAK EXPEDITION GEAR — 가상 브랜드 샘플입니다. 실제 업체가 아닙니다.
-          </div>
+          <div className="font-label-mono-sm text-label-mono-sm text-outline [word-break:keep-all]"><SampleFooterNote /></div>
           <div className="flex items-center gap-x-4 font-label-mono-sm text-label-mono-sm text-outline flex-wrap justify-center">
             <button type="button" className={linkClass} onClick={() => onGoToSection('dimension-sim')}>
               Expedition Standards

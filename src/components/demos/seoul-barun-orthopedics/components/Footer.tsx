@@ -1,5 +1,6 @@
 import React from 'react';
 import { CLINIC_IMAGES } from '../data/clinicData';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 export const Footer: React.FC = () => {
   return (
@@ -37,9 +38,7 @@ export const Footer: React.FC = () => {
               <div>
                 <strong>사업자등록번호:</strong> 000-00-00000 (샘플용) | <strong>의료기관 개설신고번호:</strong> 제0000-000000호 (예시)
               </div>
-              <div className="bg-white/5 p-2 rounded text-[#95F8A7] text-[11px] mb-2">
-                이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 의료기관이 아닙니다.
-              </div>
+              <div className="bg-white/5 p-2 rounded text-[#95F8A7] text-[11px] mb-2"><SampleFooterNote /></div>
               <div>
                 <strong>주소:</strong> 서울특별시 서초구 서초중앙로 142 바른마디 메디컬타워 2~5층 전관 (교대역 4번출구)
               </div>

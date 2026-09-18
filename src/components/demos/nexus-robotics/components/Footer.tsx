@@ -1,3 +1,4 @@
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 // 푸터 링크 6개 중 #standards·#security·#api·#support 4개는 실재하지 않는 앵커였다(전 구간 죽은 링크).
 // 규격 표는 새로 만든 #cleanroom-standards 로, 보안·API 문서 2개는 실제로 그 항목이 들어 있는
 // 기술 문서 모달로, 지원 문의는 상담 폼 앵커로 잇는다.
@@ -68,17 +69,11 @@ export function Footer({ onOpenDocModal }: FooterProps) {
  <span className="hidden lg:inline">•</span>
  <span>품질·환경 인증 표기 (예시)</span>
  </div>
- <span className="text-slate-400 text-[11px] mt-1 [word-break:keep-all]">
- © 2026 NEXUS ROBOTICS (가상 브랜드). 클린룸 규격 표기는 예시입니다.
- </span>
+ <span className="text-slate-400 text-[11px] mt-1 [word-break:keep-all]"><SampleFooterNote /></span>
  </div>
  </div>
 
  {/* 접을 수 없는 자리에 남는 고지 — 이 화면은 가상 브랜드 샘플이다 */}
- <div className="mt-6 rounded border border-slate-200 bg-slate-50 px-4 py-3 text-xs leading-relaxed text-slate-700 [word-break:keep-all]">
- 이 화면은 <strong className="font-bold text-slate-900">태문 DEV STUDIO 가 만든 가상 브랜드 샘플</strong>입니다. 실제 업체가 아니며 회사
- 정보·인증·실적·고객사·연락처는 화면 구성을 보여 주기 위한 예시 수치입니다. 어떤 문의·신청도 접수되지 않습니다.
- </div>
  </div>
  </footer>
  );

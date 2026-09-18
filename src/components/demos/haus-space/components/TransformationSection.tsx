@@ -339,7 +339,7 @@ export const TransformationSection: React.FC<TransformationSectionProps> = ({
               onClick={() => onConsultProject('도심 하이엔드 펜트하우스(예시) 105평')}
               className="inline-flex min-h-11 w-full lg:w-auto items-center justify-center gap-2 bg-[#121315] text-[#c5a880] border border-[#c5a880]/60 px-5 py-2 text-xs tracking-wider uppercase hover:bg-[#c5a880] hover:text-[#121315] transition-colors cursor-pointer whitespace-nowrap"
             >
-              <span>이 프로젝트처럼 의뢰하기</span>
+              <span>이 레퍼런스로 제작 문의</span>
               <ArrowRight className="w-3.5 h-3.5 shrink-0" />
             </button>
           </div>

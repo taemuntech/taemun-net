@@ -1,4 +1,5 @@
 import React from 'react';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 export const Footer: React.FC = () => {
   return (
@@ -81,9 +82,7 @@ export const Footer: React.FC = () => {
 
         {/* Sample Disclaimer */}
         <div className="pt-4 border-t border-[#2a2a2a]/60 text-center">
-          <p className="font-sans text-[11px] text-[#9e9b9a]">
-            이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아닙니다.
-          </p>
+          <p className="font-sans text-[11px] text-[#9e9b9a]"><SampleFooterNote /></p>
         </div>
       </div>
     </footer>

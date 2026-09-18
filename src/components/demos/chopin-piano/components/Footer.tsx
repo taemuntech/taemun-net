@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 export function Footer() {
   return (
@@ -21,9 +22,7 @@ export function Footer() {
               쇼팽하우스 피아노 아카데미는 정통 비엔나 피아니즘과 스타인웨이 살롱 어쿠스틱을 바탕으로 최고 권위의 콩쿠르 및 유럽·국내 명문 음대 실기 합격을 지도하는 전문 음악 아카데미입니다.
             </p>
             <div className="p-3 bg-[#151311] border border-[#2d2926] rounded-xl inline-block">
-              <span className="text-[11px] text-[#c5a880] block">
-                가상 브랜드 샘플 — 실제 업체가 아닙니다 (클래식 피아노 마스터클래스 설정)
-              </span>
+              <span className="text-[11px] text-[#c5a880] block"><SampleFooterNote /></span>
             </div>
           </div>
 

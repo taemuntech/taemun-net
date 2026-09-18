@@ -1,5 +1,6 @@
 import React from 'react';
 import { LOGO_URL, NAV_LINKS } from './TopNavBar';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 export default function Footer() {
   return (
@@ -60,9 +61,7 @@ export default function Footer() {
 
         {/* 샘플 고지 — 접을 수 없는 자리에 남긴다(?embed=true 로 화면만 직접 열어도 보인다) */}
         <div className="rounded-lg border border-outline-variant bg-surface-container-lowest px-4 py-3 text-xs leading-relaxed text-on-surface [word-break:keep-all]">
-          <span className="font-bold">
-            이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아닙니다.
-          </span>{' '}
+          <span className="font-bold"><SampleFooterNote /></span>{' '}
           화면의 회사 이름·수치·발사 이력·인증 표기·연락처는 모두 예시이며, 의뢰·백서 신청 폼은 접수되지 않습니다.
         </div>
 

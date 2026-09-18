@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 export const Footer: React.FC = () => {
   return (
@@ -80,9 +81,7 @@ export const Footer: React.FC = () => {
 
         {/* Standard Disclaimer Notice */}
         <div className="pt-8 border-t border-[#ebdcd0] text-center">
-          <p className="text-xs text-[#8a7566] font-medium">
-            이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아닙니다.
-          </p>
+          <p className="text-xs text-[#8a7566] font-medium"><SampleFooterNote /></p>
           <p className="text-[11px] text-[#a49182] font-mono mt-1">
             © 2026 ARCHE WELLNESS SPATIAL STUDIO. ALL RIGHTS RESERVED.
           </p>

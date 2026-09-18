@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { ShieldCheck, Leaf, Award, X } from 'lucide-react';
 import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 interface FooterProps {
   onOpenConcierge: () => void;
@@ -93,9 +94,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenConcierge }) => {
 
         {/* Bottom Copyright & CS */}
         <div className="pt-4 flex flex-col lg:flex-row items-center justify-between text-xs text-[#51443d] gap-2 border-t border-[#d6c3ba]/30">
-          <p className="text-center lg:text-left">
-            © 2025 ARTISAN &amp; GIFT Atelier Inc. 가상 브랜드 샘플 — 실제 업체가 아니며 등록·인증 표기가 아닙니다.
-          </p>
+          <p className="text-center lg:text-left"><SampleFooterNote /></p>
           <p className="text-[#83746c] text-center lg:text-right">
             고객센터: 02-0000-0000 (예시) (평일 10:00 - 18:00, 점심 12:30 - 13:30)
           </p>
@@ -144,10 +143,6 @@ export const Footer: React.FC<FooterProps> = ({ onOpenConcierge }) => {
               <li>제작 이력 카드에는 공방명과 제작 일자를 적어 동봉합니다(감정·정품 인증 서류가 아닙니다).</li>
             </ul>
 
-            <p className="text-xs text-[#83746c] pt-3 border-t border-[#d6c3ba]/40">
-              이 화면은 가상 브랜드로 만든 샘플 사이트입니다. 위 내용은 화면 구성을 보여 주기 위한 예시이며 실제
-              약관이 아닙니다.
-            </p>
           </div>
         </div>
       )}

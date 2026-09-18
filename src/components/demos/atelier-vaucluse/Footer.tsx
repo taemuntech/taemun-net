@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ProjectCategory } from './types';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 interface FooterProps {
   /** 누르면 포트폴리오 분류가 실제로 그 값으로 바뀐다 (예전엔 인자를 버리고 스크롤만 했다) */
@@ -79,10 +80,7 @@ export const Footer: React.FC<FooterProps> = ({
 
       {/* 샘플 고지 — 상단 툴바를 접거나 ?embed=true 로 화면만 열어도 남아야 하는 표시 */}
       <div className="max-w-7xl mx-auto px-6 lg:px-12 pb-10">
-        <p className="rounded-lg border border-[#c8c7bf]/60 bg-white/70 px-4 py-3 text-xs leading-relaxed text-[#474741]">
-          이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며, 화면의 회사명·수치·연락처는 모두 예시입니다.
-          상담·문의 폼은 접수되지 않습니다.
-        </p>
+        <p className="rounded-lg border border-[#c8c7bf]/60 bg-white/70 px-4 py-3 text-xs leading-relaxed text-[#474741]"><SampleFooterNote /></p>
       </div>
     </footer>
   );

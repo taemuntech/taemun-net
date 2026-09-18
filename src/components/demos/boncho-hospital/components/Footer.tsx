@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { HOSPITAL_IMAGES } from '../data/hospitalData';
 import { PolicyKey, PolicyModal } from './modals/PolicyModal';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 const POLICY_LINKS: Array<{ key: PolicyKey; label: string }> = [
   { key: 'terms', label: '이용약관' },
@@ -144,6 +145,7 @@ export const Footer: React.FC = () => {
       </div>
 
       <PolicyModal openKey={openPolicy} onClose={() => setOpenPolicy(null)} />
+      <p className="mt-6 px-4 text-center text-[11px] leading-relaxed opacity-60 [word-break:keep-all]"><SampleFooterNote /></p>
     </footer>
   );
 };

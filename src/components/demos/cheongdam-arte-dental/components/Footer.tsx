@@ -1,5 +1,6 @@
 import React from 'react';
 import { CLINIC_IMAGES } from '../data/clinicData';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 import { 
   Clock, 
   ShieldCheck, 
@@ -141,14 +142,11 @@ export const Footer: React.FC<FooterProps> = ({
           <p className="leading-relaxed">
             청담 아르떼 치과의원 | 대표원장: 민경훈 | 사업자등록번호: 000-00-00000 | 의료기관 개설신고: 제0000-0000000호 (예시) | 전화번호: 02-0000-0000
           </p>
-          <p className="leading-relaxed bg-white/5 p-3 rounded-xl border border-white/5">
-            이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 「청담 아르떼 치과의원」은 실제 의료기관이 아니며, 화면의 의료진·약력·주소·번호·수치는 모두 예시이고 진료 예약은 접수되지 않습니다.
-          </p>
+          <p className="leading-relaxed bg-white/5 p-3 rounded-xl border border-white/5"><SampleFooterNote /></p>
           <p className="leading-relaxed bg-white/5 p-3 rounded-xl border border-white/5">
             [의료 관련 고지] 화면의 치료 전후 이미지는 실제 환자의 사진이 아닌 예시 이미지입니다. 치과 치료는 개인의 구강 상태와 잇몸뼈 상태에 따라 방법·기간·결과가 달라질 수 있고, 붓기·출혈·일시적 시림 등의 부작용이 생길 수 있으므로 반드시 사전 진단과 의료진 상담이 필요합니다.
           </p>
           <div className="flex flex-col lg:flex-row items-center justify-between pt-2">
-            <span>© 2026 Cheongdam Arte Dental Clinic (가상 브랜드 예시)</span>
             <div className="flex gap-4 mt-2 lg:mt-0 text-[10px]">
               <span>개인정보처리방침</span>
               <span>•</span>

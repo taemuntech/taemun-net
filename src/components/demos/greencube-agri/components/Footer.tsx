@@ -1,4 +1,5 @@
 import React from 'react';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 interface FooterProps {
   onOpenDocModal?: (title: string) => void;
@@ -100,9 +101,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDocModal }) => {
 
         {/* Bottom Row: Copyright & Legal */}
         <div className="pt-6 border-t border-[#bccac0]/20 flex flex-col lg:flex-row justify-between items-center gap-4 text-center lg:text-left">
-          <p className="font-body text-xs text-[#6d7a72]">
-            이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며, 화면의 회사 정보·인증·수치는 모두 예시 값입니다.
-          </p>
+          <p className="font-body text-xs text-[#6d7a72]"><SampleFooterNote /></p>
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 font-mono text-[11px] text-[#6d7a72]">
             <span>사업자등록번호: 000-00-00000 (예시)</span>
             <span>•</span>

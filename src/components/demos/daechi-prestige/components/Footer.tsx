@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ASSETS } from '../data/mockData';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 export const Footer: React.FC = () => {
   return (
@@ -95,6 +96,7 @@ export const Footer: React.FC = () => {
           </div>
         </div>
       </div>
+      <p className="mt-6 px-4 text-center text-[11px] leading-relaxed opacity-60 [word-break:keep-all]"><SampleFooterNote /></p>
     </footer>
   );
 };

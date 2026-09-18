@@ -1,4 +1,5 @@
 import React from 'react';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 // 걷어낸 것: 빈 앵커 주소 링크 10개(전부 아무 데도 안 갔다) · 「200% Authenticity Guarantee」·「Vault Secure
 // Settlement」(지킬 수 없는 보증·결제대금예치 표기) · 「PARIS ESCROW VAULT」 · 실존 주소(28 Place Vendôme).
@@ -37,10 +38,7 @@ export const Footer: React.FC = () => {
           <span className="font-serif text-xl lg:text-2xl uppercase tracking-widest text-[#f2ca50] block font-medium">
             MAISON DE LUXE
           </span>
-          <p className="text-xs text-[#d0c5af] max-w-sm leading-relaxed font-light [word-break:keep-all]">
-            메종 드 럭스는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며 주문·결제는 접수되지
-            않습니다. 화면의 메종·상품·가격·시리얼·상호 정보는 모두 지어낸 예시입니다.
-          </p>
+          <p className="text-xs text-[#d0c5af] max-w-sm leading-relaxed font-light [word-break:keep-all]"><SampleFooterNote /></p>
           <div className="pt-2 flex items-center gap-3 flex-wrap">
             <span className="text-[10px] text-[#99907c] uppercase tracking-wider font-semibold">PARTNERS:</span>
             <span className="text-[11px] text-[#e5e2e1] tracking-wider font-semibold">
@@ -98,7 +96,6 @@ export const Footer: React.FC = () => {
 
       {/* Copyright Text */}
       <div className="flex flex-col lg:flex-row items-center justify-between gap-2 pt-4 border-t border-[#4d4635] text-[10px] text-[#99907c] text-center lg:text-left">
-        <p className="[word-break:keep-all]">© 2025 MAISON DE LUXE ARCHIVAL SALON — 가상 브랜드 샘플 사이트</p>
         <p className="[word-break:keep-all]">태문 DEV STUDIO 제작 샘플 · 실제 거래는 이루어지지 않습니다</p>
       </div>
     </footer>

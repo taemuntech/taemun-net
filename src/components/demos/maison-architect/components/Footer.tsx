@@ -1,6 +1,7 @@
 import React from 'react';
 import { BRAND_LOGO_URL } from '../data/products';
 import type { PolicyTopic } from './PolicyModal';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 interface FooterProps {
   onOpenShowroomModal: () => void;
@@ -140,10 +141,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenShowroomModal, onOpenPolic
 
         {/* Bottom Copyright Row */}
         <div className="pt-8 border-t border-[#d0c4c0]/30 flex flex-col lg:flex-row items-center justify-between gap-4 text-[11px] text-[#7f7571]">
-          <p className="text-center lg:text-left">
-            © 2026 MAISON ARCHITECT (가상 브랜드 샘플). ALL RIGHTS RESERVED. 실제 업체가 아니며 주문·결제는
-            접수되지 않습니다.
-          </p>
+          <p className="text-center lg:text-left"><SampleFooterNote /></p>
           <p className="text-center lg:text-right">
             대표자: 김아키 (예시) | 사업자등록번호: 000-00-00000 (예시) | 통신판매업신고 표기 자리 (예시)
           </p>

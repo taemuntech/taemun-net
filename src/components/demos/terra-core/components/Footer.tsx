@@ -1,5 +1,6 @@
 import React from 'react';
 import { HardHat, ShieldCheck, Mail, Phone, MapPin } from 'lucide-react';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 export const Footer: React.FC = () => {
   return (
@@ -41,9 +42,7 @@ export const Footer: React.FC = () => {
 
         {/* Required Standard Portfolio Notice */}
         <div className="pt-6 text-center text-xs font-sans text-[#8b949e]">
-          <p className="font-semibold text-[#c9d1d9]">
-            이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아닙니다.
-          </p>
+          <p className="font-semibold text-[#c9d1d9]"><SampleFooterNote /></p>
           <p className="text-[11px] text-[#6e7681] mt-1 font-mono">
             &copy; {new Date().getFullYear()} TERRA-CORE Inc. &amp; TAEMUN DEV STUDIO. All rights reserved.
           </p>

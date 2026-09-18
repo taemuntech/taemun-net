@@ -1,4 +1,5 @@
 import React from 'react';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 interface FooterProps {
   onOpenSafetyModal: () => void;
@@ -115,6 +116,7 @@ export const Footer: React.FC<FooterProps> = ({
           [법적 고지사항] 본 웹사이트는 포트폴리오용 가상 병원 샘플 데모이며 실제 의료기관이 아닙니다. 모든 시술 및 수술은 개인의 해부학적 특성에 따라 출혈, 감염, 염증, 신경 손상 등의 부작용이 발생할 수 있으므로 집도의와의 면밀한 1:1 상담이 필수적입니다.
         </div>
       </div>
+      <p className="mt-6 px-4 text-center text-[11px] leading-relaxed opacity-60 [word-break:keep-all]"><SampleFooterNote /></p>
     </footer>
   );
 };

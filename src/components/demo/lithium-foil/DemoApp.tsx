@@ -26,6 +26,7 @@ import SuggestionsPanel from "./screens/SuggestionsPanel";
 import SchemaView from "./screens/SchemaView";
 import type { DemoTab, TraceTarget } from "./screens/types";
 import { fmtNum } from "./ui";
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 type TabDef = { key: DemoTab; label: string; short: string; icon: LucideIcon };
 
@@ -441,11 +442,8 @@ function DemoFooter() {
           <div>
             <span className="font-bold text-gray-300">태문 DEV STUDIO</span> • 직통전화: {CONTACT.phone} • 이메일: {CONTACT.email}
           </div>
-          <div>© 2026 TAEMUN DEV STUDIO. All rights reserved. (Domain: taemun.net)</div>
         </div>
-        <p className="text-gray-400 leading-relaxed">
-          이 페이지의 모든 회사·고객·수치는 시연용 가상 데이터이며 실존 기업과 무관합니다.
-        </p>
+        <p className="text-gray-400 leading-relaxed"><SampleFooterNote /></p>
       </div>
     </footer>
   );

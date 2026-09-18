@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { SHOWROOM_BRAND } from '../data/showroomData';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 interface FooterProps {
   onOpenConsultation: () => void;
@@ -57,9 +58,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenConsultation }) => {
         </div>
 
         <div className="pt-8 border-t border-white/5 flex flex-col lg:flex-row items-center justify-between text-[11px] text-stone-400 font-light">
-          <p>
-            이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아닙니다.
-          </p>
+          <p><SampleFooterNote /></p>
           <span className="mt-2 lg:mt-0 font-mono">TAEMUN DEV STUDIO · VIRTUAL SHOWCASE</span>
         </div>
       </div>

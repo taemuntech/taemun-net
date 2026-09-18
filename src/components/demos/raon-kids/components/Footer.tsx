@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 export const Footer: React.FC = () => {
   return (
@@ -16,9 +17,7 @@ export const Footer: React.FC = () => {
             </span>
           </div>
 
-          <p className="text-xs text-[#8c7456] text-center lg:text-right [word-break:keep-all]">
-            이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아닙니다.
-          </p>
+          <p className="text-xs text-[#8c7456] text-center lg:text-right [word-break:keep-all]"><SampleFooterNote /></p>
         </div>
 
         <div className="pt-8 flex flex-col lg:flex-row items-center justify-between gap-4 text-[11px] text-[#8c7456]">

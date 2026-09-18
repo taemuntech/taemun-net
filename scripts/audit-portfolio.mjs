@@ -1379,6 +1379,29 @@ for (const s of sampleSources) {
     );
   }
 
+  // ── 하단 고지는 공용 컴포넌트 한 곳에서만 ──
+  // 2026-09-18 형 지시: 데모마다 하단 고지가 10가지 넘게 제각각이었다(「실제 업체가 아닙니다」 · 「실제 업체가 아니며
+  // 화면의 회사명·…」 · 「주문·결제는 접수되지 않습니다」 …). <SampleFooterNote /> 하나로 통일했고 문구는
+  // src/components/demo-kit/SampleFooterNote.tsx 가 정본이다 — 데모 파일에 문구를 직접 적지 않는다.
+  // 가상 브랜드는 반드시 쓰고, 실존 업체 시안(kind=proposal)은 쓰면 안 된다(그 회사는 「가상」이 아니다).
+  {
+    const usesNote = files.some((f) => /<SampleFooterNote\b/.test(stripComments(fs.readFileSync(f, "utf8"))));
+    const key = rel(s.dir);
+    if (s.kind === "proposal" && usesNote) {
+      keySlug.set(key, s.slug);
+      error(
+        key,
+        "제안용 시안(실존 업체)인데 <SampleFooterNote /> 를 씁니다 — 그 회사는 「가상 브랜드」가 아닙니다. 빼세요(제안 시안 고지는 (demos) 레이아웃의 DemoDisclaimer 가 붙입니다)",
+      );
+    } else if (s.kind !== "proposal" && !usesNote) {
+      keySlug.set(key, s.slug);
+      error(
+        key,
+        "하단 고지 <SampleFooterNote /> 가 없습니다 — 푸터에 한 줄 넣으세요(import 는 @/components/demo-kit/SampleFooterNote). 문구는 그 컴포넌트 한 곳이 정본이라 데모에 직접 적지 않습니다",
+      );
+    }
+  }
+
   // ── 저장한 이미지가 실제로 쓸 만한 크기인가 ──
   // 왜 보는가: 2026-09-17 에 데모 이미지 227장을 저장소로 가져오면서 lh3 CDN 의 **기본 주소**를 썼는데
   // 그건 미리보기용 512px 판이었다(원본은 =s0 을 붙이면 1376px). 히어로가 1400px 자리에 늘어나 뿌옇게

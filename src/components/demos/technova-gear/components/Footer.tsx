@@ -2,6 +2,7 @@
 
 import React from 'react';
 import type { InfoModalContent } from './Modals/InfoModal';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 interface FooterProps {
   onShowInfo: (content: InfoModalContent) => void;
@@ -153,7 +154,7 @@ export const Footer: React.FC<FooterProps> = ({ onShowInfo }) => {
 
         {/* Legal Copyright Row */}
         <div className="border-t border-[#424754]/60 pt-4 flex flex-col lg:flex-row items-center justify-between text-xs text-[#8c909f] gap-2">
-          <p>© 2025 TECHNOVA GEAR INC. 이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며 주문·결제는 접수되지 않습니다.</p>
+          <p><SampleFooterNote /></p>
           <div className="flex items-center gap-4 text-xs font-label">
             <span className="text-[#4cd7f6] flex items-center gap-1 font-bold">
               <span className="inline-block w-2 h-2 rounded-full bg-[#4cd7f6] animate-pulse"></span>

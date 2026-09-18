@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrandMark } from './BrandMark';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 export const Footer: React.FC = () => {
   return (
@@ -119,10 +120,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* 접을 수 없는 자리에 남는 고지 — 이 화면은 가상 브랜드 샘플이다 */}
-        <p className="pt-6 text-center lg:text-left text-xs text-[#c3c6d7]">
-          이 사이트는 <strong className="font-bold text-white">태문 DEV STUDIO 가 만든 가상 브랜드 샘플</strong>입니다. 실제 업체가
-          아니며 화면의 회사·선박·항만 운영 수치·연락처는 모두 예시입니다.
-        </p>
+        <p className="pt-6 text-center lg:text-left text-xs text-[#c3c6d7]"><SampleFooterNote /></p>
 
         {/* Bottom Disclaimers */}
         <div className="pt-4 flex flex-col lg:flex-row justify-between items-center text-[#8d90a0] font-mono text-xs gap-3">

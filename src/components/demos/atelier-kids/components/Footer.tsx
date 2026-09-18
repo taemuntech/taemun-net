@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 export function Footer() {
   return (
@@ -21,9 +22,7 @@ export function Footer() {
               아틀리에 키즈 감성 미술원은 프랑스 에꼴 드 보자르의 조형 철학을 기반으로, 4세부터 13세까지 아이들의 고유한 시각적 감수성과 입체 조형 상상력을 키우는 순수 미술 아카데미입니다.
             </p>
             <div className="p-3 bg-[#3D3833] rounded-xl inline-block border border-[#524B44]">
-              <span className="text-[11px] text-[#F4A261] block">
-                가상 브랜드 샘플 — 실제 업체가 아닙니다 (프랑스식 아동 감성미술원 설정)
-              </span>
+              <span className="text-[11px] text-[#F4A261] block"><SampleFooterNote /></span>
             </div>
           </div>
 

@@ -1,5 +1,6 @@
 import React, { useId, useRef, useState } from 'react';
 import { useSampleDialog } from '@/components/demo-kit/use-sample-dialog';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 // language prop 을 받아 두고 한 번도 쓰지 않으면 「번역되는 것처럼 보이는」 죽은 배선이 된다.
 // 푸터 본문(비급여 진료비·개인정보처리방침·환자 권리)은 국문 고정이라 prop 을 받지 않는다.
 
@@ -173,13 +174,8 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="pt-8 border-t border-surface-container flex flex-col gap-4 text-[12px] text-outline">
-            <p className="leading-relaxed break-keep text-on-surface-variant">
-              이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 「프라임 스마트 아이 안과」는 실제
-              의료기관이 아니며, 화면의 의료진 · 장비 · 수치 · 진료비 · 연락처 · 주소는 모두 예시입니다. 진료
-              예약이나 상담은 접수되지 않고, 입력하신 내용은 어디에도 전송되지 않습니다.
-            </p>
+            <p className="leading-relaxed break-keep text-on-surface-variant"><SampleFooterNote /></p>
             <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-2">
-              <p>© 2026 PRIME VISION EYE CLINIC (가상 브랜드 샘플).</p>
               <p>Designed for Patient Safety &amp; Optical Precision</p>
             </div>
           </div>

@@ -392,6 +392,20 @@ img, video, canvas, picture, [data-protect-media] {
   -webkit-touch-callout: none;
 }
 
+/* ==========================================================================
+   ✨ CLEAN SCROLLBAR UTILITIES (스크롤 동작 유지 + 지저분한 OS 스크롤바 숨김)
+   ========================================================================== */
+.no-scrollbar {
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox, modern Chrome */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important; /* Safari, Chrome, Opera */
+  width: 0 !important;
+  height: 0 !important;
+}
+
+
 
 
 

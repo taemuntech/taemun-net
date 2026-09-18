@@ -1,4 +1,5 @@
 import React from 'react';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 export const Footer: React.FC = () => {
   const scrollTo = (id: string) => {
@@ -44,9 +45,7 @@ export const Footer: React.FC = () => {
 
           {/* 샘플 고지 — 접을 수 없는 자리에 남긴다(?embed=true 로 화면만 직접 열어도 보인다) */}
           <div className="max-w-2xl rounded-lg border border-[#3b494c]/50 bg-[#101319] px-4 py-3 text-[11px] leading-relaxed text-[#e1e2ea] [word-break:keep-all]">
-            <span className="font-bold text-[#c3f5ff]">
-              이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아닙니다.
-            </span>{' '}
+            <span className="font-bold text-[#c3f5ff]"><SampleFooterNote /></span>{' '}
             화면의 회사 이름·성능 수치·인증 표기·거점·연락처는 모두 예시이며, 백서 신청·견적 요청 폼은 접수되지 않습니다.
           </div>
         </div>

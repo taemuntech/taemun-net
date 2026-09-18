@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import SampleNotice from '@/components/demo-kit/SampleNotice';
 import { LOGO_URL, SAMPLE_INDUSTRY, SAMPLE_SLUG } from '../data/packagingData';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 export const Footer: React.FC = () => {
   // href="#" 로 아무 데도 가지 않던 링크 3개(ESG·전자공시·개인정보처리방침)를 치웠다.
@@ -66,10 +67,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* 샘플 고지 — 상단 툴바를 접거나 ?embed=true 로 바로 열어도 남아야 하는 표시 */}
-        <p className="rounded-xl border border-[#c4c5d5]/50 bg-[#f8f9ff] px-4 py-3 text-xs leading-relaxed text-[#444653]">
-          이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며, 화면의 회사명·수치·인증·연락처는 모두
-          예시입니다. 문의·신청 폼은 접수되지 않습니다.
-        </p>
+        <p className="rounded-xl border border-[#c4c5d5]/50 bg-[#f8f9ff] px-4 py-3 text-xs leading-relaxed text-[#444653]"><SampleFooterNote /></p>
       </div>
 
       <SampleNotice

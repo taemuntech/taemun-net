@@ -1,6 +1,7 @@
 import React from 'react';
 import { BRAND_LOGO_URL } from '../data/mockData';
 import type { InfoDialogContent } from './InfoDialog';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 interface FooterProps {
   onOpenDeliveryCheck: () => void;
@@ -187,10 +188,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenDeliveryCheck, onShowInfo 
         <div className="max-w-7xl mx-auto px-4 lg:px-10 space-y-1.5 text-[11px] text-[#6d7a72] leading-relaxed">
           <p>(주)루미너스랩(가상 브랜드) | 대표이사: 홍길동(예시) | 서울특별시 ○○구 ○○로 000, 00층 (예시 주소)</p>
           <p>사업자등록번호: 000-00-00000 (예시) | 통신판매업신고번호: 0000-서울OO-0000 (예시) | 개인정보관리책임자: 홍길동(예시)</p>
-          <p>이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며, 주문·결제·상담은 접수되지 않습니다.</p>
-          <p className="pt-2 text-[#3d4a42]">
-            © 2026 LUMINOUS LAB (가상 브랜드 샘플). 화면의 상호·주소·번호·수치는 모두 예시입니다.
-          </p>
+          <p><SampleFooterNote /></p>
         </div>
       </div>
     </footer>

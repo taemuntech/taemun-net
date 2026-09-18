@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 export default function Footer() {
   return (
@@ -34,9 +35,7 @@ export default function Footer() {
 
         {/* 법적 및 감사 표준 고지문 */}
         <div className="mt-8 border-t border-slate-800/80 pt-6 text-center">
-          <p className="text-xs text-slate-400">
-            이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아닙니다.
-          </p>
+          <p className="text-xs text-slate-400"><SampleFooterNote /></p>
           <p className="mt-1 font-mono text-[11px] text-slate-600">
             © 2026 STRATA ENGINEERING & CONSTRUCTION. ALL RIGHTS RESERVED. (SAMPLE DEMO)
           </p>

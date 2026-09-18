@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { WORK_BRAND } from '../data/workData';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 interface FooterProps {
   onOpenConsultation: () => void;
@@ -58,9 +59,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenConsultation }) => {
         </div>
 
         <div className="pt-8 border-t border-zinc-800/80 flex flex-col lg:flex-row items-center justify-between text-[11px] text-zinc-500 font-light">
-          <p>
-            이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아닙니다.
-          </p>
+          <p><SampleFooterNote /></p>
           <span className="mt-2 lg:mt-0 font-mono text-zinc-500">
             TAEMUN DEV STUDIO · VIRTUAL SHOWCASE
           </span>

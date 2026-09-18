@@ -1,5 +1,6 @@
 import React from 'react';
 import { CLINIC_INFO } from '../data/clinicData';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 interface FooterProps {
   /** 정책 링크 — 샘플이라 문서가 없다. 누르면 태문 샘플 안내를 연다(엉뚱한 곳으로 스크롤시키지 않는다) */
@@ -52,10 +53,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPolicy }) => {
               * 시술 결과와 유지 기간에는 개개인의 피부 상태에 따라 차이가 있으며, 홍반·멍·부기 등 부작용이
               발생할 수 있습니다. 시술 전 담당 피부과 전문의와 충분히 상담하시기 바랍니다.
             </div>
-            <div className="text-[11px] text-[#9aa39e] leading-normal break-keep">
-              * 본 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 의료기관이 아니며, 화면의
-              의료진·약력·장비·번호는 모두 예시이고 진료 예약은 접수되지 않습니다.
-            </div>
+            <div className="text-[11px] text-[#9aa39e] leading-normal break-keep"><SampleFooterNote /></div>
           </div>
         </div>
 

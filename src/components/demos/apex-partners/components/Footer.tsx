@@ -1,5 +1,6 @@
 import { ShieldCheck } from 'lucide-react';
 import { CREST_LOGO_URL } from '../data/investmentData';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 interface FooterProps {
   onOpenVdr: () => void;
@@ -23,9 +24,7 @@ export default function Footer({ onOpenVdr }: FooterProps) {
                 APEX PARTNERS
               </span>
             </div>
-            <p className="text-xs lg:text-sm text-[#d0c5af]/80 max-w-md leading-relaxed [word-break:keep-all]">
-              이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 「아펙스 글로벌 파트너스」는 실제 업체가 아니며, 화면의 인가·실적·포트폴리오·연락처는 모두 예시입니다.
-            </p>
+            <p className="text-xs lg:text-sm text-[#d0c5af]/80 max-w-md leading-relaxed [word-break:keep-all]"><SampleFooterNote /></p>
             <div className="font-mono-metric text-[11px] text-[#f2ca50]/90 flex items-start gap-1.5">
               <ShieldCheck className="w-4 h-4 shrink-0 mt-0.5 text-[#f2ca50]" />
               <span>Institutional Custody &amp; Clearing Framework (예시 설정)</span>
@@ -117,9 +116,6 @@ export default function Footer({ onOpenVdr }: FooterProps) {
 
         {/* Copyright & Security Status */}
         <div className="pt-6 border-t border-[#4d4635]/20 flex flex-col lg:flex-row justify-between items-start lg:items-center text-xs text-[#d0c5af]/60 gap-4 font-mono-metric">
-          <p className="[word-break:keep-all]">
-            © 2026 Apex Partners Sovereign Capital (가상 브랜드). 태문 DEV STUDIO 가 만든 샘플 화면이며 실제 업체·인가·등록번호가 아닙니다.
-          </p>
           <div className="flex items-center gap-2 text-[11px]">
             <span className="w-2 h-2 rounded-full bg-[#4edea3]" />
             <span className="text-[#4edea3]">SAMPLE ENVIRONMENT · NO LIVE DATA</span>

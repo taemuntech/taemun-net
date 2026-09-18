@@ -1,4 +1,5 @@
 import React from 'react';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 interface FooterProps {
   /** 이 지면 안에 실제로 있는 구역으로 보낸다 */
@@ -103,9 +104,7 @@ export const Footer: React.FC<FooterProps> = ({ onScrollTo, onNotice }) => {
               주식회사 베르데고메 (예시) | 대표이사: 홍길동 (예시) | 사업자등록번호: 000-00-00000 (예시) | 통신판매업신고번호: 예시 표기<br />
               사업장소재지: 서울특별시 ○○구 ○○로 00, 0층 (예시 주소) | 개인정보보호책임자: 홍길동 (예시)
             </p>
-            <p className="mt-2 text-[11px] font-mono font-medium text-primary">
-              © VERDE GOURMET (가상 브랜드 샘플). 화면의 회사명·번호·주소는 모두 예시입니다.
-            </p>
+            <p className="mt-2 text-[11px] font-mono font-medium text-primary"><SampleFooterNote /></p>
           </div>
           <div className="flex items-center gap-3 shrink-0">
             {/* 결제 안전장치를 뜻하는 말은 법에 요건이 걸려 있어 쓰지 않는다 — 연동 표시라고만 적는다 */}
@@ -117,10 +116,6 @@ export const Footer: React.FC<FooterProps> = ({ onScrollTo, onNotice }) => {
         </div>
 
         {/* 샘플 고지 — 상단 툴바를 접거나 ?embed=true 로 화면만 열어도 남아야 하는 표시 */}
-        <p className="mt-6 rounded-lg border border-outline-variant bg-surface-container-lowest px-4 py-3 text-[11px] leading-relaxed text-on-surface-variant">
-          이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며, 화면의 회사명·상품·산지·가격·후기 수·온도
-          기록·연락처는 모두 예시입니다. 주문·배송지 조회 폼은 접수되지 않습니다.
-        </p>
       </div>
     </footer>
   );

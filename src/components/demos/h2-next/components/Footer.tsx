@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { LOGO_URL } from '../data/mockData';
 import { DetailModal } from './DetailModal';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 // 예전에는 #privacy·#terms·#whistleblower 로 가는 앵커였는데 그런 구역이 페이지에 없어 아무 데도 가지 않았다.
 // 없애는 대신 기업 사이트에 실제로 들어가는 지면을 모달로 채운다 — 단, 샘플이므로 「가상 브랜드 예시」임을 본문에 적는다.
@@ -228,9 +229,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectHub, onRequestDoc }) => 
               © 2026 H2 NEXT Energy Systems Inc. All rights reserved. 인증 표기 자리 (예시).
             </p>
             {/* 접을 수 없는 자리에 남기는 샘플 고지 — 화면만(?embed=true) 열어도 보여야 한다 */}
-            <p className="mt-2 rounded-lg border border-[#00685f]/40 bg-[#eff4ff] px-3 py-2 text-[12px] leading-relaxed text-[#0b1c30]">
-              이 사이트는 태문 DEV STUDIO 가 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며, 화면의 회사 정보·수치·인증·거점은 모두 예시입니다.
-            </p>
+            <p className="mt-2 rounded-lg border border-[#00685f]/40 bg-[#eff4ff] px-3 py-2 text-[12px] leading-relaxed text-[#0b1c30]"><SampleFooterNote /></p>
           </div>
 
           {/* 정책 지면 — 앵커가 아니라 내용이 채워진 모달을 연다 */}
@@ -260,9 +259,6 @@ export const Footer: React.FC<FooterProps> = ({ onSelectHub, onRequestDoc }) => 
       >
         {doc && (
           <div className="space-y-5">
-            <p className="rounded-lg border border-[#00685f]/30 bg-[#eff4ff] px-3 py-2.5 text-[12px] leading-relaxed text-[#0b1c30] [word-break:keep-all]">
-              가상 브랜드 샘플의 예시 지면입니다. 실제 법률 자문을 거친 문서가 아니며, 기업 사이트에 이런 지면이 어떻게 들어가는지 보여 주기 위한 것입니다.
-            </p>
             {doc.sections.map((s) => (
               <div key={s.h}>
                 <h4 className="mb-1 text-sm font-bold text-[#0b1c30] [word-break:keep-all]">{s.h}</h4>

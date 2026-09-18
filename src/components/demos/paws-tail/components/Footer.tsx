@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { InfoModal, type InfoModalSection } from './InfoModal';
+import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 
 type DisclosureKey = 'license' | 'origin' | 'subscription' | 'terms' | 'privacy';
 
@@ -212,11 +213,7 @@ export const Footer: React.FC = () => {
             사업장 소재지: 서울특별시 강남구 테헤란로 427 (가상 주소) | 동물용의약외품 제조업 허가
             표기 자리 (예시) | 개인정보관리책임자: 정재훈 (privacy@example.com)
           </p>
-          <p className="pt-2 text-[#707973]">
-            © 2025 PAWS &amp; TAIL VET Clinical Nutrition Inc. 태문 DEV STUDIO 가 만든 가상 브랜드
-            샘플입니다 — 실제 업체가 아니며 주문·결제는 접수되지 않습니다. 화면의 인증·허가·수치
-            표기는 모두 예시입니다.
-          </p>
+          <p className="pt-2 text-[#707973]"><SampleFooterNote /></p>
         </div>
       </div>
 
