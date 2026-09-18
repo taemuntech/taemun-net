@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, type SyntheticEvent } from "react";
+import { useState, useEffect, useRef, type SyntheticEvent } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import FloatingChatWidget from "@/components/FloatingChatWidget";
@@ -123,7 +123,18 @@ function ModalPreviewMedia({ project, zoomOnHover }: { project: GalleryProject; 
     return !reduceMotion && !saveData;
   });
   const [videoPlaying, setVideoPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const zoom = zoomOnHover ? "group-hover:scale-[1.03]" : "";
+
+  // 탭이 가려지면 브라우저가 무음 영상을 멈추는데, 돌아와도 스스로 다시 틀지 않는 경우가 있다(실측: 멈춘 채 2.9초).
+  // 모달을 연 채 탭을 옮겼다 오면 정지 화면이 되므로, 다시 보일 때 이어서 튼다.
+  useEffect(() => {
+    const resume = () => {
+      if (document.visibilityState === "visible") videoRef.current?.play().catch(() => {});
+    };
+    document.addEventListener("visibilitychange", resume);
+    return () => document.removeEventListener("visibilitychange", resume);
+  }, []);
 
   return (
     <>
@@ -135,6 +146,7 @@ function ModalPreviewMedia({ project, zoomOnHover }: { project: GalleryProject; 
       />
       {project.previewVideoUrl && allowVideo && (
         <video
+          ref={videoRef}
           src={project.previewVideoUrl}
           muted
           playsInline
