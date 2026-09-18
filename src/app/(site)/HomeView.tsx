@@ -167,6 +167,18 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
     return () => window.removeEventListener("hashchange", handleHashScroll);
   }, [galleryProjects]);
 
+  // 모달 오픈 시 배경 스크롤 방지
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [selectedProject]);
+
   // Helper icons for category headers
   const getCategoryIcon = (id: GalleryCategoryId) => {
     switch (id) {
@@ -699,7 +711,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
           6. PROJECT EXHIBITION MODAL (POPUP ON CARD CLICK)
           ───────────────────────────────────────────────────────────── */}
       {selectedProject && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 lg:p-6 animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 lg:p-6 animate-in fade-in duration-200">
           <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-zinc-200 flex flex-col justify-between text-left">
             {/* Modal Header */}
             <div className="p-5 lg:p-6 border-b border-zinc-200 flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur-sm z-20">
@@ -826,8 +838,8 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
         </div>
       )}
 
-      {/* Floating Chat Widget */}
-      <FloatingChatWidget />
+      {/* Floating Chat Widget — 웹페이지 미리보기 모달(selectedProject)이 열려 있을 때는 화면을 가리지 않도록 숨김 */}
+      {!selectedProject && <FloatingChatWidget />}
     </div>
   );
 }
