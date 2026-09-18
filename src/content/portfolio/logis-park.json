@@ -1,0 +1,18 @@
+{
+  "slug": "logis-park",
+  "kind": "sample",
+  "industry": "construction",
+  "title": "로지스파크 건설",
+  "subtitle": "스마트 저온 복합 물류센터 & 첨단 플랜트 시공 솔루션",
+  "summary": "가상 종합건설 브랜드 「로지스파크 건설」로 제작한 초대형 스마트 저온·상온 복합 물류센터 전문 웹사이트 샘플입니다. 용인 메가 콜드체인 허브·이천 풀필먼트 센터 등 대표 완공 실적 갤러리, 멀티 챔버(-25℃ 냉동~상온) 공조 다이어그램, PC 공법 및 FM1 초평탄 바닥 특화 엔지니어링, 규모별 물류센터 시공비 & 램프 경사도 시뮬레이터(예시), 그리고 SampleNotice 연동 부지 기술 검토 신청 모달을 담았습니다.",
+  "features": [
+    "용인 메가 저온허브·이천 자동화 풀필먼트 센터 완공 갤러리",
+    "상온·냉장·초저온(-25℃) 3단 멀티 챔버 공조 인터랙티브 다이어그램",
+    "대형 PC(Precast Concrete) 골조 양중 및 FM1 규격 초평탄 바닥 시공 쇼케이스",
+    "물류센터 연면적 및 램프 구조별 예상 공사비 & 공기 간이 시뮬레이터(예시)",
+    "SampleNotice 연동 신규 물류부지 인허가 및 턴키 견적 의뢰 신청 모달"
+  ],
+  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript", "Cold-Chain Chamber Diagram", "Logistics Cost Simulator"],
+  "liveUrl": "/demo/logis-park",
+  "createdAt": "2026-09-18"
+}

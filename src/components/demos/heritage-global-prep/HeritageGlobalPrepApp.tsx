@@ -60,7 +60,7 @@ export default function HeritageGlobalPrepApp() {
   const handleDossierCreated = (_dossier: CandidateDossier) => {
     setDossierCount((prev) => prev + 1);
   };
-
+  return (
     <div className="min-h-screen bg-[#fbf9f5] text-[#1b1c1a] flex flex-col selection:bg-[#aa304f] selection:text-white">
       <style dangerouslySetInnerHTML={{ __html: styles }} />
       {/* Broadsheet Top Navigation & Gazette Masthead */}

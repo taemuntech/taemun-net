@@ -26,7 +26,7 @@ export const DispatchScreen: React.FC<DispatchScreenProps> = ({
   onSelectInstitution,
   onOpenCandidateCase,
 }) => {
-  const [selectedIvyId, setSelectedIvyId] = useState<string>('harvard');
+  const [selectedIvyId, setSelectedIvyId] = useState<string>('h-univ');
 
   const activeIvy =
     IVY_INSTITUTIONS.find((i) => i.id === selectedIvyId) || IVY_INSTITUTIONS[0];
@@ -176,7 +176,7 @@ export const DispatchScreen: React.FC<DispatchScreenProps> = ({
               <div className="pt-3 px-1 text-left">
                 <div className="flex flex-wrap items-center justify-between gap-1 mb-1.5">
                   <span className="font-mono text-[11px] font-bold text-[#aa304f] uppercase tracking-wider">
-                    ARTHUR V. STERLING (HARVARD ’28 — REA ADMIT)
+                    ARTHUR V. STERLING (H-UNIV ’28 (예시) — REA ADMIT)
                   </span>
                   <span className="font-mono text-[10px] text-[#444748] font-bold bg-[#eae8e4] px-1.5 py-0.5">
                     SINGLE-SITTING 1600

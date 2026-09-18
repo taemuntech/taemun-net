@@ -52,7 +52,7 @@ export const CalculatorScreen: React.FC<CalculatorScreenProps> = ({
   const baseTierBonus = isHardTier ? 5 : -10;
   const scoreWeight = Math.max(0, (compositeScore - 1350) / 250);
 
-  const probHarvard = Math.min(
+  const probHUniv = Math.min(
     96,
     Math.max(6, Math.round(scoreWeight * 82 + baseTierBonus + (rwScore >= 780 ? 3 : 0)))
   );
@@ -142,7 +142,7 @@ export const CalculatorScreen: React.FC<CalculatorScreenProps> = ({
                 onClick={() => applyPreset(780, 800, true)}
                 className="px-2 py-1 bg-[#eae8e4] text-black hover:bg-black hover:text-white transition-colors border border-black/10"
               >
-                1580 HARVARD / PRINCETON MEDIAN
+                1580 H-UNIV(예시) / P-UNIV(예시) MEDIAN
               </button>
               <button
                 type="button"
@@ -403,13 +403,13 @@ export const CalculatorScreen: React.FC<CalculatorScreenProps> = ({
                   <div className="space-y-3 font-mono text-[12px]">
                     <div>
                       <div className="flex justify-between text-[11px] mb-1">
-                        <span className="text-black font-bold">HARVARD COLLEGE</span>
-                        <span className="font-bold text-[#aa304f]">{probHarvard}%</span>
+                        <span className="text-black font-bold">H-COLLEGE (예시)</span>
+                        <span className="font-bold text-[#aa304f]">{probHUniv}%</span>
                       </div>
                       <div className="w-full bg-[#e4e2de] h-2 overflow-hidden">
                         <div
                           className="bg-[#aa304f] h-full transition-all duration-300"
-                          style={{ width: `${probHarvard}%` }}
+                          style={{ width: `${probHUniv}%` }}
                         ></div>
                       </div>
                     </div>

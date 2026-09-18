@@ -8,9 +8,9 @@ export const ARTHUR_STERLING_IMAGE_URL =
 
 export const IVY_INSTITUTIONS: IvyInstitution[] = [
   {
-    id: 'harvard',
+    id: 'h-univ',
     name: 'H-Univ (예시)',
-    shortName: 'HARVARD',
+    shortName: 'H-UNIV',
     location: 'Cambridge, Massachusetts',
     founded: 1636,
     crestColor: '#881337',
@@ -190,7 +190,7 @@ export const ESSAY_CASES: EssayCase[] = [
         '“To matriculate into the academy is not merely to inherit heavy leather volumes, but to recalibrate the precision instruments through which our society measures truth. I do not seek a university to confirm what I know; I seek a laboratory where my certainty will be rigorously dismantled.”',
       committeeDisposition:
         '“One of the finest closing arguments submitted this cycle. Demonstrates collegiate citizenship and dialectical maturity.”',
-      verdict: 'HARVARD COLLEGE ’28 // ADMITTED UNANIMOUS',
+      verdict: 'H-COLLEGE ’28 (예시) // ADMITTED UNANIMOUS',
       metrics: { rating: 'S-TIER', status: 'MATRICULATION SECURED' },
     },
   },
@@ -338,7 +338,7 @@ export const HISTORIC_DOCKETS: CandidateDossier[] = [
     satScore: 1600,
     concentration: 'Philosophy & Mathematics',
     targetColleges: ['H-College (예시) (REA)'],
-    guardianEmail: 'patron.sterling@boston-trust.com',
+    guardianEmail: 'patron.sterling@example.com',
     submissionDate: 'Oct 14, 2023',
     academicIndex: 239,
     senateTier: 'Tier 1 Senate Review (Admitted)',
@@ -353,7 +353,7 @@ export const HISTORIC_DOCKETS: CandidateDossier[] = [
     satScore: 1590,
     concentration: 'Physics & Musicology',
     targetColleges: ['Yale University (SCEA)'],
-    guardianEmail: 'chen.academic@daewon-intl.kr',
+    guardianEmail: 'chen.academic@example.com',
     submissionDate: 'Oct 28, 2023',
     academicIndex: 238,
     senateTier: 'Tier 1 Senate Review (Admitted)',
@@ -368,7 +368,7 @@ export const HISTORIC_DOCKETS: CandidateDossier[] = [
     satScore: 1580,
     concentration: 'Classics & Quantitative Economics',
     targetColleges: ['Princeton University (SCEA)'],
-    guardianEmail: 'vance.folio@manhattan-lex.org',
+    guardianEmail: 'vance.folio@example.com',
     submissionDate: 'Nov 01, 2023',
     academicIndex: 237,
     senateTier: 'Tier 1 Senate Review (Admitted)',
