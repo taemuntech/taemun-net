@@ -105,7 +105,7 @@ export function HeroSection({ onOpenVideoModal }: HeroSectionProps) {
  className="w-full lg:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-11 rounded-md bg-white border border-slate-200 hover:bg-slate-50 text-slate-900 text-xs lg:text-sm font-medium transition-colors shadow-sm cursor-pointer whitespace-nowrap"
  >
  <PlayCircle className="w-4 h-4 text-blue-600 shrink-0" />
- <span>클린룸 무인 주행 실물 영상 (1080p)</span>
+ <span>클린룸 무인 주행 시연 영상</span>
  </button>
  <div className="flex items-center justify-center lg:justify-start gap-2 text-[11px] lg:text-xs font-mono text-slate-500 w-full lg:w-auto lg:ml-2 pt-1 lg:pt-0">
  <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0 animate-pulse" />
