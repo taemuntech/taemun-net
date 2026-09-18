@@ -1,0 +1,18 @@
+{
+  "slug": "hanbit-civil",
+  "kind": "sample",
+  "industry": "civil",
+  "title": "한빛토목이앤씨",
+  "subtitle": "고속도로 · 장대교량 · 대심도 철도 토목 솔루션",
+  "summary": "가상 토목 엔지니어링 브랜드 「한빛토목이앤씨」로 제작한 국가 기반 인프라 토목 전문 웹사이트 샘플입니다. 인천해상 사장교·대심도 광역철도 NATM 터널·산악 6차선 고속도로 등 4대 완공 갤러리, 이동식 비계(MSS) 및 캔틸레버(FCM) 교량 특화 가설 공법 아카이브, 구간 연장(km)별 공사비 & 공기 간이 계산기(예시), 그리고 SampleNotice 연동 공공·민자 인프라 사업 기술 협력 및 견적 의뢰 모달을 담았습니다.",
+  "features": [
+    "서해 해상 사장교·도심 대심도 철도 터널·산악 고속도로 4대 메가 인프라 완공 갤러리",
+    "이동식 비계공법(MSS) 및 캔틸레버(FCM) 장대교량 가설 기술 아카이브",
+    "드론 3D 라이다 지형 측량 및 디지털 트윈 토목 안전 관제 쇼케이스",
+    "인프라 공종별(교량·터널·도로) 연장(km) 기반 공사비 & 공기 간이 시뮬레이터(예시)",
+    "SampleNotice 연동 인프라 개발 민관협력 및 턴키 시공 견적 의뢰 신청 모달"
+  ],
+  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript", "Mega Infrastructure Showcase", "Civil Cost Estimator"],
+  "liveUrl": "/demo/hanbit-civil",
+  "createdAt": "2026-09-18"
+}
