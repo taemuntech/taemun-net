@@ -430,10 +430,18 @@ export default function AdminView(props: AdminViewProps) {
               <h1 className="truncate text-base font-bold text-white">작업물 공개 관리</h1>
               <p className="truncate text-[11px] text-gray-500">{actor} 로 로그인 · 작업물 {items.length}개</p>
             </div>
-            <Chip tone="ghost" onClick={logout} aria-label="로그아웃">
-              <LogOut className="h-4 w-4" aria-hidden="true" />
-              <span>로그아웃</span>
-            </Chip>
+            <div className="flex shrink-0 items-center gap-1.5">
+              <a
+                href="/admin/inquiries"
+                className="inline-flex items-center gap-1 rounded-lg border border-white/15 px-2.5 py-1.5 text-xs font-bold text-white hover:bg-white/5"
+              >
+                견적 문의
+              </a>
+              <Chip tone="ghost" onClick={logout} aria-label="로그아웃">
+                <LogOut className="h-4 w-4" aria-hidden="true" />
+                <span>로그아웃</span>
+              </Chip>
+            </div>
           </div>
 
           {/* 경고 배지 — 저장이 안 되는 상태를 조용히 넘기지 않는다 */}
