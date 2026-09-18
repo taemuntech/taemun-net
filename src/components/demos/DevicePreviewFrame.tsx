@@ -7,24 +7,16 @@ import {
   Monitor,
   Tablet,
   Smartphone,
-  RotateCcw,
-  RotateCw,
-  Maximize2,
-  Minimize2,
   ExternalLink,
   Code2,
-  Play,
   Send,
   Palette,
   ArrowLeft,
-  Check,
-  Copy,
   Layers,
   Info,
 } from "lucide-react";
 
 export type DeviceMode = "desktop" | "tablet" | "mobile";
-export type Orientation = "portrait" | "landscape";
 export type ActiveTab = "preview" | "code";
 
 interface DevicePreviewFrameProps {
@@ -43,6 +35,11 @@ interface DevicePreviewFrameProps {
   };
 }
 
+/** 폰에서 「PC 화면」을 누르면 데모를 이 폭으로 그린 뒤 화면 폭에 맞춰 줄인다 */
+const PC_VIEW_WIDTH = 1440;
+/** 이 저장소의 웹/모바일 경계(lg). 이 폭 이상이면 데스크톱 툴바, 미만이면 모바일 툴바 */
+const LG_QUERY = "(min-width: 1024px)";
+
 /**
  * 카테고리 텍스트와 데모 URL로부터 메인 갤러리의 정확한 복귀 앵커를 산출합니다.
  */
@@ -56,13 +53,28 @@ function resolveCategoryAnchor(categoryText: string, srcUrl: string): { category
   else if (categoryText.includes("제조") || categoryText.includes("소재") || categoryText.includes("공정") || categoryText.includes("스마트팩토리") || categoryText.includes("반도체")) categoryId = "manufacturing";
   else if (categoryText.includes("커머스") || categoryText.includes("쇼핑몰") || categoryText.includes("패션") || categoryText.includes("식품") || categoryText.includes("뷰티") || categoryText.includes("명품")) categoryId = "commerce";
   else if (categoryText.includes("SaaS") || categoryText.includes("플랫폼") || categoryText.includes("서약") || categoryText.includes("전자서명")) categoryId = "saas";
-  else if (categoryText.includes("메디컬") || categoryText.includes("병원") || categoryText.includes("의료") || categoryText.includes("클리닉")) categoryId = "medical";
+  else if (categoryText.includes("메디컬") || categoryText.includes("병원") || categoryText.includes("의료") || categoryText.includes("클리닉") || categoryText.includes("병의원")) categoryId = "medical";
   else if (categoryText.includes("기업") || categoryText.includes("스타트업") || categoryText.includes("플래그십")) categoryId = "corporate";
   else if (categoryText.includes("교육") || categoryText.includes("학원") || categoryText.includes("아카데미")) categoryId = "education";
 
   return { categoryId, projectId };
 }
 
+/**
+ * 모든 데모를 감싸는 태문 툴바 + 미리보기 틀.
+ *
+ * ── 툴바 규칙 (2026-09-18 형 지시 · 전 데모 공통) ──
+ * 폰(lg 미만)   [←]  ……  [🖥 PC 화면 ⇄ 📱 모바일]  [제작 의뢰 →]
+ * 데스크톱      [← 메인 갤러리] [Preview | Code Spec]  [PC · 태블릿 · 모바일]  [↗ 새 창] [이 사이트처럼 맞춤 제작 의뢰]
+ *
+ * 뺀 것과 이유 — 새로고침(브라우저에 있다) · 전체화면(「새 창」과 같은 일) · 회전(쓰는 사람이 거의 없다) ·
+ * 경로 표시 /demo/…(개발자용 정보). 예전엔 폰에서 기기 전환 3개·회전·새로고침이 자리를 먹어
+ * **「제작 의뢰」 버튼이 화면 밖으로 밀려나** 보이지 않았다 — 이 툴바에서 매출로 이어지는 유일한 버튼이다.
+ *
+ * 폰의 「PC 화면」 — 예전 「PC」 버튼은 폭 100% 였는데 폰에선 100% = 375px 라 데모가 **그냥 모바일 화면을
+ * 그렸다**(누른 사람은 「똑같네?」). 지금은 데모를 실제로 1440px 로 그린 뒤 폰 폭에 맞춰 줄인다 —
+ * 진짜 PC 레이아웃의 축소판이고, 두 손가락으로 확대해 볼 수 있다. 폰에서 태블릿 보기는 뺐다.
+ */
 export default function DevicePreviewFrame({
   src,
   title,
@@ -70,19 +82,17 @@ export default function DevicePreviewFrame({
   client,
   techStack,
   inquiryUrl,
-  externalUrl,
   specs = [],
-  codeArchitecture,
 }: DevicePreviewFrameProps) {
   const router = useRouter();
   const [device, setDevice] = useState<DeviceMode>("desktop");
-  const [orientation, setOrientation] = useState<Orientation>("portrait");
   const [activeTab, setActiveTab] = useState<ActiveTab>("preview");
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [refreshKey, setRefreshKey] = useState(0);
-  const [copied, setCopied] = useState(false);
   const [backHref, setBackHref] = useState<string>("/#gallery");
-  const containerRef = useRef<HTMLDivElement>(null);
+  /** 폰에서만 쓰는 「PC 화면으로 보기」 */
+  const [mobilePcView, setMobilePcView] = useState(false);
+  const canvasRef = useRef<HTMLElement>(null);
+  const [canvas, setCanvas] = useState({ w: 0, h: 0 });
+  const pureUrl = src.replace("?embed=true", "");
 
   // 메인 갤러리 복귀 앵커 설정 (URL searchParams 우선, 없으면 category 및 slug 매핑)
   useEffect(() => {
@@ -105,228 +115,158 @@ export default function DevicePreviewFrame({
     }
   }, [category, src]);
 
+  // 폭이 lg 경계를 넘나들면 서로의 상태를 풀어 준다 — 데스크톱에서 고른 「태블릿」이 폰으로 넘어와
+  // 768px 고정 틀로 화면 밖에 잘리거나, 폰의 「PC 화면」 축소판이 데스크톱에 남지 않게.
+  useEffect(() => {
+    const mq = window.matchMedia(LG_QUERY);
+    const onChange = () => {
+      if (mq.matches) setMobilePcView(false);
+      else setDevice("desktop");
+    };
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  // 「PC 화면」 축소 비율을 정하려고 미리보기 영역 크기를 잰다
+  useEffect(() => {
+    const el = canvasRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect;
+      setCanvas({ w: width, h: height });
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [activeTab]);
+
   const handleBackToGallery = (e: React.MouseEvent) => {
     e.preventDefault();
     router.push(backHref);
   };
 
-  // Toggle fullscreen mode
-  const toggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      containerRef.current?.requestFullscreen().catch(() => {});
-      setIsFullscreen(true);
-    } else {
-      document.exitFullscreen().catch(() => {});
-      setIsFullscreen(false);
-    }
-  };
+  // Dimensions based on device (데스크톱에서 고르는 틀)
+  const dims =
+    device === "tablet"
+      ? { width: "768px", height: "1024px" }
+      : device === "mobile"
+        ? { width: "390px", height: "844px" }
+        : { width: "100%", height: "100%" };
 
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
-    };
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
-    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
-  }, []);
+  const pcScale = canvas.w > 0 ? Math.min(1, canvas.w / PC_VIEW_WIDTH) : 1;
 
-  // Rotate orientation (only applicable to mobile and tablet)
-  const toggleOrientation = () => {
-    setOrientation((prev) => (prev === "portrait" ? "landscape" : "portrait"));
-  };
-
-  // Switch device helper
-  const handleSelectDevice = (mode: DeviceMode) => {
-    setDevice(mode);
-    // Reset to portrait when switching to mobile or tablet
-    if (mode === "desktop") {
-      setOrientation("portrait");
-    }
-  };
-
-  // Copy share URL
-  const handleCopyUrl = () => {
-    if (typeof window !== "undefined") {
-      navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
-
-  // Dimensions based on device and orientation
-  const getDeviceDimensions = () => {
-    if (device === "desktop") {
-      return { width: "100%", height: "100%", isFramed: false };
-    }
-    if (device === "tablet") {
-      return orientation === "portrait"
-        ? { width: "768px", height: "1024px", isFramed: true }
-        : { width: "1024px", height: "768px", isFramed: true };
-    }
-    // mobile
-    return orientation === "portrait"
-      ? { width: "390px", height: "844px", isFramed: true }
-      : { width: "844px", height: "390px", isFramed: true };
-  };
-
-  const dims = getDeviceDimensions();
+  const deviceButton = (mode: DeviceMode, label: string, hint: string, Icon: typeof Monitor) => (
+    <button
+      type="button"
+      onClick={() => setDevice(mode)}
+      aria-pressed={device === mode}
+      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+        device === mode ? "bg-white text-zinc-950 shadow-sm font-bold" : "text-zinc-500 hover:text-zinc-800"
+      }`}
+      title={hint}
+    >
+      <Icon className="w-3.5 h-3.5" />
+      <span>{label}</span>
+    </button>
+  );
 
   return (
-    <div
-      ref={containerRef}
-      className="flex flex-col h-screen w-screen bg-[#f3f4f6] text-zinc-900 overflow-hidden font-sans select-none"
-    >
+    <div className="flex flex-col h-screen w-screen bg-[#f3f4f6] text-zinc-900 overflow-hidden font-sans select-none">
       {/* ─────────────────────────────────────────────────────────────
-          1. AI STUDIO STYLE TOP CONTROL TOOLBAR
+          1. 툴바 — 폰과 데스크톱이 서로 다른 한 줄을 쓴다 (규칙은 위 주석)
           ───────────────────────────────────────────────────────────── */}
-      <header className="h-14 bg-white border-b border-zinc-200/90 px-3 lg:px-4 flex items-center justify-between gap-2 lg:gap-4 shrink-0 shadow-sm z-30">
-        
-        {/* Left: Back Link & Tab Pills (Preview / Code) */}
-        <div className="flex items-center gap-2 lg:gap-3 shrink-0">
+      <header className="h-14 bg-white border-b border-zinc-200/90 px-2 lg:px-4 flex items-center justify-between gap-2 lg:gap-4 shrink-0 shadow-sm z-30">
+        {/* 왼쪽: 갤러리로 (폰은 아이콘만) + 데스크톱 전용 Preview/Code Spec */}
+        <div className="flex items-center gap-2 lg:gap-3 min-w-0">
           <Link
             href={backHref}
             onClick={handleBackToGallery}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 transition-colors text-xs font-semibold group"
+            className="flex items-center justify-center gap-1.5 min-h-11 min-w-11 lg:min-w-0 px-2.5 lg:py-1.5 rounded-lg text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 transition-colors text-xs font-semibold group"
             title="메인 갤러리로 돌아가기 (진입했던 카테고리로 복귀)"
+            aria-label="메인 갤러리로 돌아가기"
           >
-            <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+            <ArrowLeft className="w-4 h-4 lg:w-3.5 lg:h-3.5 group-hover:-translate-x-0.5 transition-transform" />
             <span className="hidden lg:inline">메인 갤러리</span>
           </Link>
 
-          <div className="h-4 w-[1px] bg-zinc-200" />
+          <div className="hidden lg:block h-4 w-[1px] bg-zinc-200" />
 
-          {/* AI Studio Tabs: Preview / Code */}
-          <div className="flex items-center bg-zinc-100 p-0.5 rounded-lg border border-zinc-200">
+          <div className="hidden lg:flex items-center bg-zinc-100 p-0.5 rounded-lg border border-zinc-200">
             <button
+              type="button"
               onClick={() => setActiveTab("preview")}
+              aria-pressed={activeTab === "preview"}
               className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold transition-all ${
-                activeTab === "preview"
-                  ? "bg-white text-zinc-900 shadow-sm"
-                  : "text-zinc-500 hover:text-zinc-800"
+                activeTab === "preview" ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-500 hover:text-zinc-800"
               }`}
             >
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Preview</span>
             </button>
             <button
+              type="button"
               onClick={() => setActiveTab("code")}
+              aria-pressed={activeTab === "code"}
               className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold transition-all ${
-                activeTab === "code"
-                  ? "bg-white text-zinc-900 shadow-sm"
-                  : "text-zinc-500 hover:text-zinc-800"
+                activeTab === "code" ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-500 hover:text-zinc-800"
               }`}
             >
               <Code2 className="w-3.5 h-3.5 text-indigo-600" />
               <span>Code Spec</span>
             </button>
           </div>
-
-          {/* Route address bar pill */}
-          <div className="hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-lg bg-zinc-50 border border-zinc-200 text-xs font-mono text-zinc-600">
-            <span className="text-zinc-400">/</span>
-            <span className="font-semibold text-zinc-800">{src.replace("?embed=true", "")}</span>
-          </div>
         </div>
 
-        {/* Center: Device Switcher Buttons (PC / Tablet / Mobile) */}
-        <div className="flex items-center justify-center gap-1 bg-zinc-100 p-0.5 rounded-xl border border-zinc-200">
-          <button
-            onClick={() => handleSelectDevice("desktop")}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              device === "desktop"
-                ? "bg-white text-zinc-950 shadow-sm font-bold"
-                : "text-zinc-500 hover:text-zinc-800"
-            }`}
-            title="PC 데스크톱 보기 (100%)"
-          >
-            <Monitor className="w-3.5 h-3.5" />
-            <span className="hidden lg:inline">PC</span>
-          </button>
-
-          <button
-            onClick={() => handleSelectDevice("tablet")}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              device === "tablet"
-                ? "bg-white text-zinc-950 shadow-sm font-bold"
-                : "text-zinc-500 hover:text-zinc-800"
-            }`}
-            title="태블릿 아이패드 보기 (768 × 1024)"
-          >
-            <Tablet className="w-3.5 h-3.5" />
-            <span className="hidden lg:inline">태블릿</span>
-          </button>
-
-          <button
-            onClick={() => handleSelectDevice("mobile")}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              device === "mobile"
-                ? "bg-white text-zinc-950 shadow-sm font-bold"
-                : "text-zinc-500 hover:text-zinc-800"
-            }`}
-            title="모바일 스마트폰 보기 (390 × 844)"
-          >
-            <Smartphone className="w-3.5 h-3.5" />
-            <span className="hidden lg:inline">모바일</span>
-          </button>
+        {/* 가운데: 데스크톱 전용 기기 전환 — 영업 상대가 노트북에서 「모바일에선 이렇게」를 한 번에 본다 */}
+        <div className="hidden lg:flex items-center justify-center gap-1 bg-zinc-100 p-0.5 rounded-xl border border-zinc-200">
+          {deviceButton("desktop", "PC", "PC 데스크톱 보기", Monitor)}
+          {deviceButton("tablet", "태블릿", "태블릿 보기 (768 × 1024)", Tablet)}
+          {deviceButton("mobile", "모바일", "모바일 보기 (390 × 844)", Smartphone)}
         </div>
 
-        {/* Right: Rotate, Refresh, Fullscreen, Inquiry Button */}
+        {/* 오른쪽 */}
         <div className="flex items-center gap-1.5 lg:gap-2 shrink-0">
-          {/* Rotate Button (Available for Mobile and Tablet) */}
-          {device !== "desktop" && (
-            <button
-              onClick={toggleOrientation}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-700 hover:text-zinc-950 text-xs font-semibold border border-zinc-200 transition-all"
-              title={`화면 회전 (${orientation === "portrait" ? "가로 모드로 회전" : "세로 모드로 회전"})`}
-            >
-              <RotateCcw className="w-3.5 h-3.5 text-zinc-700 transition-transform active:rotate-180" />
-              <span className="hidden lg:inline">
-                {orientation === "portrait" ? "가로 회전" : "세로 회전"}
-              </span>
-            </button>
-          )}
-
-          {/* Refresh Button */}
+          {/* 폰 전용: PC 화면 ⇄ 모바일 */}
           <button
-            onClick={() => setRefreshKey((k) => k + 1)}
-            className="p-2 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-600 hover:text-zinc-950 transition-colors"
-            title="데모 화면 새로고침"
-            aria-label="데모 화면 새로고침"
+            type="button"
+            onClick={() => setMobilePcView((v) => !v)}
+            aria-pressed={mobilePcView}
+            className="lg:hidden flex items-center justify-center gap-1.5 min-h-11 px-3 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-bold border border-zinc-200 transition-colors"
+            title={mobilePcView ? "모바일 화면으로 돌아가기" : "PC 화면으로 보기 (축소판 · 두 손가락으로 확대)"}
           >
-            <RotateCw className="w-3.5 h-3.5" />
-          </button>
-
-          {/* Fullscreen Button */}
-          <button
-            onClick={toggleFullscreen}
-            className="hidden lg:flex p-2 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-600 hover:text-zinc-950 transition-colors"
-            title={isFullscreen ? "전체화면 닫기" : "전체화면으로 보기"}
-            aria-label="전체화면 전환"
-          >
-            {isFullscreen ? (
-              <Minimize2 className="w-3.5 h-3.5" />
+            {mobilePcView ? (
+              <>
+                <Smartphone className="w-4 h-4" />
+                <span>모바일</span>
+              </>
             ) : (
-              <Maximize2 className="w-3.5 h-3.5" />
+              <>
+                <Monitor className="w-4 h-4" />
+                <span>PC 화면</span>
+              </>
             )}
           </button>
 
-          {/* Open in pure window */}
+          {/* 데스크톱 전용: 틀 없이 새 창 */}
           <a
-            href={src.replace("?embed=true", "")}
+            href={pureUrl}
             target="_blank"
             rel="noreferrer"
-            className="hidden lg:flex p-2 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-600 hover:text-zinc-950 transition-colors"
-            title="새 탭에서 실물 사이트 열기"
+            className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-700 hover:text-zinc-950 text-xs font-semibold transition-colors"
+            title="틀 없이 새 창에서 보기"
           >
             <ExternalLink className="w-3.5 h-3.5" />
+            <span>새 창</span>
           </a>
 
-          {/* Inquiry / Custom build request Button */}
+          {/* 제작 의뢰 — 이 툴바에서 매출로 이어지는 유일한 버튼이라 폰에서도 반드시 보인다 */}
           <Link
             href={inquiryUrl}
-            className="flex items-center gap-1.5 px-3 lg:px-4 py-1.5 rounded-lg bg-zinc-950 hover:bg-black text-white text-xs font-bold transition-all shadow-sm group"
+            className="flex items-center justify-center gap-1.5 min-h-11 lg:min-h-0 px-3 lg:px-4 lg:py-1.5 rounded-lg bg-zinc-950 hover:bg-black text-white text-xs font-bold transition-all shadow-sm group whitespace-nowrap"
           >
             <Send className="w-3.5 h-3.5 text-cyan-400 group-hover:translate-x-0.5 transition-transform" />
-            <span>이 사이트처럼 맞춤 제작 의뢰</span>
+            <span className="lg:hidden">제작 의뢰</span>
+            <span className="hidden lg:inline">이 사이트처럼 맞춤 제작 의뢰</span>
           </Link>
         </div>
       </header>
@@ -335,74 +275,70 @@ export default function DevicePreviewFrame({
           2. PREVIEW CANVAS OR CODE ARCHITECTURE TAB
           ───────────────────────────────────────────────────────────── */}
       {activeTab === "preview" ? (
-        <main className="flex-1 bg-[#e5e7eb] relative flex items-center justify-center overflow-auto p-0 lg:p-6">
+        <main
+          ref={canvasRef}
+          className="flex-1 bg-[#e5e7eb] relative flex items-center justify-center overflow-auto p-0 lg:p-6"
+        >
           {/* Subtle Canvas Dot Grid for Design Workbench Feel */}
           <div
             className="absolute inset-0 pointer-events-none opacity-[0.04] bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:20px_20px]"
             aria-hidden="true"
           />
 
-          {/* Desktop Full View */}
-          {device === "desktop" ? (
-            <div className="w-full h-full bg-white shadow-none">
+          {mobilePcView ? (
+            /* 폰의 「PC 화면」 — 데모를 실제 1440px 로 그리고 폰 폭에 맞춰 줄인다(데모는 1440px 화면이라고 믿고 PC 레이아웃을 그린다) */
+            <div className="absolute inset-0 overflow-hidden bg-white">
               <iframe
-                key={refreshKey}
                 src={src}
-                title={title}
-                className="w-full h-full border-0 bg-white"
+                title={`${title} — PC 화면`}
+                className="border-0 bg-white"
+                style={{
+                  width: PC_VIEW_WIDTH,
+                  height: pcScale > 0 ? canvas.h / pcScale : "100%",
+                  transform: `scale(${pcScale})`,
+                  transformOrigin: "top left",
+                }}
               />
             </div>
+          ) : device === "desktop" ? (
+            <div className="w-full h-full bg-white shadow-none">
+              <iframe src={src} title={title} className="w-full h-full border-0 bg-white" />
+            </div>
           ) : (
-            /* Framed Mobile / Tablet View with Realistic Hardware Bezel */
+            /* Framed Mobile / Tablet View with Realistic Hardware Bezel (데스크톱에서만) */
             <div className="flex flex-col items-center justify-center transition-all duration-300">
-              
-              {/* Responsive Size Meta Indicator */}
               <div className="mb-2 text-[11px] font-mono text-zinc-500 flex items-center gap-2">
                 <span className="font-bold text-zinc-800 uppercase">
-                  {device === "mobile" ? "iPhone Viewport" : "iPad Viewport"}
+                  {device === "mobile" ? "Mobile Viewport" : "Tablet Viewport"}
                 </span>
                 <span>•</span>
                 <span>
-                  {dims.width} × {dims.height} ({orientation})
+                  {dims.width} × {dims.height}
                 </span>
               </div>
 
-              {/* Hardware Device Shell */}
               <div
                 style={{ width: dims.width, height: dims.height }}
-                className={`relative bg-[#090a0f] p-3 shadow-2xl transition-all duration-300 border border-zinc-800/80 flex flex-col justify-between ${
-                  device === "mobile"
-                    ? orientation === "portrait"
-                      ? "rounded-[48px] ring-1 ring-zinc-700/50"
-                      : "rounded-[38px] ring-1 ring-zinc-700/50"
-                    : "rounded-[36px] ring-1 ring-zinc-700/50"
+                className={`relative bg-[#090a0f] p-3 shadow-2xl transition-all duration-300 border border-zinc-800/80 flex flex-col justify-between ring-1 ring-zinc-700/50 ${
+                  device === "mobile" ? "rounded-[48px]" : "rounded-[36px]"
                 }`}
               >
-                {/* Dynamic Island / Speaker Notch (Mobile Portrait) */}
-                {device === "mobile" && orientation === "portrait" && (
+                {device === "mobile" && (
                   <div className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-4 bg-black rounded-full z-20 flex items-center justify-center">
                     <div className="w-2.5 h-2.5 rounded-full bg-zinc-900 border border-zinc-800 mr-2" />
                     <div className="w-10 h-1 bg-zinc-900 rounded-full" />
                   </div>
                 )}
 
-                {/* Tablet Camera Dot */}
                 {device === "tablet" && (
                   <div className="absolute top-2 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-zinc-800 z-20" />
                 )}
 
-                {/* Inner Screen Display (iframe) */}
                 <div className="w-full h-full rounded-[30px] overflow-hidden bg-white relative">
-                  <iframe
-                    key={refreshKey}
-                    src={src}
-                    title={title}
-                    className="w-full h-full border-0 bg-white"
-                  />
+                  <iframe src={src} title={title} className="w-full h-full border-0 bg-white" />
                 </div>
 
-                {/* Home Indicator Bar (Mobile Portrait) */}
-                {device === "mobile" && orientation === "portrait" && (
+                {device === "mobile" && (
                   <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-28 h-1 bg-white/40 rounded-full z-20" />
                 )}
               </div>

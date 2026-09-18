@@ -93,6 +93,20 @@ import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 - 검사가 강제합니다 — 가상 브랜드에 없으면 ERROR, 제안 시안에 있으면 ERROR.
 - 「문의·신청은 접수되지 않습니다」는 여기 넣지 않습니다. 그건 **폼마다 제출 버튼 위**에 따로 붙습니다(§0-5).
 
+### 10) 모든 데모는 태문 툴바(`DevicePreviewFrame`)로 감쌉니다
+`<Slug>PageClient.tsx` 를 이 모양으로 — 본보기는 `src/app/(demos)/demo/nexus-robotics/NexusRoboticsPageClient.tsx`.
+
+```tsx
+if (isEmbed) return <SlugApp isEmbed={true} />;   // 툴바 안쪽 iframe 이 여는 주소
+return <DevicePreviewFrame src="/demo/<slug>?embed=true" title=… category=… client=… techStack=… inquiryUrl="/inquiry?from=<slug>" />;
+```
+
+툴바는 한 파일이라 **전 데모가 같은 모양**입니다. 직접 만들지 마세요.
+- **폰**: `[←]  [PC 화면 ⇄ 모바일]  [제작 의뢰]` — 세 개뿐입니다. 「PC 화면」은 데모를 실제 1440px 로 그린 뒤 폰 폭에 맞춰 줄여 보여 줍니다(두 손가락으로 확대).
+- **데스크톱**: `[← 메인 갤러리] [Preview | Code Spec]  [PC · 태블릿 · 모바일]  [새 창] [이 사이트처럼 맞춤 제작 의뢰]`
+- 새로고침·전체화면·회전·경로 표시는 뺐습니다. 예전엔 폰에서 그 버튼들이 자리를 먹어 **「제작 의뢰」가 화면 밖으로 밀려나** 안 보였어요.
+- 툴바가 없으면 그 데모에는 「메인 갤러리로」·「제작 의뢰」 길이 없어집니다 — 검사가 ERROR 로 막습니다(의료 6종이 그 상태였습니다).
+
 ### 올리기 전 한 줄
 ```bash
 node scripts/audit-portfolio.mjs     # ERROR 0 이어야 합니다 (위 3·4·5·6 을 기계가 봅니다)

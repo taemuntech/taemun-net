@@ -1402,6 +1402,23 @@ for (const s of sampleSources) {
     }
   }
 
+  // ── 모든 데모는 태문 툴바(DevicePreviewFrame)로 감싼다 ──
+  // 2026-09-18 형 지시: 의료 6종이 툴바 없이 화면만 그려 「메인 갤러리로」·「제작 의뢰」 버튼이 아예 없었다.
+  // 툴바가 곧 영업 동선(돌아가기 · PC/모바일 비교 · 제작 의뢰)이라 빠지면 그 데모에서 문의로 이어질 길이 없다.
+  // 라우트 폴더(page.tsx · <Slug>PageClient.tsx)에서 ?embed=true 가 아닐 때 <DevicePreviewFrame> 을 그려야 한다.
+  {
+    const routeFiles = [...walkSources(s.dir)];
+    const framed = routeFiles.some((f) => /<DevicePreviewFrame\b/.test(stripComments(fs.readFileSync(f, "utf8"))));
+    if (!framed) {
+      const key = rel(s.dir);
+      keySlug.set(key, s.slug);
+      error(
+        key,
+        "태문 툴바 <DevicePreviewFrame> 이 없습니다 — <Slug>PageClient 에서 isEmbed 면 화면을 그대로, 아니면 <DevicePreviewFrame src=\"/demo/<slug>?embed=true\" …/> 로 감싸세요(본보기: src/app/(demos)/demo/nexus-robotics/NexusRoboticsPageClient.tsx)",
+      );
+    }
+  }
+
   // ── 저장한 이미지가 실제로 쓸 만한 크기인가 ──
   // 왜 보는가: 2026-09-17 에 데모 이미지 227장을 저장소로 가져오면서 lh3 CDN 의 **기본 주소**를 썼는데
   // 그건 미리보기용 512px 판이었다(원본은 =s0 을 붙이면 1376px). 히어로가 1400px 자리에 늘어나 뿌옇게
