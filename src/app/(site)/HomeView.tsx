@@ -536,7 +536,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
             <div className="pt-6 border-t border-white/15 flex flex-wrap items-center gap-4 text-xs font-mono text-zinc-300">
               <div className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                <span>100% 직영 개발</span>
+                <span>총괄 아키텍트 전담 설계</span>
               </div>
               <span className="text-zinc-600">•</span>
               <div className="flex items-center gap-1.5">
@@ -910,11 +910,15 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
           <span className="text-xs uppercase tracking-[0.25em] font-semibold text-zinc-400 block mb-2 font-mono">
             THE TAEMUN WAY
           </span>
+          {/* 문구 기준(2026-09-19 형 결정 — 협력 파트너 참여 허용 B안, 계약서 샘플 법률 위험 검토):
+              퍼센트로 단정하는 말, 결함이 없다고 장담하는 말, 파트너 없이 전부 직접 한다는 말처럼 증명할 수 없거나
+              파트너와 일하는 순간 거짓이 되는 말은 쓰지 않는다. 약속은 계약서 특약과 같은 내용만 —
+              설계·최종 검수는 총괄 아키텍트가 직접, 파트너 작업도 태문 책임. */}
           <h2 className="text-2xl lg:text-4xl font-light text-zinc-950 tracking-tight">
-            실패 없는 개발을 위한 <span className="font-serif italic text-zinc-800 font-normal">4단계 직영 파이프라인</span>
+            끝까지 책임지는 개발을 위한 <span className="font-serif italic text-zinc-800 font-normal">4단계 파이프라인</span>
           </h2>
           <p className="text-zinc-500 text-xs lg:text-sm mt-2 font-light">
-            하청 없는 총괄 아키텍트 직영 책임 감리로 기획 오류와 소통 부재를 원천 차단합니다.
+            설계와 최종 검수는 총괄 아키텍트가 직접 맡습니다. 전문 파트너가 참여하면 미리 알려 드리고, 그 작업까지 태문이 똑같이 책임집니다.
           </p>
         </div>
 
@@ -929,9 +933,9 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
 
           <div className="p-6 lg:p-7 rounded-2xl bg-zinc-50 border border-zinc-200 space-y-3">
             <span className="text-amber-800 font-mono text-xs font-bold block">STEP 02</span>
-            <h4 className="text-base font-bold text-zinc-950">7일 실물 프로토타입</h4>
+            <h4 className="text-base font-bold text-zinc-950">실물 프로토타입</h4>
             <p className="text-xs text-zinc-600 font-light leading-relaxed">
-              그림이나 PPT 기획서가 아닌, 실제 브라우저에서 버튼이 눌리고 모달이 열리는 100% 실물 데모 사이트를 단 7일 만에 시연합니다.
+              그림이나 PPT 기획서가 아닌, 실제 브라우저에서 버튼이 눌리고 모달이 열리는 시연 화면을 먼저 만들어 보여 드립니다.
             </p>
           </div>
 
@@ -939,15 +943,15 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
             <span className="text-amber-800 font-mono text-xs font-bold block">STEP 03</span>
             <h4 className="text-base font-bold text-zinc-950">풀스택 장인 시공</h4>
             <p className="text-xs text-zinc-600 font-light leading-relaxed">
-              Next.js 16, TypeScript, Tailwind v4, Supabase RLS 등 최고 수준의 기술 스택으로 한 땀 한 땀 결점 없이 견고하게 코딩합니다.
+              Next.js 16, TypeScript, Tailwind v4, Supabase RLS 등 최신 기술 스택으로 한 땀 한 땀 견고하게 만들고, 총괄 아키텍트가 직접 검수합니다.
             </p>
           </div>
 
           <div className="p-6 lg:p-7 rounded-2xl bg-zinc-50 border border-zinc-200 space-y-3">
             <span className="text-amber-800 font-mono text-xs font-bold block">STEP 04</span>
-            <h4 className="text-base font-bold text-zinc-950">소스 완전 이전 &amp; 케어</h4>
+            <h4 className="text-base font-bold text-zinc-950">소스 이전 &amp; 케어</h4>
             <p className="text-xs text-zinc-600 font-light leading-relaxed">
-              개발된 모든 소스코드와 지식재산권을 100% 완전 이전하며, 런칭 후 안정적 운영을 위한 전담 무상 하자보증을 약속합니다.
+              잔금을 받으면 이번 프로젝트를 위해 새로 만든 소스코드와 권리를 넘겨 드리고, 오픈 후 1년 동안 계약서에 적은 기능의 결함은 무상으로 고쳐 드립니다.
             </p>
           </div>
         </div>

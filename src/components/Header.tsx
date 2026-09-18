@@ -265,7 +265,7 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
           </a>
 
           <a href="#process" className="hover:text-zinc-950 transition-colors py-1">
-            직영 프로세스
+            개발 프로세스
           </a>
 
           {/* Unified Portfolio & Solutions Dropdown */}
@@ -407,7 +407,7 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
                 onClick={() => setMobileMenuOpen(false)}
                 className="block text-lg font-bold text-zinc-900 hover:text-amber-700 transition-colors py-1"
               >
-                직영 프로세스 (Process)
+                개발 프로세스 (Process)
               </a>
             </div>
 
@@ -416,7 +416,7 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
                 이 구획이 빈 채로 뜨지는 않는다. */}
             <div>
               <div className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-3">
-                직영 운영 솔루션 &amp; 라이브 데모
+                운영 솔루션 &amp; 라이브 데모
               </div>
               <div className="space-y-2">
                 {demoLinks.map((link) => {
