@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 
 interface HeroProps {
   onScrollToProjects: () => void;
@@ -12,14 +13,13 @@ export default function Hero({ onScrollToProjects, onOpenConsultation }: HeroPro
     <section className="relative min-h-[85vh] w-full overflow-hidden bg-stone-950 text-white">
       {/* 배경 메인 화보 */}
       <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster="/portfolio/arche-house/desktop.png"
-          src="/portfolio/arche-house/arche-house-loop.mp4"
-          className="h-full w-full object-cover object-center opacity-75"
+        <Image
+          src="/portfolio/arche-house/desktop.png"
+          alt="아르케 건축사사무소 판교 모던 중정 단독주택"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center opacity-75"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/30 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-r from-stone-950/70 via-transparent to-stone-950/40" />
