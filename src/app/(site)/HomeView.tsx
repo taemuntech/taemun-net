@@ -105,6 +105,16 @@ function WorkMark({ project, className = "" }: { project: GalleryProject; classN
 }
 
 /**
+ * 카드·모달의 제작 기간 표기. 샘플은 그 기간에 만든 게 아니라 **「이런 사이트를 맡기면 걸리는 예상 기간」**이라
+ * 「예상 … ~」로 붙인다(2026-09-18 형 결정 — 전에는 「제작 2주」로 실적처럼 적혀 있었다). 그러니 galleryData 의
+ * period 에는 형이 실제로 납품할 수 있는 기간만 적는다. 운영 중인 서비스(externalUrl)는 실제로 걸린 기간이라 그대로.
+ */
+function periodLabel(project: GalleryProject, long = false): string {
+  if (project.externalUrl) return `${long ? "제작 기간: " : "제작 "}${project.period}`;
+  return `${long ? "예상 제작 기간: " : "예상 제작 "}${project.period}~`;
+}
+
+/**
  * 상세 모달의 대표 화면 — 사진을 먼저 깔고, 미리보기 영상(previewVideoUrl)이 있으면 **재생이 시작된 뒤에**
  * 그 위로 서서히 겹친다.
  *
@@ -584,9 +594,9 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                             </span>
                           )}
                         </div>
-                        {/* 제작 기간은 사실이고 이 회사의 핵심 세일즈 포인트라 흐릿하게 두지 않는다 */}
+                        {/* 예상 제작 기간은 이 회사의 핵심 세일즈 포인트라 흐릿하게 두지 않는다 — 문구는 periodLabel 한 곳 */}
                         <span className="text-[10px] text-zinc-700 font-mono font-bold shrink-0">
-                          제작 {project.period}
+                          {periodLabel(project)}
                         </span>
                       </div>
                     </div>
@@ -952,7 +962,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                 </div>
                 <div className="text-xs text-zinc-500 font-mono flex items-center gap-1">
                   <Clock className="w-3.5 h-3.5" />
-                  <span>제작 기간: {selectedProject.period}</span>
+                  <span>{periodLabel(selectedProject, true)}</span>
                 </div>
               </div>
             </div>

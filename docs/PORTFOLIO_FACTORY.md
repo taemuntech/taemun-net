@@ -128,6 +128,15 @@ return <DevicePreviewFrame src="/demo/<slug>?embed=true" title=… category=… 
 - 신문·잡지 콘셉트도 이 폭 안에서 충분히 나옵니다(실제 신문 사이트도 본문은 1200~1300px 에서 끊습니다).
 - 측정 도구가 데스크톱 화면에서 본문 폭을 재서 1280 을 넘으면 `⚠️넓음` 으로 알려 줍니다: `node scripts/qa-demos.mjs --base <주소> --only <slug>`
 
+### 12) 기술 스택엔 실제로 쓴 기술만, 제작 기간은 「예상」
+- `techStack`(갤러리·카드 JSON·툴바 세 곳)은 **「적용 기술 스택 & 라이브러리」** 로 찍힙니다. `Next.js 16` · `React 19` ·
+  `Tailwind CSS v4` · `TypeScript`, 그리고 **그 데모 소스에서 실제로 쓴** 브라우저 API·라이브러리(`Web Audio API`·`SVG` 등)만.
+  「Digital Twin HUD」 같은 **기능 이름은 적지 않습니다** — features·highlights 에 적으세요. 검사가 ERROR 로 막고,
+  `node scripts/audit-portfolio.mjs --fix-tech-stack` 이 걸린 태그를 지워 줍니다.
+- 갤러리 `period` 는 화면에 **「예상 제작 2주~」** 로 붙습니다 — 샘플을 그 기간에 만들었다는 뜻이 아니라 **이런 사이트를
+  맡기면 걸리는 기간**이라는 손님과의 약속이에요. 형이 실제로 납품할 수 있는 기간만 적습니다(모르면 비슷한 샘플 값을 따르기).
+- 데모도 외부 링크도 없는 갤러리 카드는 **홈에 안 뜹니다** — 볼 것 없는 카드를 걸면 만든 적 없는 작품을 내건 게 됩니다.
+
 ### 올리기 전 한 줄
 ```bash
 node scripts/audit-portfolio.mjs     # ERROR 0 이어야 합니다 (위 3·4·5·6 을 기계가 봅니다)
