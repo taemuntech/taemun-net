@@ -43,11 +43,18 @@ export const HeroSpotlight: React.FC<HeroSpotlightProps> = ({
           <div className="lg:col-span-7 relative">
             <div className="relative rounded-3xl overflow-hidden dew-glass-tier2 p-2 lg:p-3 shadow-xl border border-white">
               <div className="relative w-full aspect-[4/3] lg:aspect-[16/11] rounded-2xl overflow-hidden bg-[#f1f3ff]">
-                <img
-                  src={HERO_PRODUCT.imageUrl}
-                  alt={HERO_PRODUCT.imageAlt}
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  controlsList="nodownload noplaybackrate"
+                  disablePictureInPicture
+                  onContextMenu={(e) => e.preventDefault()}
+                  poster={HERO_PRODUCT.imageUrl}
                   className="w-full h-full object-cover transform hover:scale-102 transition-transform duration-700"
-                referrerPolicy="no-referrer" />
+                  src="/portfolio/luminous-lab/cica-serum-commercial.mp4"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent pointer-events-none" />
 
                 {/* Floating Clinical Badges on Image */}
