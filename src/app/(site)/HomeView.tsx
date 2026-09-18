@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, type SyntheticEvent } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import FloatingChatWidget from "@/components/FloatingChatWidget";
+import { ProcessSection } from "@/components/inquiry/ProcessSection";
 // ⚠️ **값(GALLERY_PROJECTS·GALLERY_CATEGORIES)을 import 하지 않는다 — 타입만 가져온다.**
 // 이 파일은 'use client' 라, 값을 import 하면 galleryData.ts 가 통째로 클라이언트 청크에 들어간다.
 // 서버가 걸러 렌더해도 청크는 별개라, 실측에서 내려간 시안의 회사 이름·클라이언트 표기·설명·/demo/<slug>
@@ -884,6 +885,8 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
       {/* ─────────────────────────────────────────────────────────────
           5. START A PROJECT (HIGH-END INQUIRY & CONTACT)
           ───────────────────────────────────────────────────────────── */}
+      <ProcessSection />
+
       <section id="contact" className="py-20 lg:py-28 px-4 lg:px-8 max-w-5xl mx-auto text-center relative z-10">
         <div className="bg-zinc-50 p-8 lg:p-14 rounded-3xl border border-zinc-200 shadow-lg relative overflow-hidden">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-200 text-zinc-800 text-xs font-semibold mb-6">
