@@ -733,26 +733,75 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
             <div className="p-5 lg:p-6 space-y-6">
               {/* Image Preview */}
               <div>
-                <div className="aspect-[16/10] rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 relative">
-                  <img
-                    src={selectedProject.thumbnailUrl}
-                    alt={selectedProject.title}
-                    onError={hideBrokenThumbnail}
-                    className="w-full h-full object-cover"
-                  />
-                  {selectedProject.badge && (
-                    <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-white/95 text-xs font-bold text-zinc-900 shadow-md">
-                      {selectedProject.badge}
-                    </span>
-                  )}
-                  {/* 카드와 같은 표를 같은 함수로 — 카드에서 본 것이 모달에서도 그대로 보인다 */}
-                  <WorkMark project={selectedProject} className="absolute top-3 right-3" />
-                </div>
+                {selectedProject.liveDemoUrl ? (
+                  <Link
+                    href={`${selectedProject.liveDemoUrl}${selectedProject.liveDemoUrl.includes('?') ? '&' : '?'}fromCategory=${selectedProject.category}&fromProject=${selectedProject.id}`}
+                    className="block group aspect-[16/10] rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 relative cursor-pointer"
+                    title="반응형 뷰어로 체험 (PC · 태블릿 · 모바일)"
+                  >
+                    <img
+                      src={selectedProject.thumbnailUrl}
+                      alt={selectedProject.title}
+                      onError={hideBrokenThumbnail}
+                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                    />
+                    {selectedProject.badge && (
+                      <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-white/95 text-xs font-bold text-zinc-900 shadow-md">
+                        {selectedProject.badge}
+                      </span>
+                    )}
+                    {/* 카드와 같은 표를 같은 함수로 — 카드에서 본 것이 모달에서도 그대로 보인다 */}
+                    <WorkMark project={selectedProject} className="absolute top-3 right-3" />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors pointer-events-none" />
+                  </Link>
+                ) : selectedProject.externalUrl ? (
+                  <a
+                    href={selectedProject.externalUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block group aspect-[16/10] rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 relative cursor-pointer"
+                    title="실제 운영 사이트 방문하기"
+                  >
+                    <img
+                      src={selectedProject.thumbnailUrl}
+                      alt={selectedProject.title}
+                      onError={hideBrokenThumbnail}
+                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                    />
+                    {selectedProject.badge && (
+                      <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-white/95 text-xs font-bold text-zinc-900 shadow-md">
+                        {selectedProject.badge}
+                      </span>
+                    )}
+                    <WorkMark project={selectedProject} className="absolute top-3 right-3" />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors pointer-events-none" />
+                  </a>
+                ) : (
+                  <div className="aspect-[16/10] rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 relative">
+                    <img
+                      src={selectedProject.thumbnailUrl}
+                      alt={selectedProject.title}
+                      onError={hideBrokenThumbnail}
+                      className="w-full h-full object-cover"
+                    />
+                    {selectedProject.badge && (
+                      <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-white/95 text-xs font-bold text-zinc-900 shadow-md">
+                        {selectedProject.badge}
+                      </span>
+                    )}
+                    <WorkMark project={selectedProject} className="absolute top-3 right-3" />
+                  </div>
+                )}
                 {selectedProject.liveDemoUrl && (
-                  <div className="flex items-center gap-1.5 mt-2.5 text-xs text-zinc-500 font-medium">
+                  <Link
+                    href={`${selectedProject.liveDemoUrl}${selectedProject.liveDemoUrl.includes('?') ? '&' : '?'}fromCategory=${selectedProject.category}&fromProject=${selectedProject.id}`}
+                    className="inline-flex items-center gap-1.5 mt-2.5 text-xs text-zinc-500 hover:text-zinc-900 font-medium transition-colors group cursor-pointer"
+                    title="반응형 뷰어로 체험 (PC · 태블릿 · 모바일)"
+                  >
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                     <span>멀티 디바이스 반응형</span>
-                  </div>
+                    <ArrowRight className="w-3 h-3 text-zinc-400 group-hover:translate-x-0.5 group-hover:text-zinc-900 transition-all" />
+                  </Link>
                 )}
               </div>
 
@@ -810,7 +859,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                   className="flex-1 py-3 px-4 rounded-xl bg-zinc-950 hover:bg-black text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all group break-keep text-center"
                 >
                   <Monitor className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                  <span>반응형 뷰어로 체험 (PC · 태블릿 · 모바일 · 회전)</span>
+                  <span>반응형 뷰어로 체험 (PC · 태블릿 · 모바일)</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform shrink-0" />
                 </Link>
               ) : selectedProject.externalUrl ? (
