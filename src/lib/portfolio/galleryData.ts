@@ -159,7 +159,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'TypeScript', 'Tailwind CSS v4', 'Custom SPC Charts'],
     period: '3주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '12주 시뮬레이션 데이터 기반 실시간 통계 관리도 (Control Chart)',
       '슬리팅 현장 롤 일지 입력 즉시 전역 데이터 실시간 갱신',
@@ -278,7 +277,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Editorial Grid', 'Modal Booking'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '공간 철학 및 4단계 건축 프로세스 인터랙션',
       '고해상도 건축 프로젝트 갤러리 & 동적 필터',
@@ -299,7 +297,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Before & After Slider', '360 VR Tour'],
     period: '2주',
     year: '2025',
-    badge: '실물 라이브 데모',
     highlights: [
       'Before & After 시공 전후 비교 인터랙티브 슬라이더',
       '수입 주방가구 및 조명 스펙 인터랙티브 핀 마킹',
@@ -319,7 +316,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Interactive Zoning HUD', 'Material Archive', 'Space Estimator'],
     period: '2주',
     year: '2025',
-    badge: '실물 라이브 데모',
     highlights: [
       '3층 층별 조닝 인터랙티브 핫스팟 & 시공 공법 뷰어',
       '5대 하이엔드 건축·인테리어 자재 스펙 아카이브',
@@ -340,7 +336,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Circadian Lighting HUD', 'Spatial Zone Hotspots', 'Jeju Tactile Archive'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       'Day/Sunset/Night 3대 시간대별 자연광 & 앰비언트 조명 시뮬레이터',
       '안채 다도 라운지, 노천 히노끼탕, 별빛 침실 인터랙티브 핀 핫스팟',
@@ -361,7 +356,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Smart Facility HUD', 'Acoustic Spec Archive', 'Spatial Zone Hotspots'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '4대 업무 몰입 존(코워킹·포커스·타운홀·바이오필릭) 핫스팟 투어',
       '온·습도·CO2 센서 텔레메트리 및 스마트 글래스 제어 회의실 HUD',
@@ -382,7 +376,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Lighting Simulator', 'Spatial Hotspots', 'Tactile Archive'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '오픈 키친 셰프 바, 온실 테라스 가든, VIP 살롱 핫스팟 투어',
       '브런치 자연광부터 미드나잇 캔들까지 3단계 조도(Lux) 시뮬레이터',
@@ -403,7 +396,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Air Telemetry HUD', 'Eco-Material Library', 'Studio Hotspots'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '1:1 독립 리포머 룸, 허벌 티 라운지, 히노끼 파우더룸 핫스팟 투어',
       '산소율·이산화탄소·습도 텔레메트리 및 급속 청정 시뮬레이션 HUD',
@@ -424,7 +416,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Weather Ambience HUD', 'Heritage Timber Library', 'Hanok Hotspots'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '다도 팽주석 카운터, 중정 이끼 정원 평상, 소반 온돌 다실 핫스팟 투어',
       '아침 볕부터 처마 끝 빗소리까지 3단계 날씨 & 다도 페어링 앰비언스 HUD',
@@ -445,7 +436,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Acoustic Silence HUD', 'Medical Tactile Archive', 'Clinic Hotspots'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '호텔식 웰컴 라운지, 프라이빗 치료 스위트, 파우더 앤 스파 핫스팟 투어',
       '45dB 이하 무소음 차음 및 시술별 서카디언 조도 시뮬레이션 HUD',
@@ -466,7 +456,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Eco-Safety Telemetry HUD', 'Kids Material Archive', 'Creative Zone Hotspots'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '워터 앤 클레이 아트 스튜디오, 자작나무 놀이 파빌리온, 부모 전용 살롱 핫스팟',
       '라돈 제로(Zero) 및 친환경 VOC Free 무독성 안전 인증 텔레메트리 HUD',
@@ -487,7 +476,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'RT60 Acoustic HUD', 'Sound Material Archive', 'Audiophile Hotspots'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '스윗스팟 리스닝 룸, 화이트 오크 바이닐 라이브러리, 홈 시네마 핫스팟 투어',
       '보컬(0.4s)부터 클래식 심포니(0.8s)까지 음향 잔향 시간(RT60) 시뮬레이션 HUD',
@@ -511,7 +499,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Architectural Gallery', 'Budget Estimator'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '판교 중정주택·가평 수변별서·서초 미니멀하우스 4대 완공작 인터랙티브 갤러리',
       '자연광과 중정을 품은 공간 미학과 지속가능한 친환경 주거 철학 아카이브',
@@ -532,7 +519,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Commercial Yield Calculator', 'Boutique Portfolio Showcase'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '성수 적벽돌 플래그십·한남 루프탑·연남 테라스 근생 4대 완공작 쇼케이스',
       '대지 면적 및 용도지역 기반 예상 연면적·건축비·임대수익률 간이 계산기(예시)',
@@ -553,7 +539,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Before-After Split Slider', 'Value-Add ROI Simulator'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '노후 화강석 빌딩에서 글래스 커튼월 사옥으로의 실시간 Before & After 비교 슬라이더',
       '강남 한독타워·종로 금융빌딩·신사 메디컬타워 4대 대수선 완공작 아카이브',
@@ -574,7 +559,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'BIM 4D Digital Twin Showcase', 'Turnkey Construction Simulator'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '판교 IT 사옥·가산 드라이브인 지식산업센터·마곡 바이오 R&D 완공 갤러리',
       '디지털 트윈 기반 스마트 BIM 4D 통합 공정 및 안전 관제 시스템 쇼케이스',
@@ -595,7 +579,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Cold-Chain Chamber Diagram', 'Logistics Cost Simulator'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '용인 메가 저온허브·이천 자동화 풀필먼트 센터 4대 완공 갤러리',
       '상온·냉장·초저온(-25℃) 멀티 챔버 공조 인터랙티브 다이어그램',
@@ -616,7 +599,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Mega Infrastructure Showcase', 'Civil Cost Estimator'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '서해 해상 사장교·도심 대심도 철도 터널·산악 고속도로 4대 완공 갤러리',
       '이동식 비계공법(MSS) 및 캔틸레버(FCM) 장대교량 가설 기술 아카이브',
@@ -637,7 +619,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Subsurface Depth Layer Viewer', 'Foundation Cost Estimator'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '도심 40m 대심도 흙막이·하이드로프리즈 D-Wall·대구경 RCD 4대 완공 갤러리',
       '지하 심도별(-10m ~ -50m) 흙막이 및 암반 지지층 단면 인터랙티브 뷰어',
@@ -658,7 +639,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript', 'Strata Depth HUD', 'TBM Cutterhead Simulator', 'Geotechnical Archive'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '지상 0m~지하 80m 수직 스크롤 연동 심도(m) & 지압(bar) 텔레메트리 HUD',
       '14.2m 대구경 쉴드 TBM 커터헤드 회전 및 굴착 구조 분해 인터랙션',
@@ -679,7 +659,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Timelapse Build-Up Slider', 'Rugged Field HUD', 'Landmark Showcase'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '0% 터파기부터 100% 준공까지 4단계 건축 공정 실시간 타임랩스 빌드업 시뮬레이터',
       '60MPa 콘크리트 수화열 양생 온도(28℃) 및 크레인 풍속 현장 감리 텔레메트리 HUD',
@@ -700,7 +679,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Project Detail Modal', 'Hanok Quote Wizard'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '도편수 직영 68+ 완공 한옥 아카이브 & 상세 모달',
       '전통 결구(사개맞춤) 공법 & 현대 패시브 단열 하이브리드 설계 인터랙션',
@@ -957,7 +935,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', '4-Tier Deep Category HUD', 'Shoppable Pulse Pins', 'Fit Measurement Matrix', 'Real-time Live Ranking Engine'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '대·중·소·세분류 4단계 카테고리 트리 및 컬러·핏·소재 다면 필터링 HUD',
       '2026 S/S 런웨이 인터랙티브 룩북 쇼퍼블 펄스 핀 & 3-Piece 코디 세트 원클릭 담기',
@@ -978,7 +955,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Full Cold-Chain Telemetry', 'Chef Recipe Batch Cart', 'Dawn Delivery Countdown', 'Temperature Zone Matrix'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '오늘 밤 11시 주문 마감 실시간 샛별배송 카운트다운 타이머',
       '냉장(0~2℃) · 냉동(-18℃) · 상온 보관 형태별 스마트 필터링 및 100g당 단가 표시',
@@ -999,7 +975,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Ingredient Grade Inspector', 'Skin Concern 4-Tier HUD', 'Clinical Trial Telemetry', 'Live Beauty Awards Engine'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '피부타입(수부지·건성·지성) 및 피부고민(장벽·진정·모공) 맞춤 4단계 다면 필터링 HUD',
       '주의성분 판정과 자체 클린 등급을 보여 주는 전성분 검사기(공인 인증 아님·예시 기준)',
@@ -1020,7 +995,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Parametric Spec Matrix', '3D Vapor Chamber CAD Inspector', 'Chassis I/O Port Telemetry', 'Side-by-Side Model Comparator'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       'GPU·CPU·주사율·메모리 파라메트릭 스펙 필터 HUD(사양 표기는 예시)',
       '4개 모델 동시 스펙 대조 비교 매트릭스 및 실시간 텔레메트리 연동',
@@ -1041,7 +1015,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Spatial Room Tour HUD', '3000K/5000K Lighting Simulator', 'Apartment Floorplan Placement Matrix', 'Private Showroom Reservation Wizard'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '3D 룸투어 인터랙티브 펄스 핀 & 거실 3-Piece(소파·테이블·조명) 번들 일괄 담기',
       '자연광 5000K 주광색 ↔ 은은한 3000K 간접조명 나이트 무드 실시간 조도 전환',
@@ -1062,7 +1035,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', '3-Stage Authenticity Radar System', 'NFC Hash Cryptographic Authenticator', 'VIP Private Concierge Stream Engine', 'Bonded Escrow Settlement Wizard'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       'AI 분광 스캔 & 감정위원 2차 검수 & NFC 봉인 3단계 무결점 정품 검수 시스템',
       '시리얼 넘버 / NFC 해시코드 기반 실시간 디지털 정품 보증서 조회 및 출력 모달',
@@ -1083,7 +1055,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', '4-Tier Tactical HUD Filter Matrix', 'Interactive Tent Dimension Simulator', 'Weather Telemetry & Gust Warning Radar', 'Side-by-Side Gear Spec Comparison Engine'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '계절·수용정원·폴대소재(DAC)·데니어(70D) 다차원 4-Tier 택티컬 HUD 필터바',
       '이너텐트/풋프린트 평면도 및 영하 35도 돌풍 저항도 블루프린트 시뮬레이터',
@@ -1104,7 +1075,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'AI Veterinary Nutrition Profiler', '1:1 Kibble Scale Comparison Viewer', 'Online Triage Diagnostic Modal', 'Clinical Nutrition PDF Report Generator'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '체중·생애주기·중성화·건강고민별 1일 RER/DER 권장 칼로리 & 급여량 정밀 계산 AI 프로파일러',
       '실물 100원 동전 대비 8mm/12mm/15mm 알갱이 직경 1:1 비교 인터랙티브 스케일 뷰어',
@@ -1125,7 +1095,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Real-time Foil Engraving Simulator', 'Bojagi Knot Wrapping Lookbook', 'Scheduled Delivery Engine'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '지갑·펜에 이니셜 입력 시 24K 골드박·불도장 음각·폰트 실시간 렌더링 각인 시뮬레이터',
       '수국·나비·연꽃 등 4대 궁중 전통 보자기 매듭 360 고해상도 룩북',
@@ -1146,7 +1115,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Curator Dossier Modal', 'Acquisition Folio'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '18~19세기 프랑스 루이 15세 오리지널 코모드 등 희귀작 아카이브 도록',
       '소장 희망 서류함(CartFolio) 및 관심작 위시리스트 드로어 인터랙션',
@@ -1169,7 +1137,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Digital Twin HUD', 'Interactive ROI Matrix'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '3D LiDAR·비전 SLAM 다중 센서 융합 & 0.5mm 정밀 도킹',
       '148노드 무교착(Zero-Deadlock) NEXUS-OS 디지털 트윈 뷰어',
@@ -1190,7 +1157,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'SCADA Hub Map', 'Carbon PPA Calculator'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       'GW급 해상풍력 연계 고효율 PEM 수전해 플랜트 쇼케이스',
       '신안·울산·포항 4대 발전 거점 실시간 SCADA 텔레메트리 맵',
@@ -1211,7 +1177,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'AIS Vessel HUD', 'Port Radar Modal', 'Multimodal Carbon Matrix'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       'B/L 선하증권 실시간 항로, -18.2℃ 냉동 리퍼 온습도 & 충격 센서 텔레메트리 HUD',
       '해상·항공·급행철도 리드타임 & Scope-3 CO2 탄소배출량 비교 시뮬레이터',
@@ -1232,7 +1197,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Charging Simulator', 'Architecture Explorer', 'ASIL-D Dossier'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '800V 배터리(75~120kWh) 및 온도(-20~45℃) 조절 초급속 충전 곡선 시뮬레이터',
       'Gen-3 SiC 인버터, 고전압 정션박스 3D 분해 마이크로 아키텍처 뷰어',
@@ -1253,7 +1217,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Multi-Sensor Radar', 'Live Orbit HUD'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '0.3m 서브미터 컬러 광학 & X-Band SAR 3대 센서 인터랙티브 비교 뷰어',
       '48기 LEO 저궤도 위성 군집 실시간 다운링크(10Gbps OISL) 텔레메트리 HUD',
@@ -1274,7 +1237,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Actuarial IRR Simulator', 'Air-Gapped VDR Gate'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '운용자산·누적 수익률 금융 텔레메트리 보드(예시 수치)',
       '플래그십 바이아웃, 딥테크 그로쓰, 인프라, 사모대출 4대 전략 인터랙티브 필러',
@@ -1295,7 +1257,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', '360 Villa Suite Explorer', 'Dynamic Season Calculator'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '남해 절벽·제주 곶자왈·발리 우붓 3대 건축 스위트 파빌리온 익스플로러',
       '목적지 배수·박수·비포크 애드온(요트/소믈리에 디너) 실시간 숙박비 계산기',
@@ -1316,7 +1277,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Pipeline Matrix', 'MoA 3D Viewer'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       'CB-101 비소세포폐암 희귀의약품 지정 표기(예시) & 임상 2상 트래커',
       '자체 PROTEA-AI 신약 발굴 엔진 & 3D 분자 작용기전(MoA) 뷰어',
@@ -1337,7 +1297,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Micro-Architecture Explorer', 'Thermal Simulator'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       'L1 Top Logic~L4 Glass Substrate 4단계 마이크로 인터커넥트 익스플로러',
       'HBM4 스택 수 및 TDP에 따른 실시간 발열·휨 계측 및 엔지니어링 리포트 생성',
@@ -1358,7 +1317,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Spectral AI Matrix', 'Harvest Yield Calculator', 'Cold Chain HUD'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '재배면적(1,000~10,000평) 및 품종별 연간 수확량(톤) & 용수 절감 계산기(예시 산출식)',
       'Blue(450nm) 조직 치밀화 vs Red(660nm) 안토시아닌 AI 분광 매트릭스 튜너',
@@ -1381,7 +1339,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', '3D Navigation Guide', 'Smart Booking Engine'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '3D 컴퓨터 모의수술 네비게이션 임플란트 프로세스 인터랙션',
       '보철과·구강악안면외과 분과별 전문의 약력 및 학술 활동 아카이브',
@@ -1402,7 +1359,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Tip Serial Verification', 'Mark-Vu Diagnostic'],
     period: '3주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '시술 팁 이력 조회 위젯(예시 — 공인 정품 인증이 아님)',
       '4종 광원 피부 정밀 진단 시스템 쇼케이스(장비 표기는 예시)',
@@ -1423,7 +1379,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Pain Symptom Checker', 'MRI Fast-Track Booking'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '부위별(목·허리·어깨·무릎) 5문항 인터랙티브 자가진단 모듈',
       '최첨단 1.5T MRI 및 체외충격파(ESWT) 치료 원리 3D 가이드',
@@ -1444,7 +1399,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'SMILE Pro 7s Simulator', 'IOL Vision Viewer'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '50가지 정밀 사전검사 가이드 및 실시간 시력교정 적합도 계산기',
       '최신 레이저 장비 7초 저자극 조사 테크 쇼케이스',
@@ -1465,7 +1419,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'VR 360 Inpatient Tour', 'Herb Traceability Engine'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '80병상 전 객실 1·2인실 프리미엄 모션베드 360 파노라마 뷰어',
       '식약처 hGMP 인증 규격 한약재 탕전 과정 투명 공개 아카이브',
@@ -1486,7 +1439,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', '3D Facial Ratio HUD', 'Before-After Split Viewer'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '상안·중안·하안 1:1:0.8 비율 및 비순각(90~110도) 3D 실시간 안면 조화도 계산기',
       '마우스·터치 제스처로 전후 변화를 매끄럽게 교차 비교하는 Before & After 듀얼 슬라이더',
@@ -1516,7 +1468,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     ],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '국·수·탐 백분위 조절 기반 전국 의치약한 24개 학과 모의 합격진단 시뮬레이터(예시)',
       '수학 미적분 30번 & 과탐II 킬러문항 3단계 발문 해체 및 숏컷 솔루션 인터랙티브 Lab',
@@ -1537,7 +1488,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Web Audio API Synthesizer', 'Acoustic Reverb HUD'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       'Web Audio API 기반 88건반 실시간 하모닉스 배음 사운드 합성 인터랙티브 Lab',
       '스타인웨이 D-274 풀 콘서트 그랜드 룸 잔향(RT60) 및 1~8차 고조파 배음 분포도 텔레메트리 HUD',
@@ -1558,7 +1508,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Collage Canvas Interactive', 'Sensory Development HUD'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '한지·점토·나뭇잎 등 자연 오브제를 실시간 배치하는 비정형 인터랙티브 꼴라주 캔버스',
       '4~13세 단계별 촉각·스토리텔링·공간지각·색채감수성 4대 감각 발달 지표 HUD',
@@ -1579,7 +1528,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript', 'Lexile Virtual Bookshelf', 'AI Speech Diagnostic Lab'],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '렉사일(Lexile) 200L~1100L 인터랙티브 슬라이더 연동 가상 원서 서재 뷰어',
       'AI 음성 분석 기반 파닉스 발음 정확도·유창성·억양 5대 지표 텔레메트리 HUD',
@@ -1607,7 +1555,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     ],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       'Digital SAT 1600 적응형 모듈 R&W 및 Math 실시간 환산 & Academic Index(AI) 계산기',
       '전직 아이비리그 입학사정관의 Common App 에세이 3막 핀셋 첨삭 주석(Marginalia) 해체 Lab',
@@ -1636,7 +1583,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     ],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '전국 주요 로스쿨 3개년 LEET·GPA 커트라인 & CPA 1·2차 인터랙티브 합격 매트릭스(예시)',
       '48dB 음향 감쇠 1인 방음 캐럴 3개 구역 실시간 전력·소음 텔레메트리 좌석 배치도(예시)',
@@ -1664,7 +1610,6 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     ],
     period: '2주',
     year: '2026',
-    badge: '실물 라이브 데모',
     highlights: [
       '제자리멀리뛰기·100m·악력·배근력 등 5대 실기 종목 만점 환산 시뮬레이터(예시)',
       '1,000Hz 지면반력기 연동 도약·체공·착지 3D 관절 모멘텀 키네마틱스 인터랙티브',

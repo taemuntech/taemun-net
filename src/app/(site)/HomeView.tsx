@@ -109,26 +109,48 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
   const galleryProjects = projects;
   const GALLERY_CATEGORIES = categories;
 
-  // State for category accordion expand/collapse
-  const [expandedCategories, setExpandedCategories] = useState<Record<GalleryCategoryId, boolean>>({
-    corporate: false,
-    commerce: false,
-    medical: false,
-    interior: false,
-    architecture: false,
-    saas: false,
-    manufacturing: false,
-    education: false,
-  });
+  // 모바일 화면(1024px 미만) 감지
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // State for category accordion visible count (undefined이면 기본값: 모바일 4개 / 데스크톱 5개)
+  const [categoryVisibleCounts, setCategoryVisibleCounts] = useState<Partial<Record<GalleryCategoryId, number>>>({});
 
   // State for project detail modal
   const [selectedProject, setSelectedProject] = useState<GalleryProject | null>(null);
 
-  const toggleCategory = (categoryId: GalleryCategoryId) => {
-    setExpandedCategories((prev) => ({
-      ...prev,
-      [categoryId]: !prev[categoryId],
-    }));
+  const handleCategoryStep = (categoryId: GalleryCategoryId, totalCount: number) => {
+    const defaultCount = isMobile ? 4 : 5;
+    const step = isMobile ? 4 : 5;
+    const currentCount = categoryVisibleCounts[categoryId] ?? defaultCount;
+
+    if (currentCount >= totalCount) {
+      // 이미 전체가 다 펼쳐진 상태 -> 기본값으로 초기화 (접기)
+      setCategoryVisibleCounts((prev) => {
+        const next = { ...prev };
+        delete next[categoryId];
+        return next;
+      });
+      // 해당 카테고리 헤더로 부드럽게 스크롤
+      const el = document.getElementById(`category-${categoryId}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    } else {
+      // +4(모바일) 또는 +5(데스크톱) 추가
+      const nextCount = Math.min(currentCount + step, totalCount);
+      setCategoryVisibleCounts((prev) => ({
+        ...prev,
+        [categoryId]: nextCount,
+      }));
+    }
   };
 
   // 데모 뷰어에서 메인 갤러리로 복귀 시 원래 보던 카테고리/프로젝트 위치로 자동 스크롤
@@ -141,14 +163,15 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
 
       const targetId = hash.replace("#", "");
 
-      // 만약 #project-{id} 형태라면, 해당 프로젝트가 속한 카테고리를 자동으로 펼쳐줌
+      // 만약 #project-{id} 형태라면, 해당 프로젝트가 속한 카테고리를 전체 펼쳐줌
       if (targetId.startsWith("project-")) {
         const projectId = targetId.replace("project-", "");
         const project = galleryProjects.find((p) => p.id === projectId);
         if (project) {
-          setExpandedCategories((prev) => ({
+          const categoryTotal = galleryProjects.filter((p) => p.category === project.category).length;
+          setCategoryVisibleCounts((prev) => ({
             ...prev,
-            [project.category]: true,
+            [project.category]: categoryTotal,
           }));
         }
       }
@@ -329,10 +352,22 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
           const allProjects = galleryProjects.filter((p) => p.category === category.id);
           // 다 내려간 분류는 제목·설명까지 통째로 뺀다(「총 0개 작품」 자리가 남지 않게)
           if (allProjects.length === 0) return null;
-          const isExpanded = expandedCategories[category.id];
-          // By default, display 5 items on desktop
-          const visibleProjects = isExpanded ? allProjects : allProjects.slice(0, 5);
-          const hiddenCount = allProjects.length - 5;
+
+          const isInitial = categoryVisibleCounts[category.id] === undefined;
+          // 초기 상태에서는 데스크톱(5개)과 모바일(4개)을 CSS로 분기하기 위해 5개를 렌더링하고 5번째 카드를 hidden lg:flex 처리
+          const visibleProjects = isInitial
+            ? allProjects.slice(0, 5)
+            : allProjects.slice(0, categoryVisibleCounts[category.id]);
+
+          // 모바일/데스크톱 화면별 확장 상태 및 다음 단계 표시 개수
+          const currentCountMobile = isInitial ? 4 : (categoryVisibleCounts[category.id] ?? 4);
+          const currentCountDesktop = isInitial ? 5 : (categoryVisibleCounts[category.id] ?? 5);
+          const isFullyExpandedMobile = currentCountMobile >= allProjects.length;
+          const isFullyExpandedDesktop = currentCountDesktop >= allProjects.length;
+          const nextMobileAdd = Math.min(4, allProjects.length - currentCountMobile);
+          const nextDesktopAdd = Math.min(5, allProjects.length - currentCountDesktop);
+          const categoryShortName = category.name.split(" · ")[0];
+          const hasMoreThanDefault = allProjects.length > 4;
 
           return (
             <div
@@ -421,13 +456,17 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
 
               {/* 5-Column Gallery Grid (PC: lg:grid-cols-5, Mobile: grid-cols-2) */}
               <div className="grid grid-cols-2 lg:grid-cols-5 gap-3.5 lg:gap-4.5">
-                {visibleProjects.map((project, index) => (
-                  <div
-                    key={project.id}
-                    id={`project-${project.id}`}
-                    onClick={() => setSelectedProject(project)}
-                    className="group relative rounded-2xl bg-zinc-50 border border-zinc-200/90 hover:border-zinc-400 p-2.5 lg:p-3 flex flex-col justify-between transition-all duration-300 hover:shadow-lg cursor-pointer overflow-hidden scroll-mt-32"
-                  >
+                {visibleProjects.map((project, index) => {
+                  const isFifthHiddenOnMobile = isInitial && index === 4;
+                  return (
+                    <div
+                      key={project.id}
+                      id={`project-${project.id}`}
+                      onClick={() => setSelectedProject(project)}
+                      className={`${
+                        isFifthHiddenOnMobile ? "hidden lg:flex" : "flex"
+                      } group relative rounded-2xl bg-zinc-50 border border-zinc-200/90 hover:border-zinc-400 p-2.5 lg:p-3 flex-col justify-between transition-all duration-300 hover:shadow-lg cursor-pointer overflow-hidden scroll-mt-32`}
+                    >
                     {/* Thumbnail Image Container */}
                     <div className="aspect-[4/3] rounded-xl overflow-hidden bg-zinc-200 relative mb-3">
                       <img
@@ -444,8 +483,8 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                         <ArrowUpRight className="w-3.5 h-3.5 text-white" />
                       </div>
 
-                      {/* Top Badge */}
-                      {project.badge && (
+                      {/* Top Badge — '실물 라이브 데모' 텍스트 박스는 노출하지 않고 우측 '샘플' 표식만 유지 */}
+                      {project.badge && project.badge !== "실물 라이브 데모" && (
                         <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-white/90 backdrop-blur-sm text-[10px] font-bold text-zinc-900 shadow-sm border border-zinc-200/60">
                           {project.badge}
                         </div>
@@ -488,28 +527,47 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                         </span>
                       </div>
                     </div>
-                  </div>
-                ))}
+                    </div>
+                  );
+                })}
               </div>
 
-              {/* Accordion Expand/Collapse Button (if items > 5) */}
-              {hiddenCount > 0 && (
+              {/* Accordion Expand/Collapse Button (모바일 4개 단위, 데스크톱 5개 단위) */}
+              {hasMoreThanDefault && (
                 <div className="mt-6 text-center">
                   <button
-                    onClick={() => toggleCategory(category.id)}
+                    type="button"
+                    onClick={() => handleCategoryStep(category.id, allProjects.length)}
                     className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-bold border border-zinc-200 shadow-sm transition-all cursor-pointer group"
                   >
-                    {isExpanded ? (
-                      <>
-                        <span>{category.name.split(" · ")[0]} 상위 5개만 보기</span>
+                    {/* 모바일 화면 텍스트 */}
+                    <span className="lg:hidden">
+                      {isFullyExpandedMobile
+                        ? `${categoryShortName} 상위 4개만 보기`
+                        : `${categoryShortName} +${nextMobileAdd}개 프로젝트 더보기`}
+                    </span>
+                    {/* 데스크톱 화면 텍스트 */}
+                    <span className="hidden lg:inline">
+                      {isFullyExpandedDesktop
+                        ? `${categoryShortName} 상위 5개만 보기`
+                        : `${categoryShortName} +${nextDesktopAdd}개 프로젝트 더보기`}
+                    </span>
+                    {/* 모바일 화면 아이콘 */}
+                    <span className="lg:hidden inline-flex items-center">
+                      {isFullyExpandedMobile ? (
                         <ChevronUp className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform" />
-                      </>
-                    ) : (
-                      <>
-                        <span>{category.name.split(" · ")[0]} +{hiddenCount}개 프로젝트 더보기</span>
+                      ) : (
                         <ChevronDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
-                      </>
-                    )}
+                      )}
+                    </span>
+                    {/* 데스크톱 화면 아이콘 */}
+                    <span className="hidden lg:inline-flex items-center">
+                      {isFullyExpandedDesktop ? (
+                        <ChevronUp className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform" />
+                      ) : (
+                        <ChevronDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
+                      )}
+                    </span>
                   </button>
                 </div>
               )}
@@ -745,7 +803,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                       onError={hideBrokenThumbnail}
                       className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
                     />
-                    {selectedProject.badge && (
+                    {selectedProject.badge && selectedProject.badge !== "실물 라이브 데모" && (
                       <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-white/95 text-xs font-bold text-zinc-900 shadow-md">
                         {selectedProject.badge}
                       </span>
@@ -768,7 +826,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                       onError={hideBrokenThumbnail}
                       className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
                     />
-                    {selectedProject.badge && (
+                    {selectedProject.badge && selectedProject.badge !== "실물 라이브 데모" && (
                       <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-white/95 text-xs font-bold text-zinc-900 shadow-md">
                         {selectedProject.badge}
                       </span>
@@ -784,7 +842,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                       onError={hideBrokenThumbnail}
                       className="w-full h-full object-cover"
                     />
-                    {selectedProject.badge && (
+                    {selectedProject.badge && selectedProject.badge !== "실물 라이브 데모" && (
                       <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-white/95 text-xs font-bold text-zinc-900 shadow-md">
                         {selectedProject.badge}
                       </span>
