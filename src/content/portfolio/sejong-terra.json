@@ -1,0 +1,18 @@
+{
+  "slug": "sejong-terra",
+  "kind": "sample",
+  "industry": "civil",
+  "title": "세종테라개발",
+  "subtitle": "스마트 산업단지 조성 · 100만평 대규모 택지개발 토공 · 지하 공동구 토목 솔루션",
+  "summary": "가상 단지조성 토목 브랜드 「세종테라개발」로 제작한 100만평 대단위 스마트 산업단지 및 신도시 부지조성 전문 웹사이트 샘플입니다. 100만평 미래 모빌리티 국가산단 1,500만㎥ 디지털 대토공·스마트 중장비 머신가이던스(MG/MC) 3D 정밀 시공·단지 간선 4련 지하 공동구 턴키·연약지반 PBD 압밀 탈수 개량 등 4대 대표 실적 갤러리, 3D 절토·성토 토공 밸런스 인터랙티브 뷰어, 부지 면적(만평)별 개략 조성 공사비 산출기(예시), 그리고 SampleNotice 연동 국가산단 및 도시개발 턴키 기술 제휴 신청 모달을 담았습니다.",
+  "features": [
+    "100만평 국가산단·스마트 중장비 머신가이던스·4련 지하 공동구 4대 메가 단지토목 갤러리",
+    "3D 절토·성토 토공 밸런스(Mass-Haul) 및 드론 라이다 지형 측량 인터랙티브 뷰어",
+    "스마트 건설장비 GNSS 자동화 토공 및 연약지반 PBD 압밀 공학 쇼케이스",
+    "단지 면적(만평) 및 지반 조건별 부지조성 개략 토목 공사비 산출기(예시)",
+    "SampleNotice 연동 지방자치단체 및 산단 개발 턴키 기술 자문 신청 모달"
+  ],
+  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript", "Mass-Haul Earthwork Balancer", "Industrial Land Cost Estimator"],
+  "liveUrl": "/demo/sejong-terra",
+  "createdAt": "2026-09-18"
+}
