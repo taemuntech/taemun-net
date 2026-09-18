@@ -958,6 +958,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     summary: '산지 직송 스토리, 셰프의 레시피 연계 재료 일괄 담기, 영하 18℃ 풀콜드체인 실시간 안심 텔레메트리 및 새벽배송 타이머',
     description: '대한민국 프리미엄 그로서리 커머스의 첨단 UX를 구현한 플래그십 이커머스 라이브 데모입니다. 횡성 최상위 등급(예시 표기) 숙성 한우부터 제주 새벽 직송 유기농 채소까지, 보관온도대별(냉장/냉동/상온) 실시간 필터와 100g당 투명 단가 공시, 셰프 레시피 재료 원클릭 일괄 담기 및 도심 허브 풀콜드체인 관제 로그를 제공합니다.',
     thumbnailUrl: '/demo-media/verde-gourmet/verde-gourmet-01.avif',
+    previewVideoUrl: '/portfolio/verde-gourmet/gourmet-cooking-preview.mp4',
     liveDemoUrl: '/demo/verde-gourmet',
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',

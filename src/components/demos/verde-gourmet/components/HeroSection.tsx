@@ -12,14 +12,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <section className="relative rounded-xl overflow-hidden bg-surface-container-lowest border border-outline-variant shadow-sm">
       <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch">
-        {/* Hero Visual Image Box */}
-        <div className="lg:col-span-7 relative min-h-[320px] lg:min-h-[480px]">
-          <img
-            src="/demo-media/verde-gourmet/verde-gourmet-05.jpg"
-            alt="횡성 마블링 채끝등심과 제주 햇당근, 신선한 식재료가 우드 도마 위에 놓인 고메 테이블 연출"
+        {/* Hero Visual Video Box */}
+        <div className="lg:col-span-7 relative min-h-[320px] lg:min-h-[480px] overflow-hidden bg-slate-950">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            controlsList="nodownload noplaybackrate"
+            disablePictureInPicture
+            onContextMenu={(e) => e.preventDefault()}
+            poster="/demo-media/verde-gourmet/verde-gourmet-05.jpg"
             className="w-full h-full object-cover"
-          referrerPolicy="no-referrer" />
-          <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-primary-container/80 via-primary-container/30 to-transparent flex flex-col justify-end p-6 lg:p-8">
+            src="/portfolio/verde-gourmet/gourmet-cooking.mp4"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-primary-container/80 via-primary-container/30 to-transparent flex flex-col justify-end p-6 lg:p-8 pointer-events-none">
             <div className="flex items-center gap-2 mb-2">
               <span className="bg-secondary text-on-secondary px-2.5 py-1 rounded text-xs font-mono font-bold tracking-wide">
                 DAWN HARVEST
