@@ -980,6 +980,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     summary: '18~19세기 프랑스 루이 15세부터 조지안 시대 오리지널 앤틱 가구 & 공예품 큐레이션 D2C 살롱',
     description: '파리, 런던, 피렌체 직영 옥션 및 귀족 가문 전승 오리지널 앤틱을 선별 소개하는 최고급 앤틱 큐레이션 살롱 웹사이트입니다. 카테고리별 아카이브 검색, 뮤지엄 그레이드 작품 상세 도록 모달, 소장 희망 서류함(CartFolio), 관심작 보관함(Wishlist) 및 한남동 살롱 프라이빗 뷰잉 예약 시스템을 탑재했습니다.',
     thumbnailUrl: '/demo-media/maison/maison-13.jpg',
+    previewVideoUrl: '/portfolio/maison/maison-heritage-loop-preview.mp4',
     liveDemoUrl: '/demo/maison',
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
