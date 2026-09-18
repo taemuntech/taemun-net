@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",
-    "build": "next build",
+    "build": "node scripts/audit-portfolio.mjs && next build",
     "start": "next start",
     "typecheck": "tsc --noEmit -p .",
     "audit:portfolio": "node scripts/audit-portfolio.mjs",
