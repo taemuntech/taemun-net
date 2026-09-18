@@ -387,16 +387,20 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                       {category.engName}
                     </span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="p-1.5 rounded-lg bg-zinc-100 border border-zinc-200">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="p-1.5 rounded-lg bg-zinc-100 border border-zinc-200 shrink-0">
                       {getCategoryIcon(category.id)}
                     </div>
-                    <h2 className="text-xl lg:text-2xl font-bold tracking-tight text-zinc-950">
-                      {category.name}
+                    {/* 분류 이름은 「A · B · C」 세 토막이다. 폰 폭(375px)에서 쓸 수 있는 자리가 280px 남짓이라
+                        세 토막을 다 쓰면 「…브랜드 / 플래그십」처럼 어색하게 두 줄로 꺾였다(2026-09-18 형 지적).
+                        모바일(lg 미만)은 앞 두 토막만 한 줄로, 데스크톱은 전체를 쓴다. 개수 배지(「총 N개 작품」)는
+                        같은 이유로 꺾였고, 개수는 맨 위 분류 칩에 이미 있어 뺐다. */}
+                    <h2 className="text-xl lg:text-2xl font-bold tracking-tight text-zinc-950 min-w-0">
+                      <span className="lg:hidden whitespace-nowrap">
+                        {category.name.split(" · ").slice(0, 2).join(" · ")}
+                      </span>
+                      <span className="hidden lg:inline">{category.name}</span>
                     </h2>
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-zinc-100 text-zinc-600 font-mono border border-zinc-200">
-                      총 {allProjects.length}개 작품
-                    </span>
                   </div>
                   <p className="text-xs lg:text-sm text-zinc-500 mt-2 max-w-3xl font-light">
                     {category.description}
