@@ -4,12 +4,13 @@ import { SITE_OG_IMAGES } from "@/lib/site-og";
 import { STUDIO_PHONE } from "@/lib/inquiry/contact";
 
 // 개인정보 처리방침 — 견적 문의(/inquiry)가 성함·연락처를 받으므로 공개해야 한다(개인정보 보호법 제30조).
-// 2026-09-18 가온 초안. 문의 화면·API 가 실제로 하는 일만 적는다 — 기능을 바꾸면 여기도 같이 고친다:
+// 2026-09-18 가온 초안, 09-19 형 확인(보유기간 접수일부터 1년 · 보호책임자 이동주) 뒤 시행.
+// 문의 화면·API 가 실제로 하는 일만 적는다 — 기능을 바꾸면 여기도 같이 고친다:
 //   - 받는 칸: src/app/(site)/inquiry/InquiryView.tsx · 서버 검증 src/lib/inquiry/validate.ts
 //   - 저장·알림: src/app/api/inquiry/route.ts (Supabase 저장 → 솔라피 문자로 태문 담당자에게 알림. 고객에게는 문자를 보내지 않는다)
 //   - 분석 도구: (site)/layout.tsx 의 GA 는 NEXT_PUBLIC_GA_ID 가 있을 때만 켜진다. 09-18 운영 HTML 에 없음 — 켜면 7항을 고친다.
 
-const EFFECTIVE_DATE = "2026년 9월 18일";
+const EFFECTIVE_DATE = "2026년 9월 19일";
 const PRIVACY_OFFICER = "이동주";
 const CONTACT_EMAIL = "contact@taemun.co.kr";
 
