@@ -13,6 +13,7 @@ import { Footer } from './components/Footer';
 import { ReportModal } from './components/ReportModal';
 import { SolutionModal } from './components/SolutionModal';
 import { VipPortalModal } from './components/VipPortalModal';
+import { ReservationFormData } from './types';
 
 interface DaechiPrestigeAppProps {
   isEmbed?: boolean;
@@ -22,6 +23,7 @@ export const DaechiPrestigeApp: React.FC<DaechiPrestigeAppProps> = ({ isEmbed = 
   const [reportModalOpen, setReportModalOpen] = useState(false);
   const [solutionModalOpen, setSolutionModalOpen] = useState(false);
   const [vipModalOpen, setVipModalOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const scrollToReservation = () => {
     const el = document.getElementById('reservation-section');
@@ -30,11 +32,31 @@ export const DaechiPrestigeApp: React.FC<DaechiPrestigeAppProps> = ({ isEmbed = 
     }
   };
 
-  // 샘플이라 예약을 받지 않는다 — 「정상 접수되었습니다」 토스트는 걷어냈고,
-  // 예약 폼은 제출하면 스스로 공용 안내(SampleNotice)를 연다.
+  const handleReservationSuccess = (data: ReservationFormData) => {
+    setToastMessage(`[${data.studentName}] 학생의 1:1 심층진단 신청 예시가 확인되었습니다(가상 시연).`);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 4000);
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-surface text-on-surface selection:bg-primary/20 selection:text-primary font-sans antialiased">
+      {/* Toast notification */}
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-50 p-4 rounded-xl bg-inverse-surface text-surface text-sm shadow-2xl flex items-center gap-3 border border-neutral-700 animate-in fade-in slide-in-from-bottom-3 duration-300">
+          <span className="material-symbols-outlined text-[#10B981] text-[20px]">
+            check_circle
+          </span>
+          <span>{toastMessage}</span>
+          <button
+            onClick={() => setToastMessage(null)}
+            aria-label="알림 닫기"
+            className="ml-2 text-outline-variant hover:text-surface cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
+          >
+            <span className="material-symbols-outlined text-[16px]">close</span>
+          </button>
+        </div>
+      )}
 
       {/* Sticky Header */}
       <Header
@@ -70,7 +92,9 @@ export const DaechiPrestigeApp: React.FC<DaechiPrestigeAppProps> = ({ isEmbed = 
         <SimulatorSection onOpenReservation={scrollToReservation} />
 
         {/* Section 7: Premium Spaces & 1:1 Level Test Reservation */}
-        <CampusReservationSection />
+        <CampusReservationSection
+          onReservationSuccess={handleReservationSuccess}
+        />
       </main>
 
       {/* Footer */}

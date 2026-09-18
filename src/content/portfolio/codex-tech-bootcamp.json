@@ -1,0 +1,26 @@
+{
+  "slug": "codex-tech-bootcamp",
+  "kind": "sample",
+  "industry": "corporate",
+  "title": "코덱스 아카데미 풀스택 & AI 테크 캠프",
+  "subtitle": "CLI 샌드박스 & Git 커밋 잔디 웹사이트 샘플",
+  "summary": "가상 브랜드 「코덱스 아카데미(CODEX ACADEMY)」로 제작한 풀스택 & AI 부트캠프 웹사이트 샘플입니다. 실시간 npm test 및 docker compose 명령어를 실행할 수 있는 인터랙티브 CLI 터미널 샌드박스, 16주간의 Git 커밋 잔디(Heatmap) 인터랙션, 실제 론칭 SaaS 프로젝트 쇼케이스, 1:1 코딩테스트 및 사전 역량 진단 위저드를 탑재했습니다. 화면의 모든 수치·학생명·커밋 로그는 가상 예시입니다.",
+  "features": [
+    "실시간 npm test / docker compose 명령어 실행 인터랙티브 CLI 터미널 샌드박스",
+    "16주간 7x16 그리드 Git 커밋 잔디(Heatmap) 및 일자별 PR 로그 인터랙션",
+    "CRDT 협업 보드 및 하이브리드 RAG AI 비서 등 실제 프로덕션 SaaS 쇼케이스",
+    "CS 핵심부터 분산 백엔드, 생성형 AI까지 3단계 몰입 커리큘럼 로드맵",
+    "1:1 코딩테스트 및 이력서/GitHub 사전 역량 진단 신청 위저드"
+  ],
+  "techStack": [
+    "Next.js 16",
+    "React 19",
+    "TypeScript",
+    "Tailwind CSS v4",
+    "Interactive CLI Terminal Sandbox",
+    "Git Commit Heatmap Engine"
+  ],
+  "liveUrl": "/demo/codex-tech-bootcamp",
+  "icon": "cpu",
+  "createdAt": "2026-09-18"
+}

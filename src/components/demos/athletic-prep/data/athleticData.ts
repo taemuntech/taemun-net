@@ -1,0 +1,122 @@
+import { AthleticEvent, AthleticAdmissionCase, AthleticCourse } from '../types';
+
+export const ATHLETIC_EVENTS: AthleticEvent[] = [
+  {
+    id: 'event-back',
+    name: '디지털 배근력 (Back Strength)',
+    category: '전신 근력 & 순발력',
+    sensorType: '고정밀 디지털 로드셀 장력 센서',
+    maleMax: 230,
+    femaleMax: 155,
+    unit: 'kg',
+    step: 1,
+    description: '대퇴이두근과 둔근, 척추기립근의 폭발적인 등척성 수축력을 측정하는 주요 체육대학 필수 기초실기입니다.',
+    coachingPoint: '상체만 당기지 않고 하체 반동과 코어 잠금을 결합하여 로드셀 센서에 전달되는 순간 최대 파워를 극대화합니다.',
+  },
+  {
+    id: 'event-jump',
+    name: '제자리멀리뛰기 (Standing Broad Jump)',
+    category: '순발력 & 도약 메커니즘',
+    sensorType: '적외선 광학 레이저 전자 매트',
+    maleMax: 300,
+    femaleMax: 250,
+    unit: 'cm',
+    step: 1,
+    description: '팔치기 추진력과 무릎 신전, 공중 자세 및 착지 완충 능력을 복합적으로 검증하는 체대입시 핵심 종목입니다.',
+    coachingPoint: '도약각도 38°~40° 유지와 공중에서 무릎을 가슴으로 당기는 턱 점프(Tuck Jump) 동작으로 비거리를 15cm 이상 단축합니다.',
+  },
+  {
+    id: 'event-shuttle',
+    name: '10m / 20m 왕복달리기 (Shuttle Run)',
+    category: '민첩성 & 급제동 가속력',
+    sensorType: '0.001초 듀얼 포토 인터럽트 센서',
+    maleMax: 8.4,
+    femaleMax: 9.6,
+    unit: '초',
+    step: 0.05,
+    description: '부표 터치 순간 무게중심을 낮추어 관성을 흡수하고 지면 반발력을 이용하여 폭발적으로 재가속하는 순발력 실기입니다.',
+    coachingPoint: '턴 지점 3걸음 전부터 잔발 스텝으로 감속하고 디딤발의 접지 각도를 45°로 유지하여 회전 반경을 최소화합니다.',
+  },
+  {
+    id: 'event-reach',
+    name: '디지털 좌전굴 (Sit & Reach)',
+    category: '유연성 & 관절 가동 범위',
+    sensorType: '정전용량 디지털 슬라이드 바',
+    maleMax: 30,
+    femaleMax: 33,
+    unit: 'cm',
+    step: 0.5,
+    description: '햄스트링과 요추의 유연성을 전자식 측정 바로 mm 단위까지 정밀 계측하는 전통적인 변별력 종목입니다.',
+    coachingPoint: '호흡을 깊게 내쉬며 흉추를 신전시키고 골반 전방경사를 유도하여 통증 없이 3~5cm 추가 가동 범위를 확보합니다.',
+  },
+];
+
+export const ATHLETIC_CASES: AthleticAdmissionCase[] = [
+  {
+    id: 'case-1',
+    title: 'S대 체육교육과(예시) 정시 일반전형 최초합격',
+    university: 'S대 사범대학 체육교육과 (예시)',
+    suneungScore: '수능 표준점수 398 / 백분위 97.5 (예시)',
+    practicalDeduction: '실기 총 감점 0점 (올만점 달성, 예시)',
+    keyEvent: '제자리멀리뛰기 304cm / 배근력 238kg 만점 (예시)',
+    summary: '정밀 영상 분석과 로드셀 훈련으로 기초실기 올만점을 확보하여 최고 경쟁률을 뚫고 합격했습니다.',
+  },
+  {
+    id: 'case-2',
+    title: 'Y대 스포츠응용산업학과(예시) 최초합격',
+    university: 'Y대 스포츠과학원 (예시)',
+    suneungScore: '수능 국/수/탐 백분위 94.2 (예시)',
+    practicalDeduction: '실기 1감점 (수석권 실기, 예시)',
+    keyEvent: '25m 왕복달리기 만점 / 제자리멀리뛰기 만점 (예시)',
+    summary: '수능 점수 대비 실기 비중이 높은 전형에서 턴 동작 핀셋 교정을 통해 감점 0에 근접하며 역전 합격을 달성했습니다.',
+  },
+  {
+    id: 'case-3',
+    title: 'K대 체육교육과(예시) 정시 장학생 합격',
+    university: 'K대 사범대학 체육교육과 (예시)',
+    suneungScore: '수능 국/탐 백분위 95.8 (예시)',
+    practicalDeduction: '실기 감점 0점 (예시)',
+    keyEvent: 'Z-코스 달리기 및 높이뛰기 완벽 클리어 (예시)',
+    summary: '전공 실기 종목인 전공 종목 트레이닝을 1:1로 지도받아 실기장 당일 최고 기록을 경신했습니다.',
+  },
+];
+
+export const ATHLETIC_COURSES: AthleticCourse[] = [
+  {
+    id: 'course-1',
+    category: 'SKY PRESTIGE',
+    title: 'S·Y·K 체육교육과 및 최상위권 엘리트 집중반',
+    target: 'S대(예시)·Y대(예시)·K대(예시) 등 상위 1% 명문 체대 정시/수시 지원생',
+    curriculum: [
+      '국가대표 선수급 디지털 전자기측기(전자매트, 로드셀, 포토센서) 상시 실전 훈련',
+      '초고속 초당 240fps 모션 캡처 카메라 기반 관절 각도 3D 바이오메카닉스 분석',
+      '수능 성적별 지원 대학 군 1:1 수시/정시 합산 표본 분석 컨설팅',
+      '체대입시 전문 물리치료사 상주 부상 방지 및 근육 컨디셔닝 케어',
+    ],
+    recommended: true,
+  },
+  {
+    id: 'course-2',
+    category: 'BASIC SKILL MASTER',
+    title: '기초실기 만점 완성반 (제멀·배근력·왕복달리기)',
+    target: '기초실기 기록 정체로 대학별 감점 최소화가 시급한 수험생',
+    curriculum: [
+      '도약 각도 교정 및 플라이오메트릭(Plyometrics) 하체 파워 트레이닝',
+      '10m 왕복달리기 감속 3보 스텝 및 지면 마찰력 최적화 턴 테크닉',
+      '주 2회 모의 실기 테스트 및 전국 표본 대비 실시간 등급 텔레메트리',
+    ],
+    recommended: false,
+  },
+  {
+    id: 'course-3',
+    category: 'EARLY JUNIOR',
+    title: '고1·고2 체대입시 조기 기초 체력 & 전공 탐색반',
+    target: '체육계열 진로를 조기에 확정하고 체계적 체력 관리를 원하는 주니어',
+    curriculum: [
+      '골격근량 증가 및 체지방률 관리 맞춤 영양·트레이닝 루틴 설계',
+      '체조, 핸드볼/농구 던지기, 배구 등 전공 종목 기초 메커니즘 습득',
+      '목표 대학 내신 산출 및 수능 최저학력기준 대비 학습 멘토링',
+    ],
+    recommended: false,
+  },
+];

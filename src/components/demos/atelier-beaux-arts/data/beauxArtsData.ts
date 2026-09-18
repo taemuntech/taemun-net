@@ -48,7 +48,7 @@ export const EXAM_ARTWORKS: ExamArtwork[] = [
   },
   {
     id: 'art-4',
-    university: 'A예술대 조형예술과 (예시)',
+    university: '한예종 조형예술과 (예시)',
     major: '심층실기시험',
     year: '2025학년도 최종 합격 재현작 (예시)',
     title: '시선의 궤적과 인체 동세의 시간성',
@@ -59,7 +59,7 @@ export const EXAM_ARTWORKS: ExamArtwork[] = [
       '시간 경과에 따른 잔상 효과를 회화적 텍스처로 승화',
     ],
     compositionRatio: '나선형 리듬감 구도',
-    badge: 'A예술대 최종 합격 (예시)',
+    badge: '한예종 최종 합격 (예시)',
   },
 ];
 
@@ -98,11 +98,11 @@ export const ART_COURSES: ArtCourse[] = [
   {
     id: 'course-1',
     title: 'S대·K대 최상위권 통합실기 집중반',
-    target: 'S대 디자인·K대 조형대·A예술대 목표 수험생 (예시)',
+    target: 'S대 디자인(예시)·K대 조형대(예시)·K-ARTS(예시) 목표 수험생',
     schedule: '주 4회 실기 + 주 1회 발상 크리틱 (예시)',
     description: '단순 테크닉을 넘어 인문학적 문제 해석력과 독창적 시각 발상 드로잉을 집중 훈련합니다.',
     features: [
-      '전직 미대 교수진 및 S대 출신 전임 강사진 1:1 크리틱 (예시)',
+      '전직 미대 교수진 및 명문 미대 출신 전임 강사진 1:1 크리틱',
       '실전 5시간 타임어택 전국 연합 모의고사 매월 실시',
       '지원 대학별 학생부·면접·실기 삼위일체 원스톱 컨설팅',
     ],
@@ -110,7 +110,7 @@ export const ART_COURSES: ArtCourse[] = [
   {
     id: 'course-2',
     title: 'H대·명문대 기초디자인 & 포트폴리오반',
-    target: 'H대·G대·E여대 미대 실기 지망생 (예시)',
+    target: 'H대(예시)·K대(예시)·E여대(예시) 등 주요 미대 실기 지망생',
     schedule: '주 3회 실기 + 주말 모의평가 (예시)',
     description: '물성 표현과 화면 조형 균형을 완벽히 마스터하여 안정적인 A+ 합격권을 확보합니다.',
     features: [

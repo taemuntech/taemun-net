@@ -31,7 +31,7 @@ export default function AtelierBeauxArtsPageClient({ isEmbed }: Props) {
       specs={[
         { label: '반응형 규격', value: '모바일 퍼스트 단일 lg: 브레이크포인트 규격 준수' },
         { label: '3D 갤러리', value: '3D 원근 틸트 인터랙티브 합격작 & 황금분할 그리드 오버레이' },
-        { label: '기출 발문 Lab', value: '상위권 미대 실기 전형 모의 발문(예시) 제시물 물성 및 전략 해체' },
+        { label: '기출 발문 Lab', value: 'S대(예시)·K대(예시)·H대(예시) 등 주요 명문 미대 기출문제 제시물 물성 및 실기 전략 해체' },
         { label: '실기 진단 전환', value: '목표 대학별 1:1 모의 실기 평가 및 포트폴리오 심층 진단' },
       ]}
     />
