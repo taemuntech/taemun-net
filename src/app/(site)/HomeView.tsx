@@ -732,27 +732,26 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
             {/* Modal Content */}
             <div className="p-5 lg:p-6 space-y-6">
               {/* Image Preview */}
-              <div className="aspect-[16/10] rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 relative">
-                <img
-                  src={selectedProject.thumbnailUrl}
-                  alt={selectedProject.title}
-                  onError={hideBrokenThumbnail}
-                  className="w-full h-full object-cover"
-                />
-                {selectedProject.badge && (
-                  <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-white/95 text-xs font-bold text-zinc-900 shadow-md">
-                    {selectedProject.badge}
-                  </span>
-                )}
-                {/* 카드와 같은 표를 같은 함수로 — 카드에서 본 것이 모달에서도 그대로 보인다 */}
-                <WorkMark project={selectedProject} className="absolute top-3 right-3" />
-                {selectedProject.liveDemoUrl && (
-                  <div className="absolute bottom-3 left-3 right-3 p-2.5 rounded-xl bg-black/80 backdrop-blur-md text-white text-xs font-medium flex items-center justify-between border border-white/10">
-                    <span className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                      <span>스튜디오 멀티 디바이스 반응형 뷰어 (PC · 태블릿 · 모바일)</span>
+              <div>
+                <div className="aspect-[16/10] rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 relative">
+                  <img
+                    src={selectedProject.thumbnailUrl}
+                    alt={selectedProject.title}
+                    onError={hideBrokenThumbnail}
+                    className="w-full h-full object-cover"
+                  />
+                  {selectedProject.badge && (
+                    <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-white/95 text-xs font-bold text-zinc-900 shadow-md">
+                      {selectedProject.badge}
                     </span>
-                    <span className="text-[11px] text-zinc-300 font-mono">회전(Rotate) 지원</span>
+                  )}
+                  {/* 카드와 같은 표를 같은 함수로 — 카드에서 본 것이 모달에서도 그대로 보인다 */}
+                  <WorkMark project={selectedProject} className="absolute top-3 right-3" />
+                </div>
+                {selectedProject.liveDemoUrl && (
+                  <div className="flex items-center gap-1.5 mt-2.5 text-xs text-zinc-500 font-medium">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>멀티 디바이스 반응형</span>
                   </div>
                 )}
               </div>
@@ -761,24 +760,25 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
               <div>
                 {/* 「클라이언트」가 아니라 「제작 대상」 — 이 화면을 어떤 업종·조직을 상정하고 만들었는가라는 뜻이다.
                     실제 계약 고객을 가리키는 말이 아니므로 라벨을 바꿔 뜻을 맞춘다(성격은 오른쪽 위 표가 말한다). */}
-                <div className="text-xs text-zinc-500 font-mono mb-1">
-                  제작 대상: {selectedProject.client}
+                <div className="text-xs text-zinc-500 break-keep [word-break:keep-all] leading-relaxed mb-1.5">
+                  <span className="font-mono text-zinc-400">제작 대상:</span>{" "}
+                  <span>{selectedProject.client}</span>
                 </div>
-                <h3 className="text-xl lg:text-2xl font-bold text-zinc-950">
+                <h3 className="text-xl lg:text-2xl font-bold text-zinc-950 break-keep [word-break:keep-all] [text-wrap:balance] leading-snug">
                   {selectedProject.title}
                 </h3>
-                <p className="text-xs lg:text-sm text-zinc-600 mt-2.5 font-light leading-relaxed">
+                <p className="text-xs lg:text-sm text-zinc-600 mt-2.5 font-normal leading-relaxed break-keep [word-break:keep-all] [text-wrap:pretty]">
                   {selectedProject.description}
                 </p>
               </div>
 
               {/* Highlights */}
-              <div className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200/80 space-y-2">
+              <div className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200/80 space-y-2.5">
                 <div className="text-xs font-bold text-zinc-700 mb-1">핵심 구현 기술 및 산출물</div>
                 {selectedProject.highlights.map((h, i) => (
-                  <div key={i} className="flex items-start gap-2 text-xs text-zinc-600">
+                  <div key={i} className="flex items-start gap-2 text-xs text-zinc-600 break-keep [word-break:keep-all] leading-relaxed">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
-                    <span>{h}</span>
+                    <span className="flex-1">{h}</span>
                   </div>
                 ))}
               </div>
@@ -807,31 +807,31 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
               {selectedProject.liveDemoUrl ? (
                 <Link
                   href={`${selectedProject.liveDemoUrl}${selectedProject.liveDemoUrl.includes('?') ? '&' : '?'}fromCategory=${selectedProject.category}&fromProject=${selectedProject.id}`}
-                  className="flex-1 py-3 px-4 rounded-xl bg-zinc-950 hover:bg-black text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all group"
+                  className="flex-1 py-3 px-4 rounded-xl bg-zinc-950 hover:bg-black text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all group break-keep text-center"
                 >
-                  <Monitor className="w-3.5 h-3.5 text-emerald-400" />
+                  <Monitor className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                   <span>반응형 뷰어로 체험 (PC · 태블릿 · 모바일 · 회전)</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform shrink-0" />
                 </Link>
               ) : selectedProject.externalUrl ? (
                 <a
                   href={selectedProject.externalUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex-1 py-3 px-4 rounded-xl bg-zinc-900 hover:bg-black text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all"
+                  className="flex-1 py-3 px-4 rounded-xl bg-zinc-900 hover:bg-black text-white text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all break-keep text-center"
                 >
                   <span>실제 운영 사이트 방문하기</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
+                  <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                 </a>
               ) : null}
 
               <Link
                 href={`/inquiry?project=${encodeURIComponent(selectedProject.title)}`}
                 onClick={() => setSelectedProject(null)}
-                className="py-3 px-5 rounded-xl bg-white hover:bg-zinc-100 text-zinc-900 border border-zinc-300 text-xs font-bold flex items-center justify-center gap-1.5 transition-all"
+                className="py-3 px-5 rounded-xl bg-white hover:bg-zinc-100 text-zinc-900 border border-zinc-300 text-xs font-bold flex items-center justify-center gap-1.5 transition-all break-keep text-center shrink-0"
               >
                 <span>이 프로젝트처럼 의뢰하기</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-3.5 h-3.5 shrink-0" />
               </Link>
             </div>
           </div>
