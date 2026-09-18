@@ -281,7 +281,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '화려한 치장보다 천연 트래버틴과 미장 회벽, 훈증 오크의 물성을 앞세운 최고급 건축 인테리어 에이전시의 브랜드 웹사이트입니다. 공간 철학 3대 축 소개, 반응형 프로젝트 아카이브 및 필터링, 1:1 프라이빗 공간 컨설팅 예약 위저드 시스템을 탑재했습니다.',
     thumbnailUrl: '/demo-media/atelier-vaucluse/atelier-vaucluse-01.avif',
     liveDemoUrl: '/demo/atelier-vaucluse',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -301,7 +301,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '도심 속 안식처를 지향하는 최고급 펜트하우스 전용 포트폴리오 사이트로, 시공 전 3D 렌더링과 완공 후 8K 실물 사진을 인터랙티브 슬라이더로 비교 감상할 수 있습니다.',
     thumbnailUrl: '/demo-media/haus-space/haus-space-01.avif',
     liveDemoUrl: '/demo/haus-space',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2025',
     highlights: [
@@ -320,7 +320,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '붉은 벽돌과 노출 콘크리트, 브러시드 스테인리스와 천연 원석이 조화를 이루는 상업 인테리어 스튜디오의 공식 웹사이트입니다. 3층 층별 조닝 인터랙션 핀 핫스팟, 5대 하이엔드 자재 스펙 아카이브, 업종·규모별 실시간 공간 견적 시뮬레이터 시스템을 탑재했습니다.',
     thumbnailUrl: '/demo-media/gallery/seongsu-flagship-showroom-01.avif',
     liveDemoUrl: '/demo/seongsu-showroom',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2025',
     highlights: [
@@ -340,7 +340,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '제주 애월의 바다와 오름을 품은 프라이빗 독채 스테이의 공식 웹사이트입니다. Day/Sunset/Night 시간대별 서커디언 조명 연출과 색온도 제어, 안채 다도실과 노천 히노끼탕 360 공간 투어 핀 핫스팟, 제주 현무암·100년 편백·규조토 등 4대 자연 물성 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/stay-jeju/desktop.png',
     liveDemoUrl: '/demo/stay-jeju',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -360,7 +360,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '성수·강남 테크 기업과 스타트업을 위한 하이브리드 스마트 오피스의 공식 웹사이트입니다. 코워킹·포커스 부스·타운홀·바이오필릭 4대 특화 존 핫스팟 투어, 온·습도 및 스마트 글래스를 제어하는 회의실 환경 관제 HUD, NRC 0.85 고성능 음향 차음재 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/nexus-work/desktop.png',
     liveDemoUrl: '/demo/nexus-work',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -380,7 +380,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '성수와 청담의 미식 랜드마크를 완성하는 F&B 레스토랑 & 감성 카페의 공식 웹사이트입니다. 오픈 셰프 카운터 바, 어번 온실 테라스, 르 시엘 프라이빗 룸 핫스팟 투어와 3단계 시간대별 조도(Lux) 시뮬레이션, 이탈리안 테라조와 황동 마감재 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/nouveau-dining/desktop.png',
     liveDemoUrl: '/demo/nouveau-dining',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -400,7 +400,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '한남·청담의 1:1 VIP 필라테스 & 스파 공간을 위한 공식 웹사이트입니다. 독립 리포머 룸, 허벌 티 라운지, 히노끼 스파 파우더룸 핫스팟 투어와 산소 농도·쾌적 습도를 모니터링하는 클린 에어 텔레메트리 HUD, 테라코타 및 히노끼 친환경 자재 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/arche-wellness/desktop.png',
     liveDemoUrl: '/demo/arche-wellness',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -420,7 +420,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '북촌·서촌의 전통 고택 건축 미학과 현대적 다도 문화를 결합한 한옥 복합문화 공간의 공식 웹사이트입니다. 다도 팽주석, 중정 이끼 정원 평상, 소반 온돌 다실 핫스팟 투어와 처마 끝 빗소리를 연출하는 날씨 앰비언스 HUD, 100년 고재 소나무와 수제 한지 전통 마감재 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/jeonglim-tea/desktop.png',
     liveDemoUrl: '/demo/jeonglim-tea',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -440,7 +440,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '청담·압구정의 VIP 피부과 & 안티에이징 센터를 위한 공식 웹사이트입니다. 캐시미어 크림 웰컴 라운지, 프라이빗 1인 치료 스위트, 호텔식 파우더 앤 스파 핫스팟 투어와 45dB 이하 무소음 차음 텔레메트리 HUD, 친환경 항균 규조토 및 트래버틴 자재 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/aether-medical/desktop.png',
     liveDemoUrl: '/demo/aether-medical',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -460,7 +460,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '서초·판교의 프리미엄 영유아 및 초등 창의 복합문화 라운지를 위한 공식 웹사이트입니다. 워터 앤 클레이 아트 스튜디오, 유기적 자작나무 놀이 파빌리온, 부모 전용 감성 살롱 핫스팟 투어와 라돈 제로·VOC 프리 안전 인증 텔레메트리 HUD, 친환경 자작나무와 천연 코르크 자재 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/raon-kids/desktop.png',
     liveDemoUrl: '/demo/raon-kids',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -480,7 +480,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '성수·한남의 하이엔드 오디오 애호가와 스튜디오를 위한 공식 웹사이트입니다. 스윗스팟 리스닝 룸, 화이트 오크 바이닐 라이브러리, 프라이빗 홈 시네마 핫스팟 투어와 보컬부터 대편성 심포니까지 음향 잔향 시간(RT60) 시뮬레이션 HUD, 솔리드 화이트 오크 디퓨저와 흡음 펠트 자재 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/resonance-sound/desktop.png',
     liveDemoUrl: '/demo/resonance-sound',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [
@@ -643,7 +643,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     description: '도심 대심도 지하철, 고속철도, 해저 침매터널 등 특수 메가 토목 엔지니어링 전문 기업의 공식 웹사이트입니다. 스크롤 연동 심도·지압 텔레메트리 HUD, 14.2m 쉴드 TBM 회전 커터헤드 인터랙션, 4대 지층 특화 단면 핫스팟 투어, 초고강도 세그먼트 라이닝 콘크리트 및 차수 지반 보강 신소재 아카이브를 담았습니다.',
     thumbnailUrl: '/portfolio/terra-core/desktop.png',
     liveDemoUrl: '/demo/terra-core',
-    techStack: ['Next.js 16', 'Tailwind CSS v4', 'TypeScript'],
+    techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
     year: '2026',
     highlights: [

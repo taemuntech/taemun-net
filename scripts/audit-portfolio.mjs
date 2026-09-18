@@ -1773,6 +1773,22 @@ function rewriteStackInner(arr, keep) {
   if (FIX_TECH_STACK) console.log(fixed.length ? `기술 스택 태그 정리 ${fixed.length}곳:\n  ${fixed.join("\n  ")}` : "기술 스택 태그: 고칠 곳 없음");
 }
 
+// ───────── 6-4. 홈 분류 제목 (ERROR) ─────────
+// 폰에서 분류 제목을 한 줄로 두고 「총 N개 작품」 배지를 뺀 수정(068a09a)이 28분 뒤 공유 폴더의 옛 사본에 덮인 채
+// 커밋돼 그대로 배포됐다(7a1c706 — 2026-09-18 형이 폰에서 발견). 조용히 되풀이되지 않게 두 모양을 본다.
+{
+  const home = path.join(ROOT, "src", "app", "(site)", "HomeView.tsx");
+  if (fs.existsSync(home)) {
+    const src = stripComments(fs.readFileSync(home, "utf8"));
+    if (/개\s*작품/.test(src)) {
+      error(rel(home), "분류 제목 옆 「총 N개 작품」 배지가 돌아왔습니다 — 폰에서 제목이 두 줄로 꺾입니다. 개수는 맨 위 분류 칩에 이미 있습니다");
+    }
+    if (!src.includes("lg:hidden whitespace-nowrap")) {
+      error(rel(home), "분류 제목의 폰 한 줄 처리(앞 두 토막만 whitespace-nowrap)가 사라졌습니다 — 옛 사본이 이 파일을 덮지 않았는지 확인하세요");
+    }
+  }
+}
+
 // ───────── 6-2. 데모 공용 파일(태문 자기 목소리) 문구 (WARN) ─────────
 //
 // 왜 따로 두나: 기기 전환 툴바(src/components/demos/DevicePreviewFrame.tsx)는 데모 12종 **전부**를 감싸는데
