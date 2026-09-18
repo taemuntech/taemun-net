@@ -980,6 +980,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     summary: '피부타입 및 피부고민별 4단계 딥 필터 HUD, 전성분 자체 클린 등급 검사(공인 인증 아님)기, 실시간 뷰티 어워즈 랭킹 차트 및 임상 시험 리포트',
     description: '글로벌 K-뷰티 트렌드를 선도하는 프리미엄 더마 코스메틱 플래그십 이커머스 라이브 데모입니다. 시카 엑소좀 수분 앰플부터 히알루론산 장벽 크림까지, 자체 클린 등급 성분 사전(공인 인증 아님)과 텍스처 발림성 비교, 피부타입(건성/수부지/지성/민감성) 및 피부고민별 4단계 맞춤 필터링, 실시간 어워즈 랭킹 및 1:1 피부과 전문의 상담 위저드를 탑재했습니다.',
     thumbnailUrl: '/demo-media/luminous-lab/luminous-lab-01.avif',
+    previewVideoUrl: '/portfolio/luminous-lab/cica-serum-commercial-preview.mp4',
     liveDemoUrl: '/demo/luminous-lab',
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
