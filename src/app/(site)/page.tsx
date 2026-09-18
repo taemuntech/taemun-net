@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import HomeView from "./HomeView";
 import { GALLERY_CATEGORIES, GALLERY_PROJECTS } from "@/lib/portfolio/galleryData";
-import { demoSlugOf } from "@/lib/portfolio/gallery-ref";
+import { demoSlugOf, gallerySlugOf } from "@/lib/portfolio/gallery-ref";
 import { getPortfolio } from "@/lib/portfolio/registry";
+import { thumbnailOf } from "@/lib/portfolio/schema";
+import type { WizardReference } from "@/components/inquiry/types";
 import { listedDemoLinks } from "@/lib/portfolio/header-links";
 import { listedHomeShortcuts } from "@/lib/portfolio/home-shortcuts";
 import { getState, isListed, resolveStatus } from "@/lib/portfolio/state";
@@ -48,6 +50,25 @@ export default async function Home() {
     return listedSlugs.has(slug);
   });
 
+  // 카드 모달의 「이 레퍼런스로 제작 문의」가 그 자리에서 여는 견적 위저드에 넘길 레퍼런스(구현계획서 P4).
+  // 카드 id 는 slug 와 다를 수 있어(22장) 카드가 가리키는 주소로 slug 를 찾고, 제목·한 줄 설명·썸네일은
+  // 등록 정보(src/content/portfolio)가 정본이다 — /inquiry 와 같은 값이 보이게. 위에서 걸러진 카드만 싣는다.
+  const portfolio = getPortfolio();
+  const inquiryRefs: Record<string, WizardReference> = {};
+  for (const p of projects) {
+    const slug = gallerySlugOf(p, portfolio);
+    const item = slug ? portfolio.find((it) => it.slug === slug) : undefined;
+    if (!item) continue;
+    inquiryRefs[p.id] = {
+      slug: item.slug,
+      title: item.title,
+      subtitle: item.subtitle,
+      kind: item.kind,
+      industry: item.industry,
+      thumb: thumbnailOf(item).desktop,
+    };
+  }
+
   // 헤더 드롭다운도 같은 스냅숏으로 거른다. HomeView 는 받은 것을 Header 에 그대로 전달만 한다 —
   // 헤더 항목을 Header.tsx('use client')에 적어 두면 갤러리와 똑같이 회사 이름이 청크로 새기 때문이다.
   // 분류 머리의 바로가기 버튼도 같은 스냅숏으로 거른다. 표를 HomeView('use client') 안에 두면
@@ -58,6 +79,7 @@ export default async function Home() {
       categories={GALLERY_CATEGORIES}
       demoLinks={listedDemoLinks(snapshot)}
       shortcuts={listedHomeShortcuts(listedSlugs)}
+      inquiryRefs={inquiryRefs}
     />
   );
 }

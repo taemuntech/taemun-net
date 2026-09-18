@@ -17,7 +17,7 @@
 
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
-import { ArrowLeft, ArrowRight, Check, ChevronDown, FileText, PhoneCall } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, ChevronDown, FileText, PhoneCall, X } from "lucide-react";
 import { BUDGET_OPTIONS, SERVICE_OPTIONS, TIMELINE_OPTIONS, serviceLabelOf } from "@/lib/inquiry/options";
 import {
   INQUIRY_LIMITS,
@@ -112,12 +112,19 @@ export function InquiryWizard({
   reference,
   entry,
   industryLead = null,
+  surface = "page",
+  onClose,
 }: {
   reference: WizardReference | null;
   entry: InquiryEntry;
   /** 샘플 없이 업종만 들고 온 문의(?industry=) — 서비스만 미리 고른다 */
   industryLead?: IndustryKey | null;
+  /** page = /inquiry 페이지 · modal = 홈 카드 모달 안(그 자리에서 바뀐다) */
+  surface?: "page" | "modal";
+  /** modal 에서만 — 닫기(×). 작성하던 내용은 이 탭의 초안에 남으므로 확인을 묻지 않는다 */
+  onClose?: () => void;
 }) {
+  const inModal = surface === "modal";
   const fieldId = useId();
   const [step, setStep] = useState<Step>(1);
   const [editing, setEditing] = useState(false);
@@ -203,6 +210,9 @@ export function InquiryWizard({
     const onPop = (e: PopStateEvent) => {
       const s = e.state as HistoryState;
       if (submittedRef.current) {
+        // 위저드가 쓴 기록 밖으로 나갔으면(모달을 닫는 뒤로가기 등) 손대지 않는다 — 그 기록에 step=done 을 덮어쓰면
+        // 홈 주소에 ?step=done 이 남는다
+        if (!s?.tmInq) return;
         stepRef.current = "done";
         setStep("done");
         writeHistory("done", "replace");
@@ -404,6 +414,20 @@ export function InquiryWizard({
   const progress = step === "done" ? 100 : ((stepNo - 1) / 4) * 100;
   const noun = reference ? REFERRAL_NOUN[reference.kind ?? "unknown"] : null;
 
+  const cardClass = inModal
+    ? "min-h-full bg-white text-zinc-900 lg:min-h-0 lg:rounded-3xl"
+    : "scroll-mt-28 rounded-3xl bg-white text-zinc-900 shadow-2xl";
+  const closeButton = onClose ? (
+    <button
+      type="button"
+      onClick={onClose}
+      aria-label="닫기"
+      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
+    >
+      <X className="w-4 h-4" aria-hidden="true" />
+    </button>
+  ) : null;
+
   const callLink = (
     <a
       href={`tel:${STUDIO_PHONE}`}
@@ -417,16 +441,17 @@ export function InquiryWizard({
 
   if (step === "done") {
     return (
-      <section ref={cardRef} aria-labelledby={`${fieldId}-done`} className="scroll-mt-28 rounded-3xl bg-white text-zinc-900 p-5 lg:p-8 shadow-2xl">
+      <section ref={cardRef} aria-labelledby={`${fieldId}-done`} className={`${cardClass} p-5 lg:p-8`}>
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-8">
           <div className="space-y-5" role="status">
             <div className="flex items-center gap-3">
               <span className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-600 text-white">
                 <Check className="w-5 h-5" aria-hidden="true" />
               </span>
-              <h2 id={`${fieldId}-done`} ref={headingRef} tabIndex={-1} className="text-xl lg:text-2xl font-extrabold tracking-tight outline-none">
+              <h2 id={`${fieldId}-done`} ref={headingRef} tabIndex={-1} className="flex-1 text-xl lg:text-2xl font-extrabold tracking-tight outline-none">
                 접수되었습니다
               </h2>
+              {closeButton}
             </div>
             {requestNo ? (
               <p className="text-sm text-zinc-600">
@@ -468,9 +493,19 @@ export function InquiryWizard({
             <div className="flex flex-col gap-3 border-t border-zinc-200 pt-4">
               <span className="text-xs text-zinc-500">급하시면 지금 전화 주세요.</span>
               {callLink}
-              <Link href="/" className="inline-flex w-fit items-center gap-1.5 rounded-xl bg-zinc-950 px-5 py-3 text-sm font-bold text-white hover:bg-black">
-                홈으로
-              </Link>
+              {onClose ? (
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="inline-flex w-fit items-center gap-1.5 rounded-xl bg-zinc-950 px-5 py-3 text-sm font-bold text-white hover:bg-black"
+                >
+                  닫기
+                </button>
+              ) : (
+                <Link href="/" className="inline-flex w-fit items-center gap-1.5 rounded-xl bg-zinc-950 px-5 py-3 text-sm font-bold text-white hover:bg-black">
+                  홈으로
+                </Link>
+              )}
             </div>
           </div>
           <div>
@@ -485,7 +520,7 @@ export function InquiryWizard({
   const inputStep = step;
 
   return (
-    <section ref={cardRef} aria-labelledby={`${fieldId}-h`} className="scroll-mt-28 rounded-3xl bg-white text-zinc-900 shadow-2xl">
+    <section ref={cardRef} aria-labelledby={`${fieldId}-h`} className={cardClass}>
       {/* 머리: 단계 · 진행 · (모바일) 내 요청서 */}
       <div className="flex items-center justify-between gap-3 border-b border-zinc-200 px-5 py-4 lg:px-8">
         <div className="min-w-0 flex-1">
@@ -511,6 +546,7 @@ export function InquiryWizard({
           내 요청서 · {filled}/5
           <ChevronDown className={`w-3.5 h-3.5 transition-transform ${panelOpen ? "rotate-180" : ""}`} aria-hidden="true" />
         </button>
+        {closeButton}
       </div>
 
       {panelOpen && (
@@ -871,7 +907,7 @@ export function InquiryWizard({
 
         {/* 데스크톱: 옆 견적요청서 */}
         <aside className="hidden lg:block" aria-label="내 견적요청서">
-          <div className="sticky top-28 space-y-2">
+          <div className={`sticky space-y-2 ${inModal ? "top-4" : "top-28"}`}>
             <div className="text-xs font-bold text-zinc-500">
               {inputStep === 4 ? "태문에 이렇게 접수됩니다" : `내 요청서 · ${filled}/5`}
             </div>

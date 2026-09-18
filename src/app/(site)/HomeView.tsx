@@ -5,6 +5,9 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import FloatingChatWidget from "@/components/FloatingChatWidget";
 import { ProcessSection } from "@/components/inquiry/ProcessSection";
+import dynamic from "next/dynamic";
+import type { WizardReference } from "@/components/inquiry/types";
+import { trackInquiry } from "@/lib/inquiry/track";
 // ⚠️ **값(GALLERY_PROJECTS·GALLERY_CATEGORIES)을 import 하지 않는다 — 타입만 가져온다.**
 // 이 파일은 'use client' 라, 값을 import 하면 galleryData.ts 가 통째로 클라이언트 청크에 들어간다.
 // 서버가 걸러 렌더해도 청크는 별개라, 실측에서 내려간 시안의 회사 이름·클라이언트 표기·설명·/demo/<slug>
@@ -47,6 +50,12 @@ import {
   GraduationCap,
 } from "lucide-react";
 
+// 견적 위저드는 카드 모달에서 「이 레퍼런스로 제작 문의」를 누를 때만 받는다 — 홈 첫 화면 번들에 넣지 않는다
+const InquiryWizard = dynamic(() => import("@/components/inquiry/InquiryWizard").then((m) => m.InquiryWizard), {
+  ssr: false,
+  loading: () => <div className="p-10 text-sm text-zinc-500">견적 요청 화면을 여는 중…</div>,
+});
+
 /**
  * 홈 갤러리에 **실어도 되는 작업물만** 담긴 배열 — 서버(page.tsx)가 공개 상태를 읽어 걸러서 내려 준다.
  *
@@ -68,6 +77,8 @@ export type HomeViewProps = {
   demoLinks?: readonly HeaderDemoLink[];
   /** 분류 머리의 바로가기 버튼 — 서버가 「공개」인 것만 걸러서 준다. 내려간 시안은 배열에 없다 */
   shortcuts?: readonly HomeShortcut[];
+  /** 카드 id → 견적 위저드에 넘길 레퍼런스(서버가 위 projects 로만 만든다). 없으면 /inquiry 로 보낸다 */
+  inquiryRefs?: Readonly<Record<string, WizardReference>>;
 };
 
 /**
@@ -263,7 +274,7 @@ function CardHoverVideo({ src }: { src: string }) {
   );
 }
 
-export default function HomeView({ projects, categories, demoLinks, shortcuts = [] }: HomeViewProps) {
+export default function HomeView({ projects, categories, demoLinks, shortcuts = [], inquiryRefs = {} }: HomeViewProps) {
   // 이름만 옛것 그대로 둔다(아래 화면 코드가 이 이름을 쓴다) — 값은 서버가 이미 걸러 준 배열이다
   const galleryProjects = projects;
   const GALLERY_CATEGORIES = categories;
@@ -284,6 +295,66 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
 
   // State for project detail modal
   const [selectedProject, setSelectedProject] = useState<GalleryProject | null>(null);
+  // 모달이 「이 레퍼런스로 제작 문의」로 그 자리에서 견적 위저드가 됐는가(구현계획서 P4)
+  const [inquiryOpen, setInquiryOpen] = useState(false);
+
+  // ── 모달과 뒤로가기(2026-09-19 가온) ──────────────────────────────────────────
+  // 미리보기와 위저드가 각자 기록 한 칸을 갖는다. 그래서 휴대폰 뒤로가기가 사이트를 떠나지 않고
+  // 위저드 → 미리보기 → 닫힘 순서로 물러난다. 위저드 안의 단계 기록(tmInq)은 위저드가 직접 다룬다.
+  //   기록 모양: 미리보기 { tmHome: "preview" } · 위저드 첫 화면 { tmHome: "inquiry" } · 위저드 단계 { tmInq, tmIdx }
+  const openPreview = (project: GalleryProject) => {
+    setInquiryOpen(false);
+    setSelectedProject(project);
+    trackInquiry("preview_open", { entry: "home_modal", referralFrom: inquiryRefs[project.id]?.slug ?? null });
+    try {
+      window.history.pushState({ tmHome: "preview" }, "", window.location.href);
+    } catch {
+      // 기록을 못 쓰면 닫기 버튼으로만 닫힌다
+    }
+  };
+  const openInquiry = () => {
+    setInquiryOpen(true);
+    try {
+      window.history.pushState({ tmHome: "inquiry" }, "", window.location.href);
+    } catch {
+      // 무시
+    }
+  };
+  /** 모달을 통째로 닫는다 — 모달이 쌓은 기록만큼 한 번에 되돌린다(위저드 단계 수 = tmIdx) */
+  const closeModal = () => {
+    const s = window.history.state as { tmHome?: string; tmInq?: boolean; tmIdx?: number } | null;
+    const depth = s?.tmInq ? 2 + (s.tmIdx ?? 0) : s?.tmHome === "inquiry" ? 2 : s?.tmHome === "preview" ? 1 : 0;
+    if (depth > 0) {
+      window.history.go(-depth);
+    } else {
+      setInquiryOpen(false);
+      setSelectedProject(null);
+    }
+  };
+  useEffect(() => {
+    const onPop = (e: PopStateEvent) => {
+      const s = e.state as { tmHome?: string; tmInq?: boolean } | null;
+      if (s?.tmInq || s?.tmHome === "inquiry") return; // 위저드 안에서의 이동 — 위저드가 처리
+      if (s?.tmHome === "preview") {
+        setInquiryOpen(false);
+        return;
+      }
+      setInquiryOpen(false);
+      setSelectedProject(null);
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+  useEffect(() => {
+    if (!selectedProject) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeModal();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // closeModal 은 기록만 읽는다 — 모달이 열린 동안 한 번만 건다
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedProject]);
 
   const handleCategoryStep = (categoryId: GalleryCategoryId, totalCount: number) => {
     const defaultCount = isMobile ? 4 : 5;
@@ -591,7 +662,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                         <button
                           key={shortcut.label}
                           type="button"
-                          onClick={() => setSelectedProject(allProjects[0])}
+                          onClick={() => openPreview(allProjects[0])}
                           className={shortcut.className}
                         >
                           {icon}
@@ -631,7 +702,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                       key={project.id}
                       id={`project-${project.id}`}
                       data-preview-card
-                      onClick={() => setSelectedProject(project)}
+                      onClick={() => openPreview(project)}
                       className={`${
                         isFifthHiddenOnMobile ? "hidden lg:flex" : "flex"
                       } group relative rounded-2xl bg-zinc-50 border border-zinc-200/90 hover:border-zinc-400 p-2.5 lg:p-3 flex-col justify-between transition-all duration-300 hover:shadow-lg cursor-pointer overflow-hidden scroll-mt-32`}
@@ -951,7 +1022,26 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
           채로 모달을 열면 카드가 화면보다 커져 위아래가 잘렸다(삼성 인터넷 실측). 모달이 열리면 뒤 페이지 스크롤을
           잠그므로 브라우저가 주소창을 스스로 접을 기회도 없다 — 그래서 카드를 보이는 영역에 맞춘다.
           dvh 를 모르는 옛 브라우저는 vh 로 남는다. */}
-      {selectedProject && (
+      {/* 같은 모달이 견적 위저드로 바뀐 모습 — 휴대폰은 전체 화면, 데스크톱은 넓은 카드(옆에 견적요청서).
+          미리보기 영상은 이때 그리지 않는다(내려받기가 멈춘다). 위저드 코드는 이 버튼을 누를 때만 받는다(dynamic). */}
+      {selectedProject && inquiryOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="견적 요청"
+          className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-stretch lg:items-center justify-center p-0 lg:p-6"
+        >
+          <div className="w-full h-full supports-[height:100dvh]:h-[100dvh] lg:h-auto lg:supports-[height:100dvh]:h-auto lg:max-w-5xl lg:max-h-[90dvh] overflow-y-auto overscroll-contain bg-white lg:rounded-3xl shadow-2xl">
+            <InquiryWizard
+              reference={inquiryRefs[selectedProject.id] ?? null}
+              entry="home_modal"
+              surface="modal"
+              onClose={closeModal}
+            />
+          </div>
+        </div>
+      )}
+      {selectedProject && !inquiryOpen && (
         <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 lg:p-6 animate-in fade-in duration-200">
           <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] supports-[height:100dvh]:max-h-[90dvh] overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden shadow-2xl border border-zinc-200 flex flex-col justify-between text-left">
             {/* Modal Header */}
@@ -963,7 +1053,8 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                 <span className="text-xs text-zinc-400 font-mono">• {selectedProject.year}</span>
               </div>
               <button
-                onClick={() => setSelectedProject(null)}
+                onClick={closeModal}
+                aria-label="닫기"
                 className="w-8 h-8 rounded-full bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center text-zinc-600 transition-colors"
               >
                 <X className="w-4 h-4" />
@@ -1100,14 +1191,26 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                 </a>
               ) : null}
 
-              <Link
-                href={`/inquiry?project=${encodeURIComponent(selectedProject.title)}`}
-                onClick={() => setSelectedProject(null)}
-                className="py-3 px-5 rounded-xl bg-white hover:bg-zinc-100 text-zinc-900 border border-zinc-300 text-xs font-bold flex items-center justify-center gap-1.5 transition-all break-keep text-center shrink-0"
-              >
-                <span>이 레퍼런스로 제작 문의</span>
-                <ArrowRight className="w-3.5 h-3.5 shrink-0" />
-              </Link>
+              {/* 모달이 그 자리에서 견적 위저드로 바뀐다(구현계획서 P4). 레퍼런스를 못 찾은 카드만 /inquiry 로 보낸다 */}
+              {inquiryRefs[selectedProject.id] ? (
+                <button
+                  type="button"
+                  onClick={openInquiry}
+                  className="py-3 px-5 rounded-xl bg-white hover:bg-zinc-100 text-zinc-900 border border-zinc-300 text-xs font-bold flex items-center justify-center gap-1.5 transition-all break-keep text-center shrink-0"
+                >
+                  <span>이 레퍼런스로 제작 문의</span>
+                  <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+                </button>
+              ) : (
+                <Link
+                  href="/inquiry"
+                  onClick={() => setSelectedProject(null)}
+                  className="py-3 px-5 rounded-xl bg-white hover:bg-zinc-100 text-zinc-900 border border-zinc-300 text-xs font-bold flex items-center justify-center gap-1.5 transition-all break-keep text-center shrink-0"
+                >
+                  <span>이 레퍼런스로 제작 문의</span>
+                  <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+                </Link>
+              )}
             </div>
           </div>
         </div>
