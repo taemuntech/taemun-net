@@ -1,0 +1,18 @@
+{
+  "slug": "renewal-tech",
+  "kind": "sample",
+  "industry": "construction",
+  "title": "리뉴얼 테크",
+  "subtitle": "도심 대형 노후 빌딩 리모델링 & 대수선·밸류애드 솔루션",
+  "summary": "가상 빌딩 대수선 전문 브랜드 「리뉴얼 테크」로 제작한 노후 빌딩 리모델링 전문 웹사이트 샘플입니다. 1990년대 노후 상가 빌딩에서 최첨단 커튼월 사옥으로 탈바꿈한 Before & After 비교 슬라이더, 4대 대수선 랜드마크 완공 실적, 신축 대비 공사비 및 공기 절감 경제성 시뮬레이터, 탄소섬유 내진 보강 특화 공법 아카이브, 무료 현장 실측 및 건물 진단 신청 모달을 담았습니다.",
+  "features": [
+    "노후 화강석 빌딩에서 글래스 커튼월 사옥으로의 실시간 Before & After 비교 슬라이더",
+    "강남 한독타워·종로 금융빌딩·신사 메디컬타워 4대 대수선 완공작 아카이브",
+    "신축 대비 공사비 40% 절감 & 공기 60% 단축 리모델링 경제성 시뮬레이터(예시)",
+    "탄소섬유(CFRP) 기둥 보강, 강판 내진 압착, 수직 2개층 증축 엔지니어링 솔루션",
+    "SampleNotice 연동 노후 빌딩 무료 현장 실측 및 구조 안전 진단 신청 모달"
+  ],
+  "techStack": ["Next.js 16", "React 19", "Tailwind CSS v4", "TypeScript", "Before-After Split Slider", "Value-Add ROI Simulator"],
+  "liveUrl": "/demo/renewal-tech",
+  "createdAt": "2026-09-18"
+}
