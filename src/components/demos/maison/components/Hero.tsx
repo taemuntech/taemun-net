@@ -93,11 +93,15 @@ export const Hero: React.FC<HeroProps> = ({ onExploreClick, onReserveClick }) =>
           <div className="lg:col-span-7 order-1 lg:order-2">
             <div className="relative bg-[#f5ece7] p-3 lg:p-4 rag-border shadow-sm">
               <div className="overflow-hidden relative aspect-[16/11]">
-                <img
+                <video
                   id="hero-editorial-image"
-                  alt="Parisian salon showroom with 19th-century desk and gold gilded mirror"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  poster={BRAND_INFO.heroImageUrl}
+                  src={BRAND_INFO.heroVideoUrl || "/demo-media/maison/maison-heritage-loop.mp4"}
                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.02]"
-                  src={BRAND_INFO.heroImageUrl}
                 />
                 <div className="absolute bottom-4 left-4 bg-[#fff8f5]/90 backdrop-blur-sm px-4 py-2 border border-[#d6c2c2] text-left">
                   <span className="text-[9px] uppercase tracking-widest text-[#735b24] font-semibold block">
