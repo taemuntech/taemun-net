@@ -92,7 +92,8 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Right: Precision Telemetry HUD & Booking Action */}
         <div className="flex items-center gap-3 lg:gap-4">
           {/* Precision Timer HUD */}
-          <div className="hidden lg:flex items-center gap-3 bg-[#1c1b1b] px-3.5 py-1.5 border border-[#2a2a2a]">
+          {/* 1024~1535px 노트북에서는 이 덩어리가 자리를 먹어 오른쪽 예약 버튼이 화면 밖으로 밀려났다(2026-09-18 실측: 1366px 에서 3개 요소가 화면 밖). 넓은 화면(2xl, 1536px~)에서만 보인다. */}
+          <div className="hidden 2xl:flex items-center gap-3 bg-[#1c1b1b] px-3.5 py-1.5 border border-[#2a2a2a]">
             <div className="flex flex-col">
               <span className="font-telemetry text-[9px] text-[#9e9b9a] uppercase tracking-wider leading-none">
                 PRECISION TIMER

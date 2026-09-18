@@ -147,8 +147,9 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Right CTA Actions */}
         <div className="flex items-center gap-2 lg:gap-3 shrink-0">
+          {/* 1024~1535px 노트북에서는 이 덩어리가 자리를 먹어 오른쪽 예약 버튼이 화면 밖으로 밀려났다(2026-09-18 실측: 1366px 에서 3개 요소가 화면 밖). 넓은 화면(2xl, 1536px~)에서만 보인다. */}
           <a
-            className="hidden lg:flex flex-col items-end text-right px-2"
+            className="hidden 2xl:flex flex-col items-end text-right px-2"
             href="tel:02-0000-0000"
           >
             <span className="text-[11px] font-medium text-[#75593c]">전화 직통상담</span>
