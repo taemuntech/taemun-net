@@ -8,6 +8,7 @@ interface HeroSectionProps {
 }
 
 export const HERO_SATELLITE_IMG = "/demo-media/stella-orbital/stella-orbital-04.jpg";
+export const HERO_SATELLITE_VIDEO = "/demo-media/stella-orbital/space_icon.mp4";
 
 /** 히어로 하단 신뢰 지표 — 가상 브랜드라 전부 예시 수치다(구역 머리에 배지 한 개로 표시). */
 const CORE_STATS: ReadonlyArray<{ label: string; value: string; note: string; valueClass: string }> = [
@@ -53,7 +54,7 @@ export default function HeroSection({ onOpenModal, onScrollToTasking }: HeroSect
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Left Hero Copy Column (7 Cols) */}
           <div className="lg:col-span-7 flex flex-col space-y-6">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-on-surface tracking-tight leading-tight">
+            <h1 className="text-2xl min-[400px]:text-3xl lg:text-5xl font-extrabold text-on-surface tracking-tight leading-tight [word-break:keep-all]">
               Autonomous LEO Satellite Constellation for{' '}
               <span className="text-primary underline decoration-secondary-container decoration-4 underline-offset-8">
                 Continuous Planetary
@@ -64,11 +65,11 @@ export default function HeroSection({ onOpenModal, onScrollToTasking }: HeroSect
               500km 태양동기궤도(SSO) 상에서 가동되는 32기의 초소형 군집 위성이 전 지구를 90분 주기로 재방문합니다. 0.3m 초고해상도 광학 렌즈와 전천후 X-band SAR 레이더로 기상과 밤낮에 구애받지 않고 지구의 매 순간을 자율 분석합니다.
             </p>
 
-            {/* CTAs — 태블릿(768)부터 가로로 놓는다(모바일/웹 경계는 그대로 lg) */}
-            <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4 pt-2">
+            {/* CTAs */}
+            <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3 lg:gap-4 pt-2">
               <button
                 type="button"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-on-background text-on-primary font-semibold text-sm hover:bg-inverse-surface transition-all shadow-md active:scale-95 cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-on-surface text-on-primary font-semibold text-sm hover:bg-inverse-surface transition-all shadow-md active:scale-95 cursor-pointer"
                 onClick={onScrollToTasking}
               >
                 <span>촬영 위임(Tasking) 의뢰</span>
@@ -110,31 +111,37 @@ export default function HeroSection({ onOpenModal, onScrollToTasking }: HeroSect
                   <span className="w-2 h-2 rounded-full bg-secondary-container animate-pulse shrink-0" />
                   {/* 375 에서는 뒤쪽 「// SATELLITE HUD」 가 잘려 나가 좁은 폭에서는 위성 이름만 적는다 */}
                   <span className="truncate">
-                    <span className="sm:hidden">STELLA-ORBITAL-09</span>
-                    <span className="hidden sm:inline">STELLA-ORBITAL-09 // SATELLITE HUD</span>
+                    <span className="lg:hidden">STELLA-ORBITAL-09</span>
+                    <span className="hidden lg:inline">STELLA-ORBITAL-09 // SATELLITE HUD</span>
                   </span>
                 </div>
                 <span className="text-secondary-fixed shrink-0">TELEMETRY (예시 수치)</span>
               </div>
 
-              {/* Satellite Photographic Feed Container */}
+              {/* Satellite Photographic/Video Feed Container */}
               <div className="relative aspect-video lg:aspect-square w-full rounded-b-lg overflow-hidden bg-on-background">
-                <img
-                  alt="STELLA-09 SmallSat in Low Earth Orbit with solar array over Europe and blue ocean"
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  controlsList="nodownload noplaybackrate"
+                  disablePictureInPicture
+                  onContextMenu={(e) => e.preventDefault()}
+                  poster={HERO_SATELLITE_IMG}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  src={HERO_SATELLITE_IMG}
-                  referrerPolicy="no-referrer"
+                  src={HERO_SATELLITE_VIDEO}
                 />
 
                 {/* Subtle Telemetry HUD Overlays */}
                 <div className="absolute inset-0 pointer-events-none p-2 lg:p-4 flex flex-col justify-between border border-secondary-container/20">
                   {/* 좁은 폭에서는 두 칸이 서로 파고들어 글자가 겹쳤다 — 세로로 쌓는다 */}
-                  <div className="flex flex-col gap-1 md:flex-row md:justify-between md:items-start text-surface font-code-mono text-[10px] lg:text-[11px] bg-on-background/70 backdrop-blur-sm p-2 rounded border border-outline-variant/30">
+                  <div className="flex flex-col gap-1 lg:flex-row lg:justify-between lg:items-start text-surface font-code-mono text-[10px] lg:text-[11px] bg-on-background/70 backdrop-blur-sm p-2 rounded border border-outline-variant/30">
                     <div className="min-w-0">
                       <p className="text-secondary-fixed font-bold break-words">TARGET COORD: 36.3504° N, 127.3845° E</p>
                       <p>ALTITUDE: 502.4 KM SSO</p>
                     </div>
-                    <div className="md:text-right min-w-0">
+                    <div className="lg:text-right min-w-0">
                       <p>VELOCITY: 7.66 KM/S</p>
                       <p className="text-tertiary-fixed">CARRIER LOCK: 99.98% (예시)</p>
                     </div>
@@ -174,9 +181,7 @@ export default function HeroSection({ onOpenModal, onScrollToTasking }: HeroSect
                 className="p-4 bg-surface-container-lowest border border-outline-variant rounded-lg shadow-sm min-w-0"
               >
                 <p className="font-code-mono text-[11px] lg:text-xs text-on-surface-variant break-words">{stat.label}</p>
-                {/* 375 두 칸 격자에서 「14 Autonomous Nodes」 가 카드 밖으로 잘려 나갔다(실측 146px > 118px).
-                    한 칸이 155px 뿐인 모바일에서만 글자를 줄이고, 768 부터는 원래 크기로 돌린다. */}
-                <p className={`text-lg md:text-2xl font-bold ${stat.valueClass} mt-1 leading-tight break-words`}>
+                <p className={`text-lg lg:text-2xl font-bold ${stat.valueClass} mt-1 leading-tight break-words`}>
                   {stat.value}
                 </p>
                 <p className="text-xs text-on-surface-variant mt-1 [word-break:keep-all]">{stat.note}</p>
