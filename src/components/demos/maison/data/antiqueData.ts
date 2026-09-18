@@ -12,6 +12,8 @@ export const BRAND_INFO = {
     "/demo-media/maison/maison-17.png",
   heroImageUrl:
     "/demo-media/maison/maison-13.jpg",
+  heroVideoUrl:
+    "/demo-media/maison/maison-heritage-loop.mp4",
   atelierImageUrl:
     "/demo-media/maison/maison-04.jpg",
   contact: {
