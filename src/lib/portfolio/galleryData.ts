@@ -26,6 +26,13 @@ export interface GalleryProject {
   summary: string;
   description: string;
   thumbnailUrl: string;
+  /**
+   * 상세 모달에서 사진 대신 돌릴 미리보기 영상 — 데모 히어로 영상을 960px·무음·1MB 이하로 다시 뽑은 것.
+   * 원본(4~5MB)을 그대로 걸면 안 된다: /portfolio/<slug>/… 는 「내리기」 게이트 때문에 캐시가 막혀 있어
+   * 모달을 열 때마다 통째로 다시 받는다. 반드시 /portfolio/<slug>/ 아래(private-assets)에 둘 것 —
+   * /demo-media 등 그 밖에 두면 게이트를 안 타서 작품을 내려도 영상만 남는다.
+   */
+  previewVideoUrl?: string;
   liveDemoUrl?: string;
   externalUrl?: string;
   techStack: string[];
@@ -1133,6 +1140,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     summary: 'ISO Class 1 클린룸 인증, 초당 100회 라이다·비전 SLAM 및 0.5mm 초정밀 도킹 자율 군집 로봇',
     description: '반도체 웨이퍼 카세트 및 2차전지 전극 롤 무인 이송을 위한 하이엔드 로보틱스 플래그십 사이트입니다. 3대 로봇 라인업(AMR-500/1500/3000) 360 스펙 브로슈어, 실시간 148노드 NEXUS-OS 디지털 트윈 팹 관제 뷰어, 면적 및 교대 인력 기반 대화형 ROI 계산기를 탑재했습니다.',
     thumbnailUrl: '/demo-media/nexus-robotics/nexus-robotics-01.jpg',
+    previewVideoUrl: '/portfolio/nexus-robotics/cleanroom-fleet-preview.mp4',
     liveDemoUrl: '/demo/nexus-robotics',
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
@@ -1153,6 +1161,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     summary: '1.8GW 해상풍력 연계 PEM 수전해 플랜트, -253℃ 극저온 액화수소 SCM 및 RE100 PPA 금융 플랫폼',
     description: '노르딕 클린테크 감성의 대형 신재생에너지 엔터프라이즈 플래그십 사이트입니다. 신안·울산·포항 4대 발전 거점 실시간 SCADA 텔레메트리 연동 맵, 기업용 연간 전력 사용량 기반 탄소 배출권·전력 구매 금융 절감 계산기(예시 산출식), 국제 인증기관(예시) 그린수소 인증관을 완비했습니다.',
     thumbnailUrl: '/demo-media/h2-next/h2-next-01.avif',
+    previewVideoUrl: '/portfolio/h2-next/offshore-wind-preview.mp4',
     liveDemoUrl: '/demo/h2-next',
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
@@ -1173,6 +1182,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     summary: '부산신항-로테르담 실시간 AIS 선박 추적, -18℃ 초저온 콜드체인 IoT 관제 및 복합운임 시뮬레이터',
     description: '글로벌 선사 규모의 글로벌 스마트 항만 & AI 복합물류 플래그십 사이트입니다. B/L 선하증권 실시간 GPS 선박 및 컨테이너 텔레메트리 HUD, 해상·항공·철도 운송모드별 실시간 운임 및 Scope-3 탄소 감축 계산기, 부산·로테르담·싱가포르·LA 4대 거점 항만 혼잡도 레이더 모달, 글로벌 화주 전용 RFP 운송계약 접수 데스크를 완비했습니다.',
     thumbnailUrl: '/demo-media/transocean-scm/transocean-scm-01.jpg',
+    // 미리보기 영상 보류 — 히어로 영상 선체·컨테이너에 실존 선사 로고가 찍혀 있다. 영상을 바꾼 뒤에 넣는다.
     liveDemoUrl: '/demo/transocean-scm',
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
@@ -1193,6 +1203,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     summary: '차세대 800V SiC 인버터, 15분 메가와트 초급속 충전 & 열관리 시뮬레이터 및 ASIL-D 인증관',
     description: '글로벌 완성차 Tier-1 전장 엔지니어링 기업을 위한 하이퍼 테크 플래그십 사이트입니다. 배터리 용량 및 주변온도별 실시간 800V 충전 속도·열방출 시뮬레이터, 3세대 SiC 전력 인버터 분해 마이크로 아키텍처 뷰어, 실시간 120kHz 스위칭 오실로스코프 파형 계측기, 기능안전 등급 표기(예시) 및 기술 백서 다운로드 게이트를 완비했습니다.',
     thumbnailUrl: '/demo-media/voltron-ev/voltron-ev-01.jpg',
+    previewVideoUrl: '/portfolio/voltron-ev/powertrain-rig-preview.mp4',
     liveDemoUrl: '/demo/voltron-ev',
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',
@@ -1213,6 +1224,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     summary: '태양동기궤도 500km 초소형 위성 군집, 0.3m 초고해상도 광학 & X-Band SAR 레이더, 실시간 텔레메트리 다운링크',
     description: '순백 스페이스테크 클린룸 감성으로 설계된 지구관측 위성 데이터 플랫폼 플래그십 사이트입니다. 광학(EO)·합성개구레이더(SAR)·초분광 3대 센서 인터랙티브 해상도 비교 뷰어, 국방/해양/인프라 분석 솔루션 매트릭스, 전 세계 14개 지상국 다운링크 텔레메트리 HUD, 촬영 위임 의뢰(Tasking) 위저드를 완비했습니다.',
     thumbnailUrl: '/demo-media/stella-orbital/stella-orbital-04.jpg',
+    previewVideoUrl: '/portfolio/stella-orbital/space-icon-preview.mp4',
     liveDemoUrl: '/demo/stella-orbital',
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',

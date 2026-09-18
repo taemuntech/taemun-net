@@ -104,6 +104,57 @@ function WorkMark({ project, className = "" }: { project: GalleryProject; classN
   );
 }
 
+/**
+ * 상세 모달의 대표 화면 — 사진을 먼저 깔고, 미리보기 영상(previewVideoUrl)이 있으면 **재생이 시작된 뒤에**
+ * 그 위로 서서히 겹친다.
+ *
+ * 사진을 먼저 까는 이유: 방금 누른 카드와 같은 사진이라 이미 받아 둔 것이고, 영상이 늦거나 못 도는 경우
+ * (아이폰 저전력 모드는 자동재생을 막는다·네트워크 오류)에도 빈 칸 대신 사진이 남는다.
+ * 동작 줄이기 설정·데이터 절약 모드인 방문자에겐 영상을 아예 받지 않는다.
+ *
+ * 영상은 누르면 데모로 가는 링크 안에 있으므로 클릭을 가로채지 않게 pointer-events 를 끈다.
+ * 모달은 카드를 눌러야 그려지므로(서버 렌더 없음) 초기값에서 window 를 바로 읽어도 된다.
+ */
+function ModalPreviewMedia({ project, zoomOnHover }: { project: GalleryProject; zoomOnHover: boolean }) {
+  const [allowVideo] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+    return !reduceMotion && !saveData;
+  });
+  const [videoPlaying, setVideoPlaying] = useState(false);
+  const zoom = zoomOnHover ? "group-hover:scale-[1.03]" : "";
+
+  return (
+    <>
+      <img
+        src={project.thumbnailUrl}
+        alt={project.title}
+        onError={hideBrokenThumbnail}
+        className={`w-full h-full object-cover transition-transform duration-500 ${zoom}`}
+      />
+      {project.previewVideoUrl && allowVideo && (
+        <video
+          src={project.previewVideoUrl}
+          muted
+          playsInline
+          loop
+          autoPlay
+          preload="auto"
+          aria-hidden="true"
+          disablePictureInPicture
+          disableRemotePlayback
+          controlsList="nodownload noplaybackrate"
+          onPlaying={() => setVideoPlaying(true)}
+          className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-[opacity,transform] duration-500 ${zoom} ${
+            videoPlaying ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      )}
+    </>
+  );
+}
+
 export default function HomeView({ projects, categories, demoLinks, shortcuts = [] }: HomeViewProps) {
   // 이름만 옛것 그대로 둔다(아래 화면 코드가 이 이름을 쓴다) — 값은 서버가 이미 걸러 준 배열이다
   const galleryProjects = projects;
@@ -797,12 +848,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                     className="block group aspect-[16/10] rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 relative cursor-pointer"
                     title="반응형 뷰어로 체험 (PC · 태블릿 · 모바일)"
                   >
-                    <img
-                      src={selectedProject.thumbnailUrl}
-                      alt={selectedProject.title}
-                      onError={hideBrokenThumbnail}
-                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                    />
+                    <ModalPreviewMedia key={selectedProject.id} project={selectedProject} zoomOnHover />
                     {selectedProject.badge && selectedProject.badge !== "실물 라이브 데모" && (
                       <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-white/95 text-xs font-bold text-zinc-900 shadow-md">
                         {selectedProject.badge}
@@ -820,12 +866,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                     className="block group aspect-[16/10] rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 relative cursor-pointer"
                     title="실제 운영 사이트 방문하기"
                   >
-                    <img
-                      src={selectedProject.thumbnailUrl}
-                      alt={selectedProject.title}
-                      onError={hideBrokenThumbnail}
-                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                    />
+                    <ModalPreviewMedia key={selectedProject.id} project={selectedProject} zoomOnHover />
                     {selectedProject.badge && selectedProject.badge !== "실물 라이브 데모" && (
                       <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-white/95 text-xs font-bold text-zinc-900 shadow-md">
                         {selectedProject.badge}
@@ -836,12 +877,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                   </a>
                 ) : (
                   <div className="aspect-[16/10] rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 relative">
-                    <img
-                      src={selectedProject.thumbnailUrl}
-                      alt={selectedProject.title}
-                      onError={hideBrokenThumbnail}
-                      className="w-full h-full object-cover"
-                    />
+                    <ModalPreviewMedia key={selectedProject.id} project={selectedProject} zoomOnHover={false} />
                     {selectedProject.badge && selectedProject.badge !== "실물 라이브 데모" && (
                       <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-white/95 text-xs font-bold text-zinc-900 shadow-md">
                         {selectedProject.badge}
