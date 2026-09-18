@@ -25,7 +25,7 @@ export default function ReturnCalculatorSection({ onOpenVdr }: ReturnCalculatorS
       className="py-20 bg-[#090e17] border-t border-[#4d4635]/20 relative scroll-mt-24"
       id="performance"
     >
-      <div className="max-w-[1680px] mx-auto px-6 lg:px-14">
+      <div className="max-w-7xl mx-auto px-6 lg:px-14">
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12">
           <div>

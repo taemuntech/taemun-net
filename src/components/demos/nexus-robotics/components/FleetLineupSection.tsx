@@ -14,31 +14,31 @@ export function FleetLineupSection({ onOpenSpecModal }: FleetLineupSectionProps)
 
  return (
  <section className="py-14 lg:py-20 bg-slate-50 border-b border-slate-200" id="solutions">
- <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12">
+ <div className="max-w-7xl mx-auto px-4 lg:px-12">
  {/* Section Header */}
- <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
+ <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 lg:mb-12 gap-4 lg:gap-6">
  <div>
  <div className="flex items-center gap-2 mb-2">
- <span className="h-2 w-2 rounded bg-blue-600" />
- <span className="text-xs font-mono font-bold text-blue-600 uppercase">
+ <span className="h-2 w-2 rounded bg-blue-600 shrink-0" />
+ <span className="text-[11px] lg:text-xs font-mono font-bold text-blue-600 [word-break:keep-all]">
  CLEANROOM CLASS 1 대응 FLEET LINEUP (예시 표기)
  </span>
  </div>
- <h2 className="text-2xl lg:text-4xl font-extrabold text-slate-900 tracking-tight">
+ <h2 className="text-xl lg:text-4xl font-extrabold text-slate-900 tracking-tight [word-break:keep-all]">
  무진동·무분진 차세대 클린룸 AMR 라인업
  </h2>
  </div>
- <p className="text-sm lg:text-base text-slate-600 max-w-md leading-relaxed">
+ <p className="text-xs lg:text-base text-slate-600 max-w-md leading-relaxed [word-break:keep-all]">
  반도체 FOUP 웨이퍼 카세트부터 3톤 2차전지 전극 롤까지, 첨단 공정 맞춤형 로보틱스 플랫폼을 지원합니다.
  </p>
  </div>
 
  {/* Robot Selector Tabs */}
- <div className="flex border-b border-slate-200 mb-8 overflow-x-auto gap-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+ <div className="flex border-b border-slate-200 mb-6 lg:mb-8 overflow-x-auto gap-2 -mx-4 px-4 lg:mx-0 lg:px-0">
  <button
  type="button"
  onClick={() => setActiveRobotKey('amr500')}
- className={`px-4 lg:px-6 py-3.5 min-h-12 text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
+ className={`px-3.5 lg:px-6 py-3 lg:py-3.5 min-h-11 lg:min-h-12 text-xs lg:text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
  activeRobotKey === 'amr500'
  ? 'border-b-2 border-blue-600 text-blue-600'
  : 'border-b-2 border-transparent text-slate-500 hover:text-slate-800'
@@ -50,7 +50,7 @@ export function FleetLineupSection({ onOpenSpecModal }: FleetLineupSectionProps)
  <button
  type="button"
  onClick={() => setActiveRobotKey('amr1500')}
- className={`px-4 lg:px-6 py-3.5 min-h-12 text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
+ className={`px-3.5 lg:px-6 py-3 lg:py-3.5 min-h-11 lg:min-h-12 text-xs lg:text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
  activeRobotKey === 'amr1500'
  ? 'border-b-2 border-blue-600 text-blue-600'
  : 'border-b-2 border-transparent text-slate-500 hover:text-slate-800'
@@ -62,7 +62,7 @@ export function FleetLineupSection({ onOpenSpecModal }: FleetLineupSectionProps)
  <button
  type="button"
  onClick={() => setActiveRobotKey('amr3000')}
- className={`px-4 lg:px-6 py-3.5 min-h-12 text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
+ className={`px-3.5 lg:px-6 py-3 lg:py-3.5 min-h-11 lg:min-h-12 text-xs lg:text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer whitespace-nowrap ${
  activeRobotKey === 'amr3000'
  ? 'border-b-2 border-blue-600 text-blue-600'
  : 'border-b-2 border-transparent text-slate-500 hover:text-slate-800'
@@ -74,50 +74,52 @@ export function FleetLineupSection({ onOpenSpecModal }: FleetLineupSectionProps)
  </div>
 
  {/* Interactive Spec Display Card */}
- <div className="bg-white rounded-lg border border-slate-200 p-5 sm:p-6 lg:p-10 shadow-sm">
- <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+ <div className="bg-white rounded-lg border border-slate-200 p-4 lg:p-10 shadow-sm">
+ <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
  {/* Left Specs details */}
  <div className="lg:col-span-6">
- <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-blue-50 text-blue-700 text-xs font-mono font-bold mb-4 border border-blue-100">
- <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
- <span>{activeRobot.category}</span>
+ <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-blue-50 text-blue-700 text-[10px] lg:text-xs font-mono font-bold mb-3 border border-blue-100 max-w-full">
+ <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+ <span className="truncate">{activeRobot.category}</span>
  </div>
- <h3 className="text-2xl font-bold text-slate-900 mb-3">{activeRobot.title}</h3>
- <p className="text-sm text-slate-600 mb-6 leading-relaxed">{activeRobot.desc}</p>
+ <h3 className="text-[17px] min-[390px]:text-lg lg:text-2xl font-bold text-slate-900 mb-2.5 tracking-tight [word-break:keep-all]">
+ {activeRobot.title}
+ </h3>
+ <p className="text-xs lg:text-sm text-slate-600 mb-6 leading-relaxed [word-break:keep-all]">{activeRobot.desc}</p>
 
  {/* Technical Metric Table */}
- <div className="grid grid-cols-1 min-[480px]:grid-cols-2 gap-3 lg:gap-4 mb-8">
- <div className="p-3.5 rounded bg-slate-50 border border-slate-100">
- <span className="text-slate-400 text-[11px] font-mono font-bold block">PAYLOAD CAPACITY</span>
- <span className="text-slate-900 font-bold text-base mt-1 block">{activeRobot.payload}</span>
+ <div className="grid grid-cols-1 min-[480px]:grid-cols-2 gap-2.5 lg:gap-4 mb-6 lg:mb-8">
+ <div className="p-3 lg:p-3.5 rounded bg-slate-50 border border-slate-100">
+ <span className="text-slate-400 text-[10px] lg:text-[11px] font-mono font-bold block">PAYLOAD CAPACITY</span>
+ <span className="text-slate-900 font-bold text-sm lg:text-base mt-0.5 lg:mt-1 block">{activeRobot.payload}</span>
  </div>
- <div className="p-3.5 rounded bg-slate-50 border border-slate-100">
- <span className="text-slate-400 text-[11px] font-mono font-bold block">DOCKING REPEATABILITY</span>
- <span className="text-blue-600 font-bold text-base mt-1 block">{activeRobot.docking}</span>
+ <div className="p-3 lg:p-3.5 rounded bg-slate-50 border border-slate-100">
+ <span className="text-slate-400 text-[10px] lg:text-[11px] font-mono font-bold block">DOCKING REPEATABILITY</span>
+ <span className="text-blue-600 font-bold text-sm lg:text-base mt-0.5 lg:mt-1 block">{activeRobot.docking}</span>
  </div>
- <div className="p-3.5 rounded bg-slate-50 border border-slate-100">
- <span className="text-slate-400 text-[11px] font-mono font-bold block">CLEANROOM CLASS</span>
- <span className="text-emerald-700 font-bold text-base mt-1 block">{activeRobot.cert}</span>
+ <div className="p-3 lg:p-3.5 rounded bg-slate-50 border border-slate-100">
+ <span className="text-slate-400 text-[10px] lg:text-[11px] font-mono font-bold block">CLEANROOM CLASS</span>
+ <span className="text-emerald-700 font-bold text-sm lg:text-base mt-0.5 lg:mt-1 block">{activeRobot.cert}</span>
  </div>
- <div className="p-3.5 rounded bg-slate-50 border border-slate-100">
- <span className="text-slate-400 text-[11px] font-mono font-bold block">BATTERY & RUNTIME</span>
- <span className="text-slate-900 font-bold text-base mt-1 block">{activeRobot.battery}</span>
+ <div className="p-3 lg:p-3.5 rounded bg-slate-50 border border-slate-100">
+ <span className="text-slate-400 text-[10px] lg:text-[11px] font-mono font-bold block">BATTERY & RUNTIME</span>
+ <span className="text-slate-900 font-bold text-sm lg:text-base mt-0.5 lg:mt-1 block">{activeRobot.battery}</span>
  </div>
  </div>
 
  {/* Button Actions */}
- <div className="flex flex-wrap gap-4">
+ <div className="flex flex-col lg:flex-row gap-2.5 lg:gap-4">
  <button
  type="button"
  onClick={() => onOpenSpecModal(activeRobot)}
- className="px-5 py-3 min-h-11 rounded bg-blue-600 text-white hover:bg-blue-700 text-xs font-semibold transition-colors flex items-center gap-2 cursor-pointer shadow-sm [word-break:keep-all]"
+ className="w-full lg:w-auto px-4 lg:px-5 py-2.5 min-h-11 rounded-md bg-blue-600 text-white hover:bg-blue-700 text-xs font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm [word-break:keep-all] whitespace-nowrap"
  >
- <Download className="w-4 h-4" />
+ <Download className="w-4 h-4 shrink-0" />
  <span>상세 CAD 도면 & 기술 스펙시트 (PDF)</span>
  </button>
  <a
  href="#consultation-wizard"
- className="px-5 py-3 min-h-11 inline-flex items-center rounded border border-slate-300 hover:bg-slate-50 text-slate-800 text-xs font-medium transition-colors"
+ className="w-full lg:w-auto px-4 lg:px-5 py-2.5 min-h-11 inline-flex items-center justify-center rounded-md border border-slate-300 hover:bg-slate-50 text-slate-800 text-xs font-medium transition-colors whitespace-nowrap"
  >
  라인 적용 타당성 문의
  </a>
@@ -125,8 +127,8 @@ export function FleetLineupSection({ onOpenSpecModal }: FleetLineupSectionProps)
  </div>
 
  {/* Visual Schematic / Blueprint Well */}
- <div className="lg:col-span-6 bg-slate-50 rounded border border-slate-200 p-4 sm:p-6 flex flex-col justify-between relative overflow-hidden">
- <div className="flex flex-wrap justify-between items-center gap-2 pb-3 border-b border-slate-200 text-[11px] sm:text-xs font-mono text-slate-500">
+ <div className="lg:col-span-6 bg-slate-50 rounded border border-slate-200 p-4 lg:p-6 flex flex-col justify-between relative overflow-hidden">
+ <div className="flex flex-wrap justify-between items-center gap-2 pb-3 border-b border-slate-200 text-[11px] lg:text-xs font-mono text-slate-500">
  <span>KINEMATICS OVERVIEW: 360° OMNI-DRIVE</span>
  <span className="text-emerald-600 flex items-center gap-1 font-semibold">
  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> CALIBRATED
@@ -167,7 +169,7 @@ export function FleetLineupSection({ onOpenSpecModal }: FleetLineupSectionProps)
  </div>
 
  {/* Sensor Live Strip */}
- <div className="p-3 bg-white rounded border border-slate-200 flex flex-wrap justify-between items-center text-[11px] sm:text-xs font-mono gap-2">
+ <div className="p-3 bg-white rounded border border-slate-200 flex flex-wrap justify-between items-center text-[11px] lg:text-xs font-mono gap-2">
  <span className="text-slate-600">
  STATIC DISCHARGE: <strong className="text-slate-900">{activeRobot.staticDischarge}</strong>
  </span>

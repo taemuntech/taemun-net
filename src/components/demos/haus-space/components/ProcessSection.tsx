@@ -9,7 +9,7 @@ export const ProcessSection: React.FC = () => {
 
   return (
     <section
-      className="py-16 lg:py-24 bg-[#121315] max-w-[1440px] mx-auto px-5 lg:px-16 scroll-mt-[calc(var(--sample-bar-h,0px)_+_80px)]"
+      className="py-16 lg:py-24 bg-[#121315] max-w-7xl mx-auto px-5 lg:px-16 scroll-mt-[calc(var(--sample-bar-h,0px)_+_80px)]"
       id="process-atelier"
     >
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">

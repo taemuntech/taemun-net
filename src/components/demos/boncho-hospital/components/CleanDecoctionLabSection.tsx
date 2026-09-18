@@ -41,7 +41,7 @@ export const CleanDecoctionLabSection: React.FC = () => {
 
   return (
     <section id="smart-decoction-lab" className="w-full bg-[#f4f3f0] py-16 border-y border-[#e9e8e5]">
-      <div className="max-w-[1360px] mx-auto px-4 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8">
         {/* Header */}
         <div className="text-center max-w-[720px] mx-auto mb-12">
           <span className="text-[12px] text-[#75593c] tracking-widest uppercase font-semibold">

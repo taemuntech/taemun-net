@@ -97,8 +97,10 @@ export const ConciergeChatDrawer: React.FC<ConciergeChatDrawerProps> = ({ isOpen
         aria-modal="true"
         aria-label="프라이빗 컨시어지 상담"
         inert={!isOpen}
-        className={`fixed top-[var(--sample-bar-h,0px)] bottom-0 right-0 max-w-md w-full bg-[#0e0e0e] border-l border-[#d4af37]/40 z-50 transform transition-transform duration-300 flex flex-col shadow-2xl ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
+        // 닫힌 서랍이 화면 오른쪽 바깥에 눈에 안 보이는 채로 서 있어 잰 본문 폭을 1920 너머로 늘렸다 — 닫히면 invisible.
+        // 까닭·전환 처리(닫을 때만 visibility 전환)는 CartDrawer 와 같다.
+        className={`fixed top-[var(--sample-bar-h,0px)] bottom-0 right-0 max-w-md w-full bg-[#0e0e0e] border-l border-[#d4af37]/40 z-50 transform duration-300 flex flex-col shadow-2xl ${
+          isOpen ? 'translate-x-0 transition-transform' : 'translate-x-full invisible transition-[transform,translate,visibility]'
         }`}
       >
         <div className="p-4 lg:p-5 border-b border-[#4d4635] flex items-center justify-between bg-[#131313] gap-2">

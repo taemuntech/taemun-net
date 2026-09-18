@@ -45,8 +45,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
         aria-modal="true"
         aria-label="컬렉션 장바구니"
         inert={!isOpen}
-        className={`fixed top-[var(--sample-bar-h,0px)] bottom-0 right-0 max-w-md w-full bg-[#0e0e0e] border-l border-[#d4af37]/40 z-50 transform transition-transform duration-300 flex flex-col shadow-2xl ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
+        // 닫힌 서랍은 마운트된 채 화면 오른쪽 바깥(translate-x-full)에 서 있다 — 눈에 안 보일 뿐 상자는 살아 있어서,
+        // 1920 화면에서 잰 본문 폭이 화면보다 넓은 2269px 로 나왔다(이 서랍과 컨시어지 서랍, 폭 448px 두 개).
+        // 닫히면 invisible 로 숨긴다. 닫을 때만 visibility 를 전환 목록에 넣어 미끄러져 나가는 300ms 동안은 보이게 두고,
+        // 열 때는 transform 만 전환해 곧바로 보이게 한다.
+        className={`fixed top-[var(--sample-bar-h,0px)] bottom-0 right-0 max-w-md w-full bg-[#0e0e0e] border-l border-[#d4af37]/40 z-50 transform duration-300 flex flex-col shadow-2xl ${
+          isOpen ? 'translate-x-0 transition-transform' : 'translate-x-full invisible transition-[transform,translate,visibility]'
         }`}
       >
         {/* Header */}

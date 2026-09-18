@@ -19,7 +19,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="absolute -top-32 -left-32 w-96 h-96 bg-[#c5a880]/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-[#c5a880]/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative max-w-[1440px] mx-auto px-5 lg:px-16">
+      <div className="relative max-w-7xl mx-auto px-5 lg:px-16">
         {/* Monograph Header Subtitle */}
         <div className="flex flex-wrap items-center justify-between gap-4 pb-8 border-b border-white/10">
           <div className="flex items-center gap-3">

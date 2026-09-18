@@ -40,7 +40,7 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="fixed top-[var(--sample-bar-h,0px)] left-0 right-0 z-50 bg-[#faf9f6]/95 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] transition-all">
       {/* Top Utility Announcement Bar */}
       <div className="bg-[#102a20] text-white py-1.5 px-4 lg:px-8 border-b border-[#264035]">
-        <div className="max-w-[1360px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-1 text-[11px] font-medium tracking-wide">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-1 text-[11px] font-medium tracking-wide">
           <div className="flex items-center gap-2 break-keep">
             <span className="material-symbols-outlined text-[15px] text-[#cbe9da]">verified_user</span>
             <span>의·한의 협진 80병상 입원 한방병원 · 가상 브랜드 샘플</span>
@@ -73,6 +73,8 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Main Header Navigation Bar */}
+      {/* 본문은 1280(max-w-7xl)인데 이 줄만 1360 에 둔다 — 로고·메뉴 6개(줄바꿈 금지)·전화·예약 버튼이
+          윈도우 글꼴로 약 1400px 을 차지해 1280 으로 묶으면 오른쪽 버튼이 더 밀려 잘린다. 메뉴 손질이 먼저다. */}
       <div className="h-20 max-w-[1360px] mx-auto px-4 lg:px-8 flex items-center justify-between gap-4">
         {/* Brand Logo & Name */}
         <button

@@ -15,7 +15,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToHUD, onScrollToReservation
         <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-[#e4dedc]/50 via-[#eabe9a]/25 to-transparent blur-3xl"></div>
       </div>
 
-      <div className="max-w-[1320px] mx-auto px-6 lg:px-10 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left Column: Poetic Copy & Value Proposition */}
           <div className="lg:col-span-7 flex flex-col gap-6">

@@ -9,7 +9,7 @@ export const PressSection: React.FC = () => {
       className="py-16 bg-[#0d0e10] border-t border-white/10 scroll-mt-[calc(var(--sample-bar-h,0px)_+_80px)]"
       id="press-recognition"
     >
-      <div className="max-w-[1440px] mx-auto px-5 lg:px-16">
+      <div className="max-w-7xl mx-auto px-5 lg:px-16">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-2 pb-6 border-b border-white/10">
           <span className="text-xs uppercase tracking-[0.2em] text-[#c5a880] font-semibold break-keep [word-break:keep-all]">
             Press &amp; Architectural Accolades

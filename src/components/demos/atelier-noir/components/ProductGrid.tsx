@@ -66,7 +66,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
       className="py-12 lg:py-16 bg-[#0d0e0f] scroll-mt-[calc(var(--sample-bar-h,0px)_+_72px)]"
       id="ranking"
     >
-      <div className="max-w-[1920px] mx-auto px-4 lg:px-6">
+      <div className="max-w-7xl mx-auto px-4 lg:px-6">
         {/* Section Header with Real-Time Timestamp */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 hairline-b pb-4 gap-4">
           <div>

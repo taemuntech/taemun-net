@@ -51,7 +51,7 @@ export const Header: React.FC<HeaderProps> = () => {
           : 'bg-white/85 backdrop-blur-md border-b border-[#bcc9c6]/20'
       }`}
     >
-      <div className="max-w-[1440px] mx-auto px-4 lg:px-12 flex justify-between items-center h-20">
+      <div className="max-w-7xl mx-auto px-4 lg:px-12 flex justify-between items-center h-20">
         {/* Brand Anchor */}
         <a
           id="brand-logo-anchor"

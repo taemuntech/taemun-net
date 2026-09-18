@@ -36,6 +36,8 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className="fixed top-[var(--sample-bar-h,0px)] left-0 w-full z-50 bg-[#131313]/95 backdrop-blur-md border-b border-[#2a2a2a] shadow-[0_1px_8px_rgba(0,0,0,0.4)]">
+      {/* 본문은 1280(max-w-7xl)인데 이 줄은 폭을 묶지 않는다 — 로고·센서 배지·메뉴 5개·타이머·예약 버튼이
+          메뉴를 최대로 접어도 약 1440px 이라 1280 에 넣으면 메뉴가 다섯 줄로 접히고 오른쪽이 잘린다. 메뉴 손질이 먼저다. */}
       <div className="h-20 w-full px-4 lg:px-12 flex items-center justify-between gap-4">
         {/* Left: Brand Identity */}
         <div className="flex items-center gap-4 lg:gap-6">

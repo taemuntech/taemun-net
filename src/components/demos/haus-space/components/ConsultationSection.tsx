@@ -53,7 +53,7 @@ export const ConsultationSection: React.FC<ConsultationSectionProps> = ({ prefil
 
   return (
     <section
-      className="py-16 lg:py-24 bg-[#121315] max-w-[1440px] mx-auto px-5 lg:px-16 scroll-mt-[calc(var(--sample-bar-h,0px)_+_80px)]"
+      className="py-16 lg:py-24 bg-[#121315] max-w-7xl mx-auto px-5 lg:px-16 scroll-mt-[calc(var(--sample-bar-h,0px)_+_80px)]"
       id="consultation"
     >
       <div className="bg-[#1b1c1e] border border-white/10 p-8 lg:p-20 shadow-2xl relative overflow-hidden">

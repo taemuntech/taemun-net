@@ -39,7 +39,7 @@ export const MetricsBar: React.FC<MetricsBarProps> = ({ id = "metrics-bar" }) =>
 
   return (
     <div id={id} className="relative z-10 w-full bg-white/85 backdrop-blur-md border-t border-[#bcc9c6]/30 py-4">
-      <div className="max-w-[1440px] mx-auto px-4 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 lg:px-12">
         {/* 실적처럼 읽히는 수치라 지표 바 머리에 예시 표시를 한 번 남긴다 */}
         <div className="mb-2 flex items-center gap-2">
           <span className="shrink-0 whitespace-nowrap rounded-full border border-[#00685f]/30 bg-white px-2.5 py-0.5 font-mono text-[11px] font-semibold text-[#00685f]">

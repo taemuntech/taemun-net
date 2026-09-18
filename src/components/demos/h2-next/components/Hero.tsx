@@ -39,7 +39,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenVideoModal }) => {
       </div>
 
       {/* Hero Content Container */}
-      <div className="relative z-10 max-w-[1440px] mx-auto w-full px-4 lg:px-12 pt-12 pb-8 flex flex-col justify-center flex-grow">
+      <div className="relative z-10 max-w-7xl mx-auto w-full px-4 lg:px-12 pt-12 pb-8 flex flex-col justify-center flex-grow">
         <div className="max-w-3xl">
           {/* Net-Zero Status Pill */}
           <div

@@ -21,7 +21,7 @@ export const MaterialArchiveSection: React.FC = () => {
       className="py-16 lg:py-24 bg-[#0d0e10] border-y border-white/10 scroll-mt-[calc(var(--sample-bar-h,0px)_+_80px)]"
       id="material-archive"
     >
-      <div className="max-w-[1440px] mx-auto px-5 lg:px-16">
+      <div className="max-w-7xl mx-auto px-5 lg:px-16">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-xs uppercase tracking-[0.2em] text-[#c5a880] block mb-2 font-semibold">
             Tactile Patina &amp; Provenance

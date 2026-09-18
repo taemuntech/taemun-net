@@ -9,7 +9,7 @@ interface FooterProps {
 export default function Footer({ onOpenVdr }: FooterProps) {
   return (
     <footer className="w-full bg-[#090e17] border-t border-[#4d4635]/40 text-[#d0c5af]">
-      <div className="w-full px-6 lg:px-14 py-16 max-w-[1680px] mx-auto flex flex-col gap-10">
+      <div className="w-full px-6 lg:px-14 py-16 max-w-7xl mx-auto flex flex-col gap-10">
         {/* Top Grid: Brand & Global Presence */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 pb-10 border-b border-[#4d4635]/20">
           <div className="lg:col-span-5 flex flex-col gap-4">

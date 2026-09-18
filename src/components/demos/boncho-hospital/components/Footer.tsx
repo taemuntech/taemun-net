@@ -15,7 +15,7 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="w-full bg-[#102a20] text-[#e9e8e5] pt-14 pb-10 border-t border-[#264035]">
-      <div className="max-w-[1360px] mx-auto px-4 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-10 border-b border-[#264035]">
           {/* Col 1: Brand & Philosophy */}
           <div className="lg:col-span-4 space-y-4">
@@ -145,7 +145,7 @@ export const Footer: React.FC = () => {
       </div>
 
       <PolicyModal openKey={openPolicy} onClose={() => setOpenPolicy(null)} />
-      <p className="mt-6 px-4 text-center text-[11px] leading-relaxed opacity-60 [word-break:keep-all]"><SampleFooterNote /></p>
+      <p className="max-w-7xl mx-auto mt-6 px-4 text-center text-[11px] leading-relaxed opacity-60 [word-break:keep-all]"><SampleFooterNote /></p>
     </footer>
   );
 };

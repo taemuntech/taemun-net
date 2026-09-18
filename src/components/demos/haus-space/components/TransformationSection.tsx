@@ -97,7 +97,7 @@ export const TransformationSection: React.FC<TransformationSectionProps> = ({
   return (
     <section
       // 헤더가 sticky 라 앵커로 건너뛰면 제목이 그 밑으로 숨었다 — 헤더(80px)+샘플 바만큼 여유를 둔다
-      className="py-16 lg:py-24 bg-[#121315] max-w-[1440px] mx-auto px-5 lg:px-16 scroll-mt-[calc(var(--sample-bar-h,0px)_+_80px)]"
+      className="py-16 lg:py-24 bg-[#121315] max-w-7xl mx-auto px-5 lg:px-16 scroll-mt-[calc(var(--sample-bar-h,0px)_+_80px)]"
       id="transformation"
     >
       {/* Section Header */}

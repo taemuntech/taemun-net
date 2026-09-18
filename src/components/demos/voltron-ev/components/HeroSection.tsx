@@ -72,7 +72,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-[#00e5ff]/10 blur-[130px] rounded-full pointer-events-none glow-pulse" />
       <div className="absolute top-1/3 right-10 w-[400px] h-[300px] bg-[#0053db]/15 blur-[120px] rounded-full pointer-events-none" />
 
-      <div className="max-w-[1720px] mx-auto px-6 lg:px-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
         {/* Top Badging & Eyebrow */}
         <div className="flex flex-wrap items-center gap-3 mb-4">
           <span

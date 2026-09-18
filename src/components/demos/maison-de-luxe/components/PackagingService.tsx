@@ -37,7 +37,7 @@ function CheckBox({ checked, onChange, label }: { checked: boolean; onChange: (v
 export const PackagingService: React.FC<PackagingServiceProps> = ({ options, onChange }) => {
   return (
     <section id="packaging" className="w-full bg-[#1c1b1b] border-y border-[#4d4635] py-12 lg:py-16">
-      <div className="w-full px-4 lg:px-16">
+      <div className="w-full max-w-7xl mx-auto px-4 lg:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           <div className="lg:col-span-5">
             <span className="text-[10px] text-[#f2ca50] tracking-widest font-semibold block mb-2 uppercase">

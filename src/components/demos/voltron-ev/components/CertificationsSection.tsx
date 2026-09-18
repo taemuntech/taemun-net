@@ -20,7 +20,7 @@ export const CertificationsSection: React.FC = () => {
       id="certifications"
       className="py-16 lg:py-24 bg-[#0b0e13] border-b border-[#3b494c]/30 relative"
     >
-      <div className="max-w-[1720px] mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Left Text and Cert Badges */}
           <div className="lg:col-span-7 space-y-6">

@@ -70,6 +70,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSafetyModal, onOpenReserva
       </div>
 
       {/* Main navigation container */}
+      {/* 본문은 1280(max-w-7xl)인데 이 줄만 1320 에 둔다 — 로고·메뉴 7개(줄바꿈 금지)·전화·안심선언·예약 버튼이
+          윈도우 글꼴로 약 1350px 을 차지해 1280 으로 묶으면 오른쪽 예약 버튼이 더 밀려 잘린다. 메뉴 손질이 먼저다. */}
       <div className="h-18 lg:h-20 max-w-[1320px] mx-auto px-4 lg:px-10 flex items-center justify-between gap-4 lg:gap-6">
         {/* Brand identity */}
         <div className="flex items-center gap-2.5 lg:gap-3.5 shrink-0">

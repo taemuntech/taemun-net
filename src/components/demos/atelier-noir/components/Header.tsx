@@ -64,8 +64,9 @@ export const Header: React.FC<HeaderProps> = ({
     // 공용 샘플 바에 가려지지 않게 top-0 대신 --sample-bar-h 를 쓴다 — 바가 없으면 0px 라 화면은 그대로다.
     <header className="sticky top-[var(--sample-bar-h,0px)] z-50 bg-[#0c0d0e]/90 backdrop-blur-md hairline-b">
       {/* 1. TOP UTILITY BAR */}
-      <div className="bg-[#0d0e0f] hairline-b px-4 lg:px-6 max-lg:py-0 lg:py-1 text-[#8f9378] font-label-sm text-[11px]">
-        <div className="max-w-[1920px] mx-auto flex justify-between items-center tracking-wider max-lg:min-h-11">
+      {/* 배경·구분선은 화면 끝까지, 안쪽 줄은 1280(max-w-7xl) 안 — 좌우 여백을 안쪽에 둬야 아래 내비·본문과 글자 선이 맞는다 */}
+      <div className="bg-[#0d0e0f] hairline-b max-lg:py-0 lg:py-1 text-[#8f9378] font-label-sm text-[11px]">
+        <div className="max-w-7xl mx-auto px-4 lg:px-6 flex justify-between items-center tracking-wider max-lg:min-h-11">
           <div className="flex items-center space-x-3 lg:space-x-6 overflow-x-auto no-scrollbar py-0.5">
             <span className="inline-flex items-center gap-1.5 text-[#caf300] shrink-0 font-medium">
               <span className="w-1.5 h-1.5 bg-[#caf300] inline-block"></span>
@@ -137,7 +138,7 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* 2. GLOBAL NAVIGATION BAR */}
-      <div className="w-full px-4 lg:px-6 mx-auto max-w-[1920px] flex flex-col">
+      <div className="w-full px-4 lg:px-6 mx-auto max-w-7xl flex flex-col">
         <div className="flex items-center justify-between py-3 lg:py-4 gap-4 lg:gap-6">
           {/* Brand Identity & Logo */}
           <div className="flex items-center gap-4">

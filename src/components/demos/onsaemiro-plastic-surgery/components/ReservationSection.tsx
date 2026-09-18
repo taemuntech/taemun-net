@@ -75,7 +75,7 @@ export const ReservationSection: React.FC<ReservationSectionProps> = ({
 
   return (
     <section className="w-full py-20 bg-[#f7f3ef] relative" id="vip-inquiry">
-      <div className="max-w-[1320px] mx-auto px-6 lg:px-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div className="max-w-4xl mx-auto bg-[#ffffff] rounded-3xl p-8 lg:p-12 shadow-[0_16px_50px_rgba(114,91,56,0.1)] border border-[#d1c5b8]/30">
           <div className="text-center max-w-xl mx-auto mb-10 flex flex-col items-center gap-2">
             <span className="text-[11px] uppercase tracking-[0.2em] text-[#725b38] font-bold">

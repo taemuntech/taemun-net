@@ -7,7 +7,7 @@ import { Scan, FileCheck, Lock } from 'lucide-react';
 export const InspectionSystem: React.FC = () => {
   return (
     <section id="inspection" className="w-full bg-[#201f1f] border-b border-[#4d4635] py-8 lg:py-14">
-      <div className="w-full px-4 lg:px-16">
+      <div className="w-full max-w-7xl mx-auto px-4 lg:px-16">
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-4">
           <div>

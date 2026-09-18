@@ -7,7 +7,7 @@ export const VipRecoveryCare: React.FC = () => {
 
   return (
     <section className="w-full py-20 bg-[#f7f3ef] relative" id="vip-recovery-care">
-      <div className="max-w-[1320px] mx-auto px-6 lg:px-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
           {/* Left Text & Spec list */}
           <div className="lg:col-span-6 flex flex-col gap-4">

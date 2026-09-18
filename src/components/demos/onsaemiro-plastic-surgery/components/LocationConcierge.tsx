@@ -19,7 +19,7 @@ export const LocationConcierge: React.FC = () => {
 
   return (
     <section className="w-full py-20 bg-[#fdf9f5] relative" id="location-concierge">
-      <div className="max-w-[1320px] mx-auto px-6 lg:px-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
           {/* Left: Map Visual Container */}
           <div className="lg:col-span-7 flex flex-col justify-between rounded-3xl overflow-hidden bg-[#f1ede9] shadow-md p-6 lg:p-8 border border-[#d1c5b8]/30">

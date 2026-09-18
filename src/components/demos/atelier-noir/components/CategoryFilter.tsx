@@ -59,7 +59,7 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = ({
 
   return (
     <section className="bg-[#1b1c1d] hairline-b">
-      <div className="max-w-[1920px] mx-auto px-4 lg:px-6 py-2.5">
+      <div className="max-w-7xl mx-auto px-4 lg:px-6 py-2.5">
         {/* Tier 1: Primary Category Horizontal Bar */}
         {/* 모바일·태블릿에서는 카테고리 줄만 가로로 굴리고 초기화·HUD 토글은 아래 줄에 둔다 —
             한 줄에 다 넣으면 1024px 미만에서 토글이 화면 밖으로 밀려 보이지 않았다. */}

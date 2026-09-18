@@ -17,7 +17,7 @@ export const SpecializedCentersSection: React.FC<SpecializedCentersProps> = ({
 
   return (
     <section id="specialized-centers" className="w-full bg-[#f4f3f0] py-16 border-y border-[#e9e8e5]">
-      <div className="max-w-[1360px] mx-auto px-4 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-[760px] mx-auto mb-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#e3e2e0] text-[#75593c] text-[12px] font-semibold mb-2">

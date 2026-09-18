@@ -8,7 +8,7 @@ interface SafetyDeclarationProps {
 export const SafetyDeclaration: React.FC<SafetyDeclarationProps> = ({ onOpenSafetyModal }) => {
   return (
     <section className="w-full py-20 bg-[#fdf9f5] relative" id="safety-declaration">
-      <div className="max-w-[1320px] mx-auto px-6 lg:px-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div className="text-center max-w-2xl mx-auto mb-14 flex flex-col items-center gap-3">
           <span className="text-[11px] uppercase tracking-[0.2em] text-[#725b38] font-bold">
             PATIENT INTEGRITY FIRST

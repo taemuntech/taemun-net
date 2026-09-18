@@ -4,7 +4,7 @@ import { SampleFooterNote } from "@/components/demo-kit/SampleFooterNote";
 export const Footer: React.FC = () => {
   return (
     <footer className="w-full bg-[#0e0e0e] py-10 lg:py-16 border-t border-[#2a2a2a]">
-      <div className="w-full px-4 lg:px-12">
+      <div className="w-full max-w-7xl mx-auto px-4 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Col 1 */}
           <div className="flex flex-col gap-2">

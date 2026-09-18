@@ -535,19 +535,22 @@ export default function AtelierNoirApp({ isEmbed = false }: { isEmbed?: boolean 
       <main className="flex-1">
         {/* Active Search Banner if searching */}
         {searchQuery && (
-          <div className="bg-[#1f2021] hairline-b px-4 lg:px-6 py-1.5 flex flex-wrap items-center justify-between gap-2 text-xs max-w-[1920px] mx-auto">
-            <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-sm text-[#caf300]">search</span>
-              <span>
-                '<strong>{searchQuery}</strong>' 검색 결과 ({filteredProducts.length}개)
-              </span>
+          // 색 띠는 화면 끝까지, 글·버튼은 1280(max-w-7xl) 안 — 전에는 띠와 내용이 한 상자라 1920 까지 같이 퍼졌다
+          <div className="bg-[#1f2021] hairline-b">
+            <div className="px-4 lg:px-6 py-1.5 flex flex-wrap items-center justify-between gap-2 text-xs max-w-7xl mx-auto">
+              <div className="flex items-center gap-2">
+                <span className="material-symbols-outlined text-sm text-[#caf300]">search</span>
+                <span>
+                  '<strong>{searchQuery}</strong>' 검색 결과 ({filteredProducts.length}개)
+                </span>
+              </div>
+              <button
+                onClick={() => setSearchQuery('')}
+                className="text-[#8f9378] hover:text-[#ffffff] underline font-label-sm min-h-11 px-1 shrink-0 cursor-pointer"
+              >
+                검색 필터 해제
+              </button>
             </div>
-            <button
-              onClick={() => setSearchQuery('')}
-              className="text-[#8f9378] hover:text-[#ffffff] underline font-label-sm min-h-11 px-1 shrink-0 cursor-pointer"
-            >
-              검색 필터 해제
-            </button>
           </div>
         )}
 

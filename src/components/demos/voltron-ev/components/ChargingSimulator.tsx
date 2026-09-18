@@ -104,7 +104,7 @@ export const ChargingSimulator: React.FC = () => {
       id="charging-sim"
       className="py-16 lg:py-24 bg-[#0b0e13] border-b border-[#3b494c]/30 relative"
     >
-      <div className="max-w-[1720px] mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section Header */}
         <div className="mb-12 flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-[#3b494c]/20 pb-6">
           <div>

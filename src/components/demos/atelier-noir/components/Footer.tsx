@@ -14,7 +14,7 @@ export const Footer: React.FC<FooterProps> = ({
     <footer className="bg-[#0d0e0f] text-[#e3e2e3] hairline-t">
       {/* Trust Guarantee Badges Row */}
       <div className="hairline-b bg-[#1f2021] py-4">
-        <div className="max-w-[1920px] mx-auto px-4 lg:px-6 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+        <div className="max-w-7xl mx-auto px-4 lg:px-6 grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
           <div className="flex items-center justify-center gap-3 p-2">
             <span className="material-symbols-outlined text-[#caf300] text-[28px]">
               verified
@@ -74,7 +74,7 @@ export const Footer: React.FC<FooterProps> = ({
       </div>
 
       {/* Main Footer Directory */}
-      <div className="w-full px-4 lg:px-6 py-12 lg:py-16 mx-auto max-w-[1920px] grid grid-cols-12 gap-8 lg:gap-12">
+      <div className="w-full px-4 lg:px-6 py-12 lg:py-16 mx-auto max-w-7xl grid grid-cols-12 gap-8 lg:gap-12">
         {/* Brand & Corporate (Col 1-4) */}
         <div className="col-span-12 lg:col-span-4">
           <div className="font-headline-md text-xl lg:text-2xl font-bold tracking-tight text-[#ffffff] uppercase mb-3">
@@ -195,8 +195,8 @@ export const Footer: React.FC<FooterProps> = ({
       </div>
 
       {/* Copyright Sub-Footer */}
-      <div className="hairline-t py-4 px-4 lg:px-6 bg-[#0d0e0f]">
-        <div className="max-w-[1920px] mx-auto flex flex-col lg:flex-row justify-between items-center text-[#8f9378] font-label-sm text-[11px] gap-2">
+      <div className="hairline-t py-4 bg-[#0d0e0f]">
+        <div className="max-w-7xl mx-auto px-4 lg:px-6 flex flex-col lg:flex-row justify-between items-center text-[#8f9378] font-label-sm text-[11px] gap-2">
           <div><SampleFooterNote /></div>
           <div className="flex items-center gap-4">
             <span>SAMPLE SITE · 태문 DEV STUDIO</span>

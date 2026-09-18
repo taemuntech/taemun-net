@@ -64,7 +64,7 @@ export const BeforeAfterGallery: React.FC = () => {
 
   return (
     <section className="w-full py-20 bg-[#f7f3ef] relative" id="before-after-cases">
-      <div className="max-w-[1320px] mx-auto px-6 lg:px-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
           <div className="flex flex-col gap-2">
             <span className="text-[11px] uppercase tracking-[0.16em] text-[#725b38] font-bold">

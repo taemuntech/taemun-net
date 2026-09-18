@@ -3,7 +3,7 @@ import { CLIENT_LOGOS, TESTIMONIALS } from '../data/fleetData';
 export function ReferencesSection() {
  return (
  <section className="py-14 lg:py-20 bg-white border-b border-slate-200" id="references">
- <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12">
+ <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
  <div className="text-center max-w-2xl mx-auto mb-10 lg:mb-14">
  <div className="inline-flex items-center gap-2 mb-2">
  <span className="h-2 w-2 rounded bg-blue-600" />

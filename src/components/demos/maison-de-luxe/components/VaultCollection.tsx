@@ -44,7 +44,7 @@ export const VaultCollection: React.FC<VaultCollectionProps> = ({
   };
 
   return (
-    <section className="w-full px-4 lg:px-16 py-12 lg:py-16" id="collection">
+    <section className="w-full max-w-7xl mx-auto px-4 lg:px-16 py-12 lg:py-16" id="collection">
       <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 gap-4">
         <div>
           <span className="text-[10px] text-[#f2ca50] tracking-widest font-semibold block uppercase">

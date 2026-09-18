@@ -25,7 +25,7 @@ export const StreetArchive: React.FC<StreetArchiveProps> = ({
 
   return (
     <section className="py-12 lg:py-16 bg-[#1b1c1d] hairline-t hairline-b">
-      <div className="max-w-[1920px] mx-auto px-4 lg:px-6">
+      <div className="max-w-7xl mx-auto px-4 lg:px-6">
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 hairline-b pb-4 gap-4">
           <div>

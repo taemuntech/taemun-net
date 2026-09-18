@@ -17,8 +17,10 @@ export const TopTicker: React.FC = () => {
   return (
     <div
       id="top-telemetry-ticker"
-      className="w-full bg-[#101319] border-b border-[#3b494c]/40 px-4 py-1.5 overflow-hidden flex items-center justify-between text-[#bac9cc] font-code text-[11px] z-50 relative select-none"
+      className="w-full bg-[#101319] border-b border-[#3b494c]/40 overflow-hidden text-[#bac9cc] font-code text-[11px] z-50 relative select-none"
     >
+      {/* 띠(배경)는 화면 끝까지, 안쪽 줄은 본문과 같은 1280(max-w-7xl) 안에 — 큰 모니터에서 양 끝으로 흩어지지 않게 */}
+      <div className="max-w-7xl mx-auto px-4 py-1.5 flex items-center justify-between">
       <div className="flex items-center gap-3 shrink-0">
         <span className="inline-flex items-center gap-1.5 text-[#00e5ff]">
           <span className="relative flex h-2 w-2">
@@ -53,6 +55,7 @@ export const TopTicker: React.FC = () => {
           <Thermometer className="w-3.5 h-3.5 text-[#5be9ad]" />
           <span>SiC JUNCTION: {junctionTemp}°C</span>
         </span>
+      </div>
       </div>
     </div>
   );

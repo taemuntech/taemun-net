@@ -14,7 +14,7 @@ export const Footer: React.FC<FooterProps> = ({
 }) => {
   return (
     <footer className="w-full bg-[#f7f3ef] text-[#4d463c] pt-14 pb-12 border-t border-[#d1c5b8]/40 shadow-[0_-1px_12px_rgba(0,0,0,0.02)]">
-      <div className="max-w-[1320px] mx-auto px-6 lg:px-10 flex flex-col gap-10">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 flex flex-col gap-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-6 border-b border-[#d1c5b8]/30">
           {/* Clinic Brand & Philosophy */}
           <div className="lg:col-span-5 flex flex-col gap-4">
@@ -116,7 +116,7 @@ export const Footer: React.FC<FooterProps> = ({
           [법적 고지사항] 본 웹사이트는 포트폴리오용 가상 병원 샘플 데모이며 실제 의료기관이 아닙니다. 모든 시술 및 수술은 개인의 해부학적 특성에 따라 출혈, 감염, 염증, 신경 손상 등의 부작용이 발생할 수 있으므로 집도의와의 면밀한 1:1 상담이 필수적입니다.
         </div>
       </div>
-      <p className="mt-6 px-4 text-center text-[11px] leading-relaxed opacity-60 [word-break:keep-all]"><SampleFooterNote /></p>
+      <p className="max-w-7xl mx-auto mt-6 px-4 text-center text-[11px] leading-relaxed opacity-60 [word-break:keep-all]"><SampleFooterNote /></p>
     </footer>
   );
 };

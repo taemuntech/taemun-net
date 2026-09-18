@@ -19,7 +19,7 @@ export default function AdvisorySection() {
 
   return (
     <section className="py-20 bg-[#0e141c] border-t border-[#4d4635]/20 scroll-mt-24" id="advisory">
-      <div className="max-w-[1680px] mx-auto px-6 lg:px-14">
+      <div className="max-w-7xl mx-auto px-6 lg:px-14">
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12">
           <div>

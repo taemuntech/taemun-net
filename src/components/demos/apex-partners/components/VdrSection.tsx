@@ -44,7 +44,7 @@ export default function VdrSection() {
       className="py-20 bg-[#090e17] border-t border-[#4d4635]/20 relative scroll-mt-24"
       id="vdr"
     >
-      <div className="max-w-[1680px] mx-auto px-6 lg:px-14">
+      <div className="max-w-7xl mx-auto px-6 lg:px-14">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Left Column: Security Protocols & Accreditation */}
           <div className="lg:col-span-5 flex flex-col gap-6">

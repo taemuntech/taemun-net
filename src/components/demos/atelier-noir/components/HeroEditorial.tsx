@@ -32,7 +32,7 @@ export const HeroEditorial: React.FC<HeroEditorialProps> = ({
 
   return (
     <section id="lookbook" className="relative bg-[#0d0e0f] hairline-b overflow-hidden scroll-mt-[calc(var(--sample-bar-h,0px)_+_72px)]">
-      <div className="max-w-[1920px] mx-auto grid grid-cols-12">
+      <div className="max-w-7xl mx-auto grid grid-cols-12">
         {/* Asymmetric Left Span: Editorial Photography with SHOP THE LOOK Pulse Pins */}
         <div className="col-span-12 lg:col-span-8 relative aspect-[16/11] lg:aspect-[1.79/1] hairline-r overflow-hidden group">
           <img

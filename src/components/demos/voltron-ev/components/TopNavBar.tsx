@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Cpu, Terminal, Shield, Gauge, ShieldCheck, Menu, X } from 'lucide-react';
+import { Gauge, ShieldCheck, Menu, X } from 'lucide-react';
 
 interface TopNavBarProps {
   onOpenTelemetryHud?: () => void;
@@ -23,7 +23,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({ onOpenTelemetryHud, onOpen
       id="top-nav-bar"
       className="bg-[#0b0e13]/90 backdrop-blur-md sticky top-[var(--sample-bar-h,0px)] z-50 border-b border-[#3b494c]/30 shadow-[0_4px_24px_rgba(0,229,255,0.08)]"
     >
-      <div className="flex justify-between items-center gap-3 w-full px-6 lg:px-12 py-3.5 max-w-[1720px] mx-auto">
+      <div className="flex justify-between items-center gap-3 w-full px-6 lg:px-12 py-3.5 max-w-7xl mx-auto">
         {/* BRAND / LOGO CLUSTER */}
         <a
           href="#powertrain"
@@ -49,78 +49,13 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({ onOpenTelemetryHud, onOpen
           </div>
         </a>
 
-        {/* DESKTOP NAVIGATION */}
-        <nav
-          id="desktop-nav"
-          className="hidden min-[1400px]:flex shrink-0 items-center gap-5 font-display text-[10px] tracking-widest uppercase font-semibold whitespace-nowrap"
-        >
-          <button
-            onClick={() => scrollTo('powertrain')}
-            className="text-[#00e5ff] border-b-2 border-[#00e5ff] pb-1 font-bold transition-all hover:text-[#00e5ff]"
-            id="nav-item-powertrain"
-          >
-            POWERTRAIN 800V
-          </button>
-          <button
-            onClick={() => scrollTo('sic-semiconductor')}
-            className="text-[#bac9cc] hover:text-[#c3f5ff] transition-colors pb-1"
-            id="nav-item-sic"
-          >
-            SiC ARCHITECTURE
-          </button>
-          <button
-            onClick={() => scrollTo('charging-sim')}
-            className="text-[#bac9cc] hover:text-[#c3f5ff] transition-colors pb-1"
-            id="nav-item-sim"
-          >
-            CHARGING SIM
-          </button>
-          <button
-            onClick={() => scrollTo('certifications')}
-            className="text-[#bac9cc] hover:text-[#c3f5ff] transition-colors pb-1"
-            id="nav-item-certs"
-          >
-            CERTIFICATIONS
-          </button>
-          <button
-            onClick={() => scrollTo('rfq-wizard')}
-            className="text-[#bac9cc] hover:text-[#c3f5ff] transition-colors pb-1"
-            id="nav-item-rfq"
-          >
-            OEM GATEWAY
-          </button>
-        </nav>
+        {/* 가로 메뉴(5개)와 상태 아이콘 3개는 1400px 이상에서만 펼쳤는데, 그건 안쪽 줄이 1720 까지 넓어질 때의 이야기다.
+            본문과 같이 1280(max-w-7xl) 안에 묶은 뒤로는 어떤 화면에서도 안쪽 줄이 1280 화면과 같은 폭(1184)이라
+            로고+가로 메뉴+아이콘+버튼 두 개(어림 1,300px)가 들어가지 않는다 — 넣으면 상호가 말줄임으로 잘린다.
+            그래서 1280 화면이 원래 보여 주던 모양(햄버거 → 서랍) 하나로 통일한다. 서랍에 같은 메뉴가 전부 있다. */}
 
         {/* TRAILING ACTIONS */}
         <div className="flex items-center gap-2 lg:gap-3 shrink-0">
-          {/* Status Icons */}
-          <div className="hidden min-[1400px]:flex items-center gap-2 pr-2">
-            <button
-              onClick={() => scrollTo('sic-semiconductor')}
-              className="text-[#849396] hover:text-[#00e5ff] p-1.5 rounded hover:bg-[#1d2025] transition-colors"
-              title="Semiconductor Core"
-              id="header-chip-icon-btn"
-            >
-              <Cpu className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => scrollTo('telemetry-hud')}
-              className="text-[#849396] hover:text-[#00e5ff] p-1.5 rounded hover:bg-[#1d2025] transition-colors"
-              title="Telemetry Terminal"
-              id="header-terminal-icon-btn"
-            >
-              <Terminal className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => scrollTo('certifications')}
-              className="text-[#849396] hover:text-[#00e5ff] p-1.5 rounded hover:bg-[#1d2025] transition-colors"
-              title="ASIL-D Hardware Encryption Lock"
-              id="header-security-icon-btn"
-            >
-              <Shield className="w-4 h-4" />
-            </button>
-          </div>
-
           <button
             onClick={() => {
               if (onOpenTelemetryHud) onOpenTelemetryHud();
@@ -150,7 +85,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({ onOpenTelemetryHud, onOpen
           {/* Mobile Menu Hamburger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="min-[1400px]:hidden p-2.5 -mr-1.5 text-[#bac9cc] hover:text-[#00e5ff]"
+            className="p-2.5 -mr-1.5 text-[#bac9cc] hover:text-[#00e5ff]"
             id="btn-mobile-menu-toggle"
             aria-label="Toggle Navigation"
             aria-expanded={mobileMenuOpen}
@@ -165,8 +100,10 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({ onOpenTelemetryHud, onOpen
       {mobileMenuOpen && (
         <div
           id="mobile-nav-drawer"
-          className="min-[1400px]:hidden bg-[#101319] border-b border-[#3b494c] px-6 py-3 space-y-1 font-display text-xs tracking-wider uppercase max-h-[calc(100dvh-8rem)] overflow-y-auto"
+          className="bg-[#101319] border-b border-[#3b494c] font-display text-xs tracking-wider uppercase max-h-[calc(100dvh-8rem)] overflow-y-auto"
         >
+          {/* 서랍 배경은 끝까지, 항목은 헤더와 같은 1280 안에 */}
+          <div className="max-w-7xl mx-auto px-6 py-3 space-y-1">
           <button
             onClick={() => {
               if (onOpenRfq) onOpenRfq();
@@ -218,6 +155,7 @@ export const TopNavBar: React.FC<TopNavBarProps> = ({ onOpenTelemetryHud, onOpen
             <Gauge className="w-3.5 h-3.5 shrink-0" />
             TELEMETRY HUD
           </button>
+          </div>
         </div>
       )}
     </header>

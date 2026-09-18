@@ -15,7 +15,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 }) => {
   return (
     <section className="relative w-full border-b border-[#4d4635] bg-[#0e0e0e] overflow-hidden">
-      <div className="w-full px-4 lg:px-16 py-8 lg:py-14 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+      <div className="w-full max-w-7xl mx-auto px-4 lg:px-16 py-8 lg:py-14 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
         {/* Left Column: 7 Cols Museum Presentation Hero Shot */}
         <div className="lg:col-span-7 relative group">
           <div className="relative overflow-hidden border border-[#d4af37]/40 bg-[#1c1b1b]">

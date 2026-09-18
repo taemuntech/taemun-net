@@ -53,7 +53,7 @@ export const CalculatorSection: React.FC = () => {
 
   return (
     <section id="calculator" className="py-16 bg-[#f8f9ff] border-b border-[#bcc9c6]/30">
-      <div className="max-w-[1440px] mx-auto px-4 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 lg:px-12">
         {/* Section Header */}
         <div className="max-w-2xl mb-10">
           <div className="inline-flex items-center gap-1.5 text-[#00685f] font-mono text-xs uppercase tracking-wider mb-2">

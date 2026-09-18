@@ -26,7 +26,7 @@ export const PillarsSection: React.FC = () => {
 
   return (
     <section id="pillars" className="py-16 bg-[#f8f9ff] border-b border-[#bcc9c6]/30">
-      <div className="max-w-[1440px] mx-auto px-4 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 lg:px-12">
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-10">
           <div>

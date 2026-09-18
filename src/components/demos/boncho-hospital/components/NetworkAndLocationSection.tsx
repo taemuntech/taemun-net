@@ -5,7 +5,7 @@ export const NetworkAndLocationSection: React.FC = () => {
 
   return (
     <section className="w-full bg-[#faf9f6] py-16">
-      <div className="max-w-[1360px] mx-auto px-4 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8">
         {/* Network Hospitals Header */}
         <div className="text-center max-w-[720px] mx-auto mb-10">
           <span className="text-[12px] text-[#75593c] tracking-widest uppercase font-semibold">

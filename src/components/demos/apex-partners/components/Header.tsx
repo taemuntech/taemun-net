@@ -94,7 +94,7 @@ export default function Header({ onOpenVdr }: HeaderProps) {
   return (
     // 공용 샘플 바에 가려지지 않게 top-0 대신 --sample-bar-h 를 쓴다 — 바가 없으면 0px 라 화면은 그대로다.
     <header className="sticky top-[var(--sample-bar-h,0px)] z-50 bg-[#090e17]/90 backdrop-blur-md border-b border-[#4d4635]/40 transition-all duration-200">
-      <div className="flex justify-between items-center gap-3 w-full px-4 sm:px-6 lg:px-14 max-w-[1680px] mx-auto h-20">
+      <div className="flex justify-between items-center gap-3 w-full px-4 sm:px-6 lg:px-14 max-w-7xl mx-auto h-20">
         {/* Brand Identity — 375px 에서 상호가 두 줄로 접혀 LP 버튼과 겹쳤다. 한 줄 고정 + 단계별 크기로 막는다. */}
         <div className="flex items-center min-w-0">
           <a
@@ -155,31 +155,14 @@ export default function Header({ onOpenVdr }: HeaderProps) {
 
         {/* Global Clocks & CTA */}
         <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-          {/* 세계 시각 — 1620px 아래에선 네 도시를 넣을 자리가 없어(상호 부제가 잘렸다) 서울 시각만 남긴다 */}
-          <div className="hidden md:max-[1619px]:flex items-center gap-1.5 px-2.5 py-1.5 bg-[#161c24] border border-[#4d4635]/40 rounded text-[11px] font-mono-metric">
+          {/* 세계 시각 — 가로 막대에는 서울 시각만 둔다. 전에는 1620px 부터 네 도시(SEL·SIN·LDN·NYC) 묶음으로
+              바꿨는데, 그건 헤더 안쪽 줄이 1680 까지 넓어질 때의 이야기다. 본문 폭을 1280(max-w-7xl) 으로 묶은 뒤로는
+              어떤 화면에서도 안쪽 줄이 1280 화면과 같은 폭이라, 1280 에서도 자리가 없던 네 도시 묶음은 넣을 곳이 없다
+              (넣으면 상호 부제가 잘린다). 싱가포르 시각은 서랍(xl 미만)에 그대로 있다. */}
+          <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 bg-[#161c24] border border-[#4d4635]/40 rounded text-[11px] font-mono-metric">
             <span className="w-1.5 h-1.5 rounded-full bg-[#4edea3] animate-pulse" />
             <span className="text-[#dee2ef] font-semibold">SEL</span>
             <span className="text-[#f2ca50]">{clocks.seoul}</span>
-          </div>
-
-          <div className="hidden min-[1620px]:flex items-center gap-3 px-3 py-1.5 bg-[#161c24] border border-[#4d4635]/40 rounded text-[11px] font-mono-metric text-[#d0c5af]">
-            <div className="flex items-center gap-1.5 border-r border-[#4d4635]/40 pr-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#4edea3] animate-pulse"></span>
-              <span className="text-[#dee2ef] font-semibold">SEL</span>
-              <span className="text-[#f2ca50]">{clocks.seoul}</span>
-            </div>
-            <div className="flex items-center gap-1.5 border-r border-[#4d4635]/40 pr-3">
-              <span className="text-[#d0c5af]/70">SIN</span>
-              <span className="text-[#dee2ef]">{clocks.sin}</span>
-            </div>
-            <div className="flex items-center gap-1.5 border-r border-[#4d4635]/40 pr-3">
-              <span className="text-[#d0c5af]/70">LDN</span>
-              <span className="text-[#dee2ef]">{clocks.ldn}</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-[#d0c5af]/70">NYC</span>
-              <span className="text-[#dee2ef]">{clocks.nyc}</span>
-            </div>
           </div>
 
           {/* LP Portal Gateway CTA */}

@@ -14,7 +14,7 @@ export const SuitesSection: React.FC<SuitesSectionProps> = ({
 }) => {
   return (
     <section id="suites-section" className="w-full bg-[#faf9f6] py-16">
-      <div className="max-w-[1360px] mx-auto px-4 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-10">
           <div>

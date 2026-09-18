@@ -31,7 +31,7 @@ export const SelectedWorksSection: React.FC<SelectedWorksSectionProps> = ({
       className="py-16 lg:py-24 bg-[#0d0e10] border-y border-white/10 scroll-mt-[calc(var(--sample-bar-h,0px)_+_80px)]"
       id="selected-works"
     >
-      <div className="max-w-[1440px] mx-auto px-5 lg:px-16">
+      <div className="max-w-7xl mx-auto px-5 lg:px-16">
         {/* Header & Category Buttons */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16">
           <div>

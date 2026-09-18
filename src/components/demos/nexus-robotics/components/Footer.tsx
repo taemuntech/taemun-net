@@ -13,7 +13,7 @@ export function Footer({ onOpenDocModal }: FooterProps) {
 
  return (
  <footer className="w-full bg-white border-t border-slate-200">
- <div className="w-full px-4 sm:px-6 lg:px-12 py-10 lg:py-12 max-w-[1600px] mx-auto">
+ <div className="w-full px-4 sm:px-6 lg:px-12 py-10 lg:py-12 max-w-7xl mx-auto">
  {/* Top Row */}
  <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 pb-8 border-b border-slate-100">
  <div className="flex flex-col">

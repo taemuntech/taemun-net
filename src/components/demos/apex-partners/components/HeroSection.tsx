@@ -15,7 +15,7 @@ export default function HeroSection({ onOpenVdr }: HeroSectionProps) {
       {/* Ambient Background Glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[#f2ca50]/5 rounded-full blur-[140px] pointer-events-none -z-10" />
 
-      <div className="max-w-[1680px] mx-auto px-6 lg:px-14">
+      <div className="max-w-7xl mx-auto px-6 lg:px-14">
         {/* Sovereign Status Pill */}
         <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#161c24] border border-[#f2ca50]/30 mb-6 shadow-sm">
           <span className="w-2 h-2 rounded-full bg-[#4edea3] animate-ping" />

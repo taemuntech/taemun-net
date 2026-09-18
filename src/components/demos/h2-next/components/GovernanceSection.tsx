@@ -24,7 +24,7 @@ export const GovernanceSection: React.FC<GovernanceSectionProps> = ({ requestedD
 
   return (
     <section id="governance" className="py-16 bg-white border-b border-[#bcc9c6]/30">
-      <div className="max-w-[1440px] mx-auto px-4 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 lg:px-12">
         {/* Section Header */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-10">
           <div>

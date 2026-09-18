@@ -119,7 +119,7 @@ export const ArchitectureExplorer: React.FC = () => {
       id="sic-semiconductor"
       className="py-16 lg:py-24 bg-[#101319] border-b border-[#3b494c]/30 relative"
     >
-      <div className="max-w-[1720px] mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section Title */}
         <div className="max-w-3xl mb-14">
           <span className="font-code text-xs text-[#00e5ff] uppercase tracking-widest block mb-2">

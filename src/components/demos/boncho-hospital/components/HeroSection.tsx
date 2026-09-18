@@ -18,7 +18,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="absolute top-0 right-0 w-[550px] h-[550px] rounded-full bg-[#cbe9da]/25 blur-3xl pointer-events-none -mr-32 -mt-20"></div>
       <div className="absolute bottom-0 left-0 w-[420px] h-[420px] rounded-full bg-[#ffd9b4]/20 blur-3xl pointer-events-none -ml-24"></div>
 
-      <div className="max-w-[1360px] mx-auto px-4 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 relative z-10">
         {/* Top Badges & Real-time Sensor HUD */}
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <div className="inline-flex items-center gap-2 bg-[#e9e8e5] px-3.5 py-1.5 rounded-full shadow-sm">

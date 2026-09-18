@@ -75,6 +75,11 @@ const VIEWPORTS = [
 
 /** 탭 대상 최소 변 길이(px) — 형 기준 */
 const MIN_TAP_PX = 44;
+/**
+ * 본문 최대 폭(px) — 형 규칙(2026-09-18) 「본문은 max-w-7xl(1280px) 안에, 배경은 끝까지」.
+ * 데스크톱(1440) 화면에서 잰다 — 폭 제한이 없는 데모는 여기서 1340~1400 으로 잡힌다. 16px 은 반올림·테두리 여유.
+ */
+const CONTENT_MAX_PX = 1280 + 16;
 /** load 뒤 애니메이션·지연 이미지가 자리 잡을 시간 */
 const SETTLE_MS = 3000;
 const PAGE_TIMEOUT_MS = 120_000;
@@ -281,6 +286,26 @@ const probeExpr = (targetWidth) => `(() => {
     }
   }
 
+  // ── 7. 본문 폭 — 글·제목이 좌우로 얼마나 퍼지는가 (2026-09-18 형 규칙: 본문 최대 1280px, 배경은 끝까지) ──
+  // 1920px 에서 재 보니 57종 중 44종은 본문이 1280 안에 모였는데 11종은 화면 끝까지 퍼져 한 줄이 너무 길었다.
+  // 배경·사진은 끝까지 가도 되므로 **글을 가진 블록**(제목·문단·목록)만 잰다. 화면 밖으로 삐져나간 흐름 띠·
+  // 캐러셀이 값을 부풀리지 않게 화면 안(0 ~ innerWidth)으로 잘라서 본다(가로 넘침은 1번이 따로 잡는다).
+  let contentWidth = 0;
+  {
+    let L = Infinity;
+    let R = -Infinity;
+    for (const el of document.querySelectorAll("h1,h2,h3,p,li")) {
+      if ((el.textContent || "").trim().length <= 8) continue;
+      const r = el.getBoundingClientRect();
+      if (r.width <= 40 || r.height <= 0) continue;
+      const st = getComputedStyle(el);
+      if (st.display === "none" || st.visibility === "hidden") continue;
+      L = Math.min(L, Math.max(0, r.left));
+      R = Math.max(R, Math.min(vw, r.right));
+    }
+    if (R > L) contentWidth = Math.round(R - L);
+  }
+
   // ── 곁다리: 깨진 <img> (naturalWidth 0) ──
   const brokenImgs = [];
   for (const img of document.querySelectorAll("img")) {
@@ -307,6 +332,7 @@ const probeExpr = (targetWidth) => `(() => {
     brokenAnchors,
     clippedCount,
     clipped,
+    contentWidth,
     brokenImgs,
     title: document.title,
     linkCount: document.querySelectorAll("a[href]").length,
@@ -908,8 +934,8 @@ md.push(
 md.push("");
 md.push(`## 요약표`);
 md.push("");
-md.push(`| 샘플 | 화면 | 가로 넘침 | 콘솔 에러 | 실패 요청 | 작은 탭 | 죽은 링크 | 가로 잘림 |`);
-md.push(`| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |`);
+md.push(`| 샘플 | 화면 | 가로 넘침 | 콘솔 에러 | 실패 요청 | 작은 탭 | 죽은 링크 | 가로 잘림 | 본문 폭 |`);
+md.push(`| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |`);
 for (const e of results) {
   if (e.error) {
     md.push(`| \`${e.slug}\` | — | — | — | — | — | — | (${e.error}) |`);
@@ -927,12 +953,12 @@ for (const e of results) {
         ? `0 ⚠️가림(${p.offenders.length}개 튀어나옴)`
         : "0";
     md.push(
-      `| \`${e.slug}\` | ${s.width} | ${ov} | ${s.consoleErrors.length + s.exceptions.length} | ${s.failedRequests.length} | ${s.mobile ? p.smallTapCount : "—"} | ${p.hashOnly + p.brokenAnchors.length} | ${p.clippedCount} |`,
+      `| \`${e.slug}\` | ${s.width} | ${ov} | ${s.consoleErrors.length + s.exceptions.length} | ${s.failedRequests.length} | ${s.mobile ? p.smallTapCount : "—"} | ${p.hashOnly + p.brokenAnchors.length} | ${p.clippedCount} | ${s.mobile ? "—" : p.contentWidth > CONTENT_MAX_PX ? `**${p.contentWidth} ⚠️넓음**` : p.contentWidth} |`,
     );
   }
 }
 md.push("");
-md.push(`> 가로 넘침은 **목표 폭 기준** \`documentElement.scrollWidth - min(innerWidth, 목표폭)\` — ⚠️축소 는 내용이 넓어 브라우저가 레이아웃 뷰포트를 늘려(지면을 축소해) 넘침을 감춘 화면이다. 작은 탭은 모바일 폭에서만 세고(44px 미만), 죽은 링크는 \`href="#"\` + 대상 없는 \`#앵커\`. 가로 잘림은 잎 노드 \`scrollWidth > clientWidth + 2\` 라 거짓 양성이 섞인다.`);
+md.push(`> 가로 넘침은 **목표 폭 기준** \`documentElement.scrollWidth - min(innerWidth, 목표폭)\` — ⚠️축소 는 내용이 넓어 브라우저가 레이아웃 뷰포트를 늘려(지면을 축소해) 넘침을 감춘 화면이다. 작은 탭은 모바일 폭에서만 세고(44px 미만), 죽은 링크는 \`href="#"\` + 대상 없는 \`#앵커\`. 가로 잘림은 잎 노드 \`scrollWidth > clientWidth + 2\` 라 거짓 양성이 섞인다. 본문 폭은 데스크톱에서 글 블록(제목·문단·목록)이 좌우로 퍼진 폭이다 — 규칙은 **1280px 이하**(배경·사진은 끝까지 가도 된다), 넘으면 ⚠️넓음.`);
 md.push("");
 
 for (const e of results) {
@@ -1068,5 +1094,16 @@ fs.writeFileSync(path.join(QA_DIR, "report.md"), `${md.join("\n")}\n`, "utf8");
 
 console.log(`\n보고서: ${rel(path.join(QA_DIR, "report.md"))} · ${rel(path.join(QA_DIR, "report.json"))}`);
 console.log(`요약: 측정 실패 ${hardFailures}건`);
+{
+  // 본문 폭 규칙(1280px) — 데스크톱 화면에서 넘친 데모를 이름으로 드러낸다
+  const wide = results
+    .filter((e) => !e.error)
+    .flatMap((e) => e.screens.filter((s) => s.ok && !s.mobile && s.probe.contentWidth > CONTENT_MAX_PX).map((s) => `${e.slug}(${s.probe.contentWidth}px)`));
+  console.log(
+    wide.length
+      ? `⚠️ 본문 폭 1280px 넘침 ${wide.length}종: ${wide.join(", ")} — 글·카드 감싸개에 max-w-7xl mx-auto (배경은 끝까지 둬도 된다)`
+      : `본문 폭: 전부 1280px 안`,
+  );
+}
 // process.exit() 대신 — 서버 확인 fetch 소켓이 남아 있으면 Windows Node 가 종료 중 assertion 으로 죽는다
 process.exitCode = hardFailures ? 1 : 0;

@@ -96,7 +96,7 @@ export const Footer: React.FC = () => {
           </div>
         </div>
       </div>
-      <p className="mt-6 px-4 text-center text-[11px] leading-relaxed opacity-60 [word-break:keep-all]"><SampleFooterNote /></p>
+      <p className="mt-6 max-w-7xl mx-auto px-4 text-center text-[11px] leading-relaxed opacity-60 [word-break:keep-all]"><SampleFooterNote /></p>
     </footer>
   );
 };

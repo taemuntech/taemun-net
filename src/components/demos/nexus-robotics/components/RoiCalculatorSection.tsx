@@ -37,7 +37,7 @@ export function RoiCalculatorSection({ onDownloadReport }: RoiCalculatorSectionP
 
  return (
  <section className="py-14 lg:py-20 bg-slate-50 border-b border-slate-200" id="roi-matrix">
- <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12">
+ <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
  <div className="text-center max-w-2xl mx-auto mb-10 lg:mb-12">
  <div className="inline-flex items-center gap-2 mb-2">
  <span className="h-2 w-2 rounded bg-blue-600" />

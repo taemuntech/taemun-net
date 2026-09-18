@@ -12,7 +12,7 @@ export const Footer: React.FC = () => {
       id="main-footer"
       className="bg-[#0b0e13] border-t border-[#3b494c]/40 text-[#bac9cc]"
     >
-      <div className="w-full px-6 lg:px-12 py-10 max-w-[1720px] mx-auto flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+      <div className="w-full px-6 lg:px-12 py-10 max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
         {/* Brand and Legal */}
         <div className="space-y-2">
           <div className="flex items-center gap-3">

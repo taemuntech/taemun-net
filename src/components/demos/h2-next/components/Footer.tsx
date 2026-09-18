@@ -118,7 +118,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectHub, onRequestDoc }) => 
 
   return (
     <footer className="w-full bg-white border-t border-[#bcc9c6]/40">
-      <div className="max-w-[1440px] mx-auto px-4 lg:px-12 py-12 lg:py-16">
+      <div className="max-w-7xl mx-auto px-4 lg:px-12 py-12 lg:py-16">
         {/* Top Row: Brand, Credentials, Links */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-10 border-b border-[#bcc9c6]/30">
           {/* Brand & Vision (4 cols) */}
