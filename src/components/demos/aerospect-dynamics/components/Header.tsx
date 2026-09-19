@@ -32,25 +32,25 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className="fixed top-[var(--sample-bar-h,0px)] left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-[0_1px_8px_rgba(0,0,0,0.04)] border-b border-zinc-200">
-      <div className="h-20 max-w-7xl mx-auto px-4 lg:px-12 flex items-center justify-between gap-4">
+      <div className="h-16 lg:h-20 max-w-7xl mx-auto px-3.5 lg:px-12 flex items-center justify-between gap-2 lg:gap-4">
         {/* Brand Identity */}
         <button
           onClick={() => handleNavClick('overview')}
-          className="flex items-center gap-3 text-left group focus:outline-none cursor-pointer"
+          className="flex items-center gap-2 lg:gap-3 text-left group focus:outline-none cursor-pointer shrink-0"
         >
           <img
             alt="AEROSPECT DYNAMICS Logo"
-            className="h-8 w-auto object-contain transition-transform group-hover:scale-105"
+            className="h-6 lg:h-8 w-auto object-contain transition-transform group-hover:scale-105"
             src={ASSET_IMAGES.logo}
             onError={(e) => {
               (e.target as HTMLElement).style.display = 'none';
             }}
           />
-          <div className="flex flex-col">
-            <span className="text-base font-bold tracking-tight text-zinc-950 uppercase">
+          <div className="flex flex-col justify-center">
+            <span className="text-xs lg:text-base font-bold tracking-tight text-zinc-950 uppercase whitespace-nowrap">
               AEROSPECT DYNAMICS
             </span>
-            <span className="font-mono text-[11px] text-zinc-500 uppercase tracking-widest">
+            <span className="hidden lg:inline-block font-mono text-[11px] text-zinc-500 uppercase tracking-widest">
               AEROSPACE AUTONOMY LAB // KR-DEF
             </span>
           </div>
@@ -77,7 +77,7 @@ export const Header: React.FC<HeaderProps> = ({
         </nav>
 
         {/* Action Controls & Demo CTA */}
-        <div className="flex items-center gap-2.5 lg:gap-3">
+        <div className="flex items-center gap-1.5 lg:gap-3 shrink-0">
           <button
             onClick={onOpenWhitepaper}
             className="hidden lg:inline-flex text-zinc-600 hover:text-zinc-950 font-mono text-xs uppercase tracking-wider transition-colors px-2.5 py-2 rounded-lg hover:bg-zinc-100 cursor-pointer"
@@ -87,14 +87,14 @@ export const Header: React.FC<HeaderProps> = ({
 
           <button
             onClick={onOpenPocModal}
-            className="px-4 py-2.5 bg-zinc-950 text-white font-mono text-xs uppercase tracking-wider rounded-xl transition-all hover:bg-zinc-800 shadow-xs active:scale-95 cursor-pointer font-semibold"
+            className="px-2.5 py-1.5 lg:px-4 lg:py-2.5 bg-zinc-950 text-white font-mono text-[11px] lg:text-xs uppercase tracking-wider rounded-lg lg:rounded-xl transition-all hover:bg-zinc-800 shadow-xs active:scale-95 cursor-pointer font-semibold whitespace-nowrap"
           >
             데모 비행 신청
           </button>
 
           <div
             title="인증된 사용자 세션: 국방·인프라 관제망"
-            className="w-8 h-8 rounded-full bg-zinc-950 flex items-center justify-center cursor-pointer hover:ring-2 hover:ring-sky-500/50 transition-all shrink-0"
+            className="hidden lg:flex w-8 h-8 rounded-full bg-zinc-950 items-center justify-center cursor-pointer hover:ring-2 hover:ring-sky-500/50 transition-all shrink-0"
           >
             <span className="material-symbols-outlined text-white text-[18px]">person</span>
           </div>
@@ -102,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Mobile Menu Toggle Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-lg text-zinc-800 hover:bg-zinc-100 cursor-pointer"
+            className="lg:hidden p-1.5 rounded-lg text-zinc-800 hover:bg-zinc-100 cursor-pointer"
             aria-label="메뉴 열기"
           >
             <span className="material-symbols-outlined text-2xl">

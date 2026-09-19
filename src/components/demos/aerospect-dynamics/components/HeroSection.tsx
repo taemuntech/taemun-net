@@ -97,8 +97,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
         </div>
 
-        {/* Floating HUD Card 1: Top Left */}
-        <div className="absolute top-4 left-4 lg:top-6 lg:left-6 p-3 rounded-lg bg-black/80 backdrop-blur-md text-white font-mono text-[11px] flex flex-col gap-1 shadow-lg max-w-xs border border-white/10">
+        {/* Mobile Minimal Status Badge (영상 위는 슬림하게) */}
+        <div className="lg:hidden absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none z-10">
+          <span className="px-2 py-0.5 rounded bg-black/75 backdrop-blur-md text-white font-mono text-[10px] flex items-center gap-1.5 border border-white/10">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span>LIVE TELEMETRY // AP-X9</span>
+          </span>
+          <span className="px-2 py-0.5 rounded bg-black/75 backdrop-blur-md text-sky-300 font-mono text-[10px] border border-white/10">
+            CH: 34 · RTK FIX
+          </span>
+        </div>
+
+        {/* Floating HUD Card 1: Top Left (Desktop Only) */}
+        <div className="absolute top-4 left-4 lg:top-6 lg:left-6 p-3 rounded-lg bg-black/80 backdrop-blur-md text-white font-mono text-[11px] hidden lg:flex flex-col gap-1 shadow-lg max-w-xs border border-white/10">
           <div className="flex items-center justify-between gap-4">
             <span className="text-sky-400 font-bold flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -113,8 +124,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
         </div>
 
-        {/* Floating HUD Card 2: Top Right */}
-        <div className="absolute top-4 right-4 lg:top-6 lg:right-6 p-3 rounded-lg bg-black/80 backdrop-blur-md text-white font-mono text-[11px] flex flex-col gap-1 shadow-lg border border-white/10">
+        {/* Floating HUD Card 2: Top Right (Desktop Only) */}
+        <div className="absolute top-4 right-4 lg:top-6 lg:right-6 p-3 rounded-lg bg-black/80 backdrop-blur-md text-white font-mono text-[11px] hidden lg:flex flex-col gap-1 shadow-lg border border-white/10">
           <div className="flex items-center justify-between gap-4">
             <span className="text-sky-400 font-bold flex items-center gap-1.5">
               <span className="material-symbols-outlined text-sm">air</span>
@@ -131,8 +142,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
         </div>
 
-        {/* Floating HUD Card 3: Bottom Left */}
-        <div className="absolute bottom-4 left-4 lg:bottom-6 lg:left-6 p-3 rounded-lg bg-black/80 backdrop-blur-md text-white font-mono text-[11px] flex flex-col gap-1 shadow-lg border border-white/10">
+        {/* Floating HUD Card 3: Bottom Left (Desktop Only) */}
+        <div className="absolute bottom-4 left-4 lg:bottom-6 lg:left-6 p-3 rounded-lg bg-black/80 backdrop-blur-md text-white font-mono text-[11px] hidden lg:flex flex-col gap-1 shadow-lg border border-white/10">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
             <span className="text-amber-400 font-bold uppercase">PAYLOAD: LiDAR + THERMAL</span>
@@ -144,17 +155,72 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           </div>
         </div>
 
-        {/* Bottom Right Live Altitude/Speed Display */}
+        {/* Bottom Right Live Altitude/Speed Display (Desktop Only) */}
         <div className="absolute bottom-4 right-4 lg:bottom-6 lg:right-6 p-3 rounded-lg bg-black/80 backdrop-blur-md text-white font-mono text-[11px] hidden lg:flex items-center gap-4 border border-white/10">
           <div>
             <div className="text-[10px] text-white/50 uppercase">ALTITUDE (AGL)</div>
-            <div className="text-sm font-bold text-white tabular-nums">{altitude.toFixed(2)} M</div>
+            <div className="text-base font-bold text-white tracking-wider">{altitude.toFixed(2)} M</div>
           </div>
-          <div className="w-px h-6 bg-white/20"></div>
+          <div className="w-[1px] h-8 bg-white/20"></div>
           <div>
             <div className="text-[10px] text-white/50 uppercase">GROUND SPEED</div>
-            <div className="text-sm font-bold text-sky-400 tabular-nums">{speed.toFixed(1)} M/S</div>
+            <div className="text-base font-bold text-sky-400 tracking-wider">{speed.toFixed(1)} M/S</div>
           </div>
+        </div>
+      </div>
+
+      {/* Mobile-Only Telemetry Data Bar (영상 아래 컴팩트 그리드 배치) */}
+      <div className="grid grid-cols-2 gap-2 lg:hidden w-full font-mono">
+        {/* Item 1: RTK-GPS */}
+        <div className="p-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-white flex flex-col gap-0.5">
+          <div className="flex items-center justify-between text-[10px] text-zinc-400">
+            <span className="flex items-center gap-1 text-sky-400 font-bold">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              RTK-GPS
+            </span>
+            <span className="text-emerald-400 font-semibold">±1.5cm</span>
+          </div>
+          <span className="text-xs font-bold text-zinc-100 truncate">37°33'59"N, 126°58'41"E</span>
+          <span className="text-[10px] text-zinc-400">DUAL-BAND FIX · CH: 34</span>
+        </div>
+
+        {/* Item 2: Wind Gust */}
+        <div className="p-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-white flex flex-col gap-0.5">
+          <div className="flex items-center justify-between text-[10px] text-zinc-400">
+            <span className="flex items-center gap-1 text-sky-400 font-bold">
+              <span className="material-symbols-outlined text-[13px]">air</span>
+              내풍성
+            </span>
+            <span className="px-1 py-0.2 bg-sky-950 text-sky-300 rounded text-[9px] border border-sky-800">LV.8</span>
+          </div>
+          <span className="text-xs font-bold text-zinc-100">{windGust} m/s (NOMINAL)</span>
+          <span className="text-[10px] text-zinc-400">0.02ms LATENCY 보정</span>
+        </div>
+
+        {/* Item 3: Payload Lidar & Thermal */}
+        <div className="p-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-white flex flex-col gap-0.5">
+          <div className="flex items-center justify-between text-[10px] text-zinc-400">
+            <span className="flex items-center gap-1 text-amber-400 font-bold">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+              페이로드
+            </span>
+            <span className="text-amber-300 text-[10px]">640p FLIR</span>
+          </div>
+          <span className="text-xs font-bold text-zinc-100">LiDAR + 열화상 듀얼</span>
+          <span className="text-[10px] text-zinc-400 font-mono">240,000 pts/sec</span>
+        </div>
+
+        {/* Item 4: Altitude & Speed */}
+        <div className="p-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-white flex flex-col gap-0.5">
+          <div className="flex items-center justify-between text-[10px] text-zinc-400">
+            <span className="text-sky-400 font-bold">비행 제원</span>
+            <span className="text-emerald-400 text-[10px]">정상 순항</span>
+          </div>
+          <div className="flex items-baseline justify-between">
+            <span className="text-xs font-bold text-zinc-100">{altitude.toFixed(2)}m <span className="text-[9px] text-zinc-400 font-normal">AGL</span></span>
+            <span className="text-xs font-bold text-sky-300">{speed.toFixed(1)} m/s <span className="text-[9px] text-zinc-400 font-normal">SPEED</span></span>
+          </div>
+          <span className="text-[10px] text-zinc-400">자율 경로 안정화 중</span>
         </div>
       </div>
 
