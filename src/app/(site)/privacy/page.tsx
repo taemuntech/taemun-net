@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SITE_OG_IMAGES } from "@/lib/site-og";
 import { STUDIO_PHONE } from "@/lib/inquiry/contact";
+import { SiteBusinessInfo } from "@/components/SiteBusinessInfo";
 
 // 개인정보 처리방침 — 견적 문의(/inquiry)가 성함·연락처를 받으므로 공개해야 한다(개인정보 보호법 제30조).
 // 2026-09-18 가온 초안, 09-19 형 확인(보유기간 접수일부터 1년 · 보호책임자 이동주) 뒤 시행.
@@ -15,6 +16,10 @@ const EFFECTIVE_DATE = "2026년 9월 19일";
 // 기록 코드도 시행일 전에는 아무것도 보내지 않는다(src/lib/inquiry/track.ts TRACKING_STARTS_AT — 날짜를 같이 바꿀 것).
 const REVISION_NOTICE_DATE = "2026년 9월 19일";
 const REVISION_DATE = "2026년 9월 26일";
+// 정정(약속한 내용은 그대로 두고 사실 표기만 바로잡음 — 11항의 「시행 7일 전 공지」 대상인 변경이 아니라 게시 즉시 반영).
+// 2026-09-19: 5·6항 수탁자 명칭을 각 업체가 공개한 정식 명칭으로, 6항에 이전받는 자 연락처와 문의 DB 의
+// 실제 보관 위치(서울)를 적었다. 출처 URL 은 5·6항 표 위 주석.
+const CORRECTION_DATE = "2026년 9월 19일";
 const PRIVACY_OFFICER = "이동주";
 const CONTACT_EMAIL = "contact@taemun.co.kr";
 
@@ -63,6 +68,10 @@ export default function PrivacyPage() {
             시행일: {EFFECTIVE_DATE} ·{" "}
             <a href="#privacy-change-7" className="underline underline-offset-2">
               변경 예정: {REVISION_DATE}(7항)
+            </a>{" "}
+            ·{" "}
+            <a href="#privacy-history" className="underline underline-offset-2">
+              정정: {CORRECTION_DATE}
             </a>
           </p>
         </header>
@@ -121,6 +130,13 @@ export default function PrivacyPage() {
 
         <Section n={5} title="처리 위탁">
           <p>사이트 운영과 문의 접수를 위해 아래 업체에 처리를 맡깁니다.</p>
+          {/* 수탁자 정식 명칭 출처(2026-09-19 확인):
+              - Supabase Pte. Ltd. — https://supabase.com/privacy 첫 문장 「Supabase Pte. Ltd., ("Supabase" …)」,
+                https://supabase.com/terms 계약 당사자 「SUPABASE PTE. LTD., a Singapore entity」(65 Chulia Street #38-02/03,
+                OCBC Centre, Singapore 049513). 예전 표기 「Supabase, Inc.」는 처리방침·약관이 가리키는 법인이 아니었다.
+              - Vercel Inc. — https://vercel.com/legal/privacy-policy 연락처 「Vercel Inc. 440 N Barranca Avenue #4133
+                Covina, CA 91723 United States」(Last Updated June 1, 2026). 쉼표 없는 「Vercel Inc.」가 정식 표기.
+              - 솔라피(주) — https://solapi.com/ 꼬리말 「솔라피(주)」 · 사업자등록번호 217-81-33791. */}
           <div className="overflow-x-auto">
             <table className="w-full min-w-[520px] border-collapse text-sm">
               <thead className="bg-zinc-100">
@@ -131,16 +147,18 @@ export default function PrivacyPage() {
               </thead>
               <tbody>
                 <tr>
-                  <td className={cell}>Supabase, Inc.</td>
+                  <td className={cell}>Supabase Pte. Ltd.</td>
                   <td className={cell}>문의 내용 저장(데이터베이스)</td>
                 </tr>
                 <tr>
-                  <td className={cell}>Vercel, Inc.</td>
+                  <td className={cell}>Vercel Inc.</td>
                   <td className={cell}>사이트 호스팅, 접속 기록 보관</td>
                 </tr>
                 <tr>
-                  <td className={cell}>솔라피(SOLAPI)</td>
-                  <td className={cell}>문의가 접수되면 태문 담당자에게 알림 문자 발송(성함·연락처·문의 요약이 담깁니다)</td>
+                  <td className={cell}>솔라피(주)(SOLAPI)</td>
+                  <td className={cell}>
+                    문의가 접수되면 태문 담당자에게 알림 문자 발송(연락처·이메일·문의 내용 요약과 문의 화면에서 고르신 값이 담깁니다)
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -148,20 +166,76 @@ export default function PrivacyPage() {
         </Section>
 
         <Section n={6} title="국외 이전">
+          {/* 개인정보 보호법 제28조의8 제2항 — 이전받는 자의 법인명·연락처, 이전 국가·일시·방법, 항목, 목적·보유기간,
+              거부 방법·절차·효과를 알린다. 사실 근거(2026-09-19):
+              - 문의 DB 위치: Supabase 프로젝트 DB 호스트 IPv6 2406:da12:5ca:… 가 https://ip-ranges.amazonaws.com/ip-ranges.json
+                의 2406:da12::/36 (region ap-northeast-2, 서울)에 속함(리드 확인). 수탁 법인(Supabase Pte. Ltd.)이 싱가포르
+                법인이라 데이터가 서울에 있어도 국외 법인이 처리하는 것으로 보고 이 항에 적는다(보수적 해석).
+              - Supabase 연락처: https://supabase.com/privacy 「please send us an email at privacy@supabase.com」.
+                Supabase 직원·재수탁자가 어느 나라에서 접근하는지는 공개 문서에서 확정하지 못함(미확인). 다만 개인정보 처리방침이
+                「primarily hosted in and provided from the United States」, 재수탁자 시설 어디서든 처리할 수 있다고 적으므로
+                (https://supabase.com/privacy · https://supabase.com/legal/dpa) 초판에 적었던 미국을 빼지 않고 「싱가포르·미국 등」으로 적는다.
+              - Vercel 함수 위치: 운영 응답 헤더 X-Vercel-Id 「icn1::iad1」(서울 접점 → iad1 실행). iad1 = 「Washington, D.C., USA」
+                (https://vercel.com/docs/regions — 함수 기본 지역도 iad1). 연락처 privacy@vercel.com(https://vercel.com/legal/privacy-policy).
+              - Vercel 기록 보관: https://vercel.com/docs/logs/runtime 「Limits」 표 — 요금제별 1시간~30일. 태문넷 요금제는 확인 안 함(미확인).
+                문의 API 는 오류가 나면 DB 오류 내용을 기록하므로(입력값 일부가 담길 수 있다) 「기록이 남을 수 있다」로 적는다. */}
           <p>
-            위 수탁자 중 Supabase, Inc.와 Vercel, Inc.는 미국 법인이라, 문의하실 때 입력하신 정보가 인터넷으로 이 업체들의
-            서버에 전송·보관됩니다.
+            문의를 처리하는 과정에서 아래와 같이 국외 법인에 개인정보가 전송되거나 국외 법인이 개인정보를 처리합니다. 문의
+            내용이 저장되는 데이터베이스는 대한민국(서울)에 있습니다.
           </p>
-          <ul className="list-disc pl-5 space-y-1">
-            <li>이전 국가: 미국 및 각 업체가 운영하는 서버 소재 국가</li>
-            <li>이전 항목: 2항의 항목 전부</li>
-            <li>이전 시점·방법: 문의를 제출할 때, 암호화된 통신(HTTPS)으로 전송</li>
-            <li>목적과 보유기간: 5항의 일을 위해, 3항의 기간 동안</li>
-            <li>
-              거부 방법: 국외 이전을 원하지 않으시면 문의 화면 대신 전화({STUDIO_PHONE})로 문의해 주세요. 이 경우 사이트에
-              정보가 저장되지 않습니다.
-            </li>
-          </ul>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[720px] border-collapse text-sm">
+              <thead className="bg-zinc-100">
+                <tr>
+                  <th className={cell}>이전받는 자(연락처)</th>
+                  <th className={cell}>이전 국가</th>
+                  <th className={cell}>이전 일시·방법</th>
+                  <th className={cell}>이용 목적·항목</th>
+                  <th className={cell}>보유기간</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className={cell}>
+                    Supabase Pte. Ltd.
+                    <br />
+                    <a href="mailto:privacy@supabase.com" className="underline underline-offset-2">
+                      privacy@supabase.com
+                    </a>
+                  </td>
+                  <td className={cell}>
+                    데이터 보관: 대한민국(서울, AWS 서울 리전). 운영·장애 대응을 위해 Supabase(싱가포르 법인)와 그 재수탁자가
+                    국외(싱가포르·미국 등)에서 접근·처리할 수 있습니다.
+                  </td>
+                  <td className={cell}>문의를 제출할 때, 암호화된 통신(HTTPS)으로 전송</td>
+                  <td className={cell}>문의 내용 저장(데이터베이스) · 2항의 항목 전부</td>
+                  <td className={cell}>3항의 기간(접수일로부터 1년) 동안 보관한 뒤 파기</td>
+                </tr>
+                <tr>
+                  <td className={cell}>
+                    Vercel Inc.
+                    <br />
+                    <a href="mailto:privacy@vercel.com" className="underline underline-offset-2">
+                      privacy@vercel.com
+                    </a>
+                  </td>
+                  <td className={cell}>미국(워싱턴 D.C. 지역 서버)</td>
+                  <td className={cell}>사이트에 접속하거나 문의를 제출할 때, 암호화된 통신(HTTPS)으로 전송</td>
+                  <td className={cell}>
+                    사이트 호스팅과 문의 접수 처리 · 2항의 항목(문의 제출 시), 접속 기록(IP 주소·접속 일시·브라우저 정보)
+                  </td>
+                  <td className={cell}>
+                    문의 내용은 Vercel 에 따로 저장하지 않고 접수 즉시 데이터베이스로 넘깁니다. 접속·오류 기록(오류가 나면 입력하신
+                    내용 일부가 담길 수 있습니다)은 Vercel 의 기록 보관 기간(요금제에 따라 1시간~30일) 동안 남은 뒤 삭제됩니다.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            거부 방법: 국외 이전을 원하지 않으시면 문의 화면 대신 전화({STUDIO_PHONE})로 문의해 주세요. 이 경우 사이트에
+            정보가 저장되지 않습니다.
+          </p>
         </Section>
 
         <Section n={7} title="쿠키와 분석 도구">
@@ -209,10 +283,29 @@ export default function PrivacyPage() {
 
         <Section n={11} title="방침의 변경">
           <p>이 방침을 바꾸면 시행 7일 전에 이 페이지에 알립니다.</p>
+          <div id="privacy-history" className="space-y-1">
+            <p className="font-bold text-zinc-900">변경·정정 이력</p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>{EFFECTIVE_DATE}: 시행</li>
+              <li>
+                {CORRECTION_DATE} 정정: 문의 데이터 보관 위치(대한민국 서울) 명시, 국외 이전받는 자의 연락처 추가, 수탁자
+                명칭을 각 업체가 공개한 정식 명칭(Supabase Pte. Ltd.·Vercel Inc.·솔라피(주))으로 정정, 알림 문자에 담기는 항목을
+                실제와 맞게 정정. 3항 보유기간(접수일로부터 1년)과 처리 목적·항목은 바뀌지 않았습니다. 6항에는 이전 국가를
+                업체별로 나눠 적고 Vercel 접속·오류 기록의 보관 기간을 따로 적었습니다.
+              </li>
+              <li>
+                {REVISION_DATE} 변경 예정(공지 {REVISION_NOTICE_DATE}): 7항 문의 단계 기록 —{" "}
+                <a href="#privacy-change-7" className="underline underline-offset-2">
+                  내용 보기
+                </a>
+              </li>
+            </ul>
+          </div>
         </Section>
 
-        <footer className="border-t border-zinc-200 pt-6 text-xs text-zinc-500 space-y-1">
-          <p>주식회사 태문 · 사업자등록번호 696-86-03651 · 대전광역시 대덕구 대화로 120, 2층</p>
+        {/* 사업자 정보는 SiteBusinessInfo 한 곳(홈·/inquiry 와 같은 값) */}
+        <footer className="border-t border-zinc-200 pt-6">
+          <SiteBusinessInfo />
         </footer>
       </div>
     </main>

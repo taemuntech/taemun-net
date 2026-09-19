@@ -3,7 +3,7 @@ import HomeView from "./HomeView";
 import { GALLERY_CATEGORIES, GALLERY_PROJECTS } from "@/lib/portfolio/galleryData";
 import { demoSlugOf, gallerySlugOf } from "@/lib/portfolio/gallery-ref";
 import { getPortfolio } from "@/lib/portfolio/registry";
-import { thumbnailOf } from "@/lib/portfolio/schema";
+import { isPaused, thumbnailOf } from "@/lib/portfolio/schema";
 import type { WizardReference } from "@/components/inquiry/types";
 import { listedDemoLinks } from "@/lib/portfolio/header-links";
 import { listedHomeShortcuts } from "@/lib/portfolio/home-shortcuts";
@@ -34,11 +34,16 @@ export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const snapshot = await getState();
+  const portfolio = getPortfolio();
+  // 잠정 중단(paused)한 항목도 목록에서 뺀다 — 2026-09-19 형: 브릿지 잠정 중단(taemun-bridge.json 의 paused 한 줄).
   const listedSlugs = new Set(
-    getPortfolio()
-      .filter((item) => isListed(resolveStatus(snapshot, item.slug, item.kind)))
+    portfolio
+      .filter((item) => !isPaused(item) && isListed(resolveStatus(snapshot, item.slug, item.kind)))
       .map((item) => item.slug),
   );
+  // 운영 서비스 카드(externalUrl)는 데모 주소가 없어 공개 상태의 대상이 아니지만, 등록 정보에 같은 주소로 올라 있고
+  // 그 항목이 잠정 중단이면 홈에서도 뺀다. 등록 정보가 없는 외부 카드는 예전처럼 싣는다.
+  const pausedSlugs = new Set(portfolio.filter(isPaused).map((item) => item.slug));
 
   // 목록에 없는 slug(= 등록 안 된 데모, 내려간 시안)는 **싣지 않는 쪽**으로 넘어진다.
   // 데모도 외부 운영 주소도 없는 카드도 싣지 않는다 — 볼 것이 없는데 「샘플」 표시·기술 스택·제작 기간을 달고
@@ -46,14 +51,17 @@ export default async function Home() {
   // FastAPI·MQTT·PostgreSQL 이 적혀 있었다). 데이터는 남겨 두므로 데모를 만들어 liveDemoUrl 을 달면 저절로 돌아온다.
   const projects = GALLERY_PROJECTS.filter((p) => {
     const slug = demoSlugOf(p);
-    if (slug === null) return Boolean(p.externalUrl);
+    if (slug === null) {
+      if (!p.externalUrl) return false;
+      const registered = gallerySlugOf(p, portfolio);
+      return registered === null || !pausedSlugs.has(registered);
+    }
     return listedSlugs.has(slug);
   });
 
   // 카드 모달의 「이 레퍼런스로 제작 문의」가 그 자리에서 여는 견적 위저드에 넘길 레퍼런스(구현계획서 P4).
   // 카드 id 는 slug 와 다를 수 있어(22장) 카드가 가리키는 주소로 slug 를 찾고, 제목·한 줄 설명·썸네일은
   // 등록 정보(src/content/portfolio)가 정본이다 — /inquiry 와 같은 값이 보이게. 위에서 걸러진 카드만 싣는다.
-  const portfolio = getPortfolio();
   const inquiryRefs: Record<string, WizardReference> = {};
   for (const p of projects) {
     const slug = gallerySlugOf(p, portfolio);

@@ -28,7 +28,7 @@ export const ConsultationForm: React.FC = () => {
     }
     setPrivacyError(null);
 
-    // 제안용 시안 — 입력값을 어디에도 보내지 않고 공용 안내만 연다
+    // 가상 브랜드 샘플 — 입력값을 어디에도 보내지 않고 공용 안내만 연다
     setNoticeOpen(true);
   };
 
@@ -239,7 +239,7 @@ export const ConsultationForm: React.FC = () => {
                   )}
 
                   <p className="text-xs lg:text-sm text-[#904b35] font-medium text-center">
-                    제안용 시안 — 실제로 접수되지 않습니다
+                    샘플 사이트입니다 — 입력하신 내용은 어디에도 전송되지 않습니다
                   </p>
 
                   <button
@@ -261,7 +261,6 @@ export const ConsultationForm: React.FC = () => {
         slug="sodamjae"
         industry="construction"
         featureName="상담 신청"
-        kind="proposal"
       />
     </section>
   );

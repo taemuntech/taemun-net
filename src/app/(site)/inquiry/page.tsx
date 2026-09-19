@@ -5,7 +5,7 @@ import { GALLERY_PROJECTS } from "@/lib/portfolio/galleryData";
 import { gallerySlugOf } from "@/lib/portfolio/gallery-ref";
 import { getPortfolio } from "@/lib/portfolio/registry";
 import { getState, isReachable, resolveStatus, type StateSnapshot } from "@/lib/portfolio/state";
-import { thumbnailOf } from "@/lib/portfolio/schema";
+import { isPaused, thumbnailOf } from "@/lib/portfolio/schema";
 import { SITE_OG_IMAGES } from "@/lib/site-og";
 import { resolveInquiryContext, type SampleIndex } from "@/lib/inquiry/context";
 import InquiryView from "./InquiryView";
@@ -43,7 +43,8 @@ function buildSampleIndex(snapshot: StateSnapshot): SampleIndex {
   const index: SampleIndex = {};
   // 갤러리 카드는 운영 서비스(https 링크)에서도 ?from= 을 넘기므로 막히지 않은 것은 전부 싣는다
   for (const item of getPortfolio()) {
-    if (!isReachable(resolveStatus(snapshot, item.slug, item.kind))) continue;
+    // 잠정 중단(paused, 2026-09-19 태문브릿지)도 뺀다 — ?from=taemun-bridge 로 들어와도 참고 사이트로 되살아나지 않게
+    if (isPaused(item) || !isReachable(resolveStatus(snapshot, item.slug, item.kind))) continue;
     // thumb 는 등록 정보 규칙(thumbnailOf) 한 곳에서 — 홈 카드와 같은 그림을 위저드 머리에 고정한다
     index[item.slug] = {
       title: item.title,

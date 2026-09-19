@@ -9,7 +9,7 @@ import { logAccess, requireAdminPage } from "@/lib/admin/guard";
 import { FLAG_LABEL, listLog, type LogEntry } from "@/lib/admin/store";
 import { existingPublicFile } from "@/lib/portfolio/gallery-items";
 import { getPortfolio } from "@/lib/portfolio/registry";
-import { KIND_LABEL, industryLabel } from "@/lib/portfolio/schema";
+import { KIND_LABEL, industryLabel, isPaused } from "@/lib/portfolio/schema";
 import {
   EMPTY_FLAGS,
   PORTFOLIO_STATUSES,
@@ -96,7 +96,8 @@ export default async function AdminPage() {
         item: {
           slug: card.slug,
           title: card.title,
-          subtitle: card.subtitle,
+          // 잠정 중단 카드는 공개 상태와 상관없이 목록에서 빠진다 — 관리자가 헷갈리지 않게 부제에 적는다
+          subtitle: isPaused(card) ? `잠정 중단 — 공개 목록에서 숨김 · ${card.subtitle}` : card.subtitle,
           kind: card.kind,
           kindLabel: KIND_LABEL[card.kind],
           industryLabel: industryLabel(card.industry),

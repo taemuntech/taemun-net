@@ -1,6 +1,7 @@
 {
   "slug": "taemun-bridge",
   "kind": "service",
+  "paused": "2026-09-19 형: 브릿지 잠정 중단 — 다시 열면 이 줄만 되돌린다(지우면 홈·/portfolio·헤더에 다시 뜬다)",
   "industry": "platform",
   "title": "태문브릿지",
   "subtitle": "건축·인테리어 의뢰인과 전문가를 잇는 매칭 플랫폼",

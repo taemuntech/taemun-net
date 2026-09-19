@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { LOGO_URL } from '../data/hanokData';
+import { SampleFooterNote } from '@/components/demo-kit/SampleFooterNote';
 
 export const Footer: React.FC = () => {
   return (
@@ -55,6 +56,11 @@ export const Footer: React.FC = () => {
             <span>·</span>
             <span>경기 양평군 서종면 문호리 목공방</span>
           </div>
+        </div>
+
+        {/* 가상 브랜드 샘플 하단 고지 — 문구는 SampleFooterNote 한 곳이 정본(2026-09-19 형: 소담재는 실존 업체가 아니다) */}
+        <div className="mt-6 border-t border-[#c8c7bf]/30 pt-4 text-center">
+          <p className="text-xs text-[#474741] font-light"><SampleFooterNote /></p>
         </div>
       </div>
     </footer>

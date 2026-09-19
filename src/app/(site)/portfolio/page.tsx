@@ -10,6 +10,7 @@ import { getPortfolio, getPortfolioStats } from "@/lib/portfolio/registry";
 import { listedDemoLinks } from "@/lib/portfolio/header-links";
 import { toGalleryItem } from "@/lib/portfolio/gallery-items";
 import { getState, isListed, resolveStatus } from "@/lib/portfolio/state";
+import { isPaused } from "@/lib/portfolio/schema";
 import { SITE_OG_IMAGES } from "@/lib/site-og";
 
 // 공개 상태를 접속 때마다 다시 본다 — 관리자가 「내리기」를 누르면 바로 목록에서 빠져야 한다.
@@ -49,7 +50,9 @@ export default async function PortfolioPage() {
   // 수치(StatTile)·업종 탭·종류 탭 개수도 남은 것만 세도록 걸러낸 목록으로 stats 를 만든다.
   // 상태 읽기가 실패하면 resolveStatus 가 fallbackStatus 로 판정해 제안 시안이 통째로 빠진다(의도).
   const snapshot = await getState();
-  const portfolio = getPortfolio().filter((p) => isListed(resolveStatus(snapshot, p.slug, p.kind)));
+  // 잠정 중단(paused)한 항목도 뺀다 — 2026-09-19 형: 브릿지 잠정 중단(taemun-bridge.json 의 paused 한 줄).
+  // 그래서 「운영 중 서비스」 수치는 T-DOCS 1 이 된다.
+  const portfolio = getPortfolio().filter((p) => !isPaused(p) && isListed(resolveStatus(snapshot, p.slug, p.kind)));
   const stats = getPortfolioStats(portfolio);
 
   const items: GalleryItem[] = portfolio.map(toGalleryItem);

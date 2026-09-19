@@ -97,7 +97,7 @@ export const Hero: React.FC<HeroProps> = ({ onSelectProject, onOpenConsultation 
             <div className="font-serif text-2xl lg:text-3xl text-[#161714] tracking-tight mb-1">
               25+ <span className="text-sm font-sans text-[#474741] font-normal">년</span>
             </div>
-            <p className="text-xs lg:text-sm text-[#1a1c1b] font-semibold mb-0.5">도편수 목수단</p>
+            <p className="text-xs lg:text-sm text-[#1a1c1b] font-semibold mb-0.5">도편수 목수단 (예시)</p>
             <p className="text-[11px] lg:text-xs text-[#777770]">국가공인 문화재 수리기능자 직접 총괄</p>
           </div>
 
@@ -105,7 +105,7 @@ export const Hero: React.FC<HeroProps> = ({ onSelectProject, onOpenConsultation 
             <div className="font-serif text-2xl lg:text-3xl text-[#161714] tracking-tight mb-1">
               68+ <span className="text-sm font-sans text-[#474741] font-normal">채</span>
             </div>
-            <p className="text-xs lg:text-sm text-[#1a1c1b] font-semibold mb-0.5">전국 고급 한옥 완공</p>
+            <p className="text-xs lg:text-sm text-[#1a1c1b] font-semibold mb-0.5">전국 고급 한옥 완공 (예시)</p>
             <p className="text-[11px] lg:text-xs text-[#777770]">서울 북촌, 양평, 가평, 강릉, 제주 등</p>
           </div>
 
@@ -113,15 +113,15 @@ export const Hero: React.FC<HeroProps> = ({ onSelectProject, onOpenConsultation 
             <div className="font-serif text-2xl lg:text-3xl text-[#904b35] tracking-tight mb-1">
               65% <span className="text-sm font-sans text-[#474741] font-normal">절감</span>
             </div>
-            <p className="text-xs lg:text-sm text-[#1a1c1b] font-semibold mb-0.5">패시브급 단열 성능</p>
+            <p className="text-xs lg:text-sm text-[#1a1c1b] font-semibold mb-0.5">패시브급 단열 성능 (예시)</p>
             <p className="text-[11px] lg:text-xs text-[#777770]">독일식 로이 3중 시스템 창호 및 기밀벽체</p>
           </div>
 
           <div className="p-5 bg-[#f4f3f1] rounded-xs border border-[#c8c7bf]/20 hover:border-[#c8c7bf]/60 transition-colors">
             <div className="font-serif text-2xl lg:text-3xl text-[#161714] tracking-tight mb-1">
-              100% <span className="text-sm font-sans text-[#474741] font-normal">엄선</span>
+              15%↓ <span className="text-sm font-sans text-[#474741] font-normal">함수율</span>
             </div>
-            <p className="text-xs lg:text-sm text-[#1a1c1b] font-semibold mb-0.5">함수율 15% 이하 건조목</p>
+            <p className="text-xs lg:text-sm text-[#1a1c1b] font-semibold mb-0.5">자연 건조목 (예시)</p>
             <p className="text-[11px] lg:text-xs text-[#777770]">천연 자연건조 금강송 육송 결구</p>
           </div>
         </div>

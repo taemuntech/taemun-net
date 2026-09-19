@@ -81,7 +81,8 @@ const SHORTCUTS: readonly (HomeShortcut & { slug?: string })[] = [
     slug: "sodamjae",
     action: "demo",
     href: "/demo/sodamjae",
-    label: "소담재 한옥 제안 시안",
+    // 2026-09-19 형: 소담재는 실존 업체가 아니다 → 가상 브랜드 샘플(예전 표기 「소담재 한옥 제안 시안」)
+    label: "소담재 한옥 샘플 사이트",
     icon: "play",
     className:
       "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-900 border border-stone-300 text-xs font-bold transition-all shrink-0 self-start lg:self-end",

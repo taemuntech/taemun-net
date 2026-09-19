@@ -8,6 +8,7 @@ import { ProcessSection } from "@/components/inquiry/ProcessSection";
 import dynamic from "next/dynamic";
 import type { WizardReference } from "@/components/inquiry/types";
 import { trackInquiry } from "@/lib/inquiry/track";
+import { SiteBusinessInfo } from "@/components/SiteBusinessInfo";
 // ⚠️ **값(GALLERY_PROJECTS·GALLERY_CATEGORIES)을 import 하지 않는다 — 타입만 가져온다.**
 // 이 파일은 'use client' 라, 값을 import 하면 galleryData.ts 가 통째로 클라이언트 청크에 들어간다.
 // 서버가 걸러 렌더해도 청크는 별개라, 실측에서 내려간 시안의 회사 이름·클라이언트 표기·설명·/demo/<slug>
@@ -97,7 +98,8 @@ function hideBrokenThumbnail(e: SyntheticEvent<HTMLImageElement>) {
  *
  * 가르는 것은 딱 두 갈래다: **밖에서 실제로 운영 중인 서비스**인가, 태문이 만든 **시연용 샘플**인가.
  * 판정은 새 칸을 만들지 않고 **이미 있는 칸(externalUrl)** 으로 한다 — 밖으로 나가는 진짜 서비스 주소가
- * 붙은 것만 「운영 중」(티독스·태문브릿지 둘)이고, 나머지는 전부 「샘플」이다.
+ * 붙은 것만 「운영 중」(티독스. 태문브릿지는 2026-09-19 잠정 중단 — 등록 정보의 paused 로 서버가 싣지 않는다)이고,
+ * 나머지는 전부 「샘플」이다.
  * 이러면 카드 데이터 54개에 손대지 않고도 카드마다 사실대로 표가 붙는다.
  *
  * ⚠️ 문구를 더 세게(예: 「가상 브랜드 샘플」)·약하게(예: 「데모」) 바꾸려면 **여기 한 곳만** 고친다 —
@@ -850,7 +852,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
               <div className="text-[11px] font-mono text-zinc-400">01 / BRANDING</div>
               <h3 className="text-lg font-serif text-zinc-950 font-bold">디지털 플래그십 &amp; 브랜드 웹</h3>
               <p className="text-xs text-zinc-600 font-light leading-relaxed">
-                건축, 인테리어, 명품 패션, 프리미엄 소비재를 위한 압도적 감도의 타이포그래피와 고해상도 화보형 반응형 웹사이트.
+                건축, 인테리어, 명품 패션, 프리미엄 소비재를 위한 감도 높은 타이포그래피와 고해상도 화보형 반응형 웹사이트.
               </p>
             </div>
             <div className="pt-3 border-t border-zinc-200 text-[11px] text-amber-800 font-mono">
@@ -1007,17 +1009,15 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
       </section>
 
       {/* Agency Minimal Footer */}
-      <footer className="border-t border-zinc-200 py-10 px-4 lg:px-8 max-w-7xl mx-auto text-xs text-zinc-500 flex flex-col lg:flex-row items-center justify-between gap-4 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-4 text-center lg:text-left">
-          <span className="font-bold text-zinc-900 tracking-wide">
+      {/* 사업자 정보는 SiteBusinessInfo 한 곳(/inquiry·/privacy 와 같은 값) — 여기서 따로 적지 않는다 */}
+      <footer className="border-t border-zinc-200 py-10 px-4 lg:px-8 max-w-7xl mx-auto text-xs text-zinc-500 flex flex-col lg:flex-row lg:items-end justify-between gap-6 relative z-10">
+        <div className="space-y-3">
+          <span className="block font-bold text-zinc-900 tracking-wide">
             태문넷 <span className="font-mono text-[10px] font-semibold text-zinc-500">DEV STUDIO</span>
           </span>
-          <span className="hidden lg:inline text-zinc-300">|</span>
-          <span>(주)태문 • 사업자등록번호 696-86-03651</span>
-          <span className="hidden lg:inline text-zinc-300">|</span>
-          <span>대전광역시 대덕구 대화로 120, 2층</span>
+          <SiteBusinessInfo />
         </div>
-        <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-4">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-4 shrink-0">
           <Link href="/privacy" className="font-bold text-zinc-700 hover:text-zinc-900">
             개인정보 처리방침
           </Link>

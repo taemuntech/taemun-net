@@ -27,6 +27,7 @@ import { InquiryWizard } from "@/components/inquiry/InquiryWizard";
 import type { WizardReference } from "@/components/inquiry/types";
 import type { InquiryEntry } from "@/lib/inquiry/validate";
 import { STUDIO_PHONE } from "@/lib/inquiry/contact";
+import { SiteBusinessInfo } from "@/components/SiteBusinessInfo";
 import type { IndustryKey } from "@/lib/portfolio/schema";
 
 const PRINCIPLES = [
@@ -123,6 +124,19 @@ export default function InquiryView({
           </div>
         </section>
       </main>
+
+      {/* 간단 꼬리말 — 사업자 정보(전자상거래법 제10조 표시 형식)와 처리방침 링크. 값은 SiteBusinessInfo 한 곳(홈·/privacy 와 같다) */}
+      <footer className="border-t border-zinc-200 px-4 lg:px-6 py-8">
+        <div className="max-w-6xl mx-auto flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <SiteBusinessInfo />
+          <div className="flex flex-col gap-1 text-[11px] lg:text-xs text-zinc-500 lg:items-end shrink-0">
+            <Link href="/privacy" className="font-bold text-zinc-700 hover:text-zinc-900">
+              개인정보 처리방침
+            </Link>
+            <span>&copy; {new Date().getFullYear()} 주식회사 태문</span>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -38,6 +38,13 @@ import type { DemoLinkIconKey, DemoLinkTone, HeaderDemoLink } from "@/lib/portfo
 import { BrandLockup } from "@/components/BrandMark";
 
 /**
+ * 자사 서비스 「태문브릿지」 링크(데스크톱 드롭다운·모바일 메뉴 두 곳)를 보일지.
+ * 2026-09-19 형: 브릿지 잠정 중단 — 다시 열면 이 줄만 되돌린다(true).
+ * 홈·/portfolio 카드는 src/content/portfolio/taemun-bridge.json 의 "paused" 칸이 따로 가른다 — 다시 열 때 그 칸도 지운다.
+ */
+const SHOW_TAEMUN_BRIDGE: boolean = false;
+
+/**
  * 색 이름 → Tailwind 클래스.
  *
  * ⚠️ Tailwind v4 는 소스에서 **클래스 이름 문자열을 훑어** CSS 를 만든다. 그래서 `bg-${tone}-100` 처럼
@@ -234,7 +241,7 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
           </a>
 
           {/* Unified Portfolio & Solutions Dropdown */}
-          {/* 내부 데모가 0개여도 아래 자사 서비스(T-DOCS·태문브릿지) 두 줄은 항상 남는다 —
+          {/* 내부 데모가 0개여도 아래 자사 서비스(T-DOCS) 줄은 항상 남는다(태문브릿지는 잠정 중단 — SHOW_TAEMUN_BRIDGE) —
               그래서 이 버튼을 눌렀을 때 빈 상자가 뜨는 경우는 없다. */}
           <div className="relative" ref={dropdownRef}>
             <button
@@ -300,7 +307,8 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
                   </div>
                 </a>
 
-                {/* Taemun Bridge */}
+                {/* Taemun Bridge — 2026-09-19 잠정 중단, SHOW_TAEMUN_BRIDGE 참고 */}
+                {SHOW_TAEMUN_BRIDGE && (
                 <a
                   href="https://taemun.co.kr"
                   target="_blank"
@@ -321,6 +329,7 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
                     </p>
                   </div>
                 </a>
+                )}
               </div>
             )}
           </div>
@@ -429,6 +438,8 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
                   <ArrowRight className="w-4 h-4 text-zinc-400" />
                 </a>
 
+                {/* Taemun Bridge — 2026-09-19 잠정 중단, SHOW_TAEMUN_BRIDGE 참고 */}
+                {SHOW_TAEMUN_BRIDGE && (
                 <a
                   href="https://taemun.co.kr"
                   target="_blank"
@@ -448,6 +459,7 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-400" />
                 </a>
+                )}
               </div>
             </div>
 

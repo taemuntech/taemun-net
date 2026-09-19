@@ -89,7 +89,9 @@ export const GALLERY_CATEGORIES: GalleryCategoryMeta[] = [
     number: '06',
     name: 'SaaS · 전자서약 · B2B 플랫폼',
     engName: 'B2B SaaS & Digital Platforms',
-    description: '업종별 서식을 웹에서 편집해 카카오톡으로 보내고 모바일로 전자서명을 받는 티독스와, 건축·인테리어 의뢰인과 전문가를 잇는 매칭 플랫폼 태문브릿지 — 태문이 직접 운영하는 서비스입니다.',
+    // 2026-09-19 형: 브릿지 잠정 중단 — 다시 열면 이 줄만 되돌린다.
+    // 옛 문구: '…전자서명을 받는 티독스와, 건축·인테리어 의뢰인과 전문가를 잇는 매칭 플랫폼 태문브릿지 — 태문이 직접 운영하는 서비스입니다.'
+    description: '업종별 서식을 웹에서 편집해 카카오톡으로 보내고 모바일로 전자서명을 받는 티독스 — 태문이 직접 운영하는 서비스입니다.',
     badge: '자체 운영 서비스',
   },
   {
@@ -677,11 +679,11 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
   {
     id: 'sodamjae-hanok-architecture',
     title: '전통한옥 & 프리미엄 중목구조 건축공방',
-    client: '제안 시안 — 해당 공방이 의뢰한 사이트가 아닙니다',
+    client: '가상 브랜드 샘플 — 실제 업체가 아닙니다 (한옥 설계·시공 공방 설정)',
     category: 'architecture',
     categoryName: '건축 · 현대한옥/주거',
-    summary: '한옥 설계·시공 공방에 제안하려고 만든 사이트 시안 — 완공작·연혁·연락처는 예시',
-    description: '태문넷이 한옥 설계·시공 공방에 제안하려고 만든 사이트 시안입니다. 실제 계약·납품 사례가 아니고 해당 공방이 만들었거나 의뢰한 사이트도 아니며, 화면의 완공작·연혁·면허 번호·연락처는 예시입니다. 목수단 소개와 완공작 아카이브, 공정 로드맵, 상담 신청 화면을 한 페이지에 담았습니다.',
+    summary: '가상 한옥 공방 브랜드로 만든 홈페이지 샘플 — 완공작·연혁·연락처는 예시',
+    description: '태문넷이 가상 한옥 공방 브랜드 「소담재」로 만든 홈페이지 샘플입니다. 실제 업체가 아니며, 화면의 완공작·연혁·면허 번호·연락처는 예시입니다. 목수단 소개와 완공작 아카이브, 공정 로드맵, 상담 신청 화면을 한 페이지에 담았습니다.',
     thumbnailUrl: '/portfolio/sodamjae/sodamjae-06.jpg',
     liveDemoUrl: '/demo/sodamjae',
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
@@ -690,7 +692,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     highlights: [
       '한옥 완공작 아카이브와 상세 모달 (예시)',
       '전통 결구(사개맞춤) 공법 & 현대 패시브 단열 하이브리드 설계 인터랙션',
-      '상담 신청 화면 (시안 — 접수되지 않음)',
+      '상담 신청 화면 (샘플 — 접수되지 않음)',
       '단독 살림집·별서 세컨하우스·도심형 한옥 카테고리별 동적 필터링',
     ],
   },
@@ -830,6 +832,9 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
       '정기 구독 결제',
     ],
   },
+  // 2026-09-19 형: 브릿지 잠정 중단 — 이 카드는 지우지 않고 남겨 둔다. 홈에서 빠지는 것은
+  // src/content/portfolio/taemun-bridge.json 의 "paused" 한 줄 때문이다(src/app/(site)/page.tsx 가 운영 서비스 카드도
+  // 등록 정보의 목록 판정을 따르게 했다). 다시 열면 그 JSON 의 paused 줄만 지운다.
   {
     id: 'taemun-bridge-platform',
     title: '태문브릿지 - 건축·인테리어 전문가 매칭 플랫폼',

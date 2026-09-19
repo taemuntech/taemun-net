@@ -47,12 +47,12 @@ export default function SodamjaeApp({ isEmbed = false }: { isEmbed?: boolean } =
             </Link>
             <span className="text-gray-600">|</span>
             <span className="flex items-center gap-1.5 font-medium text-amber-400">
-              <span className="font-semibold text-white">소담재 건축공방</span> 제안 시안
+              <span className="font-semibold text-white">소담재 건축공방</span> 샘플 사이트
             </span>
           </div>
           <div className="flex items-center gap-3">
             <span className="hidden lg:inline text-gray-400">
-              태문넷이 만든 제안용 시안 · 의뢰받지 않음
+              태문넷이 만든 가상 브랜드 샘플 · 실제 업체가 아닙니다
             </span>
             <Link
               href="/inquiry?from=sodamjae"

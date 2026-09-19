@@ -11,6 +11,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { logAccess, requireAdminApi } from "@/lib/admin/guard";
 import { DEMO_GONE_PATH } from "@/lib/portfolio/gate";
 import { getPortfolio, type PortfolioCard } from "@/lib/portfolio/registry";
+import { isPaused } from "@/lib/portfolio/schema";
 import {
   isListed,
   isReachable,
@@ -138,14 +139,18 @@ export async function POST(req: NextRequest) {
       const url = card.liveUrl.startsWith("/") ? `${base}${card.liveUrl}` : card.liveUrl;
       const expectedStatus = resolveStatus(snapshot, card.slug, card.kind);
       const expectedReachable = isReachable(expectedStatus);
-      const expectedListed = isListed(expectedStatus);
+      // 잠정 중단(paused, 예: 태문브릿지 09-19)은 공개 상태여도 목록에서 빠지는 게 정답이다
+      const paused = isPaused(card);
+      const expectedListed = isListed(expectedStatus) && !paused;
       const hit = await fetchOnce(url, false);
 
       // 목록에 그 작업물이 남아 있는지 — 내려온 HTML 을 문자열로 본다(렌더된 지면이 정답).
       // 링크 주소와 slug 를 둘 다 본다: 카드가 주소를 서버에서 안 내보내는 형태여도(모달 등)
       // 「아직 보인다」 쪽으로 기울게 한다 — 내려갔다고 잘못 안심시키는 쪽이 더 위험하다.
       const link = card.liveUrl.startsWith("/") ? card.liveUrl : card.liveUrl.replace(/^https?:\/\//, "");
-      const mentions = (html: string) => html.includes(link) || html.includes(card.slug);
+      // 잠정 중단 카드는 slug 로만 본다 — 바깥 주소(taemun.co.kr)가 꼬리말 이메일 contact@taemun.co.kr 에도 들어 있어
+      // 「아직 보인다」로 잘못 걸린다
+      const mentions = (html: string) => (!paused && html.includes(link)) || html.includes(card.slug);
       const listedOnPortfolio = mentions(portfolioPage.body);
       const listedOnHome = mentions(homePage.body);
 

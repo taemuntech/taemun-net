@@ -4,7 +4,7 @@
 
 /**
  * 표시 종류 — 방문자에게 배지로 그대로 보인다. 사실과 다르게 고르면 영업 신뢰가 무너진다.
- * - service: 태문이 직접 운영 중인 서비스 (태문브릿지·T-DOCS)
+ * - service: 태문이 직접 운영 중인 서비스 (T-DOCS. 태문브릿지는 2026-09-19 잠정 중단 — taemun-bridge.json 의 paused)
  * - sample:  업종별 샘플 사이트 (가상 브랜드·가상 데이터로 만든 시안). 고객명·제작 기간을 적지 않는다
  * - proposal: 실존 업체에 제안하려고 만든 시안. 계약·납품한 사례가 아니고 그 회사가 의뢰한 것도 아니다.
  *             고객명·제작 기간·연도를 적지 않고, 카드 설명에 「제안용 시안」이라고 밝힌다. 검색에서 뺀다((demos) 레이아웃이 noindex)
@@ -116,7 +116,19 @@ export type PortfolioItem = {
   client?: string;
   /** kind=case 에서만 — 실제 제작 기간 */
   period?: string;
+  /**
+   * 잠정 중단 — 값은 **왜·언제 내렸는지** 한 줄(JSON 에는 주석을 못 달아 사유를 값으로 적는다).
+   * 있으면 공개 목록(홈 갤러리·/portfolio·수치·헤더)에서 빠진다. 파일·데이터는 그대로 두므로 다시 열 때는 이 칸만 지운다.
+   * 관리자 공개 상태(state.ts)와는 별개다 — 그건 「보여 줄까」, 이건 「서비스가 지금 돌아가는가」다.
+   * 판정은 isPaused() 한 곳으로(목록 쪽이 `.paused` 를 제각각 읽지 않게).
+   */
+  paused?: string;
 };
+
+/** 잠정 중단한 항목인가 — 공개 목록에서 뺄지 가르는 기준 */
+export function isPaused(item: Pick<PortfolioItem, "paused">): boolean {
+  return typeof item.paused === "string" && item.paused.trim().length > 0;
+}
 
 export function defaultThumbnail(slug: string): PortfolioThumbnail {
   return { desktop: `/portfolio/${slug}/desktop.png`, mobile: `/portfolio/${slug}/mobile.png` };
@@ -187,6 +199,9 @@ export function validatePortfolioItem(raw: unknown, fileSlug: string): string[] 
   // 제안용 시안은 카드 한 줄 설명만 읽고 지나가는 사람이 「그 회사가 만든 사이트」로 오해하지 않아야 한다
   if (it.kind === "proposal" && str("summary") && !PROPOSAL_SUMMARY_RE.test(it.summary as string)) {
     errors.push("proposal 은 summary 에 「제안용 시안」이라는 성격이 드러나야 합니다");
+  }
+  if (it.paused !== undefined && !str("paused")) {
+    errors.push("paused 는 중단 사유·날짜를 적은 문자열이어야 합니다(다시 열려면 칸을 지웁니다)");
   }
   if (it.thumbnail !== undefined) {
     const th = it.thumbnail as Record<string, unknown>;

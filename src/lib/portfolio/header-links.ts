@@ -15,6 +15,7 @@
 //    (이 파일은 audit:portfolio 의 「사이트 문구」 검사 대상에 등록돼 있다 — scripts/audit-portfolio.mjs)
 
 import { getPortfolio } from "./registry";
+import { isPaused } from "./schema";
 import { isListed, resolveStatus, type StateSnapshot } from "./state";
 
 /**
@@ -202,10 +203,10 @@ export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
   {
     slug: "sodamjae",
     label: "소담재 건축공방",
-    // 배지는 사실 서술로 — 예전엔 「한옥 명가」였다(위 wonik-qnc 와 같은 이유).
-    badge: "제안 시안",
-    description: "전통 결구 & 현대식 패시브 주거 한옥",
-    mobileDescription: "전통 결구 & 패시브 주거 한옥 제안 시안",
+    // 2026-09-19 형: 소담재는 실존 업체가 아니다 → 가상 브랜드 샘플(kind=sample). 예전 배지는 「제안 시안」, 그 전엔 「한옥 명가」였다.
+    badge: "샘플",
+    description: "전통 결구 & 현대식 패시브 주거 한옥 샘플 사이트",
+    mobileDescription: "전통 결구 & 패시브 주거 한옥 샘플",
     tone: "stone",
     iconKey: "landmark",
   },
@@ -408,7 +409,7 @@ export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
 export function listedDemoLinks(snapshot: StateSnapshot): HeaderDemoLink[] {
   const listedSlugs = new Set(
     getPortfolio()
-      .filter((item) => isListed(resolveStatus(snapshot, item.slug, item.kind)))
+      .filter((item) => !isPaused(item) && isListed(resolveStatus(snapshot, item.slug, item.kind)))
       .map((item) => item.slug),
   );
   return HEADER_DEMO_LINKS.filter((link) => listedSlugs.has(link.slug));
