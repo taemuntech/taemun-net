@@ -39,22 +39,22 @@ export function inquiryHref(item: Pick<GalleryItem, "slug" | "industry">): strin
 }
 
 const btnBase =
-  "min-h-11 flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400";
+  "min-h-11 flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900";
 
 export default function PortfolioCardView({ item }: { item: GalleryItem }) {
   const isInternal = item.liveUrl.startsWith("/");
 
   return (
-    <article className="group flex flex-col min-w-0 rounded-3xl bg-gray-900/60 border border-white/10 hover:border-indigo-500/40 backdrop-blur-md overflow-hidden transition-colors">
+    <article className="group flex flex-col min-w-0 rounded-3xl bg-white border border-zinc-200/90 hover:border-zinc-300 hover:shadow-xl transition-all duration-300 overflow-hidden">
       {/* 썸네일 16:10 */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-gray-950 border-b border-white/5">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-100 border-b border-zinc-100">
         {item.thumbnailSrc ? (
           <Image
             src={item.thumbnailSrc}
             alt={item.kind === "proposal" ? `${item.title} 제안 시안 화면` : `${item.title} 사이트 화면`}
             fill
             loading="lazy"
-            sizes="(min-width: 1024px) 400px, (min-width: 768px) 50vw, 100vw"
+            sizes="(min-width: 1024px) 400px, 100vw"
             className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
           />
         ) : (
@@ -71,15 +71,17 @@ export default function PortfolioCardView({ item }: { item: GalleryItem }) {
       <div className="flex flex-1 flex-col p-5 lg:p-6">
         <div className="flex flex-wrap items-center gap-2 mb-3">
           <KindBadge kind={item.kind} />
-          <span className="text-xs text-gray-400">{item.industryLabel}</span>
+          <span className="text-xs text-zinc-500 font-medium">{item.industryLabel}</span>
         </div>
 
-        <h2 className="text-lg font-bold text-white leading-snug break-keep">{item.title}</h2>
-        <p className="mt-1.5 text-sm text-gray-400 leading-relaxed break-keep">{item.subtitle}</p>
+        <h2 className="text-lg font-bold text-zinc-950 leading-snug break-keep group-hover:text-zinc-800 transition-colors">
+          {item.title}
+        </h2>
+        <p className="mt-1.5 text-sm text-zinc-600 leading-relaxed break-keep font-light">{item.subtitle}</p>
 
         {/* 실존 업체 이름이 걸린 시안 — 카드에서도 「그 회사가 의뢰한 사이트가 아니다」를 밝힌다 */}
         {item.kind === "proposal" && (
-          <p className="mt-3 flex items-start gap-1.5 rounded-xl border border-sky-400/20 bg-sky-500/[0.07] px-3 py-2 text-xs leading-relaxed text-sky-200 break-keep">
+          <p className="mt-3 flex items-start gap-1.5 rounded-xl border border-sky-200 bg-sky-50 px-3 py-2 text-xs leading-relaxed text-sky-900 break-keep">
             <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
             <span>{PROPOSAL_DISCLAIMER}</span>
           </p>
@@ -87,16 +89,16 @@ export default function PortfolioCardView({ item }: { item: GalleryItem }) {
 
         <ul className="mt-4 space-y-1.5">
           {item.features.slice(0, 3).map((f) => (
-            <li key={f} className="flex items-start gap-2 text-sm text-gray-300">
-              <span aria-hidden="true" className="mt-2 h-1 w-1 shrink-0 rounded-full bg-indigo-400" />
+            <li key={f} className="flex items-start gap-2 text-sm text-zinc-600 font-light">
+              <span aria-hidden="true" className="mt-2 h-1 w-1 shrink-0 rounded-full bg-zinc-400" />
               <span className="leading-relaxed break-keep">{f}</span>
             </li>
           ))}
         </ul>
 
-        <div className="mt-auto pt-5 flex flex-col sm:flex-row gap-2">
+        <div className="mt-auto pt-5 flex flex-col lg:flex-row gap-2">
           {isInternal ? (
-            <Link href={item.liveUrl} className={`${btnBase} bg-indigo-600 hover:bg-indigo-500 text-white`}>
+            <Link href={item.liveUrl} className={`${btnBase} bg-zinc-950 hover:bg-zinc-800 text-white shadow-xs`}>
               <Eye className="w-4 h-4" aria-hidden="true" />
               <span>{item.kind === "proposal" ? "시안 보기" : "사이트 보기"}</span>
             </Link>
@@ -105,7 +107,7 @@ export default function PortfolioCardView({ item }: { item: GalleryItem }) {
               href={item.liveUrl}
               target="_blank"
               rel="noreferrer"
-              className={`${btnBase} bg-indigo-600 hover:bg-indigo-500 text-white`}
+              className={`${btnBase} bg-zinc-950 hover:bg-zinc-800 text-white shadow-xs`}
             >
               <span>사이트 보기</span>
               <ExternalLink className="w-4 h-4" aria-hidden="true" />
@@ -114,7 +116,7 @@ export default function PortfolioCardView({ item }: { item: GalleryItem }) {
           )}
           <Link
             href={inquiryHref(item)}
-            className={`${btnBase} bg-white/[0.05] hover:bg-white/10 text-gray-200 border border-white/10`}
+            className={`${btnBase} bg-zinc-100 hover:bg-zinc-200 text-zinc-900 border border-zinc-200/80`}
           >
             <span>이런 사이트 문의</span>
             <ArrowRight className="w-4 h-4" aria-hidden="true" />

@@ -510,6 +510,9 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
             </h1>
 
             <p className="text-zinc-200 text-sm lg:text-base max-w-xl font-light leading-relaxed drop-shadow-sm break-keep [word-break:keep-all]">
+              <span className="text-amber-200/95 font-medium block mb-1 text-base lg:text-lg tracking-tight">
+                사람의 경험에 AI의 속도를 더합니다.
+              </span>
               공정 통계 모니터링부터 하이엔드 건축 인테리어, 전자서약 SaaS, B2B 커머스까지.<br className="hidden lg:inline" />
               기획서 속 그림이 아닌 브라우저에서 프로덕션 레퍼런스를 둘러보세요.
             </p>

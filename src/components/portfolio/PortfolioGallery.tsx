@@ -29,13 +29,13 @@ function normalize(s: string): string {
 }
 
 const tabBase =
-  "min-h-10 shrink-0 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400";
-const tabOn = "bg-indigo-600 text-white border-indigo-500 shadow-lg shadow-indigo-600/20";
-const tabOff = "bg-white/[0.03] text-gray-400 border-white/5 hover:text-gray-200 hover:bg-white/[0.07]";
+  "min-h-10 shrink-0 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900";
+const tabOn = "bg-zinc-950 text-white border-zinc-950 shadow-xs";
+const tabOff = "bg-white text-zinc-600 border-zinc-200 hover:text-zinc-950 hover:bg-zinc-100 hover:border-zinc-300";
 
 function CountPill({ n, active }: { n: number; active: boolean }) {
   return (
-    <span className={`text-xs px-1.5 py-0.5 rounded-full ${active ? "bg-white/20 text-white" : "bg-white/5 text-gray-500"}`}>
+    <span className={`text-xs px-1.5 py-0.5 rounded-full font-mono ${active ? "bg-white/20 text-white" : "bg-zinc-100 text-zinc-500"}`}>
       {n}
     </span>
   );
@@ -131,7 +131,7 @@ function FilterBar({
           <label htmlFor={placeholder ? undefined : "portfolio-search"} className="sr-only">
             포트폴리오 검색
           </label>
-          <Search className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" aria-hidden="true" />
+          <Search className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" aria-hidden="true" />
           <input
             id={placeholder ? undefined : "portfolio-search"}
             type="search"
@@ -139,14 +139,14 @@ function FilterBar({
             readOnly={placeholder}
             onChange={(e) => onQuery?.(e.target.value)}
             placeholder="이름·기능으로 찾기 (예: 예약)"
-            className="w-full min-h-11 rounded-xl bg-white/[0.04] border border-white/10 pl-10 pr-10 text-base lg:text-sm text-gray-100 placeholder:text-gray-500 focus:outline-none focus:border-indigo-500/60 focus:ring-2 focus:ring-indigo-500/30"
+            className="w-full min-h-11 rounded-xl bg-white border border-zinc-200 pl-10 pr-10 text-base lg:text-sm text-zinc-900 placeholder:text-zinc-400 shadow-2xs focus:outline-none focus:border-zinc-900 focus:ring-2 focus:ring-zinc-900/10 transition-all"
           />
           {query && (
             <button
               type="button"
               onClick={() => onQuery?.("")}
               aria-label="검색어 지우기"
-              className="absolute right-1 top-1/2 -translate-y-1/2 w-10 h-10 inline-flex items-center justify-center rounded-lg text-gray-400 hover:text-white"
+              className="absolute right-1 top-1/2 -translate-y-1/2 w-10 h-10 inline-flex items-center justify-center rounded-lg text-zinc-400 hover:text-zinc-700 transition-colors"
             >
               <X className="w-4 h-4" aria-hidden="true" />
             </button>
@@ -154,7 +154,7 @@ function FilterBar({
         </div>
       </div>
 
-      <p className="text-sm text-gray-500" aria-live={placeholder ? undefined : "polite"}>
+      <p className="text-sm text-zinc-500 font-mono" aria-live={placeholder ? undefined : "polite"}>
         {countText}
       </p>
     </div>
@@ -163,7 +163,7 @@ function FilterBar({
 
 function CardGrid({ items }: { items: GalleryItem[] }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-6">
       {items.map((it) => (
         <PortfolioCardView key={it.slug} item={it} />
       ))}
@@ -257,12 +257,12 @@ export default function PortfolioGallery({ items, industries, kindCounts }: Prop
 
   if (items.length === 0) {
     return (
-      <div className="rounded-3xl border border-white/10 bg-gray-900/60 backdrop-blur-md px-6 py-14 text-center">
-        <p className="text-lg font-semibold text-white">포트폴리오를 정리하고 있습니다</p>
-        <p className="mt-2 text-sm text-gray-400">업종별 샘플 사이트를 곧 올립니다. 먼저 상담이 필요하시면 문의해 주세요.</p>
+      <div className="rounded-3xl border border-zinc-200 bg-white shadow-xs px-6 py-14 text-center">
+        <p className="text-lg font-bold text-zinc-950">포트폴리오를 정리하고 있습니다</p>
+        <p className="mt-2 text-sm text-zinc-500">업종별 샘플 사이트를 곧 올립니다. 먼저 상담이 필요하시면 문의해 주세요.</p>
         <Link
           href="/inquiry"
-          className="mt-6 inline-flex min-h-11 items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold"
+          className="mt-6 inline-flex min-h-11 items-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-white text-sm font-semibold transition-colors"
         >
           제작 문의 <ArrowRight className="w-4 h-4" aria-hidden="true" />
         </Link>
@@ -275,12 +275,12 @@ export default function PortfolioGallery({ items, industries, kindCounts }: Prop
       {pendingIndustry && pendingIndustryLabel && (
         <div
           role="status"
-          className="mb-4 flex items-start gap-2 rounded-2xl border border-amber-400/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-200 break-keep"
+          className="mb-4 flex items-start gap-2 rounded-2xl border border-amber-300/80 bg-amber-50 px-4 py-3 text-sm text-amber-900 break-keep"
         >
-          <Info className="w-4 h-4 mt-0.5 shrink-0" aria-hidden="true" />
+          <Info className="w-4 h-4 mt-0.5 shrink-0 text-amber-700" aria-hidden="true" />
           <span>
             「{pendingIndustryLabel}」 업종 샘플은 준비 중입니다 — 전체 목록을 보여 드립니다.{" "}
-            <Link href={industryInquiryHref(pendingIndustry)} className="font-semibold underline underline-offset-2 hover:text-amber-100">
+            <Link href={industryInquiryHref(pendingIndustry)} className="font-semibold underline underline-offset-2 hover:text-amber-950">
               이 업종으로 시안 문의
             </Link>
           </span>
@@ -302,20 +302,20 @@ export default function PortfolioGallery({ items, industries, kindCounts }: Prop
       />
 
       {filtered.length === 0 ? (
-        <div className="rounded-3xl border border-white/10 bg-gray-900/60 backdrop-blur-md px-6 py-14 text-center">
-          <p className="text-lg font-semibold text-white">조건에 맞는 사이트가 없습니다</p>
-          <p className="mt-2 text-sm text-gray-400">검색어나 필터를 바꿔 보세요. 원하는 업종이 없다면 시안부터 만들어 드립니다.</p>
-          <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2">
+        <div className="rounded-3xl border border-zinc-200 bg-white shadow-xs px-6 py-14 text-center">
+          <p className="text-lg font-bold text-zinc-950">조건에 맞는 사이트가 없습니다</p>
+          <p className="mt-2 text-sm text-zinc-500">검색어나 필터를 바꿔 보세요. 원하는 업종이 없다면 시안부터 만들어 드립니다.</p>
+          <div className="mt-6 flex flex-col lg:flex-row items-stretch lg:items-center justify-center gap-2">
             <button
               type="button"
               onClick={resetAll}
-              className="min-h-11 inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-white/[0.06] hover:bg-white/10 border border-white/10 text-gray-200 text-sm font-semibold"
+              className="min-h-11 inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 text-zinc-800 text-sm font-semibold transition-colors"
             >
               필터 초기화
             </button>
             <Link
               href="/inquiry"
-              className="min-h-11 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold"
+              className="min-h-11 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-white text-sm font-semibold transition-colors"
             >
               제작 문의 <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
@@ -329,7 +329,7 @@ export default function PortfolioGallery({ items, industries, kindCounts }: Prop
               <button
                 type="button"
                 onClick={() => setPaging({ key: filterKey, count: shownCount + GALLERY_PAGE_SIZE })}
-                className="min-h-11 inline-flex items-center justify-center px-6 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/10 border border-white/10 text-gray-200 text-sm font-semibold"
+                className="min-h-11 inline-flex items-center justify-center px-6 py-2.5 rounded-xl bg-white hover:bg-zinc-100 border border-zinc-200 text-zinc-800 text-sm font-semibold shadow-2xs transition-colors"
               >
                 더 보기 ({shown.length} / {filtered.length})
               </button>
