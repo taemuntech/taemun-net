@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { ArrowRight, Layers } from "lucide-react";
 import Header from "@/components/Header";
 import FloatingChatWidget from "@/components/FloatingChatWidget";
+import { SiteBusinessInfo } from "@/components/SiteBusinessInfo";
 import PortfolioGallery, { PortfolioGalleryFallback } from "@/components/portfolio/PortfolioGallery";
 import type { GalleryItem } from "@/components/portfolio/PortfolioCardView";
 import { getPortfolio, getPortfolioStats } from "@/lib/portfolio/registry";
@@ -119,6 +120,20 @@ export default async function PortfolioPage() {
           </Link>
         </div>
       </div>
+
+      {/* 꼬리말 — 사업자 정보와 처리방침 링크(홈·/inquiry·/privacy 와 같은 SiteBusinessInfo 한 곳). 09-19 오픈 점검에서
+          이 페이지만 사업자 표기가 없었다. */}
+      <footer className="mt-20 border-t border-zinc-200 px-4 lg:px-6 py-8">
+        <div className="max-w-6xl mx-auto flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <SiteBusinessInfo />
+          <div className="flex flex-col gap-1 text-[11px] lg:text-xs text-zinc-500 lg:items-end shrink-0">
+            <Link href="/privacy" className="font-bold text-zinc-700 hover:text-zinc-900">
+              개인정보 처리방침
+            </Link>
+            <span>&copy; 2026 주식회사 태문</span>
+          </div>
+        </div>
+      </footer>
 
       <FloatingChatWidget />
     </main>
