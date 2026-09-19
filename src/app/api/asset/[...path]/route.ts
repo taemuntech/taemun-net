@@ -14,7 +14,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { NextResponse, type NextRequest } from "next/server";
-import { readAdminSession } from "@/lib/admin/session";
+import { isAdminRequest } from "@/lib/admin/guard";
 import { getPortfolioBySlug } from "@/lib/portfolio/registry";
 import { assetTargetFromRoutePath } from "@/lib/portfolio/protected-assets";
 import { getState, isReachable, resolveStatus } from "@/lib/portfolio/state";
@@ -69,7 +69,8 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ path: strin
   const kind = card?.kind ?? "proposal";
 
   // 관리자는 내려간 것도 본다 — 관리자 화면의 썸네일이 「무엇을 내렸는지」 보여 줘야 하기 때문.
-  const isAdmin = readAdminSession(req) !== null;
+  // 서명만 보지 않고 관리자 화면과 같은 판정(해제한 기기·모두 로그아웃 시각)을 거친다 — lib/admin/guard.ts.
+  const isAdmin = await isAdminRequest(req);
   if (!isAdmin) {
     const status = resolveStatus(await getState(), target.owner, kind);
     if (!isReachable(status)) return NOT_FOUND();

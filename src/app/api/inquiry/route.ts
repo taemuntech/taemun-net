@@ -5,6 +5,7 @@ import { SUPABASE_URL } from "@/lib/supabase-url";
 import { guardJsonWrite } from "@/lib/admin/request-guard";
 import { validateInquiryBody, type InquiryInput } from "@/lib/inquiry/validate";
 import { STUDIO_PHONE } from "@/lib/inquiry/contact";
+import { adminReceiverPhone } from "@/lib/admin/notify";
 import { CONTACT_PREF_LABEL, REFERENCE_USAGE_LABEL } from "@/lib/inquiry/labels";
 import { kstYymmdd } from "@/lib/kst";
 import { parseInquiryIndustry, parseSampleInquiry } from "@/components/demo-kit/sample-lead";
@@ -89,7 +90,6 @@ function adminSmsText(input: InquiryInput, referral: ValidReferral | null, reque
     input.contactPref ? `■ 연락 방법: ${CONTACT_PREF_LABEL[input.contactPref]}` : null,
   ].filter(Boolean);
   return `[태문넷 신규 견적 접수${requestNo ? ` ${requestNo}` : ""}]
-■ 고객명: ${input.clientName}
 ■ 연락처: ${input.phone}
 ■ 서비스: ${input.services.join(", ")}
 ■ 예산: ${input.budget}
@@ -245,8 +245,9 @@ export async function POST(request: Request) {
 
     // 접수 알림 — 형 확인 번호(사이트에 적힌 총괄 아키텍트 직통과 같다).
     // Vercel 에 SOLAPI_ADMIN_RECEIVER_PHONE 이 따로 있으면 그 값이 우선한다. 문자가 실패해도 접수는 저장됐다.
-    const adminPhone = process.env.SOLAPI_ADMIN_RECEIVER_PHONE || STUDIO_PHONE.replace(/-/g, "");
-    const smsResult = await sendSms(adminPhone, adminSmsText(input, referral, requestNo));
+    // 받는 번호는 아침 요약 문자와 같은 한 곳(lib/admin/notify.ts)에서 고른다.
+    // 2026-09-19: 문자에서 고객 이름 줄을 뺐다(형 승인) — 잠금 화면 미리보기·발송 대행사 기록에 이름이 남지 않게.
+    const smsResult = await sendSms(adminReceiverPhone(), adminSmsText(input, referral, requestNo));
     console.log("Admin SMS notification result:", smsResult);
 
     return NextResponse.json({ success: true, requestNo });

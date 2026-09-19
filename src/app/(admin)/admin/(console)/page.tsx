@@ -5,9 +5,7 @@
 // 방금 누른 것이 그대로 보여야 하기 때문이다.
 
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import { readAdminSession } from "@/lib/admin/session";
+import { logAccess, requireAdminPage } from "@/lib/admin/guard";
 import { FLAG_LABEL, listLog, type LogEntry } from "@/lib/admin/store";
 import { existingPublicFile } from "@/lib/portfolio/gallery-items";
 import { getPortfolio } from "@/lib/portfolio/registry";
@@ -56,8 +54,9 @@ function stateHintOf(snapshot: StateSnapshot, hasKey: boolean): string | null {
 }
 
 export default async function AdminPage() {
-  const session = readAdminSession(await cookies());
-  if (!session) redirect("/admin/login");
+  // 로그인·기기 해제 확인(P1b). 작업물 화면에는 고객 정보가 없어 기본 등급(basic)으로 연다 —
+  // 비상 스위치는 옛 로그인(기기 번호 없는 쿠키)으로도 반드시 눌려야 하기 때문이다.
+  const ctx = await requireAdminPage({ scope: "basic", route: "/admin" });
 
   const cards = getPortfolio();
 
@@ -85,6 +84,8 @@ export default async function AdminPage() {
   } catch (e) {
     logError = e instanceof Error ? e.message : String(e);
   }
+
+  logAccess(ctx, { action: "view", resource: "portfolio" });
 
   const items: AdminItem[] = cards
     .map((card, index) => {
@@ -133,7 +134,7 @@ export default async function AdminPage() {
       statusLabel={STATUS_LABEL}
       statusHelp={STATUS_HELP}
       flagLabel={FLAG_LABEL}
-      actor={session.actor}
+      actor={ctx.actor}
       log={log}
       logError={logError}
     />

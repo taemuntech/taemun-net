@@ -8,9 +8,8 @@
 
 import { revalidatePath, revalidateTag } from "next/cache";
 import { NextResponse, type NextRequest } from "next/server";
-import { guardAdminWrite } from "@/lib/admin/request-guard";
-import { readAdminSession } from "@/lib/admin/session";
-import { setFeatured, setOrder, setStatus, type StoreResult } from "@/lib/admin/store";
+import { logAccess, requireAdminApi, type AdminContext } from "@/lib/admin/guard";
+import { setFeatured, setOrder, setStatus, type StateWriteResult, type StoreResult } from "@/lib/admin/store";
 import { getPortfolioBySlug } from "@/lib/portfolio/registry";
 import {
   PORTFOLIO_STATE_TAG,
@@ -36,12 +35,11 @@ function failureResponse(result: Extract<StoreResult<unknown>, { ok: false }>): 
 }
 
 export async function POST(req: NextRequest) {
-  // 출처 검사가 먼저다 — 다른 사이트가 형 쿠키로 상태를 바꾸지 못하게(lib/admin/request-guard.ts)
-  const blocked = guardAdminWrite(req);
-  if (blocked) return blocked;
-
-  const session = readAdminSession(req);
-  if (!session) return NextResponse.json({ error: "로그인이 필요합니다." }, { status: 401 });
+  // 출처 검사가 먼저다 — 다른 사이트가 형 쿠키로 상태를 바꾸지 못하게(lib/admin/request-guard.ts).
+  // requireAdminApi 가 출처 검사 → 로그인을 한 번에 한다. 급한 화면이라 basic 등급(DB 가 죽어도 열림).
+  const gate = await requireAdminApi(req, { scope: "basic", write: true });
+  if (!gate.ok) return gate.response;
+  const { ctx } = gate;
   if (!hasServiceRoleKey()) return NextResponse.json({ error: "서버 설정 오류입니다." }, { status: 503 });
 
   let body: unknown = null;
@@ -86,7 +84,7 @@ export async function POST(req: NextRequest) {
   }
 
   const note = typeof b.note === "string" ? b.note : null;
-  const actor = session.actor;
+  const actor = ctx.actor;
   const applied: string[] = [];
   let logged = true;
   let lastData: unknown = null;
@@ -110,20 +108,25 @@ export async function POST(req: NextRequest) {
   }
 
   const done: string[] = [];
+  /** 접속기록에 남길 「무엇을 바꿨나」 — status unlisted→private 같은 짧은 줄 */
+  const details: string[] = [];
   for (const [i, step] of steps.entries()) {
     const result = await step();
     if (!result.ok) {
       // 앞 단계가 이미 저장됐을 수 있으니 캐시는 갈아 끼우고 나간다
       if (done.length) revalidatePublic();
       const fail = failureResponse(result);
+      logStateChange(ctx, slug, [...details, `${applied[i]} 실패`], "error");
       return NextResponse.json({ error: fail.error, applied: done }, { status: fail.status });
     }
     logged = logged && result.logged;
     lastData = result.data;
     done.push(applied[i]);
+    details.push(describeStep(applied[i], result.data as StateWriteResult));
   }
 
   revalidatePublic();
+  logStateChange(ctx, slug, details, "ok");
 
   return NextResponse.json({
     success: true,
@@ -132,6 +135,24 @@ export async function POST(req: NextRequest) {
     state: lastData,
     // 이력 표가 아직 없거나 쓰기가 막히면 false — 화면이 「이력이 안 남았습니다」를 보여 줄 수 있게
     logged,
+  });
+}
+
+/** 한 단계가 무엇을 바꿨는지 짧게 — 접속기록 detail 용 */
+function describeStep(field: string, data: StateWriteResult): string {
+  if (field === "status") return `status ${data.from ?? "기본값"}→${data.to}`;
+  if (field === "sortOrder") return `sort_order ${data.sortOrder ?? "없음"}`;
+  if (field === "featured") return `featured ${data.featured === null ? "기본값" : data.featured ? "on" : "off"}`;
+  return field;
+}
+
+function logStateChange(ctx: AdminContext, slug: string, details: string[], outcome: "ok" | "error"): void {
+  logAccess(ctx, {
+    action: "update",
+    resource: "portfolio_state",
+    resourceId: slug,
+    detail: details.join(", ") || null,
+    outcome,
   });
 }
 

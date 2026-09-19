@@ -33,6 +33,7 @@ import type {
   VerifyCheck,
   VerifyResponse,
 } from "@/components/admin/types";
+import { actorLabel } from "@/components/admin/types";
 import type { FlagKey } from "@/lib/admin/store";
 import type { PortfolioStatus } from "@/lib/portfolio/state";
 
@@ -420,23 +421,19 @@ export default function AdminView(props: AdminViewProps) {
   const verifiedWithoutState = verify.data !== null && verify.data.stateOk === false;
 
   return (
-    // overflow-x-hidden: 긴 오류 원문이 와도 화면이 가로로 밀리지 않게 한 겹 더 건다
-    <main className="min-h-screen overflow-x-hidden bg-[#030712] text-gray-100">
+    // overflow-x-clip: 긴 오류 원문이 와도 화면이 가로로 밀리지 않게 한 겹 더 건다.
+    // hidden 이 아니라 clip 인 까닭: hidden 은 스크롤 상자를 새로 만들어 아래 머리글의 sticky 를 죽인다(P1b 길잡이 막대와 함께 확인).
+    <main className="min-h-screen overflow-x-clip bg-[#030712] text-gray-100">
       {/* ── 맨 위 고정 바 ───────────────────────────────── */}
       <header className="sticky top-0 z-20 border-b border-white/10 bg-[#030712]/95 px-4 py-3 backdrop-blur">
         <div className="mx-auto max-w-3xl">
           <div className="flex items-center justify-between gap-2">
             <div className="min-w-0">
               <h1 className="truncate text-base font-bold text-white">작업물 공개 관리</h1>
-              <p className="truncate text-[11px] text-gray-500">{actor} 로 로그인 · 작업물 {items.length}개</p>
+              <p className="truncate text-[11px] text-gray-500">{actorLabel(actor)}으로 로그인 · 작업물 {items.length}개</p>
             </div>
             <div className="flex shrink-0 items-center gap-1.5">
-              <a
-                href="/admin/inquiries"
-                className="inline-flex items-center gap-1 rounded-lg border border-white/15 px-2.5 py-1.5 text-xs font-bold text-white hover:bg-white/5"
-              >
-                견적 문의
-              </a>
+              {/* 「견적 문의」 링크는 뺐다 — 아래(넓은 화면은 왼쪽) 길잡이 막대가 대신한다(P1b) */}
               <Chip tone="ghost" onClick={logout} aria-label="로그아웃">
                 <LogOut className="h-4 w-4" aria-hidden="true" />
                 <span>로그아웃</span>

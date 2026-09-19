@@ -1,12 +1,15 @@
 "use client";
 
 // 비밀번호 한 칸. 실패 메시지는 서버가 준 문구를 그대로 보여 준다(429 의 남은 시간 안내 포함).
+// P1b: 다른 화면에서 튕겨 왔으면 그 이유(reasonMessage — 서버가 정해 둔 4가지 문구 중 하나)를 폼 위에 띄운다.
+//      로그인하면 「오늘」 화면으로 간다(예전엔 작업물 화면).
 
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
-import { Loader2, Lock } from "lucide-react";
+import { AlertTriangle, Loader2, Lock } from "lucide-react";
+import { Banner } from "@/components/admin/ui";
 
-export default function LoginView() {
+export default function LoginView({ reasonMessage }: { reasonMessage: string | null }) {
   const router = useRouter();
   const [passcode, setPasscode] = useState("");
   const [busy, setBusy] = useState(false);
@@ -39,7 +42,7 @@ export default function LoginView() {
         return;
       }
       setPasscode("");
-      router.replace("/admin");
+      router.replace("/admin/today");
       router.refresh();
     } catch (e) {
       setError(e instanceof Error ? e.message : "네트워크 오류로 로그인하지 못했습니다");
@@ -55,8 +58,16 @@ export default function LoginView() {
             <Lock className="h-5 w-5 text-indigo-300" aria-hidden="true" />
           </div>
           <h1 className="mt-4 text-xl font-bold text-white">태문넷 관리자</h1>
-          <p className="mt-1.5 text-sm text-gray-400">작업물 공개 상태를 바꾸는 화면입니다.</p>
+          <p className="mt-1.5 text-sm text-gray-400">문의·작업물을 관리하는 화면입니다.</p>
         </div>
+
+        {reasonMessage ? (
+          <div className="mb-4">
+            <Banner tone="warn" icon={<AlertTriangle className="h-4 w-4" aria-hidden="true" />}>
+              {reasonMessage}
+            </Banner>
+          </div>
+        ) : null}
 
         <form onSubmit={onSubmit} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
           <label htmlFor="admin-passcode" className="block text-sm font-medium text-gray-200">

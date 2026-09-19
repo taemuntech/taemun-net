@@ -75,3 +75,40 @@ export function Chip({ tone = "neutral", className = "", children, ...rest }: Ch
     </button>
   );
 }
+
+type SectionTone = "default" | "danger" | "warn";
+
+const SECTION_TITLE_TONE: Record<SectionTone, string> = {
+  default: "text-gray-200",
+  danger: "text-red-300",
+  warn: "text-amber-300",
+};
+
+/**
+ * 제목 한 줄 + 카드 한 장 — 오늘·설정 화면의 칸. (P1b, 2026-09-19 가온)
+ * 건수는 글자로 같이 적는다(색만으로 「급하다」를 전하지 않는다).
+ */
+export function Section({
+  title,
+  count,
+  tone = "default",
+  hint,
+  children,
+}: {
+  title: string;
+  count?: number;
+  tone?: SectionTone;
+  hint?: ReactNode;
+  children: ReactNode;
+}) {
+  return (
+    <section className="space-y-2">
+      <h2 className={`flex items-baseline gap-2 px-1 text-sm font-bold ${SECTION_TITLE_TONE[tone]}`}>
+        <span>{title}</span>
+        {typeof count === "number" ? <span className="text-xs font-semibold text-gray-500">{count}건</span> : null}
+      </h2>
+      {hint ? <p className="px-1 text-[12px] leading-relaxed text-gray-500">{hint}</p> : null}
+      <div className="overflow-hidden rounded-2xl border border-white/10 bg-gray-900/60">{children}</div>
+    </section>
+  );
+}

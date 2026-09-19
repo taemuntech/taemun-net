@@ -6,8 +6,7 @@
 
 import { revalidatePath, revalidateTag } from "next/cache";
 import { NextResponse, type NextRequest } from "next/server";
-import { guardAdminWrite } from "@/lib/admin/request-guard";
-import { readAdminSession } from "@/lib/admin/session";
+import { logAccess, requireAdminApi } from "@/lib/admin/guard";
 import { FLAG_KEYS, setFlag, type FlagKey } from "@/lib/admin/store";
 import { PORTFOLIO_STATE_TAG, hasServiceRoleKey } from "@/lib/portfolio/state";
 
@@ -19,12 +18,11 @@ function isFlagKey(v: unknown): v is FlagKey {
 }
 
 export async function POST(req: NextRequest) {
-  // 출처 검사가 먼저다 — 다른 사이트가 형 쿠키로 「전부 내리기」를 해제하지 못하게(lib/admin/request-guard.ts)
-  const blocked = guardAdminWrite(req);
-  if (blocked) return blocked;
-
-  const session = readAdminSession(req);
-  if (!session) return NextResponse.json({ error: "로그인이 필요합니다." }, { status: 401 });
+  // 출처 검사가 먼저다 — 다른 사이트가 형 쿠키로 「전부 내리기」를 해제하지 못하게(lib/admin/request-guard.ts).
+  // requireAdminApi 가 출처 검사 → 로그인을 한 번에 한다. 급한 스위치라 basic 등급(DB 가 죽어도 열림, 옛 쿠키 통과).
+  const gate = await requireAdminApi(req, { scope: "basic", write: true });
+  if (!gate.ok) return gate.response;
+  const { ctx } = gate;
   if (!hasServiceRoleKey()) return NextResponse.json({ error: "서버 설정 오류입니다." }, { status: 503 });
 
   let body: unknown = null;
@@ -46,7 +44,7 @@ export async function POST(req: NextRequest) {
   }
   const note = typeof b.note === "string" && b.note.length <= 300 ? b.note : null;
 
-  const result = await setFlag(b.key, b.enabled, session.actor, note);
+  const result = await setFlag(b.key, b.enabled, ctx.actor, note);
   if (!result.ok) {
     if (result.reason === "no-service-key") {
       return NextResponse.json({ error: "서버 설정 오류입니다." }, { status: 503 });
@@ -59,6 +57,13 @@ export async function POST(req: NextRequest) {
   revalidateTag(PORTFOLIO_STATE_TAG, { expire: 0 });
   revalidatePath("/portfolio");
   revalidatePath("/");
+
+  logAccess(ctx, {
+    action: "update",
+    resource: "portfolio_flag",
+    resourceId: result.data.key,
+    detail: `${result.data.key} ${result.data.enabled ? "on" : "off"}`,
+  });
 
   return NextResponse.json({ success: true, key: result.data.key, enabled: result.data.enabled, logged: result.logged });
 }

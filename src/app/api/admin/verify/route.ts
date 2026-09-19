@@ -8,8 +8,7 @@
 // 부르는 주소는 레지스트리에 등록된 작업물로만 만든다(아무 주소나 서버가 대신 부르지 않게).
 
 import { NextResponse, type NextRequest } from "next/server";
-import { guardAdminWrite } from "@/lib/admin/request-guard";
-import { readAdminSession } from "@/lib/admin/session";
+import { logAccess, requireAdminApi } from "@/lib/admin/guard";
 import { DEMO_GONE_PATH } from "@/lib/portfolio/gate";
 import { getPortfolio, type PortfolioCard } from "@/lib/portfolio/registry";
 import {
@@ -87,12 +86,10 @@ export type VerifyCheck = {
 };
 
 export async function POST(req: NextRequest) {
-  // 확인은 「읽기」지만 서버가 대신 여러 주소를 부르는 일이라, 다른 사이트가 시키지 못하게 같이 막는다.
-  const blocked = guardAdminWrite(req);
-  if (blocked) return blocked;
-
-  const session = readAdminSession(req);
-  if (!session) return NextResponse.json({ error: "로그인이 필요합니다." }, { status: 401 });
+  // 확인은 「읽기」지만 서버가 대신 여러 주소를 부르는 일이라, 다른 사이트가 시키지 못하게 같이 막는다(write: true = 출처 검사).
+  const gate = await requireAdminApi(req, { scope: "basic", write: true });
+  if (!gate.ok) return gate.response;
+  const { ctx } = gate;
 
   let body: unknown = null;
   try {
@@ -195,6 +192,13 @@ export async function POST(req: NextRequest) {
       };
     }),
   );
+
+  logAccess(ctx, {
+    action: "view",
+    resource: "portfolio_verify",
+    resourceId: targets.length === all.length ? "all" : targets.map((c) => c.slug).join(","),
+    detail: `checks ${checks.length} mismatch ${checks.filter((c) => c.mismatch).length}`,
+  });
 
   return NextResponse.json({
     success: true,
