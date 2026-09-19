@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   icons: {
     icon: [{ url: "/favicon.ico" }, { url: "/favicon.png", type: "image/png" }],
     shortcut: "/favicon.ico",
-    apple: "/images/logo/icon-192-transparent.png",
+    apple: "/apple-touch-icon.png",
   },
 };
 
