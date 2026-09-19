@@ -1232,6 +1232,7 @@ export const GALLERY_PROJECTS: GalleryProject[] = [
     summary: '4K 광학·열화상 듀얼 비전 스플릿 뷰어, 0.1mm 균열 자동 판독 AI, 24/7 완전 무인 자율 관제 도크',
     description: '산업 인프라 및 전술형 비행 로보틱스 감성으로 설계된 자율비행 드론 진단 플랫폼 플래그십 사이트입니다. 4K 광학 RGB와 방사열 열화상 실시간 비교 뷰어, 0.1mm 미세 크랙 AI 결함 판독 콘솔, 3D 디지털 트윈 토공량 계산기, 24/7 센티넬 도크 원격 출격 시뮬레이터, 원클릭 정밀진단 공학 보고서 출력을 완비했습니다.',
     thumbnailUrl: '/demo-media/aerospect-dynamics/heroDrone.jpg',
+    previewVideoUrl: '/portfolio/aerospect-dynamics/heroDrone.mp4',
     liveDemoUrl: '/demo/aerospect-dynamics',
     techStack: ['Next.js 16', 'React 19', 'Tailwind CSS v4', 'TypeScript'],
     period: '2주',

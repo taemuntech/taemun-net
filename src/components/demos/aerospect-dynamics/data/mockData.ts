@@ -3,6 +3,7 @@ import { DroneSpec, CaseStudy, DefectItem } from '../types';
 export const ASSET_IMAGES = {
   logo: '/demo-media/aerospect-dynamics/logo.png',
   heroDrone: '/demo-media/aerospect-dynamics/heroDrone.jpg',
+  heroVideo: '/demo-media/aerospect-dynamics/heroDrone.mp4',
   vtolDrone: '/demo-media/aerospect-dynamics/vtolDrone.jpg',
   dockStation: '/demo-media/aerospect-dynamics/dockStation.jpg',
   rgbTower: '/demo-media/aerospect-dynamics/rgbTower.jpg',

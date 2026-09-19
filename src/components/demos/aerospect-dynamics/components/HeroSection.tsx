@@ -66,10 +66,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
       {/* Visual Centerpiece & Telemetry HUD Overlay */}
       <div className="relative w-full rounded-2xl overflow-hidden bg-zinc-900 shadow-xl aspect-[16/10] lg:aspect-[21/9] border border-zinc-200">
-        <img
-          alt="AEROSPECT AP-X9 Drone Core Payload System"
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          poster={ASSET_IMAGES.heroDrone}
+          controlsList="nodownload noplaybackrate"
+          disablePictureInPicture
+          onContextMenu={(e) => e.preventDefault()}
           className="w-full h-full object-cover select-none"
-          src={ASSET_IMAGES.heroDrone}
+          src={ASSET_IMAGES.heroVideo}
         />
 
         {/* Dark Gradient Vignette for Tech HUD Legibility */}
