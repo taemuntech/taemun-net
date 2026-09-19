@@ -47,7 +47,7 @@ export function ProcessSection() {
           문의부터 오픈까지 <span className="font-serif italic text-zinc-800 font-normal">5단계 진행 방식</span>
         </h2>
         <p className="text-zinc-500 text-xs lg:text-sm mt-2 font-light [word-break:keep-all]">
-          사람의 경험에 AI의 속도를 더해, 선택하신 레퍼런스를 바탕으로 전자계약과 단계별 검수를 거쳐 사이트를 완성합니다.
+          고객의 마음을 움직이는 실물 레퍼런스를 바탕으로, 전자계약과 단계별 검수를 거쳐 사이트를 완성합니다.
         </p>
       </div>
 
