@@ -18,7 +18,8 @@ import { logAccess, requireAdminPage } from "@/lib/admin/guard";
 import { getCrmSettings, listTodayRows } from "@/lib/admin/crm-store";
 import { buildToday, kstDate, type TodayBuckets } from "@/lib/admin/today-core";
 import { purgeIsStale } from "@/lib/admin/digest-core";
-import { agoLabel } from "@/components/admin/types";
+import { openIntakeAlerts, intakeAlertLabel } from "@/lib/inquiry/intake-core";
+import { agoLabel, formatKstMonthDayTime } from "@/components/admin/types";
 import { TodayView, type TodayPurgeSummary } from "./TodayView";
 
 export const metadata: Metadata = {
@@ -48,8 +49,16 @@ export default async function AdminTodayPage() {
 
   let purge: TodayPurgeSummary | null = null;
   let purgeStale = false;
+  // 접수 이상(2026-09-20) — 확인 안 한 것만 한 줄씩. 시각은 KST 로 여기서 글자로 만든다(서버가 그린 글자를 그대로 보인다).
+  // 글자에는 건수·시각·접수번호만 있다(고객 이름·연락처 없음) — 이 화면이 basic 등급이라도 괜찮은 이유.
+  let intakeAlerts: string[] = [];
   if (settingsResult.ok) {
     const s = settingsResult.data;
+    intakeAlerts = openIntakeAlerts(s.intakeAlerts).map((a) => intakeAlertLabel(a, formatKstMonthDayTime(a.lastAt)));
+    // 기록 행이 없으면 기록 쓰기가 전부 실패하는 중이다(마이그레이션 전) — 배너가 없는 것을 「이상 없음」으로 읽지 않게 한 줄 띄운다
+    if (!s.intakeAlertReady) {
+      intakeAlerts.unshift("접수 이상 기록을 아직 쓸 수 없습니다 — 마이그레이션 20260920090000_intake_alert.sql 을 적용해 주세요.");
+    }
     purgeStale = purgeIsStale(s.purgeLastRun, s.purgeSelftest, now);
     purge = {
       mode: s.purgeMode,
@@ -80,6 +89,7 @@ export default async function AdminTodayPage() {
       purge={purge}
       purgeError={settingsResult.ok ? null : "파기 설정을 읽지 못했습니다."}
       purgeStale={purgeStale}
+      intakeAlerts={intakeAlerts}
       nextActionHidden={!ctx.sessionChecked}
     />
   );

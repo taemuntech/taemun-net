@@ -4,6 +4,7 @@ import { ArrowRight, ExternalLink, Eye, Info } from "lucide-react";
 import { PROPOSAL_DISCLAIMER, type IndustryKey, type PortfolioKind } from "@/lib/portfolio/schema";
 import { sampleInquiryHref } from "@/components/demo-kit/sample-lead";
 import KindBadge from "./KindBadge";
+import { bypassImageOptimizer } from "./thumbnail-optimizer";
 
 // 갤러리 카드 1장. 훅이 없어 서버·클라이언트 어디서든 렌더된다
 // (page 의 Suspense fallback 에서도 같은 카드를 써서 첫 HTML 에 목록이 실린다).
@@ -55,6 +56,8 @@ export default function PortfolioCardView({ item }: { item: GalleryItem }) {
             fill
             loading="lazy"
             sizes="(min-width: 1024px) 400px, 100vw"
+            // 제안 시안은 최적화기를 거치지 않는다 — 내린 뒤에도 /_next/image 결과가 최대 4시간 남기 때문(thumbnail-optimizer.ts)
+            unoptimized={bypassImageOptimizer(item.kind)}
             className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
           />
         ) : (

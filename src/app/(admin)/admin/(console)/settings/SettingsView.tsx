@@ -18,6 +18,7 @@ import type { AccessLogRow, CrmSettings, PurgeLogRow, SessionRow } from "@/lib/a
 import { LOGIN_REASON_LABEL, isLoginReason } from "@/lib/admin/guard-core";
 import { summarizeAccessLog } from "@/lib/admin/access-log-core";
 import { isDigestSendingFresh } from "@/lib/admin/digest-core";
+import { INTAKE_ALERT_KINDS, intakeAlertLabel, openIntakeAlerts, type IntakeAlert } from "@/lib/inquiry/intake-core";
 import { actorLabel, agoLabel, formatKstCompact, formatKstMonthDayTime } from "@/components/admin/types";
 import { Banner, Chip, Section } from "@/components/admin/ui";
 
@@ -160,6 +161,106 @@ function ErrorLine({ children }: { children: ReactNode }) {
 
 function LoadError({ message }: { message: string }) {
   return <p className="px-3 py-3 text-[13px] text-amber-200">{message}</p>;
+}
+
+// ── 0. 접수 이상 (2026-09-20 가온, 오픈 주간 P1-6) ─────────────────────────
+//
+// 견적 접수에서 난 사고(알림 문자 실패·저장 실패·1시간 한도 초과)를 종류별로 한 줄씩 보인다. 「오늘」 빨간 배너가 여기로 온다.
+// 「확인했습니다」는 **읽었다는 표시**일 뿐 아무것도 지우지 않는다 — 누르면 배너·아침 문자 줄이 꺼지고, 같은 일이 또 나면
+// 새로 1건부터 다시 뜬다. 접속기록을 먼저 남기고 바꾼다(api/admin/settings). 되돌릴 수 없는 버튼이 아니라서 한 번 더 묻지 않는다.
+// 확인한 칸도 흐리게 남겨 둔다 — 「지난번에 언제 무슨 일이 있었나」를 형이 다시 볼 수 있게.
+
+const INTAKE_HINT: Record<IntakeAlert["kind"], string> = {
+  save_fail: "문의가 저장되지 않았습니다. 내용은 「저장 실패」 알림 문자에만 있습니다 — 문자를 보고 연락해 주세요.",
+  sms_fail: "문의는 저장됐지만 알림 문자가 가지 않았습니다. 문의 목록에서 확인해 주세요. 솔라피 잔액·발신번호를 점검해 주세요.",
+  over_cap: "1시간 접수가 한도를 넘어 알림 문자 없이 저장했습니다. 문의 목록에서 확인해 주세요. 도배라면 Vercel 방화벽 규칙을 확인해 주세요.",
+};
+
+function IntakeSection({ settings, settingsError }: { settings: CrmSettings | null; settingsError: string | null }) {
+  const router = useRouter();
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const map = settings?.intakeAlerts ?? {};
+  const open = openIntakeAlerts(map);
+  const acked = INTAKE_ALERT_KINDS.map((k) => map[k]).filter(
+    (a): a is IntakeAlert => Boolean(a && a.acknowledgedAt !== null),
+  );
+
+  async function acknowledge() {
+    setBusy(true);
+    setError(null);
+    // 그려 놓은 칸의 건수·마지막 시각을 같이 보낸다 — 화면을 열어 둔 사이 새로 난 건(예: 저장 실패)은 서버가 확인하지 않고
+    // 열어 둔다. 새로 고친 화면에 그 칸이 그대로 남아 형이 보게 된다(crm-input.parseSettingsBody · intake-core.acknowledgeIntakeAlerts).
+    const seen = Object.fromEntries(open.map((a) => [a.kind, { lastAt: a.lastAt, count: a.count }]));
+    const r = await postJson("/api/admin/settings", { key: "intake_alert", action: "ack", seen });
+    setBusy(false);
+    if (!r.ok) return setError(r.error);
+    router.refresh();
+  }
+
+  return (
+    <div id="intake" className="scroll-mt-20">
+      <Section
+        title="접수 이상"
+        count={settings ? open.length : undefined}
+        tone={open.length > 0 ? "danger" : "default"}
+        hint="견적 접수 알림 문자 실패·저장 실패·1시간 한도 초과를 남깁니다. 고객 이름·연락처는 여기 적지 않습니다."
+      >
+        {settingsError ? <LoadError message={settingsError} /> : null}
+        {settings ? (
+          <div className="space-y-3 px-3 py-3 text-[13px] text-gray-300">
+            {!settings.intakeAlertReady ? (
+              // 행이 없다 = 기록 쓰기가 키 목록 제약(23514)에 막혀 전부 실패하고 있다. 여기서 초록 「이상 없음」을 보이면
+              // 저장 실패·문자 실패가 사라지는 바로 그때 「괜찮다」고 말하게 된다. 빈 기록과 못 쓰는 기록을 가른다.
+              <p className="flex items-start gap-1.5 text-amber-200">
+                <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                접수 이상 기록을 아직 쓸 수 없습니다 — 마이그레이션 20260920090000_intake_alert.sql 을 적용해 주세요.
+              </p>
+            ) : open.length === 0 ? (
+              <p className="flex items-center gap-1.5 text-emerald-300">
+                <CheckCircle2 className="h-4 w-4 shrink-0" aria-hidden="true" />
+                확인할 접수 이상이 없습니다.
+              </p>
+            ) : (
+              <ul className="space-y-2">
+                {open.map((a) => (
+                  <li key={a.kind} className="rounded-xl border border-red-500/40 bg-red-500/10 px-3 py-2 text-red-100">
+                    <p className="flex items-start gap-1.5 font-semibold">
+                      <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                      <span className="break-words">{intakeAlertLabel(a, formatKstMonthDayTime(a.lastAt))}</span>
+                    </p>
+                    <p className="mt-0.5 text-[12px] text-red-200/90">
+                      처음 {formatKstMonthDayTime(a.firstAt)} · {INTAKE_HINT[a.kind]}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {open.length > 0 ? (
+              <Chip tone="active" disabled={busy} onClick={() => void acknowledge()}>
+                {busy ? "처리 중…" : "확인했습니다"}
+              </Chip>
+            ) : null}
+            {error ? (
+              <p role="alert" className="text-[12px] text-red-300">
+                {error}
+              </p>
+            ) : null}
+            {acked.length > 0 ? (
+              <ul className="space-y-0.5 border-t border-white/5 pt-2 text-[12px] text-gray-500">
+                {acked.map((a) => (
+                  <li key={a.kind} className="break-words">
+                    {intakeAlertLabel(a, formatKstMonthDayTime(a.lastAt))} · {formatKstMonthDayTime(a.acknowledgedAt)} 확인
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+        ) : null}
+      </Section>
+    </div>
+  );
 }
 
 // ── 1. 로그인한 기기 ─────────────────────────────────────────────────────
@@ -617,11 +718,12 @@ export function SettingsView(props: SettingsViewProps) {
       <header className="sticky top-0 z-20 border-b border-white/10 bg-[#030712]/95 px-4 py-3 backdrop-blur">
         <div className="mx-auto max-w-3xl">
           <h1 className="text-base font-bold text-white">설정</h1>
-          <p className="text-[11px] text-gray-500">로그인 기기 · 개인정보 파기 · 아침 문자 · 접속 기록</p>
+          <p className="text-[11px] text-gray-500">접수 이상 · 로그인 기기 · 개인정보 파기 · 아침 문자 · 접속 기록</p>
         </div>
       </header>
 
       <div className="mx-auto max-w-3xl space-y-6 px-4 py-4">
+        <IntakeSection settings={props.settings} settingsError={props.settingsError} />
         <SessionsSection
           sessions={props.sessions}
           error={props.sessionsError}

@@ -20,6 +20,16 @@ import { crmFixture, crmFixtureEnabled } from "./crm-fixture";
 import { isUuid, type ClosedReason, type InquiryStatus, type PurgeMode } from "./crm-input";
 import type { TodayRow } from "./today-core";
 import { parseDigestRecord, type DigestRecord } from "./digest-core";
+import {
+  acknowledgeIntakeAlerts,
+  acknowledgeSummary,
+  mergeIntakeAlert,
+  parseIntakeAlerts,
+  shouldSendCapNotice,
+  type IntakeAlertEvent,
+  type IntakeAlertMap,
+  type IntakeAlertSeen,
+} from "@/lib/inquiry/intake-core";
 
 // 아침 문자 기록의 모양·읽기는 순수 모듈(digest-core)에 둔다 — 시험이 그대로 불러 쓴다. 예전 import 자리를 위해 다시 내보낸다.
 export { parseDigestRecord, type DigestRecord };
@@ -103,6 +113,13 @@ export type CrmSettings = {
   purgeLastRun: string | null;
   purgeSelftest: string | null;
   digestLast: DigestRecord | null;
+  /** 접수 이상 기록(종류별). 기록이 없거나 모양이 이상하면 {} — intake-core.parseIntakeAlerts */
+  intakeAlerts: IntakeAlertMap;
+  /**
+   * intake_alert 행이 있는가 — 마이그레이션 20260920090000 이 행을 `{}` 로 심는다. 없으면 기록 쓰기가 전부 실패하고 있는
+   * 것이라(키 목록 제약 23514) 화면이 「이상 없음」 초록 대신 「아직 기록할 수 없음」을 보여야 한다. 빈 기록과 못 쓰는 기록을 가른다.
+   */
+  intakeAlertReady: boolean;
 };
 
 export type PurgeLogRow = {
@@ -651,6 +668,8 @@ export function settingsFromMap(map: Record<string, string>): CrmSettings {
     purgeLastRun: map.purge_last_run ?? null,
     purgeSelftest: map.purge_selftest ?? null,
     digestLast: parseDigestRecord(map.digest_last ?? null),
+    intakeAlerts: parseIntakeAlerts(map.intake_alert ?? null),
+    intakeAlertReady: "intake_alert" in map,
   };
 }
 
@@ -827,5 +846,151 @@ export async function countPurgedSince(iso: string): Promise<CrmResult<number>> 
     return { ok: true, data: (res.data ?? []).reduce((sum, raw) => sum + num(rec(raw).row_count), 0) };
   } catch (e) {
     return dbFail("countPurgedSince", e);
+  }
+}
+
+// ── 접수 이상 기록(crm_settings.intake_alert) — 2026-09-20 가온, 오픈 주간 P1-6 ──────────
+//
+// 왜: 접수 알림 문자가 실패해도·저장이 실패해도 route 는 console 에만 적었다. Vercel 로그는 요금제에 따라 1시간~1일이면
+// 사라져서, 형은 「문의가 없었다」와 「문의가 왔는데 몰랐다」를 가를 수 없었다. 이제 종류별로 건수·시각을 여기 남기고
+// 「오늘」 화면 빨간 배너·설정 화면·아침 문자가 읽는다.
+//
+// 동시에 두 건이 실패하면(솔라피 장애 때 흔하다) 둘 다 「지금 값」을 읽고 각자 +1 해서 덮어 한 건이 사라진다.
+// 그래서 「읽은 값 그대로일 때만 바꾼다」(값 비교 update)로 쓰고, 그사이 누가 바꿨으면 다시 읽어 합친다(최대 4번).
+// 행이 없으면 insert 하고, 동시에 누가 먼저 넣었으면(23505) 다시 돈다.
+// 마이그레이션 20260920090000 전에는 키 목록 제약(23514)에 걸린다 — 그때는 로그만 남기고 조용히 포기한다.
+
+const INTAKE_ALERT_KEY = "intake_alert";
+const INTAKE_CAS_TRIES = 4;
+
+type CasOutcome = { ok: true; map: IntakeAlertMap } | { ok: false; code: string | null };
+
+async function casIntakeAlerts(
+  db: SupabaseClient,
+  change: (map: IntakeAlertMap) => IntakeAlertMap,
+  updatedBy: string,
+): Promise<CasOutcome> {
+  for (let attempt = 0; attempt < INTAKE_CAS_TRIES; attempt++) {
+    const cur = await db.from("crm_settings").select("value").eq("key", INTAKE_ALERT_KEY).maybeSingle();
+    if (cur.error) return { ok: false, code: cur.error.code ?? null };
+    const prevRaw = cur.data ? str(rec(cur.data).value) : null;
+    const next = change(parseIntakeAlerts(prevRaw));
+    const value = JSON.stringify(next);
+    // 바뀐 것이 없으면(확인할 것이 없는데 「확인」을 누름 등) 쓰지 않는다 — 기록 없는 표에 빈 행을 만들지 않게
+    if (value === (prevRaw ?? JSON.stringify({}))) return { ok: true, map: next };
+    const row = { value, updated_at: new Date().toISOString(), updated_by: updatedBy };
+    if (prevRaw === null) {
+      const ins = await db.from("crm_settings").insert({ key: INTAKE_ALERT_KEY, ...row });
+      if (!ins.error) return { ok: true, map: next };
+      if (ins.error.code === "23505") continue;
+      return { ok: false, code: ins.error.code ?? null };
+    }
+    const upd = await db
+      .from("crm_settings")
+      .update(row)
+      .eq("key", INTAKE_ALERT_KEY)
+      .eq("value", prevRaw)
+      .select("key");
+    if (upd.error) return { ok: false, code: upd.error.code ?? null };
+    if ((upd.data ?? []).length === 1) return { ok: true, map: next };
+    // 그사이 다른 호출이 값을 바꿨다 — 다시 읽어 합친다
+  }
+  return { ok: false, code: "cas-exhausted" };
+}
+
+/**
+ * 접수 이상 한 건을 남긴다 — /api/inquiry 가 after() 로 부른다.
+ * **절대 던지지 않고, 기다리게 하지 않는다**(실패는 로그 한 줄). 고객 응답이 이 기록 때문에 늦어지거나 깨지면 안 된다.
+ * 🔒 ev 에는 종류·시각·접수번호만 있다. 고객 정보·DB 오류 원문은 넣을 자리가 없다.
+ */
+export async function recordIntakeAlert(ev: IntakeAlertEvent): Promise<boolean> {
+  try {
+    if (crmFixtureEnabled()) return crmFixture().recordIntakeAlert(ev);
+    const db = serviceClient();
+    if (!db) {
+      console.error("admin crm-store: recordIntakeAlert skipped — no service key", ev.kind);
+      return false;
+    }
+    const res = await casIntakeAlerts(db, (m) => mergeIntakeAlert(m, ev), "inquiry");
+    if (!res.ok) {
+      console.error(
+        "admin crm-store: recordIntakeAlert failed:",
+        ev.kind,
+        res.code ?? "",
+        res.code === "23514" ? "(마이그레이션 20260920090000_intake_alert.sql 적용 전?)" : "",
+      );
+      return false;
+    }
+    return true;
+  } catch (e) {
+    console.error("admin crm-store: recordIntakeAlert threw:", ev.kind, e instanceof Error ? e.message : e);
+    return false;
+  }
+}
+
+/**
+ * 한도 초과 n건을 남기고, **이 쓰기가 한도 안내 문자를 보낼 차례인지** 돌려준다.
+ * 판단(shouldSendCapNotice)을 값 비교 쓰기 안에서 한다 — 실제로 쓰인 판(version)을 본 요청 하나만 true 를 받는다.
+ * 동시에 여럿이 한도를 넘어도 안내는 한 통, 아무도 「딱 30」을 못 봐도 한 통(예전엔 둘 다 틀렸다).
+ * 기록을 못 쓰면 "failed" — 부르는 쪽(route)이 인스턴스 울타리로 안내를 보낼지 정한다(안내 없이 문자가 끊기지 않게).
+ */
+export async function recordOverCap(ev: IntakeAlertEvent): Promise<"claimed" | "recorded" | "failed"> {
+  try {
+    if (crmFixtureEnabled()) return crmFixture().recordOverCap(ev);
+    const db = serviceClient();
+    if (!db) {
+      console.error("admin crm-store: recordOverCap skipped — no service key");
+      return "failed";
+    }
+    let claimed = false;
+    const res = await casIntakeAlerts(
+      db,
+      (m) => {
+        // 재시도마다 다시 정한다 — 마지막으로 성공한 판의 답만 남는다
+        claimed = shouldSendCapNotice(m.over_cap, ev.at);
+        return mergeIntakeAlert(m, { ...ev, kind: "over_cap" });
+      },
+      "inquiry",
+    );
+    if (!res.ok) {
+      console.error(
+        "admin crm-store: recordOverCap failed:",
+        res.code ?? "",
+        res.code === "23514" ? "(마이그레이션 20260920090000_intake_alert.sql 적용 전?)" : "",
+      );
+      return "failed";
+    }
+    return claimed ? "claimed" : "recorded";
+  } catch (e) {
+    console.error("admin crm-store: recordOverCap threw:", e instanceof Error ? e.message : e);
+    return "failed";
+  }
+}
+
+/**
+ * 설정 화면 「확인했습니다」 — 화면이 그려 놓았던 칸(seen)만 지금 시각으로 찍는다(intake-core.acknowledgeIntakeAlerts).
+ * 확인한 사건 수와, 그사이 새로 늘어 열어 둔 칸 수를 돌려준다.
+ */
+export async function acknowledgeIntakeAlert(
+  actor: string,
+  seen: IntakeAlertSeen,
+): Promise<CrmResult<{ acknowledged: number; keptOpen: number }>> {
+  if (crmFixtureEnabled()) return crmFixture().acknowledgeIntakeAlert(actor, seen);
+  const db = serviceClient();
+  if (!db) return NO_KEY;
+  try {
+    let summary = { acknowledged: 0, keptOpen: 0 };
+    const res = await casIntakeAlerts(
+      db,
+      (m) => {
+        summary = acknowledgeSummary(m, seen);
+        return acknowledgeIntakeAlerts(m, new Date().toISOString(), seen);
+      },
+      clip(actor, 40) ?? "owner",
+    );
+    if (!res.ok) return dbFail("acknowledgeIntakeAlert", { code: res.code ?? undefined });
+    return { ok: true, data: summary };
+  } catch (e) {
+    return dbFail("acknowledgeIntakeAlert", e);
   }
 }

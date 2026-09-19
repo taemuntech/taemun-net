@@ -1,7 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef, type SyntheticEvent } from "react";
+import { useState, useEffect, useRef, type KeyboardEvent as ReactKeyboardEvent, type SyntheticEvent } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { bypassImageOptimizer } from "@/components/portfolio/thumbnail-optimizer";
+import { kstParts } from "@/lib/kst";
 import Header from "@/components/Header";
 import FloatingChatWidget from "@/components/FloatingChatWidget";
 import { ProcessSection } from "@/components/inquiry/ProcessSection";
@@ -105,6 +108,10 @@ function hideBrokenThumbnail(e: SyntheticEvent<HTMLImageElement>) {
  * ⚠️ 문구를 더 세게(예: 「가상 브랜드 샘플」)·약하게(예: 「데모」) 바꾸려면 **여기 한 곳만** 고친다 —
  *    카드와 모달이 같은 함수를 쓰므로 두 벌로 갈라지지 않는다.
  */
+function workMarkLabel(project: GalleryProject): string {
+  return project.externalUrl ? "운영 중" : "샘플";
+}
+
 function WorkMark({ project, className = "" }: { project: GalleryProject; className?: string }) {
   const live = Boolean(project.externalUrl);
   return (
@@ -113,10 +120,23 @@ function WorkMark({ project, className = "" }: { project: GalleryProject; classN
         live ? "border-emerald-700/30 bg-emerald-600/90 text-white" : "border-white/20 bg-zinc-900/70 text-white"
       } ${className}`}
     >
-      {live ? "운영 중" : "샘플"}
+      {workMarkLabel(project)}
     </span>
   );
 }
+
+/**
+ * 홈 카드 썸네일이 실제로 차지하는 폭 — next/image 가 이 값으로 알맞은 크기 하나만 골라 받는다.
+ *
+ * 왜(2026-09-19 오픈 점검 P1-15): 예전엔 <img> 로 원본(가로 2000px 안팎, 장당 0.2~1.5MB)을 그대로 받아
+ * 폰에서 143px 칸에 넣었다 — 홈 한 장에 이미지만 16.5MB 였다.
+ * 폭 계산(격자 CSS 그대로): 데스크톱 5열 · max-w-7xl(1280) − 좌우 여백 64 − 칸 사이 4×18 = 1144 → 칸당 229 − 카드 안 여백 24 ≈ 205px.
+ * 1024~1279px 은 같은 식이 대략 15vw 라 넉넉히 18vw. 모바일 2열은 화면 절반보다 작다(50vw).
+ * 격자 열 수·여백을 바꾸면 이 값도 같이 고친다.
+ */
+const CARD_THUMB_SIZES = "(min-width: 1280px) 208px, (min-width: 1024px) 18vw, 50vw";
+/** 모달 대표 화면 — max-w-2xl(672) − 좌우 여백 48 = 624px, 모바일은 화면 폭 */
+const MODAL_THUMB_SIZES = "(min-width: 1024px) 624px, 100vw";
 
 /**
  * 카드·모달의 제작 기간 표기. 샘플은 그 기간에 만든 게 아니라 **「이런 사이트를 맡기면 걸리는 예상 기간」**이라
@@ -133,14 +153,24 @@ function periodLabel(project: GalleryProject, long = false): string {
  * 상세 모달의 대표 화면 — 사진을 먼저 깔고, 미리보기 영상(previewVideoUrl)이 있으면 **재생이 시작된 뒤에**
  * 그 위로 서서히 겹친다.
  *
- * 사진을 먼저 까는 이유: 방금 누른 카드와 같은 사진이라 이미 받아 둔 것이고, 영상이 늦거나 못 도는 경우
- * (아이폰 저전력 모드는 자동재생을 막는다·네트워크 오류)에도 빈 칸 대신 사진이 남는다.
+ * 사진을 먼저 까는 이유: 영상이 늦거나 못 도는 경우(아이폰 저전력 모드는 자동재생을 막는다·네트워크 오류)에도
+ * 빈 칸 대신 사진이 남는다. 사진은 카드와 같은 원본을 next/image 로 모달 폭(MODAL_THUMB_SIZES)에 맞춰 받는다 —
+ * 카드는 작은 크기를 받으므로 같은 파일을 재사용하지는 않는다(원본 2000px 을 받던 때보다 여전히 작다).
+ * unoptimized 는 부르는 쪽이 bypassImageOptimizer 로 정해 넘긴다(카드와 같은 판정).
  * 동작 줄이기 설정·데이터 절약 모드인 방문자에겐 영상을 아예 받지 않는다.
  *
  * 영상은 누르면 데모로 가는 링크 안에 있으므로 클릭을 가로채지 않게 pointer-events 를 끈다.
  * 모달은 카드를 눌러야 그려지므로(서버 렌더 없음) 초기값에서 window 를 바로 읽어도 된다.
  */
-function ModalPreviewMedia({ project, zoomOnHover }: { project: GalleryProject; zoomOnHover: boolean }) {
+function ModalPreviewMedia({
+  project,
+  zoomOnHover,
+  unoptimized,
+}: {
+  project: GalleryProject;
+  zoomOnHover: boolean;
+  unoptimized: boolean;
+}) {
   const [allowVideo] = useState(() => {
     if (typeof window === "undefined") return false;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -163,11 +193,16 @@ function ModalPreviewMedia({ project, zoomOnHover }: { project: GalleryProject; 
 
   return (
     <>
-      <img
+      <Image
         src={project.thumbnailUrl}
         alt={project.title}
+        fill
+        sizes={MODAL_THUMB_SIZES}
+        // 모달은 열리는 순간 화면 한가운데라 늦게 받을 이유가 없다(기본값 lazy 면 개발 서버가 LCP 경고를 낸다)
+        loading="eager"
+        unoptimized={unoptimized}
         onError={hideBrokenThumbnail}
-        className={`w-full h-full object-cover transition-transform duration-500 ${zoom}`}
+        className={`object-cover transition-transform duration-500 ${zoom}`}
       />
       {project.previewVideoUrl && allowVideo && (
         <video
@@ -191,6 +226,43 @@ function ModalPreviewMedia({ project, zoomOnHover }: { project: GalleryProject; 
     </>
   );
 }
+
+/** 모달 안에서 Tab 으로 도는 대상 — 링크·버튼·입력칸과 tabindex 를 준 것(-1 은 빼고) */
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+/**
+ * 미리보기 모달(aria-modal) 안에서 Tab·Shift+Tab 이 모달 밖(뒤에 깔린 홈 카드)으로 새지 않게 끝에서 처음으로 돌린다.
+ * 뒤 페이지는 반투명 막 아래라 보이지 않는 곳에 초점이 가면 키보드 사용자는 어디 있는지 잃는다(P1-16).
+ * panel 이 없으면(견적 위저드로 바뀐 동안) 아무것도 안 한다 — 위저드 쪽 초점은 위저드가 다룬다.
+ */
+function keepTabInside(e: KeyboardEvent, panel: HTMLElement | null) {
+  if (!panel) return;
+  const items = Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
+  const active = document.activeElement;
+  if (items.length === 0) {
+    e.preventDefault();
+    panel.focus();
+    return;
+  }
+  const first = items[0];
+  const last = items[items.length - 1];
+  if (!(active instanceof Node) || !panel.contains(active)) {
+    e.preventDefault();
+    first.focus();
+    return;
+  }
+  if (e.shiftKey && (active === first || active === panel)) {
+    e.preventDefault();
+    last.focus();
+  } else if (!e.shiftKey && active === last) {
+    e.preventDefault();
+    first.focus();
+  }
+}
+
+/** 모달 제목 id — 대화상자의 이름(aria-labelledby)으로 쓴다. 모달은 한 번에 하나라 고정 id 로 충분하다 */
+const PREVIEW_TITLE_ID = "home-preview-title";
 
 /** 카드 위에 이만큼 머물러야 영상을 받는다 — 마우스로 카드 줄을 쓸고 지나가기만 해도 5개를 받지 않게 */
 const HOVER_DWELL_MS = 200;
@@ -301,11 +373,20 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
   // 모달이 「이 레퍼런스로 제작 문의」로 그 자리에서 견적 위저드가 됐는가(구현계획서 P4)
   const [inquiryOpen, setInquiryOpen] = useState(false);
 
+  // ── 모달 초점(2026-09-19 오픈 점검 P1-16) ──
+  // 열 때 초점을 모달 안(대화상자 자체)으로 옮기고, 닫히면 열기 전 자리(누른 카드·바로가기 버튼)로 돌려준다.
+  // 닫히는 길이 셋(닫기 버튼·Esc·휴대폰 뒤로가기 → popstate)이라 닫는 함수마다 붙이지 않고
+  // selectedProject 가 null 이 되는 순간 한 곳(아래 useEffect)에서 돌려준다. 기록(history) 처리는 건드리지 않는다.
+  const returnFocusRef = useRef<HTMLElement | null>(null);
+  const previewPanelRef = useRef<HTMLDivElement>(null);
+
   // ── 모달과 뒤로가기(2026-09-19 가온) ──────────────────────────────────────────
   // 미리보기와 위저드가 각자 기록 한 칸을 갖는다. 그래서 휴대폰 뒤로가기가 사이트를 떠나지 않고
   // 위저드 → 미리보기 → 닫힘 순서로 물러난다. 위저드 안의 단계 기록(tmInq)은 위저드가 직접 다룬다.
   //   기록 모양: 미리보기 { tmHome: "preview" } · 위저드 첫 화면 { tmHome: "inquiry" } · 위저드 단계 { tmInq, tmIdx }
   const openPreview = (project: GalleryProject) => {
+    // 닫힐 때 돌아갈 자리 — 기록 처리보다 먼저, 상태를 바꾸기 전에 잡는다
+    returnFocusRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     setInquiryOpen(false);
     setSelectedProject(project);
     trackInquiry("preview_open", { entry: "home_modal", referralFrom: inquiryRefs[project.id]?.slug ?? null });
@@ -352,12 +433,34 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
     if (!selectedProject) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeModal();
+      else if (e.key === "Tab") keepTabInside(e, previewPanelRef.current);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
     // closeModal 은 기록만 읽는다 — 모달이 열린 동안 한 번만 건다
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProject]);
+  // 초점 옮기기·돌려주기(위 returnFocusRef 설명). 위저드 → 미리보기로 돌아와도(뒤로가기) 다시 모달 안으로 넣는다.
+  useEffect(() => {
+    if (selectedProject && !inquiryOpen) {
+      previewPanelRef.current?.focus({ preventScroll: true });
+      return;
+    }
+    if (!selectedProject) {
+      const el = returnFocusRef.current;
+      returnFocusRef.current = null;
+      // 그 사이 카드가 접혀(더보기 접기) 사라졌으면 돌려줄 곳이 없다 — 억지로 찾지 않는다
+      if (el && el.isConnected) el.focus({ preventScroll: true });
+    }
+  }, [selectedProject, inquiryOpen]);
+
+  /** 카드는 div 라(안에 제목·문단이 있어 <button> 에 담을 수 없다) role="button" 과 함께 Enter·Space 를 직접 받는다 */
+  const onCardKeyDown = (e: ReactKeyboardEvent<HTMLDivElement>, project: GalleryProject) => {
+    if (e.target !== e.currentTarget) return;
+    if (e.key !== "Enter" && e.key !== " ") return;
+    e.preventDefault(); // Space 가 페이지를 내리지 않게
+    if (!e.repeat) openPreview(project);
+  };
 
   const handleCategoryStep = (categoryId: GalleryCategoryId, totalCount: number) => {
     const defaultCount = isMobile ? 4 : 5;
@@ -456,6 +559,9 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
         return <GraduationCap className="w-4 h-4 text-sky-700" />;
     }
   };
+
+  // 모달 대표 화면도 카드와 같은 판정으로 최적화기를 건너뛸지 정한다(종류는 서버가 inquiryRefs 에 실어 준 값)
+  const previewUnoptimized = bypassImageOptimizer(selectedProject ? inquiryRefs[selectedProject.id]?.kind : undefined);
 
   return (
     <div className="relative min-h-screen bg-white text-zinc-900 selection:bg-zinc-900 selection:text-white [word-break:keep-all] font-sans">
@@ -704,26 +810,38 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                 {visibleProjects.map((project, index) => {
                   const isFifthHiddenOnMobile = isInitial && index === 4;
                   return (
+                    // 키보드로도 연다(P1-16): role="button"·tabIndex·Enter/Space(onCardKeyDown). 초점 테두리는 키보드일 때만
+                    // (focus-visible) 보이고, 마우스 올릴 때 뜨는 「상세보기」 막도 초점에서 같이 뜬다 — 마우스 모양은 그대로다.
+                    // 이름(aria-label)은 제목 + 성격 표시만 준다. 안의 글(분류·연도·요약·기간)을 다 읽히면 카드 하나가 한 문단이 된다.
                     <div
                       key={project.id}
                       id={`project-${project.id}`}
                       data-preview-card
+                      role="button"
+                      tabIndex={0}
+                      aria-haspopup="dialog"
+                      aria-label={`${project.title} 상세보기 (${workMarkLabel(project)})`}
                       onClick={() => openPreview(project)}
+                      onKeyDown={(e) => onCardKeyDown(e, project)}
                       className={`${
                         isFifthHiddenOnMobile ? "hidden lg:flex" : "flex"
-                      } group relative rounded-2xl bg-zinc-50 border border-zinc-200/90 hover:border-zinc-400 p-2.5 lg:p-3 flex-col justify-between transition-all duration-300 hover:shadow-lg cursor-pointer overflow-hidden scroll-mt-32`}
+                      } group relative rounded-2xl bg-zinc-50 border border-zinc-200/90 hover:border-zinc-400 p-2.5 lg:p-3 flex-col justify-between transition-all duration-300 hover:shadow-lg cursor-pointer overflow-hidden scroll-mt-32 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2`}
                     >
-                    {/* Thumbnail Image Container */}
+                    {/* Thumbnail Image Container — 원본 대신 칸 폭에 맞춘 크기를 받는다(CARD_THUMB_SIZES 설명) */}
                     <div className="aspect-[4/3] rounded-xl overflow-hidden bg-zinc-200 relative mb-3">
-                      <img
+                      <Image
                         src={project.thumbnailUrl}
                         alt={project.title}
-                        onError={hideBrokenThumbnail}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        fill
+                        sizes={CARD_THUMB_SIZES}
                         loading="lazy"
+                        // 제안 시안·모르는 것은 최적화기를 건너뛴다 — 내린 뒤에도 /_next/image 결과가 남기 때문(thumbnail-optimizer.ts)
+                        unoptimized={bypassImageOptimizer(inquiryRefs[project.id]?.kind)}
+                        onError={hideBrokenThumbnail}
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       {project.previewVideoUrl && <CardHoverVideo src={project.previewVideoUrl} />}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-between p-2">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity flex items-end justify-between p-2">
                         <span className="text-[10px] text-white font-medium bg-black/60 px-2 py-0.5 rounded backdrop-blur-sm">
                           상세보기
                         </span>
@@ -1018,10 +1136,15 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
           <SiteBusinessInfo />
         </div>
         <div className="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-4 shrink-0">
-          <Link href="/privacy" className="font-bold text-zinc-700 hover:text-zinc-900">
+          {/* 포트폴리오 목록으로 가는 길 — 09-19 점검까지 홈 어디에도 없었다(P1-13). 헤더 메뉴와 같은 주소 */}
+          <Link href="/portfolio" className="inline-flex items-center min-h-11 font-bold text-zinc-700 hover:text-zinc-900">
+            포트폴리오
+          </Link>
+          <Link href="/privacy" className="inline-flex items-center min-h-11 font-bold text-zinc-700 hover:text-zinc-900">
             개인정보 처리방침
           </Link>
-          <span>&copy; {new Date().getFullYear()} 주식회사 태문. All rights reserved.</span>
+          {/* 연도는 KST 로 — 브라우저 시간대로 읽으면 해가 바뀌는 밤에 해외·서버(UTC)와 달라 수화 불일치가 난다 */}
+          <span>&copy; {kstParts().year} 주식회사 태문. All rights reserved.</span>
         </div>
       </footer>
 
@@ -1053,7 +1176,17 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
       )}
       {selectedProject && !inquiryOpen && (
         <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 lg:p-6 animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] supports-[height:100dvh]:max-h-[90dvh] overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden shadow-2xl border border-zinc-200 flex flex-col justify-between text-left">
+          {/* 대화상자(P1-16): 화면 읽기 프로그램이 「대화상자, <작품 제목>」으로 읽고 뒤 페이지를 건너뛴다(aria-modal).
+              열리면 초점이 이 상자로 들어온다(tabIndex=-1 — Tab 순서에는 안 끼고 코드로만 초점을 받는다).
+              상자 자체의 초점 테두리는 그리지 않는다(outline-none) — 들어온 뒤 Tab 을 누르면 닫기 버튼부터 테두리가 보인다. */}
+          <div
+            ref={previewPanelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={PREVIEW_TITLE_ID}
+            tabIndex={-1}
+            className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] supports-[height:100dvh]:max-h-[90dvh] overflow-y-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden shadow-2xl border border-zinc-200 flex flex-col justify-between text-left outline-none"
+          >
             {/* Modal Header */}
             <div className="p-5 lg:p-6 border-b border-zinc-200 flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur-sm z-20">
               <div className="flex items-center gap-2">
@@ -1062,10 +1195,12 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                 </span>
                 <span className="text-xs text-zinc-400 font-mono">• {selectedProject.year}</span>
               </div>
+              {/* 보이는 원은 32px 그대로, 누르는 자리만 after 로 사방 6px 넓혀 44px 로 둔다 */}
               <button
+                type="button"
                 onClick={closeModal}
                 aria-label="닫기"
-                className="w-8 h-8 rounded-full bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center text-zinc-600 transition-colors"
+                className="relative w-8 h-8 rounded-full bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center text-zinc-600 transition-colors after:absolute after:-inset-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -1081,7 +1216,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                     className="block group aspect-[16/10] rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 relative cursor-pointer"
                     title="반응형 뷰어로 체험 (PC · 태블릿 · 모바일)"
                   >
-                    <ModalPreviewMedia key={selectedProject.id} project={selectedProject} zoomOnHover />
+                    <ModalPreviewMedia key={selectedProject.id} project={selectedProject} zoomOnHover unoptimized={previewUnoptimized} />
                     {selectedProject.badge && (
                       <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-white/95 text-xs font-bold text-zinc-900 shadow-md">
                         {selectedProject.badge}
@@ -1099,7 +1234,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                     className="block group aspect-[16/10] rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 relative cursor-pointer"
                     title="실제 운영 사이트 방문하기"
                   >
-                    <ModalPreviewMedia key={selectedProject.id} project={selectedProject} zoomOnHover />
+                    <ModalPreviewMedia key={selectedProject.id} project={selectedProject} zoomOnHover unoptimized={previewUnoptimized} />
                     {selectedProject.badge && (
                       <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-white/95 text-xs font-bold text-zinc-900 shadow-md">
                         {selectedProject.badge}
@@ -1110,7 +1245,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                   </a>
                 ) : (
                   <div className="aspect-[16/10] rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 relative">
-                    <ModalPreviewMedia key={selectedProject.id} project={selectedProject} zoomOnHover={false} />
+                    <ModalPreviewMedia key={selectedProject.id} project={selectedProject} zoomOnHover={false} unoptimized={previewUnoptimized} />
                     {selectedProject.badge && (
                       <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-white/95 text-xs font-bold text-zinc-900 shadow-md">
                         {selectedProject.badge}
@@ -1140,7 +1275,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                   <span className="font-mono text-zinc-400">제작 대상:</span>{" "}
                   <span>{selectedProject.client}</span>
                 </div>
-                <h3 className="text-xl lg:text-2xl font-bold text-zinc-950 break-keep [word-break:keep-all] [text-wrap:balance] leading-snug">
+                <h3 id={PREVIEW_TITLE_ID} className="text-xl lg:text-2xl font-bold text-zinc-950 break-keep [word-break:keep-all] [text-wrap:balance] leading-snug">
                   {selectedProject.title}
                 </h3>
                 <p className="text-xs lg:text-sm text-zinc-600 mt-2.5 font-normal leading-relaxed break-keep [word-break:keep-all] [text-wrap:pretty]">

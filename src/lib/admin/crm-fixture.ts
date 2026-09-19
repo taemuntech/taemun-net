@@ -36,6 +36,16 @@ import type { InquiryListResult, InquiryRow, InquiryStatus } from "./inquiries";
 import type { PurgeMode } from "./crm-input";
 import type { TodayRow } from "./today-core";
 import { canClaimDigest, parseDigestRecord, type DigestRecord } from "./digest-core";
+import {
+  acknowledgeIntakeAlerts,
+  acknowledgeSummary,
+  mergeIntakeAlert,
+  parseIntakeAlerts,
+  shouldSendCapNotice,
+  type IntakeAlertEvent,
+  type IntakeAlertMap,
+  type IntakeAlertSeen,
+} from "@/lib/inquiry/intake-core";
 import { kstYymmdd } from "@/lib/kst";
 
 const FIXTURE_ACK = "local-verification-only";
@@ -228,6 +238,18 @@ function seed(): FixtureState {
   ];
 
   const lastRun = iso(now - 5 * HOUR);
+
+  // 접수 이상 기록(2026-09-20) — 「오늘」 빨간 배너·설정 「접수 이상」·확인 버튼을 표 없이 재 보려고 세 종류를 다 싣는다.
+  // 문자 실패 2건·저장 실패 1건은 아직 확인 전(배너에 뜬다), 한도 초과는 어제 확인한 것(배너에 안 뜬다 — 확인한 칸이
+  // 다시 뜨지 않는지 보는 몫). 「확인했습니다」를 누르면 앞의 둘도 사라지고, 새 사건이 나면 count 1 로 다시 열린다.
+  const sampleNo = inquiries.find((i) => i.request_no)?.request_no ?? null;
+  let intake: IntakeAlertMap = {};
+  intake = mergeIntakeAlert(intake, { kind: "sms_fail", at: iso(now - 3 * HOUR), requestNo: sampleNo });
+  intake = mergeIntakeAlert(intake, { kind: "sms_fail", at: iso(now - 40 * 60_000), requestNo: sampleNo });
+  intake = mergeIntakeAlert(intake, { kind: "save_fail", at: iso(now - 2 * HOUR), requestNo: null });
+  intake = mergeIntakeAlert(intake, { kind: "over_cap", at: iso(now - 30 * HOUR), requestNo: sampleNo });
+  if (intake.over_cap) intake = { ...intake, over_cap: { ...intake.over_cap, acknowledgedAt: iso(now - 20 * HOUR) } };
+
   return {
     inquiries,
     statusLog,
@@ -251,6 +273,7 @@ function seed(): FixtureState {
       purge_cap: "50",
       purge_last_run: lastRun,
       purge_selftest: `ok ${iso(now - 2 * DAY)}`,
+      intake_alert: JSON.stringify(intake),
     },
     seq: { statusLog: logSeq, accessLog: 0, purgeLog: 1 },
   };
@@ -467,8 +490,36 @@ export function crmFixture() {
           purgeLastRun: m.purge_last_run ?? null,
           purgeSelftest: m.purge_selftest ?? null,
           digestLast,
+          intakeAlerts: parseIntakeAlerts(m.intake_alert ?? null),
+          intakeAlertReady: "intake_alert" in m,
         },
       };
+    },
+
+    /** crm-store.recordIntakeAlert 와 같은 합치기(intake-core.mergeIntakeAlert). 메모리라 값 비교 재시도는 필요 없다 */
+    async recordIntakeAlert(ev: IntakeAlertEvent): Promise<boolean> {
+      st.settings.intake_alert = JSON.stringify(mergeIntakeAlert(parseIntakeAlerts(st.settings.intake_alert ?? null), ev));
+      return true;
+    },
+
+    /** crm-store.recordOverCap 과 같은 판단 — 메모리라 한 번에 읽고 쓴다 */
+    async recordOverCap(ev: IntakeAlertEvent): Promise<"claimed" | "recorded" | "failed"> {
+      const cur = parseIntakeAlerts(st.settings.intake_alert ?? null);
+      const claimed = shouldSendCapNotice(cur.over_cap, ev.at);
+      st.settings.intake_alert = JSON.stringify(mergeIntakeAlert(cur, { ...ev, kind: "over_cap" }));
+      return claimed ? "claimed" : "recorded";
+    },
+
+    async acknowledgeIntakeAlert(
+      _actor: string,
+      seen: IntakeAlertSeen,
+    ): Promise<CrmResult<{ acknowledged: number; keptOpen: number }>> {
+      const cur = parseIntakeAlerts(st.settings.intake_alert ?? null);
+      const summary = acknowledgeSummary(cur, seen);
+      if (Object.keys(cur).length > 0) {
+        st.settings.intake_alert = JSON.stringify(acknowledgeIntakeAlerts(cur, new Date().toISOString(), seen));
+      }
+      return { ok: true, data: summary };
     },
 
     async setPurgeMode(mode: PurgeMode, _actor: string): Promise<CrmResult<{ from: string; to: string }>> {

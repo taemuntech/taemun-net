@@ -180,3 +180,30 @@ test("isDigestSendingFresh: 10분 안의 「보내는 중」만 true", () => {
   assert.equal(isDigestSendingFresh(done, NOW_MS), false);
   assert.equal(isDigestSendingFresh(null, NOW_MS), false);
 });
+
+// ── 접수 이상 줄(2026-09-20, 오픈 주간 P1-6) ──
+
+test("접수 이상: 확인 안 한 건수만 한 줄 — 다른 할 말이 없는 날에도 문자가 나간다", () => {
+  const b = buildToday([row({ status: "contracted" })], NOW);
+  const t = buildDigestText({ buckets: b, purgeMode: "dry_run", purgeStale: false, weeklyPurged: null, url: URL, intakeAlerts: 3 });
+  assert.equal(t, `[태문넷 오늘]\n접수 이상 3건\n${URL}`);
+  assertClean(t);
+});
+
+test("접수 이상: 0·없음·NaN 이면 줄이 없다(옛 호출 모양도 그대로)", () => {
+  const b = buildToday([row({ status: "contracted" })], NOW);
+  for (const intakeAlerts of [0, undefined, Number.NaN, -2]) {
+    assert.equal(
+      buildDigestText({ buckets: b, purgeMode: "dry_run", purgeStale: false, weeklyPurged: null, url: URL, intakeAlerts }),
+      null,
+    );
+  }
+});
+
+test("접수 이상 줄은 파기 안내보다 먼저", () => {
+  const b = buildToday([row({ status: "contracted" })], NOW);
+  const t = buildDigestText({ buckets: b, purgeMode: "dry_run", purgeStale: true, weeklyPurged: 2, url: URL, intakeAlerts: 1 });
+  const lines = t.split("\n");
+  assert.equal(lines[1], "접수 이상 1건");
+  assert.ok(lines.indexOf("파기 작업이 하루 넘게 돌지 않았습니다") > 1);
+});

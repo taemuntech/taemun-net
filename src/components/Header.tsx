@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import {
   ChevronDown,
@@ -43,6 +44,28 @@ import { BrandLockup } from "@/components/BrandMark";
  * 홈·/portfolio 카드는 src/content/portfolio/taemun-bridge.json 의 "paused" 칸이 따로 가른다 — 다시 열 때 그 칸도 지운다.
  */
 const SHOW_TAEMUN_BRIDGE: boolean = false;
+
+/**
+ * 홈 구획으로 가는 메뉴 — **앞에 「/」 를 붙인 절대 주소**로 둔다.
+ *
+ * 왜(2026-09-19 오픈 점검 P1-13): 이 헤더는 홈과 /portfolio 두 곳에서 그려진다. 예전엔 `#gallery` 처럼 해시만 적어서
+ * /portfolio 에서 누르면 /portfolio#gallery 가 되어 **아무 일도 안 일어났다**(그 페이지엔 그 구획이 없다).
+ * `/#gallery` 면 다른 페이지에서는 홈으로 가서 그 구획으로 내려간다(HomeView 가 첫 렌더 뒤 해시를 읽어 스크롤한다).
+ * **홈에서는 그리는 순간 앞의 「/」 를 떼어 `#gallery` 로 둔다**(sectionHref). 해시만 다른 주소여야 새로 불러오지 않고 스크롤만
+ * 하는데, `/?utm_source=kakao` 처럼 쿼리가 붙은 홈에서 `/#gallery` 는 쿼리가 달라 **문서를 통째로 다시 불러왔다**
+ * (서버 렌더·DB 읽기·쿼리 소실·펼친 분류 초기화). 해시만 적힌 주소는 쿼리를 그대로 두므로 어떤 쿼리에서도 스크롤만 한다.
+ * next/link 가 아니라 <a> 로 두는 이유: Link 는 해시 이동을 pushState 로 해서 hashchange 가 안 난다 —
+ * 홈의 「#project-… 이면 분류를 펼친다」 처리가 그 이벤트에 걸려 있다.
+ * 데스크톱 메뉴와 모바일 메뉴가 이 한 표를 같이 돈다(라벨만 다르다).
+ */
+const SECTION_LINKS: readonly { href: string; label: string; mobileLabel: string }[] = [
+  { href: "/#gallery", label: "갤러리 아카이브", mobileLabel: "갤러리 아카이브" },
+  { href: "/#capabilities", label: "전문 영역", mobileLabel: "전문 영역 (Capabilities)" },
+  { href: "/#process", label: "개발 프로세스", mobileLabel: "개발 프로세스 (Process)" },
+];
+
+/** 업종별로 골라 보는 목록 화면. 09-19 점검 때까지 홈 어디에도 이 주소로 가는 링크가 없었다(P1-13) */
+const PORTFOLIO_HREF = "/portfolio";
 
 /**
  * 색 이름 → Tailwind 클래스.
@@ -192,6 +215,11 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [portfolioDropdownOpen, setPortfolioDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  // 지금 /portfolio 면 그 메뉴에 「현재 페이지」 표시(aria-current)를 붙인다
+  const pathname = usePathname();
+  const onPortfolio = pathname === PORTFOLIO_HREF;
+  /** 홈이면 해시만(쿼리 유지·스크롤만), 다른 페이지면 `/#…`(홈으로 이동) — SECTION_LINKS 주석 */
+  const sectionHref = (href: string) => (pathname === "/" ? href.slice(1) : href);
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -228,17 +256,20 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
 
         {/* Desktop Navigation (lg:flex) */}
         <nav className="hidden lg:flex items-center gap-7 text-xs font-semibold tracking-wider text-zinc-600">
-          <a href="#gallery" className="hover:text-zinc-950 transition-colors py-1">
-            갤러리 아카이브
-          </a>
+          {/* 누르는 자리는 44px(min-h-11) — 글자 크기·간격은 그대로이고 위아래 여백만 넓어진다(헤더가 h-20 이라 보이는 차이 없음) */}
+          {SECTION_LINKS.map((link) => (
+            <a key={link.href} href={sectionHref(link.href)} className="inline-flex items-center min-h-11 hover:text-zinc-950 transition-colors py-1">
+              {link.label}
+            </a>
+          ))}
 
-          <a href="#capabilities" className="hover:text-zinc-950 transition-colors py-1">
-            전문 영역
-          </a>
-
-          <a href="#process" className="hover:text-zinc-950 transition-colors py-1">
-            개발 프로세스
-          </a>
+          <Link
+            href={PORTFOLIO_HREF}
+            aria-current={onPortfolio ? "page" : undefined}
+            className={`inline-flex items-center min-h-11 hover:text-zinc-950 transition-colors py-1 ${onPortfolio ? "text-zinc-950" : ""}`}
+          >
+            포트폴리오
+          </Link>
 
           {/* Unified Portfolio & Solutions Dropdown */}
           {/* 내부 데모가 0개여도 아래 자사 서비스(T-DOCS) 줄은 항상 남는다(태문브릿지는 잠정 중단 — SHOW_TAEMUN_BRIDGE) —
@@ -362,27 +393,25 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
 
             {/* Primary Nav Links */}
             <div className="space-y-3 pb-6 border-b border-zinc-200">
-              <a
-                href="#gallery"
+              {/* 모바일은 손가락으로 누르므로 한 줄을 44px(min-h-11) 로 둔다 — 예전 py-1 은 36px 남짓이었다 */}
+              {SECTION_LINKS.map((link) => (
+                <a
+                  key={link.href}
+                  href={sectionHref(link.href)}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center min-h-11 text-lg font-bold text-zinc-900 hover:text-amber-700 transition-colors py-1"
+                >
+                  {link.mobileLabel}
+                </a>
+              ))}
+              <Link
+                href={PORTFOLIO_HREF}
+                aria-current={onPortfolio ? "page" : undefined}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-lg font-bold text-zinc-900 hover:text-amber-700 transition-colors py-1"
+                className="flex items-center min-h-11 text-lg font-bold text-zinc-900 hover:text-amber-700 transition-colors py-1"
               >
-                갤러리 아카이브
-              </a>
-              <a
-                href="#capabilities"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-lg font-bold text-zinc-900 hover:text-amber-700 transition-colors py-1"
-              >
-                전문 영역 (Capabilities)
-              </a>
-              <a
-                href="#process"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-lg font-bold text-zinc-900 hover:text-amber-700 transition-colors py-1"
-              >
-                개발 프로세스 (Process)
-              </a>
+                포트폴리오 (Portfolio)
+              </Link>
             </div>
 
             {/* Operating Solutions Section */}

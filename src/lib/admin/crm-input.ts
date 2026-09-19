@@ -8,6 +8,8 @@
 // supabase-js 를 import 하는 서버 모듈이라 여기서 끌어오면 순수성이 깨진다. 데이터베이스 체크 제약
 // (inquiries_status_chk)이 최종 정본이라 둘이 어긋나면 저장이 22023/23514 로 시끄럽게 실패한다.
 
+import type { IntakeAlertKind, IntakeAlertSeen } from "../inquiry/intake-core";
+
 export const INQUIRY_STATUS_VALUES = ["pending", "contacted", "quoted", "contracted", "closed"] as const;
 export type InquiryStatus = (typeof INQUIRY_STATUS_VALUES)[number];
 
@@ -151,12 +153,54 @@ export function isPurgeMode(v: unknown): v is PurgeMode {
   return v === "dry_run" || v === "live";
 }
 
-export type SettingsInput = { ok: true; key: "purge_mode"; value: PurgeMode };
+/**
+ * 「확인했습니다」 때 화면이 그려 놓았던 칸 — intake-core.IntakeAlertSeen 과 같은 모양.
+ * 종류 목록을 여기 한 번 더 적는다: intake-core 를 런타임 import 하면 node --test 가 경로 별칭(@/)을 못 풀어
+ * 이 파일의 순수성이 깨진다. 어긋나면 satisfies 가 typecheck 에서, 시험(inquiry-intake-core)이 값에서 잡는다.
+ */
+export const INTAKE_ALERT_KIND_VALUES = ["sms_fail", "save_fail", "over_cap"] as const satisfies readonly IntakeAlertKind[];
+export type IntakeSeenInput = IntakeAlertSeen;
 
-/** POST /api/admin/settings { key: "purge_mode", value: "dry_run" | "live" } — 지금 바꿀 수 있는 설정은 이것 하나 */
+const ISO_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z$/;
+
+function parseIntakeSeen(raw: unknown): IntakeSeenInput | null {
+  const o = asObject(raw);
+  if (!o) return null;
+  const out: IntakeSeenInput = {};
+  for (const [k, v] of Object.entries(o)) {
+    const kind = INTAKE_ALERT_KIND_VALUES.find((x) => x === k);
+    if (!kind) return null;
+    const one = asObject(v);
+    if (!one) return null;
+    const { lastAt, count } = one;
+    if (typeof lastAt !== "string" || !ISO_RE.test(lastAt) || !Number.isFinite(Date.parse(lastAt))) return null;
+    if (typeof count !== "number" || !Number.isInteger(count) || count < 1) return null;
+    out[kind] = { lastAt, count };
+  }
+  return out;
+}
+
+export type SettingsInput =
+  | { ok: true; key: "purge_mode"; value: PurgeMode }
+  | { ok: true; key: "intake_alert"; action: "ack"; seen: IntakeSeenInput };
+
+/**
+ * POST /api/admin/settings
+ * - { key: "purge_mode", value: "dry_run" | "live" } — 개인정보 자동 파기 스위치
+ * - { key: "intake_alert", action: "ack", seen: { [종류]: { lastAt, count } } } — 접수 이상을 「확인했습니다」 (2026-09-20)
+ *   seen 은 화면이 **그려 놓았던** 칸마다의 건수·마지막 시각이다. 서버는 그보다 늘어난 칸은 확인하지 않고 열어 둔다 —
+ *   화면을 열어 둔 사이에 새로 난 저장 실패가 형이 못 본 채 꺼지지 않게. 확인 시각은 여전히 서버가 찍는다.
+ *   seen 을 부풀려 보내도 「전부 확인」(예전 동작)보다 넓어지지 않는다.
+ */
 export function parseSettingsBody(body: unknown): SettingsInput | Fail {
   const b = asObject(body);
   if (!b) return { ok: false, error: "요청 형식이 올바르지 않습니다." };
+  if (b.key === "intake_alert") {
+    if (b.action !== "ack") return { ok: false, error: "action 은 ack 여야 합니다." };
+    const seen = parseIntakeSeen(b.seen);
+    if (!seen) return { ok: false, error: "seen 이 올바르지 않습니다. 화면을 새로 고친 뒤 다시 눌러 주세요." };
+    return { ok: true, key: "intake_alert", action: "ack", seen };
+  }
   if (b.key !== "purge_mode") return { ok: false, error: "바꿀 수 없는 설정입니다." };
   if (!isPurgeMode(b.value)) return { ok: false, error: "value 는 dry_run 또는 live 여야 합니다." };
   return { ok: true, key: "purge_mode", value: b.value };

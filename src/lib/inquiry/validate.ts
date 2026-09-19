@@ -83,6 +83,21 @@ function text(value: unknown): string {
 }
 
 /**
+ * 제어 문자(탭·줄바꿈 말고)와 짝 없는 서로게이트 — 사람이 입력 칸에 칠 수 없는 글자다.
+ * 왜 막나(2026-09-20 오픈 점검 후속): U+0000 은 Postgres TEXT 가 거절하고(22P05) 짝 없는 서로게이트도 인코딩에서 깨진다.
+ * 전에는 이것이 「저장 실패」로 떨어져 형에게 **보낸 사람이 쓴 글이 담긴** LMS 가 나갔고, 저장이 안 되니 번호·시간 한도에도
+ * 안 잡혀 요청마다 한 통씩 무한히 보낼 수 있었다. 저장 전에 400 으로 돌려보내면 그 길이 처음부터 없다.
+ * \t·\n·\r 은 상세 내용 칸의 여러 줄 입력이라 허용한다(한 줄 칸은 trim 과 길이 검사로 충분하다).
+ */
+const CONTROL_RE = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/;
+const LONE_SURROGATE_RE = /\p{Cs}/u;
+const BAD_CHAR_ERROR = "입력값에 사용할 수 없는 문자가 있습니다. 내용을 다시 입력해 주세요.";
+
+function hasBadChars(value: string): boolean {
+  return CONTROL_RE.test(value) || LONE_SURROGATE_RE.test(value);
+}
+
+/**
  * 국내 전화번호를 하이픈 넣은 모양으로 정리한다. 번호가 아니면 null.
  * 010-1234-5678 · 02-123-4567 · 031-123-4567 · 0505-123-4567 처럼 0 으로 시작하는 9~12자리.
  */
@@ -149,6 +164,10 @@ export function validateInquiryBody(raw: unknown): InquiryValidation {
   const timeline = text(body.timeline);
   if (budget.length > INQUIRY_LIMITS.choice || timeline.length > INQUIRY_LIMITS.choice) {
     return fail("예산·일정 선택 값이 올바르지 않습니다.");
+  }
+
+  if ([clientName, email, referenceUrl, details, budget, timeline, ...services].some(hasBadChars)) {
+    return fail(BAD_CHAR_ERROR);
   }
 
   const quick = path === "quick";

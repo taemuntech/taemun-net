@@ -1,6 +1,7 @@
 // 「오늘」 화면 본체 — 서버 컴포넌트(누를 것이 링크뿐이라 브라우저 상태가 필요 없다). 2026-09-19 가온, P1b.
 //
-// 읽는 순서 = 급한 순서: 지남(빨강) → 오늘 → 3일 안 → 14일 안 → 새 문의 → 멈춘 딜 → 파기 요약.
+// 읽는 순서 = 급한 순서: 접수 이상(빨강) → 지남(빨강) → 오늘 → 3일 안 → 14일 안 → 새 문의 → 멈춘 딜 → 파기 요약.
+// 접수 이상이 맨 위인 이유(2026-09-20): 「문의를 잃었을 수 있다」는 경보라, 이미 받은 문의의 할 일보다 급하다.
 // 빈 칸은 통째로 숨긴다(「0건」 칸이 여섯 개 늘어서면 정작 있는 것이 안 보인다).
 // 한 줄 = 문의 한 건 링크. 접수번호로 문의 화면을 열고, 접수번호가 없는 옛 행은 id 로 연다.
 //
@@ -30,6 +31,11 @@ export type TodayViewProps = {
   purgeError: string | null;
   /** 파기 작업이 하루(26시간) 넘게 돌지 않았다 */
   purgeStale: boolean;
+  /**
+   * 확인 안 한 접수 이상 한 줄씩(알림 문자 실패·저장 실패·1시간 한도 초과) — intake-core.intakeAlertLabel 로 서버가 만든 글자.
+   * 비어 있으면 배너를 그리지 않는다. 확인은 설정 화면 「접수 이상」에서 한다.
+   */
+  intakeAlerts: string[];
   /**
    * 기기 확인이 안 된 로그인이라 제목에서 다음 할 일 글자를 뺐다(서비스 이름만).
    * 그 사실과 「다시 로그인하면 보입니다」를 한 줄로 알린다.
@@ -127,7 +133,16 @@ function purgeModeNote(purge: TodayPurgeSummary | null): string {
   return "지금은 시험 모드라 대상만 기록하고 지우지 않습니다. 설정 화면에서 실행 모드로 바꾸면 매일 밤 지웁니다.";
 }
 
-export function TodayView({ todayKst, buckets, error, purge, purgeError, purgeStale, nextActionHidden }: TodayViewProps) {
+export function TodayView({
+  todayKst,
+  buckets,
+  error,
+  purge,
+  purgeError,
+  purgeStale,
+  intakeAlerts,
+  nextActionHidden,
+}: TodayViewProps) {
   const lists = buckets
     ? [buckets.overdue, buckets.today, buckets.within3, buckets.within14, buckets.newInquiries, buckets.stalled]
     : [];
@@ -147,6 +162,27 @@ export function TodayView({ todayKst, buckets, error, purge, purgeError, purgeSt
         {error ? (
           <Banner tone="danger" icon={<AlertTriangle className="h-4 w-4" aria-hidden="true" />}>
             {error}
+          </Banner>
+        ) : null}
+
+        {intakeAlerts.length > 0 ? (
+          <Banner tone="danger" icon={<AlertTriangle className="h-4 w-4" aria-hidden="true" />}>
+            <strong className="font-semibold">접수에 문제가 있었습니다. 확인해 주세요.</strong>
+            <ul className="mt-1 space-y-0.5">
+              {intakeAlerts.map((line) => (
+                <li key={line} className="break-words">
+                  {line}
+                </li>
+              ))}
+            </ul>
+            {intakeAlerts.some((line) => line.startsWith("저장 실패")) ? (
+              <span className="mt-1 block text-red-200/90">
+                저장 실패 건은 알림 문자에만 남아 있습니다. 문자를 보고 고객에게 연락해 주세요.
+              </span>
+            ) : null}
+            <Link href="/admin/settings#intake" className="mt-1 inline-flex min-h-11 items-center font-semibold underline underline-offset-2">
+              설정에서 확인하기
+            </Link>
           </Banner>
         ) : null}
 

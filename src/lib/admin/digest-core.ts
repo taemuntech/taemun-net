@@ -18,6 +18,12 @@ export type DigestInput = {
   weeklyPurged: number | null;
   /** 마지막 줄에 붙는 주소 (taemun.net/admin/today) */
   url: string;
+  /**
+   * 확인 안 한 접수 이상(알림 문자 실패·저장 실패·1시간 한도 초과) 건수 합 — intake-core.openIntakeAlertCount.
+   * 선택 값인 이유: 아침 문자 route(cron/digest)가 아직 넘기지 않아도 지금처럼 돈다. 넘기기 시작하면 한 줄이 붙는다.
+   * 🔒 건수만. 어떤 문의였는지(접수번호)도 싣지 않는다 — 그건 로그인해야 열리는 설정 화면에서 본다.
+   */
+  intakeAlerts?: number;
 };
 
 const HEAD = "[태문넷 오늘]";
@@ -39,6 +45,10 @@ export function buildDigestText(input: DigestInput): string | null {
   }
   if (purgeStale) extra.push("파기 작업이 하루 넘게 돌지 않았습니다");
   if (weeklyPurged !== null && weeklyPurged > 0) extra.push(`지난 7일 파기 ${weeklyPurged}건`);
+  // 접수 이상은 맨 앞에 — 문의를 잃었을 수 있다는 줄이라 파기 안내보다 급하다. 이 줄만 있어도 문자는 나간다
+  // (다른 할 말이 없는 날 조용히 넘어가면 형은 저장 실패를 모른 채 하루를 보낸다).
+  const intake = input.intakeAlerts ?? 0;
+  if (Number.isFinite(intake) && intake > 0) extra.unshift(`접수 이상 ${Math.floor(intake)}건`);
 
   if (parts.length === 0 && extra.length === 0) return null;
 

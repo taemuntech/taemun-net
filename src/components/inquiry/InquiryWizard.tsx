@@ -175,6 +175,11 @@ export function InquiryWizard({
   }
 
   function go(next: Step, mode: "push" | "replace" = "push") {
+    // 오류 문구는 단계 블록 밖(모든 단계 공용 자리)에 그려진다. 여기서 지우지 않으면 1단계 「작업을 골라 주세요」가
+    // 「연락처만 남기기」로 건너뛴 4단계 [이대로 접수하기] 위에, 4단계 「성함·번호」 오류가 요청서 [수정]으로 돌아간
+    // 1~3단계에 그대로 남는다. 단계가 바뀌는 길은 전부 여기(와 뒤로가기의 onPop)를 지나므로 한 곳에서 지운다.
+    // 접수 실패 오류는 go 를 부르지 않고 4단계에 머무르므로 이 줄에 지워지지 않는다.
+    setError("");
     stepRef.current = next;
     setStep(next);
     writeHistory(next, mode);
@@ -219,6 +224,9 @@ export function InquiryWizard({
         return;
       }
       setEditing(false);
+      // 브라우저 뒤로·앞으로는 go() 를 거치지 않고 단계만 바꾼다 — 앞 단계 오류가 따라오지 않게 여기서도 지운다.
+      // (접수 뒤 분기는 위에서 이미 빠졌다: 완료 화면은 오류 문구를 그리지 않는다)
+      setError("");
       const urlStep = Number(new URL(window.location.href).searchParams.get("step"));
       const fromUrl: InputStep = urlStep >= 1 && urlStep <= 4 ? (urlStep as InputStep) : 1;
       const target: Step = s?.tmInq && s.tmStep && s.tmStep !== "done" ? s.tmStep : fromUrl;
@@ -767,7 +775,7 @@ export function InquiryWizard({
                     value={contact.name}
                     onChange={(e) => setField("name")(e.target.value)}
                     onBlur={commitContact}
-                    className="w-full rounded-xl border border-zinc-300 px-3.5 py-3 text-sm focus:border-zinc-900 focus:outline-none"
+                    className="w-full rounded-xl border border-zinc-300 px-3.5 py-3 text-base lg:text-sm focus:border-zinc-900 focus:outline-none"
                   />
                 </div>
                 <div>
@@ -785,7 +793,7 @@ export function InquiryWizard({
                     value={contact.phone}
                     onChange={(e) => setField("phone")(e.target.value)}
                     onBlur={commitContact}
-                    className="w-full rounded-xl border border-zinc-300 px-3.5 py-3 text-sm focus:border-zinc-900 focus:outline-none"
+                    className="w-full rounded-xl border border-zinc-300 px-3.5 py-3 text-base lg:text-sm focus:border-zinc-900 focus:outline-none"
                   />
                   <p className="mt-1 text-[11px] text-zinc-500">상담 연락용입니다. 광고 문자는 보내지 않습니다.</p>
                 </div>
@@ -829,7 +837,7 @@ export function InquiryWizard({
                     value={contact.email}
                     onChange={(e) => setField("email")(e.target.value)}
                     onBlur={commitContact}
-                    className="w-full rounded-xl border border-zinc-300 px-3.5 py-3 text-sm focus:border-zinc-900 focus:outline-none"
+                    className="w-full rounded-xl border border-zinc-300 px-3.5 py-3 text-base lg:text-sm focus:border-zinc-900 focus:outline-none"
                   />
                 </div>
                 <div>
@@ -846,7 +854,7 @@ export function InquiryWizard({
                     value={contact.referenceUrl}
                     onChange={(e) => setField("referenceUrl")(e.target.value)}
                     onBlur={commitContact}
-                    className="w-full rounded-xl border border-zinc-300 px-3.5 py-3 text-sm focus:border-zinc-900 focus:outline-none"
+                    className="w-full rounded-xl border border-zinc-300 px-3.5 py-3 text-base lg:text-sm focus:border-zinc-900 focus:outline-none"
                   />
                 </div>
               </div>
@@ -863,7 +871,7 @@ export function InquiryWizard({
                   value={contact.details}
                   onChange={(e) => setField("details")(e.target.value)}
                   onBlur={commitContact}
-                  className="w-full resize-none rounded-xl border border-zinc-300 px-3.5 py-3 text-sm focus:border-zinc-900 focus:outline-none"
+                  className="w-full resize-none rounded-xl border border-zinc-300 px-3.5 py-3 text-base lg:text-sm focus:border-zinc-900 focus:outline-none"
                 />
               </div>
 

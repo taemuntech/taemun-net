@@ -4,7 +4,12 @@ out
 build
 .DS_Store
 *.pem
-.env*.local
+# 환경 변수 파일은 전부 저장소 밖에 둔다. 예전엔 .env*.local 만 막혀 있어서 .env·.env.production 은
+# 실수로 git add 하면 그대로 올라갔다 — 이 저장소는 공개라 올라가는 순간 키가 노출된다.
+# 견본(.env.example)만은 값 없이 어떤 변수가 필요한지 알려 주는 용도라 예외로 둔다(지금은 파일 없음).
+.env
+.env.*
+!.env.example
 
 tsconfig.tsbuildinfo
 

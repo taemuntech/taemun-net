@@ -28,6 +28,7 @@ import {
 } from "@/lib/admin/crm-store";
 import { buildDigestText, isMondayKst, purgeIsStale } from "@/lib/admin/digest-core";
 import { isNonProductionDeployment } from "@/lib/admin/env";
+import { openIntakeAlertCount } from "@/lib/inquiry/intake-core";
 import { adminReceiverPhone } from "@/lib/admin/notify";
 import { buildToday, kstDate } from "@/lib/admin/today-core";
 
@@ -98,6 +99,9 @@ export async function GET(req: Request) {
     purgeMode: settings.data.purgeMode,
     purgeStale: purgeIsStale(settings.data.purgeLastRun, settings.data.purgeSelftest, now),
     weeklyPurged,
+    // 확인 안 한 접수 이상(저장 실패·알림 문자 실패·1시간 한도 초과) 건수 — 0 이면 줄이 안 붙는다.
+    // 형이 설정 화면에서 「확인했습니다」를 누르기 전까지 매일 아침 이 줄이 남는다(문의를 잃었을 수 있다는 신호라서).
+    intakeAlerts: openIntakeAlertCount(settings.data.intakeAlerts),
     url: DIGEST_URL,
   });
 
