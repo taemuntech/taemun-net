@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
 
-// 루트 레이아웃이 (site)·(demos) 두 개라 매칭 안 되는 주소의 404 는 이 파일이 처리한다.
+// 루트 레이아웃이 (site)·(demos)·(admin) 세 개라 매칭 안 되는 주소의 404 는 이 파일이 처리한다.
 // 레이아웃을 거치지 않으므로 html/body·전역 CSS·다크 톤을 여기서 직접 건다.
 export const metadata: Metadata = {
   title: "페이지를 찾을 수 없습니다",

@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   experimental: {
-    // 루트 레이아웃이 (site)·(demos) 두 개 — 매칭 안 되는 주소의 404 는 app/global-not-found.tsx 가 맡는다.
+    // 루트 레이아웃이 (site)·(demos)·(admin) 세 개 — 매칭 안 되는 주소의 404 는 app/global-not-found.tsx 가 맡는다.
     globalNotFound: true,
   },
   // 문의 API 가 유입 slug 의 종류·업종을 레지스트리(src/content/portfolio/*.json, fs 로 읽음)에서 다시 찾는다 —
@@ -18,6 +18,24 @@ const nextConfig: NextConfig = {
     // public/ 과 달리 자동으로 배포되지 않으므로 이 라우트 번들에 직접 넣어야 한다.
     // 빠뜨리면 로컬은 멀쩡하고 운영에서만 그 썸네일이 전부 404 가 된다.
     "/api/asset/[...path]": ["./private-assets/**", "./src/content/portfolio/*.json"],
+  },
+  // 관리자 화면·API 의 보안 머리글(관리자 개편 P1a). 고객 이름·연락처가 뜨는 화면이라
+  // - 다른 사이트가 iframe 으로 띄워 누르게 하지 못하게(X-Frame-Options + CSP frame-ancestors, 옛 브라우저까지 두 겹)
+  // - 관리자 주소(쪽 번호·상태 거르기)가 바깥 링크로 새지 않게(Referrer-Policy)
+  // - 검색엔진에 올라가지 않게(robots.ts Disallow·metadata noindex 와 세 겹)
+  // Cache-Control 은 여기서 걸지 않는다 — 관리자 페이지는 전부 force-dynamic 이라 Next 가 이미 no-store 로 내보내고,
+  // next.config 의 Cache-Control 은 운영 빌드에서 페이지 응답에 덮어써지지 않는다.
+  async headers() {
+    const adminHeaders = [
+      { key: "X-Frame-Options", value: "DENY" },
+      { key: "Content-Security-Policy", value: "frame-ancestors 'none'" },
+      { key: "Referrer-Policy", value: "no-referrer" },
+      { key: "X-Robots-Tag", value: "noindex, nofollow" },
+    ];
+    return [
+      { source: "/admin/:path*", headers: adminHeaders },
+      { source: "/api/admin/:path*", headers: adminHeaders },
+    ];
   },
 };
 
