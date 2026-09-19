@@ -117,6 +117,15 @@ export const HEADER_DEMO_LINKS: readonly HeaderDemoLink[] = [
     iconKey: "boxes",
   },
   {
+    slug: "aerospect-dynamics",
+    label: "에어로스펙트",
+    badge: "NEW",
+    description: "산업용 자율비행 드론 & AI 진단",
+    mobileDescription: "자율비행 드론 & AI 인프라 진단",
+    tone: "teal",
+    iconKey: "cpu",
+  },
+  {
     slug: "stella-orbital",
     label: "스텔라 궤도 데이터",
     badge: "NEW",
