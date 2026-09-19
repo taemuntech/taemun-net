@@ -69,7 +69,7 @@ export const ConsultationForm: React.FC = () => {
                     경기 양평 치목 공방 및 목재 야적장
                   </div>
                   <p className="text-xs lg:text-sm text-[#474741] mt-0.5 font-light">
-                    경기도 양평군 서종면 문호리 348-12 (자연 건조목 상시 관람 가능)
+                    경기도 양평군 (예시 주소)
                   </p>
                 </div>
               </div>
@@ -81,7 +81,7 @@ export const ConsultationForm: React.FC = () => {
                     직통 건축 상담실
                   </div>
                   <p className="text-xs lg:text-sm text-[#474741] mt-0.5 font-mono">
-                    02-741-8930 / 010-4829-1829 (연중무휴 현장 답사 접수)
+                    02-0000-0000 / 010-0000-0000 (예시 번호)
                   </p>
                 </div>
               </div>
@@ -94,7 +94,7 @@ export const ConsultationForm: React.FC = () => {
                 <span className="font-medium tracking-wide">정부 한옥 건축 지원금 안내</span>
               </div>
               <p className="text-xs text-[#474741] leading-relaxed font-light">
-                지자체별 한옥 건축 보조금(최대 1억 원 무상 지원 및 저리 융자) 신청 서류 작성 및 인허가 절차를 무료로 대행 지원해 드립니다.
+                지자체별 한옥 건축 지원 제도와 인허가 절차를 안내하는 영역입니다. (예시 문구)
               </p>
             </div>
           </div>

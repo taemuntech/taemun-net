@@ -1,17 +1,16 @@
 import type { Metadata } from 'next';
+import { sampleMetadata } from '@/components/demo-kit/sample-metadata';
 import { demoMetadata } from '@/lib/portfolio/demo-metadata';
 import TerraCorePageClient from './TerraCorePageClient';
 
-const DEMO_METADATA: Metadata = {
-  title: '테라코어 (TERRA-CORE) | 대심도 지중 토목 & TBM 관제 — 태문넷',
+// 제목 뒤 「— 태문넷」 은 (demos) 레이아웃 템플릿이 붙인다 — 여기서 또 적지 않는다.
+// 가상 브랜드 샘플이라 「실물·라이브 데모」 라고 쓰지 않는다(화면의 완공작·수치는 모두 예시다).
+const DEMO_METADATA: Metadata = sampleMetadata({
+  slug: 'terra-core',
+  title: '테라코어 (TERRA-CORE) — 대심도 터널 토목 기업 홈페이지',
   description:
-    '지상 0m부터 지하 80m 암반까지 파고드는 수직 지층 스크롤 탐사 & 14.2m 초대구경 쉴드 TBM 관제 콘솔. 4대 지층 특화 단면 핫스팟 투어 및 대심도 토목 신소재 아카이브 실물 라이브 데모.',
-  openGraph: {
-    title: '테라코어 | 대심도 지중 토목 & 쉴드 TBM 관제 실물 데모',
-    description: '태문넷 메가 토목 인프라 & TBM 터널링 특화 포트폴리오 라이브 데모',
-    type: 'website',
-  },
-};
+    '태문넷이 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며 상담 신청은 접수되지 않습니다. 지층을 따라 내려가는 스크롤 탐사 화면, TBM 관제 콘솔(예시), 지층별 단면 투어와 신소재 아카이브를 담았습니다.',
+});
 
 export function generateMetadata(): Promise<Metadata> {
   return demoMetadata(DEMO_METADATA);

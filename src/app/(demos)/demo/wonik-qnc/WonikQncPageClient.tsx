@@ -16,8 +16,8 @@ export default function WonikQncPageClient({ isEmbed }: Props) {
     <DevicePreviewFrame
       src="/demo/wonik-qnc?embed=true"
       title="원익큐앤씨 (WONIK QnC)"
-      category="반도체 쿼츠웨어 · 정밀 세라믹 · 첨단 세정 · 글로벌 No.1"
-      client="코스닥 상장사 (KOSDAQ: 074600) 공식 프로토타입"
+      category="반도체 쿼츠웨어 · 정밀 세라믹 · 첨단 세정"
+      client="원익큐앤씨 (제안 시안 · 의뢰받지 않음)"
       techStack={[
         "Next.js 16",
         "React 19",
@@ -26,10 +26,10 @@ export default function WonikQncPageClient({ isEmbed }: Props) {
       ]}
       inquiryUrl="/inquiry?from=wonik-qnc"
       specs={[
-        { label: "글로벌 쿼츠웨어 점유율 1위", value: "300mm 웨이퍼 식각·확산 공정 핵심 쿼츠웨어 글로벌 No.1 공급사" },
-        { label: "4대 핵심 사업부 쇼케이스", value: "쿼츠(Quartz), 세라믹(Ceramics), 정밀 세정·코팅(Cleaning), 옵틱(Optics)" },
-        { label: "KOSDAQ 실시간 주가 & IR 허브", value: "실시간 주가 지표 연동 및 전자공시·배당·경영실적 리포트 제공" },
-        { label: "글로벌 비즈니스 포털", value: "SRM 협력제안 접수, 공장 견학 예약, 다국어 브로슈어 및 4개국어(KR/EN/CN/JP) 지원" },
+        { label: "제품 소개 영역", value: "웨이퍼 공정용 쿼츠웨어 제품 소개 화면 (예시 내용)" },
+        { label: "4대 사업부 쇼케이스", value: "쿼츠(Quartz), 세라믹(Ceramics), 정밀 세정·코팅(Cleaning), 옵틱(Optics)" },
+        { label: "주가·IR 화면 구성", value: "예시 시세·공시·배당·실적 화면 (실제 주가와 연동하지 않음)" },
+        { label: "비즈니스 문의 화면", value: "협력 제안·공장 견학 예약·브로슈어 열람 화면 (시안 — 접수되지 않음)" },
       ]}
     />
   );

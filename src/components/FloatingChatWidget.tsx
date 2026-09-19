@@ -9,14 +9,24 @@ import {
   Shield,
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function FloatingChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
 
+  // 열려 있을 때만 Esc 로 닫는다 — 트리거 버튼의 「ESC」 표시가 실제로 동작하게
+  useEffect(() => {
+    if (!isOpen) return;
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setIsOpen(false);
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isOpen]);
+
   return (
     <aside
-      aria-label="실시간 문의 위젯"
+      aria-label="상담 문의 위젯"
       className="fixed bottom-6 right-6 z-50 flex flex-col items-end font-sans"
     >
       {/* Expanded Modal Box (High-Tech Obsidian HUD) */}
@@ -33,13 +43,9 @@ export default function FloatingChatWidget() {
                   <h4 className="text-[14px] font-bold text-white tracking-tight leading-none">
                     태문넷
                   </h4>
-                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[10px] font-mono font-semibold text-emerald-400">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    LIVE
-                  </span>
                 </div>
                 <p className="text-[11px] text-zinc-400 font-normal mt-1 font-mono">
-                  실시간 아키텍트 직통 컨설팅
+                  총괄 아키텍트 직통 상담
                 </p>
               </div>
             </div>
@@ -67,10 +73,10 @@ export default function FloatingChatWidget() {
                 </div>
                 <div>
                   <div className="text-[13px] font-bold text-white flex items-center gap-1.5">
-                    <span>카카오톡 1:1 실시간 톡</span>
+                    <span>카카오톡 채널로 문의</span>
                   </div>
                   <div className="text-[11px] text-zinc-400 font-mono mt-0.5">
-                    영업시간 외에도 24시간 알림 전송
+                    남겨 주시면 확인 후 답변드립니다
                   </div>
                 </div>
               </div>
@@ -91,7 +97,7 @@ export default function FloatingChatWidget() {
                     <span>총괄 아키텍트 직통 통화</span>
                   </div>
                   <div className="text-[11px] text-zinc-400 font-mono mt-0.5">
-                    010-8672-6463 (실시간 연결)
+                    010-8672-6463
                   </div>
                 </div>
               </div>
@@ -105,7 +111,7 @@ export default function FloatingChatWidget() {
               className="w-full py-2.5 px-3 rounded-lg bg-white/5 hover:bg-white/10 border border-zinc-800 text-zinc-300 hover:text-white font-mono text-[11px] flex items-center justify-center gap-2 transition-all text-center"
             >
               <Send className="w-3 h-3 text-zinc-400" />
-              <span>3초 대화형 프로젝트 견적서 접수 →</span>
+              <span>견적 요청서 작성 →</span>
             </Link>
           </div>
 
@@ -115,7 +121,6 @@ export default function FloatingChatWidget() {
               <Shield className="w-3 h-3 text-zinc-400" />
               <span>NDA 비밀유지 준수</span>
             </span>
-            <span className="text-zinc-500">평균 응답 5분 내</span>
           </div>
         </div>
       )}
@@ -131,12 +136,6 @@ export default function FloatingChatWidget() {
             : "bg-zinc-950/95 hover:bg-black text-white border-zinc-800 hover:border-zinc-600 ring-1 ring-white/10 hover:ring-white/20 shadow-black/60"
         }`}
       >
-        {/* Radar Live Beacon */}
-        <span className="relative flex h-2 w-2 shrink-0">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-        </span>
-
         {/* Technical Icon & Text */}
         <MessageSquare
           className={`w-4 h-4 transition-transform duration-200 ${
@@ -144,19 +143,15 @@ export default function FloatingChatWidget() {
           }`}
         />
         <span className="text-xs font-semibold tracking-tight">
-          {isOpen ? "상담창 닫기" : "1:1 실시간 기술 상담"}
+          {isOpen ? "상담창 닫기" : "상담 문의"}
         </span>
 
-        {/* Minimalist Micro Tag */}
-        <span
-          className={`font-mono text-[9px] px-1.5 py-0.5 rounded tracking-wider uppercase font-semibold transition-colors ${
-            isOpen
-              ? "bg-zinc-900 text-zinc-100"
-              : "bg-zinc-800/80 group-hover:bg-zinc-700 text-zinc-300"
-          }`}
-        >
-          {isOpen ? "ESC" : "LIVE"}
-        </span>
+        {/* 열렸을 때만 Esc 로 닫힌다는 표시(위 keydown 리스너가 실제로 닫는다) */}
+        {isOpen && (
+          <span className="font-mono text-[9px] px-1.5 py-0.5 rounded tracking-wider uppercase font-semibold transition-colors bg-zinc-900 text-zinc-100">
+            ESC
+          </span>
+        )}
       </button>
     </aside>
   );

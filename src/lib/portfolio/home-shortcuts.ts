@@ -42,7 +42,7 @@ const SHORTCUTS: readonly (HomeShortcut & { slug?: string })[] = [
     slug: "nexus-robotics",
     action: "demo",
     href: "/demo/nexus-robotics",
-    label: "넥서스 로보틱스 실물 사이트",
+    label: "넥서스 로보틱스 샘플 사이트",
     icon: "play",
     className:
       "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-900 border border-blue-200 text-xs font-bold transition-all shrink-0 self-start lg:self-end",
@@ -52,7 +52,7 @@ const SHORTCUTS: readonly (HomeShortcut & { slug?: string })[] = [
     slug: "maison",
     action: "demo",
     href: "/demo/maison",
-    label: "메종 당티크 실물 사이트",
+    label: "메종 당티크 샘플 사이트",
     icon: "play",
     className:
       "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-900 border border-rose-200 text-xs font-bold transition-all shrink-0 self-start lg:self-end",
@@ -71,7 +71,7 @@ const SHORTCUTS: readonly (HomeShortcut & { slug?: string })[] = [
     slug: "atelier-vaucluse",
     action: "demo",
     href: "/demo/atelier-vaucluse",
-    label: "보클루즈 실물 사이트",
+    label: "보클루즈 샘플 사이트",
     icon: "play",
     className:
       "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200 text-xs font-bold transition-all shrink-0 self-start lg:self-end",
@@ -81,7 +81,7 @@ const SHORTCUTS: readonly (HomeShortcut & { slug?: string })[] = [
     slug: "sodamjae",
     action: "demo",
     href: "/demo/sodamjae",
-    label: "소담재 한옥 실물 사이트",
+    label: "소담재 한옥 제안 시안",
     icon: "play",
     className:
       "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-900 border border-stone-300 text-xs font-bold transition-all shrink-0 self-start lg:self-end",
@@ -100,7 +100,7 @@ const SHORTCUTS: readonly (HomeShortcut & { slug?: string })[] = [
     slug: "wonik-qnc",
     action: "demo",
     href: "/demo/wonik-qnc",
-    label: "반도체 SSQ 실물 데모",
+    label: "반도체 SSQ 제안 시안",
     icon: "play",
     className:
       "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold transition-all shrink-0 self-start lg:self-end",

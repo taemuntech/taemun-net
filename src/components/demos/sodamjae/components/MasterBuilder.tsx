@@ -13,7 +13,7 @@ export const MasterBuilder: React.FC = () => {
             <div className="aspect-[4/5] rounded-md overflow-hidden bg-[#e3e2e0] border border-[#c8c7bf]/40 shadow-sm">
               <img
                 src={MASTER_BUILDER_IMAGE_URL}
-                alt="소담재 건축공방 도편수 강태원 명인 대목장 작업 전경"
+                alt="대표 도편수(예시) 작업 전경"
                 className="w-full h-full object-cover object-center"
                 referrerPolicy="no-referrer"
               />
@@ -25,10 +25,10 @@ export const MasterBuilder: React.FC = () => {
                 Heritage Master
               </p>
               <h4 className="font-serif text-lg lg:text-xl text-[#161714] font-medium mb-1">
-                도편수 강태원 명인
+                대표 도편수(예시)
               </h4>
               <p className="text-xs text-[#474741] leading-relaxed font-light">
-                국가유산 수리기능자 제3412호 (한식목공 대목)<br />
+                자격번호(예시) 제0000호 (한식목공 대목)<br />
                 소담재 건축공방 대표 장인
               </p>
             </div>
@@ -46,7 +46,7 @@ export const MasterBuilder: React.FC = () => {
             </h2>
             
             <p className="text-sm lg:text-base text-[#474741] leading-relaxed mb-6 font-light">
-              소담재의 모든 목재는 도편수 강태원 명인이 태백산맥 자락에서 굵고 곧게 자란 국내산 육송(금강송)과 최상급 북미산 더글라스 퍼를 직접 검수하고 선별합니다.
+              소담재의 모든 목재는 대표 도편수가 태백산맥 자락에서 굵고 곧게 자란 국내산 육송(금강송)과 최상급 북미산 더글라스 퍼를 직접 검수하고 선별합니다.
             </p>
             
             <p className="text-sm lg:text-base text-[#474741] leading-relaxed mb-8 font-light">

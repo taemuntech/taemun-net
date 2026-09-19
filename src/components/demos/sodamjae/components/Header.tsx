@@ -73,7 +73,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenConsultation }) => {
               Sodamjae Hanok Architecture
             </span>
             <span className="text-[11px] lg:text-xs text-[#474741] tracking-wider font-sans">
-              소담재 건축공방 · 춘천 도편수 장인 직영
+              소담재 건축공방 · 전통한옥 설계·시공
             </span>
           </div>
         </a>

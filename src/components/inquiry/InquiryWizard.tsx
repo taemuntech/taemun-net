@@ -414,9 +414,10 @@ export function InquiryWizard({
   const progress = step === "done" ? 100 : ((stepNo - 1) / 4) * 100;
   const noun = reference ? REFERRAL_NOUN[reference.kind ?? "unknown"] : null;
 
+  // 페이지 모드는 밝은 바탕(zinc-50) 위에 놓인다 — 어두운 바탕 시절의 shadow-2xl 은 무거워서 옅은 테두리 + 긴 그림자로(09-19)
   const cardClass = inModal
     ? "min-h-full bg-white text-zinc-900 lg:min-h-0 lg:rounded-3xl"
-    : "scroll-mt-28 rounded-3xl bg-white text-zinc-900 shadow-2xl";
+    : "scroll-mt-28 rounded-3xl border border-zinc-200 bg-white text-zinc-900 shadow-[0_24px_60px_-30px_rgba(24,24,27,0.25)]";
   const closeButton = onClose ? (
     <button
       type="button"

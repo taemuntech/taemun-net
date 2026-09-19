@@ -94,8 +94,7 @@ export const IrStockSection: React.FC<IrStockSectionProps> = ({
                     />
                   </button>
                   <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-mono text-[11px]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    실시간 주가 연동
+                    예시 시세 · 실제 주가 아님
                   </span>
                 </div>
               </div>

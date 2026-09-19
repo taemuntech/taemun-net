@@ -119,10 +119,11 @@ function WorkMark({ project, className = "" }: { project: GalleryProject; classN
 /**
  * 카드·모달의 제작 기간 표기. 샘플은 그 기간에 만든 게 아니라 **「이런 사이트를 맡기면 걸리는 예상 기간」**이라
  * 「예상 … ~」로 붙인다(2026-09-18 형 결정 — 전에는 「제작 2주」로 실적처럼 적혀 있었다). 그러니 galleryData 의
- * period 에는 형이 실제로 납품할 수 있는 기간만 적는다. 운영 중인 서비스(externalUrl)는 실제로 걸린 기간이라 그대로.
+ * period 에는 형이 실제로 납품할 수 있는 기간만 적는다. 운영 중인 서비스(externalUrl)는 걸린 기간을 입증할
+ * 근거가 없어 표기하지 않는다(2026-09-19 오픈 점검) — 빈 문자열이면 호출부가 칸을 숨긴다.
  */
 function periodLabel(project: GalleryProject, long = false): string {
-  if (project.externalUrl) return `${long ? "제작 기간: " : "제작 "}${project.period}`;
+  if (project.externalUrl || !project.period) return "";
   return `${long ? "예상 제작 기간: " : "예상 제작 "}${project.period}~`;
 }
 
@@ -514,7 +515,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                 사람의 경험에 AI의 속도를 더합니다.
               </span>
               공정 통계 모니터링부터 하이엔드 건축 인테리어, 전자서약 SaaS, B2B 커머스까지.<br className="hidden lg:inline" />
-              기획서 속 그림이 아닌 브라우저에서 프로덕션 레퍼런스를 둘러보세요.
+              기획서 속 그림이 아니라, 브라우저에서 실제로 눌러 보는 업종별 샘플을 둘러보세요.
             </p>
 
             {/* Action CTAs */}
@@ -549,7 +550,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
               <span className="text-zinc-600">•</span>
               <div className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                <span>엔터프라이즈 레퍼런스</span>
+                <span>업종별 작동 샘플</span>
               </div>
             </div>
           </div>
@@ -727,8 +728,8 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                         <ArrowUpRight className="w-3.5 h-3.5 text-white" />
                       </div>
 
-                      {/* Top Badge — '실물 라이브 데모' 텍스트 박스는 노출하지 않고 우측 '샘플' 표식만 유지 */}
-                      {project.badge && project.badge !== "실물 라이브 데모" && (
+                      {/* Top Badge — 카드 배지(운영 중 서비스 등). 샘플은 우측 「샘플」 표식이 따로 붙는다 */}
+                      {project.badge && (
                         <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-white/90 backdrop-blur-sm text-[10px] font-bold text-zinc-900 shadow-sm border border-zinc-200/60">
                           {project.badge}
                         </div>
@@ -768,9 +769,11 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                           )}
                         </div>
                         {/* 예상 제작 기간은 이 회사의 핵심 세일즈 포인트라 흐릿하게 두지 않는다 — 문구는 periodLabel 한 곳 */}
-                        <span className="ml-auto text-[10px] text-zinc-700 font-mono font-bold shrink-0">
-                          {periodLabel(project)}
-                        </span>
+                        {periodLabel(project) && (
+                          <span className="ml-auto text-[10px] text-zinc-700 font-mono font-bold shrink-0">
+                            {periodLabel(project)}
+                          </span>
+                        )}
                       </div>
                     </div>
                     </div>
@@ -863,11 +866,11 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
               <div className="text-[11px] font-mono text-zinc-400">02 / INDUSTRY DATA</div>
               <h3 className="text-lg font-bold text-zinc-950">스마트 공정 데이터 플랫폼</h3>
               <p className="text-xs text-zinc-600 font-light leading-relaxed">
-                제조·설비·소재 현장의 수기 엑셀을 실시간 SPC 관리도, 수율 분석, 4단계 로트 계보 역추적 시스템으로 디지털 전환.
+                제조·설비·소재 현장의 수기 엑셀을 SPC 관리도, 수율 분석, 4단계 로트 계보 역추적 시스템으로 디지털 전환.
               </p>
             </div>
             <div className="pt-3 border-t border-zinc-200 text-[11px] text-emerald-800 font-mono">
-              • 실시간 SPC 통계 &amp; 불량 감지
+              • SPC 통계 &amp; 불량 감지
             </div>
           </div>
 
@@ -879,7 +882,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
               <div className="text-[11px] font-mono text-zinc-400">03 / LEGAL TECH</div>
               <h3 className="text-lg font-bold text-zinc-950">전자서약 &amp; 스마트 서식</h3>
               <p className="text-xs text-zinc-600 font-light leading-relaxed">
-                카카오 알림톡 원클릭 전자서명, PDF/PNG 실시간 벡터 합성 엔진, 전자서명법 기준 감사추적증명서 3중 보안 모듈 구축.
+                카카오 알림톡으로 보내는 전자서명, PDF/PNG 서명 합성, 전자서명법 기준 감사추적증명서 발급.
               </p>
             </div>
             <div className="pt-3 border-t border-zinc-200 text-[11px] text-purple-800 font-mono">
@@ -893,9 +896,9 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                 <ShieldCheck className="w-4 h-4" />
               </div>
               <div className="text-[11px] font-mono text-zinc-400">04 / TRANSACTIONS</div>
-              <h3 className="text-lg font-bold text-zinc-950">PG 결제 &amp; 안전 정산 빌링</h3>
+              <h3 className="text-lg font-bold text-zinc-950">PG 결제 &amp; 정기 구독 빌링</h3>
               <p className="text-xs text-zinc-600 font-light leading-relaxed">
-                신용카드 단건 결제부터 빌링키 정기 구독, 단계별 기성 검수 정산 모듈, 본인인증(PASS/KGI) 연동까지 완벽 구축.
+                신용카드 단건 결제부터 빌링키 정기 구독, 본인인증(PASS/KGI) 연동까지 구축합니다.
               </p>
             </div>
             <div className="pt-3 border-t border-zinc-200 text-[11px] text-blue-800 font-mono">
@@ -977,7 +980,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
           </h2>
 
           <p className="text-zinc-600 text-xs lg:text-sm max-w-xl mx-auto mb-8 font-light leading-relaxed">
-            아이디어 단계의 간단한 구상부터 대형 엔터프라이즈 플랫폼까지, 총괄 아키텍트가 24시간 이내에 직접 검토 후 최적의 방향을 제시합니다.
+            아이디어 단계의 간단한 구상부터 대형 엔터프라이즈 플랫폼까지, 총괄 아키텍트가 직접 검토하고 연락드립니다.
           </p>
 
           <div className="flex flex-col lg:flex-row items-center justify-center gap-3 max-w-md mx-auto mb-8">
@@ -997,7 +1000,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
             </div>
             <div className="flex items-center gap-2">
               <Mail className="w-4 h-4 text-zinc-700" />
-              <span>공식 이메일: contact@taemun.co.kr</span>
+              <span>이메일 문의: contact@taemun.co.kr</span>
             </div>
           </div>
         </div>
@@ -1079,7 +1082,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                     title="반응형 뷰어로 체험 (PC · 태블릿 · 모바일)"
                   >
                     <ModalPreviewMedia key={selectedProject.id} project={selectedProject} zoomOnHover />
-                    {selectedProject.badge && selectedProject.badge !== "실물 라이브 데모" && (
+                    {selectedProject.badge && (
                       <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-white/95 text-xs font-bold text-zinc-900 shadow-md">
                         {selectedProject.badge}
                       </span>
@@ -1097,7 +1100,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                     title="실제 운영 사이트 방문하기"
                   >
                     <ModalPreviewMedia key={selectedProject.id} project={selectedProject} zoomOnHover />
-                    {selectedProject.badge && selectedProject.badge !== "실물 라이브 데모" && (
+                    {selectedProject.badge && (
                       <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-white/95 text-xs font-bold text-zinc-900 shadow-md">
                         {selectedProject.badge}
                       </span>
@@ -1108,7 +1111,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                 ) : (
                   <div className="aspect-[16/10] rounded-2xl overflow-hidden bg-zinc-100 border border-zinc-200 relative">
                     <ModalPreviewMedia key={selectedProject.id} project={selectedProject} zoomOnHover={false} />
-                    {selectedProject.badge && selectedProject.badge !== "실물 라이브 데모" && (
+                    {selectedProject.badge && (
                       <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-white/95 text-xs font-bold text-zinc-900 shadow-md">
                         {selectedProject.badge}
                       </span>
@@ -1122,7 +1125,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                     className="inline-flex items-center gap-1.5 mt-2.5 text-xs text-zinc-500 hover:text-zinc-900 font-medium transition-colors group cursor-pointer"
                     title="반응형 뷰어로 체험 (PC · 태블릿 · 모바일)"
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                     <span>멀티 디바이스 반응형</span>
                     <ArrowRight className="w-3 h-3 text-zinc-400 group-hover:translate-x-0.5 group-hover:text-zinc-900 transition-all" />
                   </Link>
@@ -1168,10 +1171,12 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                     </span>
                   ))}
                 </div>
-                <div className="text-xs text-zinc-500 font-mono flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5" />
-                  <span>{periodLabel(selectedProject, true)}</span>
-                </div>
+                {periodLabel(selectedProject, true) && (
+                  <div className="text-xs text-zinc-500 font-mono flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5" />
+                    <span>{periodLabel(selectedProject, true)}</span>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -1205,7 +1210,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                   onClick={openInquiry}
                   className="py-3 px-5 rounded-xl bg-white hover:bg-zinc-100 text-zinc-900 border border-zinc-300 text-xs font-bold flex items-center justify-center gap-1.5 transition-all break-keep text-center shrink-0"
                 >
-                  <span>이 레퍼런스로 제작 문의</span>
+                  <span>이 작업 기준으로 제작 문의</span>
                   <ArrowRight className="w-3.5 h-3.5 shrink-0" />
                 </button>
               ) : (
@@ -1214,7 +1219,7 @@ export default function HomeView({ projects, categories, demoLinks, shortcuts = 
                   onClick={() => setSelectedProject(null)}
                   className="py-3 px-5 rounded-xl bg-white hover:bg-zinc-100 text-zinc-900 border border-zinc-300 text-xs font-bold flex items-center justify-center gap-1.5 transition-all break-keep text-center shrink-0"
                 >
-                  <span>이 레퍼런스로 제작 문의</span>
+                  <span>이 작업 기준으로 제작 문의</span>
                   <ArrowRight className="w-3.5 h-3.5 shrink-0" />
                 </Link>
               )}

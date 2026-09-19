@@ -48,10 +48,10 @@ export const Footer: React.FC = () => {
         {/* Bottom Row: Legal Copyright & Certifications */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 text-[11px] text-[#474741]">
           <p className="leading-relaxed font-light">
-            © 2024 소담재 한옥건축 (Sodamjae Hanok Architecture). 국가유산수리공사업 등록 제11-02-48호 | 건설업 면허 제01-1829호. All Rights Reserved.
+            © 2024 소담재 한옥건축 (Sodamjae Hanok Architecture). 등록번호(예시) 제00-00-00호 | 면허번호(예시) 제00-0000호. All Rights Reserved.
           </p>
           <div className="flex flex-wrap items-center gap-3 text-[#777770]">
-            <span>서울 종로구 북촌로 42길 11</span>
+            <span>서울 종로구 (예시 주소)</span>
             <span>·</span>
             <span>경기 양평군 서종면 문호리 목공방</span>
           </div>

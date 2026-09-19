@@ -81,7 +81,9 @@ if (argv.includes("--help") || argv.includes("-h")) {
   - 데모가 참조하는 /public 파일이 proxy 의 matcher 밖(내려도 그대로 열린다 — 태문 자체 자산 /images·/fonts 는 제외)
     · kind=sample 이 **자기** /demo-media/<자기 slug>/ 에 둔 이미지는 면제(일부러 게이트 밖 — CDN 이 바로 내준다)
     · kind=proposal 은 면제 없음 — /demo-media/ 에 두면 그대로 ERROR (private-assets/portfolio/<slug>/ 로)
-  - kind=sample 데모의 기기 전환 툴바 client= 에 가상 브랜드 표시가 없음(툴바가 「클라이언트: …」로 찍는다)
+  - kind=sample 데모의 기기 전환 툴바 client= 에 가상 브랜드 표시가 없음(툴바가 「대상: …」로 찍는다)
+  - 데모 page.tsx 제목·설명·og · 공용 툴바(src/components/demos/*.tsx) · home-shortcuts.ts · header-links.ts 에
+    「실물」「직영」「PRODUCTION READY」「실시간 주가」 (「공식」은 WARN)
   - 기술 스택 태그(갤러리·카드 JSON·툴바)가 기능 이름이거나, 그 데모 소스에 쓴 흔적이 없거나, 설치 버전과 다름
     → 고치기: node scripts/audit-portfolio.mjs --fix-tech-stack (걸린 태그를 지운다)
   - 폼인데 SampleNotice 를 렌더하지 않음(같은 샘플의 다른 파일이 열어도 — onSubmit 을 props 로 받는 폼만 WARN)
@@ -1514,7 +1516,7 @@ for (const s of sampleSources) {
   }
 
   // ── 기기 전환 툴바의 client= 문구 ──
-  // 툴바는 **태문이 자기 목소리로 말하는 자리**다. DevicePreviewFrame 이 「클라이언트: {client}」로 찍으므로
+  // 툴바는 **태문이 자기 목소리로 말하는 자리**다. DevicePreviewFrame 이 「대상: {client}」로 찍으므로
   // 여기에 업종 설명만 적어 두면 영업 상대가 이 데모를 수주 실적으로 읽는다(실측: 6개 중 2개가 그랬다).
   if (s.kind === "sample") {
     for (const f of walkSources(s.dir)) {
@@ -1525,7 +1527,7 @@ for (const s of sampleSources) {
       keySlug.set(key, s.slug);
       error(
         key,
-        `기기 전환 툴바의 client 문구 「${m[1]}」 에 가상 브랜드 표시가 없습니다 — 「가상 브랜드 샘플 — 실제 업체가 아닙니다 (…설정)」 형식으로 적으세요(툴바가 「클라이언트: …」로 그대로 찍습니다)`,
+        `기기 전환 툴바의 client 문구 「${m[1]}」 에 가상 브랜드 표시가 없습니다 — 「가상 브랜드 샘플 — 실제 업체가 아닙니다 (…설정)」 형식으로 적으세요(툴바가 「대상: …」로 그대로 찍습니다)`,
       );
     }
   }
@@ -1838,6 +1840,60 @@ const SHARED_DEMO_COPY_RULES = [
       for (const r of SHARED_DEMO_COPY_RULES) {
         const m = line.match(r.re);
         if (m) warn(key, `${i + 1}행: 「${m[0]}」 — ${r.why} (데모 전부에 붙는 공용 툴바 문구입니다)`);
+      }
+    });
+  }
+}
+
+// ───────── 6-4. 데모 제목·설명·바로가기 금지어 (ERROR) ─────────
+//
+// 왜 따로 두나(2026-09-19 오픈 점검): 가상 샘플 20여 개의 제목·og 가 「실물 (라이브) 데모」, 실존 업체 제안 시안이
+// 「공식 실물 라이브 데모」「직영」, 홈 바로가기가 「○○ 실물 사이트」, 공용 툴바가 「PRODUCTION READY BUILD」·
+// 「직영 아키텍처 명세서」, 원익 시안이 「실시간 주가 연동」이었다. 데모 page.tsx 의 metadata 는 소스 검사
+// (components/demos/<slug>) 밖이고, 사이트 문구 검사(6)는 이 단어들을 보지 않았다 — 카카오톡 미리보기에
+// 그대로 실리는 곳인데 어느 검사에도 안 걸렸다.
+// 전부 고친 뒤 ERROR 로 올렸다. 빨간불이 나면 규칙을 풀지 말고 문구를 고칠 것(샘플은 「샘플 사이트」,
+// 실존 업체 시안은 「제안 시안」).
+// 「공식」은 「공식 사이트가 아닙니다」 같은 부정 고지에도 쓰이므로 WARN 으로만 본다.
+const DEMO_LABEL_BANNED = [
+  { re: /공식\s*실물|실물/, why: "샘플·시안을 실제 납품 사이트로 읽히게 함 — 「샘플 사이트」·「제안 시안」으로" },
+  { re: /직영/, why: "파트너 참여 허용(B안)과 어긋나는 단정 — 쓰지 않는다" },
+  { re: /PRODUCTION\s*READY/i, why: "근거 없는 완성도 표시" },
+  { re: /실시간\s*주가/, why: "가짜 시세를 실제 주가로 읽히게 함 — 「예시 시세 · 실제 주가 아님」" },
+];
+const DEMO_LABEL_WARN = [{ re: /공식/, why: "공식 사이트·공식 협력사로 읽히는지 확인 — 부정 고지면 그대로 둔다" }];
+{
+  const demoPages = fs.existsSync(DEMOS_DIR)
+    ? fs
+        .readdirSync(DEMOS_DIR, { withFileTypes: true })
+        .filter((d) => d.isDirectory())
+        .map((d) => path.join(DEMOS_DIR, d.name, "page.tsx"))
+        .filter((f) => fs.existsSync(f))
+    : [];
+  const sharedDir = path.join(ROOT, "src", "components", "demos");
+  const sharedFiles = fs.existsSync(sharedDir)
+    ? fs
+        .readdirSync(sharedDir, { withFileTypes: true })
+        .filter((d) => d.isFile() && /\.(tsx|ts)$/.test(d.name))
+        .map((d) => path.join(sharedDir, d.name))
+    : [];
+  const labelFiles = [
+    ...demoPages,
+    ...sharedFiles,
+    path.join(ROOT, "src", "lib", "portfolio", "home-shortcuts.ts"),
+    path.join(ROOT, "src", "lib", "portfolio", "header-links.ts"),
+  ].filter((f) => fs.existsSync(f));
+  for (const f of labelFiles) {
+    const textLines = stripCommentsForText(fs.readFileSync(f, "utf8")).split(/\r?\n/);
+    const key = `데모 제목·라벨 ${rel(f)}`;
+    textLines.forEach((line, i) => {
+      for (const r of DEMO_LABEL_BANNED) {
+        const m = line.match(r.re);
+        if (m) error(key, `${i + 1}행: 「${m[0]}」 — ${r.why}`);
+      }
+      for (const r of DEMO_LABEL_WARN) {
+        const m = line.match(r.re);
+        if (m) warn(key, `${i + 1}행: 「${m[0]}」 — ${r.why}`);
       }
     });
   }

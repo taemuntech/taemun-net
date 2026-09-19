@@ -17,7 +17,7 @@ export default function HysfaPageClient({ isEmbed }: Props) {
       src="/demo/hysfa?embed=true"
       title="한양시스템㈜ (HANYANG SYSTEM)"
       category="반도체 장비 · 특수가스 공급 설비 · 4K SCADA 관제"
-      client="세메스(SEMES㈜) SSQ 품질인증 공식 협력사"
+      client="한양시스템㈜ (제안 시안 · 의뢰받지 않음)"
       techStack={[
         "Next.js 16",
         "React 19",
@@ -26,10 +26,10 @@ export default function HysfaPageClient({ isEmbed }: Props) {
       ]}
       inquiryUrl="/inquiry?from=hysfa"
       specs={[
-        { label: "삼성전자 세메스 협력사 인증", value: "SEMES SSQ 품질인증 및 27년(1999~) 연혁·R&D 특허 기술 아카이브" },
-        { label: "3대 핵심 사업부 쇼케이스", value: "장비사업부(FA & Semiconductor Equipment), 배관사업부(UHP Gas), 정밀 제어 S/W" },
-        { label: "5단계 전수 검사 파이프라인", value: "원자재 수입검사, 오비탈 자동용접, 헬륨 리크, 72시간 무중단 신뢰성 시운전, 클린룸 출하" },
-        { label: "엔지니어링 견적 & 다국어", value: "견적 접수 위저드 실시간 채번 및 글로벌 바이어 대응 국/영문 원클릭 전환" },
+        { label: "인증·연혁 화면", value: "품질 인증 소개와 연혁 타임라인 (예시 내용)" },
+        { label: "3대 사업부 쇼케이스", value: "장비사업부(FA & Semiconductor Equipment), 배관사업부(UHP Gas), 정밀 제어 S/W" },
+        { label: "검사 공정 소개", value: "수입검사·용접·리크 시험·시운전·출하 단계 소개 화면 (예시 내용)" },
+        { label: "견적 문의 & 다국어", value: "기술 견적 문의 화면 (시안 — 접수되지 않음)과 국문·영문 화면 전환" },
       ]}
     />
   );

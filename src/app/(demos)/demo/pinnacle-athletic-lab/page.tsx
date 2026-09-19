@@ -1,17 +1,16 @@
 import type { Metadata } from 'next';
+import { sampleMetadata } from '@/components/demo-kit/sample-metadata';
 import { demoMetadata } from '@/lib/portfolio/demo-metadata';
 import PinnacleAthleticLabPageClient from './PinnacleAthleticLabPageClient';
 
-const DEMO_METADATA: Metadata = {
-  title: '피나클 체육과학 아카데미 (PINNACLE Athletic Lab) | 체대·특채 실기 — 태문넷',
+// 제목 뒤 「— 태문넷」 은 (demos) 레이아웃 템플릿이 붙인다 — 여기서 또 적지 않는다.
+// 가상 브랜드 샘플이라 「실물·라이브 데모」 라고 쓰지 않는다(화면의 완공작·수치는 모두 예시다).
+const DEMO_METADATA: Metadata = sampleMetadata({
+  slug: 'pinnacle-athletic-lab',
+  title: '피나클 체육과학 아카데미 (PINNACLE Athletic Lab) — 체대·특채 실기 학원 홈페이지',
   description:
-    '0.01초와 1cm를 지배하는 스포츠 바이오메카닉스 & 체대·특채 실기 텔레메트리 웹사이트 샘플. 1,000Hz 지면반력기 3D 관절 분석, 5대 종목 실기 만점 환산기, 국가대표급 코칭스태프, 정밀 진단 예약 위저드 탑재.',
-  openGraph: {
-    title: '피나클 체육과학 아카데미 | 스포츠 바이오메카닉스 전문관 실물 라이브 데모',
-    description: '태문넷 스포츠 과학 & 에듀테크 특화 포트폴리오 라이브 데모',
-    type: 'website',
-  },
-};
+    '태문넷이 만든 가상 브랜드 샘플입니다. 실제 학원이 아니며 진단 예약은 접수되지 않습니다. 동작 분석 화면(예시), 종목별 실기 점수 환산기, 코칭스태프 소개, 진단 예약 위저드를 담았습니다.',
+});
 
 export function generateMetadata(): Promise<Metadata> {
   return demoMetadata(DEMO_METADATA);

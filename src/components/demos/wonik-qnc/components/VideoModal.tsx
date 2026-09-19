@@ -179,7 +179,7 @@ export const VideoModal: React.FC<VideoModalProps> = ({ video, onClose }) => {
         {/* Modal Footer Details */}
         <div className="p-4 bg-white flex flex-col lg:flex-row items-start lg:items-center justify-between gap-2">
           <span className="text-xs lg:text-sm text-[#131b2e] font-medium">
-            원익큐앤씨 미디어 아카이브 공식 등록 영상 • 고화질 스트리밍
+            미디어 아카이브 영상 (예시)
           </span>
           <button
             type="button"

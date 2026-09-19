@@ -411,7 +411,7 @@ export const AdmissionAuditForm: React.FC<AdmissionAuditFormProps> = ({
               </div>
 
               <p className="font-body-sm text-xs lg:text-sm text-[#45464d] leading-relaxed">
-                기재하신 유선 번호로 서초 사법캠퍼스 입학사정관실(02-588-7700)에서 유선 연락을
+                기재하신 유선 번호로 서초 사법캠퍼스 입학사정관실(02-0000-0000)에서 유선 연락을
                 드리며, 1차 원장단 서류 통과자에 한하여 심층 진단 면접 및 개별 Carrel 지정석 배정
                 안내가 진행됩니다.
               </p>

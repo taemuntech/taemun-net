@@ -1,17 +1,16 @@
 import type { Metadata } from 'next';
+import { sampleMetadata } from '@/components/demo-kit/sample-metadata';
 import { demoMetadata } from '@/lib/portfolio/demo-metadata';
 import SejongTerraPageClient from './SejongTerraPageClient';
 
-const DEMO_METADATA: Metadata = {
-  title: '세종테라개발 (SEJONG TERRA) | 100만평 스마트 산업단지 & 3D 디지털 토공 토목 — 태문넷',
+// 제목 뒤 「— 태문넷」 은 (demos) 레이아웃 템플릿이 붙인다 — 여기서 또 적지 않는다.
+// 가상 브랜드 샘플이라 「실물·라이브 데모」 라고 쓰지 않는다(화면의 완공작·수치는 모두 예시다).
+const DEMO_METADATA: Metadata = sampleMetadata({
+  slug: 'sejong-terra',
+  title: '세종테라개발 (SEJONG TERRA) — 산업단지 부지조성 토목 기업 홈페이지',
   description:
-    '100만평 미래 모빌리티 국가산단 1,500만㎥ 대토공·스마트 중장비 머신가이던스(MG/MC)·4련 초대형 지하 공동구·연약지반 PBD 압밀 4대 실적. 3D 절·성토 토공 밸런스 뷰어 및 부지조성 공사비 시뮬레이터(예시) 실물 라이브 데모.',
-  openGraph: {
-    title: '세종테라개발 | 100만평 스마트 산업단지 · 3D 디지털 토공 토목 실물 데모',
-    description: '태문넷 국가 전략 산업단지 및 신도시 대단위 부지조성 토목 특화 라이브 데모',
-    type: 'website',
-  },
-};
+    '태문넷이 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며 상담 신청은 접수되지 않습니다. 부지조성·공동구 완공작 예시, 3D 절·성토 토공 뷰어, 부지조성 공사비 시뮬레이터(예시)를 담았습니다.',
+});
 
 export function generateMetadata(): Promise<Metadata> {
   return demoMetadata(DEMO_METADATA);

@@ -1,17 +1,16 @@
 ﻿import type { Metadata } from 'next';
+import { sampleMetadata } from '@/components/demo-kit/sample-metadata';
 import { demoMetadata } from '@/lib/portfolio/demo-metadata';
 import VeritasJuniorEnglishPageClient from './VeritasJuniorEnglishPageClient';
 
-const DEMO_METADATA: Metadata = {
-  title: '베리타스 주니어 프레스티지 어학원 (VERITAS JUNIOR) | 렉사일 북클럽 & 원어민 몰입 — 태문넷',
+// 제목 뒤 「— 태문넷」 은 (demos) 레이아웃 템플릿이 붙인다 — 여기서 또 적지 않는다.
+// 가상 브랜드 샘플이라 「실물·라이브 데모」 라고 쓰지 않는다(화면의 완공작·수치는 모두 예시다).
+const DEMO_METADATA: Metadata = sampleMetadata({
+  slug: 'veritas-junior-english',
+  title: '베리타스 주니어 프레스티지 어학원 (VERITAS JUNIOR) — 주니어 영어 학원 홈페이지',
   description:
-    '미국 사립학교 정규 커리큘럼 기반 주니어 영어몰입 어학원 웹사이트 샘플. 렉사일 200L~1100L 레벨별 가상 서재 뷰어, AI 음성인식 스피킹 발음 진단 리포트, 1:1 원어민 레벨테스트 신청 실물 라이브 데모.',
-  openGraph: {
-    title: '베리타스 주니어 프레스티지 어학원 | 주니어 영어몰입 & 렉사일 북클럽 실물 라이브 데모',
-    description: '태문넷 프리미엄 주니어 어학원 & 렉사일 에듀테크 특화 포트폴리오 라이브 데모',
-    type: 'website',
-  },
-};
+    '태문넷이 만든 가상 브랜드 샘플입니다. 실제 학원이 아니며 레벨테스트 신청은 접수되지 않습니다. 레벨별 가상 서재 뷰어, 스피킹 발음 진단 리포트(예시), 레벨테스트 신청 화면을 담았습니다.',
+});
 
 export function generateMetadata(): Promise<Metadata> {
   return demoMetadata(DEMO_METADATA);

@@ -228,7 +228,7 @@ export const IrDetailModal: React.FC<IrDetailModalProps> = ({
                 {[
                   { name: '2025 3Q 경영 실적 및 반도체 업황 전망 IR 북', size: '12.4 MB', date: '2025.11.15' },
                   { name: '2025 2Q 경영 실적 발표 프레젠테이션', size: '9.8 MB', date: '2025.08.16' },
-                  { name: '원익큐앤씨 기업설명회(NDR) 공식 Fact Sheet', size: '4.2 MB', date: '2025.05.20' },
+                  { name: '원익큐앤씨 기업설명회(NDR) Fact Sheet', size: '4.2 MB', date: '2025.05.20' },
                 ].map((file, idx) => (
                   <div
                     key={idx}

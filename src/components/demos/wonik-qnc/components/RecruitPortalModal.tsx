@@ -96,7 +96,7 @@ export const RecruitPortalModal: React.FC<RecruitPortalModalProps> = ({
                 입사지원서 접수 안내
               </h4>
               <p className="text-xs text-emerald-700 leading-relaxed max-w-md mx-auto">
-                선택하신 공고에 대한 지원서 작성이 원익그룹 공식 채용 포털(recruit.wonik.com)로 연동됩니다. 회원가입 후 이력서 및 자기소개서를 등록해 주시기 바랍니다.
+                지원서 작성 화면으로 이어지는 흐름을 보여 주는 예시입니다. 이 시안에서는 지원서가 접수되지 않습니다.
               </p>
               <div className="pt-2">
                 <button

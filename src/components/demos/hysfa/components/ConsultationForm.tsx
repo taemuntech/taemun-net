@@ -75,8 +75,8 @@ export const ConsultationForm: React.FC<ConsultationFormProps> = ({ currentLang 
             </h2>
             <p className="text-[15px] text-[#434654] max-w-xl mx-auto leading-relaxed">
               {currentLang === 'KR'
-                ? '설비 사양, 라인 증설, 특수가스 배관 개선 등 한양시스템 엔지니어링 전문가가 24시간 이내에 직접 답변드립니다.'
-                : 'From custom FA rigs to UHP piping upgrades, our senior semiconductor engineers reply within 24 hours.'}
+                ? '설비 사양, 라인 증설, 특수가스 배관 개선 등을 문의하는 화면 예시입니다. (시안 — 접수되지 않음)'
+                : 'Sample inquiry screen for custom FA rigs and UHP piping upgrades. (Proposal mock-up — not submitted)'}
             </p>
           </div>
 

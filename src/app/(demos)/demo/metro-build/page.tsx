@@ -1,17 +1,16 @@
 import type { Metadata } from 'next';
+import { sampleMetadata } from '@/components/demo-kit/sample-metadata';
 import { demoMetadata } from '@/lib/portfolio/demo-metadata';
 import MetroBuildPageClient from './MetroBuildPageClient';
 
-const DEMO_METADATA: Metadata = {
-  title: '메트로 종합건설 (METRO BUILD) | 기업사옥 & 지식산업센터 턴키 시공 — 태문넷',
+// 제목 뒤 「— 태문넷」 은 (demos) 레이아웃 템플릿이 붙인다 — 여기서 또 적지 않는다.
+// 가상 브랜드 샘플이라 「실물·라이브 데모」 라고 쓰지 않는다(화면의 완공작·수치는 모두 예시다).
+const DEMO_METADATA: Metadata = sampleMetadata({
+  slug: 'metro-build',
+  title: '메트로 종합건설 (METRO BUILD) — 사옥·지식산업센터 시공 기업 홈페이지',
   description:
-    '판교 IT 본사 사옥·가산 드라이브인 지식산업센터 4대 완공 실적 갤러리. 스마트 BIM 4D 공정 통합 관제 시스템 및 연면적별 예상 공사비 간이 시뮬레이터(예시) 실물 라이브 데모.',
-  openGraph: {
-    title: '메트로 종합건설 | 기업사옥 & 첨단 지식산업센터 턴키 시공 실물 데모',
-    description: '태문넷 기업 본사 사옥 및 지식산업센터 턴키 종합건설 특화 라이브 데모',
-    type: 'website',
-  },
-};
+    '태문넷이 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며 상담 신청은 접수되지 않습니다. 사옥·지식산업센터 완공작 예시 갤러리, BIM 공정 관제 화면(예시), 연면적별 공사비 시뮬레이터(예시)를 담았습니다.',
+});
 
 export function generateMetadata(): Promise<Metadata> {
   return demoMetadata(DEMO_METADATA);

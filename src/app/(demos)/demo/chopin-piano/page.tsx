@@ -1,17 +1,16 @@
 import type { Metadata } from 'next';
+import { sampleMetadata } from '@/components/demo-kit/sample-metadata';
 import { demoMetadata } from '@/lib/portfolio/demo-metadata';
 import ChopinPianoPageClient from './ChopinPianoPageClient';
 
-const DEMO_METADATA: Metadata = {
-  title: '쇼팽하우스 피아노 아카데미 (CHOPIN HAUS) | 마스터클래스 & 스타인웨이 살롱 — 태문넷',
+// 제목 뒤 「— 태문넷」 은 (demos) 레이아웃 템플릿이 붙인다 — 여기서 또 적지 않는다.
+// 가상 브랜드 샘플이라 「실물·라이브 데모」 라고 쓰지 않는다(화면의 완공작·수치는 모두 예시다).
+const DEMO_METADATA: Metadata = sampleMetadata({
+  slug: 'chopin-piano',
+  title: '쇼팽하우스 피아노 아카데미 (CHOPIN HAUS) — 클래식 피아노 학원 홈페이지',
   description:
-    '정통 유럽 비엔나 피아니즘 & 스타인웨이 D-274 살롱 마스터클래스 웹사이트 샘플. 88건반 인터랙티브 실시간 타건 음향 합성, 공간 잔향 및 고조파 배음 텔레메트리 HUD, 1:1 오디션 심사 신청 라이브 데모.',
-  openGraph: {
-    title: '쇼팽하우스 피아노 아카데미 | 클래식 피아노 마스터클래스 실물 라이브 데모',
-    description: '태문넷 프리미엄 예술 아카데미 특화 포트폴리오 라이브 데모',
-    type: 'website',
-  },
-};
+    '태문넷이 만든 가상 브랜드 샘플입니다. 실제 학원이 아니며 오디션 신청은 접수되지 않습니다. 건반을 눌러 소리를 내는 인터랙티브 피아노, 잔향·배음 시각화 화면, 오디션 신청 화면을 담았습니다.',
+});
 
 export function generateMetadata(): Promise<Metadata> {
   return demoMetadata(DEMO_METADATA);

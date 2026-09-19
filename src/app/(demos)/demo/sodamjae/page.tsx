@@ -3,14 +3,26 @@ import { demoMetadata } from '@/lib/portfolio/demo-metadata';
 import SodamjaePageClient from './SodamjaePageClient';
 
 // 제목·설명·og 는 **판정 뒤에** 내보낸다(근거·실측: src/lib/portfolio/demo-metadata.ts).
+// 의뢰 없이 만든 제안 시안이다. 링크 미리보기에는 제목·설명만 보이므로 og·twitter 제목 앞에 「[제안 시안]」 을 붙이고,
+// 공식·직영·업력처럼 그 공방의 공식 사이트나 주장으로 읽히는 말은 쓰지 않는다.
+// 제목 뒤 「— 태문넷」 은 (demos) 레이아웃 템플릿이 붙인다 — 여기서 또 적으면 두 번 붙는다.
+const TITLE = '소담재 한옥건축 — 한옥 설계·시공 공방 사이트 제안 시안';
+const DESCRIPTION =
+  '태문넷이 소담재 한옥건축에 제안하려고 만든 사이트 시안입니다. 해당 공방이 만들었거나 의뢰한 사이트가 아니며, 화면의 완공작·연혁·면허 번호·연락처는 예시입니다.';
+const SHARE_TITLE = '[제안 시안] 소담재 한옥건축 — 한옥 설계·시공 공방 사이트';
+
 const DEMO_METADATA: Metadata = {
-  title: '소담재 건축공방 (SODAMJAE) | 프리미엄 전통한옥 & 중목구조 실물 데모 — 태문넷',
-  description:
-    '자연을 담고 시간을 품는 집, 현대인을 위한 프리미엄 한옥. 25년 도편수 직영 전통 결구 공법과 패시브 단열 설비가 융합된 소담재 건축공방 공식 실물 라이브 데모.',
+  title: TITLE,
+  description: DESCRIPTION,
   openGraph: {
-    title: '소담재 건축공방 (SODAMJAE) | 프리미엄 전통한옥 & 중목구조 실물 데모',
-    description: '태문넷 건축·전통한옥 특화 포트폴리오 라이브 데모',
+    title: SHARE_TITLE,
+    description: DESCRIPTION,
     type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+    title: SHARE_TITLE,
+    description: DESCRIPTION,
   },
 };
 

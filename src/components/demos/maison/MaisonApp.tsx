@@ -110,13 +110,12 @@ export default function MaisonApp({ isEmbed = false }: { isEmbed?: boolean } = {
             </Link>
             <span className="text-gray-600">|</span>
             <span className="flex items-center gap-1.5 font-medium text-rose-300">
-              <span className="w-2 h-2 rounded-full bg-rose-400 animate-pulse" />
-              <span className="font-semibold text-white">메종 당티크 (Maison d'Antique)</span> 실물 라이브 데모
+              <span className="font-semibold text-white">메종 당티크 (Maison d'Antique)</span> 가상 브랜드 샘플
             </span>
           </div>
           <div className="flex items-center gap-3">
             <span className="hidden lg:inline text-gray-400">
-              태문넷 하이엔드 앤틱 살롱 &amp; D2C 아카이브 레퍼런스
+              태문넷이 만든 앤틱 살롱 &amp; D2C 아카이브 샘플
             </span>
             <Link
               href="/inquiry?from=maison"

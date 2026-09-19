@@ -29,7 +29,7 @@ export const MediaShowcaseSection: React.FC<MediaShowcaseSectionProps> = ({
               </span>
             </div>
             <h2 className="text-3xl lg:text-4xl font-bold text-[#131b2e] tracking-tight">
-              원익큐앤씨 공식 홍보영상 쇼케이스
+              원익큐앤씨 홍보영상 쇼케이스
             </h2>
             <p className="text-base text-[#434654] mt-2">
               반도체 혁신을 이끄는 40년의 담대한 여정과 첨단 클린룸 제조 설비를 영상으로 확인하십시오.

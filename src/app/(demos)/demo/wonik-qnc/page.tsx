@@ -4,18 +4,30 @@ import WonikQncPageClient from "./WonikQncPageClient";
 
 // 제목·설명·og 는 **판정 뒤에** 내보낸다. 정적 metadata 로 두면 내려간 뒤에도 307 응답 본문에
 // 회사 이름·종목코드가 실려 나간다(근거·실측: src/lib/portfolio/demo-metadata.ts).
+//
+// 실존 회사에 의뢰 없이 만든 제안 시안이다. 링크 미리보기(카카오·슬랙)에는 제목·설명만 보이므로
+// og·twitter 제목 앞에 「[제안 시안]」 을 붙이고, 그 회사의 공식 사이트로 읽히는 말이나 종목·순위 같은
+// 그 회사의 주장은 쓰지 않는다. 제목 뒤 「— 태문넷」 은 (demos) 레이아웃 템플릿이 붙인다.
+const TITLE = "원익큐앤씨(WONIK QnC) — 반도체 쿼츠웨어·정밀 세라믹 기업 사이트 제안 시안";
+const DESCRIPTION =
+  "태문넷이 원익큐앤씨에 제안하려고 만든 사이트 시안입니다. 원익큐앤씨가 만들었거나 의뢰한 사이트가 아니며, 화면의 주가·실적·수치는 예시입니다. 사업 소개, 홍보 영상 모달, IR 화면 구성을 담았습니다.";
+const SHARE_TITLE = "[제안 시안] 원익큐앤씨 — 반도체 쿼츠웨어·정밀 세라믹 기업 사이트";
+
 const DEMO_METADATA: Metadata = {
-  title: "원익큐앤씨(WONIK QnC) — 글로벌 No.1 반도체 쿼츠웨어 & 정밀 세라믹 | 태문넷",
-  description:
-    "코스닥 상장 첨단 반도체 소재 리더 원익큐앤씨(KOSDAQ: 074600) 공식 리뉴얼 프로토타입. 쿼츠웨어, 세라믹, 정밀 세정·코팅, 40주년 기념 영상 쇼케이스 및 실시간 IR 허브를 체험해 보세요.",
+  title: TITLE,
+  description: DESCRIPTION,
   alternates: {
     canonical: "/demo/wonik-qnc",
   },
   openGraph: {
-    title: "원익큐앤씨 — 글로벌 No.1 반도체 쿼츠웨어 & 정밀 세라믹 라이브 데모",
-    description:
-      "40년 소재 혁신의 역사, 원익큐앤씨. 쿼츠웨어 점유율 세계 1위의 기술력과 ESG 지속가능경영을 직접 확인하세요.",
+    title: SHARE_TITLE,
+    description: DESCRIPTION,
     url: "https://taemun.net/demo/wonik-qnc",
+  },
+  twitter: {
+    card: "summary",
+    title: SHARE_TITLE,
+    description: DESCRIPTION,
   },
 };
 

@@ -35,6 +35,7 @@ import {
 // 회사 이름·설명·/demo/<slug> 가 클라이언트 청크에 다시 박힌다 — 이 화면을 고친 이유가 그것이다.
 // 이 파일에는 slug·회사 이름·설명이 한 글자도 없어야 한다(slug 자체가 회사 이름이나 마찬가지다).
 import type { DemoLinkIconKey, DemoLinkTone, HeaderDemoLink } from "@/lib/portfolio/header-links";
+import { BrandLockup } from "@/components/BrandMark";
 
 /**
  * 색 이름 → Tailwind 클래스.
@@ -214,44 +215,8 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
 
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-2.5 lg:gap-3 group min-w-0" onClick={() => setMobileMenuOpen(false)}>
-          <div className="w-9 lg:w-10 h-9 lg:h-10 rounded-xl bg-zinc-950 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:bg-zinc-800 transition-all">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="text-white"
-            >
-              {/* Minimalist Architectural T-Gate Mark */}
-              <path
-                d="M4 6.5H20"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
-              <path
-                d="M12 6.5V18.5"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
-              <circle cx="18.5" cy="18" r="2" fill="#d97706" />
-            </svg>
-          </div>
-          <div className="flex flex-col text-left">
-            <div className="flex items-center gap-1.5">
-              <span className="text-base lg:text-lg font-extrabold tracking-tight text-zinc-950 leading-none group-hover:text-black transition-colors">
-                태문넷
-              </span>
-              <span className="text-[11px] font-mono font-bold tracking-wider text-zinc-500 uppercase">
-                DEV STUDIO
-              </span>
-            </div>
-            <span className="text-[10px] text-zinc-400 uppercase tracking-wider font-mono mt-0.5">
-              Bespoke Digital Gallery
-            </span>
-          </div>
+          {/* 로고는 견적 화면 헤더와 같은 한 곳(BrandMark.tsx)에서 그린다 */}
+          <BrandLockup />
         </Link>
 
         {/* Desktop Navigation (lg:flex) */}
@@ -330,7 +295,7 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
                       <ExternalLink className="w-3 h-3 text-purple-600" />
                     </div>
                     <p className="text-[11px] text-zinc-500 mt-0.5 leading-tight">
-                      카톡 10초 전자서명 &amp; 300종 스마트 서식 SaaS
+                      업종별 서식 편집 &amp; 모바일 전자서명 SaaS
                     </p>
                   </div>
                 </a>
@@ -458,7 +423,7 @@ export default function Header({ demoLinks = [] }: HeaderProps) {
                         <span>T-DOCS (티독스)</span>
                         <ExternalLink className="w-3 h-3 text-purple-600" />
                       </div>
-                      <div className="text-xs text-zinc-500 mt-0.5">카톡 10초 전자서명 SaaS</div>
+                      <div className="text-xs text-zinc-500 mt-0.5">모바일 전자서명 SaaS</div>
                     </div>
                   </div>
                   <ArrowRight className="w-4 h-4 text-zinc-400" />

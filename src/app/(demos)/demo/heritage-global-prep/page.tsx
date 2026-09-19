@@ -1,17 +1,16 @@
 import type { Metadata } from 'next';
+import { sampleMetadata } from '@/components/demo-kit/sample-metadata';
 import { demoMetadata } from '@/lib/portfolio/demo-metadata';
 import HeritageGlobalPrepPageClient from './HeritageGlobalPrepPageClient';
 
-const DEMO_METADATA: Metadata = {
-  title: '헤리티지 글로벌 프렙 (Heritage Global Prep) | 아이비리그 입시 가제트 — 태문넷',
+// 제목 뒤 「— 태문넷」 은 (demos) 레이아웃 템플릿이 붙인다 — 여기서 또 적지 않는다.
+// 가상 브랜드 샘플이라 「실물·라이브 데모」 라고 쓰지 않는다(화면의 완공작·수치는 모두 예시다).
+const DEMO_METADATA: Metadata = sampleMetadata({
+  slug: 'heritage-global-prep',
+  title: '헤리티지 글로벌 프렙 (Heritage Global Prep) — 해외 대학 입시 학원 홈페이지',
   description:
-    '19세기 정통 영자신문 브로드시트 감성의 아이비리그 입시 전문 가제트 웹사이트 샘플. Digital SAT 1600 적응형 텔레메트리 계산기, Common App 에세이 3막 핀셋 해체 Lab, 1:1 포트폴리오 감사 신청 위저드 실물 라이브 데모.',
-  openGraph: {
-    title: '헤리티지 글로벌 프렙 | 아이비리그 입시 가제트 실물 라이브 데모',
-    description: '태문넷 최상위권 프리미엄 학원 & 에듀테크 특화 포트폴리오 라이브 데모',
-    type: 'website',
-  },
-};
+    '태문넷이 만든 가상 브랜드 샘플입니다. 실제 학원이 아니며 상담 신청은 접수되지 않습니다. 영자신문 감성의 지면 디자인, SAT 점수 계산기(예시), 에세이 해설 화면, 포트폴리오 상담 신청 위저드를 담았습니다.',
+});
 
 export function generateMetadata(): Promise<Metadata> {
   return demoMetadata(DEMO_METADATA);

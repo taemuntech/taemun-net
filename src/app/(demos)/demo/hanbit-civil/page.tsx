@@ -1,17 +1,16 @@
 import type { Metadata } from 'next';
+import { sampleMetadata } from '@/components/demo-kit/sample-metadata';
 import { demoMetadata } from '@/lib/portfolio/demo-metadata';
 import HanbitCivilPageClient from './HanbitCivilPageClient';
 
-const DEMO_METADATA: Metadata = {
-  title: '한빛토목이앤씨 (HANBIT CIVIL) | 고속도로 & 해상 장대교량 토목 — 태문넷',
+// 제목 뒤 「— 태문넷」 은 (demos) 레이아웃 템플릿이 붙인다 — 여기서 또 적지 않는다.
+// 가상 브랜드 샘플이라 「실물·라이브 데모」 라고 쓰지 않는다(화면의 완공작·수치는 모두 예시다).
+const DEMO_METADATA: Metadata = sampleMetadata({
+  slug: 'hanbit-civil',
+  title: '한빛토목이앤씨 (HANBIT CIVIL) — 도로·교량 토목 기업 홈페이지',
   description:
-    '서해 해상 사장교·도심 대심도 철도 터널 4대 메가 인프라 완공 실적 갤러리. MSS 이동식 비계 공법 아카이브 및 인프라 연장(km)별 예상 공사비 시뮬레이터(예시) 실물 라이브 데모.',
-  openGraph: {
-    title: '한빛토목이앤씨 | 고속도로 · 장대교량 · 대심도 철도 토목 실물 데모',
-    description: '태문넷 국가 기간망 인프라 토목 턴키 특화 라이브 데모',
-    type: 'website',
-  },
-};
+    '태문넷이 만든 가상 브랜드 샘플입니다. 실제 업체가 아니며 상담 신청은 접수되지 않습니다. 교량·터널 완공작 예시 갤러리, 공법 아카이브, 연장별 공사비 시뮬레이터(예시)를 담았습니다.',
+});
 
 export function generateMetadata(): Promise<Metadata> {
   return demoMetadata(DEMO_METADATA);

@@ -109,7 +109,7 @@ export const PROJECTS: Project[] = [
     specs: {
       wood: '강릉 자생 솔송 및 춘양목 육송',
       insulation: '준불연 경질 우레탄 + 세라믹 사이딩 결구',
-      joinery: '도편수 직영 사개맞춤',
+      joinery: '도편수 사개맞춤',
       heating: 'IoT 연동형 스마트 보일러'
     }
   }

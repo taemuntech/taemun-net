@@ -77,12 +77,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAudit, activeSection }) =>
               <Phone className="w-2.5 h-2.5 text-[#cf6721]" />
               Dean Office Direct
             </span>
-            <a
-              href="tel:025887700"
-              className="font-label-md text-xs text-[#0d1c2f] tracking-wider font-semibold hover:text-[#cf6721] transition-colors"
-            >
-              +82 (02) 588-7700
-            </a>
+            <span className="font-label-md text-xs text-[#0d1c2f] tracking-wider font-semibold">
+              02-0000-0000
+            </span>
           </div>
 
           <button
@@ -129,7 +126,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenAudit, activeSection }) =>
             </a>
           ))}
           <div className="pt-2 border-t border-[#0d1c2f]/10 flex items-center justify-between text-xs text-[#45464d] font-label-sm">
-            <span>Dean Office Direct: +82 (02) 588-7700</span>
+            <span>Dean Office Direct: 02-0000-0000</span>
             <span className="text-[#cf6721] font-semibold">SEOCHO SANCTUARY</span>
           </div>
         </div>

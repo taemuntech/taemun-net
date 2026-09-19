@@ -358,11 +358,10 @@ export default function DevicePreviewFrame({
                 <span className="px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 text-xs font-bold">
                   {category}
                 </span>
-                <span className="text-xs text-zinc-400 font-mono">• PRODUCTION READY BUILD</span>
               </div>
               <h2 className="text-2xl lg:text-3xl font-bold text-zinc-950">{title}</h2>
               <p className="text-xs lg:text-sm text-zinc-600 mt-2 font-light">
-                클라이언트: {client} | 태문넷 직영 아키텍처 명세서
+                대상: {client} | 태문넷 제작 명세
               </p>
             </div>
 
@@ -374,7 +373,7 @@ export default function DevicePreviewFrame({
                   <span>핵심 프레임워크</span>
                 </div>
                 <div className="text-base font-mono font-bold text-zinc-900">Next.js 16 + React 19</div>
-                <p className="text-xs text-zinc-500">Turbopack 번들러 기반 0.8초 미만 초고속 핫 리로드</p>
+                <p className="text-xs text-zinc-500">Turbopack 번들러 기반 개발·빌드 환경</p>
               </div>
 
               <div className="p-5 rounded-2xl bg-zinc-50 border border-zinc-200 space-y-2">
@@ -417,7 +416,7 @@ export default function DevicePreviewFrame({
             {specs.length > 0 && (
               <div className="p-6 rounded-2xl bg-zinc-50 border border-zinc-200 space-y-3">
                 <h4 className="text-xs font-bold text-zinc-700 uppercase tracking-wider">
-                  프로덕션 주요 스펙
+                  주요 스펙
                 </h4>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                   {specs.map((s, idx) => (
@@ -434,8 +433,8 @@ export default function DevicePreviewFrame({
             <div className="p-8 rounded-3xl bg-zinc-950 text-white text-center space-y-4 shadow-xl">
               <h3 className="text-xl font-bold">이 프로젝트 아키텍처 그대로 귀사의 웹을 구축해 드립니다.</h3>
               <p className="text-xs text-zinc-400 max-w-lg mx-auto leading-relaxed">
-                소스코드 전체 이전, 반응형 디바이스 뷰포트 최적화, 하자 대응까지.
-                총괄 아키텍트 직통 상담으로 최적의 견적을 확인하세요.
+                잔금을 받으면 이번 프로젝트를 위해 새로 만든 소스코드와 권리를 넘겨 드리고, 오픈 후 1년 동안 계약서에 적은 기능의 결함은 무상으로 고쳐 드립니다.
+                총괄 아키텍트와 상담해 견적을 확인하세요.
               </p>
               <div className="pt-2 flex flex-col lg:flex-row items-center justify-center gap-3">
                 <Link

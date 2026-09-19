@@ -81,8 +81,8 @@ export const BrochureModal: React.FC<BrochureModalProps> = ({ isOpen, onClose, c
               </h3>
               <p className="text-[12px] text-[#434654]">
                 {currentLang === 'KR'
-                  ? '한양시스템의 공식 최신 제품 카탈로그 및 기술 사양서를 받아보실 수 있습니다.'
-                  : 'Official up-to-date equipment catalogs and engineering specification sheets.'}
+                  ? '제품 카탈로그와 기술 사양서를 내려받는 화면 예시입니다.'
+                  : 'Sample screen for downloading equipment catalogs and specification sheets.'}
               </p>
             </div>
           </div>
